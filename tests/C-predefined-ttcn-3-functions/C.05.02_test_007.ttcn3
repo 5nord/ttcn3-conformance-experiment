@@ -1,0 +1,27 @@
+// @requirement: C.5.2 -- If the decoding was successful, then the used bits are removed from the parameter encoded_value, the rest is returned (in the parameter encoded_value), and the decoded value is returned in the parameter decoded_value.
+// @id: TTCN3-CORE-C.5.2-007c
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_05_02_test_007 {
+
+    type component C {}
+
+    type integer I with { variant "32 bit" };
+
+    const I c_a := 1094861636;
+    const I c_b := 1162233672;
+
+    testcase TC() runs on C {
+        var bitstring v_enc := encvalue(c_a) & encvalue(c_b);
+        var I v_dec := 0;
+        var integer v_res := decvalue(v_enc, v_dec);
+        if (v_res == 0 and v_dec == c_a) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

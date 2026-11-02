@@ -1,0 +1,23 @@
+// @requirement: 20.5.2 -- c) An altstep that is activated as a default shall only have in parameters.
+// @id: TTCN3-CORE-20.5.2-016a
+// @verdict: pass reject
+module M_20_05_02_test_014 {
+
+    type component C {
+        timer T;
+    }
+
+    altstep a_p(out integer p_x) runs on C {
+        [] T.timeout { p_x := 1; }
+    }
+
+    testcase TC() runs on C {
+        var integer v_x;
+        activate(a_p(v_x)); // error: altstep activated as default has an out parameter
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

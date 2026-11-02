@@ -1,0 +1,33 @@
+// @requirement: 8.2.3.3 -- The effect of importing a group is identical to an import statement that lists all visible definitions (including sub-groups) of this group except of those that are listed in the except specification.
+// @id: TTCN3-CORE-8.2.3.3-008a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_02_03_03_test_009 {
+
+    import from M_08_02_03_03_test_009_A {
+        group g_group except { const c_excluded }
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (c_value == 1 and c_inSub == 2) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_03_03_test_009_A {
+    group g_group {
+        const integer c_value := 1;
+        const integer c_excluded := 3;
+        group g_sub {
+            const integer c_inSub := 2;
+        }
+    }
+}

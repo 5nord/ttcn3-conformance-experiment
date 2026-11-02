@@ -1,0 +1,25 @@
+// @requirement: 22.5.1 -- Table 25: Overview of TTCN-3 port operations: Check the state of a port; Col2: checkstate
+// @id: TTCN3-CORE-22.5.1-011a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_05_01_test_009 {
+
+    type port P message {
+        inout integer
+    }
+
+    type component C {
+        port P p1;
+    }
+
+    testcase TC() runs on C {
+        if (p1.checkstate("Started")) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

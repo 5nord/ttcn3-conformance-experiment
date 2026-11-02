@@ -1,0 +1,25 @@
+// @requirement: 23.0 -- Table 26: Any and: Checkstate; All with ports: yes; Col3: yes; Col4: any port.checkstate("Started") all port.checkstate("Connected")
+// @id: TTCN3-CORE-23.0-011b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_23_00_test_010 {
+
+    type port P message { inout integer }
+
+    type component C {
+        port P p1;
+        port P p2;
+    }
+
+    testcase TC() runs on C {
+        connect(self:p1, self:p2);
+        if (all port.checkstate("Connected")) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,23 @@
+// @requirement: 16.1.5 -- c) Parameters and the return type shall not be of a port type and shall not be of a structured type that contains fields of a port type on any level of nesting.
+// @id: TTCN3-CORE-16.1.5-005a
+// @verdict: pass reject
+module M_16_01_05_test_005 {
+
+    type port P message {
+        inout integer
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        setverdict(pass);
+    }
+
+    function @control f_runTC(P p_port) { // error: parameter of port type
+        execute(TC());
+    }
+
+    control {
+        execute(TC());
+    }
+}

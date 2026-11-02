@@ -1,0 +1,43 @@
+// @requirement: 5.1 -- Language element: Data/signature template definitions; Associated keyword: template; Specified in module definitions: Yes; Specified in module control: Yes; Specified in functions/ altsteps/test cases: Yes; Specified in test component type: Yes
+// @id: TTCN3-CORE-5.1-018a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_01_test_026 {
+
+    template integer t_module := 1;
+
+    type component C {
+        template integer t_component := 2;
+    }
+
+    function f_match(integer p_value) return boolean {
+        template integer t_function := 3;
+        return match(p_value, t_function);
+    }
+
+    altstep a_timeout(timer p_timer) {
+        template integer t_altstep := 4;
+        [] p_timer.timeout {
+            if (match(4, t_altstep)) {
+                setverdict(pass);
+            } else {
+                setverdict(fail);
+            }
+        }
+    }
+
+    testcase TC(template integer p_control) runs on C {
+        template integer t_testcase := 5;
+        timer T := 0.1;
+        if (match(1, t_module) and match(2, t_component) and f_match(3) and match(5, t_testcase) and match(6, p_control)) {
+            T.start;
+            a_timeout(T);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        template integer t_control := 6;
+        execute(TC(t_control));
+    }
+}

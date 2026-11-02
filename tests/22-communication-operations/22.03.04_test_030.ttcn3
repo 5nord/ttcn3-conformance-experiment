@@ -1,0 +1,55 @@
+// @requirement: 22.3.4 -- It is also possible to store the index of a port in a single-dimensional port array at which the operation was successful to a variable of type integer or, in case of multi-dimensional port arrays the index of the successful port to an integer array or record of integer variable.
+// @id: TTCN3-CORE-22.3.4-032b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_03_04_test_030 {
+
+    signature S() return integer;
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p[2][2];
+    }
+
+    type record of integer RoI;
+
+    function f_server() runs on C {
+        p[1][0].getcall(S:{});
+        p[1][0].reply(S:{} value 1);
+        p[1][0].getcall(S:{});
+        p[1][0].reply(S:{} value 2);
+    }
+
+    testcase TC() runs on C system C {
+        var C v_ptc := C.create;
+        var integer v_i[2];
+        var RoI v_r;
+        timer T := 1.0;
+        for (var integer i := 0; i < 2; i := i + 1) {
+            for (var integer j := 0; j < 2; j := j + 1) {
+                connect(self:p[i][j], v_ptc:p[i][j]);
+            }
+        }
+        v_ptc.start(f_server());
+        p[1][0].call(S:{}, nowait);
+        p[1][0].call(S:{}, nowait);
+        T.start;
+        alt {
+            [] any from p.getreply(S:{} value 1) -> @index value v_i {}
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        alt {
+            [] any from p.getreply(S:{} value 2) -> @index value v_r {}
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        if (v_i == { 1, 0 } and v_r == { 1, 0 }) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

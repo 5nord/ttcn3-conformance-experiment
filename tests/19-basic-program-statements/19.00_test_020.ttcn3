@@ -1,0 +1,28 @@
+// @requirement: 19.0 -- Statement: Disable sending and disallow receiving operations to match at a port; Associated keyword or symbol: stop; Can be invoked by test behaviour: Yes
+// @id: TTCN3-CORE-19.0-008b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_00_test_020 {
+
+    type port M message { inout integer }
+
+    type component C {
+        port M p1;
+        port M p2;
+    }
+
+    testcase TC() runs on C {
+        timer T := 0.5;
+        connect(mtc:p1, mtc:p2);
+        p2.stop;
+        p1.send(1);
+        T.start;
+        alt {
+            [] p2.receive { setverdict(fail); }
+            [] T.timeout { setverdict(pass); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

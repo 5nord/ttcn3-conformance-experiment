@@ -1,0 +1,28 @@
+// @requirement: 27.4 -- In this case, multiple encodings are supported in the context where the attribute is used.
+// @id: TTCN3-CORE-27.4-014a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_27_04_test_009 {
+
+    type integer MyInt with {
+        encode "CodecA"; variant "CodecA"."Rule1";
+        encode "CodecB"; variant "CodecB"."Rule2";
+    }
+
+    type port P message {
+        inout MyInt
+    }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        p.setencode(MyInt, "CodecA");
+        p.setencode(MyInt, "CodecB");
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

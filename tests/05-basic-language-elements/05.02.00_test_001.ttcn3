@@ -1,0 +1,26 @@
+// @requirement: 5.2.0 -- NOTE 3: Statement blocks may include declarations.
+// @id: TTCN3-CORE-5.2.0-013a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_02_00_test_001 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_result := 0;
+        {
+            const integer c_a := 1;
+            var integer v_b := 2;
+            timer T_local := 1.0;
+            v_result := c_a + v_b;
+        }
+        if (v_result == 3) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

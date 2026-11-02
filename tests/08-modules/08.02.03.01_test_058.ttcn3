@@ -1,0 +1,30 @@
+// @requirement: 8.2.3.1 -- e) If the referenced definitions are wished to be used in the importing module, they shall be explicitly imported either directly from its source module or indirectly by importing the import statements of a module importing it (see clause 8.2.3.7).
+// @id: TTCN3-CORE-8.2.3.1-094a
+// @verdict: pass reject
+module M_08_02_03_01_test_058 {
+
+    import from M_08_02_03_01_test_058_A {
+        type MyRec2
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyRec1 v_inner := { field1 := 5 }; // error: MyRec1 is not explicitly imported
+        var MyRec2 v_rec := { inner := v_inner };
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_03_01_test_058_A {
+    type record MyRec1 {
+        integer field1
+    }
+    type record MyRec2 {
+        MyRec1 inner
+    }
+}

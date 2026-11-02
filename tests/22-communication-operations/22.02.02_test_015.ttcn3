@@ -1,0 +1,51 @@
+// @requirement: 22.2.2 -- If the match is successful, the value is removed from the port queue and/or parts of this value can be stored in variables or formal parameters.
+// @id: TTCN3-CORE-22.2.2-018b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_02_02_test_015 {
+
+    type record R {
+        integer a,
+        charstring b
+    }
+
+    type port P message { inout R }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    const R c_r1 := { 1, "x" };
+
+    function f_send() runs on C {
+        p.send(c_r1);
+        p.send(R:{2, "y"});
+    }
+
+    function f_receive(out integer p_a) runs on C {
+        p.receive(R:?) -> value (p_a := a);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        var R v_r;
+        var integer v_a;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_send());
+        T.start;
+        alt {
+            [] p.receive(R:?) -> value v_r { }
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        f_receive(v_a);
+        if (v_r == c_r1 and v_a == 2) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

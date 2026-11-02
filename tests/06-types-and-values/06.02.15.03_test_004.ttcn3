@@ -1,0 +1,25 @@
+// @requirement: 6.2.15.3 -- The unmap statement may be also used to remove the AnyElementsOrNone matching symbol from a map template variable.
+// @id: TTCN3-CORE-6.2.15.3-004a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_15_03_test_004 {
+
+    type map from charstring to integer MyMap;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyMap v_onlyA := { ["a"] := 1 };
+        var MyMap v_more := { ["a"] := 1, ["b"] := 2 };
+        var template MyMap v_tmpl := { *, ["a"] := 1 };
+        unmap(v_tmpl, *);
+        if (match(v_onlyA, v_tmpl) and not match(v_more, v_tmpl)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

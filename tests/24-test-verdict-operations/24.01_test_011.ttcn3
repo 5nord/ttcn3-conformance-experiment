@@ -1,0 +1,19 @@
+// @requirement: 24.1 -- Operation: running; Allowed: yes; Example: if (any timer.running) {…}
+// @id: TTCN3-CORE-24.1-012b
+// @verdict: pass reject
+module M_24_01_test_011 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        timer T := 5.0;
+        T.start;
+        if (all timer.running) { // error: all is not allowed with running
+            setverdict(pass);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,29 @@
+// @requirement: B.1.5.0 -- Metacharacter: \w; Description: Match any alphanumeric character (equivalent to [0-9a-zA-Z])
+// @id: TTCN3-CORE-B.1.5.0-025a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_05_00_test_022 {
+
+    type component C {}
+
+    template charstring mw_word := pattern "\w";
+    template charstring mw_set := pattern "[0-9a-zA-Z]";
+
+    testcase TC() runs on C {
+        var boolean v_ok := match("Q", mw_word) and match("q", mw_word) and match("5", mw_word) and
+            not match("_", mw_word);
+        for (var integer i := 0; i < 128; i := i + 1) {
+            if (match(int2char(i), mw_word) != match(int2char(i), mw_set)) {
+                v_ok := false;
+            }
+        }
+        if (v_ok) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

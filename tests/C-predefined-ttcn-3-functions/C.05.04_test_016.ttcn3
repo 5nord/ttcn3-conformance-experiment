@@ -1,0 +1,28 @@
+// @requirement: C.5.4 -- The serialized bitstring shall not include the optional signature (see clause 10 of ISO/IEC 10646 [2], also known as byte order mark).
+// @id: TTCN3-CORE-C.5.4-017a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_05_04_test_016 {
+
+    type component C {}
+
+    type integer I with { variant "32 bit" };
+
+    testcase TC() runs on C {
+        var bitstring v_bits := oct2bit('41424344'O);
+        var I v_ref;
+        var integer v_res_ref := decvalue(v_bits, v_ref);
+        var universal charstring v_enc := char(0, 0, 65, 66) & char(0, 0, 67, 68);
+        var I v_dec;
+        // with a byte order mark the codec would get 6 octets starting with 'FEFF'O
+        var integer v_res := decvalue_unichar(v_enc, v_dec, "UTF-16");
+        if (v_res_ref == 0 and v_res == 0 and v_dec == v_ref and lengthof(v_enc) == 0) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

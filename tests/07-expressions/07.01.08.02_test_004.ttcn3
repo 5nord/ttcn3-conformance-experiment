@@ -1,0 +1,28 @@
+// @requirement: 7.1.8.2 -- in all other cases false. The operator returns:
+// @id: TTCN3-CORE-7.1.8.2-006a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_07_01_08_02_test_004 {
+
+    type union U { integer f1, octetstring f2 }
+    type record R { U u optional }
+
+    type component C {}
+
+    template U m_u1 := { f1 := 1 };
+    template U mw_u3 := ?;
+    template U m_u4 := ({ f1 := 2 }, { f2 := 'AB'O });
+    template R m_r1 := { u := omit };
+
+    testcase TC() runs on C {
+        if (not ischosen(m_u1.f2) and not ischosen(mw_u3.f1) and not ischosen(mw_u3.f2) and
+            not ischosen(m_u4.f1) and not ischosen(m_r1.u.f1)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

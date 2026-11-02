@@ -1,0 +1,22 @@
+// @requirement: 7.1.0 -- Unary **ispresent, ischosen, isvalue, isbound** Unary **+, -** Binary ***, /, mod, rem** Binary **+, -, &** Unary **not4b** Binary **and4b** Binary **xor4b** Binary **or4b** Binary **<<, >>, <@, @>** Binary **<, >, <=, >=** Binary **==, !=** Unary **not** Binary **and**
+// @id: TTCN3-CORE-7.1.0-052i
+// @verdict: pass accept, ttcn3verdict:pass
+module M_07_01_00_test_045 {
+
+    type component C {}
+
+    const bitstring c_b := '0001'B;
+
+    testcase TC() runs on C {
+        var integer v_i := bit2int(c_b << 1);
+        if (v_i < 3 and bit2int(c_b <@ 2) >= 4) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

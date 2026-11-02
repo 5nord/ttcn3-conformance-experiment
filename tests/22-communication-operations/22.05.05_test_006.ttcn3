@@ -1,0 +1,32 @@
+// @requirement: 22.5.5 -- It allows to check if a port is Started, Halted or Stopped, but also if a port is Connected, Mapped or Linked (i.e. Connected or Mapped).
+// @id: TTCN3-CORE-22.5.5-008b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_05_05_test_006 {
+
+    type port P message {
+        inout integer
+    }
+
+    type component C {
+        port P p1, p2, p3;
+    }
+
+    type component S {
+        port P sp;
+    }
+
+    testcase TC() runs on C system S {
+        connect(self:p1, self:p2);
+        map(mtc:p3, system:sp);
+        if (p1.checkstate("Connected") and not p1.checkstate("Mapped") and p1.checkstate("Linked")
+            and p3.checkstate("Mapped") and not p3.checkstate("Connected") and p3.checkstate("Linked")) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

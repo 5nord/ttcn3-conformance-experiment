@@ -1,0 +1,36 @@
+// @requirement: 21.3.6 -- The running operation is considered to be a boolean expression and, thus, returns a boolean value to indicate whether the specified test component (or all test components) has terminated.
+// @id: TTCN3-CORE-21.3.6-006a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_03_06_test_005 {
+
+    type component C {}
+
+    function f_short() runs on C {
+    }
+    function f_wait() runs on C {
+        timer T := 5.0;
+        T.start;
+        T.timeout;
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc1 := C.create;
+        var C v_ptc2 := C.create;
+        var boolean v_executing;
+        var boolean v_terminated;
+        v_ptc1.start(f_wait());
+        v_executing := v_ptc1.running;
+        v_ptc2.start(f_short());
+        v_ptc2.done;
+        v_terminated := v_ptc2.running;
+        if (v_executing == true and v_terminated == false) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,48 @@
+// @requirement: 21.3.2 -- This means no default is activated when a new behaviour is started on an alive-type PTC.
+// @id: TTCN3-CORE-21.3.2-013a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_03_02_test_011 {
+
+    type port P message {
+        inout integer
+    }
+
+    type component C {
+        port P p;
+    }
+
+    altstep a_default() runs on C {
+        [] p.receive {
+            setverdict(fail);
+        }
+    }
+
+    function f_first() runs on C {
+        var default v_def := activate(a_default());
+    }
+
+    function f_second() runs on C {
+        timer T := 0.5;
+        T.start;
+        alt {
+            [] T.timeout {
+                setverdict(pass);
+            }
+        }
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create alive;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_first());
+        v_ptc.done;
+        p.send(integer:1);
+        v_ptc.start(f_second());
+        v_ptc.done;
+        v_ptc.kill;
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,24 @@
+// @requirement: 21.3.7 -- NOTE 3: Stopping the behaviour of a non-alive component also results in removing that component from the test system, while stopping an alive-type component leaves the component alive in the test system.
+// @id: TTCN3-CORE-21.3.7-019a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_03_07_test_021 {
+
+    type component C {}
+
+    function f_ptc() runs on C {}
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        v_ptc.start(f_ptc());
+        v_ptc.done;
+        if (v_ptc.alive) {
+            setverdict(fail);
+        } else {
+            setverdict(pass);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

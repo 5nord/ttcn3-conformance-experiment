@@ -1,0 +1,33 @@
+// @requirement: 22.2.3 -- The trigger operation removes the top message from the associated incoming port queue.
+// @id: TTCN3-CORE-22.2.3-004a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_02_03_test_003 {
+
+    type port P message { inout integer }
+
+    type component C {
+        port P p;
+        port P q;
+        timer T := 1.0;
+    }
+
+    testcase TC() runs on C {
+        connect(mtc:p, mtc:q);
+        q.send(1);
+        q.send(2);
+        T.start;
+        alt {
+            [] p.trigger(integer:1) {}
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        alt {
+            [] p.receive(integer:2) { setverdict(pass); }
+            [] p.receive { setverdict(fail); }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

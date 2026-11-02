@@ -1,0 +1,23 @@
+// @requirement: 6.4 -- Synonym types are compatible.
+// @id: TTCN3-CORE-6.4-003a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_04_test_003 {
+    type integer MyType1;
+    type MyType1 MyType2;
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyType1 v_a := 5;
+        var MyType2 v_b := v_a;
+        v_a := v_b + 1;
+        if (v_a == 6 and v_b == 5) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

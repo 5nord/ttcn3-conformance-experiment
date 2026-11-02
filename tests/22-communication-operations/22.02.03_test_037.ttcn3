@@ -1,0 +1,28 @@
+// @requirement: 22.2.3 -- No AddressRef in the from clause shall contain the special value null at the time of the operation.
+// @id: TTCN3-CORE-22.2.3-039a
+// @verdict: pass accept, ttcn3verdict:error
+module M_22_02_03_test_037 {
+
+    type port P message { inout integer }
+
+    type component C {
+        port P p;
+    }
+
+    function f_send() runs on C {
+        p.send(1);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        var C v_null := null;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_send());
+        p.trigger(integer:?) from v_null; // error: AddressRef contains null
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

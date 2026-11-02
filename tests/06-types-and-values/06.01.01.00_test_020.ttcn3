@@ -1,0 +1,21 @@
+// @requirement: 6.1.1.0 -- Graphical characters include the range from SP(32) to TILDE (126).
+// @id: TTCN3-CORE-6.1.1.0-028a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_01_01_00_test_020 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var charstring v_c := " A~";
+        if (lengthof(v_c) == 3 and char2int(v_c[0]) == 32 and char2int(v_c[1]) == 65 and
+            char2int(v_c[2]) == 126) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

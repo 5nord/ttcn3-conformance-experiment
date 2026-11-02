@@ -1,0 +1,28 @@
+// @requirement: 21.1.0 -- Operation: Mtc; Explanation: Gets the reference to the MTC; Syntax Examples: connect(mtc:p, ptc:p);
+// @id: TTCN3-CORE-21.1.0-018a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_01_00_test_028 {
+
+    type component C {}
+
+    function f_check(C p_mtc) runs on C {
+        if (mtc == p_mtc) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        if (mtc != self) {
+            setverdict(fail);
+        }
+        v_ptc.start(f_check(self));
+        v_ptc.done;
+    }
+
+    control {
+        execute(TC());
+    }
+}

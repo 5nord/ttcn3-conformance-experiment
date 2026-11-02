@@ -1,0 +1,24 @@
+// @requirement: 6.3.3 -- c) For variable instances and constant definitions, the identifiers, the types and initialization values shall be identical (in case of variables this means that either the values are missing in both definitions or are the same).
+// @id: TTCN3-CORE-6.3.3-011b
+// @verdict: pass reject
+module M_06_03_03_test_011 {
+
+    type component CA {
+        var integer v_x := 1;
+    }
+    type component CB {
+        var integer v_x := 2;
+    }
+
+    function f() runs on CA {
+        setverdict(pass);
+    }
+
+    testcase TC() runs on CB {
+        f(); // error: variable v_x has different initial values in CA and CB
+    }
+
+    control {
+        execute(TC());
+    }
+}

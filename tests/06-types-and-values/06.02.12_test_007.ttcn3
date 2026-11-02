@@ -1,0 +1,28 @@
+// @requirement: 6.2.12 -- For example, a type reference within a variable definition used to store an SUT address may be prefixed by a port type identifier or a module identifier.
+// @id: TTCN3-CORE-6.2.12-009a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_12_test_007 {
+
+    type integer address;
+
+    type port P message {
+        address charstring;
+        inout integer;
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var M_06_02_12_test_007.address v_addr1 := 1;
+        var P.address v_addr2 := "entity";
+        if (v_addr1 == 1 and v_addr2 == "entity") {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

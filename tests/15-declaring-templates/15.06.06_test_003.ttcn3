@@ -1,0 +1,20 @@
+// @requirement: 15.6.6 -- b) Template lists and complemented lists: referencing an element within a map field to which a list or complemented list is assigned, shall cause an error.
+// @id: TTCN3-CORE-15.6.6-005a
+// @verdict: pass accept, ttcn3verdict:error
+module M_15_06_06_test_003 {
+
+    type map from charstring to integer TMap;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template TMap v_map := ({ ["id"] := 1 }, { ["id"] := ?, ["active"] := 1 });
+        var template integer v_int;
+        v_int := v_map["id"]; // error: a template list is assigned to v_map
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

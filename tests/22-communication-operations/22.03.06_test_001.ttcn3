@@ -1,0 +1,37 @@
+// @requirement: 22.3.6 -- [ @nodefault ] ( ObjectReference | any port | any from PortArrayRef ) "." catch [ "(" ( Signature [ "," TemplateInstance ] ) | TimeoutKeyword ")" ] [ from Address ] [ "->" [ value ( ValueRef| ( "(" { ValueRef[ ":=" [ @decoded [ "(" Expression ")" ] ] FieldOrTypeReference ][","] } ")" ) ) ] [ sender ValueRef] [ @index value ValueRef] ]
+// @id: TTCN3-CORE-22.3.6-002a
+// @verdict: pass accept, noexecution
+module M_22_03_06_test_001 {
+
+    type record R {
+        integer f1,
+        octetstring f2,
+        universal charstring f3
+    }
+
+    signature S() exception (R, integer);
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+        port P pa[2];
+    }
+
+    function f_catch(C p_peer) runs on C {
+        var R v_r;
+        var integer v_i, v_dec, v_dec2, v_idx;
+        var C v_sender;
+        @nodefault p.catch(S, R:?) from p_peer -> value v_r sender v_sender;
+        p.catch(S, R:?) -> value (v_i := f1, v_dec := @decoded f2, v_dec2 := @decoded("UTF-8") f3);
+        p.catch(S, integer:?) from (p_peer, mtc);
+        p.catch from any component -> sender v_sender;
+        p.catch(S);
+        any port.catch(S, integer:?);
+        any from pa.catch(S, integer:?) -> value v_i @index value v_idx;
+        p.catch;
+        p.call(S:{}, 1.0) {
+            [] p.catch(timeout) {}
+        }
+    }
+}

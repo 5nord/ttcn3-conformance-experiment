@@ -1,0 +1,18 @@
+// @requirement: 22.3.3 -- e) All AddressRef items in the to clause shall be of type address, component or of the address type bound to the port type (see clause 6.2.9) of the port instance referenced in the reply operation.
+// @id: TTCN3-CORE-22.3.3-020a
+// @verdict: pass reject
+module M_22_03_03_test_018 {
+
+    signature S(out integer p_y);
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    function f_reply() runs on C {
+        var integer v_peer := 1;
+        p.reply(S:{1}) to v_peer; // error: integer is not an address or component type
+    }
+}

@@ -1,0 +1,17 @@
+// @requirement: 19.1.1 -- a) The right-hand side of an assignment shall evaluate to a value, template, port or timer which is type compatible with the variable at the left-hand side of the assignment.
+// @id: TTCN3-CORE-19.1.1-034a
+// @verdict: pass reject
+module M_19_01_01_test_031 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_int;
+        v_int := "text"; // error: charstring is not type compatible with integer
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,49 @@
+// @requirement: 20.3 -- When used in statement blocks of the response and exception handling parts of blocking procedure calls, the repeat statement causes the re-evaluation of the response and exception handling part of the call (see clause 22.3.1).
+// @id: TTCN3-CORE-20.3-004a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_03_test_003 {
+
+    signature S() exception (integer);
+
+    type port PP procedure {
+        inout S;
+    }
+
+    type component C {
+        port PP p;
+    }
+
+    function f_server() runs on C {
+        p.getcall(S:{});
+        p.reply(S:{});
+        p.raise(S, integer:5);
+    }
+
+    testcase TC() runs on C system C {
+        var integer v_count := 0;
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_server());
+        p.call(S:{}, 1.0) {
+            [] p.getreply(S:{}) {
+                v_count := v_count + 1;
+                repeat;
+            }
+            [] p.catch(S, integer:5) {
+                if (v_count == 1) {
+                    setverdict(pass);
+                } else {
+                    setverdict(fail);
+                }
+            }
+            [] p.catch(timeout) {
+                setverdict(fail);
+            }
+        }
+        v_ptc.done;
+    }
+
+    control {
+        execute(TC());
+    }
+}

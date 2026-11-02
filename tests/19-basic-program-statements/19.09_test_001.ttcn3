@@ -1,0 +1,40 @@
+// @requirement: 19.9 -- The stop statement terminates execution of test components, a test case or a test control.
+// @id: TTCN3-CORE-19.9-001a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_09_test_001 {
+    type component C {}
+
+    function f_ptc() runs on C {
+        var boolean v_stop := true;
+        setverdict(pass);
+        if (v_stop) {
+            stop;
+        }
+        setverdict(fail);
+    }
+
+    testcase TC() runs on C {
+        var boolean v_stop := true;
+        var C v_ptc := C.create;
+        v_ptc.start(f_ptc());
+        v_ptc.done;
+        setverdict(pass);
+        if (v_stop) {
+            stop;
+        }
+        setverdict(fail);
+    }
+
+    testcase TC_Fail() runs on C {
+        setverdict(fail);
+    }
+
+    control {
+        var boolean v_stop := true;
+        execute(TC());
+        if (v_stop) {
+            stop;
+        }
+        execute(TC_Fail());
+    }
+}

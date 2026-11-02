@@ -1,0 +1,29 @@
+// @requirement: 27.4 -- The encoding used in the encoding and decoding operations can be selected dynamically by using the setencode operation (clause C.5), as a parameter of predefined codec functions (clause C.5) or inside the codec implementation.
+// @id: TTCN3-CORE-27.4-015a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_27_04_test_010 {
+
+    type integer MyInt with { encode "CodecA"; encode "CodecB" }
+
+    type port P message {
+        inout MyInt
+    }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        p.setencode(MyInt, "CodecB");
+        self.setencode(MyInt, "CodecA");
+        setverdict(pass);
+    }
+
+    function f_encode(MyInt p_value) return bitstring {
+        return encvalue(p_value, "", "CodecB");
+    }
+
+    control {
+        execute(TC());
+    }
+}

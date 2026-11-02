@@ -1,0 +1,22 @@
+// @requirement: A.1.6.6 -- ExtendedEnumReference shall be present if and only if Identifier refers to an enumerated value with an attached value list
+// @id: TTCN3-CORE-A.1.6.6-002a
+// @verdict: pass reject
+module M_A_01_06_06_test_003 {
+
+    type enumerated E {
+        e_blue(0),
+        e_other(1, 4..255)
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var E v_ok := e_other(5);
+        var E v_x := e_blue(0); // error: e_blue has no attached value list
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

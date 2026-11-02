@@ -1,0 +1,23 @@
+// @requirement: 6.2.13.2 -- When constraining `record` and `set` types, templates of the expanded list defined using the value list notation shall be valid (i.e. complete) templates of the core type, while templates of the expanded list defined using the field assignment notation may be partial (i.e. incomplete) templates of the core type.
+// @id: TTCN3-CORE-6.2.13.2-008a
+// @verdict: pass reject
+module M_06_02_13_02_test_009 {
+
+    type record R {
+        integer f1,
+        charstring f2,
+        charstring f3
+    }
+
+    type R R_Sub ({ 1, "a", "b" }, { 2, -, "c" }); // error: partial template in value list notation
+
+    type component C {}
+
+    testcase TC() runs on C {
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

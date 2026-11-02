@@ -1,0 +1,23 @@
+// @requirement: 23.0 -- Table 27: Overview of TTCN-3 timer operations: Read elapsed time; Col2: read
+// @id: TTCN3-CORE-23.0-017a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_23_00_test_013 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        timer T := 1.0;
+        var float v_elapsed;
+        T.start;
+        v_elapsed := T.read;
+        if (v_elapsed >= 0.0 and v_elapsed <= 1.0) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

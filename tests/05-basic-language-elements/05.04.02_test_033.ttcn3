@@ -1,0 +1,21 @@
+// @requirement: 5.4.2 -- The empty brackets for instances of parameterized templates that have only parameters with default values are optional when no actual parameters are provided, i.e. all formal parameters use their default values.
+// @id: TTCN3-CORE-5.4.2-029a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_04_02_test_033 {
+
+    type component C {}
+
+    template integer m_t(integer p_myValue := 1) := p_myValue;
+
+    testcase TC() runs on C {
+        if (match(1, m_t) and match(1, m_t())) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

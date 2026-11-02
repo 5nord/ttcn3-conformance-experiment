@@ -1,0 +1,18 @@
+// @requirement: 6.2.4 -- Each enumerated value shall have an identifier and referencing the values shall only use these identifiers.
+// @id: TTCN3-CORE-6.2.4-004b
+// @verdict: pass reject
+module M_06_02_04_test_003 {
+
+    type component C {}
+
+    type enumerated E { e_a, e_b };
+
+    testcase TC() runs on C {
+        var E v_e := 1; // error: enumerated value not referenced by its identifier
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

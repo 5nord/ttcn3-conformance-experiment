@@ -1,0 +1,30 @@
+// @requirement: 7.1.8.1 -- m_myTemplate can safely be assigned to a non-optional field of the type of the template in a template variable; m_myTemplate can safely be used as an actual template(present) parameter or assigned to a variable of kind template(present). NOTE 2: This means that whenever ispresent(m_myTemplate) returns true:
+// @id: TTCN3-CORE-7.1.8.1-008b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_07_01_08_01_test_006 {
+
+    type component C {}
+
+    template integer m_myTemplate := (1 .. 5);
+
+    function f_check(template(present) integer p_t) return boolean {
+        return match(3, p_t);
+    }
+
+    testcase TC() runs on C {
+        if (ispresent(m_myTemplate)) {
+            var template(present) integer v_t := m_myTemplate;
+            if (f_check(m_myTemplate) and match(4, v_t)) {
+                setverdict(pass);
+            } else {
+                setverdict(fail);
+            }
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,23 @@
+// @requirement: 21.0 -- b) They shall not be present in: control behaviour; declarations inside component type definitions; or functions invoked directly or indirectly from declarations inside component type definitions.
+// @id: TTCN3-CORE-21.0-009b
+// @verdict: pass reject
+module M_21_00_test_004 {
+
+    type component P {}
+
+    function f_create() return P {
+        return P.create; // error: configuration operation in function called from component type declaration
+    }
+
+    type component C {
+        var P v_p := f_create();
+    }
+
+    testcase TC() runs on C {
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

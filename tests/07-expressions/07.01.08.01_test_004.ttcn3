@@ -1,0 +1,23 @@
+// @requirement: 7.1.8.1 -- NOTE 1: When the argument of ispresent is a subfield of a template field to which the "?" (AnyValue) matching is assigned, the extension mechanism specified in clause 15.6.2 applies.
+// @id: TTCN3-CORE-7.1.8.1-006a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_07_01_08_01_test_004 {
+
+    type record Inner { boolean g1 optional, integer g2 }
+    type record R { Inner f1 optional, integer f2 }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template R v_t := { f1 := ?, f2 := 5 };
+        if (ispresent(v_t.f1) and not ispresent(v_t.f1.g1) and ispresent(v_t.f1.g2)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

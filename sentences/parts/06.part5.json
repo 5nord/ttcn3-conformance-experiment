@@ -1,0 +1,990 @@
+{
+ "part": "06.part5",
+ "chapter": "6",
+ "chapter_file": "06-types-and-values",
+ "title": "Types and values",
+ "sections": {
+  "6.2.3.0": {
+   "title": "General",
+   "start": 4164
+  },
+  "6.2.3.1": {
+   "title": "Nested type definitions",
+   "start": 4357
+  },
+  "6.2.3.2": {
+   "title": "Referencing elements of record of and set of types",
+   "start": 4370
+  },
+  "6.2.4": {
+   "title": "Enumerated type and values",
+   "start": 4422
+  }
+ },
+ "lines": [
+  4166,
+  4561
+ ],
+ "units": [
+  {
+   "id": "6.2.3.0-s001",
+   "section": "6.2.3.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "TTCN-3 supports the specification of records and sets whose elements are all of the same type.",
+   "lines": [
+    4166,
+    4168
+   ]
+  },
+  {
+   "id": "6.2.3.0-s002",
+   "section": "6.2.3.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "These are denoted using the keyword of.",
+   "lines": [
+    4166,
+    4168
+   ]
+  },
+  {
+   "id": "6.2.3.0-s003",
+   "section": "6.2.3.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "These records and sets do not have element identifiers and can be considered similar to an ordered array and an unordered collection respectively.",
+   "lines": [
+    4166,
+    4168
+   ]
+  },
+  {
+   "id": "6.2.3.0-s004",
+   "section": "6.2.3.0",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "NOTE 1: For the subtyping of record of and set of types see in clause 6.2.13.",
+   "lines": [
+    4170,
+    4170
+   ]
+  },
+  {
+   "id": "6.2.3.0-s005",
+   "section": "6.2.3.0",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 1:",
+   "lines": [
+    4174,
+    4174
+   ]
+  },
+  {
+   "id": "6.2.3.0-s006",
+   "section": "6.2.3.0",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "type set of boolean MySetOfType; // is an unlimited set of boolean values",
+   "lines": [
+    4175,
+    4177
+   ]
+  },
+  {
+   "id": "6.2.3.0-s007",
+   "section": "6.2.3.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "When the assignment notation is used for record of-s and set `of-s, elements wished to be changed are identified` explicitly and either a value or the not used symbol \"-\" can be assigned to them.",
+   "lines": [
+    4179,
+    4185
+   ]
+  },
+  {
+   "id": "6.2.3.0-s008",
+   "section": "6.2.3.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Other elements, not referred to in the notation, shall remain unchanged.",
+   "lines": [
+    4179,
+    4185
+   ]
+  },
+  {
+   "id": "6.2.3.0-s009",
+   "section": "6.2.3.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "In particular, when specifying partial values (i.e. setting the value of only a subset of the fields) using the assignment notation, for example, at initialization, only the elements to be assigned values shall be specified: elements not mentioned are implicitly left uninitialized.",
+   "lines": [
+    4179,
+    4185
+   ]
+  },
+  {
+   "id": "6.2.3.0-s010",
+   "section": "6.2.3.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "It is also possible to leave fields explicitly unspecified using the not used symbol \"-\".",
+   "lines": [
+    4179,
+    4185
+   ]
+  },
+  {
+   "id": "6.2.3.0-s011",
+   "section": "6.2.3.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "When re-assigning a previously initialized value, using the not used symbol or just skipping a field or element in an assignment notation, will cause that field or element to remain unchanged.",
+   "lines": [
+    4179,
+    4185
+   ]
+  },
+  {
+   "id": "6.2.3.0-s012",
+   "section": "6.2.3.0",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE 2:",
+   "lines": [
+    4187,
+    4187
+   ]
+  },
+  {
+   "id": "6.2.3.0-s013",
+   "section": "6.2.3.0",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "var MyRecordOfType v_myVariable := {\n     [0] := '111'B,\n     [1] := '101'B,\n     [2] :=   }\n  v_myVariable := { '10111'B, -, - };\n  // after this, v_myVariable contains:\n  // { '10111'B, '101'B /* unchanged */, <undefined> /* unchanged */ }\n  v_myVariable :=\n  {\n     [1] := '010'B,\n  }\n  // after this, v_myVariable contains:\n  // { '10111'B/* unchanged */, '010'B, <undefined>/* unchanged */ }\n  v_myVariable :=\n  {\n     [0] := -,\n     [1] := '001'B,\n     [2] := - \n  }\n  // after this, v_myVariable contains:\n  // { '10111'B/* unchanged */, '001'B, <undefined> /* unchanged */}",
+   "lines": [
+    4188,
+    4210
+   ]
+  },
+  {
+   "id": "6.2.3.0-s014",
+   "section": "6.2.3.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "When using the value list notation, all elements in the structure shall be specified either with a value or the not used symbol \"-\".",
+   "lines": [
+    4217,
+    4223
+   ]
+  },
+  {
+   "id": "6.2.3.0-s015",
+   "section": "6.2.3.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The first member of the list is assigned to the first element, the second list member is assigned to the second element, etc. No empty assignment is allowed (e.g. two commas, the second immediately following the first or only with white space between them).",
+   "lines": [
+    4217,
+    4223
+   ]
+  },
+  {
+   "id": "6.2.3.0-s016",
+   "section": "6.2.3.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Elements to be left out of the assignment shall be explicitly skipped in the list by use of the not-used-symbol \"-\".",
+   "lines": [
+    4217,
+    4223
+   ]
+  },
+  {
+   "id": "6.2.3.0-s017",
+   "section": "6.2.3.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Already initialized elements left without a corresponding list member in a value list notation (i.e. at the end of a list) are becoming uninitialized.",
+   "lines": [
+    4217,
+    4223
+   ]
+  },
+  {
+   "id": "6.2.3.0-s018",
+   "section": "6.2.3.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "In this way, a value with initialized elements can be made empty by using the empty value list notation (\"{}\").",
+   "lines": [
+    4217,
+    4223
+   ]
+  },
+  {
+   "id": "6.2.3.0-s019",
+   "section": "6.2.3.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Index notation can be used on both the right-hand side and left-hand side of assignments.",
+   "lines": [
+    4225,
+    4229
+   ]
+  },
+  {
+   "id": "6.2.3.0-s020",
+   "section": "6.2.3.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The index notation, when used on the right-hand side, refers to the value of the identified element of a record of or a set of.",
+   "lines": [
+    4225,
+    4229
+   ]
+  },
+  {
+   "id": "6.2.3.0-s021",
+   "section": "6.2.3.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "When it is used at the left-hand side, only the value of the identified single element is changed, values assigned to other elements already remain unchanged.",
+   "lines": [
+    4225,
+    4229
+   ]
+  },
+  {
+   "id": "6.2.3.0-s022",
+   "section": "6.2.3.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The index of the first element shall be zero and the index value shall not exceed the limitation placed by length subtyping.",
+   "lines": [
+    4225,
+    4229
+   ]
+  },
+  {
+   "id": "6.2.3.0-s023",
+   "section": "6.2.3.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "If the value of the element indicated by the index at the right-hand of an assignment is undefined (uninitialized), this shall cause a semantic or runtime error.",
+   "lines": [
+    4231,
+    4233
+   ]
+  },
+  {
+   "id": "6.2.3.0-s024",
+   "section": "6.2.3.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Referencing an identified element of an uninitialized or omitted record of or set of field or value on the right-hand side of an assignment shall cause an error.",
+   "lines": [
+    4231,
+    4233
+   ]
+  },
+  {
+   "id": "6.2.3.0-s025",
+   "section": "6.2.3.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "If an indexing operator at the left-hand side of an assignment refers to a non-existent element, the value at the right-hand side is assigned to the element and all elements with an index smaller than the actual index and without assigned value are created with an uninitialized value.",
+   "lines": [
+    4235,
+    4237
+   ]
+  },
+  {
+   "id": "6.2.3.0-s026",
+   "section": "6.2.3.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "For nested record of or set of types, an array or record of integer restricted to a single size can be used as a short-hand notation for a nested index notation.",
+   "lines": [
+    4239,
+    4240
+   ]
+  },
+  {
+   "id": "6.2.3.0-s027",
+   "section": "6.2.3.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "When referencing an element of an uninitialized record of or set of value or field or omitted field (including omitting a field at a higher level of the embedding hierarchy) on the left-hand side of an assignment, the reference shall recursively be expanded up to and including the depth of the referenced element as follows:",
+   "lines": [
+    4242,
+    4244
+   ]
+  },
+  {
+   "id": "6.2.3.0-s028",
+   "section": "6.2.3.0",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "a) When expanding a value or value field of record of or set of type, the element referenced by the index notation shall be set to present and all elements with a smaller index shall be created with an uninitialized value.",
+   "lines": [
+    4246,
+    4248
+   ]
+  },
+  {
+   "id": "6.2.3.0-s029",
+   "section": "6.2.3.0",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "b) Expansion of record, union and set values and intermediate fields shall follow the rules of item a) in clauses 6.2.1.1 and 6.2.5.1 and clause 6.2.2.1 correspondingly.",
+   "lines": [
+    4250,
+    4251
+   ]
+  },
+  {
+   "id": "6.2.3.0-s030",
+   "section": "6.2.3.0",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "c) At the end of the expansion, the value at the right-hand side of the assignment shall be assigned to the referenced element.",
+   "lines": [
+    4253,
+    4254
+   ]
+  },
+  {
+   "id": "6.2.3.0-s031",
+   "section": "6.2.3.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Uninitialized elements are permitted only in transient states (while the value remains invisible).",
+   "lines": [
+    4256,
+    4257
+   ]
+  },
+  {
+   "id": "6.2.3.0-s032",
+   "section": "6.2.3.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Sending a record `of` or set of value with uninitialized elements shall cause an error.",
+   "lines": [
+    4256,
+    4257
+   ]
+  },
+  {
+   "id": "6.2.3.0-s033",
+   "section": "6.2.3.0",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "NOTE 2: When using on the right-hand side of an assignment for record of-s or set `of-s, the assignment` notation and the indexed notation have similar effect, with the exception that the assignment notation is able to address multiple elements in one notation, while the index notation is able to address a single element only.",
+   "lines": [
+    4259,
+    4262
+   ]
+  },
+  {
+   "id": "6.2.3.0-s034",
+   "section": "6.2.3.0",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE 3:",
+   "lines": [
+    4269,
+    4269
+   ]
+  },
+  {
+   "id": "6.2.3.0-s035",
+   "section": "6.2.3.0",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "// Given\n  type record of integer MyRecordOf; \n  type record of MyRecordOf RoRoI;\n  var integer v_myVar;\n  // Using the value list notation\n  var MyRecordOf v_myRecordOfVar := { 0, 1, 2, 3, 4 };\n  // The same record of, defined with the assignment notation\n  var MyRecordOf v_myRecordOfVarAssignment := {\n     [0] := 0,\n     [1] := 1,\n     [2] := 2,\n     [3] := 3,\n     [4] := 4\n  };\n  var RoRoI v_recof;\n  // Using an index notation\n  v_myVar := v_myRecordOfVar[0]; // the first element of the \"record of\" value (integer 0) \n                    // is assigned to v_myVar\n  // Index notations are permitted on the left-hand side of assignments as well:\n  v_myRecordOfVar[1] := v_myVar; // v_myVar is assigned to the second element\n                    // value of v_myRecordOfVar is { 0, 0, 2, 3, 4 }\n  // The assignment\n  v_myRecordOfVar := { 0, 1, -, 2 };\n  // will change the value of v_myRecordOfVar to{ 0, 1, 2 <unchanged>, 2};\n  // Note, that the 3[rd] element would be undefined if had no previous assigned value.\n  // The assignment\n  v_myRecordOfVar[6] := 6;\n  // will change the value of v_myRecordOfVar to\n  //  { 0, 1, 2, 2, <uninitialized>, <uninitialized>, 6 };\n  // Note the 5[th] and 6[th] elements (with indexes 4 and 5) had no assigned value before this \n  // last assignment and are therefore undefined.\n  v_myRecordOfVar[4] := 4; v_myRecordOfVar[5] := 5;\n  // will complete v_myRecordOfVar to the fully defined value { 0, 1, 2, 2, 4, 5, 6 };\n  // Expansion of uninitialized record of value:\n  v_recof[1][2] := 0; \n     // after the assignment v_recof is { <undefined>, { <undefined>, <undefined>, 0 } }\n  // Pls. Note the difference between the two index assignment notations in\n  // the following example:\n  var MyRecordOf v_ix := { 0,1,2 }\n  v_ix := { [3] := 2*v_ix[2]+1 }\n  // the value of v_ix is: { 0, 1, 2, 5 }\n  // The same result can be achieved by using an index notation on the left hand side of \n  // the assignment:\n  var MyRecordOf v_ix := { 0,1,2 }\n  v_ix[3] := 2*v_ix[2]+1 \n  // the value of v_ix is: { 0, 1, 2, 5 }",
+   "lines": [
+    4270,
+    4317
+   ]
+  },
+  {
+   "id": "6.2.3.0-s036",
+   "section": "6.2.3.0",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "NOTE 3: The index notation makes it possible e.g. to copy record of values element by element in a for loop.",
+   "lines": [
+    4319,
+    4320
+   ]
+  },
+  {
+   "id": "6.2.3.0-s037",
+   "section": "6.2.3.0",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "For example, the function below reverses the elements of a record of value:",
+   "lines": [
+    4319,
+    4320
+   ]
+  },
+  {
+   "id": "6.2.3.0-s038",
+   "section": "6.2.3.0",
+   "kind": "code",
+   "context": null,
+   "normative": true,
+   "text": "function reverse(in MyRecordOf p_src) return MyRecordOf\n        {\n       var MyRecordOf v_dest;\n       var integer v_i, v_srcLength := lengthof (p_src);\n       for(v_i := 0; v_i < v_srcLength; v_i := v_i + 1) {\n          v_dest[v_srcLength - 1 - v_i] := p_src[v_i];\n        }\n       return v_dest;\n        }",
+   "lines": [
+    4321,
+    4331
+   ]
+  },
+  {
+   "id": "6.2.3.0-s039",
+   "section": "6.2.3.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Embedded record of and set of types will result in a data structure similar to multidimensional arrays (see clause 15.8.2).",
+   "lines": [
+    4333,
+    4334
+   ]
+  },
+  {
+   "id": "6.2.3.0-s040",
+   "section": "6.2.3.0",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE 4:",
+   "lines": [
+    4341,
+    4341
+   ]
+  },
+  {
+   "id": "6.2.3.0-s041",
+   "section": "6.2.3.0",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "// Given\n  type record of integer MyBasicRecordOfType;\n  type record of MyBasicRecordOfType My2DRecordOfType;\n  // Then, the variable myRecordOfArray will have similar attributes to a two-dimensional array:\n  var My2DRecordOfType v_myRecordOfArray;\n  // and reference to a particular element would look like this\n  // (value of the second element of the third 'MyBasicRecordOfType' construct) \n  v_myRecordOfArray [2][1] := 3;\n  //with the short-hand notation this could also have been written as\n  var integer v_i[2] := { 2, 1 };\n  v_myRecordOfArray [v_i] := 3; \n  // is the same as assigning element v_myRecordOfArray[v_i[0]][v_i[1]]",
+   "lines": [
+    4342,
+    4355
+   ]
+  },
+  {
+   "id": "6.2.3.1-s001",
+   "section": "6.2.3.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "TTCN-3 supports the definition of the aggregated type nested with the record `of or set` `of definition.",
+   "lines": [
+    4359,
+    4361
+   ]
+  },
+  {
+   "id": "6.2.3.1-s002",
+   "section": "6.2.3.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Both the` definition of new structured types (record, set, enumerated, set `of and record` `of) and the specification of` subtype constraints are possible.",
+   "lines": [
+    4359,
+    4361
+   ]
+  },
+  {
+   "id": "6.2.3.1-s003",
+   "section": "6.2.3.1",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE:",
+   "lines": [
+    4363,
+    4363
+   ]
+  },
+  {
+   "id": "6.2.3.1-s004",
+   "section": "6.2.3.1",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "type record of enumerated { red, green, blue } ColorList;\n  type record length (10) of record length (10) of integer Matrix;\n  type set of record { charstring id, charstring val } GenericParameters;",
+   "lines": [
+    4364,
+    4368
+   ]
+  },
+  {
+   "id": "6.2.3.2-s001",
+   "section": "6.2.3.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "It is also allowed to reference the inner type of record of and set of types by using the index notation but with a dash.",
+   "lines": [
+    4372,
+    4375
+   ]
+  },
+  {
+   "id": "6.2.3.2-s002",
+   "section": "6.2.3.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The notation TypeId[-], where TypeId resolves to the name of a record of or set of type, references the inner type of TypeId.",
+   "lines": [
+    4372,
+    4375
+   ]
+  },
+  {
+   "id": "6.2.3.2-s003",
+   "section": "6.2.3.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "If the type definition restricts the element type of the record of or set of type, referencing the inner type of that type yields a type which contains all values from the constrained type.",
+   "lines": [
+    4372,
+    4375
+   ]
+  },
+  {
+   "id": "6.2.3.2-s004",
+   "section": "6.2.3.2",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE:",
+   "lines": [
+    4377,
+    4377
+   ]
+  },
+  {
+   "id": "6.2.3.2-s005",
+   "section": "6.2.3.2",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "//Provided the definitions below\n  type record of integer MyRecordOfInt;\n  type record of record {\n     integer f1,\n     set { integer s1, boolean s2 } f2\n  } MyRecordOfRecord;\n  type record of record of integer MyRecordOfRecordOfInt;\n  type record of record {\n     integer f1,\n     record of boolean f2\n  } MyRecordOfRecord2;\n  // Referencing the inner integer type\n  type MyRecordOfInt[-] MyInteger;\n  const MyRecordOfInt[-] c_MyInteger:= 5;\n  // Referencing the nested record type\n  type MyRecordOfRecord[-] MyInnerRecord;\n  const MyRecordOfRecord[-] c_MyRecord := { f1 = 5; f2 := { s1 := 0; s2 := true }}\n  // Referencing the set type nested in the inner record\n  type MyRecordOfRecord[-].f2 MyNestedSet;\n  const MyRecordOfRecord[-].f2 c_MySet := { s1 := 0; s2 := true }\n  // Referencing the innermost boolean\n  type MyRecordOfRecord[-].f2.s2 MyBoolean;\n  const MyRecordOfRecord[-].f2.s2 c_MyBool := false;\n  // Referencing the inner record of\n  type MyRecordOfRecordOfInt[-] MyInnerRecordOfInt;\n  const MyRecordOfRecordOfInt[-] c_MyInnerRecordOfInt := { 0, 1, 2, 3 };\n  // Referencing the integer type within the inner record of\n  type MyRecordOfRecordOfInt[-][-] MyInteger2;\n  const MyRecordOfRecordOfInt[-][-] c_MyInteger2 := 1;\n  // Referencing the boolean type within the nested record\n  type MyRecordOfRecord2[-].f2[-] MyInnermostBoolean;\n  const MyRecordOfRecord2[-].f2[-] c_MyInnermostBoolean := true ;\n  type record length (5) of record of integer ConstrainedRecordOfInt (1 .. 10);\n  type ConstrainedRecordOfInt[-] ConstrainedInt; \n  // defines the type record of integer, where the integer values are restricted \n  // to the range 1 .. 10 but the record of has no length restriction",
+   "lines": [
+    4378,
+    4415
+   ]
+  },
+  {
+   "id": "6.2.4-s001",
+   "section": "6.2.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "TTCN-3 supports enumerated types.",
+   "lines": [
+    4424,
+    4431
+   ]
+  },
+  {
+   "id": "6.2.4-s002",
+   "section": "6.2.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Enumerated types are used to model types that take only a distinct named set of values.",
+   "lines": [
+    4424,
+    4431
+   ]
+  },
+  {
+   "id": "6.2.4-s003",
+   "section": "6.2.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Such distinct values are called enumerated values.",
+   "lines": [
+    4424,
+    4431
+   ]
+  },
+  {
+   "id": "6.2.4-s004",
+   "section": "6.2.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Each enumerated value shall have an identifier and referencing the values shall only use these identifiers.",
+   "lines": [
+    4424,
+    4431
+   ]
+  },
+  {
+   "id": "6.2.4-s005",
+   "section": "6.2.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "References to enumerated values can occur in two forms: unqualified and qualified.",
+   "lines": [
+    4424,
+    4431
+   ]
+  },
+  {
+   "id": "6.2.4-s006",
+   "section": "6.2.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The unqualified form uses only the identifier of the enumerated value.",
+   "lines": [
+    4424,
+    4431
+   ]
+  },
+  {
+   "id": "6.2.4-s007",
+   "section": "6.2.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The qualified form consists of the enumerated type reference, followed by a dot and the enumerated value identifier.",
+   "lines": [
+    4424,
+    4431
+   ]
+  },
+  {
+   "id": "6.2.4-s008",
+   "section": "6.2.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The identifiers of enumerated values shall be unique within the enumerated type (but do not have to be globally unique) and are consequently visible in the context of the given type only.",
+   "lines": [
+    4424,
+    4431
+   ]
+  },
+  {
+   "id": "6.2.4-s009",
+   "section": "6.2.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "This means that for any instantiation or value reference of an enumerated type, the given type shall be implicitly or explicitly identified.",
+   "lines": [
+    4424,
+    4431
+   ]
+  },
+  {
+   "id": "6.2.4-s010",
+   "section": "6.2.4",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "NOTE 1: For example, if the enumerated type is an element or field of a user defined structured type, the enumerated type is implicitly referenced via the given element/field (i.e. by the identifier of the field or the position of the value in a value list notation) at value assignment, instantiation, etc. Another example is passing an enumerated value as actual parameter, in which case the type of the corresponding formal parameter establishes the type context needed to make the enumeration value visible.",
+   "lines": [
+    4433,
+    4441
+   ]
+  },
+  {
+   "id": "6.2.4-s011",
+   "section": "6.2.4",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "The third example is the comparison operators: if the type of one of the operands is uniquely identified, it is used as a type context for the other operand (see example 2 below).",
+   "lines": [
+    4433,
+    4441
+   ]
+  },
+  {
+   "id": "6.2.4-s012",
+   "section": "6.2.4",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "The fourth example is the match operation, where the type of the template parameter establishes the type context for the operation, if the type of the value parameter is not identified (see example 2 in clause 15.8.2).",
+   "lines": [
+    4433,
+    4441
+   ]
+  },
+  {
+   "id": "6.2.4-s013",
+   "section": "6.2.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The identifiers of enumerated values, within the same module, shall only be reused within other structured type definitions and shall not be used for identifiers of local or global visibility at the same or a lower level of the same branch of the scope hierarchy (see scope hierarchy in clause 5.2).",
+   "lines": [
+    4443,
+    4445
+   ]
+  },
+  {
+   "id": "6.2.4-s014",
+   "section": "6.2.4",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 1: Declaration of enumerated types and values:",
+   "lines": [
+    4449,
+    4449
+   ]
+  },
+  {
+   "id": "6.2.4-s015",
+   "section": "6.2.4",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "type enumerated MyFirstEnumType {\n     Monday, Tuesday, Wednesday, Thursday, Friday\n  };\n  type integer Monday;\n  // This definition does not clash with the previous one \n  // as Monday in MyFirstEnumType is of local scope\n  type enumerated MySecondEnumType {\n     Saturday, Sunday, Monday\n  };\n  // This definition is legal as it reuses the Monday identifier within \n  // a different enumerated type\n  type record MyRecordType {\n     integer Monday\n  };\n  // This definition is legal as it reuses the Monday identifier within \n  // a distinct structured type as identifier of a given field of this type\n  type record MyNewRecordType {\n     MyFirstEnumType firstField,\n     integer secondField\n  };\n  var MyNewRecordType v_newRecordValue := { Monday, 0 }\n  // MyFirstEnumType is implicitly referenced via the firstField element of MyNewRecordType",
+   "lines": [
+    4450,
+    4473
+   ]
+  },
+  {
+   "id": "6.2.4-s016",
+   "section": "6.2.4",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 2: Using enumerated types (see also example 5 of clause 8.2.3.1):",
+   "lines": [
+    4480,
+    4480
+   ]
+  },
+  {
+   "id": "6.2.4-s017",
+   "section": "6.2.4",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "// Valid instantiations of MyFirstEnumType and MySecondEnumType would be \n  var MyFirstEnumType v_today := Tuesday;\n  var MySecondEnumType v_tomorrow := Monday;\n  // The following statements however cause an error as the two variables are instances\n  // of different enumeration types \n  v_today := v_tomorrow;\n  v_today == v_tomorrow;\n  // The following operation is correct\n  if (v_today == Monday ) {...}\n  // the type of variable v_today identifies the type context of MyFirstEnumType for the\n  // equality operator\n  // But the following causes an error\n  if ( Tuesday == Wednesday ) {...}\n  // there is no TTCN-3 type(d) object to establish the type context for the equality operator\n  // Please note that the values Tuesday and Wednesday are defined within the type \n  // MyFirstEnumType only, but this is not sufficient to establish the type context \n  // This kind of error can be fixed using the qualified form for one of the enumerated values.\n  // The type referenced in the qualified form will provide the required type context as shown\n  // in the following condition\n  if (MyFirstEnumType.Tuesday == Wednesday ) {...}",
+   "lines": [
+    4481,
+    4502
+   ]
+  },
+  {
+   "id": "6.2.4-s018",
+   "section": "6.2.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Each enumerated value may optionally have a user-assigned integer expression or non-empty list of integer literal values or ranges of integer literal values, which is defined after the name of the enumerated value in parenthesis.",
+   "lines": [
+    4504,
+    4517
+   ]
+  },
+  {
+   "id": "6.2.4-s019",
+   "section": "6.2.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Each user assigned expression shall be statically bound, known in compilation time, and evaluate to an integer value.",
+   "lines": [
+    4504,
+    4517
+   ]
+  },
+  {
+   "id": "6.2.4-s020",
+   "section": "6.2.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Each user-assigned integer value shall be distinct within a single enumerated type, all ranges of all the values lists shall be disjoint and shall not include any of the used single integer values.",
+   "lines": [
+    4504,
+    4517
+   ]
+  },
+  {
+   "id": "6.2.4-s021",
+   "section": "6.2.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "For each enumerated value without an assigned integer value, the system successively associates an integer number in the textual order of the enumerated values, starting at the left-hand side, beginning with zero, by step 1 and skipping any number occupied by any of the enumerated values with a manually assigned value or value list.",
+   "lines": [
+    4504,
+    4517
+   ]
+  },
+  {
+   "id": "6.2.4-s022",
+   "section": "6.2.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "These values are only used by the system to allow the use of relational operators.",
+   "lines": [
+    4504,
+    4517
+   ]
+  },
+  {
+   "id": "6.2.4-s023",
+   "section": "6.2.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Enumerated names with an associated value list shall only be used as values together with a specific integer value, which shall be one from the associated list, in parenthesis after the name.",
+   "lines": [
+    4504,
+    4517
+   ]
+  },
+  {
+   "id": "6.2.4-s024",
+   "section": "6.2.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "They can be used as a template of the enumerated type by adding a list of integer template(s) and ranges in parenthesis after the name.",
+   "lines": [
+    4504,
+    4517
+   ]
+  },
+  {
+   "id": "6.2.4-s025",
+   "section": "6.2.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "For enumerated values with no value assigned or with a specific integer value assigned, the user shall not directly use associated integer values, but can access them and convert integer values into enumerated values by using the predefined functions enum2int and int2enum (see clauses 16.1.2, C.1.30 and C.1.4).",
+   "lines": [
+    4504,
+    4517
+   ]
+  },
+  {
+   "id": "6.2.4-s026",
+   "section": "6.2.4",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "NOTE 2: The integer value also may be used by the system to encode/decode enumerated values.",
+   "lines": [
+    4519,
+    4521
+   ]
+  },
+  {
+   "id": "6.2.4-s027",
+   "section": "6.2.4",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "This, however is outside the scope of the present document (with the exception that TTCN-3 allows the association of encoding attributes to TTCN-3 items).",
+   "lines": [
+    4519,
+    4521
+   ]
+  },
+  {
+   "id": "6.2.4-s028",
+   "section": "6.2.4",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE 3: Enumeration example with associated integers:",
+   "lines": [
+    4523,
+    4523
+   ]
+  },
+  {
+   "id": "6.2.4-s029",
+   "section": "6.2.4",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "type enumerated MyThirdEnumType {\n     Blue(0),\n     Yellow(1),\n     Green(3),\n     Other(2, 4..255)\n  }\n  var MyThirdEnumType v_color := Other(5);\n  if (v_color == Other(4)) { // is false\n  }\n  if (v_color > Other(4)) { // is true \n  }\n  if (match(v_color, Other(?))) { // is true\n  }\n  if (match(v_color, Other(6..10))) { // is false\n  }\n  if (match(v_color, Other((6..10), 15, (20..25)))) { // is false\n  }\n  v_color := Blue(0) //causes an error as enumerated values with a specific integer value assigned\n            //shall not use the associated integer value\n  type enumerated MyEnum {\n   e_num (1),\n   e_expr (2+2),  // same as e_expr (4)\n   e_bin_conv (bit2int('0111'B)), // same as e_bin_conv(7)\n   e_oct_conv (oct2int('34'O)), // same as e_oct_conv(52)\n   e_hex_conv (hex2int('AC'H))  // same as e_hex_conv(172)\n  }",
+   "lines": [
+    4524,
+    4552
+   ]
+  },
+  {
+   "id": "6.2.4-s030",
+   "section": "6.2.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "When a TTCN-3 module parameter, formal parameter, constant, variable, non-parameterized template or parameterized template with all formal parameters having default values of an imported enumerated type is defined, the name of that definition shall not be the same as any of the enumerated values of that type.",
+   "lines": [
+    4559,
+    4561
+   ]
+  }
+ ]
+}

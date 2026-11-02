@@ -1,0 +1,24 @@
+// @requirement: 6.2.7 -- An array or record of integer restricted to a single size can be used in the index notation as a short-hand for the repeated index notation.
+// @id: TTCN3-CORE-6.2.7-010a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_07_test_010 {
+
+    type record length (2) of integer MyIndex;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_a[2][3] := { { 1, 2, 3 }, { 4, 5, 6 } };
+        var integer v_arrIdx[2] := { 1, 2 };
+        var MyIndex v_roIdx := { 0, 1 };
+        if (v_a[v_arrIdx] == v_a[1][2] and v_a[v_roIdx] == v_a[0][1]) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

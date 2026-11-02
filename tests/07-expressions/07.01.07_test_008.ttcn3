@@ -1,0 +1,22 @@
+// @requirement: 7.1.7 -- a) `bitstring then the rotate unit applied is 1 bit;` b) `hexstring then the rotate unit applied is 1 hexadecimal digit;` c) `octetstring then the rotate unit applied is 1 octet;` d) `charstring or universal` `charstring then the rotate unit applied is one character;` e) `record of, set of, or array then the rotate unit applied is one element.` If the type of the left-hand operand is:
+// @id: TTCN3-CORE-7.1.7-008d
+// @verdict: pass accept, ttcn3verdict:pass
+module M_07_01_07_test_008 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var charstring v_c := "abcdefg";
+        var universal charstring v_u := char(0, 0, 0, 228) & "bc";
+        if (v_c <@ 3 == "defgabc" and v_c @> 3 == "efgabcd" and
+            v_u <@ 1 == "bc" & char(0, 0, 0, 228) and v_u @> 1 == "c" & char(0, 0, 0, 228) & "b") {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

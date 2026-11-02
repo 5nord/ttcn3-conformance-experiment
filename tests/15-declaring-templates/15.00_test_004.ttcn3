@@ -1,0 +1,41 @@
+// @requirement: 15.0 -- d) they can be used with either message-based or procedure-based communications.
+// @id: TTCN3-CORE-15.0-007a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_00_test_004 {
+
+    signature S(in integer p_in);
+
+    type port PM message { inout integer }
+    type port PP procedure { inout S }
+
+    type component C {
+        port PM pm1;
+        port PM pm2;
+        port PP pp1;
+        port PP pp2;
+        timer T := 1.0;
+    }
+
+    template integer m_msg := 1;
+    template S s_call := { p_in := 2 }
+
+    altstep a_guard() runs on C {
+        [] T.timeout { setverdict(fail); stop; }
+    }
+
+    testcase TC() runs on C {
+        connect(self:pm1, self:pm2);
+        connect(self:pp1, self:pp2);
+        activate(a_guard());
+        T.start;
+        pm1.send(m_msg);
+        pm2.receive(m_msg);
+        pp1.call(s_call, nowait);
+        pp2.getcall(s_call);
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

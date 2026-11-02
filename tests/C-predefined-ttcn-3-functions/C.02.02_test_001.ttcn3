@@ -1,0 +1,27 @@
+// @requirement: C.2.2 -- sizeof(in template (present) any inpar) return integer
+// @id: TTCN3-CORE-C.2.2-001a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_02_02_test_001 {
+
+    type component C {}
+    type record R {
+        integer f1,
+        boolean f2
+    }
+
+    testcase TC() runs on C {
+        var R v_r := { f1 := 1, f2 := true };
+        var template (present) R v_t := { f1 := ?, f2 := ? };
+        var integer v_size1 := sizeof(v_r);
+        var integer v_size2 := sizeof(v_t);
+        if (v_size1 == 2 and v_size2 == 2) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

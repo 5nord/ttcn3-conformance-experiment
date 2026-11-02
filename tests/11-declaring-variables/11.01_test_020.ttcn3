@@ -1,0 +1,19 @@
+// @requirement: 11.1 -- Evaluation of such an expression shall cause a dynamic error.
+// @id: TTCN3-CORE-11.1-018a
+// @verdict: pass accept, ttcn3verdict:error
+module M_11_01_test_020 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_var := 1;
+        var @lazy integer v_lazy := v_var + 1;
+        setverdict(pass);
+        v_lazy := v_lazy + 1;
+        v_var := v_lazy; // error: v_lazy references itself
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,26 @@
+// @requirement: 27.1.2.0 -- If multiple attributes of the same type are allowed, all of them are overridden unless specified otherwise.
+// @id: TTCN3-CORE-27.1.2.0-008a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_27_01_02_00_test_006 {
+
+    type component C {}
+
+    type record of universal charstring RUC;
+
+    group myGroup {
+        type integer MyInt with { encode "CodecC" }
+    } with { encode "CodecA"; encode "CodecB" }
+
+    testcase TC() runs on C {
+        var RUC v_enc := MyInt.encode;
+        if (v_enc == { "CodecC" }) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,31 @@
+// @requirement: 8.2.3.3 -- The all keyword is also allowed to be used in the exception list; this will exclude all definitions of the same kind from the import statement.
+// @id: TTCN3-CORE-8.2.3.3-006a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_02_03_03_test_006 {
+
+    import from M_08_02_03_03_test_006_A {
+        group g_group except { template all }
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (c_value == 42) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_03_03_test_006_A {
+    group g_group {
+        const integer c_value := 42;
+        template integer m_value1 := 1;
+        template integer m_value2 := 2;
+    }
+}

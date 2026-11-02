@@ -1,0 +1,30 @@
+// @requirement: 6.2.9 -- The special value null represents an unspecified port reference, i.e. it can be used to explicitly allow the referencing of no port.
+// @id: TTCN3-CORE-6.2.9-028a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_09_test_025 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p;
+    }
+
+    function f_isNoPort(P p_port) return boolean {
+        return p_port == null;
+    }
+
+    testcase TC() runs on C {
+        var P v_port := null;
+        if (f_isNoPort(v_port) and not f_isNoPort(p)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

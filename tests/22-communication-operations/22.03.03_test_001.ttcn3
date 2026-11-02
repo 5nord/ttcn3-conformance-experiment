@@ -1,0 +1,22 @@
+// @requirement: 22.3.3 -- ObjectReference "." reply "(" TemplateInstance [ value TemplateBody ] ")" [ to Address ]
+// @id: TTCN3-CORE-22.3.3-002a
+// @verdict: pass accept, noexecution
+module M_22_03_03_test_001 {
+
+    signature S(in integer p_x, out integer p_y) return integer;
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    template S s_reply := {p_x := 1, p_y := 2};
+
+    function f_reply(C p_peer) runs on C {
+        p.reply(S:{-, 2} value 3);
+        p.reply(s_reply value 3) to p_peer;
+        p.reply(S:{-, 2} value 3) to (p_peer, p_peer);
+        p.reply(S:{-, 2} value 3) to all component;
+    }
+}

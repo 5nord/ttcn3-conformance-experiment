@@ -1,0 +1,25 @@
+// @requirement: 9.0 -- Test case execution shall end when the MTC terminates.
+// @id: TTCN3-CORE-9.0-015a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_09_00_test_005 {
+
+    type port P message { inout integer; }
+
+    type component C {
+        port P p;
+    }
+
+    function f_block() runs on C {
+        p.receive;
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        v_ptc.start(f_block());
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC(), 5.0);
+    }
+}

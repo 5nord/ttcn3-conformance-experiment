@@ -1,0 +1,24 @@
+// @requirement: 21.3.1 -- The visibility of component references shall follow the same scope rules as that of variables and in order to reference components outside their scope of creation the component reference shall be passed as a parameter or as a field in a message.
+// @id: TTCN3-CORE-21.3.1-022a
+// @verdict: pass reject
+module M_21_03_01_test_028 {
+
+    type component C {}
+
+    function f_ptc() runs on C {
+        setverdict(pass);
+    }
+
+    function f_create() runs on C {
+        var C v_ptc := C.create;
+    }
+
+    testcase TC() runs on C {
+        f_create();
+        v_ptc.start(f_ptc()); // error: v_ptc is not visible outside f_create
+    }
+
+    control {
+        execute(TC());
+    }
+}

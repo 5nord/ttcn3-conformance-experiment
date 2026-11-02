@@ -1,0 +1,1211 @@
+{
+ "batch": "b037",
+ "requirements": [
+  {
+   "id": "TTCN3-CORE-15.6.0-002a",
+   "section": "15.6.0",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "When referencing elements of templates or templates fields with the value or omit restriction, the rules for referencing elements of values are used.",
+   "canonical": "When referencing elements of templates or template fields with the `value` or `omit` restriction, the rules for referencing elements of values ARE used.",
+   "condition": "the template has the value or omit restriction",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11150,
+    11152
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.06.00_test_001.ttcn3",
+   "module": "M_15_06_00_test_001",
+   "header": "// @requirement: 15.6.0 -- When referencing elements of templates or templates fields with the value or omit restriction, the rules for referencing elements of values are used."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.1-001a",
+   "section": "15.6.1",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "It is allowed to reference individual string elements inside templates or template fields if any of the following conditions is fulfilled:",
+   "canonical": "An individual string element inside a template or template field MAY be referenced only if at least one of the conditions listed in clause 15.6.1 is fulfilled.",
+   "condition": "at least one of the listed conditions is fulfilled",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11156,
+    11157
+   ],
+   "examples": [
+    {
+     "lines": [
+      11277,
+      11304
+     ],
+     "text": "var template charstring v_char1 := \"MYCHAR\", \n     v_char2, \n     v_char3 := pattern \"abc?[a-z]\";\n  v_char2 := v_char1[1]; // v_char2 will be equal to \"Y\" after the assignment\n  v_char2 := v_char3[3]; // v_char2 will be equal to pattern \"?\" after the assignment\n  v_char2 := v_char3[4]; // v_char2 will be equal to pattern \"[a-z]\" after the assignment\n  v_char3 := ?;\n  v_char2 := v_char3[0]; // v_char2 will contain pattern \"?\" after the assignment\n  v_char3 := pattern \"abc?[a-z]\";\n  v_char3[6] := pattern \"x+\"; // v_char3 will contain pattern \"abc?[a-z]?x+\" after the assignment\n  v_char3 := \"abc\";\n  v_char3[4] := pattern \"[a-f][g-k]\"; // v_char3 will change to pattern \"abc([a-f][g-k])\"\n  v_char3[2] := \"test\"; // will produce an error as the character string contains more than one\n             // character\n  var template octetstring v_oct1 := '01234567890ABCDEF'O, \n     v_oct2, \n     v_oct3 := '01??AB*'O;\n  v_oct2 := v_oct1[1]; // v_oct2 will be equal to '23'O after the assignment\n  v_oct2 := v_oct3[2]; // v_oct2 will be equal to '?'O after the assignment\n  v_oct3 := *;\n  v_oct2 := v_oct3[0]; // v_oct2 will contain '?'O ifpresent after the assignment\n  v_oct1[2] := '?'O; // v_oct1 will contain '0123?67890ABCDEF'O after the assignment\n  v_oct3 := '0123'O;\n  v_oct3[4] := 'FF'O; // v_oct3 will change to '0123??FF'O \n  v_oct1 := 'FFFF'O;\n  v_oct2 := v_oct1[10] // will produce an error as the index is greater than the length of v_oct1_"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.01_test_001.ttcn3",
+   "module": "M_15_06_01_test_001",
+   "header": "// @requirement: 15.6.1 -- It is allowed to reference individual string elements inside templates or template fields if any of the following conditions is fulfilled:"
+  },
+  {
+   "id": "TTCN3-CORE-15.6.1-002a",
+   "section": "15.6.1",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "The template is of a character string type and it contains either a specific value, pattern or AnyValue or when occurring on the left hand AnyValueOrNone.",
+   "canonical": "An individual string element of a template of a character string type MAY be referenced if the template contains a specific value, a pattern or AnyValue, or, when the reference occurs on the left hand side of an assignment, AnyValueOrNone.",
+   "condition": "the template is of a character string type",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "The phrase 'when occurring on the left hand AnyValueOrNone' is garbled; it was read as 'AnyValueOrNone when the reference occurs on the left hand side of an assignment'.",
+    "readings": [
+     "An individual string element of a character string template containing AnyValueOrNone MAY be referenced only when the reference occurs on the left hand side of an assignment.",
+     "An individual string element of a character string template containing AnyValueOrNone MAY be referenced on either side of an assignment."
+    ],
+    "improper_terms": [
+     {
+      "used": "left hand",
+      "proper": "left hand side (of assignment)",
+      "glossary": true
+     }
+    ]
+   },
+   "spec_lines": [
+    11156,
+    11161
+   ],
+   "examples": [
+    {
+     "lines": [
+      11277,
+      11304
+     ],
+     "text": "var template charstring v_char1 := \"MYCHAR\", \n     v_char2, \n     v_char3 := pattern \"abc?[a-z]\";\n  v_char2 := v_char1[1]; // v_char2 will be equal to \"Y\" after the assignment\n  v_char2 := v_char3[3]; // v_char2 will be equal to pattern \"?\" after the assignment\n  v_char2 := v_char3[4]; // v_char2 will be equal to pattern \"[a-z]\" after the assignment\n  v_char3 := ?;\n  v_char2 := v_char3[0]; // v_char2 will contain pattern \"?\" after the assignment\n  v_char3 := pattern \"abc?[a-z]\";\n  v_char3[6] := pattern \"x+\"; // v_char3 will contain pattern \"abc?[a-z]?x+\" after the assignment\n  v_char3 := \"abc\";\n  v_char3[4] := pattern \"[a-f][g-k]\"; // v_char3 will change to pattern \"abc([a-f][g-k])\"\n  v_char3[2] := \"test\"; // will produce an error as the character string contains more than one\n             // character\n  var template octetstring v_oct1 := '01234567890ABCDEF'O, \n     v_oct2, \n     v_oct3 := '01??AB*'O;\n  v_oct2 := v_oct1[1]; // v_oct2 will be equal to '23'O after the assignment\n  v_oct2 := v_oct3[2]; // v_oct2 will be equal to '?'O after the assignment\n  v_oct3 := *;\n  v_oct2 := v_oct3[0]; // v_oct2 will contain '?'O ifpresent after the assignment\n  v_oct1[2] := '?'O; // v_oct1 will contain '0123?67890ABCDEF'O after the assignment\n  v_oct3 := '0123'O;\n  v_oct3[4] := 'FF'O; // v_oct3 will change to '0123??FF'O \n  v_oct1 := 'FFFF'O;\n  v_oct2 := v_oct1[10] // will produce an error as the index is greater than the length of v_oct1_"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.01_test_002.ttcn3",
+   "module": "M_15_06_01_test_002",
+   "header": "// @requirement: 15.6.1 -- The template is of a character string type and it contains either a specific value, pattern or AnyValue or when occurring on the left hand AnyValueOrNone."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.1-003a",
+   "section": "15.6.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "In case of patterns, metacharacters described in clause B.1.5.0 are treated as a single item the for indexing purposes according to the rules specified in table B.1.",
+   "canonical": "When indexing a character string template containing a pattern, each metacharacter described in clause B.1.5.0 IS treated as a single item for indexing purposes according to the rules of table B.1.",
+   "condition": "the referenced character string template contains a pattern",
+   "cross_refs": [
+    "B.1.5.0"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11159,
+    11161
+   ],
+   "examples": [
+    {
+     "lines": [
+      11277,
+      11304
+     ],
+     "text": "var template charstring v_char1 := \"MYCHAR\", \n     v_char2, \n     v_char3 := pattern \"abc?[a-z]\";\n  v_char2 := v_char1[1]; // v_char2 will be equal to \"Y\" after the assignment\n  v_char2 := v_char3[3]; // v_char2 will be equal to pattern \"?\" after the assignment\n  v_char2 := v_char3[4]; // v_char2 will be equal to pattern \"[a-z]\" after the assignment\n  v_char3 := ?;\n  v_char2 := v_char3[0]; // v_char2 will contain pattern \"?\" after the assignment\n  v_char3 := pattern \"abc?[a-z]\";\n  v_char3[6] := pattern \"x+\"; // v_char3 will contain pattern \"abc?[a-z]?x+\" after the assignment\n  v_char3 := \"abc\";\n  v_char3[4] := pattern \"[a-f][g-k]\"; // v_char3 will change to pattern \"abc([a-f][g-k])\"\n  v_char3[2] := \"test\"; // will produce an error as the character string contains more than one\n             // character\n  var template octetstring v_oct1 := '01234567890ABCDEF'O, \n     v_oct2, \n     v_oct3 := '01??AB*'O;\n  v_oct2 := v_oct1[1]; // v_oct2 will be equal to '23'O after the assignment\n  v_oct2 := v_oct3[2]; // v_oct2 will be equal to '?'O after the assignment\n  v_oct3 := *;\n  v_oct2 := v_oct3[0]; // v_oct2 will contain '?'O ifpresent after the assignment\n  v_oct1[2] := '?'O; // v_oct1 will contain '0123?67890ABCDEF'O after the assignment\n  v_oct3 := '0123'O;\n  v_oct3[4] := 'FF'O; // v_oct3 will change to '0123??FF'O \n  v_oct1 := 'FFFF'O;\n  v_oct2 := v_oct1[10] // will produce an error as the index is greater than the length of v_oct1_"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.01_test_003.ttcn3",
+   "module": "M_15_06_01_test_003",
+   "header": "// @requirement: 15.6.1 -- In case of patterns, metacharacters described in clause B.1.5.0 are treated as a single item the for indexing purposes according to the rules specified in table B.1."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.1-004a",
+   "section": "15.6.1",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "The template is of a binary string type and it contains either a specific value, matching mechanism inside values, AnyValue or AnyValueOrNone.",
+   "canonical": "An individual string element of a template of a binary string type MAY be referenced if the template contains a specific value, a matching mechanism inside a value, AnyValue or AnyValueOrNone.",
+   "condition": "the template is of a binary string type",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11156,
+    11165
+   ],
+   "examples": [
+    {
+     "lines": [
+      11277,
+      11304
+     ],
+     "text": "var template charstring v_char1 := \"MYCHAR\", \n     v_char2, \n     v_char3 := pattern \"abc?[a-z]\";\n  v_char2 := v_char1[1]; // v_char2 will be equal to \"Y\" after the assignment\n  v_char2 := v_char3[3]; // v_char2 will be equal to pattern \"?\" after the assignment\n  v_char2 := v_char3[4]; // v_char2 will be equal to pattern \"[a-z]\" after the assignment\n  v_char3 := ?;\n  v_char2 := v_char3[0]; // v_char2 will contain pattern \"?\" after the assignment\n  v_char3 := pattern \"abc?[a-z]\";\n  v_char3[6] := pattern \"x+\"; // v_char3 will contain pattern \"abc?[a-z]?x+\" after the assignment\n  v_char3 := \"abc\";\n  v_char3[4] := pattern \"[a-f][g-k]\"; // v_char3 will change to pattern \"abc([a-f][g-k])\"\n  v_char3[2] := \"test\"; // will produce an error as the character string contains more than one\n             // character\n  var template octetstring v_oct1 := '01234567890ABCDEF'O, \n     v_oct2, \n     v_oct3 := '01??AB*'O;\n  v_oct2 := v_oct1[1]; // v_oct2 will be equal to '23'O after the assignment\n  v_oct2 := v_oct3[2]; // v_oct2 will be equal to '?'O after the assignment\n  v_oct3 := *;\n  v_oct2 := v_oct3[0]; // v_oct2 will contain '?'O ifpresent after the assignment\n  v_oct1[2] := '?'O; // v_oct1 will contain '0123?67890ABCDEF'O after the assignment\n  v_oct3 := '0123'O;\n  v_oct3[4] := 'FF'O; // v_oct3 will change to '0123??FF'O \n  v_oct1 := 'FFFF'O;\n  v_oct2 := v_oct1[10] // will produce an error as the index is greater than the length of v_oct1_"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.01_test_004.ttcn3",
+   "module": "M_15_06_01_test_004",
+   "header": "// @requirement: 15.6.1 -- The template is of a binary string type and it contains either a specific value, matching mechanism inside values, AnyValue or AnyValueOrNone."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.1-005a",
+   "section": "15.6.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "If the referenced binary string contains a matching mechanism inside a value, this matching mechanism is treated as a single item for indexing purposes.",
+   "canonical": "When indexing a binary string template, a matching mechanism inside a value IS treated as a single item for indexing purposes.",
+   "condition": "the referenced binary string contains a matching mechanism inside a value",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11163,
+    11165
+   ],
+   "examples": [
+    {
+     "lines": [
+      11277,
+      11304
+     ],
+     "text": "var template charstring v_char1 := \"MYCHAR\", \n     v_char2, \n     v_char3 := pattern \"abc?[a-z]\";\n  v_char2 := v_char1[1]; // v_char2 will be equal to \"Y\" after the assignment\n  v_char2 := v_char3[3]; // v_char2 will be equal to pattern \"?\" after the assignment\n  v_char2 := v_char3[4]; // v_char2 will be equal to pattern \"[a-z]\" after the assignment\n  v_char3 := ?;\n  v_char2 := v_char3[0]; // v_char2 will contain pattern \"?\" after the assignment\n  v_char3 := pattern \"abc?[a-z]\";\n  v_char3[6] := pattern \"x+\"; // v_char3 will contain pattern \"abc?[a-z]?x+\" after the assignment\n  v_char3 := \"abc\";\n  v_char3[4] := pattern \"[a-f][g-k]\"; // v_char3 will change to pattern \"abc([a-f][g-k])\"\n  v_char3[2] := \"test\"; // will produce an error as the character string contains more than one\n             // character\n  var template octetstring v_oct1 := '01234567890ABCDEF'O, \n     v_oct2, \n     v_oct3 := '01??AB*'O;\n  v_oct2 := v_oct1[1]; // v_oct2 will be equal to '23'O after the assignment\n  v_oct2 := v_oct3[2]; // v_oct2 will be equal to '?'O after the assignment\n  v_oct3 := *;\n  v_oct2 := v_oct3[0]; // v_oct2 will contain '?'O ifpresent after the assignment\n  v_oct1[2] := '?'O; // v_oct1 will contain '0123?67890ABCDEF'O after the assignment\n  v_oct3 := '0123'O;\n  v_oct3[4] := 'FF'O; // v_oct3 will change to '0123??FF'O \n  v_oct1 := 'FFFF'O;\n  v_oct2 := v_oct1[10] // will produce an error as the index is greater than the length of v_oct1_"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.01_test_005.ttcn3",
+   "module": "M_15_06_01_test_005",
+   "header": "// @requirement: 15.6.1 -- If the referenced binary string contains a matching mechanism inside a value, this matching mechanism is treated as a single item for indexing purposes."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.1-006a",
+   "section": "15.6.1",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "The template is of a binary string type and it contains a combined template.",
+   "canonical": "An individual string element of a template of a binary string type MAY be referenced if the template contains a combined template.",
+   "condition": "the template is of a binary string type and contains a combined template",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11156,
+    11167
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.06.01_test_006.ttcn3",
+   "module": "M_15_06_01_test_006",
+   "header": "// @requirement: 15.6.1 -- The template is of a binary string type and it contains a combined template."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.1-007a",
+   "section": "15.6.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "In this case, individual items of the combined template are concatenated and the reference is applied to the result of this concatenation using the rules described in this clause.",
+   "canonical": "When an individual string element of a binary string template containing a combined template is referenced, the individual items of the combined template ARE concatenated and the reference IS applied to the result of the concatenation using the rules of clause 15.6.1.",
+   "condition": "the referenced binary string template contains a combined template",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11167,
+    11167
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.06.01_test_007.ttcn3",
+   "module": "M_15_06_01_test_007",
+   "header": "// @requirement: 15.6.1 -- In this case, individual items of the combined template are concatenated and the reference is applied to the result of this concatenation using the rules described in this clause."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.1-008a",
+   "section": "15.6.1",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "In any of the cases mentioned above, the reference template might contain ifpresent and length matching attributes.",
+   "canonical": "A template whose individual string elements are referenced MAY contain the ifpresent and length matching attributes.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "'reference template' is used where 'referenced template' is meant.",
+    "improper_terms": [
+     {
+      "used": "reference template",
+      "proper": "referenced template",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    11169,
+    11169
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.06.01_test_008.ttcn3",
+   "module": "M_15_06_01_test_008",
+   "header": "// @requirement: 15.6.1 -- In any of the cases mentioned above, the reference template might contain ifpresent and length matching attributes."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.1-009a",
+   "section": "15.6.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "When the reference occurs on the right hand side of an assignment, the result of the reference is always a template with the following content:",
+   "canonical": "When a reference to an individual string element of a template occurs on the right hand side of an assignment, the result of the reference IS always a template with the content defined by rules a) to j) of clause 15.6.1.",
+   "condition": "the reference occurs on the right hand side of an assignment",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11176,
+    11177
+   ],
+   "examples": [
+    {
+     "lines": [
+      11277,
+      11304
+     ],
+     "text": "var template charstring v_char1 := \"MYCHAR\", \n     v_char2, \n     v_char3 := pattern \"abc?[a-z]\";\n  v_char2 := v_char1[1]; // v_char2 will be equal to \"Y\" after the assignment\n  v_char2 := v_char3[3]; // v_char2 will be equal to pattern \"?\" after the assignment\n  v_char2 := v_char3[4]; // v_char2 will be equal to pattern \"[a-z]\" after the assignment\n  v_char3 := ?;\n  v_char2 := v_char3[0]; // v_char2 will contain pattern \"?\" after the assignment\n  v_char3 := pattern \"abc?[a-z]\";\n  v_char3[6] := pattern \"x+\"; // v_char3 will contain pattern \"abc?[a-z]?x+\" after the assignment\n  v_char3 := \"abc\";\n  v_char3[4] := pattern \"[a-f][g-k]\"; // v_char3 will change to pattern \"abc([a-f][g-k])\"\n  v_char3[2] := \"test\"; // will produce an error as the character string contains more than one\n             // character\n  var template octetstring v_oct1 := '01234567890ABCDEF'O, \n     v_oct2, \n     v_oct3 := '01??AB*'O;\n  v_oct2 := v_oct1[1]; // v_oct2 will be equal to '23'O after the assignment\n  v_oct2 := v_oct3[2]; // v_oct2 will be equal to '?'O after the assignment\n  v_oct3 := *;\n  v_oct2 := v_oct3[0]; // v_oct2 will contain '?'O ifpresent after the assignment\n  v_oct1[2] := '?'O; // v_oct1 will contain '0123?67890ABCDEF'O after the assignment\n  v_oct3 := '0123'O;\n  v_oct3[4] := 'FF'O; // v_oct3 will change to '0123??FF'O \n  v_oct1 := 'FFFF'O;\n  v_oct2 := v_oct1[10] // will produce an error as the index is greater than the length of v_oct1_"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.01_test_009.ttcn3",
+   "module": "M_15_06_01_test_009",
+   "header": "// @requirement: 15.6.1 -- When the reference occurs on the right hand side of an assignment, the result of the reference is always a template with the following content:"
+  },
+  {
+   "id": "TTCN3-CORE-15.6.1-010a",
+   "section": "15.6.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "a) A specific value containing a single element if the referenced template is of a binary or character string type to which a specific value is assigned and the index in non-negative and less than the number of items in the specific value.",
+   "canonical": "When the referenced template is of a binary or character string type to which a specific value is assigned and the index is non-negative and less than the number of items in the specific value, the result of a right hand side reference IS a specific value containing the single referenced element.",
+   "condition": "right hand side reference; referenced template contains a specific value; 0 <= index < number of items",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11176,
+    11182
+   ],
+   "examples": [
+    {
+     "lines": [
+      11277,
+      11304
+     ],
+     "text": "var template charstring v_char1 := \"MYCHAR\", \n     v_char2, \n     v_char3 := pattern \"abc?[a-z]\";\n  v_char2 := v_char1[1]; // v_char2 will be equal to \"Y\" after the assignment\n  v_char2 := v_char3[3]; // v_char2 will be equal to pattern \"?\" after the assignment\n  v_char2 := v_char3[4]; // v_char2 will be equal to pattern \"[a-z]\" after the assignment\n  v_char3 := ?;\n  v_char2 := v_char3[0]; // v_char2 will contain pattern \"?\" after the assignment\n  v_char3 := pattern \"abc?[a-z]\";\n  v_char3[6] := pattern \"x+\"; // v_char3 will contain pattern \"abc?[a-z]?x+\" after the assignment\n  v_char3 := \"abc\";\n  v_char3[4] := pattern \"[a-f][g-k]\"; // v_char3 will change to pattern \"abc([a-f][g-k])\"\n  v_char3[2] := \"test\"; // will produce an error as the character string contains more than one\n             // character\n  var template octetstring v_oct1 := '01234567890ABCDEF'O, \n     v_oct2, \n     v_oct3 := '01??AB*'O;\n  v_oct2 := v_oct1[1]; // v_oct2 will be equal to '23'O after the assignment\n  v_oct2 := v_oct3[2]; // v_oct2 will be equal to '?'O after the assignment\n  v_oct3 := *;\n  v_oct2 := v_oct3[0]; // v_oct2 will contain '?'O ifpresent after the assignment\n  v_oct1[2] := '?'O; // v_oct1 will contain '0123?67890ABCDEF'O after the assignment\n  v_oct3 := '0123'O;\n  v_oct3[4] := 'FF'O; // v_oct3 will change to '0123??FF'O \n  v_oct1 := 'FFFF'O;\n  v_oct2 := v_oct1[10] // will produce an error as the index is greater than the length of v_oct1_"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.01_test_010.ttcn3",
+   "module": "M_15_06_01_test_010",
+   "header": "// @requirement: 15.6.1 -- a) A specific value containing a single element if the referenced template is of a binary or character string type to which a specific value is assigned and the index in non-negative and less than the number of items in the specific value."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.1-011a",
+   "section": "15.6.1",
+   "type": "information",
+   "modality": "CAN",
+   "original": "The value can contain either a single item of the string type (bit, hex, octet or character) or a matching mechanism inside a value (such as AnyElement or AnyElementOrNone).",
+   "canonical": "The specific value resulting from a right hand side reference to a string template element CAN contain either a single item of the string type (bit, hex, octet or character) or a matching mechanism inside a value such as AnyElement or AnyElementOrNone.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11179,
+    11182
+   ],
+   "examples": [
+    {
+     "lines": [
+      11277,
+      11304
+     ],
+     "text": "var template charstring v_char1 := \"MYCHAR\", \n     v_char2, \n     v_char3 := pattern \"abc?[a-z]\";\n  v_char2 := v_char1[1]; // v_char2 will be equal to \"Y\" after the assignment\n  v_char2 := v_char3[3]; // v_char2 will be equal to pattern \"?\" after the assignment\n  v_char2 := v_char3[4]; // v_char2 will be equal to pattern \"[a-z]\" after the assignment\n  v_char3 := ?;\n  v_char2 := v_char3[0]; // v_char2 will contain pattern \"?\" after the assignment\n  v_char3 := pattern \"abc?[a-z]\";\n  v_char3[6] := pattern \"x+\"; // v_char3 will contain pattern \"abc?[a-z]?x+\" after the assignment\n  v_char3 := \"abc\";\n  v_char3[4] := pattern \"[a-f][g-k]\"; // v_char3 will change to pattern \"abc([a-f][g-k])\"\n  v_char3[2] := \"test\"; // will produce an error as the character string contains more than one\n             // character\n  var template octetstring v_oct1 := '01234567890ABCDEF'O, \n     v_oct2, \n     v_oct3 := '01??AB*'O;\n  v_oct2 := v_oct1[1]; // v_oct2 will be equal to '23'O after the assignment\n  v_oct2 := v_oct3[2]; // v_oct2 will be equal to '?'O after the assignment\n  v_oct3 := *;\n  v_oct2 := v_oct3[0]; // v_oct2 will contain '?'O ifpresent after the assignment\n  v_oct1[2] := '?'O; // v_oct1 will contain '0123?67890ABCDEF'O after the assignment\n  v_oct3 := '0123'O;\n  v_oct3[4] := 'FF'O; // v_oct3 will change to '0123??FF'O \n  v_oct1 := 'FFFF'O;\n  v_oct2 := v_oct1[10] // will produce an error as the index is greater than the length of v_oct1_"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.01_test_011.ttcn3",
+   "module": "M_15_06_01_test_011",
+   "header": "// @requirement: 15.6.1 -- The value can contain either a single item of the string type (bit, hex, octet or character) or a matching mechanism inside a value (such as AnyElement or AnyElementOrNone)."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.1-012a",
+   "section": "15.6.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "b) A pattern containing either a single character or a single metacharacter, if the referenced template is of a character sting type to which a pattern is assigned and the index is non-negative and less than the number of characters and indexable metacharacters inside the pattern.",
+   "canonical": "When the referenced template is of a character string type to which a pattern is assigned and the index is non-negative and less than the number of characters and indexable metacharacters in the pattern, the result of a right hand side reference IS a pattern containing the single referenced character or metacharacter.",
+   "condition": "right hand side reference; referenced template contains a pattern; 0 <= index < number of items",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "Typo 'character sting type' for 'character string type'.",
+    "improper_terms": [
+     {
+      "used": "character sting type",
+      "proper": "character string type",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    11176,
+    11186
+   ],
+   "examples": [
+    {
+     "lines": [
+      11277,
+      11304
+     ],
+     "text": "var template charstring v_char1 := \"MYCHAR\", \n     v_char2, \n     v_char3 := pattern \"abc?[a-z]\";\n  v_char2 := v_char1[1]; // v_char2 will be equal to \"Y\" after the assignment\n  v_char2 := v_char3[3]; // v_char2 will be equal to pattern \"?\" after the assignment\n  v_char2 := v_char3[4]; // v_char2 will be equal to pattern \"[a-z]\" after the assignment\n  v_char3 := ?;\n  v_char2 := v_char3[0]; // v_char2 will contain pattern \"?\" after the assignment\n  v_char3 := pattern \"abc?[a-z]\";\n  v_char3[6] := pattern \"x+\"; // v_char3 will contain pattern \"abc?[a-z]?x+\" after the assignment\n  v_char3 := \"abc\";\n  v_char3[4] := pattern \"[a-f][g-k]\"; // v_char3 will change to pattern \"abc([a-f][g-k])\"\n  v_char3[2] := \"test\"; // will produce an error as the character string contains more than one\n             // character\n  var template octetstring v_oct1 := '01234567890ABCDEF'O, \n     v_oct2, \n     v_oct3 := '01??AB*'O;\n  v_oct2 := v_oct1[1]; // v_oct2 will be equal to '23'O after the assignment\n  v_oct2 := v_oct3[2]; // v_oct2 will be equal to '?'O after the assignment\n  v_oct3 := *;\n  v_oct2 := v_oct3[0]; // v_oct2 will contain '?'O ifpresent after the assignment\n  v_oct1[2] := '?'O; // v_oct1 will contain '0123?67890ABCDEF'O after the assignment\n  v_oct3 := '0123'O;\n  v_oct3[4] := 'FF'O; // v_oct3 will change to '0123??FF'O \n  v_oct1 := 'FFFF'O;\n  v_oct2 := v_oct1[10] // will produce an error as the index is greater than the length of v_oct1_"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.01_test_012.ttcn3",
+   "module": "M_15_06_01_test_012",
+   "header": "// @requirement: 15.6.1 -- b) A pattern containing either a single character or a single metacharacter, if the referenced template is of a character sting type to which a pattern is assigned and the index is non-negative and less than the number of characters and indexable metacharacters inside the pattern."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.1-013a",
+   "section": "15.6.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "c) A specific value containing a single AnyElement matching mechanism if the referenced template is of a binary string type to which the AnyValue matching mechanism is assigned.",
+   "canonical": "When the referenced template is of a binary string type to which AnyValue is assigned, the result of a right hand side reference IS a specific value containing a single AnyElement matching mechanism.",
+   "condition": "right hand side reference; binary string template contains AnyValue",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11176,
+    11189
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.06.01_test_013.ttcn3",
+   "module": "M_15_06_01_test_013",
+   "header": "// @requirement: 15.6.1 -- c) A specific value containing a single AnyElement matching mechanism if the referenced template is of a binary string type to which the AnyValue matching mechanism is assigned."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.1-014a",
+   "section": "15.6.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "d) A specific value containing a single AnyElement matching mechanism with the ifpresent matching attribute attached to it if the referenced template is of a binary string type to which the AnyValueOrNone matching mechanism is assigned.",
+   "canonical": "When the referenced template is of a binary string type to which AnyValueOrNone is assigned, the result of a right hand side reference IS a specific value containing a single AnyElement matching mechanism with the ifpresent matching attribute attached.",
+   "condition": "right hand side reference; binary string template contains AnyValueOrNone",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11176,
+    11193
+   ],
+   "examples": [
+    {
+     "lines": [
+      11277,
+      11304
+     ],
+     "text": "var template charstring v_char1 := \"MYCHAR\", \n     v_char2, \n     v_char3 := pattern \"abc?[a-z]\";\n  v_char2 := v_char1[1]; // v_char2 will be equal to \"Y\" after the assignment\n  v_char2 := v_char3[3]; // v_char2 will be equal to pattern \"?\" after the assignment\n  v_char2 := v_char3[4]; // v_char2 will be equal to pattern \"[a-z]\" after the assignment\n  v_char3 := ?;\n  v_char2 := v_char3[0]; // v_char2 will contain pattern \"?\" after the assignment\n  v_char3 := pattern \"abc?[a-z]\";\n  v_char3[6] := pattern \"x+\"; // v_char3 will contain pattern \"abc?[a-z]?x+\" after the assignment\n  v_char3 := \"abc\";\n  v_char3[4] := pattern \"[a-f][g-k]\"; // v_char3 will change to pattern \"abc([a-f][g-k])\"\n  v_char3[2] := \"test\"; // will produce an error as the character string contains more than one\n             // character\n  var template octetstring v_oct1 := '01234567890ABCDEF'O, \n     v_oct2, \n     v_oct3 := '01??AB*'O;\n  v_oct2 := v_oct1[1]; // v_oct2 will be equal to '23'O after the assignment\n  v_oct2 := v_oct3[2]; // v_oct2 will be equal to '?'O after the assignment\n  v_oct3 := *;\n  v_oct2 := v_oct3[0]; // v_oct2 will contain '?'O ifpresent after the assignment\n  v_oct1[2] := '?'O; // v_oct1 will contain '0123?67890ABCDEF'O after the assignment\n  v_oct3 := '0123'O;\n  v_oct3[4] := 'FF'O; // v_oct3 will change to '0123??FF'O \n  v_oct1 := 'FFFF'O;\n  v_oct2 := v_oct1[10] // will produce an error as the index is greater than the length of v_oct1_"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.01_test_014.ttcn3",
+   "module": "M_15_06_01_test_014",
+   "header": "// @requirement: 15.6.1 -- d) A specific value containing a single AnyElement matching mechanism with the ifpresent matching attribute attached to it if the referenced template is of a binary string type to which the AnyValueOrNone matching mechanism is assigned."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.1-015a",
+   "section": "15.6.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "e) A pattern containing a single ? metacharacter if the referenced template is of a character string type and contains the AnyValue matching mechanism.",
+   "canonical": "When the referenced template is of a character string type and contains AnyValue, the result of a right hand side reference IS a pattern containing a single ? metacharacter.",
+   "condition": "right hand side reference; character string template contains AnyValue",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11176,
+    11196
+   ],
+   "examples": [
+    {
+     "lines": [
+      11277,
+      11304
+     ],
+     "text": "var template charstring v_char1 := \"MYCHAR\", \n     v_char2, \n     v_char3 := pattern \"abc?[a-z]\";\n  v_char2 := v_char1[1]; // v_char2 will be equal to \"Y\" after the assignment\n  v_char2 := v_char3[3]; // v_char2 will be equal to pattern \"?\" after the assignment\n  v_char2 := v_char3[4]; // v_char2 will be equal to pattern \"[a-z]\" after the assignment\n  v_char3 := ?;\n  v_char2 := v_char3[0]; // v_char2 will contain pattern \"?\" after the assignment\n  v_char3 := pattern \"abc?[a-z]\";\n  v_char3[6] := pattern \"x+\"; // v_char3 will contain pattern \"abc?[a-z]?x+\" after the assignment\n  v_char3 := \"abc\";\n  v_char3[4] := pattern \"[a-f][g-k]\"; // v_char3 will change to pattern \"abc([a-f][g-k])\"\n  v_char3[2] := \"test\"; // will produce an error as the character string contains more than one\n             // character\n  var template octetstring v_oct1 := '01234567890ABCDEF'O, \n     v_oct2, \n     v_oct3 := '01??AB*'O;\n  v_oct2 := v_oct1[1]; // v_oct2 will be equal to '23'O after the assignment\n  v_oct2 := v_oct3[2]; // v_oct2 will be equal to '?'O after the assignment\n  v_oct3 := *;\n  v_oct2 := v_oct3[0]; // v_oct2 will contain '?'O ifpresent after the assignment\n  v_oct1[2] := '?'O; // v_oct1 will contain '0123?67890ABCDEF'O after the assignment\n  v_oct3 := '0123'O;\n  v_oct3[4] := 'FF'O; // v_oct3 will change to '0123??FF'O \n  v_oct1 := 'FFFF'O;\n  v_oct2 := v_oct1[10] // will produce an error as the index is greater than the length of v_oct1_"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.01_test_015.ttcn3",
+   "module": "M_15_06_01_test_015",
+   "header": "// @requirement: 15.6.1 -- e) A pattern containing a single ? metacharacter if the referenced template is of a character string type and contains the AnyValue matching mechanism."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.1-016a",
+   "section": "15.6.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "f) A pattern containing a single ? metacharacter with the ifpresent matching attribute attached to it if the referenced template is of a character string type and contains the AnyValueOrNone matching mechanism.",
+   "canonical": "When the referenced template is of a character string type and contains AnyValueOrNone, the result of a right hand side reference IS a pattern containing a single ? metacharacter with the ifpresent matching attribute attached.",
+   "condition": "right hand side reference; character string template contains AnyValueOrNone",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "Clause 15.6.1 bullet 1 allows AnyValueOrNone in character string templates only on the left hand side, yet rule f) defines a right hand side result for it; it is unclear whether such a reference is allowed.",
+    "readings": [
+     "A right hand side reference to an element of a character string template containing AnyValueOrNone SHALL yield a pattern \"?\" with ifpresent.",
+     "A right hand side reference to an element of a character string template containing AnyValueOrNone SHALL cause an error, and rule f) is unreachable."
+    ]
+   },
+   "spec_lines": [
+    11176,
+    11199
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.06.01_test_016.ttcn3",
+   "module": "M_15_06_01_test_016",
+   "header": "// @requirement: 15.6.1 -- f) A pattern containing a single ? metacharacter with the ifpresent matching attribute attached to it if the referenced template is of a character string type and contains the AnyValueOrNone matching mechanism."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.1-017a",
+   "section": "15.6.1",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "g) If the referenced template contains a length matching attribute, the reference shall be resolved only if the referenced element is less than the maximum allowed length.",
+   "canonical": "If the referenced template contains a length matching attribute, a right hand side reference to an individual string element SHALL be resolved only if the index is less than the maximum allowed length.",
+   "condition": "the referenced template contains a length matching attribute",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "'the referenced element is less than the maximum allowed length' means the index of the referenced element.",
+    "improper_terms": [
+     {
+      "used": "referenced element",
+      "proper": "index of the referenced element",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    11176,
+    11202
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.06.01_test_017.ttcn3",
+   "module": "M_15_06_01_test_017",
+   "header": "// @requirement: 15.6.1 -- g) If the referenced template contains a length matching attribute, the reference shall be resolved only if the referenced element is less than the maximum allowed length."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.1-018a",
+   "section": "15.6.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "The result of the reference shall be without the length attribute.",
+   "canonical": "The result of a right hand side reference to an individual string element of a template with a length matching attribute SHALL NOT contain the length matching attribute.",
+   "condition": "the referenced template contains a length matching attribute",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11201,
+    11202
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.06.01_test_018.ttcn3",
+   "module": "M_15_06_01_test_018",
+   "header": "// @requirement: 15.6.1 -- The result of the reference shall be without the length attribute."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.1-019a",
+   "section": "15.6.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "h) If the referenced template contains the ifpresent matching attribute, the result of the reference shall contain this attribute as well.",
+   "canonical": "If the referenced template contains the ifpresent matching attribute, the result of a right hand side reference to an individual string element SHALL contain the ifpresent matching attribute as well.",
+   "condition": "the referenced template contains the ifpresent matching attribute",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11176,
+    11204
+   ],
+   "examples": [
+    {
+     "lines": [
+      11277,
+      11304
+     ],
+     "text": "var template charstring v_char1 := \"MYCHAR\", \n     v_char2, \n     v_char3 := pattern \"abc?[a-z]\";\n  v_char2 := v_char1[1]; // v_char2 will be equal to \"Y\" after the assignment\n  v_char2 := v_char3[3]; // v_char2 will be equal to pattern \"?\" after the assignment\n  v_char2 := v_char3[4]; // v_char2 will be equal to pattern \"[a-z]\" after the assignment\n  v_char3 := ?;\n  v_char2 := v_char3[0]; // v_char2 will contain pattern \"?\" after the assignment\n  v_char3 := pattern \"abc?[a-z]\";\n  v_char3[6] := pattern \"x+\"; // v_char3 will contain pattern \"abc?[a-z]?x+\" after the assignment\n  v_char3 := \"abc\";\n  v_char3[4] := pattern \"[a-f][g-k]\"; // v_char3 will change to pattern \"abc([a-f][g-k])\"\n  v_char3[2] := \"test\"; // will produce an error as the character string contains more than one\n             // character\n  var template octetstring v_oct1 := '01234567890ABCDEF'O, \n     v_oct2, \n     v_oct3 := '01??AB*'O;\n  v_oct2 := v_oct1[1]; // v_oct2 will be equal to '23'O after the assignment\n  v_oct2 := v_oct3[2]; // v_oct2 will be equal to '?'O after the assignment\n  v_oct3 := *;\n  v_oct2 := v_oct3[0]; // v_oct2 will contain '?'O ifpresent after the assignment\n  v_oct1[2] := '?'O; // v_oct1 will contain '0123?67890ABCDEF'O after the assignment\n  v_oct3 := '0123'O;\n  v_oct3[4] := 'FF'O; // v_oct3 will change to '0123??FF'O \n  v_oct1 := 'FFFF'O;\n  v_oct2 := v_oct1[10] // will produce an error as the index is greater than the length of v_oct1_"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.01_test_019.ttcn3",
+   "module": "M_15_06_01_test_019",
+   "header": "// @requirement: 15.6.1 -- h) If the referenced template contains the ifpresent matching attribute, the result of the reference shall contain this attribute as well."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.1-020a",
+   "section": "15.6.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "i) If the referenced template has the present restriction, a matching symbol that fulfills the requirements of the present restriction or if the referenced field is unrestricted and represents a mandatory field of a record or set or any field of a union, anytype, record of, set of or array, the result shall have the present restriction.",
+   "canonical": "If the referenced template has the present restriction, or the referenced field is unrestricted and represents a mandatory field of a record or set or any field of a union, anytype, record of, set of or array, the result of a right hand side reference to an individual string element SHALL have the present restriction.",
+   "condition": "the referenced template has the present restriction, or is an unrestricted mandatory field / field of union, anytype, record of, set of or array",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "The sentence is garbled ('..., a matching symbol that fulfills the requirements of the present restriction or if ...'); the fragment about a matching symbol was read as a parenthetical description of the present restriction.",
+    "readings": [
+     "If the referenced template has the present restriction (or the referenced field is an unrestricted mandatory field or a field of a union, anytype, record of, set of or array), the result SHALL have the present restriction.",
+     "If the referenced template has the present restriction or contains a matching symbol that fulfils the requirements of the present restriction while being unrestricted in a mandatory field or field of a union, anytype, record of, set of or array, the result SHALL have the present restriction."
+    ]
+   },
+   "spec_lines": [
+    11176,
+    11206
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.06.01_test_020.ttcn3",
+   "module": "M_15_06_01_test_020",
+   "header": "// @requirement: 15.6.1 -- i) If the referenced template has the present restriction, a matching symbol that fulfills the requirements of the present restriction or if the referenced field is unrestricted and represents a mandatory field of a record or set or any field of a union, anytype, record of, set of or array, the result shall have the present restriction."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.1-021a",
+   "section": "15.6.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "j) If the referenced template has the value or omit restriction, the result shall have the value restriction.",
+   "canonical": "If the referenced template has the omit template restriction (value or omit), the result of a right hand side reference to an individual string element SHALL have the value template restriction.",
+   "condition": "the referenced template has the omit restriction",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11176,
+    11208
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.06.01_test_021.ttcn3",
+   "module": "M_15_06_01_test_021",
+   "header": "// @requirement: 15.6.1 -- j) If the referenced template has the value or omit restriction, the result shall have the value restriction."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.1-022a",
+   "section": "15.6.1",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "When the reference occurs on the left hand side of an assignment, the right hand side of the assignment shall contain either a string value or specific value of a compatible type or a pattern.",
+   "canonical": "When a reference to an individual string element of a template occurs on the left hand side of an assignment, the right hand side of the assignment SHALL contain either a string value, a specific value of a compatible type, or a pattern.",
+   "condition": "the reference occurs on the left hand side of an assignment",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11210,
+    11211
+   ],
+   "examples": [
+    {
+     "lines": [
+      11277,
+      11304
+     ],
+     "text": "var template charstring v_char1 := \"MYCHAR\", \n     v_char2, \n     v_char3 := pattern \"abc?[a-z]\";\n  v_char2 := v_char1[1]; // v_char2 will be equal to \"Y\" after the assignment\n  v_char2 := v_char3[3]; // v_char2 will be equal to pattern \"?\" after the assignment\n  v_char2 := v_char3[4]; // v_char2 will be equal to pattern \"[a-z]\" after the assignment\n  v_char3 := ?;\n  v_char2 := v_char3[0]; // v_char2 will contain pattern \"?\" after the assignment\n  v_char3 := pattern \"abc?[a-z]\";\n  v_char3[6] := pattern \"x+\"; // v_char3 will contain pattern \"abc?[a-z]?x+\" after the assignment\n  v_char3 := \"abc\";\n  v_char3[4] := pattern \"[a-f][g-k]\"; // v_char3 will change to pattern \"abc([a-f][g-k])\"\n  v_char3[2] := \"test\"; // will produce an error as the character string contains more than one\n             // character\n  var template octetstring v_oct1 := '01234567890ABCDEF'O, \n     v_oct2, \n     v_oct3 := '01??AB*'O;\n  v_oct2 := v_oct1[1]; // v_oct2 will be equal to '23'O after the assignment\n  v_oct2 := v_oct3[2]; // v_oct2 will be equal to '?'O after the assignment\n  v_oct3 := *;\n  v_oct2 := v_oct3[0]; // v_oct2 will contain '?'O ifpresent after the assignment\n  v_oct1[2] := '?'O; // v_oct1 will contain '0123?67890ABCDEF'O after the assignment\n  v_oct3 := '0123'O;\n  v_oct3[4] := 'FF'O; // v_oct3 will change to '0123??FF'O \n  v_oct1 := 'FFFF'O;\n  v_oct2 := v_oct1[10] // will produce an error as the index is greater than the length of v_oct1_"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.01_test_022.ttcn3",
+   "module": "M_15_06_01_test_022",
+   "header": "// @requirement: 15.6.1 -- When the reference occurs on the left hand side of an assignment, the right hand side of the assignment shall contain either a string value or specific value of a compatible type or a pattern."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.1-023a",
+   "section": "15.6.1",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "Both string value and specific value shall contain exactly one indexable item (either a bit, hex, octet, character or matching mechanism inside a value).",
+   "canonical": "A string value or specific value on the right hand side of an assignment to an individual string element of a template SHALL contain exactly one indexable item (a bit, hex, octet, character or matching mechanism inside a value).",
+   "condition": "the reference occurs on the left hand side of an assignment",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11210,
+    11211
+   ],
+   "examples": [
+    {
+     "lines": [
+      11277,
+      11304
+     ],
+     "text": "var template charstring v_char1 := \"MYCHAR\", \n     v_char2, \n     v_char3 := pattern \"abc?[a-z]\";\n  v_char2 := v_char1[1]; // v_char2 will be equal to \"Y\" after the assignment\n  v_char2 := v_char3[3]; // v_char2 will be equal to pattern \"?\" after the assignment\n  v_char2 := v_char3[4]; // v_char2 will be equal to pattern \"[a-z]\" after the assignment\n  v_char3 := ?;\n  v_char2 := v_char3[0]; // v_char2 will contain pattern \"?\" after the assignment\n  v_char3 := pattern \"abc?[a-z]\";\n  v_char3[6] := pattern \"x+\"; // v_char3 will contain pattern \"abc?[a-z]?x+\" after the assignment\n  v_char3 := \"abc\";\n  v_char3[4] := pattern \"[a-f][g-k]\"; // v_char3 will change to pattern \"abc([a-f][g-k])\"\n  v_char3[2] := \"test\"; // will produce an error as the character string contains more than one\n             // character\n  var template octetstring v_oct1 := '01234567890ABCDEF'O, \n     v_oct2, \n     v_oct3 := '01??AB*'O;\n  v_oct2 := v_oct1[1]; // v_oct2 will be equal to '23'O after the assignment\n  v_oct2 := v_oct3[2]; // v_oct2 will be equal to '?'O after the assignment\n  v_oct3 := *;\n  v_oct2 := v_oct3[0]; // v_oct2 will contain '?'O ifpresent after the assignment\n  v_oct1[2] := '?'O; // v_oct1 will contain '0123?67890ABCDEF'O after the assignment\n  v_oct3 := '0123'O;\n  v_oct3[4] := 'FF'O; // v_oct3 will change to '0123??FF'O \n  v_oct1 := 'FFFF'O;\n  v_oct2 := v_oct1[10] // will produce an error as the index is greater than the length of v_oct1_"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.01_test_023.ttcn3",
+   "module": "M_15_06_01_test_023",
+   "header": "// @requirement: 15.6.1 -- Both string value and specific value shall contain exactly one indexable item (either a bit, hex, octet, character or matching mechanism inside a value)."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.1-025a",
+   "section": "15.6.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "a) When referencing an item of a binary string template to which a specific value is assigned, if the index is non-negative and less than the number of items in the specific value, the referenced item shall be replaced with the item from the right hand sign of the assignment.",
+   "canonical": "When an item of a binary string template containing a specific value is assigned using a non-negative index less than the number of items in the specific value, the referenced item SHALL be replaced with the item from the right hand side of the assignment.",
+   "condition": "left hand side reference; binary string template contains a specific value; 0 <= index < number of items",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "Typo 'right hand sign' for 'right hand side'.",
+    "improper_terms": [
+     {
+      "used": "right hand sign",
+      "proper": "right hand side (of assignment)",
+      "glossary": true
+     }
+    ]
+   },
+   "spec_lines": [
+    11210,
+    11215
+   ],
+   "examples": [
+    {
+     "lines": [
+      11277,
+      11304
+     ],
+     "text": "var template charstring v_char1 := \"MYCHAR\", \n     v_char2, \n     v_char3 := pattern \"abc?[a-z]\";\n  v_char2 := v_char1[1]; // v_char2 will be equal to \"Y\" after the assignment\n  v_char2 := v_char3[3]; // v_char2 will be equal to pattern \"?\" after the assignment\n  v_char2 := v_char3[4]; // v_char2 will be equal to pattern \"[a-z]\" after the assignment\n  v_char3 := ?;\n  v_char2 := v_char3[0]; // v_char2 will contain pattern \"?\" after the assignment\n  v_char3 := pattern \"abc?[a-z]\";\n  v_char3[6] := pattern \"x+\"; // v_char3 will contain pattern \"abc?[a-z]?x+\" after the assignment\n  v_char3 := \"abc\";\n  v_char3[4] := pattern \"[a-f][g-k]\"; // v_char3 will change to pattern \"abc([a-f][g-k])\"\n  v_char3[2] := \"test\"; // will produce an error as the character string contains more than one\n             // character\n  var template octetstring v_oct1 := '01234567890ABCDEF'O, \n     v_oct2, \n     v_oct3 := '01??AB*'O;\n  v_oct2 := v_oct1[1]; // v_oct2 will be equal to '23'O after the assignment\n  v_oct2 := v_oct3[2]; // v_oct2 will be equal to '?'O after the assignment\n  v_oct3 := *;\n  v_oct2 := v_oct3[0]; // v_oct2 will contain '?'O ifpresent after the assignment\n  v_oct1[2] := '?'O; // v_oct1 will contain '0123?67890ABCDEF'O after the assignment\n  v_oct3 := '0123'O;\n  v_oct3[4] := 'FF'O; // v_oct3 will change to '0123??FF'O \n  v_oct1 := 'FFFF'O;\n  v_oct2 := v_oct1[10] // will produce an error as the index is greater than the length of v_oct1_"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.01_test_024.ttcn3",
+   "module": "M_15_06_01_test_024",
+   "header": "// @requirement: 15.6.1 -- a) When referencing an item of a binary string template to which a specific value is assigned, if the index is non-negative and less than the number of items in the specific value, the referenced item shall be replaced with the item from the right hand sign of the assignment."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.1-026a",
+   "section": "15.6.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "b) When referencing an item at the index n of a binary string template to which a specific value is assigned, if the index is greater than or equal to the number of items in the specific value, first as many AnyElement matching symbols shall be appended to the specific value as is the difference between n and the number of items in the specific value and then the item from the right hand side of the assignment shall be appended to the specific value on the left hand side.",
+   "canonical": "When an item at index n of a binary string template containing a specific value is assigned and n is greater than or equal to the number of items in the specific value, AnyElement matching symbols SHALL first be appended to the specific value as many times as the difference between n and the number of items, and then the item from the right hand side of the assignment SHALL be appended.",
+   "condition": "left hand side reference; binary string template contains a specific value; index >= number of items",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11210,
+    11221
+   ],
+   "examples": [
+    {
+     "lines": [
+      11277,
+      11304
+     ],
+     "text": "var template charstring v_char1 := \"MYCHAR\", \n     v_char2, \n     v_char3 := pattern \"abc?[a-z]\";\n  v_char2 := v_char1[1]; // v_char2 will be equal to \"Y\" after the assignment\n  v_char2 := v_char3[3]; // v_char2 will be equal to pattern \"?\" after the assignment\n  v_char2 := v_char3[4]; // v_char2 will be equal to pattern \"[a-z]\" after the assignment\n  v_char3 := ?;\n  v_char2 := v_char3[0]; // v_char2 will contain pattern \"?\" after the assignment\n  v_char3 := pattern \"abc?[a-z]\";\n  v_char3[6] := pattern \"x+\"; // v_char3 will contain pattern \"abc?[a-z]?x+\" after the assignment\n  v_char3 := \"abc\";\n  v_char3[4] := pattern \"[a-f][g-k]\"; // v_char3 will change to pattern \"abc([a-f][g-k])\"\n  v_char3[2] := \"test\"; // will produce an error as the character string contains more than one\n             // character\n  var template octetstring v_oct1 := '01234567890ABCDEF'O, \n     v_oct2, \n     v_oct3 := '01??AB*'O;\n  v_oct2 := v_oct1[1]; // v_oct2 will be equal to '23'O after the assignment\n  v_oct2 := v_oct3[2]; // v_oct2 will be equal to '?'O after the assignment\n  v_oct3 := *;\n  v_oct2 := v_oct3[0]; // v_oct2 will contain '?'O ifpresent after the assignment\n  v_oct1[2] := '?'O; // v_oct1 will contain '0123?67890ABCDEF'O after the assignment\n  v_oct3 := '0123'O;\n  v_oct3[4] := 'FF'O; // v_oct3 will change to '0123??FF'O \n  v_oct1 := 'FFFF'O;\n  v_oct2 := v_oct1[10] // will produce an error as the index is greater than the length of v_oct1_"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.01_test_025.ttcn3",
+   "module": "M_15_06_01_test_025",
+   "header": "// @requirement: 15.6.1 -- b) When referencing an item at the index n of a binary string template to which a specific value is assigned, if the index is greater than or equal to the number of items in the specific value, first as many AnyElement matching symbols shall be appended to the specific value as is the difference between n and the number of items in the specific value and then the item from the right hand side of the assignment shall be appended to the specific value on the left hand side."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.1-027a",
+   "section": "15.6.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "c) When referencing an item of a character string template to which a specific value is assigned, if the index is non-negative and less than the length of the specific value and the right hand side contains a specific value, the referenced item shall be replaced with the item from the right hand sign of the assignment.",
+   "canonical": "When an item of a character string template containing a specific value is assigned using a non-negative index less than the length of the specific value and the right hand side contains a specific value, the referenced item SHALL be replaced with the item from the right hand side of the assignment.",
+   "condition": "left hand side reference; character string template contains a specific value; 0 <= index < length; right hand side is a specific value",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "Typo 'right hand sign' for 'right hand side'.",
+    "improper_terms": [
+     {
+      "used": "right hand sign",
+      "proper": "right hand side (of assignment)",
+      "glossary": true
+     }
+    ]
+   },
+   "spec_lines": [
+    11210,
+    11225
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.06.01_test_026.ttcn3",
+   "module": "M_15_06_01_test_026",
+   "header": "// @requirement: 15.6.1 -- c) When referencing an item of a character string template to which a specific value is assigned, if the index is non-negative and less than the length of the specific value and the right hand side contains a specific value, the referenced item shall be replaced with the item from the right hand sign of the assignment."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.1-028a",
+   "section": "15.6.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "d) When referencing an item of a character string template to which a specific value is assigned, if the index is equal to the length of the specific value and the right hand side contains a specific value, the character from the right hand side of the assignment shall be appended to the specific value on the left hand side.",
+   "canonical": "When an item of a character string template containing a specific value is assigned using an index equal to the length of the specific value and the right hand side contains a specific value, the character from the right hand side SHALL be appended to the specific value.",
+   "condition": "left hand side reference; character string template contains a specific value; index == length; right hand side is a specific value",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11210,
+    11229
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.06.01_test_027.ttcn3",
+   "module": "M_15_06_01_test_027",
+   "header": "// @requirement: 15.6.1 -- d) When referencing an item of a character string template to which a specific value is assigned, if the index is equal to the length of the specific value and the right hand side contains a specific value, the character from the right hand side of the assignment shall be appended to the specific value on the left hand side."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.1-029a",
+   "section": "15.6.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "e) In all other cases of referencing an item of a character string template to which a specific value is assigned using a non-negative index (i.e. the index is greater than the string length or the item on the right hand side of the assignment is a pattern), the specific value shall be converted into a pattern that matches precisely the specific value (i.e. automatically escaping the characters that would otherwise have a metacharacter meaning by prefixing them with a backslash symbol).",
+   "canonical": "When an item of a character string template containing a specific value is assigned using a non-negative index greater than the string length, or the right hand side is a pattern, the specific value SHALL be converted into a pattern that matches precisely the specific value, escaping characters with metacharacter meaning by a backslash.",
+   "condition": "left hand side reference; character string template contains a specific value; index > length or right hand side is a pattern",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11210,
+    11242
+   ],
+   "examples": [
+    {
+     "lines": [
+      11277,
+      11304
+     ],
+     "text": "var template charstring v_char1 := \"MYCHAR\", \n     v_char2, \n     v_char3 := pattern \"abc?[a-z]\";\n  v_char2 := v_char1[1]; // v_char2 will be equal to \"Y\" after the assignment\n  v_char2 := v_char3[3]; // v_char2 will be equal to pattern \"?\" after the assignment\n  v_char2 := v_char3[4]; // v_char2 will be equal to pattern \"[a-z]\" after the assignment\n  v_char3 := ?;\n  v_char2 := v_char3[0]; // v_char2 will contain pattern \"?\" after the assignment\n  v_char3 := pattern \"abc?[a-z]\";\n  v_char3[6] := pattern \"x+\"; // v_char3 will contain pattern \"abc?[a-z]?x+\" after the assignment\n  v_char3 := \"abc\";\n  v_char3[4] := pattern \"[a-f][g-k]\"; // v_char3 will change to pattern \"abc([a-f][g-k])\"\n  v_char3[2] := \"test\"; // will produce an error as the character string contains more than one\n             // character\n  var template octetstring v_oct1 := '01234567890ABCDEF'O, \n     v_oct2, \n     v_oct3 := '01??AB*'O;\n  v_oct2 := v_oct1[1]; // v_oct2 will be equal to '23'O after the assignment\n  v_oct2 := v_oct3[2]; // v_oct2 will be equal to '?'O after the assignment\n  v_oct3 := *;\n  v_oct2 := v_oct3[0]; // v_oct2 will contain '?'O ifpresent after the assignment\n  v_oct1[2] := '?'O; // v_oct1 will contain '0123?67890ABCDEF'O after the assignment\n  v_oct3 := '0123'O;\n  v_oct3[4] := 'FF'O; // v_oct3 will change to '0123??FF'O \n  v_oct1 := 'FFFF'O;\n  v_oct2 := v_oct1[10] // will produce an error as the index is greater than the length of v_oct1_"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.01_test_028.ttcn3",
+   "module": "M_15_06_01_test_028",
+   "header": "// @requirement: 15.6.1 -- e) In all other cases of referencing an item of a character string template to which a specific value is assigned using a non-negative index (i.e. the index is greater than the string length or the item on the right hand side of the assignment is a pattern), the specific value shall be converted into a pattern that matches precisely the specific value (i.e. automatically escaping the characters that would otherwise have a metacharacter meaning by prefixing them with a backslash symbol)."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.1-030a",
+   "section": "15.6.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "Then the rules for referencing an item of a pattern on the left hand side of an assignment shall be applied to assign the right hand side of the assignment to this pattern.",
+   "canonical": "After converting the specific value of a character string template into a pattern, the rules for referencing an item of a pattern on the left hand side of an assignment SHALL be applied to assign the right hand side to this pattern.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11236,
+    11242
+   ],
+   "examples": [
+    {
+     "lines": [
+      11277,
+      11304
+     ],
+     "text": "var template charstring v_char1 := \"MYCHAR\", \n     v_char2, \n     v_char3 := pattern \"abc?[a-z]\";\n  v_char2 := v_char1[1]; // v_char2 will be equal to \"Y\" after the assignment\n  v_char2 := v_char3[3]; // v_char2 will be equal to pattern \"?\" after the assignment\n  v_char2 := v_char3[4]; // v_char2 will be equal to pattern \"[a-z]\" after the assignment\n  v_char3 := ?;\n  v_char2 := v_char3[0]; // v_char2 will contain pattern \"?\" after the assignment\n  v_char3 := pattern \"abc?[a-z]\";\n  v_char3[6] := pattern \"x+\"; // v_char3 will contain pattern \"abc?[a-z]?x+\" after the assignment\n  v_char3 := \"abc\";\n  v_char3[4] := pattern \"[a-f][g-k]\"; // v_char3 will change to pattern \"abc([a-f][g-k])\"\n  v_char3[2] := \"test\"; // will produce an error as the character string contains more than one\n             // character\n  var template octetstring v_oct1 := '01234567890ABCDEF'O, \n     v_oct2, \n     v_oct3 := '01??AB*'O;\n  v_oct2 := v_oct1[1]; // v_oct2 will be equal to '23'O after the assignment\n  v_oct2 := v_oct3[2]; // v_oct2 will be equal to '?'O after the assignment\n  v_oct3 := *;\n  v_oct2 := v_oct3[0]; // v_oct2 will contain '?'O ifpresent after the assignment\n  v_oct1[2] := '?'O; // v_oct1 will contain '0123?67890ABCDEF'O after the assignment\n  v_oct3 := '0123'O;\n  v_oct3[4] := 'FF'O; // v_oct3 will change to '0123??FF'O \n  v_oct1 := 'FFFF'O;\n  v_oct2 := v_oct1[10] // will produce an error as the index is greater than the length of v_oct1_"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.01_test_029.ttcn3",
+   "module": "M_15_06_01_test_029",
+   "header": "// @requirement: 15.6.1 -- Then the rules for referencing an item of a pattern on the left hand side of an assignment shall be applied to assign the right hand side of the assignment to this pattern."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.1-031a",
+   "section": "15.6.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The modified pattern is then assigned to the referenced template.",
+   "canonical": "The pattern modified by an assignment to an item of a converted character string specific value IS assigned to the referenced template.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11236,
+    11242
+   ],
+   "examples": [
+    {
+     "lines": [
+      11277,
+      11304
+     ],
+     "text": "var template charstring v_char1 := \"MYCHAR\", \n     v_char2, \n     v_char3 := pattern \"abc?[a-z]\";\n  v_char2 := v_char1[1]; // v_char2 will be equal to \"Y\" after the assignment\n  v_char2 := v_char3[3]; // v_char2 will be equal to pattern \"?\" after the assignment\n  v_char2 := v_char3[4]; // v_char2 will be equal to pattern \"[a-z]\" after the assignment\n  v_char3 := ?;\n  v_char2 := v_char3[0]; // v_char2 will contain pattern \"?\" after the assignment\n  v_char3 := pattern \"abc?[a-z]\";\n  v_char3[6] := pattern \"x+\"; // v_char3 will contain pattern \"abc?[a-z]?x+\" after the assignment\n  v_char3 := \"abc\";\n  v_char3[4] := pattern \"[a-f][g-k]\"; // v_char3 will change to pattern \"abc([a-f][g-k])\"\n  v_char3[2] := \"test\"; // will produce an error as the character string contains more than one\n             // character\n  var template octetstring v_oct1 := '01234567890ABCDEF'O, \n     v_oct2, \n     v_oct3 := '01??AB*'O;\n  v_oct2 := v_oct1[1]; // v_oct2 will be equal to '23'O after the assignment\n  v_oct2 := v_oct3[2]; // v_oct2 will be equal to '?'O after the assignment\n  v_oct3 := *;\n  v_oct2 := v_oct3[0]; // v_oct2 will contain '?'O ifpresent after the assignment\n  v_oct1[2] := '?'O; // v_oct1 will contain '0123?67890ABCDEF'O after the assignment\n  v_oct3 := '0123'O;\n  v_oct3[4] := 'FF'O; // v_oct3 will change to '0123??FF'O \n  v_oct1 := 'FFFF'O;\n  v_oct2 := v_oct1[10] // will produce an error as the index is greater than the length of v_oct1_"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.01_test_030.ttcn3",
+   "module": "M_15_06_01_test_030",
+   "header": "// @requirement: 15.6.1 -- The modified pattern is then assigned to the referenced template."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.1-032a",
+   "section": "15.6.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "f) When referencing an item of a character string template to which a pattern is assigned, if the index is non-negative and less than the number of items in the pattern, the referenced character or metacharacter shall be replaced with the item from the right hand side of the assignment.",
+   "canonical": "When an item of a character string template containing a pattern is assigned using a non-negative index less than the number of items in the pattern, the referenced character or metacharacter SHALL be replaced with the item from the right hand side of the assignment.",
+   "condition": "left hand side reference; character string template contains a pattern; 0 <= index < number of items",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11210,
+    11246
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.06.01_test_031.ttcn3",
+   "module": "M_15_06_01_test_031",
+   "header": "// @requirement: 15.6.1 -- f) When referencing an item of a character string template to which a pattern is assigned, if the index is non-negative and less than the number of items in the pattern, the referenced character or metacharacter shall be replaced with the item from the right hand side of the assignment."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.1-033a",
+   "section": "15.6.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "g) When referencing an item at the index n of a character string template to which a pattern is assigned, if the index is greater than or equal to the number of items in the pattern, first as many ? metacharacters shall be appended to the pattern as is the difference between n and the number of items in the pattern and then the item from the right hand sign of the assignment shall be appended to the pattern.",
+   "canonical": "When an item at index n of a character string template containing a pattern is assigned and n is greater than or equal to the number of items in the pattern, ? metacharacters SHALL first be appended to the pattern as many times as the difference between n and the number of items, and then the item from the right hand side SHALL be appended to the pattern.",
+   "condition": "left hand side reference; character string template contains a pattern; index >= number of items",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "Typo 'right hand sign' for 'right hand side'.",
+    "improper_terms": [
+     {
+      "used": "right hand sign",
+      "proper": "right hand side (of assignment)",
+      "glossary": true
+     }
+    ]
+   },
+   "spec_lines": [
+    11210,
+    11251
+   ],
+   "examples": [
+    {
+     "lines": [
+      11277,
+      11304
+     ],
+     "text": "var template charstring v_char1 := \"MYCHAR\", \n     v_char2, \n     v_char3 := pattern \"abc?[a-z]\";\n  v_char2 := v_char1[1]; // v_char2 will be equal to \"Y\" after the assignment\n  v_char2 := v_char3[3]; // v_char2 will be equal to pattern \"?\" after the assignment\n  v_char2 := v_char3[4]; // v_char2 will be equal to pattern \"[a-z]\" after the assignment\n  v_char3 := ?;\n  v_char2 := v_char3[0]; // v_char2 will contain pattern \"?\" after the assignment\n  v_char3 := pattern \"abc?[a-z]\";\n  v_char3[6] := pattern \"x+\"; // v_char3 will contain pattern \"abc?[a-z]?x+\" after the assignment\n  v_char3 := \"abc\";\n  v_char3[4] := pattern \"[a-f][g-k]\"; // v_char3 will change to pattern \"abc([a-f][g-k])\"\n  v_char3[2] := \"test\"; // will produce an error as the character string contains more than one\n             // character\n  var template octetstring v_oct1 := '01234567890ABCDEF'O, \n     v_oct2, \n     v_oct3 := '01??AB*'O;\n  v_oct2 := v_oct1[1]; // v_oct2 will be equal to '23'O after the assignment\n  v_oct2 := v_oct3[2]; // v_oct2 will be equal to '?'O after the assignment\n  v_oct3 := *;\n  v_oct2 := v_oct3[0]; // v_oct2 will contain '?'O ifpresent after the assignment\n  v_oct1[2] := '?'O; // v_oct1 will contain '0123?67890ABCDEF'O after the assignment\n  v_oct3 := '0123'O;\n  v_oct3[4] := 'FF'O; // v_oct3 will change to '0123??FF'O \n  v_oct1 := 'FFFF'O;\n  v_oct2 := v_oct1[10] // will produce an error as the index is greater than the length of v_oct1_"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.01_test_032.ttcn3",
+   "module": "M_15_06_01_test_032",
+   "header": "// @requirement: 15.6.1 -- g) When referencing an item at the index n of a character string template to which a pattern is assigned, if the index is greater than or equal to the number of items in the pattern, first as many ? metacharacters shall be appended to the pattern as is the difference between n and the number of items in the pattern and then the item from the right hand sign of the assignment shall be appended to the pattern."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.1-034a",
+   "section": "15.6.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "h) If the right hand side of the assignment described in point e), f) and g) contains a pattern with more than one item, this pattern shall be implicitly converted into a single group metacharacter (by enclosing it to parentheses) before the assignment.",
+   "canonical": "If the right hand side of an assignment to an item of a character string template (rules e), f) and g)) contains a pattern with more than one item, the pattern SHALL be implicitly converted into a single group metacharacter by enclosing it in parentheses before the assignment.",
+   "condition": "the right hand side pattern contains more than one item",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11253,
+    11253
+   ],
+   "examples": [
+    {
+     "lines": [
+      11277,
+      11304
+     ],
+     "text": "var template charstring v_char1 := \"MYCHAR\", \n     v_char2, \n     v_char3 := pattern \"abc?[a-z]\";\n  v_char2 := v_char1[1]; // v_char2 will be equal to \"Y\" after the assignment\n  v_char2 := v_char3[3]; // v_char2 will be equal to pattern \"?\" after the assignment\n  v_char2 := v_char3[4]; // v_char2 will be equal to pattern \"[a-z]\" after the assignment\n  v_char3 := ?;\n  v_char2 := v_char3[0]; // v_char2 will contain pattern \"?\" after the assignment\n  v_char3 := pattern \"abc?[a-z]\";\n  v_char3[6] := pattern \"x+\"; // v_char3 will contain pattern \"abc?[a-z]?x+\" after the assignment\n  v_char3 := \"abc\";\n  v_char3[4] := pattern \"[a-f][g-k]\"; // v_char3 will change to pattern \"abc([a-f][g-k])\"\n  v_char3[2] := \"test\"; // will produce an error as the character string contains more than one\n             // character\n  var template octetstring v_oct1 := '01234567890ABCDEF'O, \n     v_oct2, \n     v_oct3 := '01??AB*'O;\n  v_oct2 := v_oct1[1]; // v_oct2 will be equal to '23'O after the assignment\n  v_oct2 := v_oct3[2]; // v_oct2 will be equal to '?'O after the assignment\n  v_oct3 := *;\n  v_oct2 := v_oct3[0]; // v_oct2 will contain '?'O ifpresent after the assignment\n  v_oct1[2] := '?'O; // v_oct1 will contain '0123?67890ABCDEF'O after the assignment\n  v_oct3 := '0123'O;\n  v_oct3[4] := 'FF'O; // v_oct3 will change to '0123??FF'O \n  v_oct1 := 'FFFF'O;\n  v_oct2 := v_oct1[10] // will produce an error as the index is greater than the length of v_oct1_"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.01_test_033.ttcn3",
+   "module": "M_15_06_01_test_033",
+   "header": "// @requirement: 15.6.1 -- h) If the right hand side of the assignment described in point e), f) and g) contains a pattern with more than one item, this pattern shall be implicitly converted into a single group metacharacter (by enclosing it to parentheses) before the assignment."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.1-035a",
+   "section": "15.6.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "i) When referencing an item of a binary string template to which the AnyValue or AnyValueOrNone matching symbol is assigned using a non-negative index, a binary string with length 0 is assigned to the referenced template and procedures described in the point b are applied to finish the assignment.",
+   "canonical": "When an item of a binary string template containing AnyValue or AnyValueOrNone is assigned using a non-negative index, a binary string of length 0 IS assigned to the referenced template and rule b) IS applied to finish the assignment.",
+   "condition": "left hand side reference; binary string template contains AnyValue or AnyValueOrNone; index >= 0",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11210,
+    11255
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.06.01_test_034.ttcn3",
+   "module": "M_15_06_01_test_034",
+   "header": "// @requirement: 15.6.1 -- i) When referencing an item of a binary string template to which the AnyValue or AnyValueOrNone matching symbol is assigned using a non-negative index, a binary string with length 0 is assigned to the referenced template and procedures described in the point b are applied to finish the assignment."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.1-036a",
+   "section": "15.6.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "Then, if the referenced template contained the AnyValueOrNone matching symbol, the ifpresent matching attribute shall be added to the referenced template if it does not contain it.",
+   "canonical": "After an assignment to an item of a binary string template that contained AnyValueOrNone, the ifpresent matching attribute SHALL be added to the referenced template if it does not already contain it.",
+   "condition": "the binary string template contained AnyValueOrNone",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11255,
+    11255
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.06.01_test_035.ttcn3",
+   "module": "M_15_06_01_test_035",
+   "header": "// @requirement: 15.6.1 -- Then, if the referenced template contained the AnyValueOrNone matching symbol, the ifpresent matching attribute shall be added to the referenced template if it does not contain it."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.1-037a",
+   "section": "15.6.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "j) When referencing an item of a character string template to which the AnyValue or AnyValueOrNone matching symbol is assigned using a non-negative index, a pattern with length 0 is assigned to the referenced template and procedures described in the point g are applied to finish the assignment.",
+   "canonical": "When an item of a character string template containing AnyValue or AnyValueOrNone is assigned using a non-negative index, a pattern of length 0 IS assigned to the referenced template and rule g) IS applied to finish the assignment.",
+   "condition": "left hand side reference; character string template contains AnyValue or AnyValueOrNone; index >= 0",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11210,
+    11257
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.06.01_test_036.ttcn3",
+   "module": "M_15_06_01_test_036",
+   "header": "// @requirement: 15.6.1 -- j) When referencing an item of a character string template to which the AnyValue or AnyValueOrNone matching symbol is assigned using a non-negative index, a pattern with length 0 is assigned to the referenced template and procedures described in the point g are applied to finish the assignment."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.1-038a",
+   "section": "15.6.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "Then, if the referenced template contained the AnyValueOrNone matching symbol, the ifpresent matching attribute shall be added to the referenced template if it does not contain it.",
+   "canonical": "After an assignment to an item of a character string template that contained AnyValueOrNone, the ifpresent matching attribute SHALL be added to the referenced template if it does not already contain it.",
+   "condition": "the character string template contained AnyValueOrNone",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11257,
+    11257
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.06.01_test_037.ttcn3",
+   "module": "M_15_06_01_test_037",
+   "header": "// @requirement: 15.6.1 -- Then, if the referenced template contained the AnyValueOrNone matching symbol, the ifpresent matching attribute shall be added to the referenced template if it does not contain it."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.1-039a",
+   "section": "15.6.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "k) If the referenced template contains a length matching attribute and the index is greater or equal to the maximum allowed length, the maximum allowed length shall be changed to the value of the index + 1.",
+   "canonical": "If the referenced template contains a length matching attribute and the index of a left hand side reference is greater than or equal to the maximum allowed length, the maximum allowed length SHALL be changed to the index + 1.",
+   "condition": "left hand side reference; template has a length matching attribute; index >= maximum length",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11210,
+    11259
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.06.01_test_038.ttcn3",
+   "module": "M_15_06_01_test_038",
+   "header": "// @requirement: 15.6.1 -- k) If the referenced template contains a length matching attribute and the index is greater or equal to the maximum allowed length, the maximum allowed length shall be changed to the value of the index + 1."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.1-040a",
+   "section": "15.6.1",
+   "type": "semantics",
+   "modality": "IS NOT",
+   "original": "l) If the referenced template contains the ifpresent matching attribute, the attribute is not removed by the assignment.",
+   "canonical": "The ifpresent matching attribute of the referenced template IS NOT removed by an assignment to an individual string element.",
+   "condition": "the referenced template contains the ifpresent matching attribute",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11210,
+    11261
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.06.01_test_039.ttcn3",
+   "module": "M_15_06_01_test_039",
+   "header": "// @requirement: 15.6.1 -- l) If the referenced template contains the ifpresent matching attribute, the attribute is not removed by the assignment."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.1-041a",
+   "section": "15.6.1",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "An error shall be issued in all other cases, i.e.:",
+   "canonical": "A TTCN-3 tool SHALL issue an error for every reference to an individual string element of a template that is not covered by the rules of clause 15.6.1.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11263,
+    11263
+   ],
+   "examples": [
+    {
+     "lines": [
+      11277,
+      11304
+     ],
+     "text": "var template charstring v_char1 := \"MYCHAR\", \n     v_char2, \n     v_char3 := pattern \"abc?[a-z]\";\n  v_char2 := v_char1[1]; // v_char2 will be equal to \"Y\" after the assignment\n  v_char2 := v_char3[3]; // v_char2 will be equal to pattern \"?\" after the assignment\n  v_char2 := v_char3[4]; // v_char2 will be equal to pattern \"[a-z]\" after the assignment\n  v_char3 := ?;\n  v_char2 := v_char3[0]; // v_char2 will contain pattern \"?\" after the assignment\n  v_char3 := pattern \"abc?[a-z]\";\n  v_char3[6] := pattern \"x+\"; // v_char3 will contain pattern \"abc?[a-z]?x+\" after the assignment\n  v_char3 := \"abc\";\n  v_char3[4] := pattern \"[a-f][g-k]\"; // v_char3 will change to pattern \"abc([a-f][g-k])\"\n  v_char3[2] := \"test\"; // will produce an error as the character string contains more than one\n             // character\n  var template octetstring v_oct1 := '01234567890ABCDEF'O, \n     v_oct2, \n     v_oct3 := '01??AB*'O;\n  v_oct2 := v_oct1[1]; // v_oct2 will be equal to '23'O after the assignment\n  v_oct2 := v_oct3[2]; // v_oct2 will be equal to '?'O after the assignment\n  v_oct3 := *;\n  v_oct2 := v_oct3[0]; // v_oct2 will contain '?'O ifpresent after the assignment\n  v_oct1[2] := '?'O; // v_oct1 will contain '0123?67890ABCDEF'O after the assignment\n  v_oct3 := '0123'O;\n  v_oct3[4] := 'FF'O; // v_oct3 will change to '0123??FF'O \n  v_oct1 := 'FFFF'O;\n  v_oct2 := v_oct1[10] // will produce an error as the index is greater than the length of v_oct1_"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.01_test_040.ttcn3",
+   "module": "M_15_06_01_test_040",
+   "header": "// @requirement: 15.6.1 -- An error shall be issued in all other cases, i.e.:"
+  },
+  {
+   "id": "TTCN3-CORE-15.6.1-042a",
+   "section": "15.6.1",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "If the referenced template (on the left hand side or right hand side) contains any other matching symbol than those listed above, such as Omit, template list or a complemented template list.",
+   "canonical": "A TTCN-3 tool SHALL issue an error if a template referenced by index notation (on either side of an assignment) contains a matching symbol other than those listed in clause 15.6.1, such as omit, a template list or a complemented template list.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11263,
+    11266
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.06.01_test_041.ttcn3",
+   "module": "M_15_06_01_test_041",
+   "header": "// @requirement: 15.6.1 -- If the referenced template (on the left hand side or right hand side) contains any other matching symbol than those listed above, such as Omit, template list or a complemented template list."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.1-043a",
+   "section": "15.6.1",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "If the index is a negative number.",
+   "canonical": "A TTCN-3 tool SHALL issue an error if the index used to reference an individual string element of a template is negative.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11263,
+    11268
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.06.01_test_042.ttcn3",
+   "module": "M_15_06_01_test_042",
+   "header": "// @requirement: 15.6.1 -- If the index is a negative number."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.1-044a",
+   "section": "15.6.1",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "If the index is used on the right hand side of an assignment and is greater than or equal to the maximum allowed length.",
+   "canonical": "A TTCN-3 tool SHALL issue an error if the index used on the right hand side of an assignment is greater than or equal to the maximum allowed length of the referenced template.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "'maximum allowed length' presumably refers to the length matching attribute, but the example (v_oct1[10] on a 2-octet specific value without length attribute) treats an index beyond the actual value length as an error too.",
+    "readings": [
+     "A TTCN-3 tool SHALL issue an error if a right hand side index is greater than or equal to the maximum length given by the length matching attribute.",
+     "A TTCN-3 tool SHALL issue an error if a right hand side index is greater than or equal to the number of items of the referenced string template (or its maximum length)."
+    ]
+   },
+   "spec_lines": [
+    11263,
+    11271
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.06.01_test_043.ttcn3",
+   "module": "M_15_06_01_test_043",
+   "header": "// @requirement: 15.6.1 -- If the index is used on the right hand side of an assignment and is greater than or equal to the maximum allowed length."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.1-045a",
+   "section": "15.6.1",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "If the index is used on the left hand side of an assignment and the right hand side contains a binary string value or specific template with not exactly one indexable item.",
+   "canonical": "A TTCN-3 tool SHALL issue an error if the index is used on the left hand side of an assignment and the right hand side contains a binary string value or specific template with not exactly one indexable item.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11263,
+    11274
+   ],
+   "examples": [
+    {
+     "lines": [
+      11277,
+      11304
+     ],
+     "text": "var template charstring v_char1 := \"MYCHAR\", \n     v_char2, \n     v_char3 := pattern \"abc?[a-z]\";\n  v_char2 := v_char1[1]; // v_char2 will be equal to \"Y\" after the assignment\n  v_char2 := v_char3[3]; // v_char2 will be equal to pattern \"?\" after the assignment\n  v_char2 := v_char3[4]; // v_char2 will be equal to pattern \"[a-z]\" after the assignment\n  v_char3 := ?;\n  v_char2 := v_char3[0]; // v_char2 will contain pattern \"?\" after the assignment\n  v_char3 := pattern \"abc?[a-z]\";\n  v_char3[6] := pattern \"x+\"; // v_char3 will contain pattern \"abc?[a-z]?x+\" after the assignment\n  v_char3 := \"abc\";\n  v_char3[4] := pattern \"[a-f][g-k]\"; // v_char3 will change to pattern \"abc([a-f][g-k])\"\n  v_char3[2] := \"test\"; // will produce an error as the character string contains more than one\n             // character\n  var template octetstring v_oct1 := '01234567890ABCDEF'O, \n     v_oct2, \n     v_oct3 := '01??AB*'O;\n  v_oct2 := v_oct1[1]; // v_oct2 will be equal to '23'O after the assignment\n  v_oct2 := v_oct3[2]; // v_oct2 will be equal to '?'O after the assignment\n  v_oct3 := *;\n  v_oct2 := v_oct3[0]; // v_oct2 will contain '?'O ifpresent after the assignment\n  v_oct1[2] := '?'O; // v_oct1 will contain '0123?67890ABCDEF'O after the assignment\n  v_oct3 := '0123'O;\n  v_oct3[4] := 'FF'O; // v_oct3 will change to '0123??FF'O \n  v_oct1 := 'FFFF'O;\n  v_oct2 := v_oct1[10] // will produce an error as the index is greater than the length of v_oct1_"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.01_test_044.ttcn3",
+   "module": "M_15_06_01_test_044",
+   "header": "// @requirement: 15.6.1 -- If the index is used on the left hand side of an assignment and the right hand side contains a binary string value or specific template with not exactly one indexable item."
+  }
+ ]
+}

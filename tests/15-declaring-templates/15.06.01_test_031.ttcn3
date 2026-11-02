@@ -1,0 +1,23 @@
+// @requirement: 15.6.1 -- f) When referencing an item of a character string template to which a pattern is assigned, if the index is non-negative and less than the number of items in the pattern, the referenced character or metacharacter shall be replaced with the item from the right hand side of the assignment.
+// @id: TTCN3-CORE-15.6.1-032a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_06_01_test_031 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template charstring v_pat := pattern "abc?[a-z]";
+        v_pat[4] := "1";
+        v_pat[3] := pattern "[0-9]";
+        if (match("abc71", v_pat) and not match("abcX1", v_pat)
+            and not match("abc7y", v_pat)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

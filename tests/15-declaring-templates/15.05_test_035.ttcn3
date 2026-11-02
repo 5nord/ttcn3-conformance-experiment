@@ -1,0 +1,28 @@
+// @requirement: 15.5 -- f) If the base template has a restriction, the modified template derived from it shall have the same or less strict template restriction (see table 13b in clause 15.8).
+// @id: TTCN3-CORE-15.5-039a
+// @verdict: pass reject
+module M_15_05_test_035 {
+
+    type record R {
+        integer f1 optional,
+        charstring f2,
+        boolean f3
+    }
+
+    template(present) R mw_r1 := { f1 := ?, f2 := "A string", f3 := true };
+    template(value) R m_r2 modifies mw_r1 := { f1 := 1 }; // error: stricter restriction than base template
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (match({ f1 := 1, f2 := "A string", f3 := true }, m_r2)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,45 @@
+// @requirement: 15.4 -- NOTE 2: For literal in-line templates, the following types may be omitted: integer, float, boolean, bitstring, hexstring, octetstring.
+// @id: TTCN3-CORE-15.4-011a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_04_test_005 {
+
+    type port P message { inout integer, float, boolean, bitstring, hexstring, octetstring }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    altstep a_guard() runs on C {
+        [] p.receive { setverdict(fail); stop; }
+        [] T.timeout { setverdict(fail); stop; }
+    }
+
+    function f_send() runs on C {
+        p.send(1);
+        p.send(1.0);
+        p.send(true);
+        p.send('1'B);
+        p.send('A'H);
+        p.send('AB'O);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        activate(a_guard());
+        v_ptc.start(f_send());
+        T.start;
+        p.receive(1);
+        p.receive(1.0);
+        p.receive(true);
+        p.receive('1'B);
+        p.receive('A'H);
+        p.receive('AB'O);
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

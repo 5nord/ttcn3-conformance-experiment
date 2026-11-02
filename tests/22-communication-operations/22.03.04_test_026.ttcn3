@@ -1,0 +1,39 @@
+// @requirement: 22.3.4 -- To get a reply on any port, use the any port keywords.
+// @id: TTCN3-CORE-22.3.4-029a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_03_04_test_026 {
+
+    signature S(out integer p_y);
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p1;
+        port P p2;
+        timer T := 1.0;
+    }
+
+    altstep a_guard() runs on C {
+        [] T.timeout { setverdict(fail); stop; }
+    }
+
+    function f_server() runs on C {
+        p1.getcall(S:{-});
+        p1.reply(S:{1});
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p2, v_ptc:p1);
+        v_ptc.start(f_server());
+        activate(a_guard());
+        T.start;
+        p2.call(S:{-}, nowait);
+        any port.getreply(S:{1});
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

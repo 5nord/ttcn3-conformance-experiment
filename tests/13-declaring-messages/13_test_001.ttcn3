@@ -1,0 +1,35 @@
+// @requirement: 13 -- Messages are instances of types declared in the in/out/inout clauses of message port type definition.
+// @id: TTCN3-CORE-13-003a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_13_test_001 {
+
+    type port PA message { out integer; in charstring; inout boolean }
+    type port PB message { in integer; out charstring; inout boolean }
+
+    type component C {
+        port PA pa;
+        port PB pb;
+        timer T := 1.0;
+    }
+
+    altstep a_guard() runs on C {
+        [] T.timeout { setverdict(fail); stop; }
+    }
+
+    testcase TC() runs on C {
+        connect(self:pa, self:pb);
+        activate(a_guard());
+        T.start;
+        pa.send(1);
+        pb.send("abc");
+        pa.send(true);
+        pb.receive(integer:1);
+        pa.receive(charstring:"abc");
+        pb.receive(boolean:true);
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

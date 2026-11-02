@@ -1,0 +1,44 @@
+// @requirement: B.1.2.3 -- It can be used on values of all types.
+// @id: TTCN3-CORE-B.1.2.3-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_02_03_test_002 {
+
+    type component C {}
+
+    type enumerated E { e_a, e_b }
+    type record R { integer f }
+    type record of integer RoI;
+    type union U { integer i, boolean b }
+
+    template integer mw_int := ?;
+    template float mw_float := ?;
+    template boolean mw_bool := ?;
+    template bitstring mw_bit := ?;
+    template octetstring mw_oct := ?;
+    template charstring mw_char := ?;
+    template universal charstring mw_uchar := ?;
+    template E mw_enum := ?;
+    template R mw_rec := ?;
+    template RoI mw_roi := ?;
+    template U mw_union := ?;
+    template verdicttype mw_verdict := ?;
+
+    testcase TC() runs on C {
+        var R v_rec := { f := 1 };
+        var RoI v_roi := { 1, 2 };
+        var U v_union := { b := true };
+        if (match(2, mw_int) and match(2.5, mw_float) and match(true, mw_bool)
+            and match('10'B, mw_bit) and match('FF'O, mw_oct) and match("b", mw_char)
+            and match(char(0, 0, 1, 0), mw_uchar) and match(e_b, mw_enum)
+            and match(v_rec, mw_rec) and match(v_roi, mw_roi) and match(v_union, mw_union)
+            and match(inconc, mw_verdict)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

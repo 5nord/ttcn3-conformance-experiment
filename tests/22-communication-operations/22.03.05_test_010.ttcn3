@@ -1,0 +1,22 @@
+// @requirement: 22.3.5 -- a) An exception shall only be raised at a procedure-based port.
+// @id: TTCN3-CORE-22.3.5-016a
+// @verdict: pass reject
+module M_22_03_05_test_010 {
+
+    signature S() exception(integer);
+
+    type port MP message { inout integer }
+
+    type component C {
+        port MP p;
+    }
+
+    testcase TC() runs on C system C {
+        p.raise(S, 1); // error: raise on a message-based port
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,28 @@
+// @requirement: 6.2.1.0 -- The first component of the list (a value, a "-" or omit) is associated with the first field, the second list component is associated with the second field, etc.
+// @id: TTCN3-CORE-6.2.1.0-037a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_01_00_test_026 {
+
+    type component C {}
+
+    type record R {
+        integer f1,
+        integer f2 optional,
+        integer f3,
+        integer f4 optional
+    }
+
+    testcase TC() runs on C {
+        var R v_r := { 1, 2, 3, 4 };
+        v_r := { 10, -, 30, omit };
+        if (v_r.f1 == 10 and v_r.f2 == 2 and v_r.f3 == 30 and not ispresent(v_r.f4)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

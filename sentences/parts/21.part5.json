@@ -1,0 +1,438 @@
+{
+ "part": "21.part5",
+ "chapter": "21",
+ "chapter_file": "21-configuration-operations",
+ "title": "Configuration Operations",
+ "sections": {
+  "21.3.10": {
+   "title": "The Call test component behaviour operation",
+   "start": 17159
+  }
+ },
+ "lines": [
+  17161,
+  17276
+ ],
+ "units": [
+  {
+   "id": "21.3.10-s001",
+   "section": "21.3.10",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The call operation is used start a test behaviour on a test component and wait until that behaviour has terminated.",
+   "lines": [
+    17161,
+    17161
+   ]
+  },
+  {
+   "id": "21.3.10-s002",
+   "section": "21.3.10",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "ObjectReference \".\" call \"(\" ( FunctionInstance | AltstepInstance )\n  [\",\" SimpleExpression ] \")\"\n  [ \"->\" [value Ref] [verdict Ref] ]\n  [ catch \"(\" timeout \")\" StatementBlock ]\n  [ catch \"(\" stop \")\" StatementBlock ]",
+   "lines": [
+    17164,
+    17170
+   ]
+  },
+  {
+   "id": "21.3.10-s003",
+   "section": "21.3.10",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Similar to the start operation on test components which is not blocking, the blocking call operation implicitly uses a start operation, but waits until either the started behaviour has terminated or some timeout has occurred.",
+   "lines": [
+    17174,
+    17175
+   ]
+  },
+  {
+   "id": "21.3.10-s004",
+   "section": "21.3.10",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "A timeout duration in seconds can be given explicitly in the form of a SimpleExpression as an additional parameter to the call operation.",
+   "lines": [
+    17177,
+    17178
+   ]
+  },
+  {
+   "id": "21.3.10-s005",
+   "section": "21.3.10",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If no timeout duration is given, an infinite timeout duration is used.",
+   "lines": [
+    17177,
+    17178
+   ]
+  },
+  {
+   "id": "21.3.10-s006",
+   "section": "21.3.10",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The actions taken by the call operation are dependent on whether the execution of the started behaviour is complete or incomplete.",
+   "lines": [
+    17180,
+    17183
+   ]
+  },
+  {
+   "id": "21.3.10-s007",
+   "section": "21.3.10",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Complete execution occurs when the started function is terminated by executing a return statement or if it reaches the end of the function body.",
+   "lines": [
+    17180,
+    17183
+   ]
+  },
+  {
+   "id": "21.3.10-s008",
+   "section": "21.3.10",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If the started behaviour is terminated for any other reason, the execution is incomplete.",
+   "lines": [
+    17180,
+    17183
+   ]
+  },
+  {
+   "id": "21.3.10-s009",
+   "section": "21.3.10",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If the incomplete execution occurs because the called component was stopped or killed and a catch stop clause is added to the call operation, the StatementBlock of that clause is executed before the call operation terminates.",
+   "lines": [
+    17185,
+    17186
+   ]
+  },
+  {
+   "id": "21.3.10-s010",
+   "section": "21.3.10",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If the started behaviour does not terminate in the given timeout duration and a catch timout clause is added to the call operation, the called component is implicitly stopped and the StatementBlock of the catch timeout clause is executed before the call operation terminates.",
+   "lines": [
+    17188,
+    17190
+   ]
+  },
+  {
+   "id": "21.3.10-s011",
+   "section": "21.3.10",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "In all other cases when the execution is incomplete, the call operation ends with a test case error.",
+   "lines": [
+    17192,
+    17192
+   ]
+  },
+  {
+   "id": "21.3.10-s012",
+   "section": "21.3.10",
+   "kind": "table-row",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Operation: any (see note); Allowed: all (see note)",
+   "lines": [
+    17196,
+    17196
+   ]
+  },
+  {
+   "id": "21.3.10-s013",
+   "section": "21.3.10",
+   "kind": "table-row",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Operation: create",
+   "lines": [
+    17197,
+    17197
+   ]
+  },
+  {
+   "id": "21.3.10-s014",
+   "section": "21.3.10",
+   "kind": "table-row",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Operation: start",
+   "lines": [
+    17198,
+    17198
+   ]
+  },
+  {
+   "id": "21.3.10-s015",
+   "section": "21.3.10",
+   "kind": "table-row",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Operation: running; Allowed: Yes but from MTC only; Col3: Yes but from MTC only; Example: any component.running; all component.running;; Comment: Is there any PTC performing test behaviour? Are all PTCs performing test behaviour?",
+   "lines": [
+    17199,
+    17199
+   ]
+  },
+  {
+   "id": "21.3.10-s016",
+   "section": "21.3.10",
+   "kind": "table-row",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Operation: alive; Allowed: Yes but from MTC only; Col3: Yes but from MTC only; Example: any component.alive; all component.alive;; Comment: Is there any alive PTC? Are all PTCs alive?",
+   "lines": [
+    17200,
+    17200
+   ]
+  },
+  {
+   "id": "21.3.10-s017",
+   "section": "21.3.10",
+   "kind": "table-row",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Operation: done; Allowed: Yes but from MTC only; Col3: Yes but from MTC only; Example: any component.done; all component.done;; Comment: Is there any PTC that completed execution? Did all PTCs complete their execution?",
+   "lines": [
+    17201,
+    17201
+   ]
+  },
+  {
+   "id": "21.3.10-s018",
+   "section": "21.3.10",
+   "kind": "table-row",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Operation: killed; Allowed: Yes but from MTC only; Col3: Yes but from MTC only; Example: any component.killed; all component.killed;; Comment: Is there any PTC that ceased to exist? Did all PTCs cease to exist?",
+   "lines": [
+    17202,
+    17202
+   ]
+  },
+  {
+   "id": "21.3.10-s019",
+   "section": "21.3.10",
+   "kind": "table-row",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Operation: stop; Col3: Yes but from MTC only; Example: all component.stop;; Comment: Stop the behaviour on all PTCs.",
+   "lines": [
+    17203,
+    17203
+   ]
+  },
+  {
+   "id": "21.3.10-s020",
+   "section": "21.3.10",
+   "kind": "table-row",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Operation: kill; Col3: Yes but from MTC only; Example: all component.kill;; Comment: Kill all PTCs, i.e. they cease to exist.",
+   "lines": [
+    17204,
+    17204
+   ]
+  },
+  {
+   "id": "21.3.10-s021",
+   "section": "21.3.10",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "NOTE: any and all refer to PTCs only, i.e. the MTC is not considered.",
+   "lines": [
+    17205,
+    17205
+   ]
+  },
+  {
+   "id": "21.3.10-s022",
+   "section": "21.3.10",
+   "kind": "table-header",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Operation; Allowed; Col3; Example; Comment",
+   "lines": [
+    17194,
+    17194
+   ]
+  },
+  {
+   "id": "21.3.10-s023",
+   "section": "21.3.10",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "After complete execution of the started behaviour, the out and inout actual parameters given to the actual parameter list of the called function or altstep instance will be updated in the same manner as if it was a normal function/altstep invocation.",
+   "lines": [
+    17212,
+    17214
+   ]
+  },
+  {
+   "id": "21.3.10-s024",
+   "section": "21.3.10",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Additionally, a redirect clause can be added to the operation which allows assignment of the return result (in case that the called function has a return clause) to a variable via the value clause and also the assignment of the termination verdict of the called component via the verdict clause.",
+   "lines": [
+    17216,
+    17218
+   ]
+  },
+  {
+   "id": "21.3.10-s025",
+   "section": "21.3.10",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "In all cases of incomplete execution, the variables referenced in the value and verdict clause or in out and inout actual parameters will stay unchanged and no assignment will be made.",
+   "lines": [
+    17220,
+    17221
+   ]
+  },
+  {
+   "id": "21.3.10-s026",
+   "section": "21.3.10",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If the called component is not created alive and has already been started or called once or if it has been killed, additional call operations are not allowed.",
+   "lines": [
+    17223,
+    17224
+   ]
+  },
+  {
+   "id": "21.3.10-s027",
+   "section": "21.3.10",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clauses 5 and 21 and shown in table 16, the following restrictions apply:",
+   "lines": [
+    17228,
+    17229
+   ]
+  },
+  {
+   "id": "21.3.10-s028",
+   "section": "21.3.10",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) The ObjectReference shall be of a component type.",
+   "lines": [
+    17231,
+    17231
+   ]
+  },
+  {
+   "id": "21.3.10-s029",
+   "section": "21.3.10",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "b) The function or altstep invoked in a call test component operation shall have a runs `on definition` referencing a component type to which the called component is compatible (see clause 6.3.2.7).",
+   "lines": [
+    17233,
+    17234
+   ]
+  },
+  {
+   "id": "21.3.10-s030",
+   "section": "21.3.10",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "c) All formal parameters of the function or altstep invoked in a call test component operation shall be of a component data type.",
+   "lines": [
+    17236,
+    17237
+   ]
+  },
+  {
+   "id": "21.3.10-s031",
+   "section": "21.3.10",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "d) The return value of the function invoked from a call test component operation shall be of a component data type.",
+   "lines": [
+    17239,
+    17240
+   ]
+  },
+  {
+   "id": "21.3.10-s032",
+   "section": "21.3.10",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "e) The optional SimpleExpression representing the timer value shall be of a float type.",
+   "lines": [
+    17242,
+    17242
+   ]
+  },
+  {
+   "id": "21.3.10-s033",
+   "section": "21.3.10",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "f) The optional catch `timeout clause may be present only if the timeout value has been defined.` g) The variable in the value clause shall be compatible with the return value of the invoked function.",
+   "lines": [
+    17244,
+    17246
+   ]
+  },
+  {
+   "id": "21.3.10-s034",
+   "section": "21.3.10",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "h) The variable in the verdict clause shall be of type verdicttype.",
+   "lines": [
+    17248,
+    17248
+   ]
+  },
+  {
+   "id": "21.3.10-s035",
+   "section": "21.3.10",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "function f_myFirstBehaviour() runs on MyComponentType { … }\n   function f_mySecondBehaviour() runs on MyComponentType { … }\n   function f_myThirdBehaviour(out integer p_p1, inout integer p_p2) \n   runs on MyComponentType \n   return integer { … }\n   altstep a_myFourthBehaviour() runs on MyComponentType { ... }\n  :\n  var MyComponentType v_myNewPTC;\n  var MyComponentType v_myAlivePTC;\n  var integer v_out, v_inout := 0, v_result;\n  :\n  v_myNewPTC := MyComponentType.create; // Creation of a new non-alive test component.\n  v_myAlivePTC := MyComponentType.create alive; // Creation of a new alive-type test component\n  :\n  v_myNewPTC.call(f_myFirstBehaviour());  // Call to the non-alive component.\n  v_myNewPTC.call(f_mySecondBehaviour());  // Test case error\n  :\n  v_myAlivePTC.call(f_myFirstBehaviour()); // Call to the alive-type component\n  v_myAlivePTC.call(f_mySecondBehaviour()); // Another call to the same component\n  :\n  v_myAlivePTC.call(f_myThirdBehaviour(v_out,v_inout)) // v_out/v_inout can be changed\n   -> value v_result verdict v_verdict; // v_result/v_verdict are assigned on successful\n                     // termination\n  v_myAlivePTC.call(a_myFourthBehaviour()); // Direct call of an altstep behaviour",
+   "lines": [
+    17251,
+    17276
+   ]
+  }
+ ]
+}

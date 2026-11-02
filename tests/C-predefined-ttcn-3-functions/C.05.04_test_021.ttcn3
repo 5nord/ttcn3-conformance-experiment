@@ -1,0 +1,31 @@
+// @requirement: C.5.4 -- The string_encoding parameter controls how the characters are converted into octets (in fact how the bitstring sent to the codec contains the characters).
+// @id: TTCN3-CORE-C.5.4-022a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_05_04_test_021 {
+
+    type component C {}
+
+    type integer I with { variant "32 bit" };
+
+    testcase TC() runs on C {
+        var universal charstring v_chars := char(0, 0, 65, 66) & char(0, 0, 67, 68);
+        var universal charstring v_enc_be := v_chars, v_enc_le := v_chars;
+        var bitstring v_bits_be := oct2bit(unichar2oct(v_chars, "UTF-16BE"));
+        var bitstring v_bits_le := oct2bit(unichar2oct(v_chars, "UTF-16LE"));
+        var I v_ref_be, v_ref_le, v_dec_be, v_dec_le;
+        var integer v_r1 := decvalue(v_bits_be, v_ref_be);
+        var integer v_r2 := decvalue(v_bits_le, v_ref_le);
+        var integer v_r3 := decvalue_unichar(v_enc_be, v_dec_be, "UTF-16BE");
+        var integer v_r4 := decvalue_unichar(v_enc_le, v_dec_le, "UTF-16LE");
+        if (v_r1 == 0 and v_r2 == 0 and v_r3 == 0 and v_r4 == 0 and
+            v_dec_be == v_ref_be and v_dec_le == v_ref_le and v_dec_be != v_dec_le) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

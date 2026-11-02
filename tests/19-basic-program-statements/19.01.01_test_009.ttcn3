@@ -1,0 +1,35 @@
+// @requirement: 19.1.1 -- Assignments are processed from left to right, i.e. expressions in the left hand side are evaluated before those in the right hand side.
+// @id: TTCN3-CORE-19.1.1-009a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_01_01_test_009 {
+
+    type component C {
+        var charstring v_order := "";
+    }
+
+    type record of integer RoI;
+
+    function f_index() runs on C return integer {
+        v_order := v_order & "L";
+        return 0;
+    }
+
+    function f_value() runs on C return integer {
+        v_order := v_order & "R";
+        return 1;
+    }
+
+    testcase TC() runs on C {
+        var RoI v_list := { 0 };
+        v_list[f_index()] := f_value();
+        if (v_order == "LR" and v_list == { 1 }) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,27 @@
+// @requirement: 15.6.1 -- i) If the referenced template has the present restriction, a matching symbol that fulfills the requirements of the present restriction or if the referenced field is unrestricted and represents a mandatory field of a record or set or any field of a union, anytype, record of, set of or array, the result shall have the present restriction.
+// @id: TTCN3-CORE-15.6.1-020a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_06_01_test_020 {
+
+    type component C {}
+
+    type record R {
+        charstring f
+    }
+
+    testcase TC() runs on C {
+        var template(present) charstring v_char := "abc";
+        var template R v_r := { f := "xyz" };
+        var template(present) charstring v_e1 := v_char[1];
+        var template(present) charstring v_e2 := v_r.f[2];
+        if (match("b", v_e1) and match("z", v_e2)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

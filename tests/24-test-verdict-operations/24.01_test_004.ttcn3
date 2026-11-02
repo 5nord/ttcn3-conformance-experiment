@@ -1,0 +1,26 @@
+// @requirement: 24.1 -- This verdict is not accessible to the getverdict and setverdict operations.
+// @id: TTCN3-CORE-24.1-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_24_01_test_004 {
+
+    type component C {}
+
+    function f_ptc() runs on C {
+        setverdict(pass);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        v_ptc.start(f_ptc());
+        v_ptc.done;
+        if (getverdict == none) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

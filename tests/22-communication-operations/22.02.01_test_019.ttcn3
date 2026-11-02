@@ -1,0 +1,23 @@
+// @requirement: 22.2.1 -- g) The ObjectReference shall be of a port type.
+// @id: TTCN3-CORE-22.2.1-028a
+// @verdict: pass reject
+module M_22_02_01_test_019 {
+
+    type port P message { inout integer }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        T.send(1); // error: ObjectReference is a timer, not a port
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

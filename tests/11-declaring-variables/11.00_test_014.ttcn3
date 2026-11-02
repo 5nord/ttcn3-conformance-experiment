@@ -1,0 +1,34 @@
+// @requirement: 11.0 -- Similarly, if it is passed to a lazy formal parameter, it becomes lazy within the called function.
+// @id: TTCN3-CORE-11.0-014a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_11_00_test_014 {
+
+    type component C {
+        var integer vc_count := 0;
+    }
+
+    function f_next() runs on C return integer {
+        vc_count := vc_count + 1;
+        return vc_count;
+    }
+
+    function f_check(@lazy integer p_value) runs on C return boolean {
+        var integer v_before := vc_count;
+        var integer v_first := p_value;
+        var integer v_second := p_value;
+        return v_before == 0 and v_first == 1 and v_second == 1 and vc_count == 1;
+    }
+
+    testcase TC() runs on C {
+        var @fuzzy integer v_fuzzy := f_next();
+        if (f_check(v_fuzzy)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,34 @@
+// @requirement: 6.2.10.2 -- It is not considered to be a name clash if a specific definition is contributed to the extended type via different extension paths.
+// @id: TTCN3-CORE-6.2.10.2-017a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_10_02_test_014 {
+
+    type component CB {
+        timer tc_t := 0.1;
+    }
+
+    type component CE extends CB {
+        var integer vc_myVar1 := 10;
+    }
+
+    type component CF extends CB {
+        var float vc_myVar2 := 1.0;
+    }
+
+    type component CG extends CE, CF {
+    }
+
+    testcase TC() runs on CG {
+        tc_t.start;
+        tc_t.timeout;
+        if (vc_myVar1 == 10 and vc_myVar2 == 1.0) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

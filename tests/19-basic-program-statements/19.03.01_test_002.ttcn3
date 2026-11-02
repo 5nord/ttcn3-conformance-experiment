@@ -1,0 +1,31 @@
+// @requirement: 19.3.1 -- The statement contains a header part and one or more branches.
+// @id: TTCN3-CORE-19.3.1-004a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_03_01_test_002 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_x := 1;
+        setverdict(fail);
+        select (v_x) {
+            case (1) {
+                setverdict(pass);
+            }
+        }
+        select (v_x) {
+            case (0) {
+                setverdict(fail);
+            }
+            case (1) {
+            }
+            case (2) {
+                setverdict(fail);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

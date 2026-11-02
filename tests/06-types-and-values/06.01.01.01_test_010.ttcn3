@@ -1,0 +1,17 @@
+// @requirement: 6.1.1.1 -- Trying to assign a single element to an uninitialized string with an index which is not zero (0) shall cause an error.
+// @id: TTCN3-CORE-6.1.1.1-012a
+// @verdict: pass accept, ttcn3verdict:error
+module M_06_01_01_01_test_010 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var charstring v_cs;
+        v_cs[1] := "a"; // error: uninitialized string indexed with non-zero index
+        setverdict(fail);
+    }
+
+    control {
+        execute(TC());
+    }
+}

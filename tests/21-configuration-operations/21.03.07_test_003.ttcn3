@@ -1,0 +1,28 @@
+// @requirement: 21.3.7 -- [ @nodefault ] ( ObjectReference | any component | all component | any from ComponentArrayRef ) "." done [ "->" [ value ValueRef] [ @index value ValueRef] ]
+// @id: TTCN3-CORE-21.3.7-003a
+// @verdict: pass accept, noexecution
+module M_21_03_07_test_003 {
+
+    type component C {}
+
+    function f_ptc() runs on C {}
+
+    testcase TC() runs on C {
+        var verdicttype v_verdict;
+        var integer v_idx;
+        var C v_ptc := C.create;
+        var C v_arr[2] := { C.create, C.create };
+        v_ptc.start(f_ptc());
+        v_arr[0].start(f_ptc());
+        v_arr[1].start(f_ptc());
+        v_ptc.done;
+        @nodefault v_ptc.done;
+        any component.done;
+        all component.done;
+        any from v_arr.done;
+        v_ptc.done -> value v_verdict;
+        any from v_arr.done -> @index value v_idx;
+        any from v_arr.done -> value v_verdict @index value v_idx;
+        @nodefault any from v_arr.done -> value v_verdict @index value v_idx;
+    }
+}

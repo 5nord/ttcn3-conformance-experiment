@@ -1,0 +1,25 @@
+// @requirement: 19.14 -- The declarations and statements in a statement block are executed in the order of their appearance, i.e. sequentially.
+// @id: TTCN3-CORE-19.14-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_14_test_002 {
+    type component C {}
+
+    testcase TC() runs on C {
+        var charstring v_trace := "";
+        {
+            v_trace := v_trace & "a";
+            var integer v_x := lengthof(v_trace);
+            v_trace := v_trace & int2str(v_x);
+            v_trace := v_trace & "b";
+        }
+        if (v_trace == "a1b") {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

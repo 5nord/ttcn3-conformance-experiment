@@ -1,0 +1,30 @@
+// @requirement: 6.2.4 -- For each enumerated value without an assigned integer value, the system successively associates an integer number in the textual order of the enumerated values, starting at the left-hand side, beginning with zero, by step 1 and skipping any number occupied by any of the enumerated values with a manually assigned value or value list.
+// @id: TTCN3-CORE-6.2.4-021a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_04_test_023 {
+
+    type component C {}
+
+    type enumerated E {
+        e_a,
+        e_b (0),
+        e_c,
+        e_d (2 .. 3),
+        e_e
+    };
+
+    testcase TC() runs on C {
+        var E v_a := e_a;
+        var E v_c := e_c;
+        var E v_e := e_e;
+        if (enum2int(v_a) == 1 and enum2int(v_c) == 4 and enum2int(v_e) == 5) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,28 @@
+// @requirement: 21.3.1 -- All other test components (the PTCs) shall be created explicitly during test execution by create operations.
+// @id: TTCN3-CORE-21.3.1-004a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_03_01_test_003 {
+
+    type component C {}
+
+    function f_ptc() runs on C {
+        setverdict(pass);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc;
+        if (any component.alive) {
+            setverdict(fail);
+        }
+        v_ptc := C.create;
+        if (not v_ptc.alive) {
+            setverdict(fail);
+        }
+        v_ptc.start(f_ptc());
+        v_ptc.done;
+    }
+
+    control {
+        execute(TC());
+    }
+}

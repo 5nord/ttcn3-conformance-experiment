@@ -1,0 +1,22 @@
+// @requirement: 22.3.6 -- m) If the catch operation contains both from and sender clause, the variable or parameter referenced in the sender clause shall be type compatible with the template in the from clause.
+// @id: TTCN3-CORE-22.3.6-059a
+// @verdict: pass reject
+module M_22_03_06_test_057 {
+
+    signature S() exception (integer);
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    type component D {
+        var integer v_x;
+    }
+
+    function f_catch(C p_peer) runs on C {
+        var D v_sender;
+        p.catch(S, integer:?) from p_peer -> sender v_sender; // error: D is not compatible with C
+    }
+}

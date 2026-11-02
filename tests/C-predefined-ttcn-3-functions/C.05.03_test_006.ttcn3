@@ -1,0 +1,25 @@
+// @requirement: C.5.3 -- If the optional string_serialization parameter is omitted, the default value "UTF-8" is used.
+// @id: TTCN3-CORE-C.5.3-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_05_03_test_006 {
+
+    type component C {}
+
+    type integer I with { variant "32 bit" };
+
+    const I c_val := 65;
+
+    testcase TC() runs on C {
+        var universal charstring v_default := encvalue_unichar(c_val);
+        var universal charstring v_utf8 := oct2unichar(bit2oct(encvalue(c_val)), "UTF-8");
+        if (v_default == v_utf8 and v_default != encvalue_unichar(c_val, "UTF-16")) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

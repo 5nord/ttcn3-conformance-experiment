@@ -1,0 +1,33 @@
+// @requirement: 15.6.5 -- When referencing an alternative of a union template or template field to which AnyValueOrNone or Omit is assigned, at the left hand side of an assignment, the template field is implicitly set to be present and the referenced alternative becomes the chosen one.
+// @id: TTCN3-CORE-15.6.5-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_06_05_test_003 {
+
+    type union U {
+        integer c1,
+        charstring c2
+    }
+
+    type record R2 {
+        integer g1,
+        U g2 optional
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template R2 v_t1 := { g1 := 5, g2 := omit };
+        var R2 v_present := { g1 := 5, g2 := { c1 := 1 } };
+        var R2 v_omitted := { g1 := 5, g2 := omit };
+        v_t1.g2.c1 := 1;
+        if (match(v_present, v_t1) and not match(v_omitted, v_t1)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

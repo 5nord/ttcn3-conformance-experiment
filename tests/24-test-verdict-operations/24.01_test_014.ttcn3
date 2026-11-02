@@ -1,0 +1,28 @@
+// @requirement: 24.1 -- The verdict can have five different values: pass, fail, inconc, none and error, i.e. the distinguished values of the verdicttype (see clause 6.1).
+// @id: TTCN3-CORE-24.1-025a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_24_01_test_014 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var verdicttype v_values[5] := { pass, fail, inconc, none, error };
+        var boolean v_distinct := true;
+        for (var integer i := 0; i < 5; i := i + 1) {
+            for (var integer j := i + 1; j < 5; j := j + 1) {
+                if (v_values[i] == v_values[j]) {
+                    v_distinct := false;
+                }
+            }
+        }
+        if (v_distinct) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

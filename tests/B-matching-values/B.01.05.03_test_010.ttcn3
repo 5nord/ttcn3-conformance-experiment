@@ -1,0 +1,23 @@
+// @requirement: B.1.5.3 -- The metacharacter postfix "+" denotes that the preceding expression shall be matched at least 1 time (equivalent to "#(1,)").
+// @id: TTCN3-CORE-B.1.5.3-007b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_05_03_test_010 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        template charstring m_p := pattern "[a-z]+";
+        template charstring m_ref := pattern "[a-z]#(1, )";
+        var charstring v_values[5] := { "", "a", "abc", "abcdefghij", "a1" };
+        setverdict(pass);
+        for (var integer i := 0; i < lengthof(v_values); i := i + 1) {
+            if (match(v_values[i], m_p) != match(v_values[i], m_ref)) {
+                setverdict(fail);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

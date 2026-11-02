@@ -1,0 +1,24 @@
+// @requirement: 6.2.9 -- For configuration purposes the port type may have one **map param** and **one unmap param** declaration indicating the allowed additional parameters for the respective operation.
+// @id: TTCN3-CORE-6.2.9-013b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_09_test_014 {
+
+    type port P message {
+        inout integer;
+        unmap param (in integer p_cfg);
+    }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C system C {
+        map(self:p, system:p);
+        unmap(self:p, system:p) param (5);
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

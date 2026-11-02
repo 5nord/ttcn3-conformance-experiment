@@ -1,0 +1,29 @@
+// @requirement: 15.7.0 -- NOTE 1: Can be assigned to templates of any type as a whole or to optional fields of record and set templates.
+// @id: TTCN3-CORE-15.7.0-018a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_07_00_test_006 {
+
+    type record R {
+        integer f1,
+        integer f2 optional
+    }
+
+    type component C {}
+
+    template integer m_int := omit;
+    template R m_r := { f1 := 1, f2 := omit };
+
+    testcase TC() runs on C {
+        var R v_omitted := { f1 := 1, f2 := omit };
+        var R v_present := { f1 := 1, f2 := 2 };
+        if (istemplatekind(m_int, "omit") and match(v_omitted, m_r) and not match(v_present, m_r)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

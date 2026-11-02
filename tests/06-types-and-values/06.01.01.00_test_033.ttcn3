@@ -1,0 +1,21 @@
+// @requirement: 6.1.1.0 -- The two methods may be mixed within a single notation for a string value by using the concatenation operator.
+// @id: TTCN3-CORE-6.1.1.0-042a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_01_01_00_test_033 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var universal charstring v_u := "the Braille character" & char(0, 0, 40, 48) & "looks like this";
+        if (lengthof(v_u) == 37 and v_u[21] == char(0, 0, 40, 48) and
+            substr(v_u, 0, 21) == "the Braille character") {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,24 @@
+// @requirement: 7.1.2 -- No form of arithmetic addition is implied.
+// @id: TTCN3-CORE-7.1.2-003a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_07_01_02_test_004 {
+
+    type record of integer RI;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var bitstring v_b := '0001'B;
+        var charstring v_c1 := "1", v_c2 := "2";
+        var RI v_r1 := { 1 }, v_r2 := { 2 };
+        if (v_b & v_b == '00010001'B and v_c1 & v_c2 == "12" and v_r1 & v_r2 == { 1, 2 }) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

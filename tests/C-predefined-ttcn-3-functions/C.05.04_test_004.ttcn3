@@ -1,0 +1,35 @@
+// @requirement: C.5.4 -- The rules for dynamic selection of the encode attribute are described in clause 27.9.
+// @id: TTCN3-CORE-C.5.4-006a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_05_04_test_004 {
+
+    type component C {}
+
+    type integer I
+    with {
+        encode "Codec1"; variant "Codec1"."32 bit";
+        encode "Codec2"; variant "Codec2"."16 bit"
+    };
+
+    type record R {
+        I f1
+    } with { encode "Codec1"; encode "Codec2" };
+
+    const R c_val := { f1 := 65 };
+
+    testcase TC() runs on C {
+        var universal charstring v_enc := oct2unichar('00410042'O, "UTF-8");
+        var R v_dec;
+        // the selection of "Codec2" is applied recursively to field f1
+        var integer v_res := decvalue_unichar(v_enc, v_dec, "UTF-8", "", "Codec2");
+        if (v_res == 0 and v_dec == c_val and lengthof(v_enc) == 2) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,38 @@
+// @requirement: 20.2 -- When the alt statements executes the repeat operation, the whole alt statement, including the local definitions, is re-evaluated.
+// @id: TTCN3-CORE-20.2-010a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_02_test_006 {
+    type component C {
+        var integer vc_evaluations := 0;
+    }
+
+    function f_next() runs on C return integer {
+        vc_evaluations := vc_evaluations + 1;
+        return vc_evaluations;
+    }
+
+    testcase TC() runs on C {
+        var integer v_last := 0;
+        timer T_1 := 0.05;
+        T_1.start;
+        alt {
+            var integer v_x := f_next();
+            [] T_1.timeout {
+                v_last := v_x;
+                if (v_x < 3) {
+                    T_1.start;
+                    repeat;
+                }
+            }
+        }
+        if (v_last == 3 and vc_evaluations == 3) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

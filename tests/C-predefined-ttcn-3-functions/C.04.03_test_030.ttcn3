@@ -1,0 +1,17 @@
+// @requirement: C.4.3 -- `index is less than 0 or greater than lengthof(inpar);`
+// @id: TTCN3-CORE-C.4.3-030a
+// @verdict: pass accept, ttcn3verdict:error
+module M_C_04_03_test_030 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_index := 14;
+        var charstring v_res := replace("My name is JJ", v_index, 0, "xx"); // error: index greater than lengthof(inpar)
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

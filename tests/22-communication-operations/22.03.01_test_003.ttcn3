@@ -1,0 +1,42 @@
+// @requirement: 22.3.1 -- The information to be transmitted in the send part of the call operation is a signature that may either be defined in the form of a signature template or be defined in-line.
+// @id: TTCN3-CORE-22.3.1-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_03_01_test_003 {
+
+    signature S(in integer p_x) return integer;
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    template S s_call := { p_x := 1 };
+
+    function f_server() runs on C {
+        var integer v_x;
+        alt {
+            [] p.getcall(S:{?}) -> param(v_x) { p.reply(S:{-} value v_x); repeat; }
+        }
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_server());
+        p.call(s_call, 1.0) {
+            [] p.getreply(S:{-} value 1) { setverdict(pass); }
+            [] p.getreply { setverdict(fail); }
+            [] p.catch(timeout) { setverdict(fail); }
+        }
+        p.call(S:{p_x := 2}, 1.0) {
+            [] p.getreply(S:{-} value 2) { setverdict(pass); }
+            [] p.getreply { setverdict(fail); }
+            [] p.catch(timeout) { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

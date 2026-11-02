@@ -1,0 +1,25 @@
+// @requirement: 15.14 -- a) Applying the presentness conversion to a template that only matches the special value omit shall result in an error.
+// @id: TTCN3-CORE-15.14-011a
+// @verdict: pass accept, ttcn3verdict:error
+module M_15_14_test_011 {
+
+    type record R {
+        integer a,
+        boolean b optional
+    }
+
+    type component C {}
+
+    function f_convert(template R p_t) return template(present) boolean {
+        return p_t.b.present; // error: field only matches omit
+    }
+
+    testcase TC() runs on C {
+        var template(present) boolean v_res := f_convert({ 1, omit });
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

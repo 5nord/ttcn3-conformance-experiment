@@ -1,0 +1,37 @@
+// @requirement: 22.5.4 -- NOTE 3: A port start operation on a halted port clears all entries in the queue irrespectively if they arrived before or after performing the port halt operation.
+// @id: TTCN3-CORE-22.5.4-011a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_05_04_test_010 {
+
+    type port P message {
+        inout integer
+    }
+
+    type component C {
+        port P p1, p2;
+        timer T := 1.0;
+    }
+
+    testcase TC() runs on C {
+        connect(self:p1, self:p2);
+        p1.send(1);
+        T.start;
+        alt {
+            [] p2.check(receive) { T.stop; }
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        p2.halt;
+        p1.send(2);
+        T.start(0.5);
+        T.timeout;
+        p2.start;
+        alt {
+            [] p2.receive { setverdict(fail); }
+            [else] { setverdict(pass); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

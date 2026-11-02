@@ -1,0 +1,982 @@
+{
+ "part": "15.part7",
+ "chapter": "15",
+ "chapter_file": "15-declaring-templates",
+ "title": "Declaring templates",
+ "sections": {
+  "15.11": {
+   "title": "Concatenating templates of string and list types",
+   "start": 12461
+  },
+  "15.12": {
+   "title": "The omit operation",
+   "start": 12655
+  },
+  "15.13": {
+   "title": "The present operation",
+   "start": 12696
+  },
+  "15.14": {
+   "title": "Presentness conversion",
+   "start": 12735
+  },
+  "15.15": {
+   "title": "The Value Extraction",
+   "start": 12790
+  }
+ },
+ "lines": [
+  12463,
+  12824
+ ],
+ "units": [
+  {
+   "id": "15.11-s001",
+   "section": "15.11",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Templates of string and list types (bitstring, octetstring, hexstring, charstring, universal charstring, record of, set of, and array) can be concatenated from several single (in-line) templates using the concatenation operation.",
+   "lines": [
+    12463,
+    12465
+   ]
+  },
+  {
+   "id": "15.11-s002",
+   "section": "15.11",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "With the exception of charstring and universal charstring templates, each single template shall have the same root type.",
+   "lines": [
+    12463,
+    12465
+   ]
+  },
+  {
+   "id": "15.11-s003",
+   "section": "15.11",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The single templates of binary string types shall evaluate only to the matching mechanisms specific value, combined template, AnyValue without a length modifier, AnyValue or AnyValueOrNone, both constrained to a fixed length.",
+   "lines": [
+    12467,
+    12468
+   ]
+  },
+  {
+   "id": "15.11-s004",
+   "section": "15.11",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The concatenation of templates of binary string types results in the sequential concatenation of the single templates from left to right, with two exceptions: matching symbol AnyValue without a length modifier shall be replaced by a single AnyElementsOrNone matching symbol before concatenation and matching symbols AnyValue and _AnyValueOrNone that are each constrained to a fixed length N shall be replaced by N AnyElement matching symbols_ before concatenation.",
+   "lines": [
+    12475,
+    12479
+   ]
+  },
+  {
+   "id": "15.11-s005",
+   "section": "15.11",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The single templates of list types shall evaluate only to the matching mechanisms specific value, combined template, _AnyValue with or without a length modifier, AnyValueOrNone with a length modifier._",
+   "lines": [
+    12481,
+    12482
+   ]
+  },
+  {
+   "id": "15.11-s006",
+   "section": "15.11",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The concatenation of templates of list types results in the sequential concatenation of the single templates from left to right, with two exceptions: before concatenation, an AnyValue matching symbol without a length modifier shall be replaced by a single AnyElementsOrNone matching symbol and AnyValue and AnyValueOrNone matching symbols with a length modifier shall be replaced by an AnyElementsOrNone matching mechanism with the same length modifier.",
+   "lines": [
+    12484,
+    12488
+   ]
+  },
+  {
+   "id": "15.11-s007",
+   "section": "15.11",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Single templates of charstring and universal charstring types shall evaluate only to specific values, AnyValue with or without a length modifier, AnyValueOrNone with a length modifier or pattern.",
+   "lines": [
+    12490,
+    12495
+   ]
+  },
+  {
+   "id": "15.11-s008",
+   "section": "15.11",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "When concatenating templates of charstring and universal charstring types, each single template shall be either of the charstring or universal charstring type.",
+   "lines": [
+    12490,
+    12495
+   ]
+  },
+  {
+   "id": "15.11-s009",
+   "section": "15.11",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "When templates of charstring and universal charstring type are both present in the concatenation, the charstring values are implicitly converted to universal charstring values according to the rules specified in clause 6.3.1 before concatenation and the resulting template is of the universal charstring type.",
+   "lines": [
+    12490,
+    12495
+   ]
+  },
+  {
+   "id": "15.11-s010",
+   "section": "15.11",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The concatenation of templates of character string types results in the sequential concatenation of the single templates from left to right.",
+   "lines": [
+    12497,
+    12503
+   ]
+  },
+  {
+   "id": "15.11-s011",
+   "section": "15.11",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "In case all operands are specific values, the result of concatenation will be a specific value.",
+   "lines": [
+    12497,
+    12503
+   ]
+  },
+  {
+   "id": "15.11-s012",
+   "section": "15.11",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "In all other cases, if possible, a pattern will be produced.",
+   "lines": [
+    12497,
+    12503
+   ]
+  },
+  {
+   "id": "15.11-s013",
+   "section": "15.11",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "When producing the pattern, the templates are first transformed to a character string according to table 14.",
+   "lines": [
+    12497,
+    12503
+   ]
+  },
+  {
+   "id": "15.11-s014",
+   "section": "15.11",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "In the next step, the strings are concatenated and a pattern is created from the concatenation result.",
+   "lines": [
+    12497,
+    12503
+   ]
+  },
+  {
+   "id": "15.11-s015",
+   "section": "15.11",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "If one of the single templates is a pattern with the @nocase modifier, then all other single templates shall also be patterns with the @nocase modifier and the resulting pattern will also have the @nocase modifier.",
+   "lines": [
+    12497,
+    12503
+   ]
+  },
+  {
+   "id": "15.11-s016",
+   "section": "15.11",
+   "kind": "caption",
+   "context": null,
+   "normative": false,
+   "text": "Table 14: Transformation of character string templates before concatenation",
+   "lines": [
+    12505,
+    12505
+   ]
+  },
+  {
+   "id": "15.11-s017",
+   "section": "15.11",
+   "kind": "table-text",
+   "context": null,
+   "normative": true,
+   "text": "**Concatenation operand** **Transformed string** Specific values (character strings) The character string is escaped by inserting the \"\\\" character before each of the following characters: \"#\", \"(\", \")\", \"*\", \"+\", \"-\", \"?\", \"[\", \"\\\", \"]\", \"^\", \"{\", \"|\", \"}\". ?, ? length(0..infinity) or * length(0..infinity) ? length(0) or * length(0) empty string ? length(1) or * length(1) \"?\" ? length(1 .. infinity) or * length(1 .. infinity) \"?+\" ? length(n) or * length(n) \"?#(n)\" ? length(n .. infinity) or * length(n .. infinity) \"?#(n,)\" ? length(n .. m) or * length(n .. m) \"?#(n,m)\" pattern \"content\" \"content\"",
+   "lines": [
+    12507,
+    12517
+   ]
+  },
+  {
+   "id": "15.11-s018",
+   "section": "15.11",
+   "kind": "table-text",
+   "context": null,
+   "normative": true,
+   "text": "Concatenation of character strings in a pattern definition is described in clause B.1.5.",
+   "lines": [
+    12519,
+    12522
+   ]
+  },
+  {
+   "id": "15.11-s019",
+   "section": "15.11",
+   "kind": "table-text",
+   "context": null,
+   "normative": true,
+   "text": "Concatenation of character strings in a pattern definition always takes precedence over concatenation of templates.",
+   "lines": [
+    12519,
+    12522
+   ]
+  },
+  {
+   "id": "15.11-s020",
+   "section": "15.11",
+   "kind": "table-text",
+   "context": null,
+   "normative": true,
+   "text": "If it is necessary to concatenate a pattern definition with a following character string according to the template concatenation rules (thus automatically escaping the string), the pattern definition shall be enclosed into parentheses.",
+   "lines": [
+    12519,
+    12522
+   ]
+  },
+  {
+   "id": "15.11-s021",
+   "section": "15.11",
+   "kind": "table-text",
+   "context": null,
+   "normative": true,
+   "text": "The concatenation shall be performed completely before using the resulting template (e.g. for assignment or matching) and the result shall be type-compatible with the place of its use.",
+   "lines": [
+    12524,
+    12525
+   ]
+  },
+  {
+   "id": "15.11-s022",
+   "section": "15.11",
+   "kind": "table-text",
+   "context": null,
+   "normative": true,
+   "text": "The length matching attribute shall not follow a template or template field produced by concatenation directly, but in this case the concatenation shall be placed within a pair of parentheses.",
+   "lines": [
+    12527,
+    12528
+   ]
+  },
+  {
+   "id": "15.11-s023",
+   "section": "15.11",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clause 5, the following restrictions apply:",
+   "lines": [
+    12532,
+    12532
+   ]
+  },
+  {
+   "id": "15.11-s024",
+   "section": "15.11",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) All operands of the concatenation operation shall be at least partially initialized.",
+   "lines": [
+    12534,
+    12534
+   ]
+  },
+  {
+   "id": "15.11-s025",
+   "section": "15.11",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Concatenation operand: Specific values (character strings); Transformed string: The character string is escaped by inserting the \"\\\" character before each of the following characters: \"#\", \"(\", \")\", \"*\", \"+\", \"-\", \"?\", \"[\", \"\\\", \"]\", \"^\", \"{\", \"",
+   "lines": [
+    12538,
+    12538
+   ]
+  },
+  {
+   "id": "15.11-s026",
+   "section": "15.11",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Concatenation operand: ?, ? length(0..infinity) or * length(0..infinity); Transformed string: *",
+   "lines": [
+    12539,
+    12539
+   ]
+  },
+  {
+   "id": "15.11-s027",
+   "section": "15.11",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Concatenation operand: ? length(0) or * length(0); Transformed string: empty string",
+   "lines": [
+    12540,
+    12540
+   ]
+  },
+  {
+   "id": "15.11-s028",
+   "section": "15.11",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Concatenation operand: ? length(1) or * length(1); Transformed string: \"?\"",
+   "lines": [
+    12541,
+    12541
+   ]
+  },
+  {
+   "id": "15.11-s029",
+   "section": "15.11",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Concatenation operand: ? length(1 .. infinity) or * length(1 .. infinity); Transformed string: \"?+\"",
+   "lines": [
+    12542,
+    12542
+   ]
+  },
+  {
+   "id": "15.11-s030",
+   "section": "15.11",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Concatenation operand: ? length(n) or * length(n); Transformed string: \"?#(n)\"",
+   "lines": [
+    12543,
+    12543
+   ]
+  },
+  {
+   "id": "15.11-s031",
+   "section": "15.11",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Concatenation operand: ? length(n .. infinity) or * length(n .. infinity); Transformed string: \"?#(n,)\"",
+   "lines": [
+    12544,
+    12544
+   ]
+  },
+  {
+   "id": "15.11-s032",
+   "section": "15.11",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Concatenation operand: ? length(n .. m) or * length(n .. m); Transformed string: \"?#(n,m)\"",
+   "lines": [
+    12545,
+    12545
+   ]
+  },
+  {
+   "id": "15.11-s033",
+   "section": "15.11",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Concatenation operand: pattern \"content\"; Transformed string: \"content\"",
+   "lines": [
+    12546,
+    12546
+   ]
+  },
+  {
+   "id": "15.11-s034",
+   "section": "15.11",
+   "kind": "table-header",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Concatenation operand; Transformed string",
+   "lines": [
+    12536,
+    12536
+   ]
+  },
+  {
+   "id": "15.11-s035",
+   "section": "15.11",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 1: Composing templates of binary string types:",
+   "lines": [
+    12555,
+    12555
+   ]
+  },
+  {
+   "id": "15.11-s036",
+   "section": "15.11",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "template bitstring mw_mybit := '010'B & ? & '1'B & ? length(1) & '1'B;\n     // results in the template '010*1?1'B\n    // note that & ? & turns to * within the resulting bitstring as the original ? \n    // stands for a bitstring of any length\n  template bitstring mw_mybit2 := '010'B & * length(2);\n     // results in the template '010??'B\n     // note that the ability of the AnyValueOrNone matching symbol to match omitted\n     // values is lost during concatenation\n  type bitstring ConstrainedBitString length(3);\n     // values of this type are always exactly 3 bits long\n  template ConstrainedBitString mw_mybit3 := ?;\n  template bitstring mw_mybit4 := '010'B & mw_mybit3;\n     // results in the template '010*'B\n     // note that the type constraint of the mw_mybit3 template has no impact on the\n     // concatenation operation; the AnyValue symbol without a length modifier is always\n     // replaced with a single AnyElementsOrNone\n  template octetstring mw_myoct1 := 'ABCD'O & 'EF'O & ? & ? length(1) & 'EF'O;\n     // results in the template 'ABCDEF*?EF'O\n    // note that & ? & turns to * within the resulting octetstring as the original ? \n    // stands for an octetstring of any length\n  template octetstring mw_myoct2 := 'ABCD'O & ? length (2) & 'EF'O;\n     // results in the template 'ABCD??EF'O \n     // (i.e. a 5 octets i.e. 10 hexadecimal digits long value)\n  template octetstring mw_myoctWrong := 'ABCD'O & ? length(2) length (4);\n     // causes an error, no length matching attribute shall directly follow a concatenation\n  template octetstring mw_myoct3 := ('ABCD'O & ? length(2)) length (4);\n     // results in the template 'ABCD??'O\n  template hexstring mw_myhexPar (integer N):=\n    'ABC'H & ? length(N) & 'E'H & ? length(1) & 'F'H;\n  function f_myFunc() runs on MyCompType {\n    var integer v_int := 3;\n    var template hexstring v_hstring;\n   :\n   v_hstring := 'ABC'H & ? length(v_int) & 'E'H & ? length(1) & 'F'H;\n     //results in the template 'ABC???E?F'H\n   p.receive (mw_myhexPar(4));\n     //actual content of mw_myhexPar is 'ABC????E?F'H\n  }",
+   "lines": [
+    12556,
+    12595
+   ]
+  },
+  {
+   "id": "15.11-s037",
+   "section": "15.11",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 2: Composing templates of list types:",
+   "lines": [
+    12597,
+    12597
+   ]
+  },
+  {
+   "id": "15.11-s038",
+   "section": "15.11",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "type record of charstring RecofChar;\n  type set of integer SetofInt;\n  template RecofChar mw_myRecofChar := {\"ABC\"} & {\"D?\", \"EF\"};\n     // results in the template {\"ABC\", \"D?\", \"EF\" }\n  template SetofInt mw_mySetofInt := { 1, 2 } & ? length(2) & { 3, 4 };\n     // results in the template {1, 2, * length(2), 3, 4 }\n  template RecofInt mw_myRecofInt := { 1, 2 } & { * length(1..2), 3, 4 };\n     // results in the template {1, 2, * length(1..2), 3, 4 }\n  template RecofChar mw_myRecofCharPar (integer N):= { \"ABC\" } & ? & * length(N) & { \"EF\" };\n  function myFunc2() runs on MyCompType{\n    var integer v_int := 3;\n    var template RecofChar v_recofChar;\n   :\n   v_recofChar := { \"ABC\" } & ? length(v_int) & { \"EF\" };\n     //results in the template { \"ABC\", * length(3), \"EF\" }\n   p.receive ( mw_myRecofCharPar(3) );\n     //actual content of mw_myRecofCharPar is { \"ABC\", *, * length(3), \"EF\" }\n  }",
+   "lines": [
+    12598,
+    12617
+   ]
+  },
+  {
+   "id": "15.11-s039",
+   "section": "15.11",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 3: Composing templates of character string types:",
+   "lines": [
+    12624,
+    12624
+   ]
+  },
+  {
+   "id": "15.11-s040",
+   "section": "15.11",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "template charstring mw_mychar1 := \"ABC\" & \"DE*\" & \"F?\";\n     // results in the template \"ABCDE*F?\"\n     // please note that \"*\" and \"?\" denote the characters \"*\" and \"?\"\n  template charstring mw_mychar2 := \"ABC\" & ? & \"EF\";\n     // results in the template pattern \"ABC*EF\"\n  template charstring mw_mychar3 := \"ABC\" & * length(1 .. infinity) & \"EF\";\n     // results in the template pattern \"ABC?+EF\"\n  template charstring mw_mychar4 := \"ABC\" & * length(2 .. 5) & \"EF\";\n     // results in the template pattern \"ABC?#(2,5)EF\"\n  template charstring mw_mychar5 := pattern \"ABC\" & \"?EF\";\n     // results in the template pattern \"ABC?EF\"\n  template charstring mw_mychar6 := (pattern \"ABC\") & \"?EF\";\n     // results in the template pattern \"ABC\\?EF\"\n  template charstring mw_mycharPar (integer p_val):=\n    \"ABC\" & ? length(p_val) & \"E\" & ? length(1..10) & \"F\";\n     // the parameterized template is used inside the following function;\n     // concatenation to a pattern is performed during instantiation of the\n     // template when all actual parameter values as known\n  function f_myFunc3() runs on MyCompType {\n    var integer v_int := 3;\n    var template charstring v_cstring;\n   :\n   v_cstring := \"ABC\" & ? length(v_int .. v_int + 2) & \"E\" & ? length(1) & \"F\";\n     //results in the template pattern \"ABC?#(3,5)E?F\"\n   p.receive (mw_mycharPar(4));\n     //actual content of mw_mycharPar is pattern \"ABC?#4E?#(1,10)F\"\n  }",
+   "lines": [
+    12625,
+    12653
+   ]
+  },
+  {
+   "id": "15.12-s001",
+   "section": "15.12",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The omit operation checks if a template instance fullfils conditions of the omit restriction.",
+   "lines": [
+    12657,
+    12657
+   ]
+  },
+  {
+   "id": "15.12-s002",
+   "section": "15.12",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "omit \"(\" TemplateInstance \")\"",
+   "lines": [
+    12660,
+    12662
+   ]
+  },
+  {
+   "id": "15.12-s003",
+   "section": "15.12",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The omit operation returns:",
+   "lines": [
+    12666,
+    12666
+   ]
+  },
+  {
+   "id": "15.12-s004",
+   "section": "15.12",
+   "kind": "list-item",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "A template with the omit restriction and with the same content as the operand, if the operand fulfils conditions of the omit template restriction as described in clause 15.8.",
+   "lines": [
+    12668,
+    12669
+   ]
+  },
+  {
+   "id": "15.12-s005",
+   "section": "15.12",
+   "kind": "list-item",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Any other situation shall cause an error.",
+   "lines": [
+    12671,
+    12671
+   ]
+  },
+  {
+   "id": "15.12-s006",
+   "section": "15.12",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "NOTE: This means that the result of omit(m_myTemplate) can be safely assigned to templates with the omit restriction.",
+   "lines": [
+    12673,
+    12674
+   ]
+  },
+  {
+   "id": "15.12-s007",
+   "section": "15.12",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "General static rules of TTCN-3 given in clause 5 apply.",
+   "lines": [
+    12678,
+    12678
+   ]
+  },
+  {
+   "id": "15.12-s008",
+   "section": "15.12",
+   "kind": "example-text",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "EXAMPLE:",
+   "lines": [
+    12680,
+    12680
+   ]
+  },
+  {
+   "id": "15.12-s009",
+   "section": "15.12",
+   "kind": "example-code",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "// definitions of restricted templates\n  type record ExampleType {\n     integer a,\n     boolean b optional\n  }\n  template ExampleType m_originalOmit := omit;\n  template ExampleType m_originalValue := { 1, true};\n  template ExampleType m_originalAny := ?;\n  template(omit) ExampleType m_targetOmit := omit(m_originalOmit);\n template(omit) ExampleType m_targetValue:= omit(m_originalValue);\n template(omit) ExampleType m_targetAny := omit(m_originalAny);  // causes error",
+   "lines": [
+    12681,
+    12693
+   ]
+  },
+  {
+   "id": "15.13-s001",
+   "section": "15.13",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The present operation checks if a template fullfils conditions of the present restriction.",
+   "lines": [
+    12698,
+    12698
+   ]
+  },
+  {
+   "id": "15.13-s002",
+   "section": "15.13",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "present \"(\" TemplateInstance \")\"",
+   "lines": [
+    12701,
+    12703
+   ]
+  },
+  {
+   "id": "15.13-s003",
+   "section": "15.13",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The present operation returns:",
+   "lines": [
+    12707,
+    12707
+   ]
+  },
+  {
+   "id": "15.13-s004",
+   "section": "15.13",
+   "kind": "list-item",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "A template with the present restriction and with the same content as the operand, if the operand fulfils conditions of the present template restriction as described in clause 15.8.",
+   "lines": [
+    12709,
+    12710
+   ]
+  },
+  {
+   "id": "15.13-s005",
+   "section": "15.13",
+   "kind": "list-item",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Any other situation shall cause an error.",
+   "lines": [
+    12712,
+    12712
+   ]
+  },
+  {
+   "id": "15.13-s006",
+   "section": "15.13",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "NOTE: This means that the result of present(m_myTemplate) can be safely assigned to templates with the present restriction.",
+   "lines": [
+    12714,
+    12715
+   ]
+  },
+  {
+   "id": "15.13-s007",
+   "section": "15.13",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "General static rules of TTCN-3 given in clause 5 apply.",
+   "lines": [
+    12719,
+    12719
+   ]
+  },
+  {
+   "id": "15.13-s008",
+   "section": "15.13",
+   "kind": "example-text",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "EXAMPLE:",
+   "lines": [
+    12721,
+    12721
+   ]
+  },
+  {
+   "id": "15.13-s009",
+   "section": "15.13",
+   "kind": "example-text",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "// definitions of restricted templates type record ExampleType { integer a, boolean b optional } template ExampleType m_originalOmit := omit; template ExampleType m_originalValue := { 1, true}; template ExampleType m_originalAny := ?; template(present) ExampleType m_targetOmit := present(m_riginalOmit); //causes error template(present) ExampleType m_targetValue:= present(m_originalValue); template(present) ExampleType m_targetAny := present(m_originalAny);",
+   "lines": [
+    12723,
+    12733
+   ]
+  },
+  {
+   "id": "15.14-s001",
+   "section": "15.14",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The conversion of a general (unrestricted) template to a template with the present restriction can be achieved by applying the .present notation to the template.",
+   "lines": [
+    12738,
+    12739
+   ]
+  },
+  {
+   "id": "15.14-s002",
+   "section": "15.14",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "TemplateInstance \".\" present",
+   "lines": [
+    12742,
+    12744
+   ]
+  },
+  {
+   "id": "15.14-s003",
+   "section": "15.14",
+   "kind": "prose",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "Applying the presentness conversion to a template expression with no restriction yields a template with the present restriction with the following content:",
+   "lines": [
+    12746,
+    12747
+   ]
+  },
+  {
+   "id": "15.14-s004",
+   "section": "15.14",
+   "kind": "list-item",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "_AnyValue if the referenced template contained AnyValueOrNone._",
+   "lines": [
+    12749,
+    12749
+   ]
+  },
+  {
+   "id": "15.14-s005",
+   "section": "15.14",
+   "kind": "list-item",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "Matching mechanism without the ifpresent attribute if the referenced template had this attribute attached to it.",
+   "lines": [
+    12751,
+    12752
+   ]
+  },
+  {
+   "id": "15.14-s006",
+   "section": "15.14",
+   "kind": "list-item",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "_TemplateList where all the alternatives that evaluate to omit are removed and the presentness conversion is_ applied to all other alternatives.",
+   "lines": [
+    12754,
+    12755
+   ]
+  },
+  {
+   "id": "15.14-s007",
+   "section": "15.14",
+   "kind": "list-item",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "Unchanged template in all other cases.",
+   "lines": [
+    12757,
+    12757
+   ]
+  },
+  {
+   "id": "15.14-s008",
+   "section": "15.14",
+   "kind": "note",
+   "context": "Syntactical Structure",
+   "normative": false,
+   "text": "NOTE: Other matching attributes such as length are unaffected by the conversion, e.g. * length(2..10) would be converted to ? length(2..10)",
+   "lines": [
+    12764,
+    12765
+   ]
+  },
+  {
+   "id": "15.14-s009",
+   "section": "15.14",
+   "kind": "prose",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "Applying the presentness conversion to a template expression that has the present or value restriction yields the same template with the same template restriction.",
+   "lines": [
+    12767,
+    12768
+   ]
+  },
+  {
+   "id": "15.14-s010",
+   "section": "15.14",
+   "kind": "prose",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "Applying the presentness conversion to a template expression with the omit template restriction yields the same template with the value restriction.",
+   "lines": [
+    12770,
+    12771
+   ]
+  },
+  {
+   "id": "15.14-s011",
+   "section": "15.14",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) Applying the presentness conversion to a template that only matches the special value omit shall result in an error.",
+   "lines": [
+    12775,
+    12776
+   ]
+  },
+  {
+   "id": "15.14-s012",
+   "section": "15.14",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "type record ExampleType {\n     integer a,\n     boolean b optional\n  }\n  template ExampleType m_example := { 1, *}; // unrestricted\n  var template(present) boolean v_field := m_example.b.present; // m_field is set to ?\n  v_field := m_example.b; // causes and error as assignment of an unrestricted template to \n              // a template with the present restriction is not allowed",
+   "lines": [
+    12779,
+    12788
+   ]
+  },
+  {
+   "id": "15.15-s001",
+   "section": "15.15",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The extraction of the underlying value from a charstring pattern matching mechanism or a template with the omit restriction can be achieved with the .value notation applied to a TemplateInstance.",
+   "lines": [
+    12792,
+    12793
+   ]
+  },
+  {
+   "id": "15.15-s002",
+   "section": "15.15",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "TemplateInstance \".\" value",
+   "lines": [
+    12796,
+    12798
+   ]
+  },
+  {
+   "id": "15.15-s003",
+   "section": "15.15",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Applying this extraction to a pattern matching mechanism of the form pattern _StringValue will yield the value_ _StringValue.",
+   "lines": [
+    12802,
+    12803
+   ]
+  },
+  {
+   "id": "15.15-s004",
+   "section": "15.15",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If the pattern contains any matching attribute, the attribute shall be removed by the extraction._",
+   "lines": [
+    12802,
+    12803
+   ]
+  },
+  {
+   "id": "15.15-s005",
+   "section": "15.15",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Applying this extraction to a template that evaluates to Value `ifpresent will yield the value Value.`",
+   "lines": [
+    12805,
+    12805
+   ]
+  },
+  {
+   "id": "15.15-s006",
+   "section": "15.15",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Applying this extraction to a template that contains a value will yield that value.",
+   "lines": [
+    12807,
+    12807
+   ]
+  },
+  {
+   "id": "15.15-s007",
+   "section": "15.15",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) Applying the value extraction to a template that contains neither a pattern nor a value template with an",
+   "lines": [
+    12811,
+    12811
+   ]
+  },
+  {
+   "id": "15.15-s008",
+   "section": "15.15",
+   "kind": "code",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "ifpresent matching attribute nor a value shall result in an error.",
+   "lines": [
+    12812,
+    12814
+   ]
+  },
+  {
+   "id": "15.15-s009",
+   "section": "15.15",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "var template charstring v_pattern := pattern \"ab\\?#(1,1)\";\n  v_pattern.value // yields \"ab\\?#(1,1)\"\n  var template charstring v_ifpresent := \"abc\" ifpresent;\n  v_ifpresent.value // yields \"abc\"\n  var template charstring v_any := ?;\n  v_any.value // shall result in an error",
+   "lines": [
+    12817,
+    12824
+   ]
+  }
+ ]
+}

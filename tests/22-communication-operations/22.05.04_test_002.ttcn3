@@ -1,0 +1,23 @@
+// @requirement: 22.5.4 -- ( ObjectReference | ( all port ) ) "." halt
+// @id: TTCN3-CORE-22.5.4-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_05_04_test_002 {
+
+    type port P message {
+        inout integer
+    }
+
+    type component C {
+        port P p1, p2;
+    }
+
+    testcase TC() runs on C {
+        p1.halt;
+        all port.halt;
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

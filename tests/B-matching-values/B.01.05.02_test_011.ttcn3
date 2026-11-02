@@ -1,0 +1,29 @@
+// @requirement: B.1.5.2 -- If a fragment of a pattern contains a single reference only, it is allowed, as a shorthand notation, to reference the definition or the field of the definition directly, i.e. leave out double quotes (" ") and the pair of curly brackets ({ }).
+// @id: TTCN3-CORE-B.1.5.2-012a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_05_02_test_011 {
+
+    type component C {}
+
+    type record R {
+        charstring f
+    }
+
+    const charstring c_myConst := "ab";
+    const R c_rec := { f := "c?" };
+    template charstring mw_single := pattern c_myConst;
+    template charstring mw_concat := pattern c_myConst & c_rec.f;
+
+    testcase TC() runs on C {
+        if (match("ab", mw_single) and not match("abc", mw_single)
+            and match("abcx", mw_concat) and not match("abc", mw_concat)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

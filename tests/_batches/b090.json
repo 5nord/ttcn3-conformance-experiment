@@ -1,0 +1,1254 @@
+{
+ "batch": "b090",
+ "requirements": [
+  {
+   "id": "TTCN3-CORE-B.1.4.2-002a",
+   "section": "B.1.4.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "A template field of a record or set type that uses ifpresent matches the corresponding field if, and only if, the field matches according to the associated matching mechanism, or if the field is absent.",
+   "canonical": "A template field of a record or set type that uses `ifpresent` matches the corresponding field if, and only if, the field matches according to the associated matching mechanism or the field is absent.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24290,
+    24291
+   ],
+   "examples": [
+    {
+     "lines": [
+      24311,
+      24350
+     ],
+     "text": "type record MyMessageType2\n  {\n    integer field1,\n   MyRecordofType field2 optional,\n    boolean field3 optional\n  }\n  template MyMessageType2 mw_myMessageTemplate:=\n  {\n     :\n     field2 := { 1, 2, 3 } ifpresent,  // matches { 1, 2, 3 } if not omitted \n     :\n  }\n  template MyMessageType mw_myMessageTemplate2:=\n  {\n   field1 := 1 ifpresent, // causes an error as field1 is mandatory\n   :\n  }\n  template MyRecordofType mw_myRecofTemplate := { 1, 2, 3 } ifpresent; // this assignment is\n  allowed\n  template boolean mw_myBoolTemplate := true ifpresent; // this assignment is also allowed\n  template MyMessageType2 mw_myMessageTemplate3:=\n  {\n   field1 := 42,\n   field2 := mw_myRecofTemplate,\n    // if field2 is not absent, it matches the value { 1, 2, 3 }\n   field3 := mw_myBoolTemplate\n    // if field3 is not absent, it matches the value true\n  }\n  v_mybooleanVar := match ({},mw_myRecofTemplate);\n   // mayches and returns true\n  v_mybooleanVar := match ({42,omit,true},mw_myMessageTemplate3);\n   // matches and returns true\n  type map from charstring to charstring MyMap;\n  template MyMap mw_myMessageTemplate4 := { [\"host\"] := \"::1\", [\"port\"] := \"80\" ifpresent };\n  v_mybooleanVar := match ({ [\"host\"] := \"::1\", [\"port\"] := 443 }, mw_myMessageTemplate4);\n   // does not match and returns false, because the \"port\" key has a different value than \"80\"\n  v_mybooleanVar := match ({ [\"host\"] := \"::1\" }, mw_myMessageTemplate4);\n   // matches and returns true, because the the \"port\" key is missi"
+    }
+   ],
+   "file": "tests/B-matching-values/B.01.04.02_test_001.ttcn3",
+   "module": "M_B_01_04_02_test_001",
+   "header": "// @requirement: B.1.4.2 -- A template field of a record or set type that uses ifpresent matches the corresponding field if, and only if, the field matches according to the associated matching mechanism, or if the field is absent."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.4.2-003a",
+   "section": "B.1.4.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "A map template key that uses the ifpresent indicator in the value associated with it matches the corresponding key if, and only if, either the corresponding key is present and its value matches according to the associated matching mechanism, or if the corresponding key is absent.",
+   "canonical": "A map template key whose associated value uses `ifpresent` matches the corresponding key if, and only if, either the key is present and its value matches according to the associated matching mechanism, or the key is absent.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24293,
+    24295
+   ],
+   "examples": [
+    {
+     "lines": [
+      24311,
+      24350
+     ],
+     "text": "type record MyMessageType2\n  {\n    integer field1,\n   MyRecordofType field2 optional,\n    boolean field3 optional\n  }\n  template MyMessageType2 mw_myMessageTemplate:=\n  {\n     :\n     field2 := { 1, 2, 3 } ifpresent,  // matches { 1, 2, 3 } if not omitted \n     :\n  }\n  template MyMessageType mw_myMessageTemplate2:=\n  {\n   field1 := 1 ifpresent, // causes an error as field1 is mandatory\n   :\n  }\n  template MyRecordofType mw_myRecofTemplate := { 1, 2, 3 } ifpresent; // this assignment is\n  allowed\n  template boolean mw_myBoolTemplate := true ifpresent; // this assignment is also allowed\n  template MyMessageType2 mw_myMessageTemplate3:=\n  {\n   field1 := 42,\n   field2 := mw_myRecofTemplate,\n    // if field2 is not absent, it matches the value { 1, 2, 3 }\n   field3 := mw_myBoolTemplate\n    // if field3 is not absent, it matches the value true\n  }\n  v_mybooleanVar := match ({},mw_myRecofTemplate);\n   // mayches and returns true\n  v_mybooleanVar := match ({42,omit,true},mw_myMessageTemplate3);\n   // matches and returns true\n  type map from charstring to charstring MyMap;\n  template MyMap mw_myMessageTemplate4 := { [\"host\"] := \"::1\", [\"port\"] := \"80\" ifpresent };\n  v_mybooleanVar := match ({ [\"host\"] := \"::1\", [\"port\"] := 443 }, mw_myMessageTemplate4);\n   // does not match and returns false, because the \"port\" key has a different value than \"80\"\n  v_mybooleanVar := match ({ [\"host\"] := \"::1\" }, mw_myMessageTemplate4);\n   // matches and returns true, because the the \"port\" key is missi"
+    }
+   ],
+   "file": "tests/B-matching-values/B.01.04.02_test_002.ttcn3",
+   "module": "M_B_01_04_02_test_002",
+   "header": "// @requirement: B.1.4.2 -- A map template key that uses the ifpresent indicator in the value associated with it matches the corresponding key if, and only if, either the corresponding key is present and its value matches according to the associated matching mechanism, or if the corresponding key is absent."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.4.2-004a",
+   "section": "B.1.4.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "a) This IfPresent indicator shall be used only for matching mechanisms in templates of any type as a whole or for optional fields of set or record templates or for values associated with keys of map templates.",
+   "canonical": "The `ifpresent` indicator SHALL be used only for matching mechanisms in templates of any type as a whole, for optional fields of set or record templates, or for values associated with keys of map templates.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24299,
+    24300
+   ],
+   "examples": [
+    {
+     "lines": [
+      24311,
+      24350
+     ],
+     "text": "type record MyMessageType2\n  {\n    integer field1,\n   MyRecordofType field2 optional,\n    boolean field3 optional\n  }\n  template MyMessageType2 mw_myMessageTemplate:=\n  {\n     :\n     field2 := { 1, 2, 3 } ifpresent,  // matches { 1, 2, 3 } if not omitted \n     :\n  }\n  template MyMessageType mw_myMessageTemplate2:=\n  {\n   field1 := 1 ifpresent, // causes an error as field1 is mandatory\n   :\n  }\n  template MyRecordofType mw_myRecofTemplate := { 1, 2, 3 } ifpresent; // this assignment is\n  allowed\n  template boolean mw_myBoolTemplate := true ifpresent; // this assignment is also allowed\n  template MyMessageType2 mw_myMessageTemplate3:=\n  {\n   field1 := 42,\n   field2 := mw_myRecofTemplate,\n    // if field2 is not absent, it matches the value { 1, 2, 3 }\n   field3 := mw_myBoolTemplate\n    // if field3 is not absent, it matches the value true\n  }\n  v_mybooleanVar := match ({},mw_myRecofTemplate);\n   // mayches and returns true\n  v_mybooleanVar := match ({42,omit,true},mw_myMessageTemplate3);\n   // matches and returns true\n  type map from charstring to charstring MyMap;\n  template MyMap mw_myMessageTemplate4 := { [\"host\"] := \"::1\", [\"port\"] := \"80\" ifpresent };\n  v_mybooleanVar := match ({ [\"host\"] := \"::1\", [\"port\"] := 443 }, mw_myMessageTemplate4);\n   // does not match and returns false, because the \"port\" key has a different value than \"80\"\n  v_mybooleanVar := match ({ [\"host\"] := \"::1\" }, mw_myMessageTemplate4);\n   // matches and returns true, because the the \"port\" key is missi"
+    }
+   ],
+   "file": "tests/B-matching-values/B.01.04.02_test_003.ttcn3",
+   "module": "M_B_01_04_02_test_003",
+   "header": "// @requirement: B.1.4.2 -- a) This IfPresent indicator shall be used only for matching mechanisms in templates of any type as a whole or for optional fields of set or record templates or for values associated with keys of map templates."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.4.2-005a",
+   "section": "B.1.4.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "b) At the time of matching during a receiving operation, it shall be applied to optional fields of record and set templates or to values associated with keys of map templates only.",
+   "canonical": "At the time of matching during a receiving operation, the `ifpresent` indicator SHALL be applied only to optional fields of record and set templates or to values associated with keys of map templates.",
+   "condition": "matching is performed during a receiving operation",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "It is unclear what happens when a template with a top-level `ifpresent` (allowed by restriction a) is used directly in a receiving operation: compile error, runtime error, or ignoring of the indicator; chose the reading that such use is an error.",
+    "readings": [
+     "A template with `ifpresent` applied to the template as a whole SHALL NOT be used directly as the matching template of a receiving operation (error).",
+     "A top-level `ifpresent` of a template used directly in a receiving operation has no effect; only `ifpresent` on optional fields or map values is applied."
+    ]
+   },
+   "spec_lines": [
+    24307,
+    24308
+   ],
+   "examples": [
+    {
+     "lines": [
+      24311,
+      24350
+     ],
+     "text": "type record MyMessageType2\n  {\n    integer field1,\n   MyRecordofType field2 optional,\n    boolean field3 optional\n  }\n  template MyMessageType2 mw_myMessageTemplate:=\n  {\n     :\n     field2 := { 1, 2, 3 } ifpresent,  // matches { 1, 2, 3 } if not omitted \n     :\n  }\n  template MyMessageType mw_myMessageTemplate2:=\n  {\n   field1 := 1 ifpresent, // causes an error as field1 is mandatory\n   :\n  }\n  template MyRecordofType mw_myRecofTemplate := { 1, 2, 3 } ifpresent; // this assignment is\n  allowed\n  template boolean mw_myBoolTemplate := true ifpresent; // this assignment is also allowed\n  template MyMessageType2 mw_myMessageTemplate3:=\n  {\n   field1 := 42,\n   field2 := mw_myRecofTemplate,\n    // if field2 is not absent, it matches the value { 1, 2, 3 }\n   field3 := mw_myBoolTemplate\n    // if field3 is not absent, it matches the value true\n  }\n  v_mybooleanVar := match ({},mw_myRecofTemplate);\n   // mayches and returns true\n  v_mybooleanVar := match ({42,omit,true},mw_myMessageTemplate3);\n   // matches and returns true\n  type map from charstring to charstring MyMap;\n  template MyMap mw_myMessageTemplate4 := { [\"host\"] := \"::1\", [\"port\"] := \"80\" ifpresent };\n  v_mybooleanVar := match ({ [\"host\"] := \"::1\", [\"port\"] := 443 }, mw_myMessageTemplate4);\n   // does not match and returns false, because the \"port\" key has a different value than \"80\"\n  v_mybooleanVar := match ({ [\"host\"] := \"::1\" }, mw_myMessageTemplate4);\n   // matches and returns true, because the the \"port\" key is missi"
+    }
+   ],
+   "file": "tests/B-matching-values/B.01.04.02_test_004.ttcn3",
+   "module": "M_B_01_04_02_test_004",
+   "header": "// @requirement: B.1.4.2 -- b) At the time of matching during a receiving operation, it shall be applied to optional fields of record and set templates or to values associated with keys of map templates only."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.4.2-007a",
+   "section": "B.1.4.2",
+   "type": "information",
+   "modality": "IS",
+   "original": "NOTE: _AnyValueOrNone has exactly the same meaning as ? ifpresent._",
+   "canonical": "AnyValueOrNone (`*`) has exactly the same meaning as `? ifpresent`.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24352,
+    24352
+   ],
+   "examples": [],
+   "file": "tests/B-matching-values/B.01.04.02_test_005.ttcn3",
+   "module": "M_B_01_04_02_test_005",
+   "header": "// @requirement: B.1.4.2 -- NOTE: _AnyValueOrNone has exactly the same meaning as ? ifpresent._"
+  },
+  {
+   "id": "TTCN3-CORE-B.1.5.0-001a",
+   "section": "B.1.5.0",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Character patterns can be used in templates to define the format of a required character string to be received.",
+   "canonical": "A character pattern MAY be used in a template to define the format of a required character string to be received.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24358,
+    24361
+   ],
+   "examples": [
+    {
+     "lines": [
+      24366,
+      24368
+     ],
+     "text": "template charstring mw_myTemplate:= pattern \"ab??xyz*0\";"
+    }
+   ],
+   "file": "tests/B-matching-values/B.01.05.00_test_001.ttcn3",
+   "module": "M_B_01_05_00_test_001",
+   "header": "// @requirement: B.1.5.0 -- Character patterns can be used in templates to define the format of a required character string to be received."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.5.0-002a",
+   "section": "B.1.5.0",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Character patterns can be used to match charstring and `universal charstring values.",
+   "canonical": "A character pattern MAY be used to match `charstring` and `universal charstring` values.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24358,
+    24361
+   ],
+   "examples": [],
+   "file": "tests/B-matching-values/B.01.05.00_test_002.ttcn3",
+   "module": "M_B_01_05_00_test_002",
+   "header": "// @requirement: B.1.5.0 -- Character patterns can be used to match charstring and `universal charstring values."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.5.0-003a",
+   "section": "B.1.5.0",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "In addition to literal characters,` character patterns allow the use of meta-characters (e.g. ? and * within a character pattern means matching any character and any number of any character respectively).",
+   "canonical": "A character pattern MAY contain metacharacters in addition to literal characters.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24358,
+    24361
+   ],
+   "examples": [],
+   "file": "tests/B-matching-values/B.01.05.00_test_003.ttcn3",
+   "module": "M_B_01_05_00_test_003",
+   "header": "// @requirement: B.1.5.0 -- In addition to literal characters,` character patterns allow the use of meta-characters (e.g. ? and * within a character pattern means matching any character and any number of any character respectively)."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.5.0-006a",
+   "section": "B.1.5.0",
+   "type": "information",
+   "modality": "IS",
+   "original": "This template will match any character string that consists of the characters \"ab\", followed by any two characters, followed by the characters \"xyz\", followed by any number of any characters (including any number of \"0\"-s) before the closing character \"0\".",
+   "canonical": "The pattern \"ab??xyz*0\" matches any character string consisting of \"ab\", any two characters, \"xyz\", any number of any characters (including \"0\"s), and a final \"0\".",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24375,
+    24377
+   ],
+   "examples": [
+    {
+     "lines": [
+      24366,
+      24368
+     ],
+     "text": "template charstring mw_myTemplate:= pattern \"ab??xyz*0\";"
+    }
+   ],
+   "file": "tests/B-matching-values/B.01.05.00_test_004.ttcn3",
+   "module": "M_B_01_05_00_test_004",
+   "header": "// @requirement: B.1.5.0 -- This template will match any character string that consists of the characters \"ab\", followed by any two characters, followed by the characters \"xyz\", followed by any number of any characters (including any number of \"0\"-s) before the closing character \"0\"."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.5.0-007a",
+   "section": "B.1.5.0",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "If it is required to interpret any metacharacter literally it shall be preceded with the metacharacter \"\\\".",
+   "canonical": "A metacharacter that is to be interpreted literally SHALL be preceded by the metacharacter \"\\\".",
+   "condition": "the metacharacter is to be interpreted literally",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24379,
+    24379
+   ],
+   "examples": [
+    {
+     "lines": [
+      24382,
+      24384
+     ],
+     "text": "template charstring mw_myTemplate:= pattern \"ab?\\?xyz*\";"
+    }
+   ],
+   "file": "tests/B-matching-values/B.01.05.00_test_005.ttcn3",
+   "module": "M_B_01_05_00_test_005",
+   "header": "// @requirement: B.1.5.0 -- If it is required to interpret any metacharacter literally it shall be preceded with the metacharacter \"\\\"."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.5.0-010a",
+   "section": "B.1.5.0",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "This template would match any character string which consists of the characters \"ab\", followed by any character, followed by the characters \"?xyz\", followed by any number of any characters.",
+   "canonical": "The pattern \"ab?\\?xyz*\" matches any character string consisting of \"ab\", any one character, the characters \"?xyz\", and any number of any characters.",
+   "condition": null,
+   "cross_refs": [
+    "B.1.5.0"
+   ],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "Normative prose describing an example; \"would match\" may be read as a rule or as an illustration. Read as a checkable semantic fact.",
+    "readings": [
+     "The pattern \"ab?\\?xyz*\" matches any character string consisting of \"ab\", any one character, the characters \"?xyz\", and any number of any characters.",
+     "The sentence only explains EXAMPLE 2 and adds no rule beyond the meaning of \"\\\"."
+    ]
+   },
+   "spec_lines": [
+    24386,
+    24387
+   ],
+   "examples": [
+    {
+     "lines": [
+      24382,
+      24384
+     ],
+     "text": "template charstring mw_myTemplate:= pattern \"ab?\\?xyz*\";"
+    }
+   ],
+   "file": "tests/B-matching-values/B.01.05.00_test_006.ttcn3",
+   "module": "M_B_01_05_00_test_006",
+   "header": "// @requirement: B.1.5.0 -- This template would match any character string which consists of the characters \"ab\", followed by any character, followed by the characters \"?xyz\", followed by any number of any characters."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.5.0-012a",
+   "section": "B.1.5.0",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "Metacharacters shall not contain whitespaces except a whitespace preceded by a newline character before or inside a set expression.",
+   "canonical": "A metacharacter SHALL NOT contain whitespace, except a whitespace preceded by a newline character before or inside a set expression.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "Unclear what \"before or inside a set expression\" attaches to and what a whitespace preceded by a newline means (line continuation). Chosen reading: whitespace is only allowed directly after a newline, within or in front of a set expression.",
+    "readings": [
+     "A metacharacter SHALL NOT contain whitespace, except a whitespace directly following a newline character, located before or inside a set expression.",
+     "A pattern SHALL NOT contain whitespace inside multi-character metacharacters, but whitespace that follows a newline (e.g. for indentation) is ignored anywhere before or inside a set expression."
+    ]
+   },
+   "spec_lines": [
+    24389,
+    24390
+   ],
+   "examples": [],
+   "file": "tests/B-matching-values/B.01.05.00_test_007.ttcn3",
+   "module": "M_B_01_05_00_test_007",
+   "header": "// @requirement: B.1.5.0 -- Metacharacters shall not contain whitespaces except a whitespace preceded by a newline character before or inside a set expression."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.5.0-014a",
+   "section": "B.1.5.0",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Metacharacter: ?; Description: Match any character (see notes 1 and 2)",
+   "canonical": "The metacharacter `?` matches any single character.",
+   "condition": null,
+   "cross_refs": [
+    "B.1.5.0"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24396,
+    24396
+   ],
+   "examples": [
+    {
+     "lines": [
+      24366,
+      24368
+     ],
+     "text": "template charstring mw_myTemplate:= pattern \"ab??xyz*0\";"
+    }
+   ],
+   "file": "tests/B-matching-values/B.01.05.00_test_008.ttcn3",
+   "module": "M_B_01_05_00_test_008",
+   "header": "// @requirement: B.1.5.0 -- Metacharacter: ?; Description: Match any character (see notes 1 and 2)"
+  },
+  {
+   "id": "TTCN3-CORE-B.1.5.0-015a",
+   "section": "B.1.5.0",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Metacharacter: *; Description: Match any character zero or more times; shall match the longest possible number of characters (see example 1 above) (see notes 1 and 2)",
+   "canonical": "The metacharacter `*` matches any character zero or more times.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24397,
+    24397
+   ],
+   "examples": [
+    {
+     "lines": [
+      24366,
+      24368
+     ],
+     "text": "template charstring mw_myTemplate:= pattern \"ab??xyz*0\";"
+    }
+   ],
+   "file": "tests/B-matching-values/B.01.05.00_test_009.ttcn3",
+   "module": "M_B_01_05_00_test_009",
+   "header": "// @requirement: B.1.5.0 -- Metacharacter: *; Description: Match any character zero or more times; shall match the longest possible number of characters (see example 1 above) (see notes 1 and 2)"
+  },
+  {
+   "id": "TTCN3-CORE-B.1.5.0-015b",
+   "section": "B.1.5.0",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "Metacharacter: *; Description: Match any character zero or more times; shall match the longest possible number of characters (see example 1 above) (see notes 1 and 2)",
+   "canonical": "The metacharacter `*` SHALL match the longest possible number of characters.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24397,
+    24397
+   ],
+   "examples": [
+    {
+     "lines": [
+      24366,
+      24368
+     ],
+     "text": "template charstring mw_myTemplate:= pattern \"ab??xyz*0\";"
+    }
+   ],
+   "file": "tests/B-matching-values/B.01.05.00_test_010.ttcn3",
+   "module": "M_B_01_05_00_test_010",
+   "header": "// @requirement: B.1.5.0 -- Metacharacter: *; Description: Match any character zero or more times; shall match the longest possible number of characters (see example 1 above) (see notes 1 and 2)"
+  },
+  {
+   "id": "TTCN3-CORE-B.1.5.0-016a",
+   "section": "B.1.5.0",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Metacharacter: \\; Indexing: Including the following character; Description: Cause the following metacharacter to be interpreted as a literal (see note 3). When preceding a character without defined metacharacter meaning \"\\\" and the character together match the character following the \"\\\" (see note 4)",
+   "canonical": "The metacharacter \"\\\" causes the following metacharacter to be interpreted as a literal.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24398,
+    24398
+   ],
+   "examples": [
+    {
+     "lines": [
+      24382,
+      24384
+     ],
+     "text": "template charstring mw_myTemplate:= pattern \"ab?\\?xyz*\";"
+    }
+   ],
+   "file": "tests/B-matching-values/B.01.05.00_test_011.ttcn3",
+   "module": "M_B_01_05_00_test_011",
+   "header": "// @requirement: B.1.5.0 -- Metacharacter: \\; Indexing: Including the following character; Description: Cause the following metacharacter to be interpreted as a literal (see note 3). When preceding a character without defined metacharacter meaning \"\\\" and the character together match the character following the \"\\\" (see note 4)"
+  },
+  {
+   "id": "TTCN3-CORE-B.1.5.0-016b",
+   "section": "B.1.5.0",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Metacharacter: \\; Indexing: Including the following character; Description: Cause the following metacharacter to be interpreted as a literal (see note 3). When preceding a character without defined metacharacter meaning \"\\\" and the character together match the character following the \"\\\" (see note 4)",
+   "canonical": "When \"\\\" precedes a character without defined metacharacter meaning, \"\\\" and that character together match the character following the \"\\\".",
+   "condition": "the character after \"\\\" has no defined metacharacter meaning",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24398,
+    24398
+   ],
+   "examples": [],
+   "file": "tests/B-matching-values/B.01.05.00_test_012.ttcn3",
+   "module": "M_B_01_05_00_test_012",
+   "header": "// @requirement: B.1.5.0 -- Metacharacter: \\; Indexing: Including the following character; Description: Cause the following metacharacter to be interpreted as a literal (see note 3). When preceding a character without defined metacharacter meaning \"\\\" and the character together match the character following the \"\\\" (see note 4)"
+  },
+  {
+   "id": "TTCN3-CORE-B.1.5.0-017a",
+   "section": "B.1.5.0",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Metacharacter: [ ]; Indexing: Including the content; Description: Match any character within the specified set, see clause B.1.5.1 for more details",
+   "canonical": "The metacharacter `[ ]` matches any character within the specified set.",
+   "condition": null,
+   "cross_refs": [
+    "B.1.5.1"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24399,
+    24399
+   ],
+   "examples": [],
+   "file": "tests/B-matching-values/B.01.05.00_test_013.ttcn3",
+   "module": "M_B_01_05_00_test_013",
+   "header": "// @requirement: B.1.5.0 -- Metacharacter: [ ]; Indexing: Including the content; Description: Match any character within the specified set, see clause B.1.5.1 for more details"
+  },
+  {
+   "id": "TTCN3-CORE-B.1.5.0-018a",
+   "section": "B.1.5.0",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Metacharacter: -; Indexing: No effect, the surrounding set is indexed; Description: Has a metacharacter meaning in a set expression. It allows to specify a range of characters; see clause B.1.5.1 for more details",
+   "canonical": "The metacharacter `-` has a metacharacter meaning only in a set expression, where it specifies a range of characters.",
+   "condition": null,
+   "cross_refs": [
+    "B.1.5.1"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24400,
+    24400
+   ],
+   "examples": [],
+   "file": "tests/B-matching-values/B.01.05.00_test_014.ttcn3",
+   "module": "M_B_01_05_00_test_014",
+   "header": "// @requirement: B.1.5.0 -- Metacharacter: -; Indexing: No effect, the surrounding set is indexed; Description: Has a metacharacter meaning in a set expression. It allows to specify a range of characters; see clause B.1.5.1 for more details"
+  },
+  {
+   "id": "TTCN3-CORE-B.1.5.0-019a",
+   "section": "B.1.5.0",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Metacharacter: ^; Indexing: No effect, the surrounding set is indexed; Description: Has a metacharacter meaning in a set expression. It causes to match any character complementing the set of characters following this metacharacter; see clause B.1.5.1 for more details",
+   "canonical": "The metacharacter `^` has a metacharacter meaning only in a set expression, where it causes matching of any character complementing the set of characters following it.",
+   "condition": null,
+   "cross_refs": [
+    "B.1.5.1"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24401,
+    24401
+   ],
+   "examples": [],
+   "file": "tests/B-matching-values/B.01.05.00_test_015.ttcn3",
+   "module": "M_B_01_05_00_test_015",
+   "header": "// @requirement: B.1.5.0 -- Metacharacter: ^; Indexing: No effect, the surrounding set is indexed; Description: Has a metacharacter meaning in a set expression. It causes to match any character complementing the set of characters following this metacharacter; see clause B.1.5.1 for more details"
+  },
+  {
+   "id": "TTCN3-CORE-B.1.5.0-020a",
+   "section": "B.1.5.0",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Metacharacter: \\q{group,plane,row, cell} or \\q{Uxxxx, Uxxx ….}; Indexing: Including the content enclosed within brackets; Description: Match one or more universal character. Both the quadruple and the USI-like syntaxes specified in clause 6.1.1 can be used",
+   "canonical": "The metacharacter `\\q{...}` matches one or more universal characters.",
+   "condition": null,
+   "cross_refs": [
+    "6.1.1"
+   ],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "\"Match one or more universal character\" is unclear: a list of USI-like codes may denote a sequence of characters or alternatives. Chosen reading: a sequence of the listed characters.",
+    "readings": [
+     "The metacharacter `\\q{...}` matches the sequence of universal characters given in its list.",
+     "The metacharacter `\\q{...}` matches any one of the universal characters given in its list."
+    ]
+   },
+   "spec_lines": [
+    24402,
+    24402
+   ],
+   "examples": [],
+   "file": "tests/B-matching-values/B.01.05.00_test_016.ttcn3",
+   "module": "M_B_01_05_00_test_016",
+   "header": "// @requirement: B.1.5.0 -- Metacharacter: \\q{group,plane,row, cell} or \\q{Uxxxx, Uxxx ….}; Indexing: Including the content enclosed within brackets; Description: Match one or more universal character. Both the quadruple and the USI-like syntaxes specified in clause 6.1.1 can be used"
+  },
+  {
+   "id": "TTCN3-CORE-B.1.5.0-020b",
+   "section": "B.1.5.0",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Metacharacter: \\q{group,plane,row, cell} or \\q{Uxxxx, Uxxx ….}; Indexing: Including the content enclosed within brackets; Description: Match one or more universal character. Both the quadruple and the USI-like syntaxes specified in clause 6.1.1 can be used",
+   "canonical": "The metacharacter `\\q` MAY use either the quadruple syntax `\\q{group,plane,row,cell}` or the USI-like syntax `\\q{Uxxxx, ...}` specified in clause 6.1.1.",
+   "condition": null,
+   "cross_refs": [
+    "6.1.1"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24402,
+    24402
+   ],
+   "examples": [],
+   "file": "tests/B-matching-values/B.01.05.00_test_017.ttcn3",
+   "module": "M_B_01_05_00_test_017",
+   "header": "// @requirement: B.1.5.0 -- Metacharacter: \\q{group,plane,row, cell} or \\q{Uxxxx, Uxxx ….}; Indexing: Including the content enclosed within brackets; Description: Match one or more universal character. Both the quadruple and the USI-like syntaxes specified in clause 6.1.1 can be used"
+  },
+  {
+   "id": "TTCN3-CORE-B.1.5.0-021a",
+   "section": "B.1.5.0",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Metacharacter: {reference}; Indexing: Including the reference; Description: Insert the referenced user defined string and interpret it as a regular expression. See clause 27.9 for more details",
+   "canonical": "The metacharacter `{reference}` inserts the referenced user-defined string and interprets it as a regular expression.",
+   "condition": null,
+   "cross_refs": [
+    "27.9",
+    "B.1.5.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24403,
+    24403
+   ],
+   "examples": [],
+   "file": "tests/B-matching-values/B.01.05.00_test_018.ttcn3",
+   "module": "M_B_01_05_00_test_018",
+   "header": "// @requirement: B.1.5.0 -- Metacharacter: {reference}; Indexing: Including the reference; Description: Insert the referenced user defined string and interpret it as a regular expression. See clause 27.9 for more details"
+  },
+  {
+   "id": "TTCN3-CORE-B.1.5.0-022a",
+   "section": "B.1.5.0",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Metacharacter: {\\reference}; Indexing: Including the reference; Description: Insert the referenced user defined string and interpret it as a set of literals. See clause 27.9 for more details",
+   "canonical": "The metacharacter `{\\reference}` inserts the referenced user-defined string and interprets it as a set of literals.",
+   "condition": null,
+   "cross_refs": [
+    "27.9",
+    "B.1.5.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24404,
+    24404
+   ],
+   "examples": [],
+   "file": "tests/B-matching-values/B.01.05.00_test_019.ttcn3",
+   "module": "M_B_01_05_00_test_019",
+   "header": "// @requirement: B.1.5.0 -- Metacharacter: {\\reference}; Indexing: Including the reference; Description: Insert the referenced user defined string and interpret it as a set of literals. See clause 27.9 for more details"
+  },
+  {
+   "id": "TTCN3-CORE-B.1.5.0-023a",
+   "section": "B.1.5.0",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Metacharacter: \\N{reference}; Indexing: Including the reference; Description: Matches a single character from the (sub)set of characters denoted; see clause B.1.5.4 for more details",
+   "canonical": "The metacharacter `\\N{reference}` matches a single character from the (sub)set of characters denoted by the reference.",
+   "condition": null,
+   "cross_refs": [
+    "B.1.5.4"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24405,
+    24405
+   ],
+   "examples": [],
+   "file": "tests/B-matching-values/B.01.05.00_test_020.ttcn3",
+   "module": "M_B_01_05_00_test_020",
+   "header": "// @requirement: B.1.5.0 -- Metacharacter: \\N{reference}; Indexing: Including the reference; Description: Matches a single character from the (sub)set of characters denoted; see clause B.1.5.4 for more details"
+  },
+  {
+   "id": "TTCN3-CORE-B.1.5.0-024a",
+   "section": "B.1.5.0",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Metacharacter: \\d; Description: Match any numerical digit (equivalent to [0-9])",
+   "canonical": "The metacharacter `\\d` matches any numerical digit and is equivalent to `[0-9]`.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24406,
+    24406
+   ],
+   "examples": [],
+   "file": "tests/B-matching-values/B.01.05.00_test_021.ttcn3",
+   "module": "M_B_01_05_00_test_021",
+   "header": "// @requirement: B.1.5.0 -- Metacharacter: \\d; Description: Match any numerical digit (equivalent to [0-9])"
+  },
+  {
+   "id": "TTCN3-CORE-B.1.5.0-025a",
+   "section": "B.1.5.0",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Metacharacter: \\w; Description: Match any alphanumeric character (equivalent to [0-9a-zA-Z])",
+   "canonical": "The metacharacter `\\w` matches any alphanumeric character and is equivalent to `[0-9a-zA-Z]`.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24407,
+    24407
+   ],
+   "examples": [],
+   "file": "tests/B-matching-values/B.01.05.00_test_022.ttcn3",
+   "module": "M_B_01_05_00_test_022",
+   "header": "// @requirement: B.1.5.0 -- Metacharacter: \\w; Description: Match any alphanumeric character (equivalent to [0-9a-zA-Z])"
+  },
+  {
+   "id": "TTCN3-CORE-B.1.5.0-026a",
+   "section": "B.1.5.0",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Metacharacter: \\t; Description: Match the control character CHARACTER TABULATION (0009) (see ISO/IEC 10646 [2])",
+   "canonical": "The metacharacter `\\t` matches the control character CHARACTER TABULATION (0009).",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24408,
+    24408
+   ],
+   "examples": [],
+   "file": "tests/B-matching-values/B.01.05.00_test_023.ttcn3",
+   "module": "M_B_01_05_00_test_023",
+   "header": "// @requirement: B.1.5.0 -- Metacharacter: \\t; Description: Match the control character CHARACTER TABULATION (0009) (see ISO/IEC 10646 [2])"
+  },
+  {
+   "id": "TTCN3-CORE-B.1.5.0-027a",
+   "section": "B.1.5.0",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Metacharacter: \\n; Description: Match any of the following control characters: LINE FEED (000A), LINE TABULATION (000B), FORM FEED (000C), CARRIAGE RETURN (000D) (see ISO/IEC 10646 [2]) (jointly called newline characters",
+   "canonical": "The metacharacter `\\n` matches any one of the control characters LINE FEED (000A), LINE TABULATION (000B), FORM FEED (000C) and CARRIAGE RETURN (000D).",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24409,
+    24409
+   ],
+   "examples": [],
+   "file": "tests/B-matching-values/B.01.05.00_test_024.ttcn3",
+   "module": "M_B_01_05_00_test_024",
+   "header": "// @requirement: B.1.5.0 -- Metacharacter: \\n; Description: Match any of the following control characters: LINE FEED (000A), LINE TABULATION (000B), FORM FEED (000C), CARRIAGE RETURN (000D) (see ISO/IEC 10646 [2]) (jointly called newline characters"
+  },
+  {
+   "id": "TTCN3-CORE-B.1.5.0-028a",
+   "section": "B.1.5.0",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Metacharacter: \\r; Description: Match the CARRIAGE RETURN (000D) control character (see ISO/IEC 10646 [2])",
+   "canonical": "The metacharacter `\\r` matches the CARRIAGE RETURN (000D) control character.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24410,
+    24410
+   ],
+   "examples": [],
+   "file": "tests/B-matching-values/B.01.05.00_test_025.ttcn3",
+   "module": "M_B_01_05_00_test_025",
+   "header": "// @requirement: B.1.5.0 -- Metacharacter: \\r; Description: Match the CARRIAGE RETURN (000D) control character (see ISO/IEC 10646 [2])"
+  },
+  {
+   "id": "TTCN3-CORE-B.1.5.0-029a",
+   "section": "B.1.5.0",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Metacharacter: \\s; Description: Match any one of the following control characters defined in ISO/IEC 10646 [2]: CHARACTER TABULATION (0009), LINE FEED (000A), LINE TABULATION (000B), FORM FEED (000C), CARRIAGE RETURN (000D), all space characters defined in clause 17.2 of ISO/IEC 10646 [2] and SP(32) defined in Recommendation ITU-T T.50 [4] (jointly called white-space characters)",
+   "canonical": "The metacharacter `\\s` matches any one white-space character: CHARACTER TABULATION (0009), LINE FEED (000A), LINE TABULATION (000B), FORM FEED (000C), CARRIAGE RETURN (000D), any space character defined in clause 17.2 of ISO/IEC 10646, or SP(32) of ITU-T T.50.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24411,
+    24411
+   ],
+   "examples": [],
+   "file": "tests/B-matching-values/B.01.05.00_test_026.ttcn3",
+   "module": "M_B_01_05_00_test_026",
+   "header": "// @requirement: B.1.5.0 -- Metacharacter: \\s; Description: Match any one of the following control characters defined in ISO/IEC 10646 [2]: CHARACTER TABULATION (0009), LINE FEED (000A), LINE TABULATION (000B), FORM FEED (000C), CARRIAGE RETURN (000D), all space characters defined in clause 17.2 of ISO/IEC 10646 [2] and SP(32) defined in Recommendation ITU-T T.50 [4] (jointly called white-space characters)"
+  },
+  {
+   "id": "TTCN3-CORE-B.1.5.0-030a",
+   "section": "B.1.5.0",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Metacharacter: \\b; Description: Match a word boundary (any graphical character except SP or DEL is preceded or followed by any of the whitespace or newline characters)",
+   "canonical": "The metacharacter `\\b` matches a word boundary, i.e. a position where any graphical character other than SP or DEL is preceded or followed by a whitespace or newline character.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "The row uses \"whitespace\" while row \\s defines the term \"white-space characters\".",
+    "improper_terms": [
+     {
+      "used": "whitespace",
+      "proper": "white-space character",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    24412,
+    24412
+   ],
+   "examples": [],
+   "file": "tests/B-matching-values/B.01.05.00_test_027.ttcn3",
+   "module": "M_B_01_05_00_test_027",
+   "header": "// @requirement: B.1.5.0 -- Metacharacter: \\b; Description: Match a word boundary (any graphical character except SP or DEL is preceded or followed by any of the whitespace or newline characters)"
+  },
+  {
+   "id": "TTCN3-CORE-B.1.5.0-031a",
+   "section": "B.1.5.0",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Metacharacter: \\\"; Description: Match the double quote character",
+   "canonical": "The metacharacter `\\\"` matches the double quote character.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24413,
+    24413
+   ],
+   "examples": [],
+   "file": "tests/B-matching-values/B.01.05.00_test_028.ttcn3",
+   "module": "M_B_01_05_00_test_028",
+   "header": "// @requirement: B.1.5.0 -- Metacharacter: \\\"; Description: Match the double quote character"
+  },
+  {
+   "id": "TTCN3-CORE-B.1.5.0-032a",
+   "section": "B.1.5.0",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Metacharacter: \"\"; Description: Match the double quote character",
+   "canonical": "The metacharacter `\"\"` matches the double quote character.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24414,
+    24414
+   ],
+   "examples": [],
+   "file": "tests/B-matching-values/B.01.05.00_test_029.ttcn3",
+   "module": "M_B_01_05_00_test_029",
+   "header": "// @requirement: B.1.5.0 -- Metacharacter: \"\"; Description: Match the double quote character"
+  },
+  {
+   "id": "TTCN3-CORE-B.1.5.0-033a",
+   "section": "B.1.5.0",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Metacharacter: Used to denote two alternative expressions",
+   "canonical": "The metacharacter `|` denotes two alternative expressions.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear",
+    "issue": "The metacharacter \"|\" is lost in the markdown rendering of this row (pipe-table cell); restored from context (metacharacter symbol list in B.1.5.0-s050)."
+   },
+   "spec_lines": [
+    24415,
+    24415
+   ],
+   "examples": [],
+   "file": "tests/B-matching-values/B.01.05.00_test_030.ttcn3",
+   "module": "M_B_01_05_00_test_030",
+   "header": "// @requirement: B.1.5.0 -- Metacharacter: Used to denote two alternative expressions"
+  },
+  {
+   "id": "TTCN3-CORE-B.1.5.0-034a",
+   "section": "B.1.5.0",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Metacharacter: ( ); Indexing: Including the content; Description: Used to group an expression",
+   "canonical": "The metacharacter `( )` groups an expression.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24416,
+    24416
+   ],
+   "examples": [],
+   "file": "tests/B-matching-values/B.01.05.00_test_031.ttcn3",
+   "module": "M_B_01_05_00_test_031",
+   "header": "// @requirement: B.1.5.0 -- Metacharacter: ( ); Indexing: Including the content; Description: Used to group an expression"
+  },
+  {
+   "id": "TTCN3-CORE-B.1.5.0-042a",
+   "section": "B.1.5.0",
+   "type": "information",
+   "modality": "CAN",
+   "original": "NOTE 1: Metacharacters ? and * are able to match any characters of the character set of the root type of the template or template field in which they are used (i.e. not considering type constraints applied).",
+   "canonical": "The metacharacters `?` and `*` CAN match any character of the character set of the root type of the template or template field in which they are used, without considering applied type constraints.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24436,
+    24440
+   ],
+   "examples": [],
+   "file": "tests/B-matching-values/B.01.05.00_test_032.ttcn3",
+   "module": "M_B_01_05_00_test_032",
+   "header": "// @requirement: B.1.5.0 -- NOTE 1: Metacharacters ? and * are able to match any characters of the character set of the root type of the template or template field in which they are used (i.e. not considering type constraints applied)."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.5.0-043a",
+   "section": "B.1.5.0",
+   "type": "information",
+   "modality": "SHALL",
+   "original": "However, it shall not be forgotten, that receiving operations require type checking of the received message before attempting to match it.",
+   "canonical": "A receiving operation SHALL type-check a received message before attempting to match it.",
+   "condition": null,
+   "cross_refs": [
+    "22.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24436,
+    24440
+   ],
+   "examples": [],
+   "file": "tests/B-matching-values/B.01.05.00_test_033.ttcn3",
+   "module": "M_B_01_05_00_test_033",
+   "header": "// @requirement: B.1.5.0 -- However, it shall not be forgotten, that receiving operations require type checking of the received message before attempting to match it."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.5.0-044a",
+   "section": "B.1.5.0",
+   "type": "information",
+   "modality": "IS NOT",
+   "original": "Therefore received values not complying with the subtype specification of the template or template field are never provided for matching.",
+   "canonical": "A received value not complying with the subtype specification of the template or template field IS NOT provided for matching.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24436,
+    24440
+   ],
+   "examples": [],
+   "file": "tests/B-matching-values/B.01.05.00_test_034.ttcn3",
+   "module": "M_B_01_05_00_test_034",
+   "header": "// @requirement: B.1.5.0 -- Therefore received values not complying with the subtype specification of the template or template field are never provided for matching."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.5.0-047a",
+   "section": "B.1.5.0",
+   "type": "information",
+   "modality": "CAN",
+   "original": "NOTE 3: Consequently the backslash character can be matched by a pair of backslash characters without space between them (\\\\), e.g. the pattern \"\\\\d\" will match the string \"\\d\"; opening or closing square brackets can be matched by \"\\[\" and \"\\]\" respectively, etc.",
+   "canonical": "A backslash character CAN be matched by a pair of backslash characters \"\\\\\" without space between them, and opening or closing square brackets CAN be matched by \"\\[\" and \"\\]\".",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24443,
+    24445
+   ],
+   "examples": [],
+   "file": "tests/B-matching-values/B.01.05.00_test_035.ttcn3",
+   "module": "M_B_01_05_00_test_035",
+   "header": "// @requirement: B.1.5.0 -- NOTE 3: Consequently the backslash character can be matched by a pair of backslash characters without space between them (\\\\), e.g. the pattern \"\\\\d\" will match the string \"\\d\"; opening or closing square brackets can be matched by \"\\[\" and \"\\]\" respectively, etc."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.5.0-048a",
+   "section": "B.1.5.0",
+   "type": "information",
+   "modality": "IS",
+   "original": "NOTE 4: Such use of the metacharacter \"\\\" is deprecated as further metacharacters can be defined later.",
+   "canonical": "Using \"\\\" before a character without defined metacharacter meaning IS deprecated, as further metacharacters can be defined later.",
+   "condition": "\"\\\" precedes a character without defined metacharacter meaning",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24446,
+    24446
+   ],
+   "examples": [],
+   "file": "tests/B-matching-values/B.01.05.00_test_036.ttcn3",
+   "module": "M_B_01_05_00_test_036",
+   "header": "// @requirement: B.1.5.0 -- NOTE 4: Such use of the metacharacter \"\\\" is deprecated as further metacharacters can be defined later."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.5.0-051a",
+   "section": "B.1.5.0",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "When any of the metacharacter symbols are present in a pattern, but do not form a valid metacharacter, they retain their literal value.",
+   "canonical": "A metacharacter symbol present in a pattern that does not form a valid metacharacter retains its literal value.",
+   "condition": "the metacharacter symbol does not form a valid metacharacter",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24448,
+    24450
+   ],
+   "examples": [],
+   "file": "tests/B-matching-values/B.01.05.00_test_037.ttcn3",
+   "module": "M_B_01_05_00_test_037",
+   "header": "// @requirement: B.1.5.0 -- When any of the metacharacter symbols are present in a pattern, but do not form a valid metacharacter, they retain their literal value."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.5.0-052a",
+   "section": "B.1.5.0",
+   "type": "information",
+   "modality": "CANNOT",
+   "original": "NOTE: This rule assures that no format error can occur during pattern template instantiation.",
+   "canonical": "A format error CANNOT occur during pattern template instantiation.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24452,
+    24453
+   ],
+   "examples": [],
+   "file": "tests/B-matching-values/B.01.05.00_test_038.ttcn3",
+   "module": "M_B_01_05_00_test_038",
+   "header": "// @requirement: B.1.5.0 -- NOTE: This rule assures that no format error can occur during pattern template instantiation."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.5.0-053a",
+   "section": "B.1.5.0",
+   "type": "information",
+   "modality": "CAN",
+   "original": "However, errors caused by invalid references can still appear (see clauses 27.9 and B.1.5.4 for more details).",
+   "canonical": "An error caused by an invalid reference CAN still occur during pattern template instantiation.",
+   "condition": null,
+   "cross_refs": [
+    "27.9",
+    "B.1.5.4"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24452,
+    24453
+   ],
+   "examples": [],
+   "file": "tests/B-matching-values/B.01.05.00_test_039.ttcn3",
+   "module": "M_B_01_05_00_test_039",
+   "header": "// @requirement: B.1.5.0 -- However, errors caused by invalid references can still appear (see clauses 27.9 and B.1.5.4 for more details)."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.5.0-054a",
+   "section": "B.1.5.0",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Character patterns may be composed from several fragments using the concatenation operation.",
+   "canonical": "A character pattern MAY be composed from several fragments using the concatenation operation.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24455,
+    24457
+   ],
+   "examples": [
+    {
+     "lines": [
+      24460,
+      24463
+     ],
+     "text": "template charstring mw_myTemplate:= pattern \"ab?\\?\" & \"xyz*\"; // results in the same pattern as\n                                       // in example 2"
+    }
+   ],
+   "file": "tests/B-matching-values/B.01.05.00_test_040.ttcn3",
+   "module": "M_B_01_05_00_test_040",
+   "header": "// @requirement: B.1.5.0 -- Character patterns may be composed from several fragments using the concatenation operation."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.5.0-055a",
+   "section": "B.1.5.0",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "The fragments of the pattern shall be concatenated before any evaluation of the pattern expression.",
+   "canonical": "The fragments of a character pattern SHALL be concatenated before any evaluation of the pattern expression.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24455,
+    24457
+   ],
+   "examples": [
+    {
+     "lines": [
+      24460,
+      24463
+     ],
+     "text": "template charstring mw_myTemplate:= pattern \"ab?\\?\" & \"xyz*\"; // results in the same pattern as\n                                       // in example 2"
+    },
+    {
+     "lines": [
+      24583,
+      24605
+     ],
+     "text": "const charstring c_myConst2 := \"ab\";\n  template charstring mw_regExp1 := pattern \"{c_myConst2}\";\n    // matches the string \"ab\"\n  template charstring mw_regExp1a := pattern c_myConst2;\n    // the same as above, matches the string \"ab\"\n  template charstring mw_regExp2 := pattern \"{mw_regExp1}{mw_regExp1}\";\n    // matches the string \"abab\"\n  template charstring mw_regExp2a := pattern \"{mw_regExp1}\" & \"{mw_regExp1}\";\n    // the same as above, matches the string \"abab\"\n  template charstring mw_regExp2b := pattern mw_regExp1 & mw_regExp1;\n    // the same as above, matches the string \"abab\"\n  template charstring mw_regExp3 := pattern \"c{mw_regExp2}d\";\n    // matches the string \"cababd\"\n  template charstring mw_regExp4 := pattern \"{mw_reg\"; \n  template charstring mw_regExp5 := pattern \"Exp1}\";\n  template charstring mw_regExp6 := pattern \"{mw_regExp4}{mw_regExp5}\";\n    // matches the string \"{mw_regExp1}\" only (i.e. shall not be handled as a reference \n    // expression after insertion) \n  template charstring mw_regExp7 := pattern \"{mw_reg\" & \"Exp1}\";\n    // note the difference to the previous example; in this case the fragments of the\n    // pattern are joined before any evaluation, i.e. this template will match the string \"ab\""
+    }
+   ],
+   "file": "tests/B-matching-values/B.01.05.00_test_041.ttcn3",
+   "module": "M_B_01_05_00_test_041",
+   "header": "// @requirement: B.1.5.0 -- The fragments of the pattern shall be concatenated before any evaluation of the pattern expression."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.5.0-059a",
+   "section": "B.1.5.0",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Pattern definitions may contain references to values or templates.",
+   "canonical": "A pattern definition MAY contain references to values or templates.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24465,
+    24468
+   ],
+   "examples": [
+    {
+     "lines": [
+      24471,
+      24479
+     ],
+     "text": "template charstring mw_template1 := \"ab?\";\n  template charstring mw_template2 := pattern \"?xyz*0\";\n  template charstring mw_template3 := ?;\n  template charstring mw_template4 := pattern mw_template1 & mw_template2; \n     // the same template as in example 1, i.e. pattern \"ab??xyz*0\"\n  template charstring mw_template5 := pattern mw_template3\n     // produces as error as mw_template3 doesn't contain a value or pattern"
+    }
+   ],
+   "file": "tests/B-matching-values/B.01.05.00_test_042.ttcn3",
+   "module": "M_B_01_05_00_test_042",
+   "header": "// @requirement: B.1.5.0 -- Pattern definitions may contain references to values or templates."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.5.0-060a",
+   "section": "B.1.5.0",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "The referred value or template shall be of the charstring or universal charstring type and it shall contain either a specific value or pattern.",
+   "canonical": "A value or template referenced in a pattern definition SHALL be of the `charstring` or `universal charstring` type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24465,
+    24468
+   ],
+   "examples": [],
+   "file": "tests/B-matching-values/B.01.05.00_test_043.ttcn3",
+   "module": "M_B_01_05_00_test_043",
+   "header": "// @requirement: B.1.5.0 -- The referred value or template shall be of the charstring or universal charstring type and it shall contain either a specific value or pattern."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.5.0-060b",
+   "section": "B.1.5.0",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "The referred value or template shall be of the charstring or universal charstring type and it shall contain either a specific value or pattern.",
+   "canonical": "A value or template referenced in a pattern definition SHALL contain either a specific value or a pattern.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24465,
+    24468
+   ],
+   "examples": [
+    {
+     "lines": [
+      24471,
+      24479
+     ],
+     "text": "template charstring mw_template1 := \"ab?\";\n  template charstring mw_template2 := pattern \"?xyz*0\";\n  template charstring mw_template3 := ?;\n  template charstring mw_template4 := pattern mw_template1 & mw_template2; \n     // the same template as in example 1, i.e. pattern \"ab??xyz*0\"\n  template charstring mw_template5 := pattern mw_template3\n     // produces as error as mw_template3 doesn't contain a value or pattern"
+    }
+   ],
+   "file": "tests/B-matching-values/B.01.05.00_test_044.ttcn3",
+   "module": "M_B_01_05_00_test_044",
+   "header": "// @requirement: B.1.5.0 -- The referred value or template shall be of the charstring or universal charstring type and it shall contain either a specific value or pattern."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.5.0-061a",
+   "section": "B.1.5.0",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "When the referenced template contains a pattern, the character pattern definition of this pattern is used as a fragment for creating the new pattern.",
+   "canonical": "When a referenced template contains a pattern, the character pattern definition of that pattern IS used as a fragment for creating the new pattern.",
+   "condition": "the referenced template contains a pattern",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24465,
+    24468
+   ],
+   "examples": [
+    {
+     "lines": [
+      24471,
+      24479
+     ],
+     "text": "template charstring mw_template1 := \"ab?\";\n  template charstring mw_template2 := pattern \"?xyz*0\";\n  template charstring mw_template3 := ?;\n  template charstring mw_template4 := pattern mw_template1 & mw_template2; \n     // the same template as in example 1, i.e. pattern \"ab??xyz*0\"\n  template charstring mw_template5 := pattern mw_template3\n     // produces as error as mw_template3 doesn't contain a value or pattern"
+    }
+   ],
+   "file": "tests/B-matching-values/B.01.05.00_test_045.ttcn3",
+   "module": "M_B_01_05_00_test_045",
+   "header": "// @requirement: B.1.5.0 -- When the referenced template contains a pattern, the character pattern definition of this pattern is used as a fragment for creating the new pattern."
+  }
+ ]
+}

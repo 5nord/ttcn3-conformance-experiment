@@ -1,0 +1,18 @@
+// @requirement: 7.1.5 -- In the case of and4b, or4b and` xor4b the operands shall be of the same root types.The result type of the bitwise operators shall be the root type of the operands.
+// @id: TTCN3-CORE-7.1.5-005a
+// @verdict: pass reject
+module M_07_01_05_test_003 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var bitstring v_b := '1010'B;
+        var hexstring v_h := 'A'H;
+        var bitstring v_r := v_b and4b v_h; // error: operands of different root types
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

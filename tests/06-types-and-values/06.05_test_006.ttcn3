@@ -1,0 +1,33 @@
+// @requirement: 6.5 -- a) Reference to an existing variable, parameter, constant, template or a field or element inside of it.
+// @id: TTCN3-CORE-6.5-006a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_05_test_006 {
+    type record R { integer f }
+    type component C {}
+
+    const R c_r := { f := 3 };
+    template integer t_int := (1 .. 5);
+
+    function f_test(integer p_par) {
+        var integer v_int := 1;
+        var v_autoA := v_int;
+        var v_autoB := p_par;
+        var v_autoC := c_r;
+        var v_autoD := c_r.f;
+        var template v_autoE := t_int;
+        if (v_autoA == 1 and v_autoB == 2 and v_autoC.f == 3 and v_autoD == 3
+            and match(4, v_autoE)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    testcase TC() runs on C {
+        f_test(2);
+    }
+
+    control {
+        execute(TC());
+    }
+}

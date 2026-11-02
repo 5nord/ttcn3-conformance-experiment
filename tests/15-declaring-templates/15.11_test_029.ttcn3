@@ -1,0 +1,22 @@
+// @requirement: 15.11 -- Concatenation operand: Specific values (character strings); Transformed string: The character string is escaped by inserting the "\" character before each of the following characters: "#", "(", ")", "*", "+", "-", "?", "[", "\", "]", "^", "{", "|", "}".
+// @id: TTCN3-CORE-15.11-025a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_11_test_029 {
+
+    template charstring mw_t := "A*" & ? & "(B)";
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (match("A*xy(B)", mw_t) and match("A*(B)", mw_t) and not match("Axy(B)", mw_t) and
+            not match("A*xyB", mw_t)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,48 @@
+// @requirement: 16.2.0 -- In this case, the syntax rules of the top alternatives are identical to the syntax rules of the alternatives of the interleave statements.
+// @id: TTCN3-CORE-16.2.0-007a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_16_02_00_test_005 {
+
+    type port P message {
+        inout integer
+    }
+
+    type component C {
+        port P p1, p2;
+        var integer v_count := 0;
+        timer T_short := 0.1;
+    }
+
+    function f_ptc() runs on C {
+        p1.send(1);
+    }
+
+    altstep interleave a_events(C p_ptc) runs on C {
+        [] p2.receive(integer:1) {
+            v_count := v_count + 1;
+        }
+        [] p_ptc.done {
+            v_count := v_count + 1;
+        }
+        [] T_short.timeout {
+            v_count := v_count + 1;
+        }
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(v_ptc:p1, self:p2);
+        T_short.start;
+        v_ptc.start(f_ptc());
+        a_events(v_ptc);
+        if (v_count == 3) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

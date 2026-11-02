@@ -1,0 +1,30 @@
+// @requirement: B.1.4.1 -- A template field that uses length as an attribute of a symbol matches the corresponding field if, and only if, the field matches both the symbol and its associated attribute.
+// @id: TTCN3-CORE-B.1.4.1-007a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_04_01_test_006 {
+
+    type record of integer RoI;
+    type record R {
+        RoI f
+    }
+
+    type component C {}
+
+    template R mw_r := { f := {1, *} length(3) };
+
+    testcase TC() runs on C {
+        var R v_both := { f := {1, 2, 3} };
+        var R v_lengthOnly := { f := {2, 3, 4} };
+        var R v_symbolOnly := { f := {1, 2} };
+        if (match(v_both, mw_r) and not match(v_lengthOnly, mw_r) and
+            not match(v_symbolOnly, mw_r)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

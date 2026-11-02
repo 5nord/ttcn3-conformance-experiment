@@ -1,0 +1,23 @@
+// @requirement: 15.1 -- For implicit initialization of the optional fields of a template or a template field, an optional attribute with the value "implicit omit" (see clause 27.7) shall be associated with it either directly or via the attribute distribution (scoping) mechanism (see clause 27.1.1).
+// @id: TTCN3-CORE-15.1-013a
+// @verdict: pass reject
+module M_15_01_test_012 {
+
+    type record MyRecord {
+        integer field1 optional,
+        charstring field2
+    }
+
+    type component C {}
+
+    template MyRecord m_rec := { field2 := "a" } // error: field1 is not initialized and no "implicit omit" attribute applies
+
+    testcase TC() runs on C {
+        var MyRecord v_rec := valueof(m_rec);
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

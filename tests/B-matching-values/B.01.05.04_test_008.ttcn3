@@ -1,0 +1,24 @@
+// @requirement: B.1.5.4 -- NOTE 2: \N{charstring} is equivalent to ? when the latter is applied to a template or template field of charstring type and \N{universal charstring} is equivalent to ? when the latter is applied to a template or template field of universal charstring type (but causes an error if applied to a template or template field of charstring type).
+// @id: TTCN3-CORE-B.1.5.4-005b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_05_04_test_008 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        template universal charstring m_p := pattern "x\N{universal charstring}y";
+        template universal charstring m_ref := pattern "x?y";
+        var universal charstring v_values[6] := { "xy", "xay", "x" & char(0, 0, 1, 17) & "y",
+            "x" & char(0, 1, 2, 3) & "y", "xaby", "xa" };
+        setverdict(pass);
+        for (var integer i := 0; i < lengthof(v_values); i := i + 1) {
+            if (match(v_values[i], m_p) != match(v_values[i], m_ref)) {
+                setverdict(fail);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

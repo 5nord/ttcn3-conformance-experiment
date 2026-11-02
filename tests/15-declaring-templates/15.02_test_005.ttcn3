@@ -1,0 +1,44 @@
+// @requirement: 15.2 -- A template used in a call or reply operation defines a complete set of field values for all in and inout parameters.
+// @id: TTCN3-CORE-15.2-006a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_02_test_005 {
+
+    signature RemoteProc(in integer Par1, out integer Par2, inout integer Par3) return integer;
+
+    type port P procedure {
+        inout RemoteProc;
+    }
+
+    type component C {
+        port P p1;
+        port P p2;
+    }
+
+    template RemoteProc s_call := { Par1 := 1, Par2 := -, Par3 := 3 }
+    template RemoteProc s_reply := { Par1 := -, Par2 := 20, Par3 := 30 }
+
+    testcase TC() runs on C {
+        timer T := 1.0;
+        var integer v_par1, v_par2, v_par3;
+        connect(self:p1, self:p2);
+        p1.call(s_call, nowait);
+        T.start;
+        alt {
+            [] p2.getcall(RemoteProc:{ Par1 := ?, Par2 := ?, Par3 := ? }) -> param(v_par1 := Par1, v_par3 := Par3) {
+                if (v_par1 != 1 or v_par3 != 3) { setverdict(fail); }
+            }
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        p2.reply(s_reply value 0);
+        alt {
+            [] p1.getreply(RemoteProc:{ Par1 := ?, Par2 := ?, Par3 := ? } value ?) -> param(v_par2 := Par2, v_par3 := Par3) {
+                if (v_par2 == 20 and v_par3 == 30) { setverdict(pass); } else { setverdict(fail); }
+            }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,28 @@
+// @requirement: 15.6.3 -- When referencing an element within a record of, set of or array field to which AnyValueOrNone is assigned on the left hand side of an assignment, the rules for AnyValue shall apply (see item c) for more details).
+// @id: TTCN3-CORE-15.6.3-016a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_06_03_test_012 {
+
+    type record of integer RoI;
+
+    type record R {
+        RoI field1 optional
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template R v_r := {field1 := *};
+        v_r.field1[2] := 2;
+        if (match({field1 := {0, 0, 2}}, v_r) and match({field1 := {1, 1, 2, 3}}, v_r) and
+            not match({field1 := omit}, v_r) and not match({field1 := {2}}, v_r)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

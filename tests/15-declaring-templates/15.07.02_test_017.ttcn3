@@ -1,0 +1,36 @@
+// @requirement: 15.7.2 -- The matching mechanisms list, complemented list, subset, and superset can use the elements of a template using the all **from clause.**
+// @id: TTCN3-CORE-15.7.2-018a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_07_02_test_017 {
+
+    type component C {}
+
+    type record of integer RoI;
+    type set of integer SoI;
+
+    template RoI m_ints := { 1, 2 };
+    template integer m_list := (0, all from m_ints);
+    template integer m_compl := complement(all from m_ints);
+    template SoI m_subset := subset(3, all from m_ints);
+    template SoI m_superset := superset(all from m_ints);
+
+    testcase TC() runs on C {
+        var SoI v_21 := { 2, 1 };
+        var SoI v_13 := { 1, 3 };
+        var SoI v_14 := { 1, 4 };
+        var SoI v_1 := { 1 };
+        var SoI v_123 := { 1, 2, 3 };
+        if (match(0, m_list) and match(2, m_list) and not match(3, m_list) and
+            match(3, m_compl) and not match(1, m_compl) and
+            match(v_13, m_subset) and not match(v_14, m_subset) and
+            match(v_123, m_superset) and match(v_21, m_superset) and not match(v_1, m_superset)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

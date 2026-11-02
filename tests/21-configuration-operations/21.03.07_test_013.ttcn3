@@ -1,0 +1,36 @@
+// @requirement: 21.3.7 -- Consecutive done operations applied to the same test component will give the same result as long as the test component does not change its state (see clause F.1.2).
+// @id: TTCN3-CORE-21.3.7-011a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_03_07_test_013 {
+
+    type component C {}
+
+    function f_ptc() runs on C {}
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create alive;
+        v_ptc.start(f_ptc());
+        v_ptc.done;
+        alt {
+            [] v_ptc.done {
+                setverdict(pass);
+            }
+            [else] {
+                setverdict(fail);
+            }
+        }
+        alt {
+            [] v_ptc.done {
+                setverdict(pass);
+            }
+            [else] {
+                setverdict(fail);
+            }
+        }
+        v_ptc.kill;
+    }
+
+    control {
+        execute(TC());
+    }
+}

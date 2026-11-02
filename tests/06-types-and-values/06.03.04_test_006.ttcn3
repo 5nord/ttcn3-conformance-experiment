@@ -1,0 +1,32 @@
+// @requirement: 6.3.4 -- p.receive (MyRec:?); // shall not match as the transmitted template is of the alias type and not of the user-defined type
+// @id: TTCN3-CORE-6.3.4-007a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_03_04_test_006 {
+    type record MyRec { integer f }
+    type MyRec MyRecAlias;
+    type port MyPort message { inout MyRec, MyRecAlias }
+    type component C { port MyPort p }
+
+    template MyRecAlias m_myRecAlias := { f := 1 };
+
+    function f_send() runs on C {
+        p.send(m_myRecAlias);
+    }
+
+    testcase TC() runs on C {
+        timer T := 1.0;
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_send());
+        T.start;
+        alt {
+            [] p.receive(MyRec:?) { setverdict(fail); }
+            [] p.receive(MyRecAlias:?) { setverdict(pass); }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

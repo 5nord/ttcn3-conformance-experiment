@@ -1,0 +1,35 @@
+// @requirement: 22.6 -- The keywords any and all may be used with configuration and communication operations as indicated in table 26.
+// @id: TTCN3-CORE-22.6-001a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_06_test_001 {
+
+    type port P message { inout integer }
+
+    type component C {
+        port P p1;
+        port P p2;
+    }
+
+    testcase TC() runs on C {
+        timer T := 1.0;
+        connect(self:p1, self:p2);
+        if (not all port.checkstate("Connected")) {
+            setverdict(fail);
+        }
+        p1.send(1);
+        T.start;
+        alt {
+            [] any port.receive {
+                setverdict(pass);
+            }
+            [] T.timeout {
+                setverdict(fail);
+            }
+        }
+        all port.stop;
+    }
+
+    control {
+        execute(TC());
+    }
+}

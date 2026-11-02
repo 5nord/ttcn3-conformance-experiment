@@ -1,0 +1,19 @@
+// @requirement: 5.4.2 -- The number of actual parameters in the list notation shall not exceed the number of parameters in the formal parameter list.
+// @id: TTCN3-CORE-5.4.2-034a
+// @verdict: pass reject
+module M_05_04_02_test_039 {
+
+    type component C {}
+
+    function f(integer p_a, integer p_b := 2) {
+    }
+
+    testcase TC() runs on C {
+        f(1, 2, 3); // error: more actual than formal parameters
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

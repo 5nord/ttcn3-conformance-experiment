@@ -1,0 +1,43 @@
+// @requirement: 20.5.1 -- This means, an altstep invoked as default may execute receiving operations that empty the queues of unmapped and disconnected ports without causing a test case error.
+// @id: TTCN3-CORE-20.5.1-011a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_05_01_test_008 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p1;
+        port P p2;
+        timer T;
+        timer T_guard;
+        var integer v_count := 0;
+    }
+
+    altstep a_drain() runs on C {
+        [] p2.receive { v_count := v_count + 1; repeat; }
+    }
+
+    testcase TC() runs on C {
+        connect(self:p1, self:p2);
+        p1.send(1);
+        p1.send(2);
+        T_guard.start(1.0);
+        alt {
+            [] p2.check(receive(2)) {}
+            [] T_guard.timeout { setverdict(fail); stop; }
+        }
+        disconnect(self:p1, self:p2);
+        activate(a_drain());
+        T.start(0.2);
+        alt {
+            [] T.timeout {}
+        }
+        if (v_count == 2) { setverdict(pass); } else { setverdict(fail); }
+    }
+
+    control {
+        execute(TC());
+    }
+}

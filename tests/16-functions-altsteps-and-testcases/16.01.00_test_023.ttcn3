@@ -1,0 +1,19 @@
+// @requirement: 16.1.0 -- c) Functions called directly or indirectly from a module control function shall have no mtc or system clause.
+// @id: TTCN3-CORE-16.1.0-025a
+// @verdict: pass reject
+module M_16_01_00_test_023 {
+
+    type component C {}
+
+    function f_mtc() mtc C {
+    }
+
+    testcase TC() runs on C {
+        setverdict(pass);
+    }
+
+    control {
+        f_mtc(); // error: function with mtc clause called from control
+        execute(TC());
+    }
+}

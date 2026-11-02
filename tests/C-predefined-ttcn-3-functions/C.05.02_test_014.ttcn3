@@ -1,0 +1,20 @@
+// @requirement: C.5.2 -- The restrictions in clause 16.1.2 apply.
+// @id: TTCN3-CORE-C.5.2-014a
+// @verdict: pass reject
+module M_C_05_02_test_014 {
+
+    type component C {}
+
+    type integer I with { variant "32 bit" };
+
+    testcase TC() runs on C {
+        var octetstring v_enc := '41424344'O;
+        var I v_dec;
+        var integer v_res := decvalue(v_enc, v_dec); // error: encoded_value is not a bitstring
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

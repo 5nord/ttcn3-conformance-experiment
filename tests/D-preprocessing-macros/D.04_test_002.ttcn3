@@ -1,0 +1,26 @@
+// @requirement: D.4 -- A preprocessor or compiler shall replace each occurrence of __LINE__ with the actual line number in form of an integer value.
+// @id: TTCN3-CORE-D.4-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_D_04_test_002 {
+
+    type component C {}
+
+    const integer c_line := __LINE__;
+
+    function f_line() return integer {
+        return __LINE__;
+    }
+
+    testcase TC() runs on C {
+        var integer v_line := __LINE__;
+        if (c_line == 8 and f_line() == 11 and v_line == 15 and __LINE__ + 1 == 17) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

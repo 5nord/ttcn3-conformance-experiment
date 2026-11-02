@@ -1,0 +1,1314 @@
+{
+ "part": "15.part1",
+ "chapter": "15",
+ "chapter_file": "15-declaring-templates",
+ "title": "Declaring templates",
+ "sections": {
+  "15.0": {
+   "title": "General",
+   "start": 10421
+  },
+  "15.1": {
+   "title": "Declaring message templates",
+   "start": 10493
+  },
+  "15.2": {
+   "title": "Declaring signature templates",
+   "start": 10584
+  },
+  "15.3": {
+   "title": "Global and local templates",
+   "start": 10704
+  }
+ },
+ "lines": [
+  10423,
+  10780
+ ],
+ "units": [
+  {
+   "id": "15.0-s001",
+   "section": "15.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Templates are used to either transmit a set of distinct values or to test whether a set of received values matches the template specification.",
+   "lines": [
+    10423,
+    10424
+   ]
+  },
+  {
+   "id": "15.0-s002",
+   "section": "15.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Templates can be defined globally or locally.",
+   "lines": [
+    10423,
+    10424
+   ]
+  },
+  {
+   "id": "15.0-s003",
+   "section": "15.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Templates provide the following possibilities:",
+   "lines": [
+    10426,
+    10426
+   ]
+  },
+  {
+   "id": "15.0-s004",
+   "section": "15.0",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "a) they are a way to organize and to re-use test data, including a simple form of inheritance;",
+   "lines": [
+    10428,
+    10428
+   ]
+  },
+  {
+   "id": "15.0-s005",
+   "section": "15.0",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "b) they can be parameterized;",
+   "lines": [
+    10430,
+    10430
+   ]
+  },
+  {
+   "id": "15.0-s006",
+   "section": "15.0",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "c) they allow matching mechanisms;",
+   "lines": [
+    10432,
+    10432
+   ]
+  },
+  {
+   "id": "15.0-s007",
+   "section": "15.0",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "d) they can be used with either message-based or procedure-based communications.",
+   "lines": [
+    10434,
+    10434
+   ]
+  },
+  {
+   "id": "15.0-s008",
+   "section": "15.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Within a template values, ranges and matching attributes can be specified and then used in both message-based and procedure-based communications.",
+   "lines": [
+    10436,
+    10439
+   ]
+  },
+  {
+   "id": "15.0-s009",
+   "section": "15.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Templates may be specified for any TTCN-3 type or procedure signature.",
+   "lines": [
+    10436,
+    10439
+   ]
+  },
+  {
+   "id": "15.0-s010",
+   "section": "15.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The type-based templates are used for message-based communications and the signature templates are used in procedure-based communications.",
+   "lines": [
+    10436,
+    10439
+   ]
+  },
+  {
+   "id": "15.0-s011",
+   "section": "15.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "A template can be declared fuzzy using the @fuzzy modifier.",
+   "lines": [
+    10441,
+    10441
+   ]
+  },
+  {
+   "id": "15.0-s012",
+   "section": "15.0",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "NOTE: Using a fuzzy template from a non-fuzzy template causes evaluation of the fuzzy template.",
+   "lines": [
+    10443,
+    10445
+   ]
+  },
+  {
+   "id": "15.0-s013",
+   "section": "15.0",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "Thus, for unparameterized non-fuzzy templates, the result of the used fuzzy templates will stay the same for every usage.",
+   "lines": [
+    10443,
+    10445
+   ]
+  },
+  {
+   "id": "15.0-s014",
+   "section": "15.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "A fuzzy template can be declared deterministic using the @deterministic modifier.",
+   "lines": [
+    10447,
+    10448
+   ]
+  },
+  {
+   "id": "15.0-s015",
+   "section": "15.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "A deterministic template shall be evaluated to the same result in the same deterministic evaluation context whenever it is evaluated.",
+   "lines": [
+    10447,
+    10448
+   ]
+  },
+  {
+   "id": "15.0-s016",
+   "section": "15.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "A modified template declaration (see clause 15.5) specifies only the fields to be changed from the base template, i.e. it is a partial specification.",
+   "lines": [
+    10450,
+    10451
+   ]
+  },
+  {
+   "id": "15.0-s017",
+   "section": "15.0",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clause 5, the following restrictions apply:",
+   "lines": [
+    10455,
+    10455
+   ]
+  },
+  {
+   "id": "15.0-s018",
+   "section": "15.0",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) Templates shall be specified only for component data types and procedure signatures.",
+   "lines": [
+    10457,
+    10457
+   ]
+  },
+  {
+   "id": "15.0-s019",
+   "section": "15.0",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "b) Void.",
+   "lines": [
+    10459,
+    10459
+   ]
+  },
+  {
+   "id": "15.0-s020",
+   "section": "15.0",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "c) The expression or template body initializing a template shall evaluate to a value or template, which is type compatible with the template being declared.",
+   "lines": [
+    10461,
+    10462
+   ]
+  },
+  {
+   "id": "15.0-s021",
+   "section": "15.0",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "d) The expression or template body initializing a template shall evaluate to a value or a template that is at least partially initialized or to a matching mechanism.",
+   "lines": [
+    10464,
+    10465
+   ]
+  },
+  {
+   "id": "15.0-s022",
+   "section": "15.0",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "e) The body of a fuzzy template shall not contain function calls of functions with inout or out parameters.",
+   "lines": [
+    10467,
+    10468
+   ]
+  },
+  {
+   "id": "15.0-s023",
+   "section": "15.0",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "The called functions may use other functions with inout or out parameters internally.",
+   "lines": [
+    10467,
+    10468
+   ]
+  },
+  {
+   "id": "15.0-s024",
+   "section": "15.0",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "f) Fuzzy features are valid only in the scope, where the templates' names are visible.",
+   "lines": [
+    10470,
+    10472
+   ]
+  },
+  {
+   "id": "15.0-s025",
+   "section": "15.0",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "For example, if a fuzzy template is passed to a formal template parameter declared without a modifier, it loses its fuzzy feature inside the called function.",
+   "lines": [
+    10470,
+    10472
+   ]
+  },
+  {
+   "id": "15.0-s026",
+   "section": "15.0",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "g) For a fuzzy template that is declared deterministic the template body shall fulfill the restrictions imposed on content of functions used in special places given in clause 16.1.4.",
+   "lines": [
+    10474,
+    10475
+   ]
+  },
+  {
+   "id": "15.0-s027",
+   "section": "15.0",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "type record MyRecord {\n    default def\n  }\n  type union MyUnion {\n    integer choice1,\n   MyRecord choice2\n  }\n  template MyUnion m_integerChosen := { choice1 := 5 }\n   // shall cause an error as the type MyUnion contains MyRecord, which includes\n   // a field of default type.\n  external function fx_garble(charstring p_str) return p_str;\n  template @fuzzy charstring m_fuzzy := fx_garble(\"foobar\"); // every usage of m_fuzzy re                                // evaluates the function call",
+   "lines": [
+    10478,
+    10491
+   ]
+  },
+  {
+   "id": "15.1-s001",
+   "section": "15.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Instances of messages with actual values may be specified using templates.",
+   "lines": [
+    10495,
+    10496
+   ]
+  },
+  {
+   "id": "15.1-s002",
+   "section": "15.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "A template can be thought of as being a set of instructions to build a message for sending or to match a received message.",
+   "lines": [
+    10495,
+    10496
+   ]
+  },
+  {
+   "id": "15.1-s003",
+   "section": "15.1",
+   "kind": "prose",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "See syntactical structure of global and local templates (see clause 15.3) and of in-line templates (see clause 15.4).",
+   "lines": [
+    10500,
+    10500
+   ]
+  },
+  {
+   "id": "15.1-s004",
+   "section": "15.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "A template used in a send operation defines a complete set of field values comprising the message to be transmitted over a port.",
+   "lines": [
+    10504,
+    10505
+   ]
+  },
+  {
+   "id": "15.1-s005",
+   "section": "15.1",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "NOTE: For sending templates, omitting an optional field is considered to be a value notation rather than a matching mechanism.",
+   "lines": [
+    10507,
+    10508
+   ]
+  },
+  {
+   "id": "15.1-s006",
+   "section": "15.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "A template used in a receive, trigger or check operation defines a data template against which an incoming message is to be matched.",
+   "lines": [
+    10510,
+    10512
+   ]
+  },
+  {
+   "id": "15.1-s007",
+   "section": "15.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Matching mechanisms, as defined in clauses 15.6.6 and 15.8 and in annex B, may be used in receive templates.",
+   "lines": [
+    10510,
+    10512
+   ]
+  },
+  {
+   "id": "15.1-s008",
+   "section": "15.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "No binding of the incoming values to the template shall occur.",
+   "lines": [
+    10510,
+    10512
+   ]
+  },
+  {
+   "id": "15.1-s009",
+   "section": "15.1",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to restrictions in clause 15.0, the following restrictions apply:",
+   "lines": [
+    10516,
+    10516
+   ]
+  },
+  {
+   "id": "15.1-s010",
+   "section": "15.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) At the time of a send operation, the used template shall be completely initialized and all fields shall resolve to actual values or to omit and no other matching mechanisms shall be used in the template fields, neither directly nor indirectly.",
+   "lines": [
+    10518,
+    10520
+   ]
+  },
+  {
+   "id": "15.1-s011",
+   "section": "15.1",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "At the time of a receiving operation, the matching template shall be completely initialized.",
+   "lines": [
+    10522,
+    10522
+   ]
+  },
+  {
+   "id": "15.1-s012",
+   "section": "15.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "b) Optional fields of record and set templates or template fields can be initialized explicitly or implicitly.",
+   "lines": [
+    10524,
+    10527
+   ]
+  },
+  {
+   "id": "15.1-s013",
+   "section": "15.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "For implicit initialization of the optional fields of a template or a template field, an optional attribute with the value \"implicit omit\" (see clause 27.7) shall be associated with it either directly or via the attribute distribution (scoping) mechanism (see clause 27.1.1).",
+   "lines": [
+    10524,
+    10527
+   ]
+  },
+  {
+   "id": "15.1-s014",
+   "section": "15.1",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 1: Template for sending messages",
+   "lines": [
+    10531,
+    10531
+   ]
+  },
+  {
+   "id": "15.1-s015",
+   "section": "15.1",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "// Given the message definition \n  type record MyMessageType\n  { \n     integer field1 optional,\n     charstring field2,\n     boolean field3\n  }\n  // a message template could be \n  template MyMessageType m_myTemplate:= \n  {\n     field1 := omit,\n     field2 := \"My string\",\n     field3 := true\n  }\n  // and a corresponding send operation could be \n  myPCO.send(m_myTemplate);",
+   "lines": [
+    10532,
+    10549
+   ]
+  },
+  {
+   "id": "15.1-s016",
+   "section": "15.1",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 2: Template for receiving messages",
+   "lines": [
+    10556,
+    10556
+   ]
+  },
+  {
+   "id": "15.1-s017",
+   "section": "15.1",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "// Given the message definition \n  type record MyMessageType\n  {\n     integer field1 optional,\n     charstring field2,\n     boolean  field3\n  }\n  // a message template might be \n  template MyMessageType mw_myTemplate:=\n  {\n     field1 := ?,\n     field2 := pattern \"abc*xyz\",\n     field3 := true\n  }\n  // and a corresponding receive operation could be \n  myPCO.receive(mw_myTemplate);",
+   "lines": [
+    10557,
+    10574
+   ]
+  },
+  {
+   "id": "15.1-s018",
+   "section": "15.1",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 3: Template for receiving messages",
+   "lines": [
+    10576,
+    10576
+   ]
+  },
+  {
+   "id": "15.1-s019",
+   "section": "15.1",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "// When used in a receiving operation this template will match any integer value\n  template integer mw_myTemplate := ?;\n  // This template will match only the integer values 1, 2 or 3\n  template integer mw_myTemplate := (1, 2, 3);",
+   "lines": [
+    10577,
+    10582
+   ]
+  },
+  {
+   "id": "15.2-s001",
+   "section": "15.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Instances of procedure parameter lists with actual values may be specified using templates.",
+   "lines": [
+    10586,
+    10587
+   ]
+  },
+  {
+   "id": "15.2-s002",
+   "section": "15.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Templates may be defined for any procedure by referencing the associated signature definition.",
+   "lines": [
+    10586,
+    10587
+   ]
+  },
+  {
+   "id": "15.2-s003",
+   "section": "15.2",
+   "kind": "prose",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "See syntactical structure of global and local templates (see clause 15.3) and of in-line templates (see clause 15.4).",
+   "lines": [
+    10591,
+    10591
+   ]
+  },
+  {
+   "id": "15.2-s004",
+   "section": "15.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "A signature template defines the values and matching mechanisms of the procedure parameters only, but not the return value.",
+   "lines": [
+    10595,
+    10597
+   ]
+  },
+  {
+   "id": "15.2-s005",
+   "section": "15.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The values or matching mechanisms for a return have to be defined within the reply (see clause 22.3.3) or getreply operation (see clause 22.3.4).",
+   "lines": [
+    10595,
+    10597
+   ]
+  },
+  {
+   "id": "15.2-s006",
+   "section": "15.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "A template used in a call or reply operation defines a complete set of field values for all in and inout parameters.",
+   "lines": [
+    10599,
+    10603
+   ]
+  },
+  {
+   "id": "15.2-s007",
+   "section": "15.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "At the time of the call operation, all in and inout parameters in the template shall resolve to actual values, no matching mechanisms shall be used in these fields, either directly or indirectly.",
+   "lines": [
+    10599,
+    10603
+   ]
+  },
+  {
+   "id": "15.2-s008",
+   "section": "15.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Any template specification for out parameters is simply ignored, therefore it is allowed to specify matching mechanisms for these fields, or to omit them (see annex B).",
+   "lines": [
+    10599,
+    10603
+   ]
+  },
+  {
+   "id": "15.2-s009",
+   "section": "15.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "A template used in a getcall operation defines a data template against which the incoming parameter fields are matched.",
+   "lines": [
+    10605,
+    10607
+   ]
+  },
+  {
+   "id": "15.2-s010",
+   "section": "15.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Matching mechanisms, as defined in annex B, may be used in any templates used by this operation.",
+   "lines": [
+    10605,
+    10607
+   ]
+  },
+  {
+   "id": "15.2-s011",
+   "section": "15.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "No binding of incoming values to the template shall occur.",
+   "lines": [
+    10605,
+    10607
+   ]
+  },
+  {
+   "id": "15.2-s012",
+   "section": "15.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Any out parameters shall be ignored in the matching process.",
+   "lines": [
+    10605,
+    10607
+   ]
+  },
+  {
+   "id": "15.2-s013",
+   "section": "15.2",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to restrictions in clause 15.0, the following restrictions apply:",
+   "lines": [
+    10611,
+    10611
+   ]
+  },
+  {
+   "id": "15.2-s014",
+   "section": "15.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) At the time of a call, reply and raise operation, the used template shall be completely initialized and all",
+   "lines": [
+    10613,
+    10613
+   ]
+  },
+  {
+   "id": "15.2-s015",
+   "section": "15.2",
+   "kind": "code",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "in/inout parameters in a call, all out/inout parameters in a reply or raise operation shall resolve",
+   "lines": [
+    10614,
+    10616
+   ]
+  },
+  {
+   "id": "15.2-s016",
+   "section": "15.2",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "to specific values or to omit and no other matching mechanisms shall be used for these parameters, neither directly nor indirectly.",
+   "lines": [
+    10618,
+    10619
+   ]
+  },
+  {
+   "id": "15.2-s017",
+   "section": "15.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "b) The NotUsedSymbol shall only be used in signature templates for parameters which are not relevant and in modified template declarations and modified in-line templates to indicate no change for the specified field or element.",
+   "lines": [
+    10621,
+    10623
+   ]
+  },
+  {
+   "id": "15.2-s018",
+   "section": "15.2",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "At the time of a getcall, getreply and catch operation, the matching template shall be completely initialized.",
+   "lines": [
+    10625,
+    10625
+   ]
+  },
+  {
+   "id": "15.2-s019",
+   "section": "15.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "c) Optional fields of record and set parameters or parameter fields can be initialized explicitly or implicitly.",
+   "lines": [
+    10632,
+    10633
+   ]
+  },
+  {
+   "id": "15.2-s020",
+   "section": "15.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "For implicit initialization of a parameter or a parameter field, an optional attribute with the value \"implicit",
+   "lines": [
+    10632,
+    10633
+   ]
+  },
+  {
+   "id": "15.2-s021",
+   "section": "15.2",
+   "kind": "code",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "omit\" (see clause 27.7) shall be associated with it either directly or via the attribute distribution (scoping)",
+   "lines": [
+    10634,
+    10636
+   ]
+  },
+  {
+   "id": "15.2-s022",
+   "section": "15.2",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "mechanism (see clause 27.1.1).",
+   "lines": [
+    10638,
+    10638
+   ]
+  },
+  {
+   "id": "15.2-s023",
+   "section": "15.2",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 1: Templates for invoking and accepting procedures:",
+   "lines": [
+    10642,
+    10642
+   ]
+  },
+  {
+   "id": "15.2-s024",
+   "section": "15.2",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "// signature definition for a remote procedure \n  signature RemoteProc(in integer Par1, out integer Par2, inout integer Par3) return integer;\n  // example templates associated to defined procedure signature \n  template RemoteProc s_template1:=\n  {\n     Par1 := 1,\n     Par2 := 2,\n     Par3 := 3\n  }\n  template RemoteProc s_template2:=\n  {\n     Par1 := 1,\n     Par2 := ?,\n     Par3 := 3\n  }\n  template RemoteProc s_template3:=\n  {\n     Par1 := 1,\n     Par2 := ?,\n     Par3 := ?\n  }\n  template RemoteProc s_template4:=?;",
+   "lines": [
+    10643,
+    10666
+   ]
+  },
+  {
+   "id": "15.2-s025",
+   "section": "15.2",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 2: In-line templates for invoking procedures:",
+   "lines": [
+    10668,
+    10668
+   ]
+  },
+  {
+   "id": "15.2-s026",
+   "section": "15.2",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "// Given example 1 in this clause\n  // Valid invocation since all in and inout parameters have a distinct value \n  myPCO.call(RemoteProc:s_template1);\n  // Valid invocation since all in and inout parameters have a distinct value \n  myPCO.call(RemoteProc:s_template2);\n  // Invalid invocation causing an error \n  // since the inout parameter Par3 has a matching attribute not a value \n  myPCO.call(RemoteProc:s_template3);\n  // Templates never return values. In the case of Par2 and Par3 the values returned by the \n  // call operation shall be retrieved using an assignment clause at the end of the call statement",
+   "lines": [
+    10669,
+    10680
+   ]
+  },
+  {
+   "id": "15.2-s027",
+   "section": "15.2",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 3: In-line templates for accepting procedure invocations:",
+   "lines": [
+    10682,
+    10682
+   ]
+  },
+  {
+   "id": "15.2-s028",
+   "section": "15.2",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "// Given example 1 in this clause\n  // Valid getcall, it will match if Par1 == 1 and Par3 == 3 \n  myPCO.getcall(RemoteProc:s_template1);\n  // Valid getcall, it will match if Par1 == 1 and Par3 == 3 \n  myPCO.getcall(RemoteProc:s_template2);\n  // Valid getcall, it will match on Par1 == 1 and Any value of Par3 \n  myPCO.getcall(RemoteProc:s_template3);",
+   "lines": [
+    10683,
+    10691
+   ]
+  },
+  {
+   "id": "15.2-s029",
+   "section": "15.2",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 4: In-line templates for accepting procedure replies:",
+   "lines": [
+    10693,
+    10693
+   ]
+  },
+  {
+   "id": "15.2-s030",
+   "section": "15.2",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "// Given example 1 in this clause\n  // Valid getreply, in parameters will be ignored, matches if return value is 4\n  myPCO.getreply(RemoteProc:s_template2 value 4);\n  // Valid getreply, accepting any reply for RemoteProc \n  myPCO.getreply(RemoteProc:?);\n  // Valid getreply, also accepting any reply for RemoteProc\n  myPCO.getcall(RemoteProc:s_template4 value ?);",
+   "lines": [
+    10694,
+    10702
+   ]
+  },
+  {
+   "id": "15.3-s001",
+   "section": "15.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "TTCN-3 allows defining global templates and local templates.",
+   "lines": [
+    10706,
+    10706
+   ]
+  },
+  {
+   "id": "15.3-s002",
+   "section": "15.3",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "template [ TemplateRestriction ] [ @fuzzy ] [ @deterministic ] [ @abstract ] Type\n  TemplateIdentifier\n  [\"(\" TemplateFormalParList \")\"] [ modifies TemplateRef ] \":=\" BaseTemplateBody",
+   "lines": [
+    10709,
+    10713
+   ]
+  },
+  {
+   "id": "15.3-s003",
+   "section": "15.3",
+   "kind": "note",
+   "context": "Syntactical Structure",
+   "normative": false,
+   "text": "NOTE 1: The optional restriction part is covered by clause 15.8.",
+   "lines": [
+    10715,
+    10715
+   ]
+  },
+  {
+   "id": "15.3-s004",
+   "section": "15.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Global templates shall be defined in the module definitions part.",
+   "lines": [
+    10719,
+    10720
+   ]
+  },
+  {
+   "id": "15.3-s005",
+   "section": "15.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Local templates shall be defined in testcases, functions, altsteps or statement blocks.",
+   "lines": [
+    10719,
+    10720
+   ]
+  },
+  {
+   "id": "15.3-s006",
+   "section": "15.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Both global and local templates shall adhere to the scoping rules specified in clause 5.",
+   "lines": [
+    10719,
+    10720
+   ]
+  },
+  {
+   "id": "15.3-s007",
+   "section": "15.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Both global and local templates can be parameterized.",
+   "lines": [
+    10722,
+    10723
+   ]
+  },
+  {
+   "id": "15.3-s008",
+   "section": "15.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The actual parameters of a template can include values and templates.",
+   "lines": [
+    10722,
+    10723
+   ]
+  },
+  {
+   "id": "15.3-s009",
+   "section": "15.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The rules for formal and actual parameter lists shall be followed as defined in clause 5.2.",
+   "lines": [
+    10722,
+    10723
+   ]
+  },
+  {
+   "id": "15.3-s010",
+   "section": "15.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Both global and local templates are initialized at the place of their declaration.",
+   "lines": [
+    10725,
+    10727
+   ]
+  },
+  {
+   "id": "15.3-s011",
+   "section": "15.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "This means, all template fields which are not affected by parameterization shall receive a value or matching mechanism.",
+   "lines": [
+    10725,
+    10727
+   ]
+  },
+  {
+   "id": "15.3-s012",
+   "section": "15.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Template fields affected by parameterization are initialized at the time of template use.",
+   "lines": [
+    10725,
+    10727
+   ]
+  },
+  {
+   "id": "15.3-s013",
+   "section": "15.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If functions are used for the initialization of module parameters, it is strongly advised to adhere to the rules defined in clause 16.1.4.",
+   "lines": [
+    10729,
+    10730
+   ]
+  },
+  {
+   "id": "15.3-s014",
+   "section": "15.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Not following these rules may cause non-deterministic test executions.",
+   "lines": [
+    10729,
+    10730
+   ]
+  },
+  {
+   "id": "15.3-s015",
+   "section": "15.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "At the time of their use (e.g. in communication operations send, receive, call, getcall, etc.), it is allowed to change template fields by in-line modified templates, to pass in values via value parameters as well as to pass in templates via template parameters.",
+   "lines": [
+    10732,
+    10735
+   ]
+  },
+  {
+   "id": "15.3-s016",
+   "section": "15.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The effects of these changes on the values of the template fields do not persist in the template subsequent to the corresponding communication event.",
+   "lines": [
+    10732,
+    10735
+   ]
+  },
+  {
+   "id": "15.3-s017",
+   "section": "15.3",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to restrictions in clause 15.0, the following restrictions apply:",
+   "lines": [
+    10739,
+    10739
+   ]
+  },
+  {
+   "id": "15.3-s018",
+   "section": "15.3",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) The dot notation such as myTemplateId.fieldId shall not be used to set or retrieve values in templates in communication events.",
+   "lines": [
+    10741,
+    10742
+   ]
+  },
+  {
+   "id": "15.3-s019",
+   "section": "15.3",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "The \"->\" symbol shall be used for this purpose (see clause 23).",
+   "lines": [
+    10741,
+    10742
+   ]
+  },
+  {
+   "id": "15.3-s020",
+   "section": "15.3",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "b) Restrictions on referencing elements of templates or template fields are described in clause 15.6.",
+   "lines": [
+    10744,
+    10744
+   ]
+  },
+  {
+   "id": "15.3-s021",
+   "section": "15.3",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "c) There exist a number of restrictions on the functions used in expressions when specifying templates or template fields; these are specified in clause 16.1.4.",
+   "lines": [
+    10746,
+    10747
+   ]
+  },
+  {
+   "id": "15.3-s022",
+   "section": "15.3",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "d) After completing initialization, global and local message templates that do not contain the @abstract modifier shall be fully initialized.",
+   "lines": [
+    10749,
+    10750
+   ]
+  },
+  {
+   "id": "15.3-s023",
+   "section": "15.3",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "e) After completing initialization, global and local signature templates that do not contain the @abstract modifier shall fulfil at least one of the following conditions:",
+   "lines": [
+    10752,
+    10753
+   ]
+  },
+  {
+   "id": "15.3-s024",
+   "section": "15.3",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "All procedure parameters are fully initialized.",
+   "lines": [
+    10755,
+    10755
+   ]
+  },
+  {
+   "id": "15.3-s025",
+   "section": "15.3",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "All in and inout procedure parameters are completely initialized and all out procedure parameters are either unitialized or marked as not relevant using the NotUsedSymbol.",
+   "lines": [
+    10757,
+    10757
+   ]
+  },
+  {
+   "id": "15.3-s026",
+   "section": "15.3",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Templates declared this way are safe to be used in call and getcall operations, but they shall not be used in reply and getreply operations.",
+   "lines": [
+    10757,
+    10757
+   ]
+  },
+  {
+   "id": "15.3-s027",
+   "section": "15.3",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "All out and inout procedure parameters are completely initialized and all in procedure parameters are either unitialized or marked as not relevant using the NotUsedSymbol.",
+   "lines": [
+    10759,
+    10759
+   ]
+  },
+  {
+   "id": "15.3-s028",
+   "section": "15.3",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Templates declared this way are safe to be used in reply and getreply operations, but they shall not be used in call and getcall operations.",
+   "lines": [
+    10759,
+    10759
+   ]
+  },
+  {
+   "id": "15.3-s029",
+   "section": "15.3",
+   "kind": "note",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "NOTE 2: Initialization of templates without parameters is completed at the place of their declaration.",
+   "lines": [
+    10761,
+    10762
+   ]
+  },
+  {
+   "id": "15.3-s030",
+   "section": "15.3",
+   "kind": "note",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "Initialization of parameterized templates is completed at the time of their use.",
+   "lines": [
+    10761,
+    10762
+   ]
+  },
+  {
+   "id": "15.3-s031",
+   "section": "15.3",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "// The template\n  template MyMessageType mw_myTemplate (integer p_myFormalParam):=\n  {\n     field1 := p_myFormalParam,\n     field2 := pattern \"abc*xyz\",\n     field3 := true\n  }\n  // could be used as follows \n  pco1.receive(mw_myTemplate(123));",
+   "lines": [
+    10770,
+    10780
+   ]
+  }
+ ]
+}

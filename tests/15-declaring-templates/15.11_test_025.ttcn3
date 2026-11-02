@@ -1,0 +1,17 @@
+// @requirement: 15.11 -- The concatenation shall be performed completely before using the resulting template (e.g. for assignment or matching) and the result shall be type-compatible with the place of its use.
+// @id: TTCN3-CORE-15.11-021b
+// @verdict: pass reject
+module M_15_11_test_025 {
+
+    template charstring mw_t := '01'B & ? length(1); // error: bitstring result used as charstring template
+
+    type component C {}
+
+    testcase TC() runs on C {
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,30 @@
+// @requirement: 18 -- Statement: Activate a default; Associated keyword or symbol: activate; Can be invoked by control behaviour: Yes; Can be invoked by test behaviour: Yes
+// @id: TTCN3-CORE-18-032c
+// @verdict: pass reject
+module M_18_test_059 {
+
+    type component C {}
+
+    altstep a_def() runs on C {
+        [else] {}
+    }
+
+    function f_check() runs on C return boolean {
+        activate(a_def()); // error: activate in a function called from an alt guard
+        return true;
+    }
+
+    testcase TC() runs on C {
+        timer T := 0.1;
+        T.start;
+        alt {
+            [f_check()] T.timeout {
+                setverdict(pass);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,20 @@
+// @requirement: D.5 -- b) "control", if the lowest named scope unit is the module control function;
+// @id: TTCN3-CORE-D.5-006a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_D_05_test_005 {
+
+    type component C {}
+
+    testcase TC(charstring p_scope) runs on C {
+        if (p_scope == "control") {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        const charstring c_scope := __SCOPE__;
+        execute(TC(c_scope));
+    }
+}

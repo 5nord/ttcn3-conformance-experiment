@@ -1,0 +1,38 @@
+// @requirement: 22.5.1 -- The clear operation removes the contents of the incoming queue of the specified port or of all ports of the test component performing the clear operation.
+// @id: TTCN3-CORE-22.5.1-003b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_05_01_test_003 {
+
+    type port P message {
+        inout integer
+    }
+
+    type component C {
+        port P p1, p2;
+        timer T := 1.0;
+    }
+
+    testcase TC() runs on C {
+        connect(self:p1, self:p2);
+        p1.send(1);
+        p2.send(2);
+        T.start;
+        alt {
+            [] p1.check(receive) { }
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        alt {
+            [] p2.check(receive) { T.stop; }
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        all port.clear;
+        alt {
+            [] any port.receive { setverdict(fail); }
+            [else] { setverdict(pass); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

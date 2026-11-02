@@ -1,0 +1,31 @@
+// @requirement: 15.5 -- If a record or set field or its corresponding matching mechanism is – implicitly or explicitly by using the not used symbol "-" left unspecified in the modified template, then the matching mechanism in the corresponding field of the parent template shall be used.
+// @id: TTCN3-CORE-15.5-015a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_05_test_012 {
+
+    type record R {
+        integer f1 optional,
+        charstring f2,
+        boolean f3
+    }
+
+    template R m_r1 := { f1 := 123, f2 := "A string", f3 := true };
+    template R m_r2 modifies m_r1 := { f1 := omit, f2 := "A modified string" };
+    template R m_r3 modifies m_r1 := { omit, "A modified string" };
+    template R m_r4 modifies m_r1 := { omit, "A modified string", - };
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var R v_exp := { f1 := omit, f2 := "A modified string", f3 := true };
+        if (valueof(m_r2) == v_exp and valueof(m_r3) == v_exp and valueof(m_r4) == v_exp) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

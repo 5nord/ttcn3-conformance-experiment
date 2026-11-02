@@ -1,0 +1,21 @@
+// @requirement: 6.1.1.0 -- Values of charstring type shall be denoted by an arbitrary number (possibly zero) of non-control characters from the relevant character set, preceded and followed by double quote (").
+// @id: TTCN3-CORE-6.1.1.0-027a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_01_01_00_test_019 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var charstring v_c := "abc";
+        var charstring v_empty := "";
+        if (lengthof(v_c) == 3 and v_c[0] == "a" and lengthof(v_empty) == 0) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

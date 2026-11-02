@@ -1,0 +1,21 @@
+// @requirement: B.1.5.0 -- NOTE: This rule assures that no format error can occur during pattern template instantiation.
+// @id: TTCN3-CORE-B.1.5.0-052a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_05_00_test_038 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var charstring v_fragment := "a#b-c^d]e}f";
+        var template charstring v_pattern := pattern "x{v_fragment}";
+        if (match("xa#b-c^d]e}f", v_pattern)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

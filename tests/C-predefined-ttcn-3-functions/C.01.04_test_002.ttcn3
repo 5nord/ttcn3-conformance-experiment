@@ -1,0 +1,27 @@
+// @requirement: C.1.4 -- This function converts an integer value into an enumerated value of a given enumerated type.
+// @id: TTCN3-CORE-C.1.4-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_01_04_test_002 {
+
+    type enumerated E {
+        e_mon, e_tue, e_wed, e_weekend(6..7)
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var E v_e := e_tue;
+        var E v_e2 := e_tue;
+        int2enum(0, v_e);
+        int2enum(7, v_e2);
+        if (v_e == e_mon and v_e2 == e_weekend(7)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

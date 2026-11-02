@@ -1,0 +1,1498 @@
+{
+ "batch": "b041",
+ "requirements": [
+  {
+   "id": "TTCN3-CORE-15.7.4-002a",
+   "section": "15.7.4",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "length \"(\" ConstantExpression [ \"..\" ( ConstantExpression | infinity ) ] \")\" [ ifpresent ] | ifpresent",
+   "canonical": "An attribute matching mechanism has the syntax `length` \"(\" ConstantExpression [\"..\" (ConstantExpression | infinity)] \")\" [`ifpresent`], or `ifpresent` alone.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    12075,
+    12078
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.07.04_test_001.ttcn3",
+   "module": "M_15_07_04_test_001",
+   "header": "// @requirement: 15.7.4 -- length \"(\" ConstantExpression [ \"..\" ( ConstantExpression | infinity ) ] \")\" [ ifpresent ] | ifpresent"
+  },
+  {
+   "id": "TTCN3-CORE-15.7.4-004a",
+   "section": "15.7.4",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "**length:** restrictions for string length of string types and the number of elements for record of, set of and arrays;",
+   "canonical": "The `length` matching attribute restricts the string length of a value of a string type and the number of elements of a `record of`, `set of` or array value.",
+   "condition": null,
+   "cross_refs": [
+    "B.1.4.1"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    12084,
+    12085
+   ],
+   "examples": [
+    {
+     "lines": [
+      12112,
+      12121
+     ],
+     "text": "type record R {\n     record of integer ri optional\n  }\n  template R mw_r:=\n  { \n     ri := * length (1 .. 6) ifpresent // any value containing 1, 2, 3, 4, \n                          // 5 or 6 elements, provided it is present\n  }"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.07.04_test_002.ttcn3",
+   "module": "M_15_07_04_test_002",
+   "header": "// @requirement: 15.7.4 -- **length:** restrictions for string length of string types and the number of elements for record of, set of and arrays;"
+  },
+  {
+   "id": "TTCN3-CORE-15.7.4-005a",
+   "section": "15.7.4",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "**ifpresent: for matching of optional field values (if not omitted).**",
+   "canonical": "The `ifpresent` matching attribute matches an optional field that is omitted, and applies the matching of the template it is attached to when the optional field is present.",
+   "condition": null,
+   "cross_refs": [
+    "B.1.4.2"
+   ],
+   "ambiguity": {
+    "status": "ambiguous",
+    "readings": [
+     "`ifpresent` matches an omitted optional field, and otherwise matches the present value against the template it is attached to.",
+     "`ifpresent` is used only for matching present (not omitted) optional field values."
+    ],
+    "issue": "\"for matching of optional field values (if not omitted)\" does not say what happens with an omitted field; the first reading is chosen as it is consistent with annex B.1.4.2 and NOTE 2."
+   },
+   "spec_lines": [
+    12087,
+    12087
+   ],
+   "examples": [
+    {
+     "lines": [
+      12112,
+      12121
+     ],
+     "text": "type record R {\n     record of integer ri optional\n  }\n  template R mw_r:=\n  { \n     ri := * length (1 .. 6) ifpresent // any value containing 1, 2, 3, 4, \n                          // 5 or 6 elements, provided it is present\n  }"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.07.04_test_003.ttcn3",
+   "module": "M_15_07_04_test_003",
+   "header": "// @requirement: 15.7.4 -- **ifpresent: for matching of optional field values (if not omitted).**"
+  },
+  {
+   "id": "TTCN3-CORE-15.7.4-006a",
+   "section": "15.7.4",
+   "type": "information",
+   "modality": "CAN",
+   "original": "NOTE 1: **ifpresent can be assigned to templates of any type as a whole or to optional fields of record and set types.** **ifpresent can only be used for matching optional fields.**",
+   "canonical": "`ifpresent` CAN be assigned to a template of any type as a whole or to an optional field of a record or set type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    12089,
+    12090
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.07.04_test_004.ttcn3",
+   "module": "M_15_07_04_test_004",
+   "header": "// @requirement: 15.7.4 -- NOTE 1: **ifpresent can be assigned to templates of any type as a whole or to optional fields of record and set types.** **ifpresent can only be used for matching optional fields.**"
+  },
+  {
+   "id": "TTCN3-CORE-15.7.4-006b",
+   "section": "15.7.4",
+   "type": "information",
+   "modality": "CAN",
+   "original": "NOTE 1: **ifpresent can be assigned to templates of any type as a whole or to optional fields of record and set types.** **ifpresent can only be used for matching optional fields.**",
+   "canonical": "`ifpresent` CAN be used for matching optional fields only.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    12089,
+    12090
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.07.04_test_005.ttcn3",
+   "module": "M_15_07_04_test_005",
+   "header": "// @requirement: 15.7.4 -- NOTE 1: **ifpresent can be assigned to templates of any type as a whole or to optional fields of record and set types.** **ifpresent can only be used for matching optional fields.**"
+  },
+  {
+   "id": "TTCN3-CORE-15.7.4-007a",
+   "section": "15.7.4",
+   "type": "information",
+   "modality": "IS",
+   "original": "NOTE 2: Assigning ifpresent to a template that already matches the special value omit (i.e. it is either omit, an **ifpresent template or AnyValueOrNone) has no effect; the resulting template will match the same set of** values and the special value omit as the template the ifpresent is assigned to.",
+   "canonical": "Assigning `ifpresent` to a template that already matches `omit` (i.e. `omit`, an `ifpresent` template or AnyValueOrNone) has no effect, and the resulting template matches the same set of values and `omit` as the original template.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    12097,
+    12099
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.07.04_test_006.ttcn3",
+   "module": "M_15_07_04_test_006",
+   "header": "// @requirement: 15.7.4 -- NOTE 2: Assigning ifpresent to a template that already matches the special value omit (i.e. it is either omit, an **ifpresent template or AnyValueOrNone) has no effect; the resulting template will match the same set of** values and the special value omit as the template the ifpresent is assigned to."
+  },
+  {
+   "id": "TTCN3-CORE-15.7.4-011a",
+   "section": "15.7.4",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "b) All values used in the length matching attribute shall be completely initialized.",
+   "canonical": "Every value used in a `length` matching attribute SHALL be completely initialized.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    12109,
+    12109
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.07.04_test_007.ttcn3",
+   "module": "M_15_07_04_test_007",
+   "header": "// @requirement: 15.7.4 -- b) All values used in the length matching attribute shall be completely initialized."
+  },
+  {
+   "id": "TTCN3-CORE-15.8.1-002a",
+   "section": "15.8.1",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Template restrictions are applicable to template definitions and template variables, formal template parameters, and return template types of functions.",
+   "canonical": "A template restriction MAY be applied to template definitions, template variables, formal template parameters and return template types of functions.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    12127,
+    12129
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.08.01_test_001.ttcn3",
+   "module": "M_15_08_01_test_001",
+   "header": "// @requirement: 15.8.1 -- Template restrictions are applicable to template definitions and template variables, formal template parameters, and return template types of functions."
+  },
+  {
+   "id": "TTCN3-CORE-15.8.1-003a",
+   "section": "15.8.1",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Template restrictions can be applied equally to message and signature templates.",
+   "canonical": "A template restriction MAY be applied equally to message templates and signature templates.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    12127,
+    12129
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.08.01_test_002.ttcn3",
+   "module": "M_15_08_01_test_002",
+   "header": "// @requirement: 15.8.1 -- Template restrictions can be applied equally to message and signature templates."
+  },
+  {
+   "id": "TTCN3-CORE-15.8.1-004a",
+   "section": "15.8.1",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "template \"(\" ( omit | present | value ) \")\" Type",
+   "canonical": "A restricted template type has the syntax `template` \"(\" ( `omit` | `present` | `value` ) \")\" Type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    12132,
+    12134
+   ],
+   "examples": [
+    {
+     "lines": [
+      12275,
+      12303
+     ],
+     "text": "// definitions of restricted templates\n  type record ExampleType {\n     integer a,\n     boolean b optional\n  }\n  template(omit) ExampleType m_exampleOmit := omit;\n  template(omit) ExampleType m_exampleOmitValue:= { 1, true };\n  template(omit) ExampleType mw_exampleOmitAny := ?;      // incorrect\n  template(value) ExampleType m_exampleValueomit := omit;   // incorrect\n  template(value) ExampleType m_exampleValue := { 1, true };\n  template(value) ExampleType m_exampleValueOptional := { 1, omit }; \n                               // omit assigned to a field is correct\n  template(present) ExampleType mw_examplePresent := {1, ?};\n  template(present) ExampleType mw_examplePresentIfpresent := { 1, true } ifpresent; \n                               // incorrect\n  template(present) ExampleType mw_examplePresentAny := ?;\n  // restricted template usage\n  var template (omit) ExampleType v_omit;\n  var template (present) ExampleType v_present;\n  var template (value) ExampleType v_value;\n  v_omit := m_exampleOmit;\n  v_omit := m_exampleValueOptional;\n  v_omit := mw_examplePresentAny;   // incorrect, not a specific value\n  v_present := m_exampleOmit;     // incorrect, shall not be omit\n  v_present := mw_examplePresent;\n  v_value := m_exampleOmit;      // incorrect, shall not be omit\n  v_value := mw_examplePresentAny;  // incorrect, shall be a single value"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.08.01_test_003.ttcn3",
+   "module": "M_15_08_01_test_003",
+   "header": "// @requirement: 15.8.1 -- template \"(\" ( omit | present | value ) \")\" Type"
+  },
+  {
+   "id": "TTCN3-CORE-15.8.1-006a",
+   "section": "15.8.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "(omit) the template shall resolve to a value matching mechanism (i.e. the fields of it shall resolve to a specific value or omit, and the whole template may also resolve to omit).",
+   "canonical": "A template with the `omit` restriction SHALL resolve to a specific value or `omit`.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "The undefined term 'value matching mechanism' is used; the explanation in parentheses shows that a specific value (or omit for the whole template) is meant.",
+    "improper_terms": [
+     {
+      "used": "value matching mechanism",
+      "proper": "specific value matching mechanism",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    12138,
+    12142
+   ],
+   "examples": [
+    {
+     "lines": [
+      12275,
+      12303
+     ],
+     "text": "// definitions of restricted templates\n  type record ExampleType {\n     integer a,\n     boolean b optional\n  }\n  template(omit) ExampleType m_exampleOmit := omit;\n  template(omit) ExampleType m_exampleOmitValue:= { 1, true };\n  template(omit) ExampleType mw_exampleOmitAny := ?;      // incorrect\n  template(value) ExampleType m_exampleValueomit := omit;   // incorrect\n  template(value) ExampleType m_exampleValue := { 1, true };\n  template(value) ExampleType m_exampleValueOptional := { 1, omit }; \n                               // omit assigned to a field is correct\n  template(present) ExampleType mw_examplePresent := {1, ?};\n  template(present) ExampleType mw_examplePresentIfpresent := { 1, true } ifpresent; \n                               // incorrect\n  template(present) ExampleType mw_examplePresentAny := ?;\n  // restricted template usage\n  var template (omit) ExampleType v_omit;\n  var template (present) ExampleType v_present;\n  var template (value) ExampleType v_value;\n  v_omit := m_exampleOmit;\n  v_omit := m_exampleValueOptional;\n  v_omit := mw_examplePresentAny;   // incorrect, not a specific value\n  v_present := m_exampleOmit;     // incorrect, shall not be omit\n  v_present := mw_examplePresent;\n  v_value := m_exampleOmit;      // incorrect, shall not be omit\n  v_value := mw_examplePresentAny;  // incorrect, shall be a single value"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.08.01_test_004.ttcn3",
+   "module": "M_15_08_01_test_004",
+   "header": "// @requirement: 15.8.1 -- (omit) the template shall resolve to a value matching mechanism (i.e. the fields of it shall resolve to a specific value or omit, and the whole template may also resolve to omit)."
+  },
+  {
+   "id": "TTCN3-CORE-15.8.1-006b",
+   "section": "15.8.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "(omit) ... (i.e. the fields of it shall resolve to a specific value or omit, ...)",
+   "canonical": "Each field of a template with the `omit` restriction SHALL resolve to a specific value or `omit`.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    12138,
+    12142
+   ],
+   "examples": [
+    {
+     "lines": [
+      12275,
+      12303
+     ],
+     "text": "// definitions of restricted templates\n  type record ExampleType {\n     integer a,\n     boolean b optional\n  }\n  template(omit) ExampleType m_exampleOmit := omit;\n  template(omit) ExampleType m_exampleOmitValue:= { 1, true };\n  template(omit) ExampleType mw_exampleOmitAny := ?;      // incorrect\n  template(value) ExampleType m_exampleValueomit := omit;   // incorrect\n  template(value) ExampleType m_exampleValue := { 1, true };\n  template(value) ExampleType m_exampleValueOptional := { 1, omit }; \n                               // omit assigned to a field is correct\n  template(present) ExampleType mw_examplePresent := {1, ?};\n  template(present) ExampleType mw_examplePresentIfpresent := { 1, true } ifpresent; \n                               // incorrect\n  template(present) ExampleType mw_examplePresentAny := ?;\n  // restricted template usage\n  var template (omit) ExampleType v_omit;\n  var template (present) ExampleType v_present;\n  var template (value) ExampleType v_value;\n  v_omit := m_exampleOmit;\n  v_omit := m_exampleValueOptional;\n  v_omit := mw_examplePresentAny;   // incorrect, not a specific value\n  v_present := m_exampleOmit;     // incorrect, shall not be omit\n  v_present := mw_examplePresent;\n  v_value := m_exampleOmit;      // incorrect, shall not be omit\n  v_value := mw_examplePresentAny;  // incorrect, shall be a single value"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.08.01_test_005.ttcn3",
+   "module": "M_15_08_01_test_005",
+   "header": "// @requirement: 15.8.1 -- (omit) ... (i.e. the fields of it shall resolve to a specific value or omit, ...)"
+  },
+  {
+   "id": "TTCN3-CORE-15.8.1-006c",
+   "section": "15.8.1",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "(omit) ... and the whole template may also resolve to omit).",
+   "canonical": "A template with the `omit` restriction MAY resolve to `omit` as a whole.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    12138,
+    12142
+   ],
+   "examples": [
+    {
+     "lines": [
+      12275,
+      12303
+     ],
+     "text": "// definitions of restricted templates\n  type record ExampleType {\n     integer a,\n     boolean b optional\n  }\n  template(omit) ExampleType m_exampleOmit := omit;\n  template(omit) ExampleType m_exampleOmitValue:= { 1, true };\n  template(omit) ExampleType mw_exampleOmitAny := ?;      // incorrect\n  template(value) ExampleType m_exampleValueomit := omit;   // incorrect\n  template(value) ExampleType m_exampleValue := { 1, true };\n  template(value) ExampleType m_exampleValueOptional := { 1, omit }; \n                               // omit assigned to a field is correct\n  template(present) ExampleType mw_examplePresent := {1, ?};\n  template(present) ExampleType mw_examplePresentIfpresent := { 1, true } ifpresent; \n                               // incorrect\n  template(present) ExampleType mw_examplePresentAny := ?;\n  // restricted template usage\n  var template (omit) ExampleType v_omit;\n  var template (present) ExampleType v_present;\n  var template (value) ExampleType v_value;\n  v_omit := m_exampleOmit;\n  v_omit := m_exampleValueOptional;\n  v_omit := mw_examplePresentAny;   // incorrect, not a specific value\n  v_present := m_exampleOmit;     // incorrect, shall not be omit\n  v_present := mw_examplePresent;\n  v_value := m_exampleOmit;      // incorrect, shall not be omit\n  v_value := mw_examplePresentAny;  // incorrect, shall be a single value"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.08.01_test_006.ttcn3",
+   "module": "M_15_08_01_test_006",
+   "header": "// @requirement: 15.8.1 -- (omit) ... and the whole template may also resolve to omit)."
+  },
+  {
+   "id": "TTCN3-CORE-15.8.1-007a",
+   "section": "15.8.1",
+   "type": "permission",
+   "modality": "CAN",
+   "original": "Such a template can be used to define a field of a record and set template and the latter one could still be used in a send statement.",
+   "canonical": "A template with the `omit` restriction CAN be used to define a field of a record or set template.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "'record and set template' means a record template or a set template.",
+    "improper_terms": [
+     {
+      "used": "record and set template",
+      "proper": "record or set template",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    12140,
+    12142
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.08.01_test_007.ttcn3",
+   "module": "M_15_08_01_test_007",
+   "header": "// @requirement: 15.8.1 -- Such a template can be used to define a field of a record and set template and the latter one could still be used in a send statement."
+  },
+  {
+   "id": "TTCN3-CORE-15.8.1-007b",
+   "section": "15.8.1",
+   "type": "information",
+   "modality": "CAN",
+   "original": "Such a template can be used to define a field of a record and set template and the latter one could still be used in a send statement.",
+   "canonical": "A record or set template whose field is defined by a template with the `omit` restriction CAN still be used in a `send` operation.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "'send statement' is used for the send operation; 'record and set template' means record or set template.",
+    "improper_terms": [
+     {
+      "used": "send statement",
+      "proper": "send operation",
+      "glossary": false
+     },
+     {
+      "used": "record and set template",
+      "proper": "record or set template",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    12140,
+    12142
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.08.01_test_008.ttcn3",
+   "module": "M_15_08_01_test_008",
+   "header": "// @requirement: 15.8.1 -- Such a template can be used to define a field of a record and set template and the latter one could still be used in a send statement."
+  },
+  {
+   "id": "TTCN3-CORE-15.8.1-008a",
+   "section": "15.8.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "(value) the template shall resolve to a specific value (i.e. the fields of it shall resolve to a specific value or omit, but the whole template shall not resolve to omit).",
+   "canonical": "A template with the `value` restriction SHALL resolve to a specific value.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    12138,
+    12146
+   ],
+   "examples": [
+    {
+     "lines": [
+      12275,
+      12303
+     ],
+     "text": "// definitions of restricted templates\n  type record ExampleType {\n     integer a,\n     boolean b optional\n  }\n  template(omit) ExampleType m_exampleOmit := omit;\n  template(omit) ExampleType m_exampleOmitValue:= { 1, true };\n  template(omit) ExampleType mw_exampleOmitAny := ?;      // incorrect\n  template(value) ExampleType m_exampleValueomit := omit;   // incorrect\n  template(value) ExampleType m_exampleValue := { 1, true };\n  template(value) ExampleType m_exampleValueOptional := { 1, omit }; \n                               // omit assigned to a field is correct\n  template(present) ExampleType mw_examplePresent := {1, ?};\n  template(present) ExampleType mw_examplePresentIfpresent := { 1, true } ifpresent; \n                               // incorrect\n  template(present) ExampleType mw_examplePresentAny := ?;\n  // restricted template usage\n  var template (omit) ExampleType v_omit;\n  var template (present) ExampleType v_present;\n  var template (value) ExampleType v_value;\n  v_omit := m_exampleOmit;\n  v_omit := m_exampleValueOptional;\n  v_omit := mw_examplePresentAny;   // incorrect, not a specific value\n  v_present := m_exampleOmit;     // incorrect, shall not be omit\n  v_present := mw_examplePresent;\n  v_value := m_exampleOmit;      // incorrect, shall not be omit\n  v_value := mw_examplePresentAny;  // incorrect, shall be a single value"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.08.01_test_009.ttcn3",
+   "module": "M_15_08_01_test_009",
+   "header": "// @requirement: 15.8.1 -- (value) the template shall resolve to a specific value (i.e. the fields of it shall resolve to a specific value or omit, but the whole template shall not resolve to omit)."
+  },
+  {
+   "id": "TTCN3-CORE-15.8.1-008b",
+   "section": "15.8.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "(value) ... (i.e. the fields of it shall resolve to a specific value or omit, ...)",
+   "canonical": "Each field of a template with the `value` restriction SHALL resolve to a specific value or `omit`.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    12138,
+    12146
+   ],
+   "examples": [
+    {
+     "lines": [
+      12275,
+      12303
+     ],
+     "text": "// definitions of restricted templates\n  type record ExampleType {\n     integer a,\n     boolean b optional\n  }\n  template(omit) ExampleType m_exampleOmit := omit;\n  template(omit) ExampleType m_exampleOmitValue:= { 1, true };\n  template(omit) ExampleType mw_exampleOmitAny := ?;      // incorrect\n  template(value) ExampleType m_exampleValueomit := omit;   // incorrect\n  template(value) ExampleType m_exampleValue := { 1, true };\n  template(value) ExampleType m_exampleValueOptional := { 1, omit }; \n                               // omit assigned to a field is correct\n  template(present) ExampleType mw_examplePresent := {1, ?};\n  template(present) ExampleType mw_examplePresentIfpresent := { 1, true } ifpresent; \n                               // incorrect\n  template(present) ExampleType mw_examplePresentAny := ?;\n  // restricted template usage\n  var template (omit) ExampleType v_omit;\n  var template (present) ExampleType v_present;\n  var template (value) ExampleType v_value;\n  v_omit := m_exampleOmit;\n  v_omit := m_exampleValueOptional;\n  v_omit := mw_examplePresentAny;   // incorrect, not a specific value\n  v_present := m_exampleOmit;     // incorrect, shall not be omit\n  v_present := mw_examplePresent;\n  v_value := m_exampleOmit;      // incorrect, shall not be omit\n  v_value := mw_examplePresentAny;  // incorrect, shall be a single value"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.08.01_test_010.ttcn3",
+   "module": "M_15_08_01_test_010",
+   "header": "// @requirement: 15.8.1 -- (value) ... (i.e. the fields of it shall resolve to a specific value or omit, ...)"
+  },
+  {
+   "id": "TTCN3-CORE-15.8.1-008c",
+   "section": "15.8.1",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "(value) ... but the whole template shall not resolve to omit).",
+   "canonical": "A template with the `value` restriction SHALL NOT resolve to `omit` as a whole.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    12138,
+    12146
+   ],
+   "examples": [
+    {
+     "lines": [
+      12275,
+      12303
+     ],
+     "text": "// definitions of restricted templates\n  type record ExampleType {\n     integer a,\n     boolean b optional\n  }\n  template(omit) ExampleType m_exampleOmit := omit;\n  template(omit) ExampleType m_exampleOmitValue:= { 1, true };\n  template(omit) ExampleType mw_exampleOmitAny := ?;      // incorrect\n  template(value) ExampleType m_exampleValueomit := omit;   // incorrect\n  template(value) ExampleType m_exampleValue := { 1, true };\n  template(value) ExampleType m_exampleValueOptional := { 1, omit }; \n                               // omit assigned to a field is correct\n  template(present) ExampleType mw_examplePresent := {1, ?};\n  template(present) ExampleType mw_examplePresentIfpresent := { 1, true } ifpresent; \n                               // incorrect\n  template(present) ExampleType mw_examplePresentAny := ?;\n  // restricted template usage\n  var template (omit) ExampleType v_omit;\n  var template (present) ExampleType v_present;\n  var template (value) ExampleType v_value;\n  v_omit := m_exampleOmit;\n  v_omit := m_exampleValueOptional;\n  v_omit := mw_examplePresentAny;   // incorrect, not a specific value\n  v_present := m_exampleOmit;     // incorrect, shall not be omit\n  v_present := mw_examplePresent;\n  v_value := m_exampleOmit;      // incorrect, shall not be omit\n  v_value := mw_examplePresentAny;  // incorrect, shall be a single value"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.08.01_test_011.ttcn3",
+   "module": "M_15_08_01_test_011",
+   "header": "// @requirement: 15.8.1 -- (value) ... but the whole template shall not resolve to omit)."
+  },
+  {
+   "id": "TTCN3-CORE-15.8.1-009a",
+   "section": "15.8.1",
+   "type": "permission",
+   "modality": "CAN",
+   "original": "It can be used to define a mandatory field of a record or set template and the latter one could still be used in a send statement.",
+   "canonical": "A template with the `value` restriction CAN be used to define a mandatory field of a record or set template.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    12144,
+    12146
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.08.01_test_012.ttcn3",
+   "module": "M_15_08_01_test_012",
+   "header": "// @requirement: 15.8.1 -- It can be used to define a mandatory field of a record or set template and the latter one could still be used in a send statement."
+  },
+  {
+   "id": "TTCN3-CORE-15.8.1-009b",
+   "section": "15.8.1",
+   "type": "information",
+   "modality": "CAN",
+   "original": "It can be used to define a mandatory field of a record or set template and the latter one could still be used in a send statement.",
+   "canonical": "A record or set template whose mandatory field is defined by a template with the `value` restriction CAN still be used in a `send` operation.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "'send statement' is used for the send operation.",
+    "improper_terms": [
+     {
+      "used": "send statement",
+      "proper": "send operation",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    12144,
+    12146
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.08.01_test_013.ttcn3",
+   "module": "M_15_08_01_test_013",
+   "header": "// @requirement: 15.8.1 -- It can be used to define a mandatory field of a record or set template and the latter one could still be used in a send statement."
+  },
+  {
+   "id": "TTCN3-CORE-15.8.1-010a",
+   "section": "15.8.1",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "(present) the template as a whole shall not resolve to matching mechanisms that match omit (i.e. its fields may contain any of the matching mechanisms or matching attributes).",
+   "canonical": "A template with the `present` restriction SHALL NOT resolve as a whole to a matching mechanism that matches `omit`.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    12138,
+    12150
+   ],
+   "examples": [
+    {
+     "lines": [
+      12275,
+      12303
+     ],
+     "text": "// definitions of restricted templates\n  type record ExampleType {\n     integer a,\n     boolean b optional\n  }\n  template(omit) ExampleType m_exampleOmit := omit;\n  template(omit) ExampleType m_exampleOmitValue:= { 1, true };\n  template(omit) ExampleType mw_exampleOmitAny := ?;      // incorrect\n  template(value) ExampleType m_exampleValueomit := omit;   // incorrect\n  template(value) ExampleType m_exampleValue := { 1, true };\n  template(value) ExampleType m_exampleValueOptional := { 1, omit }; \n                               // omit assigned to a field is correct\n  template(present) ExampleType mw_examplePresent := {1, ?};\n  template(present) ExampleType mw_examplePresentIfpresent := { 1, true } ifpresent; \n                               // incorrect\n  template(present) ExampleType mw_examplePresentAny := ?;\n  // restricted template usage\n  var template (omit) ExampleType v_omit;\n  var template (present) ExampleType v_present;\n  var template (value) ExampleType v_value;\n  v_omit := m_exampleOmit;\n  v_omit := m_exampleValueOptional;\n  v_omit := mw_examplePresentAny;   // incorrect, not a specific value\n  v_present := m_exampleOmit;     // incorrect, shall not be omit\n  v_present := mw_examplePresent;\n  v_value := m_exampleOmit;      // incorrect, shall not be omit\n  v_value := mw_examplePresentAny;  // incorrect, shall be a single value"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.08.01_test_014.ttcn3",
+   "module": "M_15_08_01_test_014",
+   "header": "// @requirement: 15.8.1 -- (present) the template as a whole shall not resolve to matching mechanisms that match omit (i.e. its fields may contain any of the matching mechanisms or matching attributes)."
+  },
+  {
+   "id": "TTCN3-CORE-15.8.1-010b",
+   "section": "15.8.1",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "(present) ... (i.e. its fields may contain any of the matching mechanisms or matching attributes).",
+   "canonical": "A field of a template with the `present` restriction MAY contain any matching mechanism or matching attribute.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    12138,
+    12150
+   ],
+   "examples": [
+    {
+     "lines": [
+      12275,
+      12303
+     ],
+     "text": "// definitions of restricted templates\n  type record ExampleType {\n     integer a,\n     boolean b optional\n  }\n  template(omit) ExampleType m_exampleOmit := omit;\n  template(omit) ExampleType m_exampleOmitValue:= { 1, true };\n  template(omit) ExampleType mw_exampleOmitAny := ?;      // incorrect\n  template(value) ExampleType m_exampleValueomit := omit;   // incorrect\n  template(value) ExampleType m_exampleValue := { 1, true };\n  template(value) ExampleType m_exampleValueOptional := { 1, omit }; \n                               // omit assigned to a field is correct\n  template(present) ExampleType mw_examplePresent := {1, ?};\n  template(present) ExampleType mw_examplePresentIfpresent := { 1, true } ifpresent; \n                               // incorrect\n  template(present) ExampleType mw_examplePresentAny := ?;\n  // restricted template usage\n  var template (omit) ExampleType v_omit;\n  var template (present) ExampleType v_present;\n  var template (value) ExampleType v_value;\n  v_omit := m_exampleOmit;\n  v_omit := m_exampleValueOptional;\n  v_omit := mw_examplePresentAny;   // incorrect, not a specific value\n  v_present := m_exampleOmit;     // incorrect, shall not be omit\n  v_present := mw_examplePresent;\n  v_value := m_exampleOmit;      // incorrect, shall not be omit\n  v_value := mw_examplePresentAny;  // incorrect, shall be a single value"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.08.01_test_015.ttcn3",
+   "module": "M_15_08_01_test_015",
+   "header": "// @requirement: 15.8.1 -- (present) ... (i.e. its fields may contain any of the matching mechanisms or matching attributes)."
+  },
+  {
+   "id": "TTCN3-CORE-15.8.1-011a",
+   "section": "15.8.1",
+   "type": "permission",
+   "modality": "CAN",
+   "original": "Such a template can be used to define a mandatory field of a record or set template.",
+   "canonical": "A template with the `present` restriction CAN be used to define a mandatory field of a record or set template.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    12148,
+    12150
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.08.01_test_016.ttcn3",
+   "module": "M_15_08_01_test_016",
+   "header": "// @requirement: 15.8.1 -- Such a template can be used to define a mandatory field of a record or set template."
+  },
+  {
+   "id": "TTCN3-CORE-15.8.1-015a",
+   "section": "15.8.1",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "a) Matching mechanisms can be used within restricted templates according to table 12.",
+   "canonical": "A matching mechanism SHALL be used within a restricted template only as permitted by table 12.",
+   "condition": null,
+   "cross_refs": [
+    "5"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    12159,
+    12161
+   ],
+   "examples": [
+    {
+     "lines": [
+      12275,
+      12303
+     ],
+     "text": "// definitions of restricted templates\n  type record ExampleType {\n     integer a,\n     boolean b optional\n  }\n  template(omit) ExampleType m_exampleOmit := omit;\n  template(omit) ExampleType m_exampleOmitValue:= { 1, true };\n  template(omit) ExampleType mw_exampleOmitAny := ?;      // incorrect\n  template(value) ExampleType m_exampleValueomit := omit;   // incorrect\n  template(value) ExampleType m_exampleValue := { 1, true };\n  template(value) ExampleType m_exampleValueOptional := { 1, omit }; \n                               // omit assigned to a field is correct\n  template(present) ExampleType mw_examplePresent := {1, ?};\n  template(present) ExampleType mw_examplePresentIfpresent := { 1, true } ifpresent; \n                               // incorrect\n  template(present) ExampleType mw_examplePresentAny := ?;\n  // restricted template usage\n  var template (omit) ExampleType v_omit;\n  var template (present) ExampleType v_present;\n  var template (value) ExampleType v_value;\n  v_omit := m_exampleOmit;\n  v_omit := m_exampleValueOptional;\n  v_omit := mw_examplePresentAny;   // incorrect, not a specific value\n  v_present := m_exampleOmit;     // incorrect, shall not be omit\n  v_present := mw_examplePresent;\n  v_value := m_exampleOmit;      // incorrect, shall not be omit\n  v_value := mw_examplePresentAny;  // incorrect, shall be a single value"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.08.01_test_017.ttcn3",
+   "module": "M_15_08_01_test_017",
+   "header": "// @requirement: 15.8.1 -- a) Matching mechanisms can be used within restricted templates according to table 12."
+  },
+  {
+   "id": "TTCN3-CORE-15.8.1-023a",
+   "section": "15.8.1",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "b) Restricted and unrestricted templates maybe used as actual parameters of formal template parameters or assigned to templates or template variables according to table 13.",
+   "canonical": "A restricted or unrestricted template SHALL be used as actual parameter of a formal template parameter, or assigned to a template or template variable, only as permitted by table 13.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "'maybe' is a misspelling of 'may be'.",
+    "improper_terms": [
+     {
+      "used": "maybe",
+      "proper": "may be",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    12186,
+    12187
+   ],
+   "examples": [
+    {
+     "lines": [
+      12275,
+      12303
+     ],
+     "text": "// definitions of restricted templates\n  type record ExampleType {\n     integer a,\n     boolean b optional\n  }\n  template(omit) ExampleType m_exampleOmit := omit;\n  template(omit) ExampleType m_exampleOmitValue:= { 1, true };\n  template(omit) ExampleType mw_exampleOmitAny := ?;      // incorrect\n  template(value) ExampleType m_exampleValueomit := omit;   // incorrect\n  template(value) ExampleType m_exampleValue := { 1, true };\n  template(value) ExampleType m_exampleValueOptional := { 1, omit }; \n                               // omit assigned to a field is correct\n  template(present) ExampleType mw_examplePresent := {1, ?};\n  template(present) ExampleType mw_examplePresentIfpresent := { 1, true } ifpresent; \n                               // incorrect\n  template(present) ExampleType mw_examplePresentAny := ?;\n  // restricted template usage\n  var template (omit) ExampleType v_omit;\n  var template (present) ExampleType v_present;\n  var template (value) ExampleType v_value;\n  v_omit := m_exampleOmit;\n  v_omit := m_exampleValueOptional;\n  v_omit := mw_examplePresentAny;   // incorrect, not a specific value\n  v_present := m_exampleOmit;     // incorrect, shall not be omit\n  v_present := mw_examplePresent;\n  v_value := m_exampleOmit;      // incorrect, shall not be omit\n  v_value := mw_examplePresentAny;  // incorrect, shall be a single value"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.08.01_test_018.ttcn3",
+   "module": "M_15_08_01_test_018",
+   "header": "// @requirement: 15.8.1 -- b) Restricted and unrestricted templates maybe used as actual parameters of formal template parameters or assigned to templates or template variables according to table 13."
+  },
+  {
+   "id": "TTCN3-CORE-15.8.1-028a",
+   "section": "15.8.1",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "c) A formal template parameter of a modified template may have a stricter restriction than the same formal parameter of the base template according to table 13a.",
+   "canonical": "A formal template parameter of a modified template MAY have a stricter restriction than the same formal parameter of the base template, as permitted by table 13a.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    12209,
+    12210
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.08.01_test_019.ttcn3",
+   "module": "M_15_08_01_test_019",
+   "header": "// @requirement: 15.8.1 -- c) A formal template parameter of a modified template may have a stricter restriction than the same formal parameter of the base template according to table 13a."
+  },
+  {
+   "id": "TTCN3-CORE-15.8.1-036a",
+   "section": "15.8.1",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "d) A modified template may have a less strict restriction than the base template according to table 13b.",
+   "canonical": "A modified template MAY have a less strict restriction than its base template, as permitted by table 13b.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    12229,
+    12229
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.08.01_test_020.ttcn3",
+   "module": "M_15_08_01_test_020",
+   "header": "// @requirement: 15.8.1 -- d) A modified template may have a less strict restriction than the base template according to table 13b."
+  },
+  {
+   "id": "TTCN3-CORE-15.8.1-038a",
+   "section": "15.8.1",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Used with template restriction: omit; Value: Yes; Instead of values: Yes",
+   "canonical": "A template with the `omit` restriction MAY use the SpecificValue matching mechanism.",
+   "condition": null,
+   "cross_refs": [
+    "15.8.1"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    12161,
+    12234
+   ],
+   "examples": [
+    {
+     "lines": [
+      12275,
+      12303
+     ],
+     "text": "// definitions of restricted templates\n  type record ExampleType {\n     integer a,\n     boolean b optional\n  }\n  template(omit) ExampleType m_exampleOmit := omit;\n  template(omit) ExampleType m_exampleOmitValue:= { 1, true };\n  template(omit) ExampleType mw_exampleOmitAny := ?;      // incorrect\n  template(value) ExampleType m_exampleValueomit := omit;   // incorrect\n  template(value) ExampleType m_exampleValue := { 1, true };\n  template(value) ExampleType m_exampleValueOptional := { 1, omit }; \n                               // omit assigned to a field is correct\n  template(present) ExampleType mw_examplePresent := {1, ?};\n  template(present) ExampleType mw_examplePresentIfpresent := { 1, true } ifpresent; \n                               // incorrect\n  template(present) ExampleType mw_examplePresentAny := ?;\n  // restricted template usage\n  var template (omit) ExampleType v_omit;\n  var template (present) ExampleType v_present;\n  var template (value) ExampleType v_value;\n  v_omit := m_exampleOmit;\n  v_omit := m_exampleValueOptional;\n  v_omit := mw_examplePresentAny;   // incorrect, not a specific value\n  v_present := m_exampleOmit;     // incorrect, shall not be omit\n  v_present := mw_examplePresent;\n  v_value := m_exampleOmit;      // incorrect, shall not be omit\n  v_value := mw_examplePresentAny;  // incorrect, shall be a single value"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.08.01_test_021.ttcn3",
+   "module": "M_15_08_01_test_021",
+   "header": "// @requirement: 15.8.1 -- Used with template restriction: omit; Value: Yes; Instead of values: Yes"
+  },
+  {
+   "id": "TTCN3-CORE-15.8.1-038b",
+   "section": "15.8.1",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Used with template restriction: omit; Value: Yes; Instead of values: Yes",
+   "canonical": "A template with the `omit` restriction MAY use the Omit matching mechanism.",
+   "condition": null,
+   "cross_refs": [
+    "15.8.1"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    12161,
+    12234
+   ],
+   "examples": [
+    {
+     "lines": [
+      12275,
+      12303
+     ],
+     "text": "// definitions of restricted templates\n  type record ExampleType {\n     integer a,\n     boolean b optional\n  }\n  template(omit) ExampleType m_exampleOmit := omit;\n  template(omit) ExampleType m_exampleOmitValue:= { 1, true };\n  template(omit) ExampleType mw_exampleOmitAny := ?;      // incorrect\n  template(value) ExampleType m_exampleValueomit := omit;   // incorrect\n  template(value) ExampleType m_exampleValue := { 1, true };\n  template(value) ExampleType m_exampleValueOptional := { 1, omit }; \n                               // omit assigned to a field is correct\n  template(present) ExampleType mw_examplePresent := {1, ?};\n  template(present) ExampleType mw_examplePresentIfpresent := { 1, true } ifpresent; \n                               // incorrect\n  template(present) ExampleType mw_examplePresentAny := ?;\n  // restricted template usage\n  var template (omit) ExampleType v_omit;\n  var template (present) ExampleType v_present;\n  var template (value) ExampleType v_value;\n  v_omit := m_exampleOmit;\n  v_omit := m_exampleValueOptional;\n  v_omit := mw_examplePresentAny;   // incorrect, not a specific value\n  v_present := m_exampleOmit;     // incorrect, shall not be omit\n  v_present := mw_examplePresent;\n  v_value := m_exampleOmit;      // incorrect, shall not be omit\n  v_value := mw_examplePresentAny;  // incorrect, shall be a single value"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.08.01_test_022.ttcn3",
+   "module": "M_15_08_01_test_022",
+   "header": "// @requirement: 15.8.1 -- Used with template restriction: omit; Value: Yes; Instead of values: Yes"
+  },
+  {
+   "id": "TTCN3-CORE-15.8.1-038c",
+   "section": "15.8.1",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "Used with template restriction: omit; Value: Yes; Instead of values: Yes",
+   "canonical": "A template with the `omit` restriction SHALL NOT use the matching mechanisms ComplementedList, TemplateList, AnyValue, AnyValueOrNone, Range, Superset, Subset, Pattern, match decoded content (`decmatch`), AnyElement, AnyElementsOrNone, Permutation, LengthRestriction or IfPresent.",
+   "condition": null,
+   "cross_refs": [
+    "15.8.1"
+   ],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "The table cells are empty rather than 'No'. Reading 1 is chosen because restriction a) allows matching mechanisms only according to table 12 and the semantic description limits fields to specific values or omit.",
+    "readings": [
+     "A template with the `omit` restriction SHALL NOT use the matching mechanisms ComplementedList, TemplateList, AnyValue, AnyValueOrNone, Range, Superset, Subset, Pattern, match decoded content (`decmatch`), AnyElement, AnyElementsOrNone, Permutation, LengthRestriction or IfPresent.",
+     "The use of matching mechanisms other than SpecificValue and Omit in a template with the `omit` restriction IS unspecified."
+    ]
+   },
+   "spec_lines": [
+    12161,
+    12234
+   ],
+   "examples": [
+    {
+     "lines": [
+      12275,
+      12303
+     ],
+     "text": "// definitions of restricted templates\n  type record ExampleType {\n     integer a,\n     boolean b optional\n  }\n  template(omit) ExampleType m_exampleOmit := omit;\n  template(omit) ExampleType m_exampleOmitValue:= { 1, true };\n  template(omit) ExampleType mw_exampleOmitAny := ?;      // incorrect\n  template(value) ExampleType m_exampleValueomit := omit;   // incorrect\n  template(value) ExampleType m_exampleValue := { 1, true };\n  template(value) ExampleType m_exampleValueOptional := { 1, omit }; \n                               // omit assigned to a field is correct\n  template(present) ExampleType mw_examplePresent := {1, ?};\n  template(present) ExampleType mw_examplePresentIfpresent := { 1, true } ifpresent; \n                               // incorrect\n  template(present) ExampleType mw_examplePresentAny := ?;\n  // restricted template usage\n  var template (omit) ExampleType v_omit;\n  var template (present) ExampleType v_present;\n  var template (value) ExampleType v_value;\n  v_omit := m_exampleOmit;\n  v_omit := m_exampleValueOptional;\n  v_omit := mw_examplePresentAny;   // incorrect, not a specific value\n  v_present := m_exampleOmit;     // incorrect, shall not be omit\n  v_present := mw_examplePresent;\n  v_value := m_exampleOmit;      // incorrect, shall not be omit\n  v_value := mw_examplePresentAny;  // incorrect, shall be a single value"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.08.01_test_023.ttcn3",
+   "module": "M_15_08_01_test_023",
+   "header": "// @requirement: 15.8.1 -- Used with template restriction: omit; Value: Yes; Instead of values: Yes"
+  },
+  {
+   "id": "TTCN3-CORE-15.8.1-039a",
+   "section": "15.8.1",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Used with template restriction: value; Value: Yes; Instead of values: Note 1",
+   "canonical": "A template with the `value` restriction MAY use the SpecificValue matching mechanism.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    12161,
+    12235
+   ],
+   "examples": [
+    {
+     "lines": [
+      12275,
+      12303
+     ],
+     "text": "// definitions of restricted templates\n  type record ExampleType {\n     integer a,\n     boolean b optional\n  }\n  template(omit) ExampleType m_exampleOmit := omit;\n  template(omit) ExampleType m_exampleOmitValue:= { 1, true };\n  template(omit) ExampleType mw_exampleOmitAny := ?;      // incorrect\n  template(value) ExampleType m_exampleValueomit := omit;   // incorrect\n  template(value) ExampleType m_exampleValue := { 1, true };\n  template(value) ExampleType m_exampleValueOptional := { 1, omit }; \n                               // omit assigned to a field is correct\n  template(present) ExampleType mw_examplePresent := {1, ?};\n  template(present) ExampleType mw_examplePresentIfpresent := { 1, true } ifpresent; \n                               // incorrect\n  template(present) ExampleType mw_examplePresentAny := ?;\n  // restricted template usage\n  var template (omit) ExampleType v_omit;\n  var template (present) ExampleType v_present;\n  var template (value) ExampleType v_value;\n  v_omit := m_exampleOmit;\n  v_omit := m_exampleValueOptional;\n  v_omit := mw_examplePresentAny;   // incorrect, not a specific value\n  v_present := m_exampleOmit;     // incorrect, shall not be omit\n  v_present := mw_examplePresent;\n  v_value := m_exampleOmit;      // incorrect, shall not be omit\n  v_value := mw_examplePresentAny;  // incorrect, shall be a single value"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.08.01_test_024.ttcn3",
+   "module": "M_15_08_01_test_024",
+   "header": "// @requirement: 15.8.1 -- Used with template restriction: value; Value: Yes; Instead of values: Note 1"
+  },
+  {
+   "id": "TTCN3-CORE-15.8.1-039b",
+   "section": "15.8.1",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Used with template restriction: value; Value: Yes; Instead of values: Note 1",
+   "canonical": "A field of a template with the `value` restriction MAY use the Omit matching mechanism.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    12233,
+    12237
+   ],
+   "examples": [
+    {
+     "lines": [
+      12275,
+      12303
+     ],
+     "text": "// definitions of restricted templates\n  type record ExampleType {\n     integer a,\n     boolean b optional\n  }\n  template(omit) ExampleType m_exampleOmit := omit;\n  template(omit) ExampleType m_exampleOmitValue:= { 1, true };\n  template(omit) ExampleType mw_exampleOmitAny := ?;      // incorrect\n  template(value) ExampleType m_exampleValueomit := omit;   // incorrect\n  template(value) ExampleType m_exampleValue := { 1, true };\n  template(value) ExampleType m_exampleValueOptional := { 1, omit }; \n                               // omit assigned to a field is correct\n  template(present) ExampleType mw_examplePresent := {1, ?};\n  template(present) ExampleType mw_examplePresentIfpresent := { 1, true } ifpresent; \n                               // incorrect\n  template(present) ExampleType mw_examplePresentAny := ?;\n  // restricted template usage\n  var template (omit) ExampleType v_omit;\n  var template (present) ExampleType v_present;\n  var template (value) ExampleType v_value;\n  v_omit := m_exampleOmit;\n  v_omit := m_exampleValueOptional;\n  v_omit := mw_examplePresentAny;   // incorrect, not a specific value\n  v_present := m_exampleOmit;     // incorrect, shall not be omit\n  v_present := mw_examplePresent;\n  v_value := m_exampleOmit;      // incorrect, shall not be omit\n  v_value := mw_examplePresentAny;  // incorrect, shall be a single value"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.08.01_test_025.ttcn3",
+   "module": "M_15_08_01_test_025",
+   "header": "// @requirement: 15.8.1 -- Used with template restriction: value; Value: Yes; Instead of values: Note 1"
+  },
+  {
+   "id": "TTCN3-CORE-15.8.1-039c",
+   "section": "15.8.1",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "Used with template restriction: value; Value: Yes; Instead of values: Note 1",
+   "canonical": "A template with the `value` restriction SHALL NOT resolve as a whole to the Omit matching mechanism.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    12233,
+    12237
+   ],
+   "examples": [
+    {
+     "lines": [
+      12275,
+      12303
+     ],
+     "text": "// definitions of restricted templates\n  type record ExampleType {\n     integer a,\n     boolean b optional\n  }\n  template(omit) ExampleType m_exampleOmit := omit;\n  template(omit) ExampleType m_exampleOmitValue:= { 1, true };\n  template(omit) ExampleType mw_exampleOmitAny := ?;      // incorrect\n  template(value) ExampleType m_exampleValueomit := omit;   // incorrect\n  template(value) ExampleType m_exampleValue := { 1, true };\n  template(value) ExampleType m_exampleValueOptional := { 1, omit }; \n                               // omit assigned to a field is correct\n  template(present) ExampleType mw_examplePresent := {1, ?};\n  template(present) ExampleType mw_examplePresentIfpresent := { 1, true } ifpresent; \n                               // incorrect\n  template(present) ExampleType mw_examplePresentAny := ?;\n  // restricted template usage\n  var template (omit) ExampleType v_omit;\n  var template (present) ExampleType v_present;\n  var template (value) ExampleType v_value;\n  v_omit := m_exampleOmit;\n  v_omit := m_exampleValueOptional;\n  v_omit := mw_examplePresentAny;   // incorrect, not a specific value\n  v_present := m_exampleOmit;     // incorrect, shall not be omit\n  v_present := mw_examplePresent;\n  v_value := m_exampleOmit;      // incorrect, shall not be omit\n  v_value := mw_examplePresentAny;  // incorrect, shall be a single value"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.08.01_test_026.ttcn3",
+   "module": "M_15_08_01_test_026",
+   "header": "// @requirement: 15.8.1 -- Used with template restriction: value; Value: Yes; Instead of values: Note 1"
+  },
+  {
+   "id": "TTCN3-CORE-15.8.1-039d",
+   "section": "15.8.1",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "Used with template restriction: value; Value: Yes; Instead of values: Note 1",
+   "canonical": "A template with the `value` restriction SHALL NOT use the matching mechanisms ComplementedList, TemplateList, AnyValue, AnyValueOrNone, Range, Superset, Subset, Pattern, match decoded content (`decmatch`), AnyElement, AnyElementsOrNone, Permutation, LengthRestriction or IfPresent.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "The table cells are empty rather than 'No'. Reading 1 is chosen because restriction a) allows matching mechanisms only according to table 12.",
+    "readings": [
+     "A template with the `value` restriction SHALL NOT use the matching mechanisms ComplementedList, TemplateList, AnyValue, AnyValueOrNone, Range, Superset, Subset, Pattern, match decoded content (`decmatch`), AnyElement, AnyElementsOrNone, Permutation, LengthRestriction or IfPresent.",
+     "The use of matching mechanisms other than SpecificValue and Omit in a template with the `value` restriction IS unspecified."
+    ]
+   },
+   "spec_lines": [
+    12161,
+    12235
+   ],
+   "examples": [
+    {
+     "lines": [
+      12275,
+      12303
+     ],
+     "text": "// definitions of restricted templates\n  type record ExampleType {\n     integer a,\n     boolean b optional\n  }\n  template(omit) ExampleType m_exampleOmit := omit;\n  template(omit) ExampleType m_exampleOmitValue:= { 1, true };\n  template(omit) ExampleType mw_exampleOmitAny := ?;      // incorrect\n  template(value) ExampleType m_exampleValueomit := omit;   // incorrect\n  template(value) ExampleType m_exampleValue := { 1, true };\n  template(value) ExampleType m_exampleValueOptional := { 1, omit }; \n                               // omit assigned to a field is correct\n  template(present) ExampleType mw_examplePresent := {1, ?};\n  template(present) ExampleType mw_examplePresentIfpresent := { 1, true } ifpresent; \n                               // incorrect\n  template(present) ExampleType mw_examplePresentAny := ?;\n  // restricted template usage\n  var template (omit) ExampleType v_omit;\n  var template (present) ExampleType v_present;\n  var template (value) ExampleType v_value;\n  v_omit := m_exampleOmit;\n  v_omit := m_exampleValueOptional;\n  v_omit := mw_examplePresentAny;   // incorrect, not a specific value\n  v_present := m_exampleOmit;     // incorrect, shall not be omit\n  v_present := mw_examplePresent;\n  v_value := m_exampleOmit;      // incorrect, shall not be omit\n  v_value := mw_examplePresentAny;  // incorrect, shall be a single value"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.08.01_test_027.ttcn3",
+   "module": "M_15_08_01_test_027",
+   "header": "// @requirement: 15.8.1 -- Used with template restriction: value; Value: Yes; Instead of values: Note 1"
+  },
+  {
+   "id": "TTCN3-CORE-15.8.1-040a",
+   "section": "15.8.1",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Used with template restriction: present; Value: Yes; Instead of values: Note 1; Col4: Yes; Col5: Yes; Col6: Yes; Col7: Note 1; Col8: Yes; Col9: Yes; Col10: Yes; Col11: Yes; Col12: Note 2; Inside values: Yes; Col14: Yes; Col15: Yes; Attributes: Yes; Col17: Note 1",
+   "canonical": "A template with the `present` restriction MAY use the matching mechanisms SpecificValue, ComplementedList, TemplateList, AnyValue, Range, Superset, Subset, Pattern, AnyElement, AnyElementsOrNone, Permutation and LengthRestriction.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    12161,
+    12236
+   ],
+   "examples": [
+    {
+     "lines": [
+      12275,
+      12303
+     ],
+     "text": "// definitions of restricted templates\n  type record ExampleType {\n     integer a,\n     boolean b optional\n  }\n  template(omit) ExampleType m_exampleOmit := omit;\n  template(omit) ExampleType m_exampleOmitValue:= { 1, true };\n  template(omit) ExampleType mw_exampleOmitAny := ?;      // incorrect\n  template(value) ExampleType m_exampleValueomit := omit;   // incorrect\n  template(value) ExampleType m_exampleValue := { 1, true };\n  template(value) ExampleType m_exampleValueOptional := { 1, omit }; \n                               // omit assigned to a field is correct\n  template(present) ExampleType mw_examplePresent := {1, ?};\n  template(present) ExampleType mw_examplePresentIfpresent := { 1, true } ifpresent; \n                               // incorrect\n  template(present) ExampleType mw_examplePresentAny := ?;\n  // restricted template usage\n  var template (omit) ExampleType v_omit;\n  var template (present) ExampleType v_present;\n  var template (value) ExampleType v_value;\n  v_omit := m_exampleOmit;\n  v_omit := m_exampleValueOptional;\n  v_omit := mw_examplePresentAny;   // incorrect, not a specific value\n  v_present := m_exampleOmit;     // incorrect, shall not be omit\n  v_present := mw_examplePresent;\n  v_value := m_exampleOmit;      // incorrect, shall not be omit\n  v_value := mw_examplePresentAny;  // incorrect, shall be a single value"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.08.01_test_028.ttcn3",
+   "module": "M_15_08_01_test_028",
+   "header": "// @requirement: 15.8.1 -- Used with template restriction: present; Value: Yes; Instead of values: Note 1; Col4: Yes; Col5: Yes; Col6: Yes; Col7: Note 1; Col8: Yes; Col9: Yes; Col10: Yes; Col11: Yes; Col12: Note 2; Inside values: Yes; Col14: Yes; Col15: Yes; Attributes: Yes; Col17: Note 1"
+  },
+  {
+   "id": "TTCN3-CORE-15.8.1-040b",
+   "section": "15.8.1",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Used with template restriction: present; ... Instead of values: Note 1; ... Col7: Note 1; ... Col17: Note 1",
+   "canonical": "A field of a template with the `present` restriction MAY use the Omit and AnyValueOrNone matching mechanisms and the IfPresent attribute.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    12233,
+    12237
+   ],
+   "examples": [
+    {
+     "lines": [
+      12275,
+      12303
+     ],
+     "text": "// definitions of restricted templates\n  type record ExampleType {\n     integer a,\n     boolean b optional\n  }\n  template(omit) ExampleType m_exampleOmit := omit;\n  template(omit) ExampleType m_exampleOmitValue:= { 1, true };\n  template(omit) ExampleType mw_exampleOmitAny := ?;      // incorrect\n  template(value) ExampleType m_exampleValueomit := omit;   // incorrect\n  template(value) ExampleType m_exampleValue := { 1, true };\n  template(value) ExampleType m_exampleValueOptional := { 1, omit }; \n                               // omit assigned to a field is correct\n  template(present) ExampleType mw_examplePresent := {1, ?};\n  template(present) ExampleType mw_examplePresentIfpresent := { 1, true } ifpresent; \n                               // incorrect\n  template(present) ExampleType mw_examplePresentAny := ?;\n  // restricted template usage\n  var template (omit) ExampleType v_omit;\n  var template (present) ExampleType v_present;\n  var template (value) ExampleType v_value;\n  v_omit := m_exampleOmit;\n  v_omit := m_exampleValueOptional;\n  v_omit := mw_examplePresentAny;   // incorrect, not a specific value\n  v_present := m_exampleOmit;     // incorrect, shall not be omit\n  v_present := mw_examplePresent;\n  v_value := m_exampleOmit;      // incorrect, shall not be omit\n  v_value := mw_examplePresentAny;  // incorrect, shall be a single value"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.08.01_test_029.ttcn3",
+   "module": "M_15_08_01_test_029",
+   "header": "// @requirement: 15.8.1 -- Used with template restriction: present; ... Instead of values: Note 1; ... Col7: Note 1; ... Col17: Note 1"
+  },
+  {
+   "id": "TTCN3-CORE-15.8.1-040c",
+   "section": "15.8.1",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "Used with template restriction: present; ... Instead of values: Note 1; ... Col7: Note 1; ... Col17: Note 1",
+   "canonical": "A template with the `present` restriction SHALL NOT resolve as a whole to the Omit or AnyValueOrNone matching mechanism or to a template with the IfPresent attribute.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    12233,
+    12237
+   ],
+   "examples": [
+    {
+     "lines": [
+      12275,
+      12303
+     ],
+     "text": "// definitions of restricted templates\n  type record ExampleType {\n     integer a,\n     boolean b optional\n  }\n  template(omit) ExampleType m_exampleOmit := omit;\n  template(omit) ExampleType m_exampleOmitValue:= { 1, true };\n  template(omit) ExampleType mw_exampleOmitAny := ?;      // incorrect\n  template(value) ExampleType m_exampleValueomit := omit;   // incorrect\n  template(value) ExampleType m_exampleValue := { 1, true };\n  template(value) ExampleType m_exampleValueOptional := { 1, omit }; \n                               // omit assigned to a field is correct\n  template(present) ExampleType mw_examplePresent := {1, ?};\n  template(present) ExampleType mw_examplePresentIfpresent := { 1, true } ifpresent; \n                               // incorrect\n  template(present) ExampleType mw_examplePresentAny := ?;\n  // restricted template usage\n  var template (omit) ExampleType v_omit;\n  var template (present) ExampleType v_present;\n  var template (value) ExampleType v_value;\n  v_omit := m_exampleOmit;\n  v_omit := m_exampleValueOptional;\n  v_omit := mw_examplePresentAny;   // incorrect, not a specific value\n  v_present := m_exampleOmit;     // incorrect, shall not be omit\n  v_present := mw_examplePresent;\n  v_value := m_exampleOmit;      // incorrect, shall not be omit\n  v_value := mw_examplePresentAny;  // incorrect, shall be a single value"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.08.01_test_030.ttcn3",
+   "module": "M_15_08_01_test_030",
+   "header": "// @requirement: 15.8.1 -- Used with template restriction: present; ... Instead of values: Note 1; ... Col7: Note 1; ... Col17: Note 1"
+  },
+  {
+   "id": "TTCN3-CORE-15.8.1-040d",
+   "section": "15.8.1",
+   "type": "restriction",
+   "modality": "MAY",
+   "original": "Used with template restriction: present; ... Col12: Note 2",
+   "canonical": "A template with the `present` restriction MAY use the match decoded content (`decmatch`) matching mechanism only if the template following the `decmatch` keyword fulfils the `present` restriction.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "NOTE 2 says 'the given restriction'; reading 1 (the restriction of the enclosing template) is chosen. NOTE 2 is only referenced in the present row.",
+    "readings": [
+     "A template with the `present` restriction MAY use `decmatch` only if the template following the `decmatch` keyword fulfils the `present` restriction.",
+     "A template with the `present` restriction MAY use `decmatch` only if the template following the `decmatch` keyword fulfils the restriction declared for that decoded template."
+    ]
+   },
+   "spec_lines": [
+    12233,
+    12237
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.08.01_test_031.ttcn3",
+   "module": "M_15_08_01_test_031",
+   "header": "// @requirement: 15.8.1 -- Used with template restriction: present; ... Col12: Note 2"
+  },
+  {
+   "id": "TTCN3-CORE-15.8.1-041a",
+   "section": "15.8.1",
+   "type": "information",
+   "modality": "IS",
+   "original": "NOTE 1: It is allowed to use the matching mechanism in fields of the template, but the template as a whole shall not resolve to this matching mechanism.",
+   "canonical": "Where table 12 refers to NOTE 1, a matching mechanism MAY be used in fields of the restricted template, but the template as a whole SHALL NOT resolve to that matching mechanism.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    12233,
+    12237
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.08.01_test_032.ttcn3",
+   "module": "M_15_08_01_test_032",
+   "header": "// @requirement: 15.8.1 -- NOTE 1: It is allowed to use the matching mechanism in fields of the template, but the template as a whole shall not resolve to this matching mechanism."
+  },
+  {
+   "id": "TTCN3-CORE-15.8.1-042a",
+   "section": "15.8.1",
+   "type": "information",
+   "modality": "IS",
+   "original": "NOTE 2: The matching mechanism is allowed only if the template following the decmatch keyword is fulfilling the given restriction.",
+   "canonical": "Where table 12 refers to NOTE 2, the match decoded content (`decmatch`) matching mechanism IS allowed only if the template following the `decmatch` keyword fulfils the given template restriction.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    12233,
+    12237
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.08.01_test_033.ttcn3",
+   "module": "M_15_08_01_test_033",
+   "header": "// @requirement: 15.8.1 -- NOTE 2: The matching mechanism is allowed only if the template following the decmatch keyword is fulfilling the given restriction."
+  },
+  {
+   "id": "TTCN3-CORE-15.8.1-045a",
+   "section": "15.8.1",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Col1: template(omit); Value: Yes; Template (omit): Yes; Template (value): Yes; Template (present): No; Template: No",
+   "canonical": "A value, a template with the `omit` restriction or a template with the `value` restriction MAY be used as actual parameter or right hand side of an assignment for a formal template parameter or left hand side of an assignment with the `omit` restriction.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    12186,
+    12242
+   ],
+   "examples": [
+    {
+     "lines": [
+      12275,
+      12303
+     ],
+     "text": "// definitions of restricted templates\n  type record ExampleType {\n     integer a,\n     boolean b optional\n  }\n  template(omit) ExampleType m_exampleOmit := omit;\n  template(omit) ExampleType m_exampleOmitValue:= { 1, true };\n  template(omit) ExampleType mw_exampleOmitAny := ?;      // incorrect\n  template(value) ExampleType m_exampleValueomit := omit;   // incorrect\n  template(value) ExampleType m_exampleValue := { 1, true };\n  template(value) ExampleType m_exampleValueOptional := { 1, omit }; \n                               // omit assigned to a field is correct\n  template(present) ExampleType mw_examplePresent := {1, ?};\n  template(present) ExampleType mw_examplePresentIfpresent := { 1, true } ifpresent; \n                               // incorrect\n  template(present) ExampleType mw_examplePresentAny := ?;\n  // restricted template usage\n  var template (omit) ExampleType v_omit;\n  var template (present) ExampleType v_present;\n  var template (value) ExampleType v_value;\n  v_omit := m_exampleOmit;\n  v_omit := m_exampleValueOptional;\n  v_omit := mw_examplePresentAny;   // incorrect, not a specific value\n  v_present := m_exampleOmit;     // incorrect, shall not be omit\n  v_present := mw_examplePresent;\n  v_value := m_exampleOmit;      // incorrect, shall not be omit\n  v_value := mw_examplePresentAny;  // incorrect, shall be a single value"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.08.01_test_034.ttcn3",
+   "module": "M_15_08_01_test_034",
+   "header": "// @requirement: 15.8.1 -- Col1: template(omit); Value: Yes; Template (omit): Yes; Template (value): Yes; Template (present): No; Template: No"
+  },
+  {
+   "id": "TTCN3-CORE-15.8.1-045b",
+   "section": "15.8.1",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "Col1: template(omit); Value: Yes; Template (omit): Yes; Template (value): Yes; Template (present): No; Template: No",
+   "canonical": "A template with the `present` restriction or an unrestricted template SHALL NOT be used as actual parameter or right hand side of an assignment for a formal template parameter or left hand side of an assignment with the `omit` restriction.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    12186,
+    12242
+   ],
+   "examples": [
+    {
+     "lines": [
+      12275,
+      12303
+     ],
+     "text": "// definitions of restricted templates\n  type record ExampleType {\n     integer a,\n     boolean b optional\n  }\n  template(omit) ExampleType m_exampleOmit := omit;\n  template(omit) ExampleType m_exampleOmitValue:= { 1, true };\n  template(omit) ExampleType mw_exampleOmitAny := ?;      // incorrect\n  template(value) ExampleType m_exampleValueomit := omit;   // incorrect\n  template(value) ExampleType m_exampleValue := { 1, true };\n  template(value) ExampleType m_exampleValueOptional := { 1, omit }; \n                               // omit assigned to a field is correct\n  template(present) ExampleType mw_examplePresent := {1, ?};\n  template(present) ExampleType mw_examplePresentIfpresent := { 1, true } ifpresent; \n                               // incorrect\n  template(present) ExampleType mw_examplePresentAny := ?;\n  // restricted template usage\n  var template (omit) ExampleType v_omit;\n  var template (present) ExampleType v_present;\n  var template (value) ExampleType v_value;\n  v_omit := m_exampleOmit;\n  v_omit := m_exampleValueOptional;\n  v_omit := mw_examplePresentAny;   // incorrect, not a specific value\n  v_present := m_exampleOmit;     // incorrect, shall not be omit\n  v_present := mw_examplePresent;\n  v_value := m_exampleOmit;      // incorrect, shall not be omit\n  v_value := mw_examplePresentAny;  // incorrect, shall be a single value"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.08.01_test_035.ttcn3",
+   "module": "M_15_08_01_test_035",
+   "header": "// @requirement: 15.8.1 -- Col1: template(omit); Value: Yes; Template (omit): Yes; Template (value): Yes; Template (present): No; Template: No"
+  },
+  {
+   "id": "TTCN3-CORE-15.8.1-046a",
+   "section": "15.8.1",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Col1: template(value); Value: Yes; Template (omit): Rule; Template (value): Yes; Template (present): No; Template: No",
+   "canonical": "A value or a template with the `value` restriction MAY be used as actual parameter or right hand side of an assignment for a formal template parameter or left hand side of an assignment with the `value` restriction.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    12186,
+    12243
+   ],
+   "examples": [
+    {
+     "lines": [
+      12275,
+      12303
+     ],
+     "text": "// definitions of restricted templates\n  type record ExampleType {\n     integer a,\n     boolean b optional\n  }\n  template(omit) ExampleType m_exampleOmit := omit;\n  template(omit) ExampleType m_exampleOmitValue:= { 1, true };\n  template(omit) ExampleType mw_exampleOmitAny := ?;      // incorrect\n  template(value) ExampleType m_exampleValueomit := omit;   // incorrect\n  template(value) ExampleType m_exampleValue := { 1, true };\n  template(value) ExampleType m_exampleValueOptional := { 1, omit }; \n                               // omit assigned to a field is correct\n  template(present) ExampleType mw_examplePresent := {1, ?};\n  template(present) ExampleType mw_examplePresentIfpresent := { 1, true } ifpresent; \n                               // incorrect\n  template(present) ExampleType mw_examplePresentAny := ?;\n  // restricted template usage\n  var template (omit) ExampleType v_omit;\n  var template (present) ExampleType v_present;\n  var template (value) ExampleType v_value;\n  v_omit := m_exampleOmit;\n  v_omit := m_exampleValueOptional;\n  v_omit := mw_examplePresentAny;   // incorrect, not a specific value\n  v_present := m_exampleOmit;     // incorrect, shall not be omit\n  v_present := mw_examplePresent;\n  v_value := m_exampleOmit;      // incorrect, shall not be omit\n  v_value := mw_examplePresentAny;  // incorrect, shall be a single value"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.08.01_test_036.ttcn3",
+   "module": "M_15_08_01_test_036",
+   "header": "// @requirement: 15.8.1 -- Col1: template(value); Value: Yes; Template (omit): Rule; Template (value): Yes; Template (present): No; Template: No"
+  },
+  {
+   "id": "TTCN3-CORE-15.8.1-046b",
+   "section": "15.8.1",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "Col1: template(value); Value: Yes; Template (omit): Rule; ...",
+   "canonical": "A template with the `omit` restriction SHALL NOT be used as actual parameter or right hand side of an assignment for a formal template parameter or left hand side of an assignment with the `value` restriction, except as permitted by the rule of table 13.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    12241,
+    12246
+   ],
+   "examples": [
+    {
+     "lines": [
+      12275,
+      12303
+     ],
+     "text": "// definitions of restricted templates\n  type record ExampleType {\n     integer a,\n     boolean b optional\n  }\n  template(omit) ExampleType m_exampleOmit := omit;\n  template(omit) ExampleType m_exampleOmitValue:= { 1, true };\n  template(omit) ExampleType mw_exampleOmitAny := ?;      // incorrect\n  template(value) ExampleType m_exampleValueomit := omit;   // incorrect\n  template(value) ExampleType m_exampleValue := { 1, true };\n  template(value) ExampleType m_exampleValueOptional := { 1, omit }; \n                               // omit assigned to a field is correct\n  template(present) ExampleType mw_examplePresent := {1, ?};\n  template(present) ExampleType mw_examplePresentIfpresent := { 1, true } ifpresent; \n                               // incorrect\n  template(present) ExampleType mw_examplePresentAny := ?;\n  // restricted template usage\n  var template (omit) ExampleType v_omit;\n  var template (present) ExampleType v_present;\n  var template (value) ExampleType v_value;\n  v_omit := m_exampleOmit;\n  v_omit := m_exampleValueOptional;\n  v_omit := mw_examplePresentAny;   // incorrect, not a specific value\n  v_present := m_exampleOmit;     // incorrect, shall not be omit\n  v_present := mw_examplePresent;\n  v_value := m_exampleOmit;      // incorrect, shall not be omit\n  v_value := mw_examplePresentAny;  // incorrect, shall be a single value"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.08.01_test_037.ttcn3",
+   "module": "M_15_08_01_test_037",
+   "header": "// @requirement: 15.8.1 -- Col1: template(value); Value: Yes; Template (omit): Rule; ..."
+  },
+  {
+   "id": "TTCN3-CORE-15.8.1-046c",
+   "section": "15.8.1",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "Col1: template(value); ... Template (present): No; Template: No",
+   "canonical": "A template with the `present` restriction or an unrestricted template SHALL NOT be used as actual parameter or right hand side of an assignment for a formal template parameter or left hand side of an assignment with the `value` restriction.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    12186,
+    12243
+   ],
+   "examples": [
+    {
+     "lines": [
+      12275,
+      12303
+     ],
+     "text": "// definitions of restricted templates\n  type record ExampleType {\n     integer a,\n     boolean b optional\n  }\n  template(omit) ExampleType m_exampleOmit := omit;\n  template(omit) ExampleType m_exampleOmitValue:= { 1, true };\n  template(omit) ExampleType mw_exampleOmitAny := ?;      // incorrect\n  template(value) ExampleType m_exampleValueomit := omit;   // incorrect\n  template(value) ExampleType m_exampleValue := { 1, true };\n  template(value) ExampleType m_exampleValueOptional := { 1, omit }; \n                               // omit assigned to a field is correct\n  template(present) ExampleType mw_examplePresent := {1, ?};\n  template(present) ExampleType mw_examplePresentIfpresent := { 1, true } ifpresent; \n                               // incorrect\n  template(present) ExampleType mw_examplePresentAny := ?;\n  // restricted template usage\n  var template (omit) ExampleType v_omit;\n  var template (present) ExampleType v_present;\n  var template (value) ExampleType v_value;\n  v_omit := m_exampleOmit;\n  v_omit := m_exampleValueOptional;\n  v_omit := mw_examplePresentAny;   // incorrect, not a specific value\n  v_present := m_exampleOmit;     // incorrect, shall not be omit\n  v_present := mw_examplePresent;\n  v_value := m_exampleOmit;      // incorrect, shall not be omit\n  v_value := mw_examplePresentAny;  // incorrect, shall be a single value"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.08.01_test_038.ttcn3",
+   "module": "M_15_08_01_test_038",
+   "header": "// @requirement: 15.8.1 -- Col1: template(value); ... Template (present): No; Template: No"
+  },
+  {
+   "id": "TTCN3-CORE-15.8.1-047a",
+   "section": "15.8.1",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Col1: template(present); Value: Yes; Template (omit): No; Template (value): Yes; Template (present): Yes; Template: No",
+   "canonical": "A value, a template with the `value` restriction or a template with the `present` restriction MAY be used as actual parameter or right hand side of an assignment for a formal template parameter or left hand side of an assignment with the `present` restriction.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    12186,
+    12244
+   ],
+   "examples": [
+    {
+     "lines": [
+      12275,
+      12303
+     ],
+     "text": "// definitions of restricted templates\n  type record ExampleType {\n     integer a,\n     boolean b optional\n  }\n  template(omit) ExampleType m_exampleOmit := omit;\n  template(omit) ExampleType m_exampleOmitValue:= { 1, true };\n  template(omit) ExampleType mw_exampleOmitAny := ?;      // incorrect\n  template(value) ExampleType m_exampleValueomit := omit;   // incorrect\n  template(value) ExampleType m_exampleValue := { 1, true };\n  template(value) ExampleType m_exampleValueOptional := { 1, omit }; \n                               // omit assigned to a field is correct\n  template(present) ExampleType mw_examplePresent := {1, ?};\n  template(present) ExampleType mw_examplePresentIfpresent := { 1, true } ifpresent; \n                               // incorrect\n  template(present) ExampleType mw_examplePresentAny := ?;\n  // restricted template usage\n  var template (omit) ExampleType v_omit;\n  var template (present) ExampleType v_present;\n  var template (value) ExampleType v_value;\n  v_omit := m_exampleOmit;\n  v_omit := m_exampleValueOptional;\n  v_omit := mw_examplePresentAny;   // incorrect, not a specific value\n  v_present := m_exampleOmit;     // incorrect, shall not be omit\n  v_present := mw_examplePresent;\n  v_value := m_exampleOmit;      // incorrect, shall not be omit\n  v_value := mw_examplePresentAny;  // incorrect, shall be a single value"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.08.01_test_039.ttcn3",
+   "module": "M_15_08_01_test_039",
+   "header": "// @requirement: 15.8.1 -- Col1: template(present); Value: Yes; Template (omit): No; Template (value): Yes; Template (present): Yes; Template: No"
+  },
+  {
+   "id": "TTCN3-CORE-15.8.1-047b",
+   "section": "15.8.1",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "Col1: template(present); Value: Yes; Template (omit): No; Template (value): Yes; Template (present): Yes; Template: No",
+   "canonical": "A template with the `omit` restriction or an unrestricted template SHALL NOT be used as actual parameter or right hand side of an assignment for a formal template parameter or left hand side of an assignment with the `present` restriction.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    12186,
+    12244
+   ],
+   "examples": [
+    {
+     "lines": [
+      12275,
+      12303
+     ],
+     "text": "// definitions of restricted templates\n  type record ExampleType {\n     integer a,\n     boolean b optional\n  }\n  template(omit) ExampleType m_exampleOmit := omit;\n  template(omit) ExampleType m_exampleOmitValue:= { 1, true };\n  template(omit) ExampleType mw_exampleOmitAny := ?;      // incorrect\n  template(value) ExampleType m_exampleValueomit := omit;   // incorrect\n  template(value) ExampleType m_exampleValue := { 1, true };\n  template(value) ExampleType m_exampleValueOptional := { 1, omit }; \n                               // omit assigned to a field is correct\n  template(present) ExampleType mw_examplePresent := {1, ?};\n  template(present) ExampleType mw_examplePresentIfpresent := { 1, true } ifpresent; \n                               // incorrect\n  template(present) ExampleType mw_examplePresentAny := ?;\n  // restricted template usage\n  var template (omit) ExampleType v_omit;\n  var template (present) ExampleType v_present;\n  var template (value) ExampleType v_value;\n  v_omit := m_exampleOmit;\n  v_omit := m_exampleValueOptional;\n  v_omit := mw_examplePresentAny;   // incorrect, not a specific value\n  v_present := m_exampleOmit;     // incorrect, shall not be omit\n  v_present := mw_examplePresent;\n  v_value := m_exampleOmit;      // incorrect, shall not be omit\n  v_value := mw_examplePresentAny;  // incorrect, shall be a single value"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.08.01_test_040.ttcn3",
+   "module": "M_15_08_01_test_040",
+   "header": "// @requirement: 15.8.1 -- Col1: template(present); Value: Yes; Template (omit): No; Template (value): Yes; Template (present): Yes; Template: No"
+  },
+  {
+   "id": "TTCN3-CORE-15.8.1-048a",
+   "section": "15.8.1",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Col1: Template; Value: Yes; Template (omit): Yes; Template (value): Yes; Template (present): Yes; Template: Yes",
+   "canonical": "A value, a restricted template of any restriction or an unrestricted template MAY be used as actual parameter or right hand side of an assignment for an unrestricted formal template parameter or left hand side of an assignment.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    12186,
+    12245
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.08.01_test_041.ttcn3",
+   "module": "M_15_08_01_test_041",
+   "header": "// @requirement: 15.8.1 -- Col1: Template; Value: Yes; Template (omit): Yes; Template (value): Yes; Template (present): Yes; Template: Yes"
+  },
+  {
+   "id": "TTCN3-CORE-15.8.1-049a",
+   "section": "15.8.1",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Rule: Not allowed with one exception: a template with an omit restriction is allowed to be used on the right hand side of an assignment if the left hand side resolves into an optional field of a template with a value restriction.",
+   "canonical": "A template with the `omit` restriction MAY be used on the right hand side of an assignment if the left hand side resolves into an optional field of a template with the `value` restriction.",
+   "condition": "the left hand side resolves into an optional field of a template with the `value` restriction",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    12243,
+    12246
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.08.01_test_042.ttcn3",
+   "module": "M_15_08_01_test_042",
+   "header": "// @requirement: 15.8.1 -- Rule: Not allowed with one exception: a template with an omit restriction is allowed to be used on the right hand side of an assignment if the left hand side resolves into an optional field of a template with a value restriction."
+  },
+  {
+   "id": "TTCN3-CORE-15.8.1-052a",
+   "section": "15.8.1",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Parameter restriction in base template: template(omit); Allowed parameter restrictions in modified template: Yes; Col3: Yes; Col4: No; Col5: No",
+   "canonical": "If the formal parameter of the base template has the `omit` restriction, a formal template parameter of a modified template MAY have the `omit` or the `value` restriction.",
+   "condition": "the formal parameter of the base template has the `omit` restriction",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    12209,
+    12251
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.08.01_test_043.ttcn3",
+   "module": "M_15_08_01_test_043",
+   "header": "// @requirement: 15.8.1 -- Parameter restriction in base template: template(omit); Allowed parameter restrictions in modified template: Yes; Col3: Yes; Col4: No; Col5: No"
+  },
+  {
+   "id": "TTCN3-CORE-15.8.1-052b",
+   "section": "15.8.1",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "Parameter restriction in base template: template(omit); Allowed parameter restrictions in modified template: Yes; Col3: Yes; Col4: No; Col5: No",
+   "canonical": "If the formal parameter of the base template has the `omit` restriction, a formal template parameter of a modified template SHALL NOT have the `present` restriction or be unrestricted.",
+   "condition": "the formal parameter of the base template has the `omit` restriction",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    12209,
+    12251
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.08.01_test_044.ttcn3",
+   "module": "M_15_08_01_test_044",
+   "header": "// @requirement: 15.8.1 -- Parameter restriction in base template: template(omit); Allowed parameter restrictions in modified template: Yes; Col3: Yes; Col4: No; Col5: No"
+  },
+  {
+   "id": "TTCN3-CORE-15.8.1-053a",
+   "section": "15.8.1",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Parameter restriction in base template: template(value); Allowed parameter restrictions in modified template: No; Col3: Yes; Col4: No; Col5: No",
+   "canonical": "If the formal parameter of the base template has the `value` restriction, a formal template parameter of a modified template MAY have the `value` restriction.",
+   "condition": "the formal parameter of the base template has the `value` restriction",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    12209,
+    12252
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.08.01_test_045.ttcn3",
+   "module": "M_15_08_01_test_045",
+   "header": "// @requirement: 15.8.1 -- Parameter restriction in base template: template(value); Allowed parameter restrictions in modified template: No; Col3: Yes; Col4: No; Col5: No"
+  },
+  {
+   "id": "TTCN3-CORE-15.8.1-053b",
+   "section": "15.8.1",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "Parameter restriction in base template: template(value); Allowed parameter restrictions in modified template: No; Col3: Yes; Col4: No; Col5: No",
+   "canonical": "If the formal parameter of the base template has the `value` restriction, a formal template parameter of a modified template SHALL NOT have the `omit` or `present` restriction or be unrestricted.",
+   "condition": "the formal parameter of the base template has the `value` restriction",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    12209,
+    12252
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.08.01_test_046.ttcn3",
+   "module": "M_15_08_01_test_046",
+   "header": "// @requirement: 15.8.1 -- Parameter restriction in base template: template(value); Allowed parameter restrictions in modified template: No; Col3: Yes; Col4: No; Col5: No"
+  },
+  {
+   "id": "TTCN3-CORE-15.8.1-054a",
+   "section": "15.8.1",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Parameter restriction in base template: template(present); Allowed parameter restrictions in modified template: No; Col3: Yes; Col4: Yes; Col5: No",
+   "canonical": "If the formal parameter of the base template has the `present` restriction, a formal template parameter of a modified template MAY have the `value` or the `present` restriction.",
+   "condition": "the formal parameter of the base template has the `present` restriction",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    12209,
+    12253
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.08.01_test_047.ttcn3",
+   "module": "M_15_08_01_test_047",
+   "header": "// @requirement: 15.8.1 -- Parameter restriction in base template: template(present); Allowed parameter restrictions in modified template: No; Col3: Yes; Col4: Yes; Col5: No"
+  },
+  {
+   "id": "TTCN3-CORE-15.8.1-054b",
+   "section": "15.8.1",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "Parameter restriction in base template: template(present); Allowed parameter restrictions in modified template: No; Col3: Yes; Col4: Yes; Col5: No",
+   "canonical": "If the formal parameter of the base template has the `present` restriction, a formal template parameter of a modified template SHALL NOT have the `omit` restriction or be unrestricted.",
+   "condition": "the formal parameter of the base template has the `present` restriction",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    12209,
+    12253
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.08.01_test_048.ttcn3",
+   "module": "M_15_08_01_test_048",
+   "header": "// @requirement: 15.8.1 -- Parameter restriction in base template: template(present); Allowed parameter restrictions in modified template: No; Col3: Yes; Col4: Yes; Col5: No"
+  },
+  {
+   "id": "TTCN3-CORE-15.8.1-055a",
+   "section": "15.8.1",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Parameter restriction in base template: Template; Allowed parameter restrictions in modified template: Yes; Col3: Yes; Col4: Yes; Col5: Yes",
+   "canonical": "If the formal parameter of the base template is unrestricted, a formal template parameter of a modified template MAY have any template restriction or be unrestricted.",
+   "condition": "the formal parameter of the base template is unrestricted",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    12209,
+    12254
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.08.01_test_049.ttcn3",
+   "module": "M_15_08_01_test_049",
+   "header": "// @requirement: 15.8.1 -- Parameter restriction in base template: Template; Allowed parameter restrictions in modified template: Yes; Col3: Yes; Col4: Yes; Col5: Yes"
+  }
+ ]
+}

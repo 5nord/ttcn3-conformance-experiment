@@ -1,0 +1,21 @@
+// @requirement: 21.0 -- Kill Causes a test component to cease to `c.kill;` exist
+// @id: TTCN3-CORE-21.0-020a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_00_test_022 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var C c := C.create alive;
+        c.kill;
+        if (c.alive) {
+            setverdict(fail);
+        } else {
+            setverdict(pass);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

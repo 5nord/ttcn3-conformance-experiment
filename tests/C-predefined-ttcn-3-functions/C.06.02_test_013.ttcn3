@@ -1,0 +1,19 @@
+// @requirement: C.6.2 -- Coding scheme: UTF-32LE; initial octet sequence: FF FE 00 00; comments: no signature meaning
+// @id: TTCN3-CORE-C.6.2-008a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_06_02_test_013 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (remove_bom('FFFE000068000000'O) == '68000000'O) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

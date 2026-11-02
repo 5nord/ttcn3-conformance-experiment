@@ -1,0 +1,17 @@
+// @requirement: 22.3.6 -- The type of the caught exception shall be specified in the signature of the procedure that raised the exception.
+// @id: TTCN3-CORE-22.3.6-044a
+// @verdict: pass reject
+module M_22_03_06_test_038 {
+
+    signature S() exception (integer);
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    function f_catch() runs on C {
+        p.catch(S, charstring:"x"); // error: charstring is not an exception type of S
+    }
+}

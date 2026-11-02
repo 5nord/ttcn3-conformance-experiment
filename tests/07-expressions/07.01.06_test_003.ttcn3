@@ -1,0 +1,26 @@
+// @requirement: 7.1.6 -- The result type of these operators shall be the same as the root type of the left operand.
+// @id: TTCN3-CORE-7.1.6-004a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_07_01_06_test_003 {
+
+    type component C {}
+
+    type hexstring MyHex length(2);
+    type octetstring MyOct length(2);
+
+    testcase TC() runs on C {
+        var MyHex v_h := '12'H;
+        var MyOct v_o := '1234'O;
+        var hexstring v_hr := v_h << 1;
+        var octetstring v_or := v_o >> 1;
+        if (v_hr == '20'H and v_or == '0012'O) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

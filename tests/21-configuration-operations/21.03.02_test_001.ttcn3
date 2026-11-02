@@ -1,0 +1,43 @@
+// @requirement: 21.3.2 -- ObjectReference "." start "(" ( FunctionInstance | AltstepInstance ) ")"
+// @id: TTCN3-CORE-21.3.2-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_03_02_test_001 {
+
+    type port P message {
+        inout integer
+    }
+
+    type component C {
+        port P p;
+    }
+
+    type record of C RoC;
+
+    function f_ptc(integer p_x) runs on C {
+        if (p_x == 1) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    altstep a_ptc() runs on C {
+        [] p.receive(integer:2) {
+            setverdict(pass);
+        }
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        var RoC v_list := { C.create alive };
+        v_ptc.start(f_ptc(1));
+        connect(mtc:p, v_list[0]:p);
+        p.send(integer:2);
+        v_list[0].start(a_ptc());
+        all component.done;
+    }
+
+    control {
+        execute(TC());
+    }
+}

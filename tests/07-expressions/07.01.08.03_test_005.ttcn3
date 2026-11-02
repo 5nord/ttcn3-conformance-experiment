@@ -1,0 +1,32 @@
+// @requirement: 7.1.8.3 -- The operator shall yield false otherwise. The isvalue operator yields true, if the operand is completely initialized and resolves to a specific value.
+// @id: TTCN3-CORE-7.1.8.3-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_07_01_08_03_test_005 {
+
+    type component C {}
+
+    type record R {
+        integer f1,
+        integer f2
+    }
+
+    template charstring mw_char2 := pattern "ABCD";
+    template charstring mw_char5 := ("ABCD", "EFGH");
+
+    testcase TC() runs on C {
+        var integer v_int;
+        var R v_rec;
+        var template R v_recT := { f1 := ?, f2 := 5 };
+        v_rec.f1 := 1;
+        if (not isvalue(v_int) and not isvalue(v_rec) and not isvalue(v_recT)
+            and not isvalue(mw_char2) and not isvalue(mw_char5)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

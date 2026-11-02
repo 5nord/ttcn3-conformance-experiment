@@ -1,0 +1,18 @@
+// @requirement: 22.3.3 -- i) The ObjectReference shall be of a port type.
+// @id: TTCN3-CORE-22.3.3-025a
+// @verdict: pass reject
+module M_22_03_03_test_024 {
+
+    signature S(out integer p_y);
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+        var integer v_i := 0;
+    }
+
+    function f_reply() runs on C {
+        v_i.reply(S:{1}); // error: v_i is not a port
+    }
+}

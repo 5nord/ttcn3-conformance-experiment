@@ -1,0 +1,33 @@
+// @requirement: 21.3.5 -- When the any from component array notation is used, the components from the referenced array are iterated over and individually checked for being inactive or running a function from innermost to outermost dimension from lowest to highest index for each dimension.
+// @id: TTCN3-CORE-21.3.5-010a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_03_05_test_010 {
+
+    type component C {}
+
+    function f_wait() runs on C {
+        timer T := 5.0;
+        T.start;
+        T.timeout;
+    }
+    function f_short() runs on C {
+    }
+
+    testcase TC() runs on C {
+        var C v_arr[3] := { C.create alive, C.create alive, C.create alive };
+        var integer v_idx := -1;
+        v_arr[0].kill;
+        v_arr[1].start(f_short());
+        v_arr[1].done;
+        v_arr[2].start(f_wait());
+        if (any from v_arr.alive -> @index value v_idx and v_idx == 1) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,25 @@
+// @requirement: 6.5 -- c) TTCN-3 operation returning a value such as match, valueof, present, etc.
+// @id: TTCN3-CORE-6.5-008a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_05_test_008 {
+    type record R { integer f, integer g optional }
+    type component C {}
+
+    template integer t_int := 7;
+    const R c_r := { f := 1, g := omit };
+
+    testcase TC() runs on C {
+        var v_autoA := match(5, integer:?);
+        var v_autoB := valueof(t_int);
+        var v_autoC := ispresent(c_r.g);
+        if (v_autoA and v_autoB == 7 and not v_autoC) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,27 @@
+// @requirement: 6.2.13.2 -- Subtypes defined by a list subtyping restrict the allowed values of the subtype to the values matched by at least one of the constraints in the list.
+// @id: TTCN3-CORE-6.2.13.2-002a
+// @verdict: pass accept, ttcn3verdict:error
+module M_06_02_13_02_test_003 {
+
+    type record R {
+        integer f1,
+        charstring f2
+    }
+
+    type R R_Sub ({ f1 := 1, f2 := "a" }, { f1 := (2..5), f2 := ? });
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var R v_src := { f1 := 0, f2 := "a" };
+        var R_Sub v_dst := { f1 := 1, f2 := "a" };
+        v_dst := { f1 := 3, f2 := "x" };
+        v_src.f1 := v_src.f1 + 6;
+        v_dst := v_src; // { 6, "a" } is matched by no list constraint: test case error
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

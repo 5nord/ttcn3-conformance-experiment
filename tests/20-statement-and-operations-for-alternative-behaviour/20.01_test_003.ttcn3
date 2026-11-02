@@ -1,0 +1,36 @@
+// @requirement: 20.1 -- A snapshot is considered to be a partial state of a test component that includes all information necessary to evaluate the Boolean conditions that guard alternative branches, all relevant stopped test components, all relevant timeout events and the top messages, calls, replies and exceptions in the relevant incoming port queues.
+// @id: TTCN3-CORE-20.1-010c
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_01_test_003 {
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p;
+    }
+
+    function f_send() runs on C {
+        p.send(1);
+        p.send(2);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        timer T_guard := 1.0;
+        v_ptc.start(f_send());
+        T_guard.start;
+        alt {
+            [] v_ptc.done {
+                setverdict(pass);
+            }
+            [] T_guard.timeout {
+                setverdict(fail);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

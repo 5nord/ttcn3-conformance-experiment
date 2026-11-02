@@ -1,0 +1,38 @@
+// @requirement: 20.4 -- If the `interleave` statement contains the `@nodefault` modifier, all active default alternatives are ignored for the execution of this `interleave` statement.
+// @id: TTCN3-CORE-20.4-012a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_04_test_007 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p1, p2;
+    }
+
+    altstep a_def() runs on C {
+        [] p2.receive {
+            setverdict(fail);
+        }
+    }
+
+    testcase TC() runs on C {
+        var default v_def;
+        timer T := 0.5;
+        connect(self:p1, self:p2);
+        p1.send(integer:1);
+        p2.check(receive(integer:1));
+        v_def := activate(a_def());
+        T.start;
+        interleave @nodefault {
+            [] T.timeout {}
+        }
+        deactivate(v_def);
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

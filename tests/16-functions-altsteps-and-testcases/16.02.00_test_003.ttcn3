@@ -1,0 +1,46 @@
+// @requirement: 16.2.0 -- The syntax rules of the top alternatives are identical to the syntax rules of the alternatives of alt statements.
+// @id: TTCN3-CORE-16.2.0-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_16_02_00_test_003 {
+
+    type port P message {
+        inout integer
+    }
+
+    type component C {
+        port P p1, p2;
+        var integer v_rcv := 0;
+        timer T_guard := 1.0;
+    }
+
+    altstep a_inner() runs on C {
+        [] T_guard.timeout {
+            setverdict(fail);
+        }
+    }
+
+    altstep a_step() runs on C {
+        [false] p2.receive {
+            setverdict(fail);
+        }
+        [v_rcv == 0] p2.receive(integer:?) -> value v_rcv {
+            if (v_rcv == 5) {
+                setverdict(pass);
+            } else {
+                setverdict(fail);
+            }
+        }
+        [] a_inner();
+    }
+
+    testcase TC() runs on C {
+        connect(self:p1, self:p2);
+        T_guard.start;
+        p1.send(5);
+        a_step();
+    }
+
+    control {
+        execute(TC());
+    }
+}

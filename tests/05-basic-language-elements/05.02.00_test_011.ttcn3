@@ -1,0 +1,26 @@
+// @requirement: 5.2.0 -- Test cases, altsteps and functions are individual scope units without any hierarchical relation between them, i.e. declarations made inside their body have local visibility and shall only be used in the given test case, altstep or function (e.g. a declaration made in a test case is not visible in a function called by the test case or in an altstep used by the test case).
+// @id: TTCN3-CORE-5.2.0-021b
+// @verdict: pass reject
+module M_05_02_00_test_011 {
+
+    type component C {}
+
+    function f_a() {
+        const integer c_a := 1;
+    }
+
+    function f_b() return integer {
+        return c_a; // error: c_a is local to f_a
+    }
+
+    testcase TC() runs on C {
+        f_a();
+        if (f_b() == 1) {
+            setverdict(pass);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

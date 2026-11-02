@@ -1,0 +1,17 @@
+// @requirement: 15.6.1 -- When the reference occurs on the left hand side of an assignment, the right hand side of the assignment shall contain either a string value or specific value of a compatible type or a pattern.
+// @id: TTCN3-CORE-15.6.1-022a
+// @verdict: pass reject
+module M_15_06_01_test_022 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template charstring v_char := "abc";
+        v_char[1] := ?; // error: AnyValue is neither a string value, a specific value nor a pattern
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

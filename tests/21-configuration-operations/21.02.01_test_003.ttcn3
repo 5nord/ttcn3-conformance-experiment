@@ -1,0 +1,19 @@
+// @requirement: 21.2.1 -- testcase "." stop [ "(" { ( FreeText | TemplateInstance ) [","] } ")" ]
+// @id: TTCN3-CORE-21.2.1-003a
+// @verdict: pass accept, ttcn3verdict:error
+module M_21_02_01_test_003 {
+
+    type component C {}
+
+    template integer m_int := (1 .. 5);
+
+    testcase TC() runs on C {
+        var integer v_i := 3;
+        setverdict(pass);
+        testcase.stop("Value: ", v_i, " template: ", m_int);
+    }
+
+    control {
+        execute(TC());
+    }
+}

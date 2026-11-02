@@ -1,0 +1,934 @@
+{
+ "document": "ETSI ES 201 873-1 V4.17.1 (2025-09)",
+ "chapter": "24",
+ "title": "Test verdict operations",
+ "file": "24-test-verdict-operations",
+ "lines": [
+  20106,
+  20309
+ ],
+ "sections": {
+  "24": {
+   "title": "Test verdict operations",
+   "start": 20106
+  },
+  "24.0": {
+   "title": "General",
+   "start": 20108
+  },
+  "24.1": {
+   "title": "The Verdict mechanism",
+   "start": 20120
+  },
+  "24.2": {
+   "title": "The Setverdict operation",
+   "start": 20199
+  },
+  "24.3": {
+   "title": "The Getverdict operation",
+   "start": 20283
+  }
+ },
+ "units": [
+  {
+   "id": "24.0-s001",
+   "section": "24.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Verdict operations given in table 29 allow to set and retrieve verdicts.",
+   "lines": [
+    20110,
+    20111
+   ]
+  },
+  {
+   "id": "24.0-s002",
+   "section": "24.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "These operations shall only be used in test cases, altsteps and functions.",
+   "lines": [
+    20110,
+    20111
+   ]
+  },
+  {
+   "id": "24.0-s003",
+   "section": "24.0",
+   "kind": "caption",
+   "context": null,
+   "normative": false,
+   "text": "Table 29: Overview of TTCN-3 test verdict operations",
+   "lines": [
+    20113,
+    20113
+   ]
+  },
+  {
+   "id": "24.0-s004",
+   "section": "24.0",
+   "kind": "table-text",
+   "context": null,
+   "normative": true,
+   "text": "**Test verdict operations** **Statement** **Associated keyword or symbol** Set local verdict **setverdict** Get local verdict **getverdict**",
+   "lines": [
+    20115,
+    20118
+   ]
+  },
+  {
+   "id": "24.1-s001",
+   "section": "24.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Each test component of the active configuration shall maintain its own local verdict.",
+   "lines": [
+    20122,
+    20124
+   ]
+  },
+  {
+   "id": "24.1-s002",
+   "section": "24.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The local verdict is an object which is created for each test component at the time of its creation.",
+   "lines": [
+    20122,
+    20124
+   ]
+  },
+  {
+   "id": "24.1-s003",
+   "section": "24.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "It is used to track the individual verdict in each test component (i.e. in the MTC and in each and every PTC).",
+   "lines": [
+    20122,
+    20124
+   ]
+  },
+  {
+   "id": "24.1-s004",
+   "section": "24.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Additionally, there is a global test case verdict instantiated and handled by the test system that is updated when each test component (i.e. the MTC and each and every PTC) terminates execution (see figure 14).",
+   "lines": [
+    20126,
+    20130
+   ]
+  },
+  {
+   "id": "24.1-s005",
+   "section": "24.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "This verdict is not accessible to the getverdict and setverdict operations.",
+   "lines": [
+    20126,
+    20130
+   ]
+  },
+  {
+   "id": "24.1-s006",
+   "section": "24.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The value of this verdict shall be returned by the test case when it terminates execution.",
+   "lines": [
+    20126,
+    20130
+   ]
+  },
+  {
+   "id": "24.1-s007",
+   "section": "24.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "If the returned verdict is not explicitly saved in the control component (e.g. assigned to a variable) then it is lost.",
+   "lines": [
+    20126,
+    20130
+   ]
+  },
+  {
+   "id": "24.1-s008",
+   "section": "24.1",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Operation: any; Allowed: all",
+   "lines": [
+    20134,
+    20134
+   ]
+  },
+  {
+   "id": "24.1-s009",
+   "section": "24.1",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Operation: start",
+   "lines": [
+    20135,
+    20135
+   ]
+  },
+  {
+   "id": "24.1-s010",
+   "section": "24.1",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Operation: stop; Col3: yes; Example: all timer.stop",
+   "lines": [
+    20136,
+    20136
+   ]
+  },
+  {
+   "id": "24.1-s011",
+   "section": "24.1",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Operation: read",
+   "lines": [
+    20137,
+    20137
+   ]
+  },
+  {
+   "id": "24.1-s012",
+   "section": "24.1",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Operation: running; Allowed: yes; Example: if (any timer.running) {…}",
+   "lines": [
+    20138,
+    20138
+   ]
+  },
+  {
+   "id": "24.1-s013",
+   "section": "24.1",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Operation: timeout; Allowed: yes; Example: any timer.timeout",
+   "lines": [
+    20139,
+    20139
+   ]
+  },
+  {
+   "id": "24.1-s014",
+   "section": "24.1",
+   "kind": "table-header",
+   "context": null,
+   "normative": true,
+   "text": "Operation; Allowed; Col3; Example",
+   "lines": [
+    20132,
+    20132
+   ]
+  },
+  {
+   "id": "24.1-s015",
+   "section": "24.1",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Table 29: Overview of TTCN-3 test verdict operations: Test verdict operations",
+   "lines": [
+    20143,
+    20143
+   ]
+  },
+  {
+   "id": "24.1-s016",
+   "section": "24.1",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Table 29: Overview of TTCN-3 test verdict operations: Statement; Col2: Associated keyword or symbol",
+   "lines": [
+    20144,
+    20144
+   ]
+  },
+  {
+   "id": "24.1-s017",
+   "section": "24.1",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Table 29: Overview of TTCN-3 test verdict operations: Set local verdict; Col2: setverdict",
+   "lines": [
+    20145,
+    20145
+   ]
+  },
+  {
+   "id": "24.1-s018",
+   "section": "24.1",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Table 29: Overview of TTCN-3 test verdict operations: Get local verdict; Col2: getverdict",
+   "lines": [
+    20146,
+    20146
+   ]
+  },
+  {
+   "id": "24.1-s019",
+   "section": "24.1",
+   "kind": "table-header",
+   "context": null,
+   "normative": true,
+   "text": "Table 29: Overview of TTCN-3 test verdict operations; Col2",
+   "lines": [
+    20141,
+    20141
+   ]
+  },
+  {
+   "id": "24.1-s020",
+   "section": "24.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Verdict returned by the test case when it terminates",
+   "lines": [
+    20154,
+    20155
+   ]
+  },
+  {
+   "id": "24.1-s021",
+   "section": "24.1",
+   "kind": "code",
+   "context": null,
+   "normative": true,
+   "text": "V",
+   "lines": [
+    20157,
+    20159
+   ]
+  },
+  {
+   "id": "24.1-s022",
+   "section": "24.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "**Figure 14: Illustration of the relationship between verdicts**",
+   "lines": [
+    20162,
+    20162
+   ]
+  },
+  {
+   "id": "24.1-s023",
+   "section": "24.1",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "NOTE 1: TTCN-3 does not specify the actual mechanisms that perform the updating of the local and test case verdicts.",
+   "lines": [
+    20164,
+    20165
+   ]
+  },
+  {
+   "id": "24.1-s024",
+   "section": "24.1",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "These mechanisms are implementation dependent.",
+   "lines": [
+    20164,
+    20165
+   ]
+  },
+  {
+   "id": "24.1-s025",
+   "section": "24.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The verdict can have five different values: pass, fail, inconc, none and error, i.e. the distinguished values of the verdicttype (see clause 6.1).",
+   "lines": [
+    20167,
+    20168
+   ]
+  },
+  {
+   "id": "24.1-s026",
+   "section": "24.1",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "NOTE 2: `inconc means an inconclusive verdict.`",
+   "lines": [
+    20170,
+    20170
+   ]
+  },
+  {
+   "id": "24.1-s027",
+   "section": "24.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "When a test component is instantiated, its local verdict object is created and set to the value none.",
+   "lines": [
+    20172,
+    20172
+   ]
+  },
+  {
+   "id": "24.1-s028",
+   "section": "24.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "When changing the value of the local verdict (i.e. using the setverdict operation) the effect of this change shall follow the overwriting rules listed in table 30.",
+   "lines": [
+    20174,
+    20176
+   ]
+  },
+  {
+   "id": "24.1-s029",
+   "section": "24.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The test case verdict is implicitly updated on the termination of a test component.",
+   "lines": [
+    20174,
+    20176
+   ]
+  },
+  {
+   "id": "24.1-s030",
+   "section": "24.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The effect of this implicit operation shall also follow the overwriting rules listed in table 30.",
+   "lines": [
+    20174,
+    20176
+   ]
+  },
+  {
+   "id": "24.1-s031",
+   "section": "24.1",
+   "kind": "caption",
+   "context": null,
+   "normative": false,
+   "text": "Table 30: Overwriting rules for the verdict",
+   "lines": [
+    20178,
+    20178
+   ]
+  },
+  {
+   "id": "24.1-s032",
+   "section": "24.1",
+   "kind": "table-text",
+   "context": null,
+   "normative": true,
+   "text": "**Current value of** **New verdict assignment value** **Verdict** **pass** **inconc** **fail** **none** **None** **pass** **inconc** **fail** **none** **Pass** **pass** **inconc** **fail** **pass** **Inconc** **inconc** **inconc** **fail** **inconc** **Fail** **fail** **fail** **fail** **fail**",
+   "lines": [
+    20180,
+    20185
+   ]
+  },
+  {
+   "id": "24.1-s033",
+   "section": "24.1",
+   "kind": "table-text",
+   "context": null,
+   "normative": true,
+   "text": "The error verdict is special in that it is set by the test system to indicate that a test case (i.e. runtime) error has occurred.",
+   "lines": [
+    20187,
+    20190
+   ]
+  },
+  {
+   "id": "24.1-s034",
+   "section": "24.1",
+   "kind": "table-text",
+   "context": null,
+   "normative": true,
+   "text": "It shall not be set by the setverdict operation and will not be returned by the getverdict operation.",
+   "lines": [
+    20187,
+    20190
+   ]
+  },
+  {
+   "id": "24.1-s035",
+   "section": "24.1",
+   "kind": "table-text",
+   "context": null,
+   "normative": true,
+   "text": "No other verdict value can override an error verdict.",
+   "lines": [
+    20187,
+    20190
+   ]
+  },
+  {
+   "id": "24.1-s036",
+   "section": "24.1",
+   "kind": "table-text",
+   "context": null,
+   "normative": true,
+   "text": "This means that an error verdict can only be a result of an execute test case operation.",
+   "lines": [
+    20187,
+    20190
+   ]
+  },
+  {
+   "id": "24.1-s037",
+   "section": "24.1",
+   "kind": "table-text",
+   "context": null,
+   "normative": true,
+   "text": "Together with the local test verdict, each test component shall also maintain an implicit charstring variable to store information about the reasons for assigning the verdict.",
+   "lines": [
+    20192,
+    20197
+   ]
+  },
+  {
+   "id": "24.1-s038",
+   "section": "24.1",
+   "kind": "table-text",
+   "context": null,
+   "normative": true,
+   "text": "The implicit charstring variable shall have no effect on the overwriting rules and on the calculation of the final test case verdict.",
+   "lines": [
+    20192,
+    20197
+   ]
+  },
+  {
+   "id": "24.1-s039",
+   "section": "24.1",
+   "kind": "table-text",
+   "context": null,
+   "normative": true,
+   "text": "On the termination of the test component, the local verdict of the test component shall be logged together with the implicit charstring variable.",
+   "lines": [
+    20192,
+    20197
+   ]
+  },
+  {
+   "id": "24.1-s040",
+   "section": "24.1",
+   "kind": "table-text",
+   "context": null,
+   "normative": true,
+   "text": "The implicit charstring variable cannot be retrieved and read by any TTCN-3 function, it only provides additional information for logging.",
+   "lines": [
+    20192,
+    20197
+   ]
+  },
+  {
+   "id": "24.2-s001",
+   "section": "24.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The local verdict is set with the setverdict operation.",
+   "lines": [
+    20201,
+    20201
+   ]
+  },
+  {
+   "id": "24.2-s002",
+   "section": "24.2",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "setverdict \"(\" SingleExpression { \",\" ( FreeText | TemplateInstance ) } \")\"",
+   "lines": [
+    20204,
+    20206
+   ]
+  },
+  {
+   "id": "24.2-s003",
+   "section": "24.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The value of the local verdict is changed with the setverdict operation.",
+   "lines": [
+    20210,
+    20211
+   ]
+  },
+  {
+   "id": "24.2-s004",
+   "section": "24.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The effect of this change shall follow the overwriting rules listed in table 30.",
+   "lines": [
+    20210,
+    20211
+   ]
+  },
+  {
+   "id": "24.2-s005",
+   "section": "24.2",
+   "kind": "table-row",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Col1: Current value of Verdict; Table 30: Overwriting rules for the verdict: New verdict assignment value",
+   "lines": [
+    20215,
+    20215
+   ]
+  },
+  {
+   "id": "24.2-s006",
+   "section": "24.2",
+   "kind": "table-row",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Col1: pass; Table 30: Overwriting rules for the verdict: inconc; Col3: fail; Col4: none",
+   "lines": [
+    20216,
+    20216
+   ]
+  },
+  {
+   "id": "24.2-s007",
+   "section": "24.2",
+   "kind": "table-row",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Col1: None Pass Inconc Fail; Table 30: Overwriting rules for the verdict: pass pass inconc fail; Col3: inconc inconc inconc fail; Col4: fail fail fail fail; Col5: none pass inconc fail",
+   "lines": [
+    20217,
+    20217
+   ]
+  },
+  {
+   "id": "24.2-s008",
+   "section": "24.2",
+   "kind": "table-header",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Col1; Table 30: Overwriting rules for the verdict; Col3; Col4; Col5",
+   "lines": [
+    20213,
+    20213
+   ]
+  },
+  {
+   "id": "24.2-s009",
+   "section": "24.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The optional parameters allow to provide information that explain the reasons for assigning the verdict.",
+   "lines": [
+    20224,
+    20228
+   ]
+  },
+  {
+   "id": "24.2-s010",
+   "section": "24.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "This information is composed to a string and stored in an implicit charstring variable.",
+   "lines": [
+    20224,
+    20228
+   ]
+  },
+  {
+   "id": "24.2-s011",
+   "section": "24.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "On termination of the test component, the actual local verdict is logged together with the implicit charstring variable.",
+   "lines": [
+    20224,
+    20228
+   ]
+  },
+  {
+   "id": "24.2-s012",
+   "section": "24.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Since the optional parameters can be seen as log information, the same rules and restrictions as for the parameters of the log statement (clause 19.11) apply.",
+   "lines": [
+    20224,
+    20228
+   ]
+  },
+  {
+   "id": "24.2-s013",
+   "section": "24.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "As the result of the setverdict operation, the implicit charstring variable is overwritten whenever the local verdict of a test component is overwritten (i.e. a new value, which is different to the previous one is assigned to it).",
+   "lines": [
+    20230,
+    20233
+   ]
+  },
+  {
+   "id": "24.2-s014",
+   "section": "24.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "A setverdict operation with a verdict only that overwrites the current local verdict, will also clear the implicit charstring variable.",
+   "lines": [
+    20230,
+    20233
+   ]
+  },
+  {
+   "id": "24.2-s015",
+   "section": "24.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "This means previously stored information gets lost.",
+   "lines": [
+    20230,
+    20233
+   ]
+  },
+  {
+   "id": "24.2-s016",
+   "section": "24.2",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clause 5 and shown in table 16, the following restrictions apply:",
+   "lines": [
+    20237,
+    20238
+   ]
+  },
+  {
+   "id": "24.2-s017",
+   "section": "24.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) The setverdict operation shall only be used with the values pass, fail, inconc and none.",
+   "lines": [
+    20240,
+    20241
+   ]
+  },
+  {
+   "id": "24.2-s018",
+   "section": "24.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "It shall not be used to assign the value error, this is set by the test system only to indicate runtime errors.",
+   "lines": [
+    20240,
+    20241
+   ]
+  },
+  {
+   "id": "24.2-s019",
+   "section": "24.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "b) _SingleExpression shall resolve to a value of type verdict._ c) For FreeText and TemplateInstance, the same rules and restrictions apply as for the parameters of the log statement.",
+   "lines": [
+    20243,
+    20246
+   ]
+  },
+  {
+   "id": "24.2-s020",
+   "section": "24.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Table 18 lists all language elements that can be used in a setverdict operation.",
+   "lines": [
+    20245,
+    20246
+   ]
+  },
+  {
+   "id": "24.2-s021",
+   "section": "24.2",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 1:",
+   "lines": [
+    20250,
+    20250
+   ]
+  },
+  {
+   "id": "24.2-s022",
+   "section": "24.2",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "setverdict(pass); // the local verdict is set to pass\n  :\n  setverdict(fail); // until this line is executed, which will result in the value \n              // of the local verdict being overwritten to fail \n              // When the ptc terminates the test case verdict is set to fail",
+   "lines": [
+    20251,
+    20257
+   ]
+  },
+  {
+   "id": "24.2-s023",
+   "section": "24.2",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 2:",
+   "lines": [
+    20259,
+    20259
+   ]
+  },
+  {
+   "id": "24.2-s024",
+   "section": "24.2",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "var integer v_myVar:= 1;\n  :\n  myPort.receive(integer:v_myVar);// Matches an integer value with the value of v_myVar\n                     // at port myPort\n  setverdict(pass, \"Value received: \", v_myVar ); // Provided the actual test component verdict is\n                     // none: local verdict is set to pass, the implicit\n                     // charstring variable is set to \"Value received: 5\"\n  stop; // The test component terminates. The local test verdict and\n                     // implicit charstring variable are logged",
+   "lines": [
+    20260,
+    20270
+   ]
+  },
+  {
+   "id": "24.2-s025",
+   "section": "24.2",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 3:",
+   "lines": [
+    20272,
+    20272
+   ]
+  },
+  {
+   "id": "24.2-s026",
+   "section": "24.2",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "setverdict(fail, \"Reason one\");  // the local verdict is set to fail, \n                        // the local charstring is set to \"Reason one\"\n  :\n  setverdict(fail, \"Reason two\");  // the local verdict does not change, \n                        // therefore the local charstring remains \"Reason one\"\n  setverdict(pass, \"Reason three\");  // the local verdict does not change, \n                        // therefore the local charstring remains \"Reason one\"",
+   "lines": [
+    20273,
+    20281
+   ]
+  },
+  {
+   "id": "24.3-s001",
+   "section": "24.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The value of the local verdict may be retrieved using the getverdict operation.",
+   "lines": [
+    20285,
+    20285
+   ]
+  },
+  {
+   "id": "24.3-s002",
+   "section": "24.3",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "getverdict",
+   "lines": [
+    20288,
+    20290
+   ]
+  },
+  {
+   "id": "24.3-s003",
+   "section": "24.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The getverdict operation returns the actual value of the local verdict.",
+   "lines": [
+    20294,
+    20294
+   ]
+  },
+  {
+   "id": "24.3-s004",
+   "section": "24.3",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "No specific restrictions in addition to the general static rules of TTCN-3 given in clause 5 and shown in table 16.",
+   "lines": [
+    20303,
+    20303
+   ]
+  },
+  {
+   "id": "24.3-s005",
+   "section": "24.3",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "v_myResult := getverdict; // Where v_myResult is a variable of type verdicttype",
+   "lines": [
+    20306,
+    20308
+   ]
+  }
+ ]
+}

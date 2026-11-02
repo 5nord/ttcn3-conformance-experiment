@@ -1,0 +1,1532 @@
+{
+ "batch": "b074",
+ "requirements": [
+  {
+   "id": "TTCN3-CORE-22.3.6-002a",
+   "section": "22.3.6",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "[ @nodefault ] ( ObjectReference | any port | any from PortArrayRef ) \".\" catch [ \"(\" ( Signature [ \",\" TemplateInstance ] ) | TimeoutKeyword \")\" ] [ from Address ] [ \"->\" [ value ( ValueRef| ( \"(\" { ValueRef[ \":=\" [ @decoded [ \"(\" Expression \")\" ] ] FieldOrTypeReference ][\",\"] } \")\" ) ) ] [ sender ValueRef] [ @index value ValueRef] ]",
+   "canonical": "The `catch` operation has the syntax [`@nodefault`] (ObjectReference | `any port` | `any from` PortArrayRef) \".\" `catch` [\"(\" (Signature [\",\" TemplateInstance]) | `timeout` \")\"] [`from` Address] [\"->\" [`value` (ValueRef | \"(\" {ValueRef [\":=\" [`@decoded` [\"(\" Expression \")\"]] FieldOrTypeReference] [\",\"]} \")\")] [`sender` ValueRef] [`@index value` ValueRef]].",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    19041,
+    19051
+   ],
+   "examples": [
+    {
+     "lines": [
+      19260,
+      19265
+     ],
+     "text": "myPort.catch;\n  myPort.catch from myPartner;\n  myPort.catch -> sender v_mySenderVar; \n  myPort.catch(MyProc); // catch any exception raised by procedure MyProc"
+    },
+    {
+     "lines": [
+      19268,
+      19270
+     ],
+     "text": "any port.catch;"
+    }
+   ],
+   "file": "tests/22-communication-operations/22.03.06_test_001.ttcn3",
+   "module": "M_22_03_06_test_001",
+   "header": "// @requirement: 22.3.6 -- [ @nodefault ] ( ObjectReference | any port | any from PortArrayRef ) \".\" catch [ \"(\" ( Signature [ \",\" TemplateInstance ] ) | TimeoutKeyword \")\" ] [ from Address ] [ \"->\" [ value ( ValueRef| ( \"(\" { ValueRef[ \":=\" [ @decoded [ \"(\" Expression \")\" ] ] FieldOrTypeReference ][\",\"] } \")\" ) ) ] [ sender ValueRef] [ @index value ValueRef] ]"
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-003a",
+   "section": "22.3.6",
+   "type": "information",
+   "modality": "MAY",
+   "original": "NOTE 1: _Address may be an AddressRef, a list of AddressRef-s or \"any component\"._",
+   "canonical": "The Address in the `from` clause of a `catch` operation MAY be an AddressRef, a list of AddressRefs or `any component`.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    19053,
+    19053
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.06_test_002.ttcn3",
+   "module": "M_22_03_06_test_002",
+   "header": "// @requirement: 22.3.6 -- NOTE 1: _Address may be an AddressRef, a list of AddressRef-s or \"any component\"._"
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-005b",
+   "section": "22.3.6",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Exceptions are specified as types and thus, can be treated like messages, e.g. templates can be used to distinguish between different values of the same exception type.",
+   "canonical": "A template MAY be used in a `catch` operation to distinguish between different values of the same exception type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    19057,
+    19061
+   ],
+   "examples": [
+    {
+     "lines": [
+      19206,
+      19213
+     ],
+     "text": "myPort.catch(MyProc, integer: v_myVar);  // Catches an integer exception of value\n                            // v_myVar raised by MyProc at port myPort.\n  myPort.catch(MyProc, v_myVar);   // Is an alternative to the previous example.\n  myPort.catch(MyProc, v_a<v_b);   // Catches a boolean exception\n  myPort.catch(MyProc, MyType:{5, v_myVar}); // In-line template definition of an exception value.\n  myPort.catch(MyProc, charstring:\"Hello\")from myPeer; // Catches \"Hello\" exception from myPeer"
+    }
+   ],
+   "file": "tests/22-communication-operations/22.03.06_test_003.ttcn3",
+   "module": "M_22_03_06_test_003",
+   "header": "// @requirement: 22.3.6 -- Exceptions are specified as types and thus, can be treated like messages, e.g. templates can be used to distinguish between different values of the same exception type."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-006a",
+   "section": "22.3.6",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "If a Signature is given in the parameter list, it is possible to omit the TemplateInstance part if the catch operation shall match any exception value of any of the exception types declared in the definition of the referenced Signature.",
+   "canonical": "If a Signature is given in the parameter list of a `catch` operation, the TemplateInstance MAY be omitted, in which case the `catch` operation matches any exception value of any of the exception types declared in the definition of the referenced signature.",
+   "condition": "a Signature is given in the parameter list",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    19057,
+    19061
+   ],
+   "examples": [
+    {
+     "lines": [
+      19260,
+      19265
+     ],
+     "text": "myPort.catch;\n  myPort.catch from myPartner;\n  myPort.catch -> sender v_mySenderVar; \n  myPort.catch(MyProc); // catch any exception raised by procedure MyProc"
+    }
+   ],
+   "file": "tests/22-communication-operations/22.03.06_test_004.ttcn3",
+   "module": "M_22_03_06_test_004",
+   "header": "// @requirement: 22.3.6 -- If a Signature is given in the parameter list, it is possible to omit the TemplateInstance part if the catch operation shall match any exception value of any of the exception types declared in the definition of the referenced Signature."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-007a",
+   "section": "22.3.6",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The catch operation removes the top exception from the associated incoming port queue if, and only if, that top exception satisfies all the matching criteria associated with the catch operation.",
+   "canonical": "The `catch` operation removes the top exception from the associated incoming port queue if, and only if, that top exception satisfies all the matching criteria associated with the `catch` operation.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    19063,
+    19064
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.06_test_005.ttcn3",
+   "module": "M_22_03_06_test_005",
+   "header": "// @requirement: 22.3.6 -- The catch operation removes the top exception from the associated incoming port queue if, and only if, that top exception satisfies all the matching criteria associated with the catch operation."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-008a",
+   "section": "22.3.6",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "A catch operation may be restricted to a certain communication partner in case of one-to-many connections.",
+   "canonical": "In case of one-to-many connections, a `catch` operation MAY be restricted to a certain communication partner.",
+   "condition": "one-to-many connections",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    19066,
+    19068
+   ],
+   "examples": [
+    {
+     "lines": [
+      19206,
+      19213
+     ],
+     "text": "myPort.catch(MyProc, integer: v_myVar);  // Catches an integer exception of value\n                            // v_myVar raised by MyProc at port myPort.\n  myPort.catch(MyProc, v_myVar);   // Is an alternative to the previous example.\n  myPort.catch(MyProc, v_a<v_b);   // Catches a boolean exception\n  myPort.catch(MyProc, MyType:{5, v_myVar}); // In-line template definition of an exception value.\n  myPort.catch(MyProc, charstring:\"Hello\")from myPeer; // Catches \"Hello\" exception from myPeer"
+    }
+   ],
+   "file": "tests/22-communication-operations/22.03.06_test_006.ttcn3",
+   "module": "M_22_03_06_test_006",
+   "header": "// @requirement: 22.3.6 -- A catch operation may be restricted to a certain communication partner in case of one-to-many connections."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-009a",
+   "section": "22.3.6",
+   "type": "syntax",
+   "modality": "SHALL",
+   "original": "This restriction shall be denoted by using the from keyword followed by a specification of an address or component reference, a list of address or component references or any component.",
+   "canonical": "A restriction of a `catch` operation to a communication partner SHALL be denoted by the `from` keyword followed by an address or component reference, a list of address or component references, or `any component`.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    19066,
+    19068
+   ],
+   "examples": [
+    {
+     "lines": [
+      19206,
+      19213
+     ],
+     "text": "myPort.catch(MyProc, integer: v_myVar);  // Catches an integer exception of value\n                            // v_myVar raised by MyProc at port myPort.\n  myPort.catch(MyProc, v_myVar);   // Is an alternative to the previous example.\n  myPort.catch(MyProc, v_a<v_b);   // Catches a boolean exception\n  myPort.catch(MyProc, MyType:{5, v_myVar}); // In-line template definition of an exception value.\n  myPort.catch(MyProc, charstring:\"Hello\")from myPeer; // Catches \"Hello\" exception from myPeer"
+    },
+    {
+     "lines": [
+      19221,
+      19246
+     ],
+     "text": "myPort.catch(MyProc, MyType:?) from myPartner -> value v_myVar;\n  // Catches an exception from myPartner and assigns its value to v_myVar.\n  myPort.catch(MyProc, s_myTemplate(5)) -> value v_myVarTwo sender myPeer;\n  // Catches an exception, assigns its value to v_myVarTwo and retrieves the\n  // address of the sender.\n  myPort.catch(MyProc, s_myTemplate(5)) -> value (v_myVarThree:= f1)\n                           sender myPeer;\n  // Catches an exception, assigns the value of its field f1 to v_myVarThree and retrieves the\n  // address of the sender.\n  // Handling encoded exception payload:\n  type MyException record {\n    ...\n  }\n  type CommonException record {\n    integer exceptionId,\n    octetstring payload\n  }\n  signature S() exception (CommonException);\n  ...\n  var MyException v_myVar;\n  myPort.catch (S, CommonException:{exceptionId := 25, payload := decmatch MyException:? })  \n                 -> value (v_myVar := @decoded payload);\n  // The encoded payload field of the caught exception is decoded and matched with m_excTemplate;\n  // if the matching is successful the decoded payload is stored in v_myVar."
+    },
+    {
+     "lines": [
+      19260,
+      19265
+     ],
+     "text": "myPort.catch;\n  myPort.catch from myPartner;\n  myPort.catch -> sender v_mySenderVar; \n  myPort.catch(MyProc); // catch any exception raised by procedure MyProc"
+    }
+   ],
+   "file": "tests/22-communication-operations/22.03.06_test_007.ttcn3",
+   "module": "M_22_03_06_test_007",
+   "header": "// @requirement: 22.3.6 -- This restriction shall be denoted by using the from keyword followed by a specification of an address or component reference, a list of address or component references or any component."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-010a",
+   "section": "22.3.6",
+   "type": "information",
+   "modality": "MAY",
+   "original": "NOTE 2: The one-to-one connection is considered to be a simple case of the one-to-many connections and allows the usage of the from-clause.",
+   "canonical": "A `from` clause MAY be used in a `catch` operation on a one-to-one connection, which is considered a simple case of a one-to-many connection.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    19070,
+    19071
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.06_test_008.ttcn3",
+   "module": "M_22_03_06_test_008",
+   "header": "// @requirement: 22.3.6 -- NOTE 2: The one-to-one connection is considered to be a simple case of the one-to-many connections and allows the usage of the from-clause."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-012a",
+   "section": "22.3.6",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The keyword value is used to retrieve the value of an exception and/or the parts of it and the keyword sender is used when it is required to retrieve the address of the sender.",
+   "canonical": "The `value` keyword in the redirection part of a `catch` operation IS used to retrieve the value of an exception and/or parts of it.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    19073,
+    19076
+   ],
+   "examples": [
+    {
+     "lines": [
+      19221,
+      19246
+     ],
+     "text": "myPort.catch(MyProc, MyType:?) from myPartner -> value v_myVar;\n  // Catches an exception from myPartner and assigns its value to v_myVar.\n  myPort.catch(MyProc, s_myTemplate(5)) -> value v_myVarTwo sender myPeer;\n  // Catches an exception, assigns its value to v_myVarTwo and retrieves the\n  // address of the sender.\n  myPort.catch(MyProc, s_myTemplate(5)) -> value (v_myVarThree:= f1)\n                           sender myPeer;\n  // Catches an exception, assigns the value of its field f1 to v_myVarThree and retrieves the\n  // address of the sender.\n  // Handling encoded exception payload:\n  type MyException record {\n    ...\n  }\n  type CommonException record {\n    integer exceptionId,\n    octetstring payload\n  }\n  signature S() exception (CommonException);\n  ...\n  var MyException v_myVar;\n  myPort.catch (S, CommonException:{exceptionId := 25, payload := decmatch MyException:? })  \n                 -> value (v_myVar := @decoded payload);\n  // The encoded payload field of the caught exception is decoded and matched with m_excTemplate;\n  // if the matching is successful the decoded payload is stored in v_myVar."
+    }
+   ],
+   "file": "tests/22-communication-operations/22.03.06_test_009.ttcn3",
+   "module": "M_22_03_06_test_009",
+   "header": "// @requirement: 22.3.6 -- The keyword value is used to retrieve the value of an exception and/or the parts of it and the keyword sender is used when it is required to retrieve the address of the sender."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-012b",
+   "section": "22.3.6",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The keyword value is used to retrieve the value of an exception and/or the parts of it and the keyword sender is used when it is required to retrieve the address of the sender.",
+   "canonical": "The `sender` keyword in the redirection part of a `catch` operation IS used to retrieve the address of the sender of the exception.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    19073,
+    19076
+   ],
+   "examples": [
+    {
+     "lines": [
+      19221,
+      19246
+     ],
+     "text": "myPort.catch(MyProc, MyType:?) from myPartner -> value v_myVar;\n  // Catches an exception from myPartner and assigns its value to v_myVar.\n  myPort.catch(MyProc, s_myTemplate(5)) -> value v_myVarTwo sender myPeer;\n  // Catches an exception, assigns its value to v_myVarTwo and retrieves the\n  // address of the sender.\n  myPort.catch(MyProc, s_myTemplate(5)) -> value (v_myVarThree:= f1)\n                           sender myPeer;\n  // Catches an exception, assigns the value of its field f1 to v_myVarThree and retrieves the\n  // address of the sender.\n  // Handling encoded exception payload:\n  type MyException record {\n    ...\n  }\n  type CommonException record {\n    integer exceptionId,\n    octetstring payload\n  }\n  signature S() exception (CommonException);\n  ...\n  var MyException v_myVar;\n  myPort.catch (S, CommonException:{exceptionId := 25, payload := decmatch MyException:? })  \n                 -> value (v_myVar := @decoded payload);\n  // The encoded payload field of the caught exception is decoded and matched with m_excTemplate;\n  // if the matching is successful the decoded payload is stored in v_myVar."
+    },
+    {
+     "lines": [
+      19260,
+      19265
+     ],
+     "text": "myPort.catch;\n  myPort.catch from myPartner;\n  myPort.catch -> sender v_mySenderVar; \n  myPort.catch(MyProc); // catch any exception raised by procedure MyProc"
+    }
+   ],
+   "file": "tests/22-communication-operations/22.03.06_test_010.ttcn3",
+   "module": "M_22_03_06_test_010",
+   "header": "// @requirement: 22.3.6 -- The keyword value is used to retrieve the value of an exception and/or the parts of it and the keyword sender is used when it is required to retrieve the address of the sender."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-013a",
+   "section": "22.3.6",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "When assigning individual fields of an exception, encoded payload fields can be decoded prior to assignment using the @decoded modifier.",
+   "canonical": "When individual fields of an exception are assigned in the redirection part of a `catch` operation, encoded payload fields MAY be decoded prior to assignment using the `@decoded` modifier.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    19083,
+    19091
+   ],
+   "examples": [
+    {
+     "lines": [
+      19221,
+      19246
+     ],
+     "text": "myPort.catch(MyProc, MyType:?) from myPartner -> value v_myVar;\n  // Catches an exception from myPartner and assigns its value to v_myVar.\n  myPort.catch(MyProc, s_myTemplate(5)) -> value v_myVarTwo sender myPeer;\n  // Catches an exception, assigns its value to v_myVarTwo and retrieves the\n  // address of the sender.\n  myPort.catch(MyProc, s_myTemplate(5)) -> value (v_myVarThree:= f1)\n                           sender myPeer;\n  // Catches an exception, assigns the value of its field f1 to v_myVarThree and retrieves the\n  // address of the sender.\n  // Handling encoded exception payload:\n  type MyException record {\n    ...\n  }\n  type CommonException record {\n    integer exceptionId,\n    octetstring payload\n  }\n  signature S() exception (CommonException);\n  ...\n  var MyException v_myVar;\n  myPort.catch (S, CommonException:{exceptionId := 25, payload := decmatch MyException:? })  \n                 -> value (v_myVar := @decoded payload);\n  // The encoded payload field of the caught exception is decoded and matched with m_excTemplate;\n  // if the matching is successful the decoded payload is stored in v_myVar."
+    }
+   ],
+   "file": "tests/22-communication-operations/22.03.06_test_011.ttcn3",
+   "module": "M_22_03_06_test_011",
+   "header": "// @requirement: 22.3.6 -- When assigning individual fields of an exception, encoded payload fields can be decoded prior to assignment using the @decoded modifier."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-014a",
+   "section": "22.3.6",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "In this case, the referenced field on the right hand sided of the assignment shall be one of the bitstring, hexstring, octetstring, charstring or universal charstring types.",
+   "canonical": "If the `@decoded` modifier is used in a `catch` value redirect, the referenced field on the right hand side of the assignment SHALL be of a `bitstring`, `hexstring`, `octetstring`, `charstring` or `universal charstring` type.",
+   "condition": "the @decoded modifier is used",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    19083,
+    19091
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.06_test_012.ttcn3",
+   "module": "M_22_03_06_test_012",
+   "header": "// @requirement: 22.3.6 -- In this case, the referenced field on the right hand sided of the assignment shall be one of the bitstring, hexstring, octetstring, charstring or universal charstring types."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-015a",
+   "section": "22.3.6",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "It shall be decoded into a value of the same type as the variable on the left hand side of the assignment.",
+   "canonical": "A field redirected with the `@decoded` modifier SHALL be decoded into a value of the same type as the variable on the left hand side of the assignment.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    19083,
+    19091
+   ],
+   "examples": [
+    {
+     "lines": [
+      19221,
+      19246
+     ],
+     "text": "myPort.catch(MyProc, MyType:?) from myPartner -> value v_myVar;\n  // Catches an exception from myPartner and assigns its value to v_myVar.\n  myPort.catch(MyProc, s_myTemplate(5)) -> value v_myVarTwo sender myPeer;\n  // Catches an exception, assigns its value to v_myVarTwo and retrieves the\n  // address of the sender.\n  myPort.catch(MyProc, s_myTemplate(5)) -> value (v_myVarThree:= f1)\n                           sender myPeer;\n  // Catches an exception, assigns the value of its field f1 to v_myVarThree and retrieves the\n  // address of the sender.\n  // Handling encoded exception payload:\n  type MyException record {\n    ...\n  }\n  type CommonException record {\n    integer exceptionId,\n    octetstring payload\n  }\n  signature S() exception (CommonException);\n  ...\n  var MyException v_myVar;\n  myPort.catch (S, CommonException:{exceptionId := 25, payload := decmatch MyException:? })  \n                 -> value (v_myVar := @decoded payload);\n  // The encoded payload field of the caught exception is decoded and matched with m_excTemplate;\n  // if the matching is successful the decoded payload is stored in v_myVar."
+    }
+   ],
+   "file": "tests/22-communication-operations/22.03.06_test_013.ttcn3",
+   "module": "M_22_03_06_test_013",
+   "header": "// @requirement: 22.3.6 -- It shall be decoded into a value of the same type as the variable on the left hand side of the assignment."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-016a",
+   "section": "22.3.6",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "Failure of this decoding shall cause a test case error.",
+   "canonical": "A failure of the decoding of a field redirected with the `@decoded` modifier SHALL cause a test case error.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    19083,
+    19091
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.06_test_014.ttcn3",
+   "module": "M_22_03_06_test_014",
+   "header": "// @requirement: 22.3.6 -- Failure of this decoding shall cause a test case error."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-017a",
+   "section": "22.3.6",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "In case the referenced field is of the universal `charstring type, the @decoded` clause can contain an optional parameter defining the encoding format.",
+   "canonical": "If the referenced field is of the `universal charstring` type, the `@decoded` clause MAY contain an optional parameter defining the encoding format.",
+   "condition": "the referenced field is of the universal charstring type",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    19083,
+    19091
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.06_test_015.ttcn3",
+   "module": "M_22_03_06_test_015",
+   "header": "// @requirement: 22.3.6 -- In case the referenced field is of the universal `charstring type, the @decoded` clause can contain an optional parameter defining the encoding format."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-018a",
+   "section": "22.3.6",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "The parameter shall be of the charstring type and it shall contain one of the strings allowed for the decvalue_unichar function (specified in clause C.5.4).",
+   "canonical": "The encoding format parameter of the `@decoded` clause SHALL be of the `charstring` type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    19083,
+    19091
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.06_test_016.ttcn3",
+   "module": "M_22_03_06_test_016",
+   "header": "// @requirement: 22.3.6 -- The parameter shall be of the charstring type and it shall contain one of the strings allowed for the decvalue_unichar function (specified in clause C.5.4)."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-018b",
+   "section": "22.3.6",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "The parameter shall be of the charstring type and it shall contain one of the strings allowed for the decvalue_unichar function (specified in clause C.5.4).",
+   "canonical": "The encoding format parameter of the `@decoded` clause SHALL contain one of the strings allowed for the `decvalue_unichar` function.",
+   "condition": null,
+   "cross_refs": [
+    "C.5.4"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    19083,
+    19091
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.06_test_017.ttcn3",
+   "module": "M_22_03_06_test_017",
+   "header": "// @requirement: 22.3.6 -- The parameter shall be of the charstring type and it shall contain one of the strings allowed for the decvalue_unichar function (specified in clause C.5.4)."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-019a",
+   "section": "22.3.6",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "Any other value shall cause an error.",
+   "canonical": "An encoding format parameter value of the `@decoded` clause other than the strings allowed for `decvalue_unichar` SHALL cause an error.",
+   "condition": null,
+   "cross_refs": [
+    "C.5.4"
+   ],
+   "ambiguity": {
+    "status": "ambiguous",
+    "readings": [
+     "An encoding format parameter value of the `@decoded` clause other than the strings allowed for `decvalue_unichar` SHALL cause a compile-time error if it is known at compile time and a runtime error otherwise.",
+     "An encoding format parameter value of the `@decoded` clause other than the strings allowed for `decvalue_unichar` SHALL cause a test case error at runtime."
+    ],
+    "issue": "The kind of error (static or dynamic) is not specified; the canonical text keeps the generic 'error'."
+   },
+   "spec_lines": [
+    19083,
+    19091
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.06_test_018.ttcn3",
+   "module": "M_22_03_06_test_018",
+   "header": "// @requirement: 22.3.6 -- Any other value shall cause an error."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-020a",
+   "section": "22.3.6",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "In case the referenced field is not a universal **charstring, the optional** parameter shall not be present.",
+   "canonical": "If the referenced field is not of the `universal charstring` type, the encoding format parameter of the `@decoded` clause SHALL NOT be present.",
+   "condition": "the referenced field is not a universal charstring",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    19083,
+    19091
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.06_test_019.ttcn3",
+   "module": "M_22_03_06_test_019",
+   "header": "// @requirement: 22.3.6 -- In case the referenced field is not a universal **charstring, the optional** parameter shall not be present."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-021a",
+   "section": "22.3.6",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "The catch operation may be part of the response and exception handling part of a call operation or be used to determine an alternative in an alt statement.",
+   "canonical": "A `catch` operation MAY be part of the response and exception handling part of a `call` operation.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    19093,
+    19097
+   ],
+   "examples": [
+    {
+     "lines": [
+      19249,
+      19257
+     ],
+     "text": "myPort.call(MyProc:{5, v_myVar}, 20E-3) {\n   [] myPort.getreply(MyProc:{?, ?}) { }\n   [] myPort.catch(timeout) { // timeout exception after 20ms\n       setverdict(fail);\n       stop;\n     }\n  }"
+    }
+   ],
+   "file": "tests/22-communication-operations/22.03.06_test_020.ttcn3",
+   "module": "M_22_03_06_test_020",
+   "header": "// @requirement: 22.3.6 -- The catch operation may be part of the response and exception handling part of a call operation or be used to determine an alternative in an alt statement."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-021b",
+   "section": "22.3.6",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "The catch operation may be part of the response and exception handling part of a call operation or be used to determine an alternative in an alt statement.",
+   "canonical": "A `catch` operation MAY be used to determine an alternative in an `alt` statement.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    19093,
+    19097
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.06_test_021.ttcn3",
+   "module": "M_22_03_06_test_021",
+   "header": "// @requirement: 22.3.6 -- The catch operation may be part of the response and exception handling part of a call operation or be used to determine an alternative in an alt statement."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-023a",
+   "section": "22.3.6",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "However, for readability reasons (e.g. in case of complex call statements) this information shall be repeated.",
+   "canonical": "If a `catch` operation is used in the response and exception handling part of a `call` operation, the port name and signature reference SHALL nevertheless be given.",
+   "condition": "the catch operation is used in the response and exception handling part of a call operation",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    19093,
+    19097
+   ],
+   "examples": [
+    {
+     "lines": [
+      19249,
+      19257
+     ],
+     "text": "myPort.call(MyProc:{5, v_myVar}, 20E-3) {\n   [] myPort.getreply(MyProc:{?, ?}) { }\n   [] myPort.catch(timeout) { // timeout exception after 20ms\n       setverdict(fail);\n       stop;\n     }\n  }"
+    }
+   ],
+   "file": "tests/22-communication-operations/22.03.06_test_022.ttcn3",
+   "module": "M_22_03_06_test_022",
+   "header": "// @requirement: 22.3.6 -- However, for readability reasons (e.g. in case of complex call statements) this information shall be repeated."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-025a",
+   "section": "22.3.6",
+   "type": "definition",
+   "modality": "IS",
+   "original": "There is one special timeout exception that can be caught by the catch operation.",
+   "canonical": "The timeout exception IS a special exception that CAN be caught by the `catch` operation.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    19101,
+    19103
+   ],
+   "examples": [
+    {
+     "lines": [
+      19249,
+      19257
+     ],
+     "text": "myPort.call(MyProc:{5, v_myVar}, 20E-3) {\n   [] myPort.getreply(MyProc:{?, ?}) { }\n   [] myPort.catch(timeout) { // timeout exception after 20ms\n       setverdict(fail);\n       stop;\n     }\n  }"
+    }
+   ],
+   "file": "tests/22-communication-operations/22.03.06_test_023.ttcn3",
+   "module": "M_22_03_06_test_023",
+   "header": "// @requirement: 22.3.6 -- There is one special timeout exception that can be caught by the catch operation."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-026a",
+   "section": "22.3.6",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The timeout exception is an emergency exit for cases where a called procedure neither replies nor raises an exception within a predetermined time (see clause 22.3.1).",
+   "canonical": "The timeout exception IS raised when a called procedure neither replies nor raises an exception within the predetermined time given in the `call` operation.",
+   "condition": null,
+   "cross_refs": [
+    "22.3.1"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    19101,
+    19103
+   ],
+   "examples": [
+    {
+     "lines": [
+      19249,
+      19257
+     ],
+     "text": "myPort.call(MyProc:{5, v_myVar}, 20E-3) {\n   [] myPort.getreply(MyProc:{?, ?}) { }\n   [] myPort.catch(timeout) { // timeout exception after 20ms\n       setverdict(fail);\n       stop;\n     }\n  }"
+    }
+   ],
+   "file": "tests/22-communication-operations/22.03.06_test_024.ttcn3",
+   "module": "M_22_03_06_test_024",
+   "header": "// @requirement: 22.3.6 -- The timeout exception is an emergency exit for cases where a called procedure neither replies nor raises an exception within a predetermined time (see clause 22.3.1)."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-028a",
+   "section": "22.3.6",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "A catch operation with no argument list allows any valid exception to be caught.",
+   "canonical": "A `catch` operation with no argument list catches any valid exception.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    19107,
+    19108
+   ],
+   "examples": [
+    {
+     "lines": [
+      19260,
+      19265
+     ],
+     "text": "myPort.catch;\n  myPort.catch from myPartner;\n  myPort.catch -> sender v_mySenderVar; \n  myPort.catch(MyProc); // catch any exception raised by procedure MyProc"
+    }
+   ],
+   "file": "tests/22-communication-operations/22.03.06_test_025.ttcn3",
+   "module": "M_22_03_06_test_025",
+   "header": "// @requirement: 22.3.6 -- A catch operation with no argument list allows any valid exception to be caught."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-030a",
+   "section": "22.3.6",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "CatchAnyException will also catch the timeout exception.",
+   "canonical": "A catch any exception operation also catches the timeout exception.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    19107,
+    19108
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.06_test_026.ttcn3",
+   "module": "M_22_03_06_test_026",
+   "header": "// @requirement: 22.3.6 -- CatchAnyException will also catch the timeout exception."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-032a",
+   "section": "22.3.6",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "A catch operation using only a Signature reference in the argument list allows any valid exception for that signature to be caught.",
+   "canonical": "A `catch` operation with only a Signature reference in the argument list catches any valid exception of that signature.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    19112,
+    19113
+   ],
+   "examples": [
+    {
+     "lines": [
+      19260,
+      19265
+     ],
+     "text": "myPort.catch;\n  myPort.catch from myPartner;\n  myPort.catch -> sender v_mySenderVar; \n  myPort.catch(MyProc); // catch any exception raised by procedure MyProc"
+    }
+   ],
+   "file": "tests/22-communication-operations/22.03.06_test_027.ttcn3",
+   "module": "M_22_03_06_test_027",
+   "header": "// @requirement: 22.3.6 -- A catch operation using only a Signature reference in the argument list allows any valid exception for that signature to be caught."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-034a",
+   "section": "22.3.6",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "To catch an exception on any port use the any keyword.",
+   "canonical": "A `catch` operation on any port IS written with the `any port` keywords.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    19117,
+    19117
+   ],
+   "examples": [
+    {
+     "lines": [
+      19268,
+      19270
+     ],
+     "text": "any port.catch;"
+    }
+   ],
+   "file": "tests/22-communication-operations/22.03.06_test_028.ttcn3",
+   "module": "M_22_03_06_test_028",
+   "header": "// @requirement: 22.3.6 -- To catch an exception on any port use the any keyword."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-036a",
+   "section": "22.3.6",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "To catch an exception on any port from a specific port array, indices use the any from PortArrayRef syntax where PortArrayRef shall be a reference to a port array identifier.",
+   "canonical": "A `catch` operation on any port of a specific port array IS written with the `any from` PortArrayRef syntax.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    19121,
+    19128
+   ],
+   "examples": [
+    {
+     "lines": [
+      19273,
+      19282
+     ],
+     "text": "type port MyPort procedure { inout MyProc }\n  type component MyComponent {\n    port MyPort p[10][10];\n  }\n  var integer v_i[2];\n  any from p.catch(MyProc, MyType:?) -> @index value v_i; \n  // Catching an incoming exception of type MyType on any port in the port array p and\n  // storing the index of the port on which the matching was successful first"
+    }
+   ],
+   "file": "tests/22-communication-operations/22.03.06_test_029.ttcn3",
+   "module": "M_22_03_06_test_029",
+   "header": "// @requirement: 22.3.6 -- To catch an exception on any port from a specific port array, indices use the any from PortArrayRef syntax where PortArrayRef shall be a reference to a port array identifier."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-036b",
+   "section": "22.3.6",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "To catch an exception on any port from a specific port array, indices use the any from PortArrayRef syntax where PortArrayRef shall be a reference to a port array identifier.",
+   "canonical": "The PortArrayRef in an `any from` `catch` operation SHALL be a reference to a port array identifier.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    19121,
+    19128
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.06_test_030.ttcn3",
+   "module": "M_22_03_06_test_030",
+   "header": "// @requirement: 22.3.6 -- To catch an exception on any port from a specific port array, indices use the any from PortArrayRef syntax where PortArrayRef shall be a reference to a port array identifier."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-037a",
+   "section": "22.3.6",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "It is also possible to store the index of a port in a single-dimensional port array at which the operation was successful to a variable of type integer or, in case of multi-dimensional port arrays the index of the successful port to an integer array or record of integer variable.",
+   "canonical": "In an `any from` `catch` operation on a single-dimensional port array, the index of the port at which the operation was successful MAY be stored in a variable of type `integer`.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    19121,
+    19128
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.06_test_031.ttcn3",
+   "module": "M_22_03_06_test_031",
+   "header": "// @requirement: 22.3.6 -- It is also possible to store the index of a port in a single-dimensional port array at which the operation was successful to a variable of type integer or, in case of multi-dimensional port arrays the index of the successful port to an integer array or record of integer variable."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-037b",
+   "section": "22.3.6",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "It is also possible to store the index of a port in a single-dimensional port array at which the operation was successful to a variable of type integer or, in case of multi-dimensional port arrays the index of the successful port to an integer array or record of integer variable.",
+   "canonical": "In an `any from` `catch` operation on a multi-dimensional port array, the index of the successful port MAY be stored in an integer array or `record of integer` variable.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    19121,
+    19128
+   ],
+   "examples": [
+    {
+     "lines": [
+      19273,
+      19282
+     ],
+     "text": "type port MyPort procedure { inout MyProc }\n  type component MyComponent {\n    port MyPort p[10][10];\n  }\n  var integer v_i[2];\n  any from p.catch(MyProc, MyType:?) -> @index value v_i; \n  // Catching an incoming exception of type MyType on any port in the port array p and\n  // storing the index of the port on which the matching was successful first"
+    }
+   ],
+   "file": "tests/22-communication-operations/22.03.06_test_032.ttcn3",
+   "module": "M_22_03_06_test_032",
+   "header": "// @requirement: 22.3.6 -- It is also possible to store the index of a port in a single-dimensional port array at which the operation was successful to a variable of type integer or, in case of multi-dimensional port arrays the index of the successful port to an integer array or record of integer variable."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-038a",
+   "section": "22.3.6",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "When checking the port array for matching exceptions, the port indices to be checked are iterated from lowest to highest.",
+   "canonical": "When an `any from` `catch` operation checks a port array for matching exceptions, the port indices IS iterated from lowest to highest.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    19121,
+    19128
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.06_test_033.ttcn3",
+   "module": "M_22_03_06_test_033",
+   "header": "// @requirement: 22.3.6 -- When checking the port array for matching exceptions, the port indices to be checked are iterated from lowest to highest."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-039a",
+   "section": "22.3.6",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "If the port array is multi-dimensional, then the ports are iterated over from innermost to outermost array dimension from lowest to highest index for each dimension, e.g. [0][0], [0][1], [1][0], [1][1].",
+   "canonical": "When an `any from` `catch` operation checks a multi-dimensional port array, the ports IS iterated from innermost to outermost array dimension and from lowest to highest index for each dimension (e.g. [0][0], [0][1], [1][0], [1][1]).",
+   "condition": "the port array is multi-dimensional",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    19121,
+    19128
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.06_test_034.ttcn3",
+   "module": "M_22_03_06_test_034",
+   "header": "// @requirement: 22.3.6 -- If the port array is multi-dimensional, then the ports are iterated over from innermost to outermost array dimension from lowest to highest index for each dimension, e.g. [0][0], [0][1], [1][0], [1][1]."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-040a",
+   "section": "22.3.6",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The first port which matches all the criteria will cause the operation to be successful even if other ports in the array would also meet the criteria.",
+   "canonical": "The first port in iteration order that matches all the criteria makes an `any from` `catch` operation successful, even if other ports in the array would also meet the criteria.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    19121,
+    19128
+   ],
+   "examples": [
+    {
+     "lines": [
+      19273,
+      19282
+     ],
+     "text": "type port MyPort procedure { inout MyProc }\n  type component MyComponent {\n    port MyPort p[10][10];\n  }\n  var integer v_i[2];\n  any from p.catch(MyProc, MyType:?) -> @index value v_i; \n  // Catching an incoming exception of type MyType on any port in the port array p and\n  // storing the index of the port on which the matching was successful first"
+    }
+   ],
+   "file": "tests/22-communication-operations/22.03.06_test_035.ttcn3",
+   "module": "M_22_03_06_test_035",
+   "header": "// @requirement: 22.3.6 -- The first port which matches all the criteria will cause the operation to be successful even if other ports in the array would also meet the criteria."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-041a",
+   "section": "22.3.6",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "The catch on any port from a port array operation cannot be used to catch a call timeout.",
+   "canonical": "A `catch` operation on any port from a port array SHALL NOT be used to catch a call timeout.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    19130,
+    19130
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.06_test_036.ttcn3",
+   "module": "M_22_03_06_test_036",
+   "header": "// @requirement: 22.3.6 -- The catch on any port from a port array operation cannot be used to catch a call timeout."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-043a",
+   "section": "22.3.6",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "a) The catch operation shall only be used at procedure-based ports.",
+   "canonical": "The `catch` operation SHALL only be used at procedure-based ports.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    19137,
+    19138
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.06_test_037.ttcn3",
+   "module": "M_22_03_06_test_037",
+   "header": "// @requirement: 22.3.6 -- a) The catch operation shall only be used at procedure-based ports."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-044a",
+   "section": "22.3.6",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "The type of the caught exception shall be specified in the signature of the procedure that raised the exception.",
+   "canonical": "The type of an exception caught by a `catch` operation SHALL be specified in the signature of the procedure that raised the exception.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    19137,
+    19138
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.06_test_038.ttcn3",
+   "module": "M_22_03_06_test_038",
+   "header": "// @requirement: 22.3.6 -- The type of the caught exception shall be specified in the signature of the procedure that raised the exception."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-045a",
+   "section": "22.3.6",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "b) The type definition of the port shall include in its out or inout list the name of the procedure to which the exception belongs.",
+   "canonical": "The type definition of the port used in a `catch` operation SHALL include in its `out` or `inout` list the signature to which the caught exception belongs.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "improper_terms": [
+     {
+      "used": "name of the procedure",
+      "proper": "signature",
+      "glossary": false
+     }
+    ],
+    "issue": "Port type lists contain signature references; 'procedure' is used loosely for the signature."
+   },
+   "spec_lines": [
+    19140,
+    19141
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.06_test_039.ttcn3",
+   "module": "M_22_03_06_test_039",
+   "header": "// @requirement: 22.3.6 -- b) The type definition of the port shall include in its out or inout list the name of the procedure to which the exception belongs."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-046a",
+   "section": "22.3.6",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "c) No binding of the incoming values to the terms of the expression or to the template shall occur.",
+   "canonical": "A `catch` operation SHALL NOT bind incoming values to the terms of the expression or to the template.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    19143,
+    19144
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.06_test_040.ttcn3",
+   "module": "M_22_03_06_test_040",
+   "header": "// @requirement: 22.3.6 -- c) No binding of the incoming values to the terms of the expression or to the template shall occur."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-047a",
+   "section": "22.3.6",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "The assignment of the exception values to variables shall be made in the assignment part of the catch operation.",
+   "canonical": "The assignment of exception values to variables SHALL be made in the redirection (assignment) part of the `catch` operation.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "improper_terms": [
+     {
+      "used": "assignment part",
+      "proper": "redirection part",
+      "glossary": false
+     }
+    ],
+    "issue": "The syntax and the semantic description call this the redirection part."
+   },
+   "spec_lines": [
+    19143,
+    19144
+   ],
+   "examples": [
+    {
+     "lines": [
+      19221,
+      19246
+     ],
+     "text": "myPort.catch(MyProc, MyType:?) from myPartner -> value v_myVar;\n  // Catches an exception from myPartner and assigns its value to v_myVar.\n  myPort.catch(MyProc, s_myTemplate(5)) -> value v_myVarTwo sender myPeer;\n  // Catches an exception, assigns its value to v_myVarTwo and retrieves the\n  // address of the sender.\n  myPort.catch(MyProc, s_myTemplate(5)) -> value (v_myVarThree:= f1)\n                           sender myPeer;\n  // Catches an exception, assigns the value of its field f1 to v_myVarThree and retrieves the\n  // address of the sender.\n  // Handling encoded exception payload:\n  type MyException record {\n    ...\n  }\n  type CommonException record {\n    integer exceptionId,\n    octetstring payload\n  }\n  signature S() exception (CommonException);\n  ...\n  var MyException v_myVar;\n  myPort.catch (S, CommonException:{exceptionId := 25, payload := decmatch MyException:? })  \n                 -> value (v_myVar := @decoded payload);\n  // The encoded payload field of the caught exception is decoded and matched with m_excTemplate;\n  // if the matching is successful the decoded payload is stored in v_myVar."
+    }
+   ],
+   "file": "tests/22-communication-operations/22.03.06_test_041.ttcn3",
+   "module": "M_22_03_06_test_041",
+   "header": "// @requirement: 22.3.6 -- The assignment of the exception values to variables shall be made in the assignment part of the catch operation."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-048a",
+   "section": "22.3.6",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "d) Catching timeout exceptions shall be restricted to the exception handling part of a call.",
+   "canonical": "A `catch` operation for the timeout exception SHALL only be used in the response and exception handling part of a `call` operation.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "improper_terms": [
+     {
+      "used": "exception handling part of a call",
+      "proper": "response and exception handling part of a call operation",
+      "glossary": false
+     }
+    ],
+    "issue": "Elsewhere the clause uses 'response and exception handling part'."
+   },
+   "spec_lines": [
+    19151,
+    19153
+   ],
+   "examples": [
+    {
+     "lines": [
+      19249,
+      19257
+     ],
+     "text": "myPort.call(MyProc:{5, v_myVar}, 20E-3) {\n   [] myPort.getreply(MyProc:{?, ?}) { }\n   [] myPort.catch(timeout) { // timeout exception after 20ms\n       setverdict(fail);\n       stop;\n     }\n  }"
+    }
+   ],
+   "file": "tests/22-communication-operations/22.03.06_test_042.ttcn3",
+   "module": "M_22_03_06_test_042",
+   "header": "// @requirement: 22.3.6 -- d) Catching timeout exceptions shall be restricted to the exception handling part of a call."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-049a",
+   "section": "22.3.6",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "No further matching criteria (including a from part) and no assignment part is allowed for a catch operation that handles a timeout exception.",
+   "canonical": "A `catch` operation that handles the timeout exception SHALL NOT contain further matching criteria, including a `from` clause.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    19151,
+    19153
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.06_test_043.ttcn3",
+   "module": "M_22_03_06_test_043",
+   "header": "// @requirement: 22.3.6 -- No further matching criteria (including a from part) and no assignment part is allowed for a catch operation that handles a timeout exception."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-049b",
+   "section": "22.3.6",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "No further matching criteria (including a from part) and no assignment part is allowed for a catch operation that handles a timeout exception.",
+   "canonical": "A `catch` operation that handles the timeout exception SHALL NOT contain a redirection (assignment) part.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    19151,
+    19153
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.06_test_044.ttcn3",
+   "module": "M_22_03_06_test_044",
+   "header": "// @requirement: 22.3.6 -- No further matching criteria (including a from part) and no assignment part is allowed for a catch operation that handles a timeout exception."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-050a",
+   "section": "22.3.6",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "e) Exception values accepted by catch any exception shall not be assigned to a variable, i.e. the value clause shall not be present.",
+   "canonical": "A catch any exception operation SHALL NOT contain a `value` clause, i.e. accepted exception values SHALL NOT be assigned to a variable.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    19155,
+    19156
+   ],
+   "examples": [
+    {
+     "lines": [
+      19260,
+      19265
+     ],
+     "text": "myPort.catch;\n  myPort.catch from myPartner;\n  myPort.catch -> sender v_mySenderVar; \n  myPort.catch(MyProc); // catch any exception raised by procedure MyProc"
+    }
+   ],
+   "file": "tests/22-communication-operations/22.03.06_test_045.ttcn3",
+   "module": "M_22_03_06_test_045",
+   "header": "// @requirement: 22.3.6 -- e) Exception values accepted by catch any exception shall not be assigned to a variable, i.e. the value clause shall not be present."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-051a",
+   "section": "22.3.6",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "f) If CatchAnyException is used in the response and exception handling part of a call operation, it shall only treat exceptions raised by the procedure invoked by the call operation.",
+   "canonical": "If a catch any exception operation is used in the response and exception handling part of a `call` operation, it SHALL only treat exceptions raised by the procedure invoked by that `call` operation.",
+   "condition": "CatchAnyException is used in the response and exception handling part of a call operation",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    19158,
+    19159
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.06_test_046.ttcn3",
+   "module": "M_22_03_06_test_046",
+   "header": "// @requirement: 22.3.6 -- f) If CatchAnyException is used in the response and exception handling part of a call operation, it shall only treat exceptions raised by the procedure invoked by the call operation."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-052a",
+   "section": "22.3.6",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "g) All AddressRef items in the from clause and all ValueRef items in the sender clause shall be of type address, component or of the address type bound to the port type (see clause 6.2.9) of the port instance referenced in the catch operation.",
+   "canonical": "Every AddressRef in the `from` clause of a `catch` operation SHALL be of type `address`, of a component type, or of the address type bound to the port type of the port instance referenced in the `catch` operation.",
+   "condition": null,
+   "cross_refs": [
+    "6.2.9"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    19161,
+    19164
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.06_test_047.ttcn3",
+   "module": "M_22_03_06_test_047",
+   "header": "// @requirement: 22.3.6 -- g) All AddressRef items in the from clause and all ValueRef items in the sender clause shall be of type address, component or of the address type bound to the port type (see clause 6.2.9) of the port instance referenced in the catch operation."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-052b",
+   "section": "22.3.6",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "g) All AddressRef items in the from clause and all ValueRef items in the sender clause shall be of type address, component or of the address type bound to the port type (see clause 6.2.9) of the port instance referenced in the catch operation.",
+   "canonical": "Every ValueRef in the `sender` clause of a `catch` operation SHALL be of type `address`, of a component type, or of the address type bound to the port type of the port instance referenced in the `catch` operation.",
+   "condition": null,
+   "cross_refs": [
+    "6.2.9"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    19161,
+    19164
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.06_test_048.ttcn3",
+   "module": "M_22_03_06_test_048",
+   "header": "// @requirement: 22.3.6 -- g) All AddressRef items in the from clause and all ValueRef items in the sender clause shall be of type address, component or of the address type bound to the port type (see clause 6.2.9) of the port instance referenced in the catch operation."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-053a",
+   "section": "22.3.6",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "No AddressRef in the from clause shall contain the special value null at the time of the operation.",
+   "canonical": "An AddressRef in the `from` clause of a `catch` operation SHALL NOT contain the special value `null` at the time of the operation.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    19161,
+    19164
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.06_test_049.ttcn3",
+   "module": "M_22_03_06_test_049",
+   "header": "// @requirement: 22.3.6 -- No AddressRef in the from clause shall contain the special value null at the time of the operation."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-054a",
+   "section": "22.3.6",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "h) The PortArrayRef shall be a reference to a completely initialized port array.",
+   "canonical": "The PortArrayRef in an `any from` `catch` operation SHALL be a reference to a completely initialized port array.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    19166,
+    19166
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.06_test_050.ttcn3",
+   "module": "M_22_03_06_test_050",
+   "header": "// @requirement: 22.3.6 -- h) The PortArrayRef shall be a reference to a completely initialized port array."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-055a",
+   "section": "22.3.6",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "i) The index redirection shall only be used when the operation is used on an any from port array construct.",
+   "canonical": "The index redirection (`@index value`) in a `catch` operation SHALL only be used when the operation is used on an `any from` port array construct.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    19168,
+    19168
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.06_test_051.ttcn3",
+   "module": "M_22_03_06_test_051",
+   "header": "// @requirement: 22.3.6 -- i) The index redirection shall only be used when the operation is used on an any from port array construct."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-056a",
+   "section": "22.3.6",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "j) If the index redirection is used for single-dimensional arrays, the type of the integer variable shall allow storing the highest index of the respective port array.",
+   "canonical": "If the index redirection is used for a single-dimensional port array, the type of the integer variable SHALL allow storing the highest index of the respective port array.",
+   "condition": "the index redirection is used for single-dimensional arrays",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    19170,
+    19171
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.06_test_052.ttcn3",
+   "module": "M_22_03_06_test_052",
+   "header": "// @requirement: 22.3.6 -- j) If the index redirection is used for single-dimensional arrays, the type of the integer variable shall allow storing the highest index of the respective port array."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-057a",
+   "section": "22.3.6",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "k) If the index redirection is used for multi-dimensional arrays, the size of the integer array or record of integer type shall exactly be the same as the dimension of the respective port array, and the its type shall allow storing the highest index (from all dimensions) of the port array.",
+   "canonical": "If the index redirection is used for a multi-dimensional port array, the size of the integer array or `record of integer` variable SHALL be exactly the same as the dimension of the respective port array.",
+   "condition": "the index redirection is used for multi-dimensional arrays",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    19173,
+    19175
+   ],
+   "examples": [
+    {
+     "lines": [
+      19273,
+      19282
+     ],
+     "text": "type port MyPort procedure { inout MyProc }\n  type component MyComponent {\n    port MyPort p[10][10];\n  }\n  var integer v_i[2];\n  any from p.catch(MyProc, MyType:?) -> @index value v_i; \n  // Catching an incoming exception of type MyType on any port in the port array p and\n  // storing the index of the port on which the matching was successful first"
+    }
+   ],
+   "file": "tests/22-communication-operations/22.03.06_test_053.ttcn3",
+   "module": "M_22_03_06_test_053",
+   "header": "// @requirement: 22.3.6 -- k) If the index redirection is used for multi-dimensional arrays, the size of the integer array or record of integer type shall exactly be the same as the dimension of the respective port array, and the its type shall allow storing the highest index (from all dimensions) of the port array."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-057b",
+   "section": "22.3.6",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "k) If the index redirection is used for multi-dimensional arrays, the size of the integer array or record of integer type shall exactly be the same as the dimension of the respective port array, and the its type shall allow storing the highest index (from all dimensions) of the port array.",
+   "canonical": "If the index redirection is used for a multi-dimensional port array, the element type of the integer array or `record of integer` variable SHALL allow storing the highest index (from all dimensions) of the port array.",
+   "condition": "the index redirection is used for multi-dimensional arrays",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    19173,
+    19175
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.06_test_054.ttcn3",
+   "module": "M_22_03_06_test_054",
+   "header": "// @requirement: 22.3.6 -- k) If the index redirection is used for multi-dimensional arrays, the size of the integer array or record of integer type shall exactly be the same as the dimension of the respective port array, and the its type shall allow storing the highest index (from all dimensions) of the port array."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-058a",
+   "section": "22.3.6",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "l) If a variable referenced in the value, sender or @index clause is a lazy or fuzzy variable, the expression assigned to this variable is equal to the result produced by the catch operation, i.e. later evaluation of the lazy or fuzzy variable does not lead to repeated invocation of the catch operation.",
+   "canonical": "If a variable referenced in the `value`, `sender` or `@index` clause of a `catch` operation is a lazy or fuzzy variable, the expression assigned to that variable IS equal to the result produced by the `catch` operation.",
+   "condition": "the referenced variable is a lazy or fuzzy variable",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    19177,
+    19179
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.06_test_055.ttcn3",
+   "module": "M_22_03_06_test_055",
+   "header": "// @requirement: 22.3.6 -- l) If a variable referenced in the value, sender or @index clause is a lazy or fuzzy variable, the expression assigned to this variable is equal to the result produced by the catch operation, i.e. later evaluation of the lazy or fuzzy variable does not lead to repeated invocation of the catch operation."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-058b",
+   "section": "22.3.6",
+   "type": "semantics",
+   "modality": "IS NOT",
+   "original": "l) If a variable referenced in the value, sender or @index clause is a lazy or fuzzy variable, the expression assigned to this variable is equal to the result produced by the catch operation, i.e. later evaluation of the lazy or fuzzy variable does not lead to repeated invocation of the catch operation.",
+   "canonical": "A later evaluation of a lazy or fuzzy variable assigned in the redirection part of a `catch` operation IS NOT a repeated invocation of the `catch` operation.",
+   "condition": "the referenced variable is a lazy or fuzzy variable",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    19177,
+    19179
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.06_test_056.ttcn3",
+   "module": "M_22_03_06_test_056",
+   "header": "// @requirement: 22.3.6 -- l) If a variable referenced in the value, sender or @index clause is a lazy or fuzzy variable, the expression assigned to this variable is equal to the result produced by the catch operation, i.e. later evaluation of the lazy or fuzzy variable does not lead to repeated invocation of the catch operation."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-059a",
+   "section": "22.3.6",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "m) If the catch operation contains both from and sender clause, the variable or parameter referenced in the sender clause shall be type compatible with the template in the from clause.",
+   "canonical": "If a `catch` operation contains both a `from` and a `sender` clause, the variable or parameter referenced in the `sender` clause SHALL be type compatible with the template in the `from` clause.",
+   "condition": "the catch operation contains both from and sender clause",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    19181,
+    19184
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.06_test_057.ttcn3",
+   "module": "M_22_03_06_test_057",
+   "header": "// @requirement: 22.3.6 -- m) If the catch operation contains both from and sender clause, the variable or parameter referenced in the sender clause shall be type compatible with the template in the from clause."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-060a",
+   "section": "22.3.6",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "If the operation contains a sender clause but no from clause, the sender shall be type compatible with the variable or parameter referenced in the sender clause.",
+   "canonical": "If a `catch` operation contains a `sender` clause but no `from` clause, the sender SHALL be type compatible with the variable or parameter referenced in the `sender` clause.",
+   "condition": "the operation contains a sender clause but no from clause",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    19181,
+    19184
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.06_test_058.ttcn3",
+   "module": "M_22_03_06_test_058",
+   "header": "// @requirement: 22.3.6 -- If the operation contains a sender clause but no from clause, the sender shall be type compatible with the variable or parameter referenced in the sender clause."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-061a",
+   "section": "22.3.6",
+   "type": "information",
+   "modality": "CAN",
+   "original": "NOTE 3: An error due to a type mismatch may happen if the types in the receive part are not compatible to the types in the assignment part or, if the from clause is missing, but the type of the sender can be determined and it is not type compatible with the type in the sender clause.",
+   "canonical": "A type mismatch error CAN occur if the types in the receive part are not compatible with the types in the assignment part, or, if the `from` clause is missing, if the type of the sender can be determined and is not type compatible with the type in the `sender` clause.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "improper_terms": [
+     {
+      "used": "receive part",
+      "proper": "matching part (signature and template instance) of the catch operation",
+      "glossary": false
+     }
+    ],
+    "issue": "The note is copied from the receive operation; for catch the 'receive part' is the exception matching part."
+   },
+   "spec_lines": [
+    19186,
+    19188
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.06_test_059.ttcn3",
+   "module": "M_22_03_06_test_059",
+   "header": "// @requirement: 22.3.6 -- NOTE 3: An error due to a type mismatch may happen if the types in the receive part are not compatible to the types in the assignment part or, if the from clause is missing, but the type of the sender can be determined and it is not type compatible with the type in the sender clause."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.6-062a",
+   "section": "22.3.6",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "n) When assigning implicitly decoded exception fields (by using the @decoded modifier) in cases where the value or template to be matched uses the MatchDecodedContent (decmatch) matching for the parameter to be stored, the type of the template in the MatchDecodedContent matching shall be type-compatible to the type of the variable the decoded field is stored into.",
+   "canonical": "When an exception field is assigned with the `@decoded` modifier and the value or template to be matched uses MatchDecodedContent (`decmatch`) matching for that field, the type of the template in the `decmatch` matching SHALL be type compatible with the type of the variable the decoded field is stored into.",
+   "condition": "the @decoded modifier is used and the matched field uses decmatch",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    19190,
+    19193
+   ],
+   "examples": [
+    {
+     "lines": [
+      19221,
+      19246
+     ],
+     "text": "myPort.catch(MyProc, MyType:?) from myPartner -> value v_myVar;\n  // Catches an exception from myPartner and assigns its value to v_myVar.\n  myPort.catch(MyProc, s_myTemplate(5)) -> value v_myVarTwo sender myPeer;\n  // Catches an exception, assigns its value to v_myVarTwo and retrieves the\n  // address of the sender.\n  myPort.catch(MyProc, s_myTemplate(5)) -> value (v_myVarThree:= f1)\n                           sender myPeer;\n  // Catches an exception, assigns the value of its field f1 to v_myVarThree and retrieves the\n  // address of the sender.\n  // Handling encoded exception payload:\n  type MyException record {\n    ...\n  }\n  type CommonException record {\n    integer exceptionId,\n    octetstring payload\n  }\n  signature S() exception (CommonException);\n  ...\n  var MyException v_myVar;\n  myPort.catch (S, CommonException:{exceptionId := 25, payload := decmatch MyException:? })  \n                 -> value (v_myVar := @decoded payload);\n  // The encoded payload field of the caught exception is decoded and matched with m_excTemplate;\n  // if the matching is successful the decoded payload is stored in v_myVar."
+    }
+   ],
+   "file": "tests/22-communication-operations/22.03.06_test_060.ttcn3",
+   "module": "M_22_03_06_test_060",
+   "header": "// @requirement: 22.3.6 -- n) When assigning implicitly decoded exception fields (by using the @decoded modifier) in cases where the value or template to be matched uses the MatchDecodedContent (decmatch) matching for the parameter to be stored, the type of the template in the MatchDecodedContent matching shall be type-compatible to the type of the variable the decoded field is stored into."
+  }
+ ]
+}

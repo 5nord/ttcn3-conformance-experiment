@@ -1,0 +1,39 @@
+// @requirement: 22.2.1 -- Broadcast is defined by using the to clause with all component keyword.
+// @id: TTCN3-CORE-22.2.1-011a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_02_01_test_009 {
+
+    type port P message { inout integer }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    function f_receive() runs on C {
+        T.start;
+        alt {
+            [] p.receive(integer:1) { setverdict(pass); }
+            [] p.receive { setverdict(fail); }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc1 := C.create;
+        var C v_ptc2 := C.create;
+        var C v_ptc3 := C.create;
+        connect(mtc:p, v_ptc1:p);
+        connect(mtc:p, v_ptc2:p);
+        connect(mtc:p, v_ptc3:p);
+        v_ptc1.start(f_receive());
+        v_ptc2.start(f_receive());
+        v_ptc3.start(f_receive());
+        p.send(1) to all component;
+        all component.done;
+    }
+
+    control {
+        execute(TC());
+    }
+}

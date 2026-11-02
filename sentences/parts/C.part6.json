@@ -1,0 +1,518 @@
+{
+ "part": "C.part6",
+ "chapter": "C",
+ "chapter_file": "C-predefined-ttcn-3-functions",
+ "title": "Predefined TTCN-3 functions",
+ "sections": {
+  "C.6.1": {
+   "title": "The random number generator function",
+   "start": 26502
+  },
+  "C.6.2": {
+   "title": "The testcasename function",
+   "start": 26530
+  },
+  "C.6.3": {
+   "title": "The hostId function",
+   "start": 26602
+  }
+ },
+ "lines": [
+  26503,
+  26641
+ ],
+ "units": [
+  {
+   "id": "C.6.1-s001",
+   "section": "C.6.1",
+   "kind": "code",
+   "context": null,
+   "normative": true,
+   "text": "rnd([in float seed]) return float",
+   "lines": [
+    26503,
+    26505
+   ]
+  },
+  {
+   "id": "C.6.1-s002",
+   "section": "C.6.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The rnd function returns a (pseudo) random number less than 1 but greater or equal to 0.",
+   "lines": [
+    26507,
+    26511
+   ]
+  },
+  {
+   "id": "C.6.1-s003",
+   "section": "C.6.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The random number generator is initialized per test component and for the control part by means of an optional seed value (a numerical float value).",
+   "lines": [
+    26507,
+    26511
+   ]
+  },
+  {
+   "id": "C.6.1-s004",
+   "section": "C.6.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "If no new seed is provided, the last generated number will be used as seed for the next random number.",
+   "lines": [
+    26507,
+    26511
+   ]
+  },
+  {
+   "id": "C.6.1-s005",
+   "section": "C.6.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Without a previous initialization a value calculated from the system time will be used as seed value when rnd is used the first time in a test component or the control part.",
+   "lines": [
+    26507,
+    26511
+   ]
+  },
+  {
+   "id": "C.6.1-s006",
+   "section": "C.6.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Each time the rnd function is initialized with the same seed value, it shall repeat the same sequence of random numbers.",
+   "lines": [
+    26513,
+    26514
+   ]
+  },
+  {
+   "id": "C.6.1-s007",
+   "section": "C.6.1",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "NOTE: For the purpose of keeping parallel testing deterministic, each test component, as well as the control part has its own random seed.",
+   "lines": [
+    26516,
+    26518
+   ]
+  },
+  {
+   "id": "C.6.1-s008",
+   "section": "C.6.1",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "This allows for better reproducibility of test executions.",
+   "lines": [
+    26516,
+    26518
+   ]
+  },
+  {
+   "id": "C.6.1-s009",
+   "section": "C.6.1",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "Thus, the rnd function will always use the seed of the component or control part which calls it.",
+   "lines": [
+    26516,
+    26518
+   ]
+  },
+  {
+   "id": "C.6.1-s010",
+   "section": "C.6.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "To produce a random integers in a given range, the following formula can be used:",
+   "lines": [
+    26520,
+    26520
+   ]
+  },
+  {
+   "id": "C.6.1-s011",
+   "section": "C.6.1",
+   "kind": "code",
+   "context": null,
+   "normative": true,
+   "text": "float2int(int2float(upperbound - lowerbound +1)*rnd()) + lowerbound\n  // Here, upperbound and lowerbound denote highest and lowest number in range.",
+   "lines": [
+    26521,
+    26524
+   ]
+  },
+  {
+   "id": "C.6.1-s012",
+   "section": "C.6.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "In addition to the general error causes in clause 16.1.2, error causes are:",
+   "lines": [
+    26526,
+    26526
+   ]
+  },
+  {
+   "id": "C.6.1-s013",
+   "section": "C.6.1",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "`seed is infinity, -infinity or not_a_number.`",
+   "lines": [
+    26528,
+    26528
+   ]
+  },
+  {
+   "id": "C.6.2-s001",
+   "section": "C.6.2",
+   "kind": "code",
+   "context": null,
+   "normative": true,
+   "text": "testcasename() return charstring",
+   "lines": [
+    26531,
+    26533
+   ]
+  },
+  {
+   "id": "C.6.2-s002",
+   "section": "C.6.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The testcasename function shall return the unqualified name of the actually executing test case.",
+   "lines": [
+    26535,
+    26535
+   ]
+  },
+  {
+   "id": "C.6.2-s003",
+   "section": "C.6.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Coding scheme: UTF-8; initial octet sequence: EF BB BF; comments: signature not required / no effect",
+   "lines": [
+    26539,
+    26539
+   ]
+  },
+  {
+   "id": "C.6.2-s004",
+   "section": "C.6.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Coding scheme: UTF-16BE; initial octet sequence: FE FF; comments: no signature meaning",
+   "lines": [
+    26540,
+    26540
+   ]
+  },
+  {
+   "id": "C.6.2-s005",
+   "section": "C.6.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Coding scheme: UTF-16LE; initial octet sequence: FF FE; comments: no signature meaning",
+   "lines": [
+    26541,
+    26541
+   ]
+  },
+  {
+   "id": "C.6.2-s006",
+   "section": "C.6.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Coding scheme: UTF-16; initial octet sequence: FE FF FF FE; comments: signature (default FE FF)",
+   "lines": [
+    26542,
+    26542
+   ]
+  },
+  {
+   "id": "C.6.2-s007",
+   "section": "C.6.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Coding scheme: UTF-32BE; initial octet sequence: 00 00 FE FF; comments: no signature meaning",
+   "lines": [
+    26543,
+    26543
+   ]
+  },
+  {
+   "id": "C.6.2-s008",
+   "section": "C.6.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Coding scheme: UTF-32LE; initial octet sequence: FF FE 00 00; comments: no signature meaning",
+   "lines": [
+    26544,
+    26544
+   ]
+  },
+  {
+   "id": "C.6.2-s009",
+   "section": "C.6.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Coding scheme: UTF-32; initial octet sequence: 00 00 FE FF FF FE 00 00; comments: signature (default 00 00 FE FF)",
+   "lines": [
+    26545,
+    26545
+   ]
+  },
+  {
+   "id": "C.6.2-s010",
+   "section": "C.6.2",
+   "kind": "table-header",
+   "context": null,
+   "normative": true,
+   "text": "Coding scheme; initial octet sequence; comments",
+   "lines": [
+    26537,
+    26537
+   ]
+  },
+  {
+   "id": "C.6.2-s011",
+   "section": "C.6.2",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 1:",
+   "lines": [
+    26554,
+    26554
+   ]
+  },
+  {
+   "id": "C.6.2-s012",
+   "section": "C.6.2",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "module MyTCModule {\n     :\n     testcase TC_MyTestCase1 () runs on MTC system TSI\n     {\n       var charstring v_tcName := testcasename ();\n        // will return the charstring \"TC_MyTestCase1\"\n       :\n     }\n     :\n     testcase TC_MyTestCase2 () runs on MTC system TSI\n     {\n       :\n     }\n     :\n  }\n  module MyTSModule {\n     :\n     function f_myStartAPTC() runs on PTC {\n       var charstring v_tcName := testcasename ();\n        // will return charstring \"TC_MyTestCase1\", if the function is\n        // called by a test component during the execution of TC_MyTestCase1 \n        // will return charstring \"TC_MyTestCase2\", if the function is\n        // called by a test component when TC_MyTestCase2 is being executed\n     }\n     :\n  }",
+   "lines": [
+    26555,
+    26582
+   ]
+  },
+  {
+   "id": "C.6.2-s013",
+   "section": "C.6.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "When the function testcasename is called if the control part is being executed but no testcase, it shall return the empty string.",
+   "lines": [
+    26584,
+    26585
+   ]
+  },
+  {
+   "id": "C.6.2-s014",
+   "section": "C.6.2",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE 2:",
+   "lines": [
+    26587,
+    26587
+   ]
+  },
+  {
+   "id": "C.6.2-s015",
+   "section": "C.6.2",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "module MyModule {\n     :\n     control\n     {\n       var charstring v_tcName := testcasename () // will return charstring \"\"\n       :\n     }\n     :\n  }",
+   "lines": [
+    26588,
+    26598
+   ]
+  },
+  {
+   "id": "C.6.2-s016",
+   "section": "C.6.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The general error causes in clause 16.1.2 apply.",
+   "lines": [
+    26600,
+    26600
+   ]
+  },
+  {
+   "id": "C.6.3-s001",
+   "section": "C.6.3",
+   "kind": "code",
+   "context": null,
+   "normative": true,
+   "text": "hostid(in charstring idkind := \"Ipv4orIPv6\") return charstring",
+   "lines": [
+    26603,
+    26605
+   ]
+  },
+  {
+   "id": "C.6.3-s002",
+   "section": "C.6.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The hostid function shall return the host id of the test component or module control executing the hostid function in form of a character string.",
+   "lines": [
+    26607,
+    26608
+   ]
+  },
+  {
+   "id": "C.6.3-s003",
+   "section": "C.6.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The in parameter idkind allows to specify the expected id format to be returned.",
+   "lines": [
+    26607,
+    26608
+   ]
+  },
+  {
+   "id": "C.6.3-s004",
+   "section": "C.6.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Predefined idkind values are:",
+   "lines": [
+    26610,
+    26610
+   ]
+  },
+  {
+   "id": "C.6.3-s005",
+   "section": "C.6.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "`\"Ipv4orIPv6\": The contents of the returned character string is an Ipv4 address.",
+   "lines": [
+    26612,
+    26613
+   ]
+  },
+  {
+   "id": "C.6.3-s006",
+   "section": "C.6.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "If no Ipv4 address, but an` Ipv6 address is available, a character string representation of the Ipv6 address is returned.",
+   "lines": [
+    26612,
+    26613
+   ]
+  },
+  {
+   "id": "C.6.3-s007",
+   "section": "C.6.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "\"Ipv4\": The contents of the returned character string shall be an Ipv4 address.",
+   "lines": [
+    26615,
+    26615
+   ]
+  },
+  {
+   "id": "C.6.3-s008",
+   "section": "C.6.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "`\"Ipv6\": The contents of the returned character string shall be an Ipv6 address.`",
+   "lines": [
+    26617,
+    26617
+   ]
+  },
+  {
+   "id": "C.6.3-s009",
+   "section": "C.6.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The hostid function shall return the empty string, if it cannot retrieve any host id or a host id of a kind different from the kind defined by the actual idkind parameter.",
+   "lines": [
+    26619,
+    26620
+   ]
+  },
+  {
+   "id": "C.6.3-s010",
+   "section": "C.6.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The general error causes in clause 16.1.2 apply.",
+   "lines": [
+    26622,
+    26622
+   ]
+  },
+  {
+   "id": "C.6.3-s011",
+   "section": "C.6.3",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE:",
+   "lines": [
+    26629,
+    26629
+   ]
+  },
+  {
+   "id": "C.6.3-s012",
+   "section": "C.6.3",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "// assume\n  testcase TC_MyTestCase () runs on MTC system TSI\n  {\n     :\n     var charstring v_myHostId := hostid (\"Ipv4\");\n     :\n  }\n// assume further the following statement in module control\n  execute(TC_MyTestCase(), -, \"127.0.0.1\");\n// In this setting, v_myHostId will have the value \"127.0.0.1\" after the execution of hostid",
+   "lines": [
+    26630,
+    26641
+   ]
+  }
+ ]
+}

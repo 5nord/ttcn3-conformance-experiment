@@ -1,0 +1,23 @@
+// @requirement: 11.2 -- A template variable may change its template during test execution several times.
+// @id: TTCN3-CORE-11.2-009a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_11_02_test_009 {
+    type component C {}
+
+    testcase TC() runs on C {
+        var template integer v_t := ?;
+        var boolean v_ok := match(100, v_t);
+        v_t := (1, 2);
+        v_ok := v_ok and match(2, v_t) and not match(100, v_t);
+        v_t := complement(2);
+        v_ok := v_ok and match(100, v_t) and not match(2, v_t);
+        if (v_ok) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }}

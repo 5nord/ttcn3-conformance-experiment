@@ -1,0 +1,50 @@
+// @requirement: 21.1.1 -- b) The connect operation is allowed if and only if:
+// @id: TTCN3-CORE-21.1.1-023a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_01_01_test_018 {
+
+    type port P1 message {
+        out integer;
+        in charstring;
+    }
+
+    type port P2 message {
+        in integer;
+        out charstring;
+    }
+
+    type component C1 {
+        port P1 p;
+    }
+
+    type component C2 {
+        port P2 p;
+    }
+
+    function f_echo() runs on C2 {
+        timer T := 1.0;
+        T.start;
+        alt {
+            [] p.receive(1) { p.send("ok"); }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    testcase TC() runs on C1 {
+        timer T := 1.0;
+        var C2 v_ptc := C2.create;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_echo());
+        p.send(1);
+        T.start;
+        alt {
+            [] p.receive("ok") { setverdict(pass); }
+            [] T.timeout { setverdict(fail); }
+        }
+        v_ptc.done;
+    }
+
+    control {
+        execute(TC());
+    }
+}

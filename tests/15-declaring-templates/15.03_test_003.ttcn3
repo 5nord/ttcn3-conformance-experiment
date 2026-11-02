@@ -1,0 +1,22 @@
+// @requirement: 15.3 -- Global templates shall be defined in the module definitions part.
+// @id: TTCN3-CORE-15.3-004a
+// @verdict: pass reject
+module M_15_03_test_003 {
+
+    type port P message {
+        inout integer;
+        template integer m_inPort := 1; // error: template not defined in the module definitions part
+    }
+
+    type component C {
+        port P p1;
+    }
+
+    testcase TC() runs on C {
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

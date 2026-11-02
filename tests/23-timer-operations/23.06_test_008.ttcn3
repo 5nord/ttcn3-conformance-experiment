@@ -1,0 +1,34 @@
+// @requirement: 23.6 -- The any keyword used with the timeout operation succeeds if the timeout-list is not empty.
+// @id: TTCN3-CORE-23.6-009a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_23_06_test_008 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        timer T := 0.01;
+        timer T_wait := 0.5;
+        var boolean v_nonEmpty := false;
+        var boolean v_empty := false;
+        T.start;
+        T_wait.start;
+        T_wait.timeout;
+        alt {
+            [] any timer.timeout { v_nonEmpty := true; }
+            [else] {}
+        }
+        alt {
+            [] any timer.timeout {}
+            [else] { v_empty := true; }
+        }
+        if (v_nonEmpty and v_empty) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

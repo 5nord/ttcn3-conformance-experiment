@@ -1,0 +1,35 @@
+// @requirement: 5.4.2 -- ( Expression | // for value parameter TemplateInstance | // for template parameter "-" ) | // to skip a parameter with default ParameterId ":=" ( Expression | TemplateInstance | TimerRef | Port ) )
+// @id: TTCN3-CORE-5.4.2-003a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_04_02_test_005 {
+
+    type port P message {
+        inout integer
+    }
+
+    type component C {
+        port P p;
+    }
+
+    function f(integer p_v, template integer p_t, integer p_d := 3, timer p_timer, P p_port)
+    return boolean {
+        return p_v == 2 and match(5, p_t) and p_d == 3 and p_timer.running and p_port.checkstate("Started");
+    }
+
+    testcase TC() runs on C {
+        timer T := 1.0;
+        var boolean v_ok;
+        T.start;
+        v_ok := f(1 + 1, (1..10), -, T, p);
+        v_ok := v_ok and f(p_v := 1 + 1, p_t := (1..10), p_d := -, p_timer := T, p_port := p);
+        if (v_ok) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,20 @@
+// @requirement: A.1.6.6 -- A character defined by the relevant CharacterString type. For charstring a character from the character set defined in ITU-T T.50.
+// @id: TTCN3-CORE-A.1.6.6-003a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_A_01_06_06_test_004 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var charstring v_s := " Az~";
+        if (lengthof(v_s) == 4 and char2int(v_s[0]) == 32 and char2int(v_s[3]) == 126) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

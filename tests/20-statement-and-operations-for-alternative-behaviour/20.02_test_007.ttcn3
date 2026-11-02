@@ -1,0 +1,37 @@
+// @requirement: 20.2 -- The alternative branches in the alt statement and the top alternatives of invoked altsteps and altsteps that are activated as defaults are processed in the order of their appearance.
+// @id: TTCN3-CORE-20.2-011a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_02_test_007 {
+    type component C {
+        timer T_1;
+        timer T_2;
+        timer T_3;
+    }
+
+    altstep a_second() runs on C {
+        [] T_2.timeout {
+            setverdict(pass);
+        }
+    }
+
+    testcase TC() runs on C {
+        timer T_wait := 0.3;
+        T_2.start(0.1);
+        T_3.start(0.1);
+        T_wait.start;
+        T_wait.timeout;
+        alt {
+            [] T_1.timeout {
+                setverdict(fail);
+            }
+            [] a_second() {}
+            [] T_3.timeout {
+                setverdict(fail);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

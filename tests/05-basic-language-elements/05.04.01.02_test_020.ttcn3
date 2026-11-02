@@ -1,0 +1,24 @@
+// @requirement: 5.4.1.2 -- e) Default templates of component type formal parameters shall be built from the special values null, mtc,self, or system.
+// @id: TTCN3-CORE-5.4.1.2-020a
+// @verdict: pass reject
+module M_05_04_01_02_test_020 {
+    type component C {}
+
+    function f_getComp() return C {
+        return null;
+    }
+
+    function f_check(template C p_comp := f_getComp()) return boolean { // error: not built from null, mtc, self, system
+        return match(null, p_comp);
+    }
+
+    testcase TC() runs on C {
+        if (f_check()) {
+            setverdict(pass);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,1358 @@
+{
+ "part": "05.part4",
+ "chapter": "5",
+ "chapter_file": "05-basic-language-elements",
+ "title": "Basic language elements",
+ "sections": {
+  "5.4.2": {
+   "title": "Actual parameters",
+   "start": 2529
+  },
+  "5.4.3": {
+   "title": "Variadic Parameters",
+   "start": 2896
+  },
+  "5.5": {
+   "title": "Cyclic Definitions",
+   "start": 2959
+  }
+ },
+ "lines": [
+  2531,
+  2999
+ ],
+ "units": [
+  {
+   "id": "5.4.2-s001",
+   "section": "5.4.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Values, templates, timers and/or ports can be passed into parameterized TTCN-3 objects as actual parameters.",
+   "lines": [
+    2531,
+    2534
+   ]
+  },
+  {
+   "id": "5.4.2-s002",
+   "section": "5.4.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Actual parameters can be provided both as a list in the same order as the formal parameters as well as in an assignment notation explicitly using the associated formal parameter names or in a mixed notation where the first parameters are given in list notation and additional parameters in assignment notation.",
+   "lines": [
+    2531,
+    2534
+   ]
+  },
+  {
+   "id": "5.4.2-s003",
+   "section": "5.4.2",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "( Expression | // for value parameter\n   TemplateInstance |  // for template parameter\n   \"-\" ) |  // to skip a parameter with default\n   ParameterId \":=\" ( Expression | TemplateInstance | TimerRef | Port ) )",
+   "lines": [
+    2537,
+    2542
+   ]
+  },
+  {
+   "id": "5.4.2-s004",
+   "section": "5.4.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Actual parameters that are passed by value to in formal value parameters shall be variables, literal values, module parameters, constants, value variables, invocations of value returning (external) functions, formal value parameters (of in, inout or out parameterization) of the current scope or expressions composed of the above.",
+   "lines": [
+    2546,
+    2548
+   ]
+  },
+  {
+   "id": "5.4.2-s005",
+   "section": "5.4.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Actual parameters that are passed to out formal value parameters shall be (template) variables, formal (template) parameters (of in, inout or out parameterization) or references to elements of (template) variables or formal (template) parameters of structured types.",
+   "lines": [
+    2550,
+    2553
+   ]
+  },
+  {
+   "id": "5.4.2-s006",
+   "section": "5.4.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Furthermore it is allowed to use the dash symbol \"-\" as an actual out parameter, signifying that a possible result for that parameter will not be passed back.",
+   "lines": [
+    2550,
+    2553
+   ]
+  },
+  {
+   "id": "5.4.2-s007",
+   "section": "5.4.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Actual parameters that are passed to inout formal value parameters shall be variables or formal value parameters (of in, inout or out parameterization) or references to elements of variables or formal value parameters of structured types.",
+   "lines": [
+    2555,
+    2556
+   ]
+  },
+  {
+   "id": "5.4.2-s008",
+   "section": "5.4.2",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "NOTE 1: Reference to a string element cannot be passed by reference as string types are not structured types.",
+   "lines": [
+    2558,
+    2558
+   ]
+  },
+  {
+   "id": "5.4.2-s009",
+   "section": "5.4.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Actual parameters that are passed to in formal template parameters shall be literal values, module parameters, constants, variables, invocations of value or template returning (external) functions, formal value parameters (of in, inout or out parameterization) of the current scope or expressions composed of the above, as well as templates, template variables or formal template parameters (of in, inout or out parameterization) of the current scope.",
+   "lines": [
+    2560,
+    2563
+   ]
+  },
+  {
+   "id": "5.4.2-s010",
+   "section": "5.4.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Actual parameters that are passed to out formal template parameters shall be template variables, formal template parameters or references to elements of template variables or formal template parameters of structured types.",
+   "lines": [
+    2565,
+    2568
+   ]
+  },
+  {
+   "id": "5.4.2-s011",
+   "section": "5.4.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Furthermore it is allowed to use the dash symbol \"-\" as an actual out parameter, signifying that a possible result for that parameter will not be passed back.",
+   "lines": [
+    2565,
+    2568
+   ]
+  },
+  {
+   "id": "5.4.2-s012",
+   "section": "5.4.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Actual parameters that are passed to inout formal template parameters shall be template variables or formal template parameters (of in, inout or out parameterization) of the current scope or references to elements of template variables or formal template parameters of structured types.",
+   "lines": [
+    2570,
+    2572
+   ]
+  },
+  {
+   "id": "5.4.2-s013",
+   "section": "5.4.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "When actual parameters that are passed to in formal value or template parameters contain a value or template reference, rules for using references on the right hand side of assignments apply.",
+   "lines": [
+    2574,
+    2577
+   ]
+  },
+  {
+   "id": "5.4.2-s014",
+   "section": "5.4.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "When actual parameters that are passed to inout and out formal value or template parameters contain a value or template reference, rules for using references on the left hand side of assignments apply.",
+   "lines": [
+    2574,
+    2577
+   ]
+  },
+  {
+   "id": "5.4.2-s015",
+   "section": "5.4.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The values of out formal parameters are passed to the actual parameters in the same order as is the order of formal parameters in the definition of the parameterized TTCN-3 object.",
+   "lines": [
+    2579,
+    2582
+   ]
+  },
+  {
+   "id": "5.4.2-s016",
+   "section": "5.4.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The value is passed back to the actual parameter only if within the invoked object a value is assigned to it.",
+   "lines": [
+    2579,
+    2582
+   ]
+  },
+  {
+   "id": "5.4.2-s017",
+   "section": "5.4.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If no value is assigned, the actual parameter remains unchanged when the invoked object completes.",
+   "lines": [
+    2579,
+    2582
+   ]
+  },
+  {
+   "id": "5.4.2-s018",
+   "section": "5.4.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "It is allowed to pass elements of structured values or templates (record, set, record of, set of, union and anytype values or templates) by reference.",
+   "lines": [
+    2584,
+    2588
+   ]
+  },
+  {
+   "id": "5.4.2-s019",
+   "section": "5.4.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Modification of parameters passed this way affects the original structured value or template.",
+   "lines": [
+    2584,
+    2588
+   ]
+  },
+  {
+   "id": "5.4.2-s020",
+   "section": "5.4.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Before passing the actual parameter, the rules for referencing the element on the left hand side of assignments are applied, expanding the structured value so that the referenced element becomes accessible (see clauses 6.2 and 15.6 for more details).",
+   "lines": [
+    2584,
+    2588
+   ]
+  },
+  {
+   "id": "5.4.2-s021",
+   "section": "5.4.2",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "NOTE 2: Because inout parameters are passed by reference and component variables are effectively also accessed by reference within a called function or altstep, passing parts of a structured component variable as an actual inout parameter may have confusing effects inside the parameterized behaviour: changing either the inout parameter or the component variable may also change the other simultaneously, which might break the intended algorithm.",
+   "lines": [
+    2590,
+    2594
+   ]
+  },
+  {
+   "id": "5.4.2-s022",
+   "section": "5.4.2",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "For this reason, such situations should be avoided.",
+   "lines": [
+    2590,
+    2594
+   ]
+  },
+  {
+   "id": "5.4.2-s023",
+   "section": "5.4.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "When a formal parameter is an out parameter or has been defined with a default value or template, respectively, then it is not necessary to provide an actual parameter.",
+   "lines": [
+    2601,
+    2602
+   ]
+  },
+  {
+   "id": "5.4.2-s024",
+   "section": "5.4.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "In such a case the default value or template is taken as actual parameter.",
+   "lines": [
+    2601,
+    2602
+   ]
+  },
+  {
+   "id": "5.4.2-s025",
+   "section": "5.4.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The actual parameters are evaluated in the order of their appearance.",
+   "lines": [
+    2604,
+    2607
+   ]
+  },
+  {
+   "id": "5.4.2-s026",
+   "section": "5.4.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If for some formal parameters, no actual parameter has been provided, if they are out parameters, the dash symbol \"-\" and for in parameters their default values are taken.",
+   "lines": [
+    2604,
+    2607
+   ]
+  },
+  {
+   "id": "5.4.2-s027",
+   "section": "5.4.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Default values are evaluated after the evaluation of the actual parameters and the order of their evaluation corresponds to their order in the formal parameter list.",
+   "lines": [
+    2604,
+    2607
+   ]
+  },
+  {
+   "id": "5.4.2-s028",
+   "section": "5.4.2",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "NOTE 3: If assignment notation has been used for the actual parameter list, the order of the evaluation of actual parameters may differ from the order of the parameters in the formal parameter list.",
+   "lines": [
+    2609,
+    2610
+   ]
+  },
+  {
+   "id": "5.4.2-s029",
+   "section": "5.4.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The empty brackets for instances of parameterized templates that have only parameters with default values are optional when no actual parameters are provided, i.e. all formal parameters use their default values.",
+   "lines": [
+    2612,
+    2613
+   ]
+  },
+  {
+   "id": "5.4.2-s030",
+   "section": "5.4.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) When using list notation, the order of elements in the actual parameter list shall be the same as their order in the corresponding formal parameter list.",
+   "lines": [
+    2617,
+    2624
+   ]
+  },
+  {
+   "id": "5.4.2-s031",
+   "section": "5.4.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "For each formal inout parameter and for each in parameter without a default there shall be an actual parameter.",
+   "lines": [
+    2617,
+    2624
+   ]
+  },
+  {
+   "id": "5.4.2-s032",
+   "section": "5.4.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "The actual parameter of a formal out parameter or in parameter with default value can be skipped by using dash \"-\" as actual parameter.",
+   "lines": [
+    2617,
+    2624
+   ]
+  },
+  {
+   "id": "5.4.2-s033",
+   "section": "5.4.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "An actual parameter can also be skipped by just leaving it out if no other actual parameter follows in the actual parameter list - either because the parameter is last or because all following formal parameters are out parameters or have default values and are left out.",
+   "lines": [
+    2617,
+    2624
+   ]
+  },
+  {
+   "id": "5.4.2-s034",
+   "section": "5.4.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "The number of actual parameters in the list notation shall not exceed the number of parameters in the formal parameter list.",
+   "lines": [
+    2617,
+    2624
+   ]
+  },
+  {
+   "id": "5.4.2-s035",
+   "section": "5.4.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "b) Void.",
+   "lines": [
+    2626,
+    2626
+   ]
+  },
+  {
+   "id": "5.4.2-s036",
+   "section": "5.4.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "c) When using assignment notation, each formal parameter shall be assigned an actual parameter at most once.",
+   "lines": [
+    2628,
+    2631
+   ]
+  },
+  {
+   "id": "5.4.2-s037",
+   "section": "5.4.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "For each assigned actual parameter there shall exist a corresponding formal parameter of the same name.",
+   "lines": [
+    2628,
+    2631
+   ]
+  },
+  {
+   "id": "5.4.2-s038",
+   "section": "5.4.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "For each formal parameter without default value, there shall be an actual parameter.",
+   "lines": [
+    2628,
+    2631
+   ]
+  },
+  {
+   "id": "5.4.2-s039",
+   "section": "5.4.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In order to use the default value of a formal parameter, no assignment for this specific parameter shall be provided.",
+   "lines": [
+    2628,
+    2631
+   ]
+  },
+  {
+   "id": "5.4.2-s040",
+   "section": "5.4.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "d) For in formal parameters, the type of the actual parameter shall be compatible with the type of the formal parameter.",
+   "lines": [
+    2633,
+    2639
+   ]
+  },
+  {
+   "id": "5.4.2-s041",
+   "section": "5.4.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "For out formal parameters, the type of the formal parameter shall be compatible with the type of the actual parameter.",
+   "lines": [
+    2633,
+    2639
+   ]
+  },
+  {
+   "id": "5.4.2-s042",
+   "section": "5.4.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Strong typing is required for inout formal (parameters passed by reference).",
+   "lines": [
+    2633,
+    2639
+   ]
+  },
+  {
+   "id": "5.4.2-s043",
+   "section": "5.4.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "For in formal template parameters, the template restriction of the actual parameter shall not be less restrictive than the one of the formal parameter.",
+   "lines": [
+    2633,
+    2639
+   ]
+  },
+  {
+   "id": "5.4.2-s044",
+   "section": "5.4.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "For out formal template parameters, the template restriction of the actual parameter shall not be more restrictive than the one of the formal parameter.",
+   "lines": [
+    2633,
+    2639
+   ]
+  },
+  {
+   "id": "5.4.2-s045",
+   "section": "5.4.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "For inout formal template parameters, the template restriction of the actual and the formal parameter shall be the same.",
+   "lines": [
+    2633,
+    2639
+   ]
+  },
+  {
+   "id": "5.4.2-s046",
+   "section": "5.4.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "e) Actual parameters passed to restricted formal template parameters shall obey the restrictions given in clause 15.8.",
+   "lines": [
+    2641,
+    2642
+   ]
+  },
+  {
+   "id": "5.4.2-s047",
+   "section": "5.4.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "f) All parameterized entities specified as an actual parameter shall have their own parameters resolved in the top-level actual parameter list.",
+   "lines": [
+    2644,
+    2645
+   ]
+  },
+  {
+   "id": "5.4.2-s048",
+   "section": "5.4.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "g) If the formal parameter list of TTCN-3 objects function, testcase, altstep or external function is empty, then the empty parentheses shall be included both in the declaration and in the invocation of that object.",
+   "lines": [
+    2647,
+    2647
+   ]
+  },
+  {
+   "id": "5.4.2-s049",
+   "section": "5.4.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In all other cases the empty parentheses shall be omitted.",
+   "lines": [
+    2647,
+    2647
+   ]
+  },
+  {
+   "id": "5.4.2-s050",
+   "section": "5.4.2",
+   "kind": "note",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "NOTE 4: `signature objects also have formal parameters, see clauses 15.2 and 22.3 for their handling.`",
+   "lines": [
+    2649,
+    2649
+   ]
+  },
+  {
+   "id": "5.4.2-s051",
+   "section": "5.4.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "h) Void.",
+   "lines": [
+    2651,
+    2651
+   ]
+  },
+  {
+   "id": "5.4.2-s052",
+   "section": "5.4.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "i) Restrictions on parameters passed to altsteps are given in clauses 16.2.1 and 20.5.2.",
+   "lines": [
+    2653,
+    2653
+   ]
+  },
+  {
+   "id": "5.4.2-s053",
+   "section": "5.4.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "j) Unless specified differently in the relevant clause(s), actual parameters passed to in or inout formal parameters shall be at least partially initialized (for an exemption see e.g. clause 16.1.2).",
+   "lines": [
+    2655,
+    2656
+   ]
+  },
+  {
+   "id": "5.4.2-s054",
+   "section": "5.4.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "k) Functions, called by actual parameters passed to fuzzy or lazy formal parameters of the calling function, shall not have inout or out formal parameters.",
+   "lines": [
+    2658,
+    2660
+   ]
+  },
+  {
+   "id": "5.4.2-s055",
+   "section": "5.4.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "The called functions may use other functions with inout or out parameters internally.",
+   "lines": [
+    2658,
+    2660
+   ]
+  },
+  {
+   "id": "5.4.2-s056",
+   "section": "5.4.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "l) Actual parameters passed to out and inout parameters shall not be references to lazy or fuzzy variables.",
+   "lines": [
+    2662,
+    2662
+   ]
+  },
+  {
+   "id": "5.4.2-s057",
+   "section": "5.4.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "m) Whenever a value or template of a record, set, union, record of, set of, array and anytype type is passed as an actual parameter to an inout parameter, none of the fields or elements of this structured value or template shall be passed as an actual parameter to another inout parameter of the same parameterized TTCN-3 object.",
+   "lines": [
+    2669,
+    2672
+   ]
+  },
+  {
+   "id": "5.4.2-s058",
+   "section": "5.4.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "This restriction applies recursively to all sub-elements of the structured value or template in any level of nesting.",
+   "lines": [
+    2669,
+    2672
+   ]
+  },
+  {
+   "id": "5.4.2-s059",
+   "section": "5.4.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "n) If two or more actual parameters passed to inout parameters of the same parameterized TTCN-3 object contain a reference to distinct alternatives of the same union or anytype value, an error shall be produced.",
+   "lines": [
+    2674,
+    2675
+   ]
+  },
+  {
+   "id": "5.4.2-s060",
+   "section": "5.4.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "o) If the mixed notation is used, no value list notation shall be used following the first assignment notation and the parameters given in assignment notation shall not assign parameters that already have an actual parameter given in list notation.",
+   "lines": [
+    2677,
+    2679
+   ]
+  },
+  {
+   "id": "5.4.2-s061",
+   "section": "5.4.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "p) Actual parameters passed to @deterministic fuzzy or lazy formal parameters shall fulfill the restrictions imposed on content of functions used in special places given in clause 16.1.4.",
+   "lines": [
+    2681,
+    2682
+   ]
+  },
+  {
+   "id": "5.4.2-s062",
+   "section": "5.4.2",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 1: Formal and actual parameter lists have to match",
+   "lines": [
+    2686,
+    2686
+   ]
+  },
+  {
+   "id": "5.4.2-s063",
+   "section": "5.4.2",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "// A function definition with a formal parameter list \n  function f_myFunction(integer p_formalPar1, boolean p_formalPar2, bitstring p_formalPar3) { … }\n  // A function call with an actual parameter list \n  f_myFunction(123, true,'1100'B);\n  // A function call with assignment notation for actual parameters \n  f_myFunction(p_formalPar1 := 123, p_formalPar3 := '1100'B, p_formalPar2 := true);",
+   "lines": [
+    2687,
+    2694
+   ]
+  },
+  {
+   "id": "5.4.2-s064",
+   "section": "5.4.2",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 2: In parameters",
+   "lines": [
+    2696,
+    2696
+   ]
+  },
+  {
+   "id": "5.4.2-s065",
+   "section": "5.4.2",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "function f_myFunction(in template MyTemplateType p_myValueParameter){ … };\n  // p_myValueParameter is in parameter, the in keyword is optional\n  // A function call with an actual parameter\n  f_myFunction(m_myGlobalTemplate);",
+   "lines": [
+    2697,
+    2702
+   ]
+  },
+  {
+   "id": "5.4.2-s066",
+   "section": "5.4.2",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 3: Inout and out parameters",
+   "lines": [
+    2704,
+    2704
+   ]
+  },
+  {
+   "id": "5.4.2-s067",
+   "section": "5.4.2",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "function f_myFunction(inout boolean p_myReferenceParameter){ … };\n  // p_myReferenceParameter is an inout parameter\n  // A function call with an actual parameter\n  f_myFunction(v_myBooleanVariable);\n  // The actual parameter can be read and set within the function \n  function f_myFunction(out template boolean p_myReferenceParameter){ … };\n  // p_myReferenceParameter is an out parameter\n  // A function call with an actual parameter\n  f_myFunction(v_myBooleanVariable);\n  // The actual parameter is initially unbound, but can be set and read within the function.\n  f_myFunction(-); // the outcoming value is not assigned to a variable\n  type record of integer RoI;\n  function f_swapElements (inout integer p_int1, inout integer p_int2) {\n    var integer v_tmp := p_int1;\n   p_int1 := p_int2;\n   p_int2 := v_tmp;\n  }\n  function f_testReferences (inout RoI p_roi, inout integer p_elem) { … }\n  :\n  var RoI v_roi := { 0, 1, 2, 3, 4, 5 }; \n  f_swapElements(v_roi[0], v_roi[5]); // after the function call, v_roi is { 5, 1, 2, 3, 4, 0 }\n  f_testReferences(v_roi, v_roi[2]); // produces an error as elements of v_roi are not allowed\n     // to be passed by reference if the parent structure (v_roi) is passed by reference too.\n  function f_changeAndIncrement(out integer p_e, in integer p_v, inout integer p_i) {\n     p_i := p_i + 1;\n     p_e := p_v;\n  }\n  :\n  var integer v_i := 0;\n  f_changeAndIncrement(v_roi[v_i], 3, v_i); // increments p_i, but still assigns 3 to v_roi[0]",
+   "lines": [
+    2705,
+    2736
+   ]
+  },
+  {
+   "id": "5.4.2-s068",
+   "section": "5.4.2",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 4: A side effect caused by passing part of a component variable as inout parameter",
+   "lines": [
+    2738,
+    2738
+   ]
+  },
+  {
+   "id": "5.4.2-s069",
+   "section": "5.4.2",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "type component MyComp {\n     var ROI v_rec := { 0, 1 }\n  }\n  testcase TC() runs on MyComp {\n     f_test(v_rec[1]) // passing 2nd element of component variable as inout parameter\n     log(v_rec); //will log { 2, 2 }\n  }\n  function f_test(inout integer p_int) runs on MyComp {\n     v_rec := { 2 }; // now, isbound(p_int) == false\n     p_int := 2; // now, v_rec == { 2, 2 }\n  }",
+   "lines": [
+    2739,
+    2751
+   ]
+  },
+  {
+   "id": "5.4.2-s070",
+   "section": "5.4.2",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 5: Empty parameter lists",
+   "lines": [
+    2753,
+    2753
+   ]
+  },
+  {
+   "id": "5.4.2-s071",
+   "section": "5.4.2",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "// A function definition with an empty parameter list shall be written as \n  function f_myFunction(){ … }\n  // and shall be called as\n  f_myFunction();\n  // A template definition with a default value for a formal parameter written as \n  template MyRecord m_mytemplate (integer p_myValue:= 1):= { … }\n  // may be used without actual parameter list (i.e. the default value is used)\n  myPCO.send(m_mytemplate)",
+   "lines": [
+    2754,
+    2763
+   ]
+  },
+  {
+   "id": "5.4.2-s072",
+   "section": "5.4.2",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 6: Nested parameter lists",
+   "lines": [
+    2765,
+    2765
+   ]
+  },
+  {
+   "id": "5.4.2-s073",
+   "section": "5.4.2",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "// Given the message definition \n  type record MyMessageType \n  {\n     integer field1,\n     charstring field2,\n     boolean  field3\n  }\n  // A message template might be \n  template MyMessageType mw_myTemplate(integer p_myValue) :=\n  {\n     field1 := p_myValue,\n     field2 := pattern \"abc*xyz\",\n     field3 := true\n  }\n  // A test case parameterized with a template might be \n  testcase TC_001(template MyMessageType p_rxMsg) runs on PTC1 system TS1 {\n     :\n     myPCO.receive(p_rxMsg); \n  }\n  // When the test case is called in the control function and the parameterized template is \n  // passed as an actual parameter, the template's actual parameters shall be provided\n  control\n  { :\n     execute(TC_001(mw_myTemplate(7)));\n     :\n  }",
+   "lines": [
+    2766,
+    2793
+   ]
+  },
+  {
+   "id": "5.4.2-s074",
+   "section": "5.4.2",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 7: A typical use case for lazy parameterization",
+   "lines": [
+    2795,
+    2795
+   ]
+  },
+  {
+   "id": "5.4.2-s075",
+   "section": "5.4.2",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "modulepar boolean PX_LOG_MESSAGE := true;\n  function f_logMsg(@lazy charstring p_complex) {\n    if (PX_LOG_MESSAGE) { \n     log(p_complex);\n   }\n  }\n  function f_computeComplexMessage() return charstring {\n     // some complicated computation\n  }\n  f_logMsg(f_computeComplexMessage()); // f_computeComplexMessage() is only invoked if\n                     // PX_LOG_MESSAGE is true",
+   "lines": [
+    2796,
+    2808
+   ]
+  },
+  {
+   "id": "5.4.2-s076",
+   "section": "5.4.2",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 8: Actual parameters passed to lazy and fuzzy formal parameters",
+   "lines": [
+    2810,
+    2810
+   ]
+  },
+  {
+   "id": "5.4.2-s077",
+   "section": "5.4.2",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "type record MyMessage { integer id, float number }\n  type port MyPortType message { inout MyMessage }\n  type component MyMTC {\n    var integer vc_id;\n    port MyPortType p;\n  }\n  testcase TC_shootingMessages () runs on MyMTC {\n    connect(self:p,self:p);\n   f_sendLazy({vc_id, rnd()}); //note that at this point vc_id is unintialized yet\n   f_sendFuzzy({vc_id, rnd()})\n  }\n  function f_sendLazy(@lazy MyMessage p_pdu) runs on MyMTC {\n    for (vc_id := 1; vc_id<9; vc_id:=vc_id+1){\n   p.send(p_pdu); // the actual parameter passed to the formal parameter p_pdu is evaluated only\n           // in the first loop;let say rnd() returns 0.924946;\n           // the message { 1, 0.924946 } is sent out 8 times\n   }\n    setverdict(pass,\"messages has been sent out\")\n  }\n  function f_sendFuzzy(@fuzzy MyMessage p_pdu) runs on MyMTC {\n    for (vc_id := 1; vc_id<9; vc_id:=vc_id+1){\n   p.send(pdu); // the actual parameter passed to the formal parameter p_pdu is evaluated in each \n          // loop; let say rnd() returns 0.924946, 0.680497, 0.630836, 0.648681, 0.428501,\n          // 0.262539, 0.646990, 0.265262 in subsequent calls; the messages 1, 0.924946 },\n          // {{ 2, 0.680497 }, { 3, 0.630836 }, { 4, 0.648681 }, { 5, 0.428501 },\n          // { 6, 0.262539 }, { 7, 0.646990 } and { 8, 0.265262 } are sent out in sequence\n   }\n    setverdict(pass,\"messages has been sent out\")\n  }",
+   "lines": [
+    2811,
+    2841
+   ]
+  },
+  {
+   "id": "5.4.2-s078",
+   "section": "5.4.2",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 9: Order of out parameters",
+   "lines": [
+    2843,
+    2843
+   ]
+  },
+  {
+   "id": "5.4.2-s079",
+   "section": "5.4.2",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "function f_initValues (out integer p_par1, out integer p_par2) {\n   p_par1 := 1;\n   p_par2 := 2;\n  }\n  function f_f(){\n     var integer v_var1;\n     f_initValues(p_par2 := v_var1, p_par1 := v_var1);\n     // After this function call, v_var1 will contain 2, as parameters are assigned in\n     // the same order as in the definition of the f_initValues function. Thus p_par1 is\n     // assigned first to v_var1 and p_par2 after that overwriting the previous value.\n  }",
+   "lines": [
+    2844,
+    2856
+   ]
+  },
+  {
+   "id": "5.4.2-s080",
+   "section": "5.4.2",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 10: Skipped actual parameters",
+   "lines": [
+    2858,
+    2858
+   ]
+  },
+  {
+   "id": "5.4.2-s081",
+   "section": "5.4.2",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "function f_skip (out integer p_par1, in integer p_par2 := 2) {\n   p_par1 := 1 + p_par2;\n  }\n  function f_f(){\n     // the following statements all have the same semantics :\n     f_skip (-,-); // p_par2 is initialized with default value 2 and \n           // the result of p_par1 is not assigned to any variable\n     f_skip (p_par1 := -, p_par2 := -);\n     f_skip (p_par2 := -); // skip p_par1\n     f_skip (-) ; // skip p_par2 because it is the last\n     f_skip () ;  // skip p_par1 because all following are also skipped\n  }",
+   "lines": [
+    2859,
+    2872
+   ]
+  },
+  {
+   "id": "5.4.2-s082",
+   "section": "5.4.2",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 11: Mixed notation",
+   "lines": [
+    2879,
+    2879
+   ]
+  },
+  {
+   "id": "5.4.2-s083",
+   "section": "5.4.2",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "function f_mixed (out integer p_par1, in integer p_par2 := 2, inout integer p_par3) {\n   p_par1 := 1 + p_par2;\n  }\n  function f_f(){\n     var integer v := 0;\n     // the following statements all have the same semantics:\n     f_mixed(-,2,v);\n     f_mixed(-,p_par2 := 2, p_par3 := v);\n     f_mixed(-,-,p_par3 := v);\n     f_mixed(-,p_par3 := v, p_par2 := 2);\n     // not allowed:\n     f_mixed(-,2,p_par3 := v, p_par2 := 5); // p_par2 is already assigned in list notation\n  }",
+   "lines": [
+    2880,
+    2894
+   ]
+  },
+  {
+   "id": "5.4.3-s001",
+   "section": "5.4.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The final formal parameter of a template, function, external `function, altstep or testcase may` have a suffix with … (ellipsis).",
+   "lines": [
+    2898,
+    2900
+   ]
+  },
+  {
+   "id": "5.4.3-s002",
+   "section": "5.4.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Such formal parameter is called variadic parameter and accepts zero or more values of the specified type.",
+   "lines": [
+    2898,
+    2900
+   ]
+  },
+  {
+   "id": "5.4.3-s003",
+   "section": "5.4.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Inside the parameterized scope, the type of the formal variadic parameter is a record of the specified type.",
+   "lines": [
+    2902,
+    2902
+   ]
+  },
+  {
+   "id": "5.4.3-s004",
+   "section": "5.4.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "There are three ways of passing an actual parameter to the formal variadic parameter when using the list notation:",
+   "lines": [
+    2904,
+    2904
+   ]
+  },
+  {
+   "id": "5.4.3-s005",
+   "section": "5.4.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "The actual parameter is not present in the list of actual parameters or skipped by using the dash symbol.",
+   "lines": [
+    2906,
+    2907
+   ]
+  },
+  {
+   "id": "5.4.3-s006",
+   "section": "5.4.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "The actual parameter is equal to an empty record of value or template in this case.",
+   "lines": [
+    2906,
+    2907
+   ]
+  },
+  {
+   "id": "5.4.3-s007",
+   "section": "5.4.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "Using 1..N comma-separated values of the specified type as the actual parameter.",
+   "lines": [
+    2909,
+    2911
+   ]
+  },
+  {
+   "id": "5.4.3-s008",
+   "section": "5.4.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "The actual parameter is equal to a record of value or template that contains all the comma-separated values in their declaration order.",
+   "lines": [
+    2909,
+    2911
+   ]
+  },
+  {
+   "id": "5.4.3-s009",
+   "section": "5.4.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "Using a single parameter of a compatible record of the specified type followed by ....",
+   "lines": [
+    2913,
+    2914
+   ]
+  },
+  {
+   "id": "5.4.3-s010",
+   "section": "5.4.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "The actual parameter is passed directly to the formal variadic parameter in this case.",
+   "lines": [
+    2913,
+    2914
+   ]
+  },
+  {
+   "id": "5.4.3-s011",
+   "section": "5.4.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "When using the assignment notation for an actual variadic parameter, the actual parameter shall be a value or template of a compatible record of the specified type without any additional ellipsis.",
+   "lines": [
+    2916,
+    2918
+   ]
+  },
+  {
+   "id": "5.4.3-s012",
+   "section": "5.4.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The actual parameter is passed directly to the formal variadic parameter in this case.",
+   "lines": [
+    2916,
+    2918
+   ]
+  },
+  {
+   "id": "5.4.3-s013",
+   "section": "5.4.3",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) The variadic formal parameter shall be an in parameter.",
+   "lines": [
+    2922,
+    2923
+   ]
+  },
+  {
+   "id": "5.4.3-s014",
+   "section": "5.4.3",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Using of inout or out kind of parameterization for variadic parameters is forbidden.",
+   "lines": [
+    2922,
+    2923
+   ]
+  },
+  {
+   "id": "5.4.3-s015",
+   "section": "5.4.3",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "b) Using the ellipsis in a declaration of a formal parameter that is not the last in the list of parameters shall produce an error.",
+   "lines": [
+    2925,
+    2926
+   ]
+  },
+  {
+   "id": "5.4.3-s016",
+   "section": "5.4.3",
+   "kind": "example-text",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "EXAMPLES:",
+   "lines": [
+    2928,
+    2928
+   ]
+  },
+  {
+   "id": "5.4.3-s017",
+   "section": "5.4.3",
+   "kind": "example-code",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "// variadic parameter definitions\n  function f1(integer a...); // type of a is record of integer\n  function f2(integer a[3]...); // type of a is record of integer[3]\n  function f3(integer a, integer b...);\n  function f4(integer a..., integer b...); // ERROR: two variadic parameters\n  function f5(integer a..., integer b); // ERROR: variadic parameter is not at final position\n  function f6(integer a := 10, integer b... := {1,2,3});\n  external function printf(universal charstring format, any args ...);\n  // invoking functions with variadic parameters\n  f1(); // value of a: {}\n  f1(1); // value of a: {1}\n  f1(1,2,3); // value of a: {1,2,3}\n  f3(); // ERROR: f3 requires a value for parameter a\n  f3(100); // value of b: {}\n  f3(100,1,2,3); // value of b: {1,2,3}\n  f3(a := 10, b := {1,2,3}); // assignment notation\n  f3(b := {1,2,3}, a := 10); // assignment notation\n  f3(10, b := {1,2,3}); // mixed notation\n  f6(); // value of a: 10, value of b: {1,2,3}\n  f6(1); // value of a: 1, value of b: {1,2,3}\n  f6(1,2); // value of a: 1, value of b: {2}\n  f6(-) // value of a: 10, value of b: {1,2,3}\n  f6(-,1) // value of a: 10, value of b: {1}\n  f6(-,-) // value of a: 10, value of b: {1,2,3}\n  f6(-,-,-) // ERROR: f6 has only two formal parameters to skip.\n  var record of integer a := {1,2,3};\n  f1(a...); // passing a record of parameter directly",
+   "lines": [
+    2929,
+    2957
+   ]
+  },
+  {
+   "id": "5.5-s001",
+   "section": "5.5",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Direct and indirect cyclic definitions are not allowed with the exception of the following cases:",
+   "lines": [
+    2961,
+    2961
+   ]
+  },
+  {
+   "id": "5.5-s002",
+   "section": "5.5",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "a) for recursive type definitions (see clause 6.2);",
+   "lines": [
+    2963,
+    2963
+   ]
+  },
+  {
+   "id": "5.5-s003",
+   "section": "5.5",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "b) function and altstep definitions (i.e. recursive function or altstep calls);",
+   "lines": [
+    2965,
+    2965
+   ]
+  },
+  {
+   "id": "5.5-s004",
+   "section": "5.5",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "c) cyclic import definitions, if the imported definitions only form allowed cyclic definitions.",
+   "lines": [
+    2967,
+    2967
+   ]
+  },
+  {
+   "id": "5.5-s005",
+   "section": "5.5",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "NOTE 1: Indirect cyclic definitions may be a result of imports of definitions that are needed for the usage of a definition but do not need to be known in the importing module (see clause 8.2.3.1).",
+   "lines": [
+    2969,
+    2970
+   ]
+  },
+  {
+   "id": "5.5-s006",
+   "section": "5.5",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "NOTE 2: For the detection of cycles only the main identifiers of the definition are used.",
+   "lines": [
+    2972,
+    2973
+   ]
+  },
+  {
+   "id": "5.5-s007",
+   "section": "5.5",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "For example, field identifiers are not used.",
+   "lines": [
+    2972,
+    2973
+   ]
+  },
+  {
+   "id": "5.5-s008",
+   "section": "5.5",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 1: Module with cyclic constant definition that is not allowed",
+   "lines": [
+    2977,
+    2977
+   ]
+  },
+  {
+   "id": "5.5-s009",
+   "section": "5.5",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "module MyModule {\n     :\n     type record ARecordType { integer a, integer b };\n     :\n  // The following two lines include a cycle that is not allowed\n     const ARecordType c_cConst := { 1, c_dConst.b}; // c_cConst refers to c_dConst\n     const ARecordType c_dConst := { 1, c_cConst.b}; // c_dConst refers to c_cConst\n  }",
+   "lines": [
+    2978,
+    2987
+   ]
+  },
+  {
+   "id": "5.5-s010",
+   "section": "5.5",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 2: Modules with cyclic import that is allowed",
+   "lines": [
+    2989,
+    2989
+   ]
+  },
+  {
+   "id": "5.5-s011",
+   "section": "5.5",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "module MyModuleA {\n       import from MyModuleB { type MyInteger }\n       type record of MyInteger MyIntegerList;\n  }\n  module MyModuleB {\n       type integer MyInteger;\n       import from MyModuleA { type MyIntegerList }\n  }",
+   "lines": [
+    2990,
+    2999
+   ]
+  }
+ ]
+}

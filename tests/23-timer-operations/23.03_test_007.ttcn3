@@ -1,0 +1,25 @@
+// @requirement: 23.3 -- The all keyword may be used to stop all timers that have been started on a test component or control component.
+// @id: TTCN3-CORE-23.3-007a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_23_03_test_007 {
+
+    type component C {
+        timer T_comp := 5.0;
+    }
+
+    testcase TC() runs on C {
+        timer T_local := 5.0;
+        T_comp.start;
+        T_local.start;
+        all timer.stop;
+        if (not any timer.running) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,802 @@
+{
+ "part": "15.part3",
+ "chapter": "15",
+ "chapter_file": "15-declaring-templates",
+ "title": "Declaring templates",
+ "sections": {
+  "15.6.1": {
+   "title": "Referencing individual string elements",
+   "start": 11154
+  },
+  "15.6.2": {
+   "title": "Referencing record and set fields",
+   "start": 11306
+  }
+ },
+ "lines": [
+  11156,
+  11387
+ ],
+ "units": [
+  {
+   "id": "15.6.1-s001",
+   "section": "15.6.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "It is allowed to reference individual string elements inside templates or template fields if any of the following conditions is fulfilled:",
+   "lines": [
+    11156,
+    11157
+   ]
+  },
+  {
+   "id": "15.6.1-s002",
+   "section": "15.6.1",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "The template is of a character string type and it contains either a specific value, pattern or AnyValue or when occurring on the left hand AnyValueOrNone.",
+   "lines": [
+    11159,
+    11161
+   ]
+  },
+  {
+   "id": "15.6.1-s003",
+   "section": "15.6.1",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "In case of patterns, metacharacters described in clause B.1.5.0 are treated as a single item the for indexing purposes according to the rules specified in table B.1.",
+   "lines": [
+    11159,
+    11161
+   ]
+  },
+  {
+   "id": "15.6.1-s004",
+   "section": "15.6.1",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "The template is of a binary string type and it contains either a specific value, matching mechanism inside values, AnyValue or AnyValueOrNone.",
+   "lines": [
+    11163,
+    11165
+   ]
+  },
+  {
+   "id": "15.6.1-s005",
+   "section": "15.6.1",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "If the referenced binary string contains a matching mechanism inside a value, this matching mechanism is treated as a single item for indexing purposes.",
+   "lines": [
+    11163,
+    11165
+   ]
+  },
+  {
+   "id": "15.6.1-s006",
+   "section": "15.6.1",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "The template is of a binary string type and it contains a combined template.",
+   "lines": [
+    11167,
+    11167
+   ]
+  },
+  {
+   "id": "15.6.1-s007",
+   "section": "15.6.1",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "In this case, individual items of the combined template are concatenated and the reference is applied to the result of this concatenation using the rules described in this clause.",
+   "lines": [
+    11167,
+    11167
+   ]
+  },
+  {
+   "id": "15.6.1-s008",
+   "section": "15.6.1",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "In any of the cases mentioned above, the reference template might contain ifpresent and length matching attributes.",
+   "lines": [
+    11169,
+    11169
+   ]
+  },
+  {
+   "id": "15.6.1-s009",
+   "section": "15.6.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "When the reference occurs on the right hand side of an assignment, the result of the reference is always a template with the following content:",
+   "lines": [
+    11176,
+    11177
+   ]
+  },
+  {
+   "id": "15.6.1-s010",
+   "section": "15.6.1",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "a) A specific value containing a single element if the referenced template is of a binary or character string type to which a specific value is assigned and the index in non-negative and less than the number of items in the specific value.",
+   "lines": [
+    11179,
+    11182
+   ]
+  },
+  {
+   "id": "15.6.1-s011",
+   "section": "15.6.1",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "The value can contain either a single item of the string type (bit, hex, octet or character) or a matching mechanism inside a value (such as AnyElement or AnyElementOrNone).",
+   "lines": [
+    11179,
+    11182
+   ]
+  },
+  {
+   "id": "15.6.1-s012",
+   "section": "15.6.1",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "b) A pattern containing either a single character or a single metacharacter, if the referenced template is of a character sting type to which a pattern is assigned and the index is non-negative and less than the number of characters and indexable metacharacters inside the pattern.",
+   "lines": [
+    11184,
+    11186
+   ]
+  },
+  {
+   "id": "15.6.1-s013",
+   "section": "15.6.1",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "c) A specific value containing a single AnyElement matching mechanism if the referenced template is of a binary string type to which the AnyValue matching mechanism is assigned.",
+   "lines": [
+    11188,
+    11189
+   ]
+  },
+  {
+   "id": "15.6.1-s014",
+   "section": "15.6.1",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "d) A specific value containing a single AnyElement matching mechanism with the ifpresent matching attribute attached to it if the referenced template is of a binary string type to which the AnyValueOrNone matching mechanism is assigned.",
+   "lines": [
+    11191,
+    11193
+   ]
+  },
+  {
+   "id": "15.6.1-s015",
+   "section": "15.6.1",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "e) A pattern containing a single ? metacharacter if the referenced template is of a character string type and contains the AnyValue matching mechanism.",
+   "lines": [
+    11195,
+    11196
+   ]
+  },
+  {
+   "id": "15.6.1-s016",
+   "section": "15.6.1",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "f) A pattern containing a single ? metacharacter with the ifpresent matching attribute attached to it if the referenced template is of a character string type and contains the AnyValueOrNone matching mechanism.",
+   "lines": [
+    11198,
+    11199
+   ]
+  },
+  {
+   "id": "15.6.1-s017",
+   "section": "15.6.1",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "g) If the referenced template contains a length matching attribute, the reference shall be resolved only if the referenced element is less than the maximum allowed length.",
+   "lines": [
+    11201,
+    11202
+   ]
+  },
+  {
+   "id": "15.6.1-s018",
+   "section": "15.6.1",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "The result of the reference shall be without the length attribute.",
+   "lines": [
+    11201,
+    11202
+   ]
+  },
+  {
+   "id": "15.6.1-s019",
+   "section": "15.6.1",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "h) If the referenced template contains the ifpresent matching attribute, the result of the reference shall contain this attribute as well.",
+   "lines": [
+    11204,
+    11204
+   ]
+  },
+  {
+   "id": "15.6.1-s020",
+   "section": "15.6.1",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "i) If the referenced template has the present restriction, a matching symbol that fulfills the requirements of the present restriction or if the referenced field is unrestricted and represents a mandatory field of a record or set or any field of a union, anytype, record of, set of or array, the result shall have the present restriction.",
+   "lines": [
+    11206,
+    11206
+   ]
+  },
+  {
+   "id": "15.6.1-s021",
+   "section": "15.6.1",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "j) If the referenced template has the value or omit restriction, the result shall have the value restriction.",
+   "lines": [
+    11208,
+    11208
+   ]
+  },
+  {
+   "id": "15.6.1-s022",
+   "section": "15.6.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "When the reference occurs on the left hand side of an assignment, the right hand side of the assignment shall contain either a string value or specific value of a compatible type or a pattern.",
+   "lines": [
+    11210,
+    11211
+   ]
+  },
+  {
+   "id": "15.6.1-s023",
+   "section": "15.6.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Both string value and specific value shall contain exactly one indexable item (either a bit, hex, octet, character or matching mechanism inside a value).",
+   "lines": [
+    11210,
+    11211
+   ]
+  },
+  {
+   "id": "15.6.1-s024",
+   "section": "15.6.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The result of the assignment is as follows:",
+   "lines": [
+    11210,
+    11211
+   ]
+  },
+  {
+   "id": "15.6.1-s025",
+   "section": "15.6.1",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "a) When referencing an item of a binary string template to which a specific value is assigned, if the index is non-negative and less than the number of items in the specific value, the referenced item shall be replaced with the item from the right hand sign of the assignment.",
+   "lines": [
+    11213,
+    11215
+   ]
+  },
+  {
+   "id": "15.6.1-s026",
+   "section": "15.6.1",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "b) When referencing an item at the index n of a binary string template to which a specific value is assigned, if the index is greater than or equal to the number of items in the specific value, first as many AnyElement matching symbols shall be appended to the specific value as is the difference between n and the number of items in the specific value and then the item from the right hand side of the assignment shall be appended to the specific value on the left hand side.",
+   "lines": [
+    11217,
+    11221
+   ]
+  },
+  {
+   "id": "15.6.1-s027",
+   "section": "15.6.1",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "c) When referencing an item of a character string template to which a specific value is assigned, if the index is non-negative and less than the length of the specific value and the right hand side contains a specific value, the referenced item shall be replaced with the item from the right hand sign of the assignment.",
+   "lines": [
+    11223,
+    11225
+   ]
+  },
+  {
+   "id": "15.6.1-s028",
+   "section": "15.6.1",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "d) When referencing an item of a character string template to which a specific value is assigned, if the index is equal to the length of the specific value and the right hand side contains a specific value, the character from the right hand side of the assignment shall be appended to the specific value on the left hand side.",
+   "lines": [
+    11227,
+    11229
+   ]
+  },
+  {
+   "id": "15.6.1-s029",
+   "section": "15.6.1",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "e) In all other cases of referencing an item of a character string template to which a specific value is assigned using a non-negative index (i.e. the index is greater than the string length or the item on the right hand side of the assignment is a pattern), the specific value shall be converted into a pattern that matches precisely the specific value (i.e. automatically escaping the characters that would otherwise have a metacharacter meaning by prefixing them with a backslash symbol).",
+   "lines": [
+    11236,
+    11242
+   ]
+  },
+  {
+   "id": "15.6.1-s030",
+   "section": "15.6.1",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "Then the rules for referencing an item of a pattern on the left hand side of an assignment shall be applied to assign the right hand side of the assignment to this pattern.",
+   "lines": [
+    11236,
+    11242
+   ]
+  },
+  {
+   "id": "15.6.1-s031",
+   "section": "15.6.1",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "The modified pattern is then assigned to the referenced template.",
+   "lines": [
+    11236,
+    11242
+   ]
+  },
+  {
+   "id": "15.6.1-s032",
+   "section": "15.6.1",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "f) When referencing an item of a character string template to which a pattern is assigned, if the index is non-negative and less than the number of items in the pattern, the referenced character or metacharacter shall be replaced with the item from the right hand side of the assignment.",
+   "lines": [
+    11244,
+    11246
+   ]
+  },
+  {
+   "id": "15.6.1-s033",
+   "section": "15.6.1",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "g) When referencing an item at the index n of a character string template to which a pattern is assigned, if the index is greater than or equal to the number of items in the pattern, first as many ? metacharacters shall be appended to the pattern as is the difference between n and the number of items in the pattern and then the item from the right hand sign of the assignment shall be appended to the pattern.",
+   "lines": [
+    11248,
+    11251
+   ]
+  },
+  {
+   "id": "15.6.1-s034",
+   "section": "15.6.1",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "h) If the right hand side of the assignment described in point e), f) and g) contains a pattern with more than one item, this pattern shall be implicitly converted into a single group metacharacter (by enclosing it to parentheses) before the assignment.",
+   "lines": [
+    11253,
+    11253
+   ]
+  },
+  {
+   "id": "15.6.1-s035",
+   "section": "15.6.1",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "i) When referencing an item of a binary string template to which the AnyValue or AnyValueOrNone matching symbol is assigned using a non-negative index, a binary string with length 0 is assigned to the referenced template and procedures described in the point b are applied to finish the assignment.",
+   "lines": [
+    11255,
+    11255
+   ]
+  },
+  {
+   "id": "15.6.1-s036",
+   "section": "15.6.1",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "Then, if the referenced template contained the AnyValueOrNone matching symbol, the ifpresent matching attribute shall be added to the referenced template if it does not contain it.",
+   "lines": [
+    11255,
+    11255
+   ]
+  },
+  {
+   "id": "15.6.1-s037",
+   "section": "15.6.1",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "j) When referencing an item of a character string template to which the AnyValue or AnyValueOrNone matching symbol is assigned using a non-negative index, a pattern with length 0 is assigned to the referenced template and procedures described in the point g are applied to finish the assignment.",
+   "lines": [
+    11257,
+    11257
+   ]
+  },
+  {
+   "id": "15.6.1-s038",
+   "section": "15.6.1",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "Then, if the referenced template contained the AnyValueOrNone matching symbol, the ifpresent matching attribute shall be added to the referenced template if it does not contain it.",
+   "lines": [
+    11257,
+    11257
+   ]
+  },
+  {
+   "id": "15.6.1-s039",
+   "section": "15.6.1",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "k) If the referenced template contains a length matching attribute and the index is greater or equal to the maximum allowed length, the maximum allowed length shall be changed to the value of the index + 1.",
+   "lines": [
+    11259,
+    11259
+   ]
+  },
+  {
+   "id": "15.6.1-s040",
+   "section": "15.6.1",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "l) If the referenced template contains the ifpresent matching attribute, the attribute is not removed by the assignment.",
+   "lines": [
+    11261,
+    11261
+   ]
+  },
+  {
+   "id": "15.6.1-s041",
+   "section": "15.6.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "An error shall be issued in all other cases, i.e.:",
+   "lines": [
+    11263,
+    11263
+   ]
+  },
+  {
+   "id": "15.6.1-s042",
+   "section": "15.6.1",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "If the referenced template (on the left hand side or right hand side) contains any other matching symbol than those listed above, such as Omit, template list or a complemented template list.",
+   "lines": [
+    11265,
+    11266
+   ]
+  },
+  {
+   "id": "15.6.1-s043",
+   "section": "15.6.1",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "If the index is a negative number.",
+   "lines": [
+    11268,
+    11268
+   ]
+  },
+  {
+   "id": "15.6.1-s044",
+   "section": "15.6.1",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "If the index is used on the right hand side of an assignment and is greater than or equal to the maximum allowed length.",
+   "lines": [
+    11270,
+    11271
+   ]
+  },
+  {
+   "id": "15.6.1-s045",
+   "section": "15.6.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "If the index is used on the left hand side of an assignment and the right hand side contains a binary string value or specific template with not exactly one indexable item.",
+   "lines": [
+    11273,
+    11274
+   ]
+  },
+  {
+   "id": "15.6.1-s046",
+   "section": "15.6.1",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE:",
+   "lines": [
+    11276,
+    11276
+   ]
+  },
+  {
+   "id": "15.6.1-s047",
+   "section": "15.6.1",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "var template charstring v_char1 := \"MYCHAR\", \n     v_char2, \n     v_char3 := pattern \"abc?[a-z]\";\n  v_char2 := v_char1[1]; // v_char2 will be equal to \"Y\" after the assignment\n  v_char2 := v_char3[3]; // v_char2 will be equal to pattern \"?\" after the assignment\n  v_char2 := v_char3[4]; // v_char2 will be equal to pattern \"[a-z]\" after the assignment\n  v_char3 := ?;\n  v_char2 := v_char3[0]; // v_char2 will contain pattern \"?\" after the assignment\n  v_char3 := pattern \"abc?[a-z]\";\n  v_char3[6] := pattern \"x+\"; // v_char3 will contain pattern \"abc?[a-z]?x+\" after the assignment\n  v_char3 := \"abc\";\n  v_char3[4] := pattern \"[a-f][g-k]\"; // v_char3 will change to pattern \"abc([a-f][g-k])\"\n  v_char3[2] := \"test\"; // will produce an error as the character string contains more than one\n             // character\n  var template octetstring v_oct1 := '01234567890ABCDEF'O, \n     v_oct2, \n     v_oct3 := '01??AB*'O;\n  v_oct2 := v_oct1[1]; // v_oct2 will be equal to '23'O after the assignment\n  v_oct2 := v_oct3[2]; // v_oct2 will be equal to '?'O after the assignment\n  v_oct3 := *;\n  v_oct2 := v_oct3[0]; // v_oct2 will contain '?'O ifpresent after the assignment\n  v_oct1[2] := '?'O; // v_oct1 will contain '0123?67890ABCDEF'O after the assignment\n  v_oct3 := '0123'O;\n  v_oct3[4] := 'FF'O; // v_oct3 will change to '0123??FF'O \n  v_oct1 := 'FFFF'O;\n  v_oct2 := v_oct1[10] // will produce an error as the index is greater than the length of v_oct1_",
+   "lines": [
+    11277,
+    11304
+   ]
+  },
+  {
+   "id": "15.6.2-s001",
+   "section": "15.6.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Both templates and template variables allow referencing sub-fields inside a template definition using the dot notation.",
+   "lines": [
+    11308,
+    11310
+   ]
+  },
+  {
+   "id": "15.6.2-s002",
+   "section": "15.6.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "However, the referenced field may be a subfield of a structured field to which a matching mechanism is assigned.",
+   "lines": [
+    11308,
+    11310
+   ]
+  },
+  {
+   "id": "15.6.2-s003",
+   "section": "15.6.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "This clause provides rules for such cases:",
+   "lines": [
+    11308,
+    11310
+   ]
+  },
+  {
+   "id": "15.6.2-s004",
+   "section": "15.6.2",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "a) _Omit, AnyValueOrNone, template lists and complemented lists: referencing a subfield within a structured field_ to which Omit, AnyValueOrNone, a template list or a complemented list is assigned, at the right hand side of an assignment, shall cause an error.",
+   "lines": [
+    11312,
+    11322
+   ]
+  },
+  {
+   "id": "15.6.2-s005",
+   "section": "15.6.2",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "When referencing a subfield within a structured field to which AnyValueOrNone or omit is assigned, at the left hand side of an assignment, the structured field is implicitly set to be present, it is expanded recursively up to and including the depth of the referenced subfield.",
+   "lines": [
+    11312,
+    11322
+   ]
+  },
+  {
+   "id": "15.6.2-s006",
+   "section": "15.6.2",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "During this expansion an AnyValue shall be assigned to mandatory subfields and AnyValueOrNone shall be assigned to optional subfields.",
+   "lines": [
+    11312,
+    11322
+   ]
+  },
+  {
+   "id": "15.6.2-s007",
+   "section": "15.6.2",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "After this expansion the value or matching mechanism at the right hand side of the assignment shall be assigned to the referenced subfield.",
+   "lines": [
+    11312,
+    11322
+   ]
+  },
+  {
+   "id": "15.6.2-s008",
+   "section": "15.6.2",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "When referencing a subfield within a structured field to which template lists or complemented template lists are assigned, at the left hand side of an assignment, shall cause an error.",
+   "lines": [
+    11312,
+    11322
+   ]
+  },
+  {
+   "id": "15.6.2-s009",
+   "section": "15.6.2",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 1:",
+   "lines": [
+    11326,
+    11326
+   ]
+  },
+  {
+   "id": "15.6.2-s010",
+   "section": "15.6.2",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "type record R1 {\n     integer f1 optional,\n     R2   f2 optional\n  }\n  type record R2 {\n     integer g1,\n     R2   g2 optional\n  }\n  :\n  var template R1 v_r1 := {\n     f1 := 5,\n     f2 := omit\n  }\n  var template R2 v_r2 := v_r1.f2.g2;\n     // causes an error as omit is assigned to v_r1.f2\n  v_r1.f2 := *;\n  v_r2 := v_r1.f2.g2;\n     // causes an error as * is assigned to v_r1.f2\n  v_r1 := ({f1:=omit, f2:={g1:=0, g2:=omit}},{f1:=5, f2:={g1:=1, g2:={g1:=2, g2:=omit}}});\n  v_r2 := v_r1.f2;\n  v_r2 := v_r1.f2.g2;\n  v_r2 := v_r1.f2.g2.g2;\n     // all these assignments cause error as a template list is assigned to v_r1\n  v_r1 :=\n     complement({f1:=omit, f2:={g1:=0, g2:=omit}},{f1:=5, f2:={g1:=1, g2:={g1:=2, g2:=omit}}});\n  v_r2 := v_r1.f2;\n  v_r2 := v_r1.f2.g2;\n  v_r2 := v_r1.f2.g2.g2;\n     // all these assignments cause errors as a complemented list is assigned to v_r1",
+   "lines": [
+    11327,
+    11357
+   ]
+  },
+  {
+   "id": "15.6.2-s011",
+   "section": "15.6.2",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "b) _AnyValue: when referencing a subfield within a structured field to which AnyValue is assigned, at the right_ hand side of an assignment, AnyValue shall be returned for mandatory subfields and AnyValueOrNone shall be returned for optional subfields.",
+   "lines": [
+    11364,
+    11371
+   ]
+  },
+  {
+   "id": "15.6.2-s012",
+   "section": "15.6.2",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "When referencing a subfield within a structured field to which AnyValue is assigned, at the left hand side of an assignment, the structured field is implicitly expanded recursively up to and including, the depth of the referenced subfield.",
+   "lines": [
+    11364,
+    11371
+   ]
+  },
+  {
+   "id": "15.6.2-s013",
+   "section": "15.6.2",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "During this expansion an AnyValue shall be assigned to mandatory subfields and _AnyValueOrNone shall be assigned to optional subfields.",
+   "lines": [
+    11364,
+    11371
+   ]
+  },
+  {
+   "id": "15.6.2-s014",
+   "section": "15.6.2",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "After this expansion the value or matching_ mechanism at the right hand side of the assignment shall be assigned to the referenced subfield.",
+   "lines": [
+    11364,
+    11371
+   ]
+  },
+  {
+   "id": "15.6.2-s015",
+   "section": "15.6.2",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE 2:",
+   "lines": [
+    11373,
+    11373
+   ]
+  },
+  {
+   "id": "15.6.2-s016",
+   "section": "15.6.2",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "v_r1 := {f1:=0, f2:=?}\n  v_r2 := v_r1.f2.g2;\n     // after the assignment v_r2 will be {g1:=?, g2:=*}\n  v_r1.f2.g2.g2 := ({g1:=1, g2:=omit},{g1:=2, g2:=omit});\n     // first the field v_r1.f2 has hypothetically be expanded to {g1:=?,g2:={g1:=?,g2:=*}}\n     // thus after the assignment v_r1 will be:\n     //  {f1:=0, f2:={g1:=?,g2:={g1:=?,g2:=({g1:=1, g2:=omit},{g1:=2, g2:=omit})}}}",
+   "lines": [
+    11374,
+    11382
+   ]
+  },
+  {
+   "id": "15.6.2-s017",
+   "section": "15.6.2",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "c) Ifpresent attribute: referencing a subfield within a structured field to which the ifpresent attribute is attached, shall cause an error (irrespective of the value or the matching mechanism to which ifpresent is appended).",
+   "lines": [
+    11384,
+    11385
+   ]
+  },
+  {
+   "id": "15.6.2-s018",
+   "section": "15.6.2",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "d) Special value null: referencing a field of an address type, which actual value is null shall cause an error.",
+   "lines": [
+    11387,
+    11387
+   ]
+  }
+ ]
+}

@@ -1,0 +1,19 @@
+// @requirement: 21.3.5 -- b) The ComponentArrayRef shall be a reference to a completely initialized component array.
+// @id: TTCN3-CORE-21.3.5-015a
+// @verdict: pass accept, ttcn3verdict:error
+module M_21_03_05_test_015 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var C v_arr[2];
+        var boolean v_b;
+        v_arr[0] := C.create;
+        v_b := any from v_arr.alive; // error: v_arr[1] is not initialized
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

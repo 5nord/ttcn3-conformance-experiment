@@ -1,0 +1,25 @@
+// @requirement: 7.1.5 -- The bitwise not4b unary operator inverts the individual bit values of its operand. For each bit in the operand a 1 bit is set to 0 and a 0 bit is set to 1. That is:
+// @id: TTCN3-CORE-7.1.5-006a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_07_01_05_test_005 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var bitstring v_b1 := '1'B;
+        var bitstring v_b0 := '0'B;
+        var bitstring v_b := '1010'B;
+        var hexstring v_h := '1A5'H;
+        var octetstring v_o := '01A5'O;
+        if (not4b v_b1 == '0'B and not4b v_b0 == '1'B and not4b v_b == '0101'B and
+            not4b v_h == 'E5A'H and not4b v_o == 'FE5A'O) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

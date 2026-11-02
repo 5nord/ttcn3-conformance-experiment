@@ -1,0 +1,1376 @@
+{
+ "batch": "b023",
+ "requirements": [
+  {
+   "id": "TTCN3-CORE-7.1.3-026a",
+   "section": "7.1.3",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "For values of bitstring, hexstring or octetstring types, the same equality rule applies as for charstring values with the exception, that fractions which shall equal at all positions are bits, hexadecimal digits or pairs of hexadecimal digits accordingly. Two charstring or two universal charstring values are equal if and only if they have equal lengths and the characters at all positions are the same.",
+   "canonical": "Two bitstring, two hexstring or two octetstring values ARE equal if and only if they have equal lengths and the bits, hexadecimal digits or octets, respectively, at all positions are the same.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "\"fractions\" is used for the string elements, and \"pairs of hexadecimal digits\" for octets.",
+    "improper_terms": [
+     {
+      "used": "fractions",
+      "proper": "string elements",
+      "glossary": false
+     },
+     {
+      "used": "pairs of hexadecimal digits",
+      "proper": "octets",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    7258,
+    7263
+   ],
+   "examples": [],
+   "file": "tests/07-expressions/07.01.03_test_026.ttcn3",
+   "module": "M_07_01_03_test_026",
+   "header": "// @requirement: 7.1.3 -- For values of bitstring, hexstring or octetstring types, the same equality rule applies as for charstring values with the exception, that fractions which shall equal at all positions are bits, hexadecimal digits or pairs of hexadecimal digits accordingly. Two charstring or two universal charstring values are equal if and only if they have equal lengths and the characters at all positions are the same."
+  },
+  {
+   "id": "TTCN3-CORE-7.1.3-027a",
+   "section": "7.1.3",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Two record values, or set values are equal respectively if and only if they are mutually compatible with the type of the other operand (see clause 6.3.2.2), the actual values of all present fields are equal to their corresponding fields and all fields corresponding to omitted fields are also omitted in the peer value.",
+   "canonical": "Two record values, or two set values, ARE equal if and only if each is compatible with the type of the other operand, the actual values of all present fields are equal to their corresponding fields, and all fields corresponding to omitted fields are also omitted in the other value.",
+   "condition": null,
+   "cross_refs": [
+    "6.3.2.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    7265,
+    7267
+   ],
+   "examples": [
+    {
+     "lines": [
+      7336,
+      7389
+     ],
+     "text": "// Given\n type set S1 {\n        integer a1 optional,\n        integer a2 optional,\n        integer a3 optional\n        };\n type set S2 {\n        integer b1 optional,\n        integer b2 optional,\n        integer b3 optional\n        };\n type set S3 {\n        integer c1 optional,\n        integer c2 optional,\n        };\n type set of integer SI;\n type union U1 {\n        integer d1,\n        integer d2,\n        };\n type union U2 {\n        integer e1,\n        integer e2,\n        };\n type union U3 {\n        integer d1,\n        integer d2,\n        boolean d3\n        };\n // And\n const S1 c_s1 := { a1 := 0, a2 := omit, a3 := 2 };\n   // Notice that the order of defining values of the fields does not matter\n const S2 c_s2a := { b1 := 0, b3 := 2, b2 := omit };\n const S2 c_s2b := { b2 := 0, b3 := 2, b1 := omit };\n const S3 c_s3 := { c1 := 0, c2 :=2 };\n var SI v_si:= { 0, -, 2 };\n const SI c_si := { 0, 2 };\n const U1 c_u1 := { d1:= 0 };\n const U2 c_u2 := { e1:= 0 };\n const U3 c_u3; := { d1:= 0 };\n // Then\n c_s1 == c_s2a;\n   // returns true\n c_s1 == c_s2b;\n   // returns false, because neither a1 nor a2 are equal to their counterparts\n   // (the corresponding element is not omitted)\n c_s1 == c_s3;\n   // returns false, because the effective value structures of s1 and s3 are not compatible\n c_s1 == v_si;\n   // causes test case error as v_si is not completely initialized\n   // (2nd element is left uninitialized)\n c_s1 == c_si;"
+    },
+    {
+     "lines": [
+      7395,
+      7423
+     ],
+     "text": "// returns false, as the counterpart of the omitted a2 is 2,\n     // but the counterpart of a3 is undefined \n  c_s3 == c_si;\n     // returns true\n  c_u1 == c_u2;\n     // causes error as U1 and U2 have no common subset of alternatives\n  c_u1 == c_u3;\n     // returns true, as alternatives with the same names are chosen and \n     // the actual values in the selected alternatives are equal\n  { 0, omit, 2 } == c_s1;\n    // returns true\n  c_s2a == { b1 := 0, b2:= omit, b3 := 2 };\n    // returns true\n  { c_s1, c_s2b } == { c_s2a, c_s1 };\n    // returns false because c_s2b != c_s1\n  { c_s1, c_s2b, c_s2a } == { c_s1 };\n    // returns false because of different length\n  c_s1.a1 == c_s2a.b1;\n    // returns true, both fields are initialized with values and the values are equal\n  c_s1.a2 == c_s2a.b2;\n    // returns true, both fields are omit\n  c_s1.a1 == c_s2a.b2;\n    // returns false, value vs. omit\n  c_s1.a1 == omit;\n    // error, omit is neither a value nor a field reference\n  c_s1.a2 == 3;\n    // false, omit vs. value"
+    }
+   ],
+   "file": "tests/07-expressions/07.01.03_test_027.ttcn3",
+   "module": "M_07_01_03_test_027",
+   "header": "// @requirement: 7.1.3 -- Two record values, or set values are equal respectively if and only if they are mutually compatible with the type of the other operand (see clause 6.3.2.2), the actual values of all present fields are equal to their corresponding fields and all fields corresponding to omitted fields are also omitted in the peer value."
+  },
+  {
+   "id": "TTCN3-CORE-7.1.3-028a",
+   "section": "7.1.3",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Two record of values, set of values or array values, respectively, are equal if and only if they are mutually compatible with the type of the other operand (see clause 6.3.2.3), they both have the same length, and each element of one value is equal to the corresponding element of the other value.",
+   "canonical": "Two record of values, two set of values or two array values ARE equal if and only if each is compatible with the type of the other operand, both have the same length, and each element of one value is equal to the corresponding element of the other value.",
+   "condition": null,
+   "cross_refs": [
+    "6.3.2.3"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    7269,
+    7272
+   ],
+   "examples": [
+    {
+     "lines": [
+      7336,
+      7389
+     ],
+     "text": "// Given\n type set S1 {\n        integer a1 optional,\n        integer a2 optional,\n        integer a3 optional\n        };\n type set S2 {\n        integer b1 optional,\n        integer b2 optional,\n        integer b3 optional\n        };\n type set S3 {\n        integer c1 optional,\n        integer c2 optional,\n        };\n type set of integer SI;\n type union U1 {\n        integer d1,\n        integer d2,\n        };\n type union U2 {\n        integer e1,\n        integer e2,\n        };\n type union U3 {\n        integer d1,\n        integer d2,\n        boolean d3\n        };\n // And\n const S1 c_s1 := { a1 := 0, a2 := omit, a3 := 2 };\n   // Notice that the order of defining values of the fields does not matter\n const S2 c_s2a := { b1 := 0, b3 := 2, b2 := omit };\n const S2 c_s2b := { b2 := 0, b3 := 2, b1 := omit };\n const S3 c_s3 := { c1 := 0, c2 :=2 };\n var SI v_si:= { 0, -, 2 };\n const SI c_si := { 0, 2 };\n const U1 c_u1 := { d1:= 0 };\n const U2 c_u2 := { e1:= 0 };\n const U3 c_u3; := { d1:= 0 };\n // Then\n c_s1 == c_s2a;\n   // returns true\n c_s1 == c_s2b;\n   // returns false, because neither a1 nor a2 are equal to their counterparts\n   // (the corresponding element is not omitted)\n c_s1 == c_s3;\n   // returns false, because the effective value structures of s1 and s3 are not compatible\n c_s1 == v_si;\n   // causes test case error as v_si is not completely initialized\n   // (2nd element is left uninitialized)\n c_s1 == c_si;"
+    },
+    {
+     "lines": [
+      7395,
+      7423
+     ],
+     "text": "// returns false, as the counterpart of the omitted a2 is 2,\n     // but the counterpart of a3 is undefined \n  c_s3 == c_si;\n     // returns true\n  c_u1 == c_u2;\n     // causes error as U1 and U2 have no common subset of alternatives\n  c_u1 == c_u3;\n     // returns true, as alternatives with the same names are chosen and \n     // the actual values in the selected alternatives are equal\n  { 0, omit, 2 } == c_s1;\n    // returns true\n  c_s2a == { b1 := 0, b2:= omit, b3 := 2 };\n    // returns true\n  { c_s1, c_s2b } == { c_s2a, c_s1 };\n    // returns false because c_s2b != c_s1\n  { c_s1, c_s2b, c_s2a } == { c_s1 };\n    // returns false because of different length\n  c_s1.a1 == c_s2a.b1;\n    // returns true, both fields are initialized with values and the values are equal\n  c_s1.a2 == c_s2a.b2;\n    // returns true, both fields are omit\n  c_s1.a1 == c_s2a.b2;\n    // returns false, value vs. omit\n  c_s1.a1 == omit;\n    // error, omit is neither a value nor a field reference\n  c_s1.a2 == 3;\n    // false, omit vs. value"
+    }
+   ],
+   "file": "tests/07-expressions/07.01.03_test_028.ttcn3",
+   "module": "M_07_01_03_test_028",
+   "header": "// @requirement: 7.1.3 -- Two record of values, set of values or array values, respectively, are equal if and only if they are mutually compatible with the type of the other operand (see clause 6.3.2.3), they both have the same length, and each element of one value is equal to the corresponding element of the other value."
+  },
+  {
+   "id": "TTCN3-CORE-7.1.3-029a",
+   "section": "7.1.3",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Record of values and array values may also be compared, in which case the corresponding record of type of the array is being considered.",
+   "canonical": "A record of value and an array value MAY be compared; in this case the array is treated as a value of its corresponding record of type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    7269,
+    7272
+   ],
+   "examples": [],
+   "file": "tests/07-expressions/07.01.03_test_029.ttcn3",
+   "module": "M_07_01_03_test_029",
+   "header": "// @requirement: 7.1.3 -- Record of values and array values may also be compared, in which case the corresponding record of type of the array is being considered."
+  },
+  {
+   "id": "TTCN3-CORE-7.1.3-030a",
+   "section": "7.1.3",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Values of the same union type, and values of different union types in which at least one of the alternatives is compatible with the other type (see clause 6.3.2.4) can be compared (independent if a compatible alternative is the selected one or not).",
+   "canonical": "Values of the same union type, and values of different union types in which at least one alternative is compatible with the other type, MAY be compared, independent of whether a compatible alternative is the selected one.",
+   "condition": null,
+   "cross_refs": [
+    "6.3.2.4"
+   ],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "\"at least one of the alternatives is compatible with the other type\" does not say whether an alternative of one union must be compatible with an alternative (with the same name) of the other union, or with the other union type as a whole. Chosen reading: per clause 6.3.2.4, an alternative with the same name and a compatible type.",
+    "readings": [
+     "Values of different union types MAY be compared if at least one alternative of one union type has the same name and a compatible type as an alternative of the other union type.",
+     "Values of different union types MAY be compared if the type of at least one alternative of one union type is compatible with the other union type."
+    ]
+   },
+   "spec_lines": [
+    7274,
+    7278
+   ],
+   "examples": [
+    {
+     "lines": [
+      7395,
+      7423
+     ],
+     "text": "// returns false, as the counterpart of the omitted a2 is 2,\n     // but the counterpart of a3 is undefined \n  c_s3 == c_si;\n     // returns true\n  c_u1 == c_u2;\n     // causes error as U1 and U2 have no common subset of alternatives\n  c_u1 == c_u3;\n     // returns true, as alternatives with the same names are chosen and \n     // the actual values in the selected alternatives are equal\n  { 0, omit, 2 } == c_s1;\n    // returns true\n  c_s2a == { b1 := 0, b2:= omit, b3 := 2 };\n    // returns true\n  { c_s1, c_s2b } == { c_s2a, c_s1 };\n    // returns false because c_s2b != c_s1\n  { c_s1, c_s2b, c_s2a } == { c_s1 };\n    // returns false because of different length\n  c_s1.a1 == c_s2a.b1;\n    // returns true, both fields are initialized with values and the values are equal\n  c_s1.a2 == c_s2a.b2;\n    // returns true, both fields are omit\n  c_s1.a1 == c_s2a.b2;\n    // returns false, value vs. omit\n  c_s1.a1 == omit;\n    // error, omit is neither a value nor a field reference\n  c_s1.a2 == 3;\n    // false, omit vs. value"
+    }
+   ],
+   "file": "tests/07-expressions/07.01.03_test_030.ttcn3",
+   "module": "M_07_01_03_test_030",
+   "header": "// @requirement: 7.1.3 -- Values of the same union type, and values of different union types in which at least one of the alternatives is compatible with the other type (see clause 6.3.2.4) can be compared (independent if a compatible alternative is the selected one or not)."
+  },
+  {
+   "id": "TTCN3-CORE-7.1.3-030b",
+   "section": "7.1.3",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "Values of the same union type, and values of different union types in which at least one of the alternatives is compatible with the other type (see clause 6.3.2.4) can be compared (independent if a compatible alternative is the selected one or not).",
+   "canonical": "Values of different union types in which no alternative is compatible with the other type SHALL NOT be compared.",
+   "condition": null,
+   "cross_refs": [
+    "6.3.2.4"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    7274,
+    7278
+   ],
+   "examples": [
+    {
+     "lines": [
+      7395,
+      7423
+     ],
+     "text": "// returns false, as the counterpart of the omitted a2 is 2,\n     // but the counterpart of a3 is undefined \n  c_s3 == c_si;\n     // returns true\n  c_u1 == c_u2;\n     // causes error as U1 and U2 have no common subset of alternatives\n  c_u1 == c_u3;\n     // returns true, as alternatives with the same names are chosen and \n     // the actual values in the selected alternatives are equal\n  { 0, omit, 2 } == c_s1;\n    // returns true\n  c_s2a == { b1 := 0, b2:= omit, b3 := 2 };\n    // returns true\n  { c_s1, c_s2b } == { c_s2a, c_s1 };\n    // returns false because c_s2b != c_s1\n  { c_s1, c_s2b, c_s2a } == { c_s1 };\n    // returns false because of different length\n  c_s1.a1 == c_s2a.b1;\n    // returns true, both fields are initialized with values and the values are equal\n  c_s1.a2 == c_s2a.b2;\n    // returns true, both fields are omit\n  c_s1.a1 == c_s2a.b2;\n    // returns false, value vs. omit\n  c_s1.a1 == omit;\n    // error, omit is neither a value nor a field reference\n  c_s1.a2 == 3;\n    // false, omit vs. value"
+    }
+   ],
+   "file": "tests/07-expressions/07.01.03_test_031.ttcn3",
+   "module": "M_07_01_03_test_031",
+   "header": "// @requirement: 7.1.3 -- Values of the same union type, and values of different union types in which at least one of the alternatives is compatible with the other type (see clause 6.3.2.4) can be compared (independent if a compatible alternative is the selected one or not)."
+  },
+  {
+   "id": "TTCN3-CORE-7.1.3-031a",
+   "section": "7.1.3",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Two values of union types are equal if and only if in both values the name of the selected alternative is identical, they are compatible with the type of the other value, and the actual values of the chosen fields are equal.",
+   "canonical": "Two union values ARE equal if and only if the names of the selected alternatives are identical, each value is compatible with the type of the other value, and the actual values of the selected alternatives are equal.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    7274,
+    7278
+   ],
+   "examples": [
+    {
+     "lines": [
+      7336,
+      7389
+     ],
+     "text": "// Given\n type set S1 {\n        integer a1 optional,\n        integer a2 optional,\n        integer a3 optional\n        };\n type set S2 {\n        integer b1 optional,\n        integer b2 optional,\n        integer b3 optional\n        };\n type set S3 {\n        integer c1 optional,\n        integer c2 optional,\n        };\n type set of integer SI;\n type union U1 {\n        integer d1,\n        integer d2,\n        };\n type union U2 {\n        integer e1,\n        integer e2,\n        };\n type union U3 {\n        integer d1,\n        integer d2,\n        boolean d3\n        };\n // And\n const S1 c_s1 := { a1 := 0, a2 := omit, a3 := 2 };\n   // Notice that the order of defining values of the fields does not matter\n const S2 c_s2a := { b1 := 0, b3 := 2, b2 := omit };\n const S2 c_s2b := { b2 := 0, b3 := 2, b1 := omit };\n const S3 c_s3 := { c1 := 0, c2 :=2 };\n var SI v_si:= { 0, -, 2 };\n const SI c_si := { 0, 2 };\n const U1 c_u1 := { d1:= 0 };\n const U2 c_u2 := { e1:= 0 };\n const U3 c_u3; := { d1:= 0 };\n // Then\n c_s1 == c_s2a;\n   // returns true\n c_s1 == c_s2b;\n   // returns false, because neither a1 nor a2 are equal to their counterparts\n   // (the corresponding element is not omitted)\n c_s1 == c_s3;\n   // returns false, because the effective value structures of s1 and s3 are not compatible\n c_s1 == v_si;\n   // causes test case error as v_si is not completely initialized\n   // (2nd element is left uninitialized)\n c_s1 == c_si;"
+    },
+    {
+     "lines": [
+      7395,
+      7423
+     ],
+     "text": "// returns false, as the counterpart of the omitted a2 is 2,\n     // but the counterpart of a3 is undefined \n  c_s3 == c_si;\n     // returns true\n  c_u1 == c_u2;\n     // causes error as U1 and U2 have no common subset of alternatives\n  c_u1 == c_u3;\n     // returns true, as alternatives with the same names are chosen and \n     // the actual values in the selected alternatives are equal\n  { 0, omit, 2 } == c_s1;\n    // returns true\n  c_s2a == { b1 := 0, b2:= omit, b3 := 2 };\n    // returns true\n  { c_s1, c_s2b } == { c_s2a, c_s1 };\n    // returns false because c_s2b != c_s1\n  { c_s1, c_s2b, c_s2a } == { c_s1 };\n    // returns false because of different length\n  c_s1.a1 == c_s2a.b1;\n    // returns true, both fields are initialized with values and the values are equal\n  c_s1.a2 == c_s2a.b2;\n    // returns true, both fields are omit\n  c_s1.a1 == c_s2a.b2;\n    // returns false, value vs. omit\n  c_s1.a1 == omit;\n    // error, omit is neither a value nor a field reference\n  c_s1.a2 == 3;\n    // false, omit vs. value"
+    }
+   ],
+   "file": "tests/07-expressions/07.01.03_test_032.ttcn3",
+   "module": "M_07_01_03_test_032",
+   "header": "// @requirement: 7.1.3 -- Two values of union types are equal if and only if in both values the name of the selected alternative is identical, they are compatible with the type of the other value, and the actual values of the chosen fields are equal."
+  },
+  {
+   "id": "TTCN3-CORE-7.1.3-032a",
+   "section": "7.1.3",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Values of the same or any two anytype types can be compared.",
+   "canonical": "Values of the same anytype, or of the anytypes of any two modules, MAY be compared.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "\"any two anytype types\" refers to the anytype of different modules; anytype is a single type per module.",
+    "improper_terms": [
+     {
+      "used": "anytype types",
+      "proper": "anytype of different modules",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    7280,
+    7282
+   ],
+   "examples": [],
+   "file": "tests/07-expressions/07.01.03_test_033.ttcn3",
+   "module": "M_07_01_03_test_033",
+   "header": "// @requirement: 7.1.3 -- Values of the same or any two anytype types can be compared."
+  },
+  {
+   "id": "TTCN3-CORE-7.1.3-033a",
+   "section": "7.1.3",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "For anytype values the same rule apply as to union values, with the addition that names of user-defined types defined with the same name in different modules do not denote the same type name of the selected alternatives.",
+   "canonical": "Two anytype values ARE equal according to the same rules as union values.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    7280,
+    7282
+   ],
+   "examples": [],
+   "file": "tests/07-expressions/07.01.03_test_034.ttcn3",
+   "module": "M_07_01_03_test_034",
+   "header": "// @requirement: 7.1.3 -- For anytype values the same rule apply as to union values, with the addition that names of user-defined types defined with the same name in different modules do not denote the same type name of the selected alternatives."
+  },
+  {
+   "id": "TTCN3-CORE-7.1.3-033b",
+   "section": "7.1.3",
+   "type": "semantics",
+   "modality": "IS NOT",
+   "original": "For anytype values the same rule apply as to union values, with the addition that names of user-defined types defined with the same name in different modules do not denote the same type name of the selected alternatives.",
+   "canonical": "In the comparison of anytype values, user-defined types with the same name defined in different modules DO NOT denote the same selected alternative name.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    7280,
+    7282
+   ],
+   "examples": [],
+   "file": "tests/07-expressions/07.01.03_test_035.ttcn3",
+   "module": "M_07_01_03_test_035",
+   "header": "// @requirement: 7.1.3 -- For anytype values the same rule apply as to union values, with the addition that names of user-defined types defined with the same name in different modules do not denote the same type name of the selected alternatives."
+  },
+  {
+   "id": "TTCN3-CORE-7.1.3-034a",
+   "section": "7.1.3",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Two default, two port, two timer or two component values are equal if and only if they both are initialized with the special value null or they both contain a reference to the same entity (i.e. they designate the same default, port, timer or test component, independent of the actual state of the denoted object).",
+   "canonical": "Two default, two port, two timer or two component values ARE equal if and only if both are initialized with the special value `null` or both refer to the same default, port, timer or test component, independent of the actual state of that object.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "\"default, port, timer or component values\" are references to objects; the glossary term is object reference.",
+    "improper_terms": [
+     {
+      "used": "component values",
+      "proper": "object reference",
+      "glossary": true
+     },
+     {
+      "used": "timer values",
+      "proper": "object reference",
+      "glossary": true
+     }
+    ]
+   },
+   "spec_lines": [
+    7284,
+    7286
+   ],
+   "examples": [],
+   "file": "tests/07-expressions/07.01.03_test_036.ttcn3",
+   "module": "M_07_01_03_test_036",
+   "header": "// @requirement: 7.1.3 -- Two default, two port, two timer or two component values are equal if and only if they both are initialized with the special value null or they both contain a reference to the same entity (i.e. they designate the same default, port, timer or test component, independent of the actual state of the denoted object)."
+  },
+  {
+   "id": "TTCN3-CORE-7.1.3-035a",
+   "section": "7.1.3",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "It is also possible to use compound expressions (field assignment or value list notation) directly as operands of comparison operations of structured types.",
+   "canonical": "A compound expression (assignment notation or value list notation) MAY be used directly as an operand of a comparison operation of a structured type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "\"field assignment\" is used for the glossary term assignment notation.",
+    "improper_terms": [
+     {
+      "used": "field assignment",
+      "proper": "assignment notation",
+      "glossary": true
+     }
+    ]
+   },
+   "spec_lines": [
+    7288,
+    7293
+   ],
+   "examples": [
+    {
+     "lines": [
+      7395,
+      7423
+     ],
+     "text": "// returns false, as the counterpart of the omitted a2 is 2,\n     // but the counterpart of a3 is undefined \n  c_s3 == c_si;\n     // returns true\n  c_u1 == c_u2;\n     // causes error as U1 and U2 have no common subset of alternatives\n  c_u1 == c_u3;\n     // returns true, as alternatives with the same names are chosen and \n     // the actual values in the selected alternatives are equal\n  { 0, omit, 2 } == c_s1;\n    // returns true\n  c_s2a == { b1 := 0, b2:= omit, b3 := 2 };\n    // returns true\n  { c_s1, c_s2b } == { c_s2a, c_s1 };\n    // returns false because c_s2b != c_s1\n  { c_s1, c_s2b, c_s2a } == { c_s1 };\n    // returns false because of different length\n  c_s1.a1 == c_s2a.b1;\n    // returns true, both fields are initialized with values and the values are equal\n  c_s1.a2 == c_s2a.b2;\n    // returns true, both fields are omit\n  c_s1.a1 == c_s2a.b2;\n    // returns false, value vs. omit\n  c_s1.a1 == omit;\n    // error, omit is neither a value nor a field reference\n  c_s1.a2 == 3;\n    // false, omit vs. value"
+    }
+   ],
+   "file": "tests/07-expressions/07.01.03_test_037.ttcn3",
+   "module": "M_07_01_03_test_037",
+   "header": "// @requirement: 7.1.3 -- It is also possible to use compound expressions (field assignment or value list notation) directly as operands of comparison operations of structured types."
+  },
+  {
+   "id": "TTCN3-CORE-7.1.3-036a",
+   "section": "7.1.3",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "If there is a compound expression on both sides of the comparison operator, they shall both be value list notation expressions where the elements shall be of the same root type and they shall be compared like record of values with elements of that root type.",
+   "canonical": "If both operands of a comparison operator are compound expressions, both SHALL be value list notation expressions.",
+   "condition": "there is a compound expression on both sides of the comparison operator",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    7288,
+    7293
+   ],
+   "examples": [
+    {
+     "lines": [
+      7395,
+      7423
+     ],
+     "text": "// returns false, as the counterpart of the omitted a2 is 2,\n     // but the counterpart of a3 is undefined \n  c_s3 == c_si;\n     // returns true\n  c_u1 == c_u2;\n     // causes error as U1 and U2 have no common subset of alternatives\n  c_u1 == c_u3;\n     // returns true, as alternatives with the same names are chosen and \n     // the actual values in the selected alternatives are equal\n  { 0, omit, 2 } == c_s1;\n    // returns true\n  c_s2a == { b1 := 0, b2:= omit, b3 := 2 };\n    // returns true\n  { c_s1, c_s2b } == { c_s2a, c_s1 };\n    // returns false because c_s2b != c_s1\n  { c_s1, c_s2b, c_s2a } == { c_s1 };\n    // returns false because of different length\n  c_s1.a1 == c_s2a.b1;\n    // returns true, both fields are initialized with values and the values are equal\n  c_s1.a2 == c_s2a.b2;\n    // returns true, both fields are omit\n  c_s1.a1 == c_s2a.b2;\n    // returns false, value vs. omit\n  c_s1.a1 == omit;\n    // error, omit is neither a value nor a field reference\n  c_s1.a2 == 3;\n    // false, omit vs. value"
+    }
+   ],
+   "file": "tests/07-expressions/07.01.03_test_038.ttcn3",
+   "module": "M_07_01_03_test_038",
+   "header": "// @requirement: 7.1.3 -- If there is a compound expression on both sides of the comparison operator, they shall both be value list notation expressions where the elements shall be of the same root type and they shall be compared like record of values with elements of that root type."
+  },
+  {
+   "id": "TTCN3-CORE-7.1.3-036b",
+   "section": "7.1.3",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "If there is a compound expression on both sides of the comparison operator, they shall both be value list notation expressions where the elements shall be of the same root type and they shall be compared like record of values with elements of that root type.",
+   "canonical": "If both operands of a comparison operator are value list notation expressions, all their elements SHALL be of the same root type.",
+   "condition": "there is a compound expression on both sides of the comparison operator",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    7288,
+    7293
+   ],
+   "examples": [
+    {
+     "lines": [
+      7395,
+      7423
+     ],
+     "text": "// returns false, as the counterpart of the omitted a2 is 2,\n     // but the counterpart of a3 is undefined \n  c_s3 == c_si;\n     // returns true\n  c_u1 == c_u2;\n     // causes error as U1 and U2 have no common subset of alternatives\n  c_u1 == c_u3;\n     // returns true, as alternatives with the same names are chosen and \n     // the actual values in the selected alternatives are equal\n  { 0, omit, 2 } == c_s1;\n    // returns true\n  c_s2a == { b1 := 0, b2:= omit, b3 := 2 };\n    // returns true\n  { c_s1, c_s2b } == { c_s2a, c_s1 };\n    // returns false because c_s2b != c_s1\n  { c_s1, c_s2b, c_s2a } == { c_s1 };\n    // returns false because of different length\n  c_s1.a1 == c_s2a.b1;\n    // returns true, both fields are initialized with values and the values are equal\n  c_s1.a2 == c_s2a.b2;\n    // returns true, both fields are omit\n  c_s1.a1 == c_s2a.b2;\n    // returns false, value vs. omit\n  c_s1.a1 == omit;\n    // error, omit is neither a value nor a field reference\n  c_s1.a2 == 3;\n    // false, omit vs. value"
+    }
+   ],
+   "file": "tests/07-expressions/07.01.03_test_039.ttcn3",
+   "module": "M_07_01_03_test_039",
+   "header": "// @requirement: 7.1.3 -- If there is a compound expression on both sides of the comparison operator, they shall both be value list notation expressions where the elements shall be of the same root type and they shall be compared like record of values with elements of that root type."
+  },
+  {
+   "id": "TTCN3-CORE-7.1.3-036c",
+   "section": "7.1.3",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "If there is a compound expression on both sides of the comparison operator, they shall both be value list notation expressions where the elements shall be of the same root type and they shall be compared like record of values with elements of that root type.",
+   "canonical": "If both operands of a comparison operator are value list notation expressions, they ARE compared like record of values whose element type is the common root type of the elements.",
+   "condition": "there is a compound expression on both sides of the comparison operator",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    7288,
+    7293
+   ],
+   "examples": [
+    {
+     "lines": [
+      7395,
+      7423
+     ],
+     "text": "// returns false, as the counterpart of the omitted a2 is 2,\n     // but the counterpart of a3 is undefined \n  c_s3 == c_si;\n     // returns true\n  c_u1 == c_u2;\n     // causes error as U1 and U2 have no common subset of alternatives\n  c_u1 == c_u3;\n     // returns true, as alternatives with the same names are chosen and \n     // the actual values in the selected alternatives are equal\n  { 0, omit, 2 } == c_s1;\n    // returns true\n  c_s2a == { b1 := 0, b2:= omit, b3 := 2 };\n    // returns true\n  { c_s1, c_s2b } == { c_s2a, c_s1 };\n    // returns false because c_s2b != c_s1\n  { c_s1, c_s2b, c_s2a } == { c_s1 };\n    // returns false because of different length\n  c_s1.a1 == c_s2a.b1;\n    // returns true, both fields are initialized with values and the values are equal\n  c_s1.a2 == c_s2a.b2;\n    // returns true, both fields are omit\n  c_s1.a1 == c_s2a.b2;\n    // returns false, value vs. omit\n  c_s1.a1 == omit;\n    // error, omit is neither a value nor a field reference\n  c_s1.a2 == 3;\n    // false, omit vs. value"
+    }
+   ],
+   "file": "tests/07-expressions/07.01.03_test_040.ttcn3",
+   "module": "M_07_01_03_test_040",
+   "header": "// @requirement: 7.1.3 -- If there is a compound expression on both sides of the comparison operator, they shall both be value list notation expressions where the elements shall be of the same root type and they shall be compared like record of values with elements of that root type."
+  },
+  {
+   "id": "TTCN3-CORE-7.1.3-037a",
+   "section": "7.1.3",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "If only one operand of the comparison operation is a compound expression it shall be compatible with the root type of the other operand and they shall be compared like values of that root type.",
+   "canonical": "If only one operand of a comparison operation is a compound expression, the compound expression SHALL be compatible with the root type of the other operand.",
+   "condition": "only one operand is a compound expression",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    7288,
+    7293
+   ],
+   "examples": [
+    {
+     "lines": [
+      7395,
+      7423
+     ],
+     "text": "// returns false, as the counterpart of the omitted a2 is 2,\n     // but the counterpart of a3 is undefined \n  c_s3 == c_si;\n     // returns true\n  c_u1 == c_u2;\n     // causes error as U1 and U2 have no common subset of alternatives\n  c_u1 == c_u3;\n     // returns true, as alternatives with the same names are chosen and \n     // the actual values in the selected alternatives are equal\n  { 0, omit, 2 } == c_s1;\n    // returns true\n  c_s2a == { b1 := 0, b2:= omit, b3 := 2 };\n    // returns true\n  { c_s1, c_s2b } == { c_s2a, c_s1 };\n    // returns false because c_s2b != c_s1\n  { c_s1, c_s2b, c_s2a } == { c_s1 };\n    // returns false because of different length\n  c_s1.a1 == c_s2a.b1;\n    // returns true, both fields are initialized with values and the values are equal\n  c_s1.a2 == c_s2a.b2;\n    // returns true, both fields are omit\n  c_s1.a1 == c_s2a.b2;\n    // returns false, value vs. omit\n  c_s1.a1 == omit;\n    // error, omit is neither a value nor a field reference\n  c_s1.a2 == 3;\n    // false, omit vs. value"
+    }
+   ],
+   "file": "tests/07-expressions/07.01.03_test_041.ttcn3",
+   "module": "M_07_01_03_test_041",
+   "header": "// @requirement: 7.1.3 -- If only one operand of the comparison operation is a compound expression it shall be compatible with the root type of the other operand and they shall be compared like values of that root type."
+  },
+  {
+   "id": "TTCN3-CORE-7.1.3-037b",
+   "section": "7.1.3",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "If only one operand of the comparison operation is a compound expression it shall be compatible with the root type of the other operand and they shall be compared like values of that root type.",
+   "canonical": "If only one operand of a comparison operation is a compound expression, the operands ARE compared like values of the root type of the other operand.",
+   "condition": "only one operand is a compound expression",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    7288,
+    7293
+   ],
+   "examples": [
+    {
+     "lines": [
+      7395,
+      7423
+     ],
+     "text": "// returns false, as the counterpart of the omitted a2 is 2,\n     // but the counterpart of a3 is undefined \n  c_s3 == c_si;\n     // returns true\n  c_u1 == c_u2;\n     // causes error as U1 and U2 have no common subset of alternatives\n  c_u1 == c_u3;\n     // returns true, as alternatives with the same names are chosen and \n     // the actual values in the selected alternatives are equal\n  { 0, omit, 2 } == c_s1;\n    // returns true\n  c_s2a == { b1 := 0, b2:= omit, b3 := 2 };\n    // returns true\n  { c_s1, c_s2b } == { c_s2a, c_s1 };\n    // returns false because c_s2b != c_s1\n  { c_s1, c_s2b, c_s2a } == { c_s1 };\n    // returns false because of different length\n  c_s1.a1 == c_s2a.b1;\n    // returns true, both fields are initialized with values and the values are equal\n  c_s1.a2 == c_s2a.b2;\n    // returns true, both fields are omit\n  c_s1.a1 == c_s2a.b2;\n    // returns false, value vs. omit\n  c_s1.a1 == omit;\n    // error, omit is neither a value nor a field reference\n  c_s1.a2 == 3;\n    // false, omit vs. value"
+    }
+   ],
+   "file": "tests/07-expressions/07.01.03_test_042.ttcn3",
+   "module": "M_07_01_03_test_042",
+   "header": "// @requirement: 7.1.3 -- If only one operand of the comparison operation is a compound expression it shall be compatible with the root type of the other operand and they shall be compared like values of that root type."
+  },
+  {
+   "id": "TTCN3-CORE-7.1.3-038a",
+   "section": "7.1.3",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Two maps are equal if and only if they are mutually compatible with the type of the other operand (see clause 6.3.2.2), they have the same number of key-value pairs and for each key-value pair in both maps there is a key-value pair in the other map where the key from one pair is equal to the key from the other pair and the value from one pair is equal to the value from the other pair.",
+   "canonical": "Two map values ARE equal if and only if each is compatible with the type of the other operand, they have the same number of key-value pairs, and for each key-value pair in either map the other map has a key-value pair with an equal key and an equal value.",
+   "condition": null,
+   "cross_refs": [
+    "6.3.2.2"
+   ],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "The cross-reference to clause 6.3.2.2 (compatibility of record and set types) is used for map types.",
+    "improper_terms": [
+     {
+      "used": "see clause 6.3.2.2",
+      "proper": "compatibility of map types",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    7295,
+    7298
+   ],
+   "examples": [],
+   "file": "tests/07-expressions/07.01.03_test_043.ttcn3",
+   "module": "M_07_01_03_test_043",
+   "header": "// @requirement: 7.1.3 -- Two maps are equal if and only if they are mutually compatible with the type of the other operand (see clause 6.3.2.2), they have the same number of key-value pairs and for each key-value pair in both maps there is a key-value pair in the other map where the key from one pair is equal to the key from the other pair and the value from one pair is equal to the value from the other pair."
+  },
+  {
+   "id": "TTCN3-CORE-7.1.4-002a",
+   "section": "7.1.4",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "Their operands shall be of root type boolean.",
+   "canonical": "An operand of a boolean operator SHALL be of root type boolean.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    7427,
+    7428
+   ],
+   "examples": [],
+   "file": "tests/07-expressions/07.01.04_test_001.ttcn3",
+   "module": "M_07_01_04_test_001",
+   "header": "// @requirement: 7.1.4 -- Their operands shall be of root type boolean."
+  },
+  {
+   "id": "TTCN3-CORE-7.1.4-003a",
+   "section": "7.1.4",
+   "type": "static-semantics",
+   "modality": "IS",
+   "original": "The result type of logical operations is boolean.",
+   "canonical": "The result type of a boolean operator IS boolean.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    7427,
+    7428
+   ],
+   "examples": [],
+   "file": "tests/07-expressions/07.01.04_test_002.ttcn3",
+   "module": "M_07_01_04_test_002",
+   "header": "// @requirement: 7.1.4 -- The result type of logical operations is boolean."
+  },
+  {
+   "id": "TTCN3-CORE-7.1.4-004a",
+   "section": "7.1.4",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The logical not is the unary operator that returns the value true if its operand was of value false and returns the value false if the operand was of value true.",
+   "canonical": "The unary `not` operator returns `true` if its operand is `false` and returns `false` if its operand is `true`.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    7430,
+    7431
+   ],
+   "examples": [],
+   "file": "tests/07-expressions/07.01.04_test_003.ttcn3",
+   "module": "M_07_01_04_test_003",
+   "header": "// @requirement: 7.1.4 -- The logical not is the unary operator that returns the value true if its operand was of value false and returns the value false if the operand was of value true."
+  },
+  {
+   "id": "TTCN3-CORE-7.1.4-005a",
+   "section": "7.1.4",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The logical and returns the value true if both its operands are true; otherwise it returns the value false.",
+   "canonical": "The `and` operator returns `true` if both operands are `true`, and `false` otherwise.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    7433,
+    7433
+   ],
+   "examples": [],
+   "file": "tests/07-expressions/07.01.04_test_004.ttcn3",
+   "module": "M_07_01_04_test_004",
+   "header": "// @requirement: 7.1.4 -- The logical and returns the value true if both its operands are true; otherwise it returns the value false."
+  },
+  {
+   "id": "TTCN3-CORE-7.1.4-006a",
+   "section": "7.1.4",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The logical or returns the value true if at least one of its operands is true; it returns the value false only if both operands are false.",
+   "canonical": "The `or` operator returns `true` if at least one operand is `true`, and `false` only if both operands are `false`.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    7435,
+    7436
+   ],
+   "examples": [],
+   "file": "tests/07-expressions/07.01.04_test_005.ttcn3",
+   "module": "M_07_01_04_test_005",
+   "header": "// @requirement: 7.1.4 -- The logical or returns the value true if at least one of its operands is true; it returns the value false only if both operands are false."
+  },
+  {
+   "id": "TTCN3-CORE-7.1.4-007a",
+   "section": "7.1.4",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The logical xor returns the value true if one of its operands is true; it returns the value false if both operands are false or if both operands are true.",
+   "canonical": "The `xor` operator returns `true` if exactly one operand is `true`, and `false` if both operands are `false` or both are `true`.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    7438,
+    7439
+   ],
+   "examples": [],
+   "file": "tests/07-expressions/07.01.04_test_006.ttcn3",
+   "module": "M_07_01_04_test_006",
+   "header": "// @requirement: 7.1.4 -- The logical xor returns the value true if one of its operands is true; it returns the value false if both operands are false or if both operands are true."
+  },
+  {
+   "id": "TTCN3-CORE-7.1.4-008a",
+   "section": "7.1.4",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Short circuit evaluation for boolean expressions is used, i.e. the evaluation of operands of logical operators is stopped once the overall result is known: in the case of the and operator, if the left argument evaluates to false, then the right argument is not evaluated and the whole expression evaluates to false.",
+   "canonical": "The evaluation of the operands of a boolean operator IS stopped once the overall result is known (short circuit evaluation).",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    7441,
+    7444
+   ],
+   "examples": [],
+   "file": "tests/07-expressions/07.01.04_test_007.ttcn3",
+   "module": "M_07_01_04_test_007",
+   "header": "// @requirement: 7.1.4 -- Short circuit evaluation for boolean expressions is used, i.e. the evaluation of operands of logical operators is stopped once the overall result is known: in the case of the and operator, if the left argument evaluates to false, then the right argument is not evaluated and the whole expression evaluates to false."
+  },
+  {
+   "id": "TTCN3-CORE-7.1.4-008b",
+   "section": "7.1.4",
+   "type": "semantics",
+   "modality": "IS NOT",
+   "original": "Short circuit evaluation for boolean expressions is used, i.e. the evaluation of operands of logical operators is stopped once the overall result is known: in the case of the and operator, if the left argument evaluates to false, then the right argument is not evaluated and the whole expression evaluates to false.",
+   "canonical": "If the left operand of the `and` operator evaluates to `false`, the right operand IS NOT evaluated and the expression evaluates to `false`.",
+   "condition": "the left operand evaluates to false",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    7441,
+    7444
+   ],
+   "examples": [],
+   "file": "tests/07-expressions/07.01.04_test_008.ttcn3",
+   "module": "M_07_01_04_test_008",
+   "header": "// @requirement: 7.1.4 -- Short circuit evaluation for boolean expressions is used, i.e. the evaluation of operands of logical operators is stopped once the overall result is known: in the case of the and operator, if the left argument evaluates to false, then the right argument is not evaluated and the whole expression evaluates to false."
+  },
+  {
+   "id": "TTCN3-CORE-7.1.4-009a",
+   "section": "7.1.4",
+   "type": "semantics",
+   "modality": "IS NOT",
+   "original": "In the case of the or operator, if the left argument evaluates to true, then the right argument is not evaluated and the whole expression evaluates to true.",
+   "canonical": "If the left operand of the `or` operator evaluates to `true`, the right operand IS NOT evaluated and the expression evaluates to `true`.",
+   "condition": "the left operand evaluates to true",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    7441,
+    7444
+   ],
+   "examples": [],
+   "file": "tests/07-expressions/07.01.04_test_009.ttcn3",
+   "module": "M_07_01_04_test_009",
+   "header": "// @requirement: 7.1.4 -- In the case of the or operator, if the left argument evaluates to true, then the right argument is not evaluated and the whole expression evaluates to true."
+  },
+  {
+   "id": "TTCN3-CORE-7.1.5-002a",
+   "section": "7.1.5",
+   "type": "definition",
+   "modality": "IS",
+   "original": "These operators are known as not4b, and4b, or4b and xor4b respectively.",
+   "canonical": "The bitwise not, and, or and xor operators ARE named `not4b`, `and4b`, `or4b` and `xor4b` respectively.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    7448,
+    7449
+   ],
+   "examples": [],
+   "file": "tests/07-expressions/07.01.05_test_001.ttcn3",
+   "module": "M_07_01_05_test_001",
+   "header": "// @requirement: 7.1.5 -- These operators are known as not4b, and4b, or4b and xor4b respectively."
+  },
+  {
+   "id": "TTCN3-CORE-7.1.5-004a",
+   "section": "7.1.5",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "Their operands shall be of root type `bitstring, hexstring or octetstring.",
+   "canonical": "An operand of a bitwise operator SHALL be of root type bitstring, hexstring or octetstring.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    7453,
+    7455
+   ],
+   "examples": [],
+   "file": "tests/07-expressions/07.01.05_test_002.ttcn3",
+   "module": "M_07_01_05_test_002",
+   "header": "// @requirement: 7.1.5 -- Their operands shall be of root type `bitstring, hexstring or octetstring."
+  },
+  {
+   "id": "TTCN3-CORE-7.1.5-005a",
+   "section": "7.1.5",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "In the case of and4b, or4b and` xor4b the operands shall be of the same root types.The result type of the bitwise operators shall be the root type of the operands.",
+   "canonical": "The two operands of the `and4b`, `or4b` and `xor4b` operators SHALL be of the same root type.",
+   "condition": "the operator is and4b, or4b or xor4b",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    7453,
+    7455
+   ],
+   "examples": [],
+   "file": "tests/07-expressions/07.01.05_test_003.ttcn3",
+   "module": "M_07_01_05_test_003",
+   "header": "// @requirement: 7.1.5 -- In the case of and4b, or4b and` xor4b the operands shall be of the same root types.The result type of the bitwise operators shall be the root type of the operands."
+  },
+  {
+   "id": "TTCN3-CORE-7.1.5-005b",
+   "section": "7.1.5",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "original": "In the case of and4b, or4b and` xor4b the operands shall be of the same root types.The result type of the bitwise operators shall be the root type of the operands.",
+   "canonical": "The result type of a bitwise operator SHALL be the root type of its operands.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    7453,
+    7455
+   ],
+   "examples": [],
+   "file": "tests/07-expressions/07.01.05_test_004.ttcn3",
+   "module": "M_07_01_05_test_004",
+   "header": "// @requirement: 7.1.5 -- In the case of and4b, or4b and` xor4b the operands shall be of the same root types.The result type of the bitwise operators shall be the root type of the operands."
+  },
+  {
+   "id": "TTCN3-CORE-7.1.5-006a",
+   "section": "7.1.5",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The bitwise not4b unary operator inverts the individual bit values of its operand. For each bit in the operand a 1 bit is set to 0 and a 0 bit is set to 1. That is:",
+   "canonical": "The unary `not4b` operator inverts each bit of its operand: each 1 bit is set to 0 and each 0 bit is set to 1.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    7457,
+    7458
+   ],
+   "examples": [
+    {
+     "lines": [
+      7459,
+      7462
+     ],
+     "text": "not4b '1'B gives '0'B\n  not4b '0'B gives '1'B"
+    },
+    {
+     "lines": [
+      7472,
+      7476
+     ],
+     "text": "not4b '1010'B gives '0101'B\n  not4b '1A5'H gives 'E5A'H\n  not4b '01A5'O gives 'FE5A'O"
+    }
+   ],
+   "file": "tests/07-expressions/07.01.05_test_005.ttcn3",
+   "module": "M_07_01_05_test_005",
+   "header": "// @requirement: 7.1.5 -- The bitwise not4b unary operator inverts the individual bit values of its operand. For each bit in the operand a 1 bit is set to 0 and a 0 bit is set to 1. That is:"
+  },
+  {
+   "id": "TTCN3-CORE-7.1.5-012a",
+   "section": "7.1.5",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "The bitwise and4b operator accepts two operands of equal length.",
+   "canonical": "The two operands of the `and4b` operator SHALL have equal length.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "The text is a normative paragraph of the standard but was converted as example text; it is marked non-normative only because of its source unit kind. \"accepts two operands of equal length\" does not say whether operands of different length are an error. Chosen reading: they are an error.",
+    "readings": [
+     "The operands of `and4b` SHALL have equal length; operands of different length cause an error.",
+     "The `and4b` operator is defined only for operands of equal length; the behaviour for different lengths is unspecified."
+    ]
+   },
+   "spec_lines": [
+    7478,
+    7479
+   ],
+   "examples": [
+    {
+     "lines": [
+      7488,
+      7492
+     ],
+     "text": "'1001'B and4b '0101'B gives '0001'B\n  'B'H and4b '5'H gives '1'H\n  'FB'O and4b '15'O gives '11'O"
+    }
+   ],
+   "file": "tests/07-expressions/07.01.05_test_006.ttcn3",
+   "module": "M_07_01_05_test_006",
+   "header": "// @requirement: 7.1.5 -- The bitwise and4b operator accepts two operands of equal length."
+  },
+  {
+   "id": "TTCN3-CORE-7.1.5-013a",
+   "section": "7.1.5",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "For each corresponding bit position, the resulting value is a 1 if both bits are set to 1, otherwise the value for the resulting bit is 0. That is:",
+   "canonical": "For each bit position of the operands of the `and4b` operator, each result bit IS 1 if both corresponding operand bits are 1, and 0 otherwise.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    7478,
+    7479
+   ],
+   "examples": [
+    {
+     "lines": [
+      7480,
+      7485
+     ],
+     "text": "'1'B and4b '1'B gives '1'B\n  '1'B and4b '0'B gives '0'B\n  '0'B and4b '1'B gives '0'B\n  '0'B and4b '0'B gives '0'B"
+    },
+    {
+     "lines": [
+      7488,
+      7492
+     ],
+     "text": "'1001'B and4b '0101'B gives '0001'B\n  'B'H and4b '5'H gives '1'H\n  'FB'O and4b '15'O gives '11'O"
+    }
+   ],
+   "file": "tests/07-expressions/07.01.05_test_007.ttcn3",
+   "module": "M_07_01_05_test_007",
+   "header": "// @requirement: 7.1.5 -- For each corresponding bit position, the resulting value is a 1 if both bits are set to 1, otherwise the value for the resulting bit is 0. That is:"
+  },
+  {
+   "id": "TTCN3-CORE-7.1.5-018a",
+   "section": "7.1.5",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "The bitwise or4b operator accepts two operands of equal length.",
+   "canonical": "The two operands of the `or4b` operator SHALL have equal length.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "The text is a normative paragraph of the standard but was converted as example text; it is marked non-normative only because of its source unit kind. \"accepts two operands of equal length\" does not say whether operands of different length are an error. Chosen reading: they are an error.",
+    "readings": [
+     "The operands of `or4b` SHALL have equal length; operands of different length cause an error.",
+     "The `or4b` operator is defined only for operands of equal length; the behaviour for different lengths is unspecified."
+    ]
+   },
+   "spec_lines": [
+    7494,
+    7495
+   ],
+   "examples": [
+    {
+     "lines": [
+      7504,
+      7508
+     ],
+     "text": "'1001'B or4b '0101'B gives '1101'B\n  '9'H or4b '5'H gives 'D'H\n  'A9'O or4b 'F5'O gives 'FD'O"
+    }
+   ],
+   "file": "tests/07-expressions/07.01.05_test_008.ttcn3",
+   "module": "M_07_01_05_test_008",
+   "header": "// @requirement: 7.1.5 -- The bitwise or4b operator accepts two operands of equal length."
+  },
+  {
+   "id": "TTCN3-CORE-7.1.5-019a",
+   "section": "7.1.5",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "For each corresponding bit position, the resulting value is 0 if both bits are set to 0, otherwise the value for the resulting bit is 1. That is:",
+   "canonical": "For each bit position of the operands of the `or4b` operator, each result bit IS 0 if both corresponding operand bits are 0, and 1 otherwise.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    7494,
+    7495
+   ],
+   "examples": [
+    {
+     "lines": [
+      7496,
+      7501
+     ],
+     "text": "'1'B or4b '1'B gives '1'B\n  '1'B or4b '0'B gives '1'B\n  '0'B or4b '1'B gives '1'B\n  '0'B or4b '0'B gives '0'B"
+    },
+    {
+     "lines": [
+      7504,
+      7508
+     ],
+     "text": "'1001'B or4b '0101'B gives '1101'B\n  '9'H or4b '5'H gives 'D'H\n  'A9'O or4b 'F5'O gives 'FD'O"
+    }
+   ],
+   "file": "tests/07-expressions/07.01.05_test_009.ttcn3",
+   "module": "M_07_01_05_test_009",
+   "header": "// @requirement: 7.1.5 -- For each corresponding bit position, the resulting value is 0 if both bits are set to 0, otherwise the value for the resulting bit is 1. That is:"
+  },
+  {
+   "id": "TTCN3-CORE-7.1.5-024a",
+   "section": "7.1.5",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "The bitwise xor4b operator accepts two operands of equal length.",
+   "canonical": "The two operands of the `xor4b` operator SHALL have equal length.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "The text is a normative paragraph of the standard but was converted as example text; it is marked non-normative only because of its source unit kind. \"accepts two operands of equal length\" does not say whether operands of different length are an error. Chosen reading: they are an error.",
+    "readings": [
+     "The operands of `xor4b` SHALL have equal length; operands of different length cause an error.",
+     "The `xor4b` operator is defined only for operands of equal length; the behaviour for different lengths is unspecified."
+    ]
+   },
+   "spec_lines": [
+    7510,
+    7511
+   ],
+   "examples": [
+    {
+     "lines": [
+      7520,
+      7524
+     ],
+     "text": "'1001'B xor4b '0101'B gives '1100'B\n  '9'H xor4b '5'H gives 'C'H\n  '39'O xor4b '15'O gives '2C'O"
+    }
+   ],
+   "file": "tests/07-expressions/07.01.05_test_010.ttcn3",
+   "module": "M_07_01_05_test_010",
+   "header": "// @requirement: 7.1.5 -- The bitwise xor4b operator accepts two operands of equal length."
+  },
+  {
+   "id": "TTCN3-CORE-7.1.5-025a",
+   "section": "7.1.5",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "For each corresponding bit position, the resulting value is 0 if both bits are set to 0 or if both bits are set to 1, otherwise the value for the resulting bit is 1. That is:",
+   "canonical": "For each bit position of the operands of the `xor4b` operator, each result bit IS 0 if both corresponding operand bits are 0 or both are 1, and 1 otherwise.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    7510,
+    7511
+   ],
+   "examples": [
+    {
+     "lines": [
+      7512,
+      7517
+     ],
+     "text": "'1'B xor4b '1'B gives '0'B\n  '0'B xor4b '0'B gives '0'B\n  '0'B xor4b '1'B gives '1'B\n  '1'B xor4b '0'B gives '1'B"
+    },
+    {
+     "lines": [
+      7520,
+      7524
+     ],
+     "text": "'1001'B xor4b '0101'B gives '1100'B\n  '9'H xor4b '5'H gives 'C'H\n  '39'O xor4b '15'O gives '2C'O"
+    }
+   ],
+   "file": "tests/07-expressions/07.01.05_test_011.ttcn3",
+   "module": "M_07_01_05_test_011",
+   "header": "// @requirement: 7.1.5 -- For each corresponding bit position, the resulting value is 0 if both bits are set to 0 or if both bits are set to 1, otherwise the value for the resulting bit is 1. That is:"
+  },
+  {
+   "id": "TTCN3-CORE-7.1.6-002a",
+   "section": "7.1.6",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "Their left-hand operand shall be of root type `bitstring, hexstring or octetstring.",
+   "canonical": "The left-hand operand of a shift operator SHALL be of root type bitstring, hexstring or octetstring.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    7528,
+    7530
+   ],
+   "examples": [],
+   "file": "tests/07-expressions/07.01.06_test_001.ttcn3",
+   "module": "M_07_01_06_test_001",
+   "header": "// @requirement: 7.1.6 -- Their left-hand operand shall be of root type `bitstring, hexstring or octetstring."
+  },
+  {
+   "id": "TTCN3-CORE-7.1.6-003a",
+   "section": "7.1.6",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "Their right-hand operand shall be a non-negative` integer.",
+   "canonical": "The right-hand operand of a shift operator SHALL be a non-negative integer.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    7528,
+    7530
+   ],
+   "examples": [],
+   "file": "tests/07-expressions/07.01.06_test_002.ttcn3",
+   "module": "M_07_01_06_test_002",
+   "header": "// @requirement: 7.1.6 -- Their right-hand operand shall be a non-negative` integer."
+  },
+  {
+   "id": "TTCN3-CORE-7.1.6-004a",
+   "section": "7.1.6",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "original": "The result type of these operators shall be the same as the root type of the left operand.",
+   "canonical": "The result type of a shift operator SHALL be the root type of the left-hand operand.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    7528,
+    7530
+   ],
+   "examples": [],
+   "file": "tests/07-expressions/07.01.06_test_003.ttcn3",
+   "module": "M_07_01_06_test_003",
+   "header": "// @requirement: 7.1.6 -- The result type of these operators shall be the same as the root type of the left operand."
+  },
+  {
+   "id": "TTCN3-CORE-7.1.6-007a",
+   "section": "7.1.6",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "a) `bitstring then the shift unit applied is 1 bit;` b) `hexstring then the shift unit applied is 1 hexadecimal digit;` c) `octetstring then the shift unit applied is 1 octet.` The shift operators behave differently based upon the type of their left-hand operand. If the type of the left-hand operand is:",
+   "canonical": "If the left-hand operand of a shift operator is of type bitstring, the shift unit IS 1 bit.",
+   "condition": "the left-hand operand is a bitstring",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    7532,
+    7539
+   ],
+   "examples": [],
+   "file": "tests/07-expressions/07.01.06_test_004.ttcn3",
+   "module": "M_07_01_06_test_004",
+   "header": "// @requirement: 7.1.6 -- a) `bitstring then the shift unit applied is 1 bit;` b) `hexstring then the shift unit applied is 1 hexadecimal digit;` c) `octetstring then the shift unit applied is 1 octet.` The shift operators behave differently based upon the type of their left-hand operand. If the type of the left-hand operand is:"
+  },
+  {
+   "id": "TTCN3-CORE-7.1.6-007b",
+   "section": "7.1.6",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "a) `bitstring then the shift unit applied is 1 bit;` b) `hexstring then the shift unit applied is 1 hexadecimal digit;` c) `octetstring then the shift unit applied is 1 octet.` If the type of the left-hand operand is:",
+   "canonical": "If the left-hand operand of a shift operator is of type hexstring, the shift unit IS 1 hexadecimal digit.",
+   "condition": "the left-hand operand is a hexstring",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    7532,
+    7539
+   ],
+   "examples": [],
+   "file": "tests/07-expressions/07.01.06_test_005.ttcn3",
+   "module": "M_07_01_06_test_005",
+   "header": "// @requirement: 7.1.6 -- a) `bitstring then the shift unit applied is 1 bit;` b) `hexstring then the shift unit applied is 1 hexadecimal digit;` c) `octetstring then the shift unit applied is 1 octet.` If the type of the left-hand operand is:"
+  },
+  {
+   "id": "TTCN3-CORE-7.1.6-007c",
+   "section": "7.1.6",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "a) `bitstring then the shift unit applied is 1 bit;` b) `hexstring then the shift unit applied is 1 hexadecimal digit;` c) `octetstring then the shift unit applied is 1 octet.` If the type of the left-hand operand is:",
+   "canonical": "If the left-hand operand of a shift operator is of type octetstring, the shift unit IS 1 octet.",
+   "condition": "the left-hand operand is an octetstring",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    7532,
+    7539
+   ],
+   "examples": [],
+   "file": "tests/07-expressions/07.01.06_test_006.ttcn3",
+   "module": "M_07_01_06_test_006",
+   "header": "// @requirement: 7.1.6 -- a) `bitstring then the shift unit applied is 1 bit;` b) `hexstring then the shift unit applied is 1 hexadecimal digit;` c) `octetstring then the shift unit applied is 1 octet.` If the type of the left-hand operand is:"
+  },
+  {
+   "id": "TTCN3-CORE-7.1.6-009a",
+   "section": "7.1.6",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "It shifts the left-hand operand by the number of shift units to the left as specified by the right-hand operand.",
+   "canonical": "The shift left operator (<<) shifts the left-hand operand to the left by the number of shift units given by the right-hand operand.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    7541,
+    7544
+   ],
+   "examples": [
+    {
+     "lines": [
+      7554,
+      7558
+     ],
+     "text": "'111001'B << 2 gives '100100'B\n  '12345'H << 2 gives '34500'H\n  '1122334455'O << (1+1) gives '3344550000'O"
+    }
+   ],
+   "file": "tests/07-expressions/07.01.06_test_007.ttcn3",
+   "module": "M_07_01_06_test_007",
+   "header": "// @requirement: 7.1.6 -- It shifts the left-hand operand by the number of shift units to the left as specified by the right-hand operand."
+  },
+  {
+   "id": "TTCN3-CORE-7.1.6-010a",
+   "section": "7.1.6",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Excess shift units (bits, hexadecimal digits or octets) are discarded.",
+   "canonical": "Shift units shifted out of the left-hand operand by the shift left operator (<<) ARE discarded.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    7541,
+    7544
+   ],
+   "examples": [
+    {
+     "lines": [
+      7554,
+      7558
+     ],
+     "text": "'111001'B << 2 gives '100100'B\n  '12345'H << 2 gives '34500'H\n  '1122334455'O << (1+1) gives '3344550000'O"
+    }
+   ],
+   "file": "tests/07-expressions/07.01.06_test_008.ttcn3",
+   "module": "M_07_01_06_test_008",
+   "header": "// @requirement: 7.1.6 -- Excess shift units (bits, hexadecimal digits or octets) are discarded."
+  },
+  {
+   "id": "TTCN3-CORE-7.1.6-011a",
+   "section": "7.1.6",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "For each shift unit shifted to the left, a zero ('0'B, '0'H, or '00'O determined according to the type of the left-hand operand) is inserted from the right-hand side of the left operand.",
+   "canonical": "For each shift unit shifted to the left, the shift left operator (<<) inserts a zero ('0'B, '0'H or '00'O, according to the type of the left-hand operand) at the right-hand side of the left operand.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    7541,
+    7544
+   ],
+   "examples": [
+    {
+     "lines": [
+      7554,
+      7558
+     ],
+     "text": "'111001'B << 2 gives '100100'B\n  '12345'H << 2 gives '34500'H\n  '1122334455'O << (1+1) gives '3344550000'O"
+    }
+   ],
+   "file": "tests/07-expressions/07.01.06_test_009.ttcn3",
+   "module": "M_07_01_06_test_009",
+   "header": "// @requirement: 7.1.6 -- For each shift unit shifted to the left, a zero ('0'B, '0'H, or '00'O determined according to the type of the left-hand operand) is inserted from the right-hand side of the left operand."
+  },
+  {
+   "id": "TTCN3-CORE-7.1.6-015a",
+   "section": "7.1.6",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "It shifts the left-hand operand by the number of shift units to the right as specified by the right-hand operand.",
+   "canonical": "The shift right operator (>>) shifts the left-hand operand to the right by the number of shift units given by the right-hand operand.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    7560,
+    7563
+   ],
+   "examples": [
+    {
+     "lines": [
+      7566,
+      7570
+     ],
+     "text": "'111001'B >> 2 gives '001110'B  \n  '12345'H >> 2 gives '00123'H\n  '1122334455'O >> (1+1) gives '0000112233'O"
+    }
+   ],
+   "file": "tests/07-expressions/07.01.06_test_010.ttcn3",
+   "module": "M_07_01_06_test_010",
+   "header": "// @requirement: 7.1.6 -- It shifts the left-hand operand by the number of shift units to the right as specified by the right-hand operand."
+  },
+  {
+   "id": "TTCN3-CORE-7.1.6-016a",
+   "section": "7.1.6",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Excess shift units (bits, hexadecimal digits or octets) are discarded.",
+   "canonical": "Shift units shifted out of the left-hand operand by the shift right operator (>>) ARE discarded.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    7560,
+    7563
+   ],
+   "examples": [
+    {
+     "lines": [
+      7566,
+      7570
+     ],
+     "text": "'111001'B >> 2 gives '001110'B  \n  '12345'H >> 2 gives '00123'H\n  '1122334455'O >> (1+1) gives '0000112233'O"
+    }
+   ],
+   "file": "tests/07-expressions/07.01.06_test_011.ttcn3",
+   "module": "M_07_01_06_test_011",
+   "header": "// @requirement: 7.1.6 -- Excess shift units (bits, hexadecimal digits or octets) are discarded."
+  },
+  {
+   "id": "TTCN3-CORE-7.1.6-017a",
+   "section": "7.1.6",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "For each shift unit shifted to the right, a zero ('0'B, '0'H, or '00'O determined according to the type of the left-hand operand) is inserted from the left-hand side of the left operand.",
+   "canonical": "For each shift unit shifted to the right, the shift right operator (>>) inserts a zero ('0'B, '0'H or '00'O, according to the type of the left-hand operand) at the left-hand side of the left operand.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    7560,
+    7563
+   ],
+   "examples": [
+    {
+     "lines": [
+      7566,
+      7570
+     ],
+     "text": "'111001'B >> 2 gives '001110'B  \n  '12345'H >> 2 gives '00123'H\n  '1122334455'O >> (1+1) gives '0000112233'O"
+    }
+   ],
+   "file": "tests/07-expressions/07.01.06_test_012.ttcn3",
+   "module": "M_07_01_06_test_012",
+   "header": "// @requirement: 7.1.6 -- For each shift unit shifted to the right, a zero ('0'B, '0'H, or '00'O determined according to the type of the left-hand operand) is inserted from the left-hand side of the left operand."
+  }
+ ]
+}

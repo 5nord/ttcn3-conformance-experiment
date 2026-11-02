@@ -1,0 +1,1208 @@
+{
+ "batch": "b079",
+ "requirements": [
+  {
+   "id": "TTCN3-CORE-23.7-001a",
+   "section": "23.7",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "The keywords any and all may be used with timer operations as indicated in table 28.",
+   "canonical": "The keywords `any` and `all` MAY be used with timer operations only as indicated in table 28.",
+   "condition": null,
+   "cross_refs": [
+    "23.7"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    20094,
+    20094
+   ],
+   "examples": [],
+   "file": "tests/23-timer-operations/23.07_test_001.ttcn3",
+   "module": "M_23_07_test_001",
+   "header": "// @requirement: 23.7 -- The keywords any and all may be used with timer operations as indicated in table 28."
+  },
+  {
+   "id": "TTCN3-CORE-24.0-002a",
+   "section": "24.0",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "These operations shall only be used in test cases, altsteps and functions.",
+   "canonical": "A test verdict operation SHALL only be used in testcases, altsteps and functions.",
+   "condition": null,
+   "cross_refs": [
+    "16.1",
+    "16.2"
+   ],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "Chose reading 1: 'functions' means functions that execute on a test component; verdict operations are not meaningful in the module control function (no local verdict). Also 'test cases' denotes testcase definitions.",
+    "readings": [
+     "A test verdict operation SHALL only be used in testcases, altsteps and functions executed on a test component, and SHALL NOT be used in the module control function or in functions called from it.",
+     "A test verdict operation SHALL only be used in testcases, altsteps and functions, including any function called from the module control function."
+    ],
+    "improper_terms": [
+     {
+      "used": "test cases",
+      "proper": "testcase definitions",
+      "glossary": true
+     }
+    ]
+   },
+   "spec_lines": [
+    20110,
+    20111
+   ],
+   "examples": [],
+   "file": "tests/24-test-verdict-operations/24.00_test_001.ttcn3",
+   "module": "M_24_00_test_001",
+   "header": "// @requirement: 24.0 -- These operations shall only be used in test cases, altsteps and functions."
+  },
+  {
+   "id": "TTCN3-CORE-24.1-001a",
+   "section": "24.1",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "Each test component of the active configuration shall maintain its own local verdict.",
+   "canonical": "Each test component of the active configuration SHALL maintain its own local verdict.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    20122,
+    20124
+   ],
+   "examples": [],
+   "file": "tests/24-test-verdict-operations/24.01_test_001.ttcn3",
+   "module": "M_24_01_test_001",
+   "header": "// @requirement: 24.1 -- Each test component of the active configuration shall maintain its own local verdict."
+  },
+  {
+   "id": "TTCN3-CORE-24.1-002b",
+   "section": "24.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The local verdict is an object which is created for each test component at the time of its creation.",
+   "canonical": "A local verdict IS created for each test component at the time of the creation of the test component.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    20122,
+    20124
+   ],
+   "examples": [],
+   "file": "tests/24-test-verdict-operations/24.01_test_002.ttcn3",
+   "module": "M_24_01_test_002",
+   "header": "// @requirement: 24.1 -- The local verdict is an object which is created for each test component at the time of its creation."
+  },
+  {
+   "id": "TTCN3-CORE-24.1-004b",
+   "section": "24.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Additionally, there is a global test case verdict instantiated and handled by the test system that is updated when each test component (i.e. the MTC and each and every PTC) terminates execution (see figure 14).",
+   "canonical": "The test case verdict IS updated when a test component (the MTC or any PTC) terminates execution.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    20126,
+    20130
+   ],
+   "examples": [
+    {
+     "lines": [
+      20251,
+      20257
+     ],
+     "text": "setverdict(pass); // the local verdict is set to pass\n  :\n  setverdict(fail); // until this line is executed, which will result in the value \n              // of the local verdict being overwritten to fail \n              // When the ptc terminates the test case verdict is set to fail"
+    }
+   ],
+   "file": "tests/24-test-verdict-operations/24.01_test_003.ttcn3",
+   "module": "M_24_01_test_003",
+   "header": "// @requirement: 24.1 -- Additionally, there is a global test case verdict instantiated and handled by the test system that is updated when each test component (i.e. the MTC and each and every PTC) terminates execution (see figure 14)."
+  },
+  {
+   "id": "TTCN3-CORE-24.1-005a",
+   "section": "24.1",
+   "type": "restriction",
+   "modality": "IS NOT",
+   "original": "This verdict is not accessible to the getverdict and setverdict operations.",
+   "canonical": "The test case verdict IS NOT accessible to the `getverdict` and `setverdict` operations.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    20126,
+    20130
+   ],
+   "examples": [],
+   "file": "tests/24-test-verdict-operations/24.01_test_004.ttcn3",
+   "module": "M_24_01_test_004",
+   "header": "// @requirement: 24.1 -- This verdict is not accessible to the getverdict and setverdict operations."
+  },
+  {
+   "id": "TTCN3-CORE-24.1-006a",
+   "section": "24.1",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "The value of this verdict shall be returned by the test case when it terminates execution.",
+   "canonical": "When a testcase terminates execution, the testcase SHALL return the value of the test case verdict.",
+   "condition": "the testcase terminates execution",
+   "cross_refs": [
+    "26.1"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    20126,
+    20130
+   ],
+   "examples": [],
+   "file": "tests/24-test-verdict-operations/24.01_test_005.ttcn3",
+   "module": "M_24_01_test_005",
+   "header": "// @requirement: 24.1 -- The value of this verdict shall be returned by the test case when it terminates execution."
+  },
+  {
+   "id": "TTCN3-CORE-24.1-009a",
+   "section": "24.1",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "Operation: start (Table 28: neither any nor all allowed)",
+   "canonical": "The keywords `any` and `all` SHALL NOT be used with the timer `start` operation.",
+   "condition": null,
+   "cross_refs": [
+    "23.7",
+    "23.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    20132,
+    20135
+   ],
+   "examples": [],
+   "file": "tests/24-test-verdict-operations/24.01_test_006.ttcn3",
+   "module": "M_24_01_test_006",
+   "header": "// @requirement: 24.1 -- Operation: start (Table 28: neither any nor all allowed)"
+  },
+  {
+   "id": "TTCN3-CORE-24.1-010a",
+   "section": "24.1",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Operation: stop; Col3: yes; Example: all timer.stop",
+   "canonical": "The keyword `all` MAY be used with the timer `stop` operation (e.g. `all timer.stop`).",
+   "condition": null,
+   "cross_refs": [
+    "23.7",
+    "23.3"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    20132,
+    20136
+   ],
+   "examples": [],
+   "file": "tests/24-test-verdict-operations/24.01_test_007.ttcn3",
+   "module": "M_24_01_test_007",
+   "header": "// @requirement: 24.1 -- Operation: stop; Col3: yes; Example: all timer.stop"
+  },
+  {
+   "id": "TTCN3-CORE-24.1-010b",
+   "section": "24.1",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "Operation: stop; Col3: yes; Example: all timer.stop",
+   "canonical": "The keyword `any` SHALL NOT be used with the timer `stop` operation.",
+   "condition": null,
+   "cross_refs": [
+    "23.7",
+    "23.3"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    20132,
+    20136
+   ],
+   "examples": [],
+   "file": "tests/24-test-verdict-operations/24.01_test_008.ttcn3",
+   "module": "M_24_01_test_008",
+   "header": "// @requirement: 24.1 -- Operation: stop; Col3: yes; Example: all timer.stop"
+  },
+  {
+   "id": "TTCN3-CORE-24.1-011a",
+   "section": "24.1",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "Operation: read (Table 28: neither any nor all allowed)",
+   "canonical": "The keywords `any` and `all` SHALL NOT be used with the timer `read` operation.",
+   "condition": null,
+   "cross_refs": [
+    "23.7",
+    "23.4"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    20132,
+    20137
+   ],
+   "examples": [],
+   "file": "tests/24-test-verdict-operations/24.01_test_009.ttcn3",
+   "module": "M_24_01_test_009",
+   "header": "// @requirement: 24.1 -- Operation: read (Table 28: neither any nor all allowed)"
+  },
+  {
+   "id": "TTCN3-CORE-24.1-012a",
+   "section": "24.1",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Operation: running; Allowed: yes; Example: if (any timer.running) {…}",
+   "canonical": "The keyword `any` MAY be used with the timer `running` operation (e.g. `any timer.running`).",
+   "condition": null,
+   "cross_refs": [
+    "23.7",
+    "23.5"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    20132,
+    20138
+   ],
+   "examples": [],
+   "file": "tests/24-test-verdict-operations/24.01_test_010.ttcn3",
+   "module": "M_24_01_test_010",
+   "header": "// @requirement: 24.1 -- Operation: running; Allowed: yes; Example: if (any timer.running) {…}"
+  },
+  {
+   "id": "TTCN3-CORE-24.1-012b",
+   "section": "24.1",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "Operation: running; Allowed: yes; Example: if (any timer.running) {…}",
+   "canonical": "The keyword `all` SHALL NOT be used with the timer `running` operation.",
+   "condition": null,
+   "cross_refs": [
+    "23.7",
+    "23.5"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    20132,
+    20138
+   ],
+   "examples": [],
+   "file": "tests/24-test-verdict-operations/24.01_test_011.ttcn3",
+   "module": "M_24_01_test_011",
+   "header": "// @requirement: 24.1 -- Operation: running; Allowed: yes; Example: if (any timer.running) {…}"
+  },
+  {
+   "id": "TTCN3-CORE-24.1-013a",
+   "section": "24.1",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Operation: timeout; Allowed: yes; Example: any timer.timeout",
+   "canonical": "The keyword `any` MAY be used with the timer `timeout` operation (e.g. `any timer.timeout`).",
+   "condition": null,
+   "cross_refs": [
+    "23.7",
+    "23.6"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    20132,
+    20139
+   ],
+   "examples": [],
+   "file": "tests/24-test-verdict-operations/24.01_test_012.ttcn3",
+   "module": "M_24_01_test_012",
+   "header": "// @requirement: 24.1 -- Operation: timeout; Allowed: yes; Example: any timer.timeout"
+  },
+  {
+   "id": "TTCN3-CORE-24.1-013b",
+   "section": "24.1",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "Operation: timeout; Allowed: yes; Example: any timer.timeout",
+   "canonical": "The keyword `all` SHALL NOT be used with the timer `timeout` operation.",
+   "condition": null,
+   "cross_refs": [
+    "23.7",
+    "23.6"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    20132,
+    20139
+   ],
+   "examples": [],
+   "file": "tests/24-test-verdict-operations/24.01_test_013.ttcn3",
+   "module": "M_24_01_test_013",
+   "header": "// @requirement: 24.1 -- Operation: timeout; Allowed: yes; Example: any timer.timeout"
+  },
+  {
+   "id": "TTCN3-CORE-24.1-025a",
+   "section": "24.1",
+   "type": "definition",
+   "modality": "IS",
+   "original": "The verdict can have five different values: pass, fail, inconc, none and error, i.e. the distinguished values of the verdicttype (see clause 6.1).",
+   "canonical": "A verdict IS one of the five distinguished values of `verdicttype`: `pass`, `fail`, `inconc`, `none` and `error`.",
+   "condition": null,
+   "cross_refs": [
+    "6.1"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    20167,
+    20168
+   ],
+   "examples": [],
+   "file": "tests/24-test-verdict-operations/24.01_test_014.ttcn3",
+   "module": "M_24_01_test_014",
+   "header": "// @requirement: 24.1 -- The verdict can have five different values: pass, fail, inconc, none and error, i.e. the distinguished values of the verdicttype (see clause 6.1)."
+  },
+  {
+   "id": "TTCN3-CORE-24.1-027b",
+   "section": "24.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "When a test component is instantiated, its local verdict object is created and set to the value none.",
+   "canonical": "When a test component is instantiated, the local verdict of the test component IS initialized to `none`.",
+   "condition": "a test component is instantiated",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    20172,
+    20172
+   ],
+   "examples": [
+    {
+     "lines": [
+      20306,
+      20308
+     ],
+     "text": "v_myResult := getverdict; // Where v_myResult is a variable of type verdicttype"
+    }
+   ],
+   "file": "tests/24-test-verdict-operations/24.01_test_015.ttcn3",
+   "module": "M_24_01_test_015",
+   "header": "// @requirement: 24.1 -- When a test component is instantiated, its local verdict object is created and set to the value none."
+  },
+  {
+   "id": "TTCN3-CORE-24.1-028a",
+   "section": "24.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "When changing the value of the local verdict (i.e. using the setverdict operation) the effect of this change shall follow the overwriting rules listed in table 30.",
+   "canonical": "When the value of the local verdict is changed with the `setverdict` operation, the effect of the change SHALL follow the overwriting rules of table 30.",
+   "condition": "the local verdict is changed using setverdict",
+   "cross_refs": [
+    "24.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    20174,
+    20176
+   ],
+   "examples": [],
+   "file": "tests/24-test-verdict-operations/24.01_test_016.ttcn3",
+   "module": "M_24_01_test_016",
+   "header": "// @requirement: 24.1 -- When changing the value of the local verdict (i.e. using the setverdict operation) the effect of this change shall follow the overwriting rules listed in table 30."
+  },
+  {
+   "id": "TTCN3-CORE-24.1-029a",
+   "section": "24.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The test case verdict is implicitly updated on the termination of a test component.",
+   "canonical": "The test case verdict IS implicitly updated on the termination of a test component.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    20174,
+    20176
+   ],
+   "examples": [],
+   "file": "tests/24-test-verdict-operations/24.01_test_017.ttcn3",
+   "module": "M_24_01_test_017",
+   "header": "// @requirement: 24.1 -- The test case verdict is implicitly updated on the termination of a test component."
+  },
+  {
+   "id": "TTCN3-CORE-24.1-030a",
+   "section": "24.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "The effect of this implicit operation shall also follow the overwriting rules listed in table 30.",
+   "canonical": "The implicit update of the test case verdict on the termination of a test component SHALL follow the overwriting rules of table 30.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    20174,
+    20176
+   ],
+   "examples": [],
+   "file": "tests/24-test-verdict-operations/24.01_test_018.ttcn3",
+   "module": "M_24_01_test_018",
+   "header": "// @requirement: 24.1 -- The effect of this implicit operation shall also follow the overwriting rules listed in table 30."
+  },
+  {
+   "id": "TTCN3-CORE-24.1-032a",
+   "section": "24.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Table 30: Overwriting rules for the verdict (rows: current value None/Pass/Inconc/Fail; columns: new verdict assignment value pass/inconc/fail/none) None: pass inconc fail none",
+   "canonical": "If the current verdict is `none`, assigning `pass`, `inconc`, `fail` or `none` IS resulting in the assigned value.",
+   "condition": "the current verdict is none",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    20180,
+    20185
+   ],
+   "examples": [
+    {
+     "lines": [
+      20260,
+      20270
+     ],
+     "text": "var integer v_myVar:= 1;\n  :\n  myPort.receive(integer:v_myVar);// Matches an integer value with the value of v_myVar\n                     // at port myPort\n  setverdict(pass, \"Value received: \", v_myVar ); // Provided the actual test component verdict is\n                     // none: local verdict is set to pass, the implicit\n                     // charstring variable is set to \"Value received: 5\"\n  stop; // The test component terminates. The local test verdict and\n                     // implicit charstring variable are logged"
+    }
+   ],
+   "file": "tests/24-test-verdict-operations/24.01_test_019.ttcn3",
+   "module": "M_24_01_test_019",
+   "header": "// @requirement: 24.1 -- Table 30: Overwriting rules for the verdict (rows: current value None/Pass/Inconc/Fail; columns: new verdict assignment value pass/inconc/fail/none) None: pass inconc fail none"
+  },
+  {
+   "id": "TTCN3-CORE-24.1-032b",
+   "section": "24.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Table 30: Overwriting rules for the verdict (rows: current value None/Pass/Inconc/Fail; columns: new verdict assignment value pass/inconc/fail/none) Pass: pass inconc fail pass",
+   "canonical": "If the current verdict is `pass`, assigning `pass` or `none` IS resulting in `pass`, assigning `inconc` IS resulting in `inconc`, and assigning `fail` IS resulting in `fail`.",
+   "condition": "the current verdict is pass",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    20180,
+    20185
+   ],
+   "examples": [
+    {
+     "lines": [
+      20251,
+      20257
+     ],
+     "text": "setverdict(pass); // the local verdict is set to pass\n  :\n  setverdict(fail); // until this line is executed, which will result in the value \n              // of the local verdict being overwritten to fail \n              // When the ptc terminates the test case verdict is set to fail"
+    }
+   ],
+   "file": "tests/24-test-verdict-operations/24.01_test_020.ttcn3",
+   "module": "M_24_01_test_020",
+   "header": "// @requirement: 24.1 -- Table 30: Overwriting rules for the verdict (rows: current value None/Pass/Inconc/Fail; columns: new verdict assignment value pass/inconc/fail/none) Pass: pass inconc fail pass"
+  },
+  {
+   "id": "TTCN3-CORE-24.1-032c",
+   "section": "24.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Table 30: Overwriting rules for the verdict (rows: current value None/Pass/Inconc/Fail; columns: new verdict assignment value pass/inconc/fail/none) Inconc: inconc inconc fail inconc",
+   "canonical": "If the current verdict is `inconc`, assigning `pass`, `inconc` or `none` IS resulting in `inconc`, and assigning `fail` IS resulting in `fail`.",
+   "condition": "the current verdict is inconc",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    20180,
+    20185
+   ],
+   "examples": [],
+   "file": "tests/24-test-verdict-operations/24.01_test_021.ttcn3",
+   "module": "M_24_01_test_021",
+   "header": "// @requirement: 24.1 -- Table 30: Overwriting rules for the verdict (rows: current value None/Pass/Inconc/Fail; columns: new verdict assignment value pass/inconc/fail/none) Inconc: inconc inconc fail inconc"
+  },
+  {
+   "id": "TTCN3-CORE-24.1-032d",
+   "section": "24.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Table 30: Overwriting rules for the verdict (rows: current value None/Pass/Inconc/Fail; columns: new verdict assignment value pass/inconc/fail/none) Fail: fail fail fail fail",
+   "canonical": "If the current verdict is `fail`, assigning any of `pass`, `inconc`, `fail` or `none` IS resulting in `fail`.",
+   "condition": "the current verdict is fail",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    20180,
+    20185
+   ],
+   "examples": [
+    {
+     "lines": [
+      20273,
+      20281
+     ],
+     "text": "setverdict(fail, \"Reason one\");  // the local verdict is set to fail, \n                        // the local charstring is set to \"Reason one\"\n  :\n  setverdict(fail, \"Reason two\");  // the local verdict does not change, \n                        // therefore the local charstring remains \"Reason one\"\n  setverdict(pass, \"Reason three\");  // the local verdict does not change, \n                        // therefore the local charstring remains \"Reason one\""
+    }
+   ],
+   "file": "tests/24-test-verdict-operations/24.01_test_022.ttcn3",
+   "module": "M_24_01_test_022",
+   "header": "// @requirement: 24.1 -- Table 30: Overwriting rules for the verdict (rows: current value None/Pass/Inconc/Fail; columns: new verdict assignment value pass/inconc/fail/none) Fail: fail fail fail fail"
+  },
+  {
+   "id": "TTCN3-CORE-24.1-033a",
+   "section": "24.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The error verdict is special in that it is set by the test system to indicate that a test case (i.e. runtime) error has occurred.",
+   "canonical": "The `error` verdict IS set by the test system to indicate that a test case error (runtime error) has occurred.",
+   "condition": null,
+   "cross_refs": [
+    "3.1"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    20187,
+    20190
+   ],
+   "examples": [],
+   "file": "tests/24-test-verdict-operations/24.01_test_023.ttcn3",
+   "module": "M_24_01_test_023",
+   "header": "// @requirement: 24.1 -- The error verdict is special in that it is set by the test system to indicate that a test case (i.e. runtime) error has occurred."
+  },
+  {
+   "id": "TTCN3-CORE-24.1-034a",
+   "section": "24.1",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "It shall not be set by the setverdict operation and will not be returned by the getverdict operation.",
+   "canonical": "The `setverdict` operation SHALL NOT set the `error` verdict.",
+   "condition": null,
+   "cross_refs": [
+    "24.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    20187,
+    20190
+   ],
+   "examples": [],
+   "file": "tests/24-test-verdict-operations/24.01_test_024.ttcn3",
+   "module": "M_24_01_test_024",
+   "header": "// @requirement: 24.1 -- It shall not be set by the setverdict operation and will not be returned by the getverdict operation."
+  },
+  {
+   "id": "TTCN3-CORE-24.1-036a",
+   "section": "24.1",
+   "type": "information",
+   "modality": "IS",
+   "original": "This means that an error verdict can only be a result of an execute test case operation.",
+   "canonical": "An `error` verdict IS only obtainable as the result of an `execute` operation.",
+   "condition": null,
+   "cross_refs": [
+    "26.1"
+   ],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "Chose reading 1 (error appears only as the return value of execute, since it cannot be set or read inside test components). 'execute test case operation' is not the name of the operation.",
+    "readings": [
+     "An `error` verdict IS only observable as the value returned by an `execute` operation.",
+     "An `error` verdict IS only produced while a testcase started by an `execute` operation is running."
+    ],
+    "improper_terms": [
+     {
+      "used": "execute test case operation",
+      "proper": "execute operation",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    20187,
+    20190
+   ],
+   "examples": [],
+   "file": "tests/24-test-verdict-operations/24.01_test_025.ttcn3",
+   "module": "M_24_01_test_025",
+   "header": "// @requirement: 24.1 -- This means that an error verdict can only be a result of an execute test case operation."
+  },
+  {
+   "id": "TTCN3-CORE-24.1-038a",
+   "section": "24.1",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "The implicit charstring variable shall have no effect on the overwriting rules and on the calculation of the final test case verdict.",
+   "canonical": "The implicit charstring variable SHALL NOT have any effect on the verdict overwriting rules.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    20192,
+    20197
+   ],
+   "examples": [
+    {
+     "lines": [
+      20273,
+      20281
+     ],
+     "text": "setverdict(fail, \"Reason one\");  // the local verdict is set to fail, \n                        // the local charstring is set to \"Reason one\"\n  :\n  setverdict(fail, \"Reason two\");  // the local verdict does not change, \n                        // therefore the local charstring remains \"Reason one\"\n  setverdict(pass, \"Reason three\");  // the local verdict does not change, \n                        // therefore the local charstring remains \"Reason one\""
+    }
+   ],
+   "file": "tests/24-test-verdict-operations/24.01_test_026.ttcn3",
+   "module": "M_24_01_test_026",
+   "header": "// @requirement: 24.1 -- The implicit charstring variable shall have no effect on the overwriting rules and on the calculation of the final test case verdict."
+  },
+  {
+   "id": "TTCN3-CORE-24.1-038b",
+   "section": "24.1",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "The implicit charstring variable shall have no effect on the overwriting rules and on the calculation of the final test case verdict.",
+   "canonical": "The implicit charstring variable SHALL NOT have any effect on the calculation of the final test case verdict.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    20192,
+    20197
+   ],
+   "examples": [],
+   "file": "tests/24-test-verdict-operations/24.01_test_027.ttcn3",
+   "module": "M_24_01_test_027",
+   "header": "// @requirement: 24.1 -- The implicit charstring variable shall have no effect on the overwriting rules and on the calculation of the final test case verdict."
+  },
+  {
+   "id": "TTCN3-CORE-24.1-039a",
+   "section": "24.1",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "On the termination of the test component, the local verdict of the test component shall be logged together with the implicit charstring variable.",
+   "canonical": "On the termination of a test component, the local verdict of the test component SHALL be logged together with the implicit charstring variable.",
+   "condition": "the test component terminates",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    20192,
+    20197
+   ],
+   "examples": [
+    {
+     "lines": [
+      20260,
+      20270
+     ],
+     "text": "var integer v_myVar:= 1;\n  :\n  myPort.receive(integer:v_myVar);// Matches an integer value with the value of v_myVar\n                     // at port myPort\n  setverdict(pass, \"Value received: \", v_myVar ); // Provided the actual test component verdict is\n                     // none: local verdict is set to pass, the implicit\n                     // charstring variable is set to \"Value received: 5\"\n  stop; // The test component terminates. The local test verdict and\n                     // implicit charstring variable are logged"
+    }
+   ],
+   "file": "tests/24-test-verdict-operations/24.01_test_028.ttcn3",
+   "module": "M_24_01_test_028",
+   "header": "// @requirement: 24.1 -- On the termination of the test component, the local verdict of the test component shall be logged together with the implicit charstring variable."
+  },
+  {
+   "id": "TTCN3-CORE-24.2-001a",
+   "section": "24.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The local verdict is set with the setverdict operation.",
+   "canonical": "The local verdict IS set with the `setverdict` operation.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    20201,
+    20201
+   ],
+   "examples": [],
+   "file": "tests/24-test-verdict-operations/24.02_test_001.ttcn3",
+   "module": "M_24_02_test_001",
+   "header": "// @requirement: 24.2 -- The local verdict is set with the setverdict operation."
+  },
+  {
+   "id": "TTCN3-CORE-24.2-002a",
+   "section": "24.2",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "setverdict \"(\" SingleExpression { \",\" ( FreeText | TemplateInstance ) } \")\"",
+   "canonical": "The `setverdict` operation has the syntax `setverdict ( SingleExpression { , ( FreeText | TemplateInstance ) } )`, i.e. a verdict expression followed by zero or more free text or template instance arguments.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    20204,
+    20206
+   ],
+   "examples": [
+    {
+     "lines": [
+      20251,
+      20257
+     ],
+     "text": "setverdict(pass); // the local verdict is set to pass\n  :\n  setverdict(fail); // until this line is executed, which will result in the value \n              // of the local verdict being overwritten to fail \n              // When the ptc terminates the test case verdict is set to fail"
+    },
+    {
+     "lines": [
+      20260,
+      20270
+     ],
+     "text": "var integer v_myVar:= 1;\n  :\n  myPort.receive(integer:v_myVar);// Matches an integer value with the value of v_myVar\n                     // at port myPort\n  setverdict(pass, \"Value received: \", v_myVar ); // Provided the actual test component verdict is\n                     // none: local verdict is set to pass, the implicit\n                     // charstring variable is set to \"Value received: 5\"\n  stop; // The test component terminates. The local test verdict and\n                     // implicit charstring variable are logged"
+    },
+    {
+     "lines": [
+      20273,
+      20281
+     ],
+     "text": "setverdict(fail, \"Reason one\");  // the local verdict is set to fail, \n                        // the local charstring is set to \"Reason one\"\n  :\n  setverdict(fail, \"Reason two\");  // the local verdict does not change, \n                        // therefore the local charstring remains \"Reason one\"\n  setverdict(pass, \"Reason three\");  // the local verdict does not change, \n                        // therefore the local charstring remains \"Reason one\""
+    }
+   ],
+   "file": "tests/24-test-verdict-operations/24.02_test_002.ttcn3",
+   "module": "M_24_02_test_002",
+   "header": "// @requirement: 24.2 -- setverdict \"(\" SingleExpression { \",\" ( FreeText | TemplateInstance ) } \")\""
+  },
+  {
+   "id": "TTCN3-CORE-24.2-003a",
+   "section": "24.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The value of the local verdict is changed with the setverdict operation.",
+   "canonical": "The `setverdict` operation IS changing the value of the local verdict.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    20210,
+    20211
+   ],
+   "examples": [],
+   "file": "tests/24-test-verdict-operations/24.02_test_003.ttcn3",
+   "module": "M_24_02_test_003",
+   "header": "// @requirement: 24.2 -- The value of the local verdict is changed with the setverdict operation."
+  },
+  {
+   "id": "TTCN3-CORE-24.2-004a",
+   "section": "24.2",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "The effect of this change shall follow the overwriting rules listed in table 30.",
+   "canonical": "The change of the local verdict by the `setverdict` operation SHALL follow the overwriting rules of table 30.",
+   "condition": null,
+   "cross_refs": [
+    "24.1"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    20210,
+    20211
+   ],
+   "examples": [
+    {
+     "lines": [
+      20251,
+      20257
+     ],
+     "text": "setverdict(pass); // the local verdict is set to pass\n  :\n  setverdict(fail); // until this line is executed, which will result in the value \n              // of the local verdict being overwritten to fail \n              // When the ptc terminates the test case verdict is set to fail"
+    },
+    {
+     "lines": [
+      20273,
+      20281
+     ],
+     "text": "setverdict(fail, \"Reason one\");  // the local verdict is set to fail, \n                        // the local charstring is set to \"Reason one\"\n  :\n  setverdict(fail, \"Reason two\");  // the local verdict does not change, \n                        // therefore the local charstring remains \"Reason one\"\n  setverdict(pass, \"Reason three\");  // the local verdict does not change, \n                        // therefore the local charstring remains \"Reason one\""
+    }
+   ],
+   "file": "tests/24-test-verdict-operations/24.02_test_004.ttcn3",
+   "module": "M_24_02_test_004",
+   "header": "// @requirement: 24.2 -- The effect of this change shall follow the overwriting rules listed in table 30."
+  },
+  {
+   "id": "TTCN3-CORE-24.2-009a",
+   "section": "24.2",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "The optional parameters allow to provide information that explain the reasons for assigning the verdict.",
+   "canonical": "A `setverdict` operation MAY have optional FreeText or TemplateInstance arguments providing information that explains the reasons for assigning the verdict.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "'optional parameters' refers to the optional FreeText/TemplateInstance arguments (actual parameters) of setverdict.",
+    "improper_terms": [
+     {
+      "used": "optional parameters",
+      "proper": "optional actual parameters",
+      "glossary": true
+     }
+    ]
+   },
+   "spec_lines": [
+    20224,
+    20228
+   ],
+   "examples": [
+    {
+     "lines": [
+      20260,
+      20270
+     ],
+     "text": "var integer v_myVar:= 1;\n  :\n  myPort.receive(integer:v_myVar);// Matches an integer value with the value of v_myVar\n                     // at port myPort\n  setverdict(pass, \"Value received: \", v_myVar ); // Provided the actual test component verdict is\n                     // none: local verdict is set to pass, the implicit\n                     // charstring variable is set to \"Value received: 5\"\n  stop; // The test component terminates. The local test verdict and\n                     // implicit charstring variable are logged"
+    }
+   ],
+   "file": "tests/24-test-verdict-operations/24.02_test_005.ttcn3",
+   "module": "M_24_02_test_005",
+   "header": "// @requirement: 24.2 -- The optional parameters allow to provide information that explain the reasons for assigning the verdict."
+  },
+  {
+   "id": "TTCN3-CORE-24.2-010a",
+   "section": "24.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "This information is composed to a string and stored in an implicit charstring variable.",
+   "canonical": "The information given in the optional arguments of a `setverdict` operation IS composed into a single string.",
+   "condition": null,
+   "cross_refs": [
+    "19.11"
+   ],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "The composition rule is not stated; chose reading 1 (as for log, cf. example 2 'Value received: 5').",
+    "readings": [
+     "The optional arguments ARE concatenated without separators, each converted to text as the log statement does.",
+     "The optional arguments ARE composed into a string using an implementation-dependent format."
+    ]
+   },
+   "spec_lines": [
+    20224,
+    20228
+   ],
+   "examples": [
+    {
+     "lines": [
+      20260,
+      20270
+     ],
+     "text": "var integer v_myVar:= 1;\n  :\n  myPort.receive(integer:v_myVar);// Matches an integer value with the value of v_myVar\n                     // at port myPort\n  setverdict(pass, \"Value received: \", v_myVar ); // Provided the actual test component verdict is\n                     // none: local verdict is set to pass, the implicit\n                     // charstring variable is set to \"Value received: 5\"\n  stop; // The test component terminates. The local test verdict and\n                     // implicit charstring variable are logged"
+    }
+   ],
+   "file": "tests/24-test-verdict-operations/24.02_test_006.ttcn3",
+   "module": "M_24_02_test_006",
+   "header": "// @requirement: 24.2 -- This information is composed to a string and stored in an implicit charstring variable."
+  },
+  {
+   "id": "TTCN3-CORE-24.2-010b",
+   "section": "24.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "This information is composed to a string and stored in an implicit charstring variable.",
+   "canonical": "The string composed from the optional arguments of a `setverdict` operation IS stored in the implicit charstring variable of the test component.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    20224,
+    20228
+   ],
+   "examples": [
+    {
+     "lines": [
+      20260,
+      20270
+     ],
+     "text": "var integer v_myVar:= 1;\n  :\n  myPort.receive(integer:v_myVar);// Matches an integer value with the value of v_myVar\n                     // at port myPort\n  setverdict(pass, \"Value received: \", v_myVar ); // Provided the actual test component verdict is\n                     // none: local verdict is set to pass, the implicit\n                     // charstring variable is set to \"Value received: 5\"\n  stop; // The test component terminates. The local test verdict and\n                     // implicit charstring variable are logged"
+    }
+   ],
+   "file": "tests/24-test-verdict-operations/24.02_test_007.ttcn3",
+   "module": "M_24_02_test_007",
+   "header": "// @requirement: 24.2 -- This information is composed to a string and stored in an implicit charstring variable."
+  },
+  {
+   "id": "TTCN3-CORE-24.2-011a",
+   "section": "24.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "On termination of the test component, the actual local verdict is logged together with the implicit charstring variable.",
+   "canonical": "On termination of a test component, the actual local verdict IS logged together with the implicit charstring variable.",
+   "condition": "the test component terminates",
+   "cross_refs": [
+    "24.1"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    20224,
+    20228
+   ],
+   "examples": [
+    {
+     "lines": [
+      20260,
+      20270
+     ],
+     "text": "var integer v_myVar:= 1;\n  :\n  myPort.receive(integer:v_myVar);// Matches an integer value with the value of v_myVar\n                     // at port myPort\n  setverdict(pass, \"Value received: \", v_myVar ); // Provided the actual test component verdict is\n                     // none: local verdict is set to pass, the implicit\n                     // charstring variable is set to \"Value received: 5\"\n  stop; // The test component terminates. The local test verdict and\n                     // implicit charstring variable are logged"
+    }
+   ],
+   "file": "tests/24-test-verdict-operations/24.02_test_008.ttcn3",
+   "module": "M_24_02_test_008",
+   "header": "// @requirement: 24.2 -- On termination of the test component, the actual local verdict is logged together with the implicit charstring variable."
+  },
+  {
+   "id": "TTCN3-CORE-24.2-012a",
+   "section": "24.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "Since the optional parameters can be seen as log information, the same rules and restrictions as for the parameters of the log statement (clause 19.11) apply.",
+   "canonical": "The optional arguments of a `setverdict` operation SHALL obey the same rules and restrictions as the parameters of the `log` statement.",
+   "condition": null,
+   "cross_refs": [
+    "19.11"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    20224,
+    20228
+   ],
+   "examples": [],
+   "file": "tests/24-test-verdict-operations/24.02_test_009.ttcn3",
+   "module": "M_24_02_test_009",
+   "header": "// @requirement: 24.2 -- Since the optional parameters can be seen as log information, the same rules and restrictions as for the parameters of the log statement (clause 19.11) apply."
+  },
+  {
+   "id": "TTCN3-CORE-24.2-013a",
+   "section": "24.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "As the result of the setverdict operation, the implicit charstring variable is overwritten whenever the local verdict of a test component is overwritten (i.e. a new value, which is different to the previous one is assigned to it).",
+   "canonical": "Whenever a `setverdict` operation overwrites the local verdict of a test component with a value different from the previous one, the implicit charstring variable IS overwritten.",
+   "condition": "the local verdict is assigned a value different from the previous one",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    20230,
+    20233
+   ],
+   "examples": [
+    {
+     "lines": [
+      20273,
+      20281
+     ],
+     "text": "setverdict(fail, \"Reason one\");  // the local verdict is set to fail, \n                        // the local charstring is set to \"Reason one\"\n  :\n  setverdict(fail, \"Reason two\");  // the local verdict does not change, \n                        // therefore the local charstring remains \"Reason one\"\n  setverdict(pass, \"Reason three\");  // the local verdict does not change, \n                        // therefore the local charstring remains \"Reason one\""
+    }
+   ],
+   "file": "tests/24-test-verdict-operations/24.02_test_010.ttcn3",
+   "module": "M_24_02_test_010",
+   "header": "// @requirement: 24.2 -- As the result of the setverdict operation, the implicit charstring variable is overwritten whenever the local verdict of a test component is overwritten (i.e. a new value, which is different to the previous one is assigned to it)."
+  },
+  {
+   "id": "TTCN3-CORE-24.2-013b",
+   "section": "24.2",
+   "type": "semantics",
+   "modality": "IS NOT",
+   "original": "As the result of the setverdict operation, the implicit charstring variable is overwritten whenever the local verdict of a test component is overwritten (i.e. a new value, which is different to the previous one is assigned to it).",
+   "canonical": "If a `setverdict` operation does not change the value of the local verdict, the implicit charstring variable IS NOT overwritten.",
+   "condition": "the local verdict value does not change",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    20230,
+    20233
+   ],
+   "examples": [
+    {
+     "lines": [
+      20273,
+      20281
+     ],
+     "text": "setverdict(fail, \"Reason one\");  // the local verdict is set to fail, \n                        // the local charstring is set to \"Reason one\"\n  :\n  setverdict(fail, \"Reason two\");  // the local verdict does not change, \n                        // therefore the local charstring remains \"Reason one\"\n  setverdict(pass, \"Reason three\");  // the local verdict does not change, \n                        // therefore the local charstring remains \"Reason one\""
+    }
+   ],
+   "file": "tests/24-test-verdict-operations/24.02_test_011.ttcn3",
+   "module": "M_24_02_test_011",
+   "header": "// @requirement: 24.2 -- As the result of the setverdict operation, the implicit charstring variable is overwritten whenever the local verdict of a test component is overwritten (i.e. a new value, which is different to the previous one is assigned to it)."
+  },
+  {
+   "id": "TTCN3-CORE-24.2-014a",
+   "section": "24.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "A setverdict operation with a verdict only that overwrites the current local verdict, will also clear the implicit charstring variable. This means previously stored information gets lost.",
+   "canonical": "A `setverdict` operation with only a verdict argument that overwrites the current local verdict IS clearing the implicit charstring variable, so that previously stored information is lost.",
+   "condition": "setverdict has only a verdict argument and changes the local verdict",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    20230,
+    20233
+   ],
+   "examples": [],
+   "file": "tests/24-test-verdict-operations/24.02_test_012.ttcn3",
+   "module": "M_24_02_test_012",
+   "header": "// @requirement: 24.2 -- A setverdict operation with a verdict only that overwrites the current local verdict, will also clear the implicit charstring variable. This means previously stored information gets lost."
+  },
+  {
+   "id": "TTCN3-CORE-24.2-017a",
+   "section": "24.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "a) The setverdict operation shall only be used with the values pass, fail, inconc and none.",
+   "canonical": "The `setverdict` operation SHALL only be used with the values `pass`, `fail`, `inconc` and `none`.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    20240,
+    20241
+   ],
+   "examples": [],
+   "file": "tests/24-test-verdict-operations/24.02_test_013.ttcn3",
+   "module": "M_24_02_test_013",
+   "header": "// @requirement: 24.2 -- a) The setverdict operation shall only be used with the values pass, fail, inconc and none."
+  },
+  {
+   "id": "TTCN3-CORE-24.2-018a",
+   "section": "24.2",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "It shall not be used to assign the value error, this is set by the test system only to indicate runtime errors.",
+   "canonical": "The `setverdict` operation SHALL NOT be used to assign the value `error`.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    20240,
+    20241
+   ],
+   "examples": [],
+   "file": "tests/24-test-verdict-operations/24.02_test_014.ttcn3",
+   "module": "M_24_02_test_014",
+   "header": "// @requirement: 24.2 -- It shall not be used to assign the value error, this is set by the test system only to indicate runtime errors."
+  },
+  {
+   "id": "TTCN3-CORE-24.2-019a",
+   "section": "24.2",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "original": "b) _SingleExpression shall resolve to a value of type verdict._",
+   "canonical": "The SingleExpression of a `setverdict` operation SHALL resolve to a value of type `verdicttype`.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "The type is named 'verdicttype', not 'verdict'.",
+    "improper_terms": [
+     {
+      "used": "type verdict",
+      "proper": "verdicttype",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    20243,
+    20246
+   ],
+   "examples": [],
+   "file": "tests/24-test-verdict-operations/24.02_test_015.ttcn3",
+   "module": "M_24_02_test_015",
+   "header": "// @requirement: 24.2 -- b) _SingleExpression shall resolve to a value of type verdict._"
+  },
+  {
+   "id": "TTCN3-CORE-24.2-019b",
+   "section": "24.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "c) For FreeText and TemplateInstance, the same rules and restrictions apply as for the parameters of the log statement.",
+   "canonical": "The FreeText and TemplateInstance arguments of a `setverdict` operation SHALL obey the same rules and restrictions as the parameters of the `log` statement.",
+   "condition": null,
+   "cross_refs": [
+    "19.11"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    20243,
+    20246
+   ],
+   "examples": [],
+   "file": "tests/24-test-verdict-operations/24.02_test_016.ttcn3",
+   "module": "M_24_02_test_016",
+   "header": "// @requirement: 24.2 -- c) For FreeText and TemplateInstance, the same rules and restrictions apply as for the parameters of the log statement."
+  }
+ ]
+}

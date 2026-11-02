@@ -1,0 +1,1312 @@
+{
+ "batch": "b038",
+ "requirements": [
+  {
+   "id": "TTCN3-CORE-15.6.2-001a",
+   "section": "15.6.2",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Both templates and template variables allow referencing sub-fields inside a template definition using the dot notation.",
+   "canonical": "A template or template variable MAY reference a sub-field inside a template definition using the dot notation.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11308,
+    11310
+   ],
+   "examples": [
+    {
+     "lines": [
+      11327,
+      11357
+     ],
+     "text": "type record R1 {\n     integer f1 optional,\n     R2   f2 optional\n  }\n  type record R2 {\n     integer g1,\n     R2   g2 optional\n  }\n  :\n  var template R1 v_r1 := {\n     f1 := 5,\n     f2 := omit\n  }\n  var template R2 v_r2 := v_r1.f2.g2;\n     // causes an error as omit is assigned to v_r1.f2\n  v_r1.f2 := *;\n  v_r2 := v_r1.f2.g2;\n     // causes an error as * is assigned to v_r1.f2\n  v_r1 := ({f1:=omit, f2:={g1:=0, g2:=omit}},{f1:=5, f2:={g1:=1, g2:={g1:=2, g2:=omit}}});\n  v_r2 := v_r1.f2;\n  v_r2 := v_r1.f2.g2;\n  v_r2 := v_r1.f2.g2.g2;\n     // all these assignments cause error as a template list is assigned to v_r1\n  v_r1 :=\n     complement({f1:=omit, f2:={g1:=0, g2:=omit}},{f1:=5, f2:={g1:=1, g2:={g1:=2, g2:=omit}}});\n  v_r2 := v_r1.f2;\n  v_r2 := v_r1.f2.g2;\n  v_r2 := v_r1.f2.g2.g2;\n     // all these assignments cause errors as a complemented list is assigned to v_r1"
+    },
+    {
+     "lines": [
+      11374,
+      11382
+     ],
+     "text": "v_r1 := {f1:=0, f2:=?}\n  v_r2 := v_r1.f2.g2;\n     // after the assignment v_r2 will be {g1:=?, g2:=*}\n  v_r1.f2.g2.g2 := ({g1:=1, g2:=omit},{g1:=2, g2:=omit});\n     // first the field v_r1.f2 has hypothetically be expanded to {g1:=?,g2:={g1:=?,g2:=*}}\n     // thus after the assignment v_r1 will be:\n     //  {f1:=0, f2:={g1:=?,g2:={g1:=?,g2:=({g1:=1, g2:=omit},{g1:=2, g2:=omit})}}}"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.02_test_001.ttcn3",
+   "module": "M_15_06_02_test_001",
+   "header": "// @requirement: 15.6.2 -- Both templates and template variables allow referencing sub-fields inside a template definition using the dot notation."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.2-004a",
+   "section": "15.6.2",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "a) _Omit, AnyValueOrNone, template lists and complemented lists: referencing a subfield within a structured field_ to which Omit, AnyValueOrNone, a template list or a complemented list is assigned, at the right hand side of an assignment, shall cause an error.",
+   "canonical": "Referencing, on the right hand side of an assignment, a subfield within a structured field to which omit, AnyValueOrNone, a template list or a complemented template list is assigned SHALL cause an error.",
+   "condition": "the reference occurs on the right hand side of an assignment",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11312,
+    11322
+   ],
+   "examples": [
+    {
+     "lines": [
+      11327,
+      11357
+     ],
+     "text": "type record R1 {\n     integer f1 optional,\n     R2   f2 optional\n  }\n  type record R2 {\n     integer g1,\n     R2   g2 optional\n  }\n  :\n  var template R1 v_r1 := {\n     f1 := 5,\n     f2 := omit\n  }\n  var template R2 v_r2 := v_r1.f2.g2;\n     // causes an error as omit is assigned to v_r1.f2\n  v_r1.f2 := *;\n  v_r2 := v_r1.f2.g2;\n     // causes an error as * is assigned to v_r1.f2\n  v_r1 := ({f1:=omit, f2:={g1:=0, g2:=omit}},{f1:=5, f2:={g1:=1, g2:={g1:=2, g2:=omit}}});\n  v_r2 := v_r1.f2;\n  v_r2 := v_r1.f2.g2;\n  v_r2 := v_r1.f2.g2.g2;\n     // all these assignments cause error as a template list is assigned to v_r1\n  v_r1 :=\n     complement({f1:=omit, f2:={g1:=0, g2:=omit}},{f1:=5, f2:={g1:=1, g2:={g1:=2, g2:=omit}}});\n  v_r2 := v_r1.f2;\n  v_r2 := v_r1.f2.g2;\n  v_r2 := v_r1.f2.g2.g2;\n     // all these assignments cause errors as a complemented list is assigned to v_r1"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.02_test_002.ttcn3",
+   "module": "M_15_06_02_test_002",
+   "header": "// @requirement: 15.6.2 -- a) _Omit, AnyValueOrNone, template lists and complemented lists: referencing a subfield within a structured field_ to which Omit, AnyValueOrNone, a template list or a complemented list is assigned, at the right hand side of an assignment, shall cause an error."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.2-005a",
+   "section": "15.6.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "When referencing a subfield within a structured field to which AnyValueOrNone or omit is assigned, at the left hand side of an assignment, the structured field is implicitly set to be present, it is expanded recursively up to and including the depth of the referenced subfield.",
+   "canonical": "When a subfield within a structured field to which AnyValueOrNone or omit is assigned is referenced on the left hand side of an assignment, the structured field IS implicitly set to be present.",
+   "condition": "left hand side reference; structured field contains AnyValueOrNone or omit",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11312,
+    11322
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.06.02_test_003.ttcn3",
+   "module": "M_15_06_02_test_003",
+   "header": "// @requirement: 15.6.2 -- When referencing a subfield within a structured field to which AnyValueOrNone or omit is assigned, at the left hand side of an assignment, the structured field is implicitly set to be present, it is expanded recursively up to and including the depth of the referenced subfield."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.2-005b",
+   "section": "15.6.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "When referencing a subfield within a structured field to which AnyValueOrNone or omit is assigned, at the left hand side of an assignment, the structured field is implicitly set to be present, it is expanded recursively up to and including the depth of the referenced subfield.",
+   "canonical": "When a subfield within a structured field to which AnyValueOrNone or omit is assigned is referenced on the left hand side of an assignment, the structured field IS expanded recursively up to and including the depth of the referenced subfield.",
+   "condition": "left hand side reference; structured field contains AnyValueOrNone or omit",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11312,
+    11322
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.06.02_test_004.ttcn3",
+   "module": "M_15_06_02_test_004",
+   "header": "// @requirement: 15.6.2 -- When referencing a subfield within a structured field to which AnyValueOrNone or omit is assigned, at the left hand side of an assignment, the structured field is implicitly set to be present, it is expanded recursively up to and including the depth of the referenced subfield."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.2-006a",
+   "section": "15.6.2",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "During this expansion an AnyValue shall be assigned to mandatory subfields and AnyValueOrNone shall be assigned to optional subfields.",
+   "canonical": "During the expansion of a structured field containing AnyValueOrNone or omit, AnyValue SHALL be assigned to mandatory subfields and AnyValueOrNone SHALL be assigned to optional subfields.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11312,
+    11322
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.06.02_test_005.ttcn3",
+   "module": "M_15_06_02_test_005",
+   "header": "// @requirement: 15.6.2 -- During this expansion an AnyValue shall be assigned to mandatory subfields and AnyValueOrNone shall be assigned to optional subfields."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.2-007a",
+   "section": "15.6.2",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "After this expansion the value or matching mechanism at the right hand side of the assignment shall be assigned to the referenced subfield.",
+   "canonical": "After the expansion of a structured field containing AnyValueOrNone or omit, the value or matching mechanism on the right hand side of the assignment SHALL be assigned to the referenced subfield.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11312,
+    11322
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.06.02_test_006.ttcn3",
+   "module": "M_15_06_02_test_006",
+   "header": "// @requirement: 15.6.2 -- After this expansion the value or matching mechanism at the right hand side of the assignment shall be assigned to the referenced subfield."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.2-008a",
+   "section": "15.6.2",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "When referencing a subfield within a structured field to which template lists or complemented template lists are assigned, at the left hand side of an assignment, shall cause an error.",
+   "canonical": "Referencing, on the left hand side of an assignment, a subfield within a structured field to which a template list or a complemented template list is assigned SHALL cause an error.",
+   "condition": "the reference occurs on the left hand side of an assignment",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11312,
+    11322
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.06.02_test_007.ttcn3",
+   "module": "M_15_06_02_test_007",
+   "header": "// @requirement: 15.6.2 -- When referencing a subfield within a structured field to which template lists or complemented template lists are assigned, at the left hand side of an assignment, shall cause an error."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.2-011a",
+   "section": "15.6.2",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "b) _AnyValue: when referencing a subfield within a structured field to which AnyValue is assigned, at the right_ hand side of an assignment, AnyValue shall be returned for mandatory subfields and AnyValueOrNone shall be returned for optional subfields.",
+   "canonical": "When a subfield within a structured field to which AnyValue is assigned is referenced on the right hand side of an assignment, AnyValue SHALL be returned for a mandatory subfield and AnyValueOrNone SHALL be returned for an optional subfield.",
+   "condition": "right hand side reference; structured field contains AnyValue",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11364,
+    11371
+   ],
+   "examples": [
+    {
+     "lines": [
+      11374,
+      11382
+     ],
+     "text": "v_r1 := {f1:=0, f2:=?}\n  v_r2 := v_r1.f2.g2;\n     // after the assignment v_r2 will be {g1:=?, g2:=*}\n  v_r1.f2.g2.g2 := ({g1:=1, g2:=omit},{g1:=2, g2:=omit});\n     // first the field v_r1.f2 has hypothetically be expanded to {g1:=?,g2:={g1:=?,g2:=*}}\n     // thus after the assignment v_r1 will be:\n     //  {f1:=0, f2:={g1:=?,g2:={g1:=?,g2:=({g1:=1, g2:=omit},{g1:=2, g2:=omit})}}}"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.02_test_008.ttcn3",
+   "module": "M_15_06_02_test_008",
+   "header": "// @requirement: 15.6.2 -- b) _AnyValue: when referencing a subfield within a structured field to which AnyValue is assigned, at the right_ hand side of an assignment, AnyValue shall be returned for mandatory subfields and AnyValueOrNone shall be returned for optional subfields."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.2-012a",
+   "section": "15.6.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "When referencing a subfield within a structured field to which AnyValue is assigned, at the left hand side of an assignment, the structured field is implicitly expanded recursively up to and including, the depth of the referenced subfield.",
+   "canonical": "When a subfield within a structured field to which AnyValue is assigned is referenced on the left hand side of an assignment, the structured field IS implicitly expanded recursively up to and including the depth of the referenced subfield.",
+   "condition": "left hand side reference; structured field contains AnyValue",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11364,
+    11371
+   ],
+   "examples": [
+    {
+     "lines": [
+      11374,
+      11382
+     ],
+     "text": "v_r1 := {f1:=0, f2:=?}\n  v_r2 := v_r1.f2.g2;\n     // after the assignment v_r2 will be {g1:=?, g2:=*}\n  v_r1.f2.g2.g2 := ({g1:=1, g2:=omit},{g1:=2, g2:=omit});\n     // first the field v_r1.f2 has hypothetically be expanded to {g1:=?,g2:={g1:=?,g2:=*}}\n     // thus after the assignment v_r1 will be:\n     //  {f1:=0, f2:={g1:=?,g2:={g1:=?,g2:=({g1:=1, g2:=omit},{g1:=2, g2:=omit})}}}"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.02_test_009.ttcn3",
+   "module": "M_15_06_02_test_009",
+   "header": "// @requirement: 15.6.2 -- When referencing a subfield within a structured field to which AnyValue is assigned, at the left hand side of an assignment, the structured field is implicitly expanded recursively up to and including, the depth of the referenced subfield."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.2-013a",
+   "section": "15.6.2",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "During this expansion an AnyValue shall be assigned to mandatory subfields and _AnyValueOrNone shall be assigned to optional subfields.",
+   "canonical": "During the expansion of a structured field containing AnyValue, AnyValue SHALL be assigned to mandatory subfields and AnyValueOrNone SHALL be assigned to optional subfields.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11364,
+    11371
+   ],
+   "examples": [
+    {
+     "lines": [
+      11374,
+      11382
+     ],
+     "text": "v_r1 := {f1:=0, f2:=?}\n  v_r2 := v_r1.f2.g2;\n     // after the assignment v_r2 will be {g1:=?, g2:=*}\n  v_r1.f2.g2.g2 := ({g1:=1, g2:=omit},{g1:=2, g2:=omit});\n     // first the field v_r1.f2 has hypothetically be expanded to {g1:=?,g2:={g1:=?,g2:=*}}\n     // thus after the assignment v_r1 will be:\n     //  {f1:=0, f2:={g1:=?,g2:={g1:=?,g2:=({g1:=1, g2:=omit},{g1:=2, g2:=omit})}}}"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.02_test_010.ttcn3",
+   "module": "M_15_06_02_test_010",
+   "header": "// @requirement: 15.6.2 -- During this expansion an AnyValue shall be assigned to mandatory subfields and _AnyValueOrNone shall be assigned to optional subfields."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.2-014a",
+   "section": "15.6.2",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "After this expansion the value or matching_ mechanism at the right hand side of the assignment shall be assigned to the referenced subfield.",
+   "canonical": "After the expansion of a structured field containing AnyValue, the value or matching mechanism on the right hand side of the assignment SHALL be assigned to the referenced subfield.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11364,
+    11371
+   ],
+   "examples": [
+    {
+     "lines": [
+      11374,
+      11382
+     ],
+     "text": "v_r1 := {f1:=0, f2:=?}\n  v_r2 := v_r1.f2.g2;\n     // after the assignment v_r2 will be {g1:=?, g2:=*}\n  v_r1.f2.g2.g2 := ({g1:=1, g2:=omit},{g1:=2, g2:=omit});\n     // first the field v_r1.f2 has hypothetically be expanded to {g1:=?,g2:={g1:=?,g2:=*}}\n     // thus after the assignment v_r1 will be:\n     //  {f1:=0, f2:={g1:=?,g2:={g1:=?,g2:=({g1:=1, g2:=omit},{g1:=2, g2:=omit})}}}"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.02_test_011.ttcn3",
+   "module": "M_15_06_02_test_011",
+   "header": "// @requirement: 15.6.2 -- After this expansion the value or matching_ mechanism at the right hand side of the assignment shall be assigned to the referenced subfield."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.2-017a",
+   "section": "15.6.2",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "c) Ifpresent attribute: referencing a subfield within a structured field to which the ifpresent attribute is attached, shall cause an error (irrespective of the value or the matching mechanism to which ifpresent is appended).",
+   "canonical": "Referencing a subfield within a structured field to which the ifpresent matching attribute is attached SHALL cause an error, irrespective of the value or matching mechanism to which ifpresent is appended.",
+   "condition": "the structured field has the ifpresent attribute",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "'ifpresent attribute' is used for the 'ifpresent matching attribute'.",
+    "improper_terms": [
+     {
+      "used": "ifpresent attribute",
+      "proper": "ifpresent matching attribute",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    11384,
+    11385
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.06.02_test_012.ttcn3",
+   "module": "M_15_06_02_test_012",
+   "header": "// @requirement: 15.6.2 -- c) Ifpresent attribute: referencing a subfield within a structured field to which the ifpresent attribute is attached, shall cause an error (irrespective of the value or the matching mechanism to which ifpresent is appended)."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.2-018a",
+   "section": "15.6.2",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "d) Special value null: referencing a field of an address type, which actual value is null shall cause an error.",
+   "canonical": "Referencing a field of an address type value whose actual value is `null` SHALL cause an error.",
+   "condition": "the address type value is null",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11387,
+    11387
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.06.02_test_013.ttcn3",
+   "module": "M_15_06_02_test_013",
+   "header": "// @requirement: 15.6.2 -- d) Special value null: referencing a field of an address type, which actual value is null shall cause an error."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.3-001a",
+   "section": "15.6.3",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Both templates and template variables allow referencing elements of a record of, array or set of template or field using the index notation.",
+   "canonical": "A template or a template variable MAY reference an element of a record of, set of or array template or field using the index notation.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11391,
+    11393
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.06.03_test_001.ttcn3",
+   "module": "M_15_06_03_test_001",
+   "header": "// @requirement: 15.6.3 -- Both templates and template variables allow referencing elements of a record of, array or set of template or field using the index notation."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.3-004a",
+   "section": "15.6.3",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "a) _Omit: referencing an element within a record of, set of or array field to which omit is assigned shall follow the_ rules specified in clause 6.2.3.",
+   "canonical": "Referencing an element within a record of, set of or array field to which `omit` is assigned SHALL follow the rules specified in clause 6.2.3.",
+   "condition": "omit is assigned to the referenced record of, set of or array field",
+   "cross_refs": [
+    "6.2.3"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11395,
+    11396
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.06.03_test_002.ttcn3",
+   "module": "M_15_06_03_test_002",
+   "header": "// @requirement: 15.6.3 -- a) _Omit: referencing an element within a record of, set of or array field to which omit is assigned shall follow the_ rules specified in clause 6.2.3."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.3-005a",
+   "section": "15.6.3",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "b) Template lists, complemented lists, subset and superset: referencing an element within a record of or set of field to which a complemented list, a subset or a superset is assigned, shall cause an error.",
+   "canonical": "Referencing an element within a record of or set of template or field to which a template list, a complemented list, a subset or a superset is assigned SHALL cause an error.",
+   "condition": "a template list, complemented list, subset or superset is assigned to the record of or set of template or field",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "The item heading names template lists, but the rule sentence only lists complemented list, subset and superset; Example 1 shows a template list causing the error. Chose the reading that includes template lists.",
+    "readings": [
+     "Referencing an element within a record of or set of template or field to which a template list, a complemented list, a subset or a superset is assigned SHALL cause an error.",
+     "Referencing an element within a record of or set of template or field to which a complemented list, a subset or a superset is assigned SHALL cause an error."
+    ]
+   },
+   "spec_lines": [
+    11398,
+    11399
+   ],
+   "examples": [
+    {
+     "lines": [
+      11404,
+      11412
+     ],
+     "text": "type record of integer RoI;\n  :\n  var template RoI v_roI;\n  var template integer v_int;\n  v_roI := ({},{0},{0,0},{0,0,0});\n  v_int := v_RoI[0]; \n    // shall cause an error as template list is assigned to v_roI"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.03_test_003.ttcn3",
+   "module": "M_15_06_03_test_003",
+   "header": "// @requirement: 15.6.3 -- b) Template lists, complemented lists, subset and superset: referencing an element within a record of or set of field to which a complemented list, a subset or a superset is assigned, shall cause an error."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.3-008a",
+   "section": "15.6.3",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "c) _AnyValue: when referencing an element of a record of or set of template or field to which AnyValue is_ assigned (without a length attribute), at the right hand side of an assignment, AnyValue shall be returned.",
+   "canonical": "When an element of a record of or set of template or field to which AnyValue without a length attribute is assigned is referenced at the right hand side of an assignment, the reference SHALL return AnyValue.",
+   "condition": "AnyValue without length attribute is assigned; reference on the right hand side of an assignment",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11414,
+    11422
+   ],
+   "examples": [
+    {
+     "lines": [
+      11430,
+      11466
+     ],
+     "text": "type record of integer RoI;\n type record of RoI RoRoI;\n :\n var template RoI v_roI;\n var template RoRoI v_roRoI;\n var template integer v_int;\n :\n v_roI := ?;\n v_int := v_roI[5];\n   // after the assignment v_int will be AnyValue(?);\n v_roRoI := ?;\n v_roI := v_roRoI[5];\n   // after the assignment v_roI will be AnyValue(?);\n v_int := v_roRoI[5].[3];\n   // after the assignment v_int will be AnyValue(?);\n v_roI := ? length (2..5);\n v_int := v_roI[3];\n   // after the assignment v_int will be AnyValue(?);\n v_int := v_roI[5];\n   // shall cause an error as the referenced index is outside the length attribute\n   // (note that index 5 would refer to the 6[th] element);\n v_roRoI[2] := {0,0};\n   // after the assignment v_roRoI will be {?,?,{0,0},*};\n v_roRoI[4] := {1,1};\n   // after the assignment v_roRoI will be {?,?,{0,0},?,{1,1},*};\n v_roI[0] := -5;\n   // after the assignment v_roI will be {-5,*} length(2..5);\n v_roI := ? length (2..5);\n v_roI[1] := 1;\n   // after the assignment v_roI will be {?,1,*} length(2..5);\n v_roI[3] := ?;\n   // after the assignment v_roI will be {?,1,?,?,*} length(2..5);\n v_roI[5] := 5;\n   // after the assignment v_roI will be {?,1,?,?,?,5,*} length(2..5); note that v_roI\n   // becomes an empty set but that shall cause no error;"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.03_test_004.ttcn3",
+   "module": "M_15_06_03_test_004",
+   "header": "// @requirement: 15.6.3 -- c) _AnyValue: when referencing an element of a record of or set of template or field to which AnyValue is_ assigned (without a length attribute), at the right hand side of an assignment, AnyValue shall be returned."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.3-009a",
+   "section": "15.6.3",
+   "type": "restriction",
+   "modality": "SHALL NOT",
+   "original": "If a length attribute is attached to the AnyValue, the index of the reference shall not violate the length attribute.",
+   "canonical": "If a length attribute is attached to the AnyValue assigned to a record of or set of template or field, the index of an element reference SHALL NOT violate the length attribute.",
+   "condition": "a length attribute is attached to the AnyValue",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11414,
+    11422
+   ],
+   "examples": [
+    {
+     "lines": [
+      11430,
+      11466
+     ],
+     "text": "type record of integer RoI;\n type record of RoI RoRoI;\n :\n var template RoI v_roI;\n var template RoRoI v_roRoI;\n var template integer v_int;\n :\n v_roI := ?;\n v_int := v_roI[5];\n   // after the assignment v_int will be AnyValue(?);\n v_roRoI := ?;\n v_roI := v_roRoI[5];\n   // after the assignment v_roI will be AnyValue(?);\n v_int := v_roRoI[5].[3];\n   // after the assignment v_int will be AnyValue(?);\n v_roI := ? length (2..5);\n v_int := v_roI[3];\n   // after the assignment v_int will be AnyValue(?);\n v_int := v_roI[5];\n   // shall cause an error as the referenced index is outside the length attribute\n   // (note that index 5 would refer to the 6[th] element);\n v_roRoI[2] := {0,0};\n   // after the assignment v_roRoI will be {?,?,{0,0},*};\n v_roRoI[4] := {1,1};\n   // after the assignment v_roRoI will be {?,?,{0,0},?,{1,1},*};\n v_roI[0] := -5;\n   // after the assignment v_roI will be {-5,*} length(2..5);\n v_roI := ? length (2..5);\n v_roI[1] := 1;\n   // after the assignment v_roI will be {?,1,*} length(2..5);\n v_roI[3] := ?;\n   // after the assignment v_roI will be {?,1,?,?,*} length(2..5);\n v_roI[5] := 5;\n   // after the assignment v_roI will be {?,1,?,?,?,5,*} length(2..5); note that v_roI\n   // becomes an empty set but that shall cause no error;"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.03_test_005.ttcn3",
+   "module": "M_15_06_03_test_005",
+   "header": "// @requirement: 15.6.3 -- If a length attribute is attached to the AnyValue, the index of the reference shall not violate the length attribute."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.3-010a",
+   "section": "15.6.3",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "When referencing an element within a record of or set of template or field to which AnyValue is assigned (without a length attribute), at the left hand side of an assignment, the value or matching mechanism at the right hand side of the assignment shall be assigned to the referenced element, AnyElement shall be assigned to all elements before the referenced one (if any) and a single AnyElementsOrNone shall be added at the end.",
+   "canonical": "When an element of a record of or set of template or field to which AnyValue is assigned is referenced at the left hand side of an assignment, the value or matching mechanism at the right hand side of the assignment SHALL be assigned to the referenced element.",
+   "condition": "AnyValue without length attribute is assigned to the record of or set of template or field; reference on the left hand side of an assignment",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11414,
+    11422
+   ],
+   "examples": [
+    {
+     "lines": [
+      11430,
+      11466
+     ],
+     "text": "type record of integer RoI;\n type record of RoI RoRoI;\n :\n var template RoI v_roI;\n var template RoRoI v_roRoI;\n var template integer v_int;\n :\n v_roI := ?;\n v_int := v_roI[5];\n   // after the assignment v_int will be AnyValue(?);\n v_roRoI := ?;\n v_roI := v_roRoI[5];\n   // after the assignment v_roI will be AnyValue(?);\n v_int := v_roRoI[5].[3];\n   // after the assignment v_int will be AnyValue(?);\n v_roI := ? length (2..5);\n v_int := v_roI[3];\n   // after the assignment v_int will be AnyValue(?);\n v_int := v_roI[5];\n   // shall cause an error as the referenced index is outside the length attribute\n   // (note that index 5 would refer to the 6[th] element);\n v_roRoI[2] := {0,0};\n   // after the assignment v_roRoI will be {?,?,{0,0},*};\n v_roRoI[4] := {1,1};\n   // after the assignment v_roRoI will be {?,?,{0,0},?,{1,1},*};\n v_roI[0] := -5;\n   // after the assignment v_roI will be {-5,*} length(2..5);\n v_roI := ? length (2..5);\n v_roI[1] := 1;\n   // after the assignment v_roI will be {?,1,*} length(2..5);\n v_roI[3] := ?;\n   // after the assignment v_roI will be {?,1,?,?,*} length(2..5);\n v_roI[5] := 5;\n   // after the assignment v_roI will be {?,1,?,?,?,5,*} length(2..5); note that v_roI\n   // becomes an empty set but that shall cause no error;"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.03_test_006.ttcn3",
+   "module": "M_15_06_03_test_006",
+   "header": "// @requirement: 15.6.3 -- When referencing an element within a record of or set of template or field to which AnyValue is assigned (without a length attribute), at the left hand side of an assignment, the value or matching mechanism at the right hand side of the assignment shall be assigned to the referenced element, AnyElement shall be assigned to all elements before the referenced one (if any) and a single AnyElementsOrNone shall be added at the end."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.3-010b",
+   "section": "15.6.3",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "When referencing an element within a record of or set of template or field to which AnyValue is assigned (without a length attribute), at the left hand side of an assignment, the value or matching mechanism at the right hand side of the assignment shall be assigned to the referenced element, AnyElement shall be assigned to all elements before the referenced one (if any) and a single AnyElementsOrNone shall be added at the end.",
+   "canonical": "When an element of a record of or set of template or field to which AnyValue is assigned is referenced at the left hand side of an assignment, AnyElement SHALL be assigned to all elements before the referenced element (if any).",
+   "condition": "AnyValue without length attribute is assigned to the record of or set of template or field; reference on the left hand side of an assignment",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11414,
+    11422
+   ],
+   "examples": [
+    {
+     "lines": [
+      11430,
+      11466
+     ],
+     "text": "type record of integer RoI;\n type record of RoI RoRoI;\n :\n var template RoI v_roI;\n var template RoRoI v_roRoI;\n var template integer v_int;\n :\n v_roI := ?;\n v_int := v_roI[5];\n   // after the assignment v_int will be AnyValue(?);\n v_roRoI := ?;\n v_roI := v_roRoI[5];\n   // after the assignment v_roI will be AnyValue(?);\n v_int := v_roRoI[5].[3];\n   // after the assignment v_int will be AnyValue(?);\n v_roI := ? length (2..5);\n v_int := v_roI[3];\n   // after the assignment v_int will be AnyValue(?);\n v_int := v_roI[5];\n   // shall cause an error as the referenced index is outside the length attribute\n   // (note that index 5 would refer to the 6[th] element);\n v_roRoI[2] := {0,0};\n   // after the assignment v_roRoI will be {?,?,{0,0},*};\n v_roRoI[4] := {1,1};\n   // after the assignment v_roRoI will be {?,?,{0,0},?,{1,1},*};\n v_roI[0] := -5;\n   // after the assignment v_roI will be {-5,*} length(2..5);\n v_roI := ? length (2..5);\n v_roI[1] := 1;\n   // after the assignment v_roI will be {?,1,*} length(2..5);\n v_roI[3] := ?;\n   // after the assignment v_roI will be {?,1,?,?,*} length(2..5);\n v_roI[5] := 5;\n   // after the assignment v_roI will be {?,1,?,?,?,5,*} length(2..5); note that v_roI\n   // becomes an empty set but that shall cause no error;"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.03_test_007.ttcn3",
+   "module": "M_15_06_03_test_007",
+   "header": "// @requirement: 15.6.3 -- When referencing an element within a record of or set of template or field to which AnyValue is assigned (without a length attribute), at the left hand side of an assignment, the value or matching mechanism at the right hand side of the assignment shall be assigned to the referenced element, AnyElement shall be assigned to all elements before the referenced one (if any) and a single AnyElementsOrNone shall be added at the end."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.3-010c",
+   "section": "15.6.3",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "When referencing an element within a record of or set of template or field to which AnyValue is assigned (without a length attribute), at the left hand side of an assignment, the value or matching mechanism at the right hand side of the assignment shall be assigned to the referenced element, AnyElement shall be assigned to all elements before the referenced one (if any) and a single AnyElementsOrNone shall be added at the end.",
+   "canonical": "When an element of a record of or set of template or field to which AnyValue is assigned is referenced at the left hand side of an assignment, a single AnyElementsOrNone SHALL be added at the end of the resulting template or field.",
+   "condition": "AnyValue without length attribute is assigned to the record of or set of template or field; reference on the left hand side of an assignment",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11414,
+    11422
+   ],
+   "examples": [
+    {
+     "lines": [
+      11430,
+      11466
+     ],
+     "text": "type record of integer RoI;\n type record of RoI RoRoI;\n :\n var template RoI v_roI;\n var template RoRoI v_roRoI;\n var template integer v_int;\n :\n v_roI := ?;\n v_int := v_roI[5];\n   // after the assignment v_int will be AnyValue(?);\n v_roRoI := ?;\n v_roI := v_roRoI[5];\n   // after the assignment v_roI will be AnyValue(?);\n v_int := v_roRoI[5].[3];\n   // after the assignment v_int will be AnyValue(?);\n v_roI := ? length (2..5);\n v_int := v_roI[3];\n   // after the assignment v_int will be AnyValue(?);\n v_int := v_roI[5];\n   // shall cause an error as the referenced index is outside the length attribute\n   // (note that index 5 would refer to the 6[th] element);\n v_roRoI[2] := {0,0};\n   // after the assignment v_roRoI will be {?,?,{0,0},*};\n v_roRoI[4] := {1,1};\n   // after the assignment v_roRoI will be {?,?,{0,0},?,{1,1},*};\n v_roI[0] := -5;\n   // after the assignment v_roI will be {-5,*} length(2..5);\n v_roI := ? length (2..5);\n v_roI[1] := 1;\n   // after the assignment v_roI will be {?,1,*} length(2..5);\n v_roI[3] := ?;\n   // after the assignment v_roI will be {?,1,?,?,*} length(2..5);\n v_roI[5] := 5;\n   // after the assignment v_roI will be {?,1,?,?,?,5,*} length(2..5); note that v_roI\n   // becomes an empty set but that shall cause no error;"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.03_test_008.ttcn3",
+   "module": "M_15_06_03_test_008",
+   "header": "// @requirement: 15.6.3 -- When referencing an element within a record of or set of template or field to which AnyValue is assigned (without a length attribute), at the left hand side of an assignment, the value or matching mechanism at the right hand side of the assignment shall be assigned to the referenced element, AnyElement shall be assigned to all elements before the referenced one (if any) and a single AnyElementsOrNone shall be added at the end."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.3-011a",
+   "section": "15.6.3",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "When a length attribute is attached to AnyValue, the attribute shall be conveyed to the new template or field transparently.",
+   "canonical": "When a length attribute is attached to the AnyValue and an element is referenced at the left hand side of an assignment, the length attribute SHALL be conveyed transparently to the new template or field.",
+   "condition": "a length attribute is attached to AnyValue; reference on the left hand side of an assignment",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11414,
+    11422
+   ],
+   "examples": [
+    {
+     "lines": [
+      11430,
+      11466
+     ],
+     "text": "type record of integer RoI;\n type record of RoI RoRoI;\n :\n var template RoI v_roI;\n var template RoRoI v_roRoI;\n var template integer v_int;\n :\n v_roI := ?;\n v_int := v_roI[5];\n   // after the assignment v_int will be AnyValue(?);\n v_roRoI := ?;\n v_roI := v_roRoI[5];\n   // after the assignment v_roI will be AnyValue(?);\n v_int := v_roRoI[5].[3];\n   // after the assignment v_int will be AnyValue(?);\n v_roI := ? length (2..5);\n v_int := v_roI[3];\n   // after the assignment v_int will be AnyValue(?);\n v_int := v_roI[5];\n   // shall cause an error as the referenced index is outside the length attribute\n   // (note that index 5 would refer to the 6[th] element);\n v_roRoI[2] := {0,0};\n   // after the assignment v_roRoI will be {?,?,{0,0},*};\n v_roRoI[4] := {1,1};\n   // after the assignment v_roRoI will be {?,?,{0,0},?,{1,1},*};\n v_roI[0] := -5;\n   // after the assignment v_roI will be {-5,*} length(2..5);\n v_roI := ? length (2..5);\n v_roI[1] := 1;\n   // after the assignment v_roI will be {?,1,*} length(2..5);\n v_roI[3] := ?;\n   // after the assignment v_roI will be {?,1,?,?,*} length(2..5);\n v_roI[5] := 5;\n   // after the assignment v_roI will be {?,1,?,?,?,5,*} length(2..5); note that v_roI\n   // becomes an empty set but that shall cause no error;"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.03_test_009.ttcn3",
+   "module": "M_15_06_03_test_009",
+   "header": "// @requirement: 15.6.3 -- When a length attribute is attached to AnyValue, the attribute shall be conveyed to the new template or field transparently."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.3-012a",
+   "section": "15.6.3",
+   "type": "restriction",
+   "modality": "SHALL NOT",
+   "original": "The index shall not violate type restrictions in any of the above cases.",
+   "canonical": "The index of an element reference into a record of or set of template or field to which AnyValue is assigned SHALL NOT violate the type restrictions of the record of or set of type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11414,
+    11422
+   ],
+   "examples": [
+    {
+     "lines": [
+      11430,
+      11466
+     ],
+     "text": "type record of integer RoI;\n type record of RoI RoRoI;\n :\n var template RoI v_roI;\n var template RoRoI v_roRoI;\n var template integer v_int;\n :\n v_roI := ?;\n v_int := v_roI[5];\n   // after the assignment v_int will be AnyValue(?);\n v_roRoI := ?;\n v_roI := v_roRoI[5];\n   // after the assignment v_roI will be AnyValue(?);\n v_int := v_roRoI[5].[3];\n   // after the assignment v_int will be AnyValue(?);\n v_roI := ? length (2..5);\n v_int := v_roI[3];\n   // after the assignment v_int will be AnyValue(?);\n v_int := v_roI[5];\n   // shall cause an error as the referenced index is outside the length attribute\n   // (note that index 5 would refer to the 6[th] element);\n v_roRoI[2] := {0,0};\n   // after the assignment v_roRoI will be {?,?,{0,0},*};\n v_roRoI[4] := {1,1};\n   // after the assignment v_roRoI will be {?,?,{0,0},?,{1,1},*};\n v_roI[0] := -5;\n   // after the assignment v_roI will be {-5,*} length(2..5);\n v_roI := ? length (2..5);\n v_roI[1] := 1;\n   // after the assignment v_roI will be {?,1,*} length(2..5);\n v_roI[3] := ?;\n   // after the assignment v_roI will be {?,1,?,?,*} length(2..5);\n v_roI[5] := 5;\n   // after the assignment v_roI will be {?,1,?,?,?,5,*} length(2..5); note that v_roI\n   // becomes an empty set but that shall cause no error;"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.03_test_010.ttcn3",
+   "module": "M_15_06_03_test_010",
+   "header": "// @requirement: 15.6.3 -- The index shall not violate type restrictions in any of the above cases."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.3-015a",
+   "section": "15.6.3",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "d) _AnyValueOrNone: referencing an element within a record of, set of or array field to which AnyValueOrNone_ with or without a length attribute is assigned on the right hand side of an assignment shall cause an error.",
+   "canonical": "Referencing an element within a record of, set of or array field to which AnyValueOrNone (with or without a length attribute) is assigned at the right hand side of an assignment SHALL cause an error.",
+   "condition": "AnyValueOrNone is assigned; reference on the right hand side of an assignment",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11468,
+    11471
+   ],
+   "examples": [
+    {
+     "lines": [
+      11474,
+      11487
+     ],
+     "text": "type record of integer RoI;\n type record R\n {\n   RoI field1 optional\n }\n :\n var template R mw_t1 := { field1 := * };\n var template integer mw_t2;\n mw_t1.field1[2] := 2; // after the assignment, mw_t1 will be { field1 := { ?, ?, 2, * } }\n mw_t1.field1 := *;\n mw_t2 := mw_t1.field1[0]; \n   // shall cause an error as mw_t1.field1 contains AnyValueOrNone"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.03_test_011.ttcn3",
+   "module": "M_15_06_03_test_011",
+   "header": "// @requirement: 15.6.3 -- d) _AnyValueOrNone: referencing an element within a record of, set of or array field to which AnyValueOrNone_ with or without a length attribute is assigned on the right hand side of an assignment shall cause an error."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.3-016a",
+   "section": "15.6.3",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "When referencing an element within a record of, set of or array field to which AnyValueOrNone is assigned on the left hand side of an assignment, the rules for AnyValue shall apply (see item c) for more details).",
+   "canonical": "When an element within a record of, set of or array field to which AnyValueOrNone is assigned is referenced at the left hand side of an assignment, the rules for AnyValue (item c) of clause 15.6.3) SHALL apply.",
+   "condition": "AnyValueOrNone is assigned; reference on the left hand side of an assignment",
+   "cross_refs": [
+    "15.6.3"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11468,
+    11471
+   ],
+   "examples": [
+    {
+     "lines": [
+      11474,
+      11487
+     ],
+     "text": "type record of integer RoI;\n type record R\n {\n   RoI field1 optional\n }\n :\n var template R mw_t1 := { field1 := * };\n var template integer mw_t2;\n mw_t1.field1[2] := 2; // after the assignment, mw_t1 will be { field1 := { ?, ?, 2, * } }\n mw_t1.field1 := *;\n mw_t2 := mw_t1.field1[0]; \n   // shall cause an error as mw_t1.field1 contains AnyValueOrNone"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.03_test_012.ttcn3",
+   "module": "M_15_06_03_test_012",
+   "header": "// @requirement: 15.6.3 -- When referencing an element within a record of, set of or array field to which AnyValueOrNone is assigned on the left hand side of an assignment, the rules for AnyValue shall apply (see item c) for more details)."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.3-019a",
+   "section": "15.6.3",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "e) _Permutation: when referencing an element of a record of template or field, which is located inside a_ permutation (based on its index), this shall cause an error.",
+   "canonical": "Referencing, by its index, an element of a record of template or field that is located inside a permutation SHALL cause an error.",
+   "condition": "the referenced index is inside a permutation",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11489,
+    11492
+   ],
+   "examples": [
+    {
+     "lines": [
+      11495,
+      11508
+     ],
+     "text": "v_roI:= {permutation(0,1,3,?),2,?};\n v_int := v_roI[5];\n   // after the assignment v_int will be AnyValue(?)\n v_roI:= {permutation(0,1,3,?),2,*};\n v_int := v_roI[5];\n   // after the assignment v_int will be * (AnyValueOrNone)\n v_int := v_roI[2];\n   // causes error as the third element (with index 2) is inside permutation\n v_roI:= {permutation(0,1,3,*),2,?};\n v_int := v_roI[5];\n   // causes error as the permutation contains AnyValueOrNone(*) that is able to\n   // cover any record of indexes"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.03_test_013.ttcn3",
+   "module": "M_15_06_03_test_013",
+   "header": "// @requirement: 15.6.3 -- e) _Permutation: when referencing an element of a record of template or field, which is located inside a_ permutation (based on its index), this shall cause an error."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.3-020a",
+   "section": "15.6.3",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "Indexes of elements sheltered by a permutation shall be determined based on the number of permutation elements.",
+   "canonical": "The record of element indexes covered by a permutation SHALL be determined by the number of elements of the permutation.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "\"Sheltered\" is not a defined term; it is unclear whether the sentence defines which indexes fall inside the permutation, or how the indexes of elements following the permutation are counted. Chose the first reading (Example 4 is consistent with both).",
+    "readings": [
+     "The record of element indexes covered by a permutation SHALL be the consecutive indexes starting at the position of the permutation, one per permutation element.",
+     "The indexes of the elements following a permutation SHALL be computed by counting each permutation element as one index."
+    ],
+    "improper_terms": [
+     {
+      "used": "sheltered by a permutation",
+      "proper": "inside a permutation",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    11489,
+    11492
+   ],
+   "examples": [
+    {
+     "lines": [
+      11495,
+      11508
+     ],
+     "text": "v_roI:= {permutation(0,1,3,?),2,?};\n v_int := v_roI[5];\n   // after the assignment v_int will be AnyValue(?)\n v_roI:= {permutation(0,1,3,?),2,*};\n v_int := v_roI[5];\n   // after the assignment v_int will be * (AnyValueOrNone)\n v_int := v_roI[2];\n   // causes error as the third element (with index 2) is inside permutation\n v_roI:= {permutation(0,1,3,*),2,?};\n v_int := v_roI[5];\n   // causes error as the permutation contains AnyValueOrNone(*) that is able to\n   // cover any record of indexes"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.03_test_014.ttcn3",
+   "module": "M_15_06_03_test_014",
+   "header": "// @requirement: 15.6.3 -- Indexes of elements sheltered by a permutation shall be determined based on the number of permutation elements."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.3-021a",
+   "section": "15.6.3",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "AnyElementsOrNone as a permutation element causes that the permutation shelters all record of element indexes.",
+   "canonical": "A permutation that contains AnyElementsOrNone as a permutation element IS considered to cover all record of element indexes from its position onward.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "\"all record of element indexes\" can mean every index of the template or every index starting at the permutation position. Chose the second reading.",
+    "readings": [
+     "A permutation containing AnyElementsOrNone covers all record of element indexes from the position of the permutation onward.",
+     "A permutation containing AnyElementsOrNone covers all record of element indexes of the template, including those before the permutation."
+    ]
+   },
+   "spec_lines": [
+    11489,
+    11492
+   ],
+   "examples": [
+    {
+     "lines": [
+      11495,
+      11508
+     ],
+     "text": "v_roI:= {permutation(0,1,3,?),2,?};\n v_int := v_roI[5];\n   // after the assignment v_int will be AnyValue(?)\n v_roI:= {permutation(0,1,3,?),2,*};\n v_int := v_roI[5];\n   // after the assignment v_int will be * (AnyValueOrNone)\n v_int := v_roI[2];\n   // causes error as the third element (with index 2) is inside permutation\n v_roI:= {permutation(0,1,3,*),2,?};\n v_int := v_roI[5];\n   // causes error as the permutation contains AnyValueOrNone(*) that is able to\n   // cover any record of indexes"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.03_test_015.ttcn3",
+   "module": "M_15_06_03_test_015",
+   "header": "// @requirement: 15.6.3 -- AnyElementsOrNone as a permutation element causes that the permutation shelters all record of element indexes."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.3-024a",
+   "section": "15.6.3",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "f) Ifpresent attribute: referencing an element within a record of or set of field to which the ifpresent attribute is attached, shall cause an error (irrespective of the value or the matching mechanism to which ifpresent is appended).",
+   "canonical": "Referencing an element within a record of or set of field to which the `ifpresent` attribute is attached SHALL cause an error, irrespective of the value or matching mechanism to which `ifpresent` is appended.",
+   "condition": "the ifpresent attribute is attached to the record of or set of field",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11510,
+    11511
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.06.03_test_016.ttcn3",
+   "module": "M_15_06_03_test_016",
+   "header": "// @requirement: 15.6.3 -- f) Ifpresent attribute: referencing an element within a record of or set of field to which the ifpresent attribute is attached, shall cause an error (irrespective of the value or the matching mechanism to which ifpresent is appended)."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.3-026a",
+   "section": "15.6.3",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "When resolving the reference, a transformed form of the record of or set of template is used.",
+   "canonical": "When a reference to an element of a record of or set of template containing AnyElementsOrNone is resolved, the transformed form of the template IS used.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11517,
+    11522
+   ],
+   "examples": [
+    {
+     "lines": [
+      11525,
+      11529
+     ],
+     "text": "type record of integer RoI;\n template RoI mw_roI := {1, * length(2), 5};  // transformed form: {1, ?, ?, 5}\n template RoI mw_roI := {1, * length(1..3), 5}; // transformed form: {1, ?, * length(0..2), 5}"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.03_test_017.ttcn3",
+   "module": "M_15_06_03_test_017",
+   "header": "// @requirement: 15.6.3 -- When resolving the reference, a transformed form of the record of or set of template is used."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.3-027a",
+   "section": "15.6.3",
+   "type": "definition",
+   "modality": "IS",
+   "original": "The transformed form is equal to the original value where all occurrences of AnyElementsOrNone with a length restriction are replaced with a sequence of AnyElements of the same size as the lower bound.",
+   "canonical": "The transformed form of a record of or set of template IS equal to the original template with every AnyElementsOrNone with a length restriction replaced by a sequence of AnyElement symbols whose size is the lower bound of the length restriction.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11517,
+    11522
+   ],
+   "examples": [
+    {
+     "lines": [
+      11525,
+      11529
+     ],
+     "text": "type record of integer RoI;\n template RoI mw_roI := {1, * length(2), 5};  // transformed form: {1, ?, ?, 5}\n template RoI mw_roI := {1, * length(1..3), 5}; // transformed form: {1, ?, * length(0..2), 5}"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.03_test_018.ttcn3",
+   "module": "M_15_06_03_test_018",
+   "header": "// @requirement: 15.6.3 -- The transformed form is equal to the original value where all occurrences of AnyElementsOrNone with a length restriction are replaced with a sequence of AnyElements of the same size as the lower bound."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.3-028a",
+   "section": "15.6.3",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "If the lower bound is greater than the upper bound, the sequence shall be followed by a single AnyElementsOrNone symbol with a length restriction.",
+   "canonical": "If the upper bound of the length restriction of an AnyElementsOrNone is greater than its lower bound, the sequence of AnyElement symbols in the transformed form SHALL be followed by a single AnyElementsOrNone symbol with a length restriction.",
+   "condition": "the upper bound of the length restriction is greater than the lower bound",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "The text says \"lower bound is greater than the upper bound\", which is impossible for a valid length restriction; Example 5 ({1, * length(1..3), 5} becomes {1, ?, * length(0..2), 5}) shows the upper bound greater than the lower bound is meant. Chose the example-consistent reading.",
+    "readings": [
+     "If the upper bound is greater than the lower bound, the AnyElement sequence SHALL be followed by a single AnyElementsOrNone with a length restriction.",
+     "If the lower bound is greater than the upper bound, the AnyElement sequence SHALL be followed by a single AnyElementsOrNone with a length restriction."
+    ]
+   },
+   "spec_lines": [
+    11517,
+    11522
+   ],
+   "examples": [
+    {
+     "lines": [
+      11525,
+      11529
+     ],
+     "text": "type record of integer RoI;\n template RoI mw_roI := {1, * length(2), 5};  // transformed form: {1, ?, ?, 5}\n template RoI mw_roI := {1, * length(1..3), 5}; // transformed form: {1, ?, * length(0..2), 5}"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.03_test_019.ttcn3",
+   "module": "M_15_06_03_test_019",
+   "header": "// @requirement: 15.6.3 -- If the lower bound is greater than the upper bound, the sequence shall be followed by a single AnyElementsOrNone symbol with a length restriction."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.3-029a",
+   "section": "15.6.3",
+   "type": "definition",
+   "modality": "IS",
+   "original": "The lower bound of this restriction is zero and the upper bound is the difference between the lower and upper bound of the original restriction. If the lower bound is greater than the upper bound, the sequence shall be followed by a single AnyElementsOrNone symbol with a length restriction.",
+   "canonical": "The length restriction of the AnyElementsOrNone appended in the transformed form IS a restriction with lower bound zero and upper bound equal to the difference between the upper and lower bound of the original restriction.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11517,
+    11522
+   ],
+   "examples": [
+    {
+     "lines": [
+      11525,
+      11529
+     ],
+     "text": "type record of integer RoI;\n template RoI mw_roI := {1, * length(2), 5};  // transformed form: {1, ?, ?, 5}\n template RoI mw_roI := {1, * length(1..3), 5}; // transformed form: {1, ?, * length(0..2), 5}"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.03_test_020.ttcn3",
+   "module": "M_15_06_03_test_020",
+   "header": "// @requirement: 15.6.3 -- The lower bound of this restriction is zero and the upper bound is the difference between the lower and upper bound of the original restriction. If the lower bound is greater than the upper bound, the sequence shall be followed by a single AnyElementsOrNone symbol with a length restriction."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.3-032a",
+   "section": "15.6.3",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "h) Special value null: referencing an element of an address type, which actual value is null shall cause an error.",
+   "canonical": "Referencing an element of an address type whose actual value is `null` SHALL cause an error.",
+   "condition": "the actual value of the address type is null",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11531,
+    11532
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.06.03_test_021.ttcn3",
+   "module": "M_15_06_03_test_021",
+   "header": "// @requirement: 15.6.3 -- h) Special value null: referencing an element of an address type, which actual value is null shall cause an error."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.3-034a",
+   "section": "15.6.3",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "If positions of all AnyElementsOrNone matching symbols in the transformed form are greater than the position of the referenced item, rules from the clause 6.2.3.2 are used for resolving the reference. When the reference is used at the right hand side of the assignment, the following applies:",
+   "canonical": "When an element reference is used at the right hand side of an assignment and the positions of all AnyElementsOrNone symbols in the transformed form are greater than the position of the referenced item, the reference IS resolved using the rules of clause 6.2.3.2.",
+   "condition": "reference on the right hand side; all AnyElementsOrNone positions in the transformed form are greater than the referenced position",
+   "cross_refs": [
+    "6.2.3.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11534,
+    11537
+   ],
+   "examples": [
+    {
+     "lines": [
+      11540,
+      11548
+     ],
+     "text": "type record of integer RoI;\n :\n var template RoI v_roI := {1, 2, * length(2), 5};\n   // transformed form: {1, 2, ?, ?, 5}\n var template integer v_int;\n v_int := v_roI[1]; // after the assignment, v_int will be 2\n v_int := v_roI[2]; // after the assignment, v_int will be ?"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.03_test_022.ttcn3",
+   "module": "M_15_06_03_test_022",
+   "header": "// @requirement: 15.6.3 -- If positions of all AnyElementsOrNone matching symbols in the transformed form are greater than the position of the referenced item, rules from the clause 6.2.3.2 are used for resolving the reference. When the reference is used at the right hand side of the assignment, the following applies:"
+  },
+  {
+   "id": "TTCN3-CORE-15.6.3-037a",
+   "section": "15.6.3",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "If the position of the referenced item is greater or equal to the position of any AnyElementsOrNone symbol in the transformed template, an error is generated. When the reference is used at the right hand side of the assignment, the following applies:",
+   "canonical": "When an element reference is used at the right hand side of an assignment and the position of the referenced item is greater than or equal to the position of any AnyElementsOrNone symbol in the transformed template, the reference SHALL cause an error.",
+   "condition": "reference on the right hand side; referenced position >= position of an AnyElementsOrNone in the transformed form",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11534,
+    11551
+   ],
+   "examples": [
+    {
+     "lines": [
+      11554,
+      11561
+     ],
+     "text": "type record of integer RoI;\n :\n var template RoI v_roI := {1, 2, *, 5}; \n var template integer v_int := v_roI[3]; // produces an error\n v_roI := {1, 2, *}; \n v_int := v_roI[2]; // produces an error"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.03_test_023.ttcn3",
+   "module": "M_15_06_03_test_023",
+   "header": "// @requirement: 15.6.3 -- If the position of the referenced item is greater or equal to the position of any AnyElementsOrNone symbol in the transformed template, an error is generated. When the reference is used at the right hand side of the assignment, the following applies:"
+  },
+  {
+   "id": "TTCN3-CORE-15.6.3-042a",
+   "section": "15.6.3",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "If the referenced item is not a result of transformation, the value or matching symbol at the right hand side of the assignment shall replace the referenced symbol in the original template. When the reference is used at the left hand side of the assignment, the following applies: If positions of all AnyElementsOrNone matching symbols in the transformed form are greater than the position of the referenced item the following rules are used.",
+   "canonical": "When an element reference is used at the left hand side of an assignment, all AnyElementsOrNone positions in the transformed form are greater than the referenced position and the referenced item is not a result of transformation, the value or matching symbol at the right hand side of the assignment SHALL replace the referenced symbol in the original template.",
+   "condition": "reference on the left hand side; all AnyElementsOrNone positions in the transformed form are greater than the referenced position; referenced item is not a result of transformation",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11563,
+    11565
+   ],
+   "examples": [
+    {
+     "lines": [
+      11573,
+      11580
+     ],
+     "text": "type record of integer RoI;\n   :\n   var template RoI v_roI := {1, 2, * length(2), 5};\n     // transformed form: {1, 2, ?, ?, 5}\n   v_roI [1] := 10;  // after the assignment, v_RoI will be {1, 10, * length(2), 5}\n   v_roI [2] := 3;  // after the assignment, v_RoI will be {1, 10, 3, ?, 5}"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.03_test_024.ttcn3",
+   "module": "M_15_06_03_test_024",
+   "header": "// @requirement: 15.6.3 -- If the referenced item is not a result of transformation, the value or matching symbol at the right hand side of the assignment shall replace the referenced symbol in the original template. When the reference is used at the left hand side of the assignment, the following applies: If positions of all AnyElementsOrNone matching symbols in the transformed form are greater than the position of the referenced item the following rules are used."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.3-043a",
+   "section": "15.6.3",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "If the referenced element was a result of transformation, then the AnyValueOrNone symbol in the original template is replaced with its transformed form and the assignment is performed afterwards. When the reference is used at the left hand side of the assignment, the following applies: If positions of all AnyElementsOrNone matching symbols in the transformed form are greater than the position of the referenced item the following rules are used.",
+   "canonical": "When an element reference is used at the left hand side of an assignment, all AnyElementsOrNone positions in the transformed form are greater than the referenced position and the referenced item is a result of transformation, the AnyElementsOrNone symbol in the original template IS replaced with its transformed form and the assignment IS performed afterwards.",
+   "condition": "reference on the left hand side; all AnyElementsOrNone positions in the transformed form are greater than the referenced position; referenced item is a result of transformation",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "The sentence names the AnyValueOrNone symbol, but the transformation applies to AnyElementsOrNone with a length restriction (see Example 8).",
+    "improper_terms": [
+     {
+      "used": "AnyValueOrNone symbol",
+      "proper": "AnyElementsOrNone symbol",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    11563,
+    11565
+   ],
+   "examples": [
+    {
+     "lines": [
+      11573,
+      11580
+     ],
+     "text": "type record of integer RoI;\n   :\n   var template RoI v_roI := {1, 2, * length(2), 5};\n     // transformed form: {1, 2, ?, ?, 5}\n   v_roI [1] := 10;  // after the assignment, v_RoI will be {1, 10, * length(2), 5}\n   v_roI [2] := 3;  // after the assignment, v_RoI will be {1, 10, 3, ?, 5}"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.03_test_025.ttcn3",
+   "module": "M_15_06_03_test_025",
+   "header": "// @requirement: 15.6.3 -- If the referenced element was a result of transformation, then the AnyValueOrNone symbol in the original template is replaced with its transformed form and the assignment is performed afterwards. When the reference is used at the left hand side of the assignment, the following applies: If positions of all AnyElementsOrNone matching symbols in the transformed form are greater than the position of the referenced item the following rules are used."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.3-046a",
+   "section": "15.6.3",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "If the position of the referenced item is greater or equal to the position of any AnyElementsOrNone symbol in the transformed form and this AnyElementsOrNone symbol is not the last element in the template, an error is generated. When the reference is used at the left hand side of the assignment, the following applies:",
+   "canonical": "When an element reference is used at the left hand side of an assignment, the position of the referenced item is greater than or equal to the position of an AnyElementsOrNone symbol in the transformed form and that AnyElementsOrNone symbol is not the last element of the template, the reference SHALL cause an error.",
+   "condition": "reference on the left hand side; referenced position >= position of a non-last AnyElementsOrNone",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11563,
+    11582
+   ],
+   "examples": [
+    {
+     "lines": [
+      11585,
+      11590
+     ],
+     "text": "type record of integer RoI;\n   :\n   var template RoI v_roI:= {1, 2, *, 5}; \n   v_roI[3] := 4; // produces an error"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.03_test_026.ttcn3",
+   "module": "M_15_06_03_test_026",
+   "header": "// @requirement: 15.6.3 -- If the position of the referenced item is greater or equal to the position of any AnyElementsOrNone symbol in the transformed form and this AnyElementsOrNone symbol is not the last element in the template, an error is generated. When the reference is used at the left hand side of the assignment, the following applies:"
+  },
+  {
+   "id": "TTCN3-CORE-15.6.3-049a",
+   "section": "15.6.3",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "If the position of the referenced item is greater or equal to the position of an AnyElementsOrNone symbol in the transformed form and this AnyElementsOrNone is the last symbol in the template, the value or matching symbol at the right hand side of the assignment shall be assigned to the referenced element. When the reference is used at the left hand side of the assignment, the following applies:",
+   "canonical": "When an element reference is used at the left hand side of an assignment, the position of the referenced item is greater than or equal to the position of an AnyElementsOrNone symbol in the transformed form and that AnyElementsOrNone is the last symbol of the template, the value or matching symbol at the right hand side of the assignment SHALL be assigned to the referenced element.",
+   "condition": "reference on the left hand side; referenced position >= position of an AnyElementsOrNone that is the last symbol of the template",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11563,
+    11602
+   ],
+   "examples": [
+    {
+     "lines": [
+      11605,
+      11616
+     ],
+     "text": "type record of integer RoI;\n   :\n   var template RoI v_roI := {1, 2, * };\n   v_roI[4] := 5; // {1, 2, ?, ?, 5, *};\n   v_roI := {1, * length(1..2)};\n   v_roI[4] := 5; // {1, ?, ?, -, 5};\n     // short length restriction: only two ? symbols added and no * at the end\n   v_roI := {1, * length(1..5)};\n   v_roI[2] := 3; // {1, ?, 3, * length(0..3)};\n     // adjusted length restriction at the end"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.03_test_027.ttcn3",
+   "module": "M_15_06_03_test_027",
+   "header": "// @requirement: 15.6.3 -- If the position of the referenced item is greater or equal to the position of an AnyElementsOrNone symbol in the transformed form and this AnyElementsOrNone is the last symbol in the template, the value or matching symbol at the right hand side of the assignment shall be assigned to the referenced element. When the reference is used at the left hand side of the assignment, the following applies:"
+  },
+  {
+   "id": "TTCN3-CORE-15.6.3-050a",
+   "section": "15.6.3",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "Then the AnyElementsOrNone symbol and all unbound values between it and the referenced symbol shall be replaced with AnyElement symbols. If the position of the referenced item is greater or equal to the position of an AnyElementsOrNone symbol in the transformed form and this AnyElementsOrNone is the last symbol in the template, the value or matching symbol at the right hand side of the assignment shall be assigned to the referenced element.",
+   "canonical": "After the assignment to an element at or beyond a trailing AnyElementsOrNone, the AnyElementsOrNone symbol and all unbound values between it and the referenced symbol SHALL be replaced with AnyElement symbols.",
+   "condition": "reference on the left hand side; referenced position >= position of an AnyElementsOrNone that is the last symbol of the template",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11592,
+    11602
+   ],
+   "examples": [
+    {
+     "lines": [
+      11605,
+      11616
+     ],
+     "text": "type record of integer RoI;\n   :\n   var template RoI v_roI := {1, 2, * };\n   v_roI[4] := 5; // {1, 2, ?, ?, 5, *};\n   v_roI := {1, * length(1..2)};\n   v_roI[4] := 5; // {1, ?, ?, -, 5};\n     // short length restriction: only two ? symbols added and no * at the end\n   v_roI := {1, * length(1..5)};\n   v_roI[2] := 3; // {1, ?, 3, * length(0..3)};\n     // adjusted length restriction at the end"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.03_test_028.ttcn3",
+   "module": "M_15_06_03_test_028",
+   "header": "// @requirement: 15.6.3 -- Then the AnyElementsOrNone symbol and all unbound values between it and the referenced symbol shall be replaced with AnyElement symbols. If the position of the referenced item is greater or equal to the position of an AnyElementsOrNone symbol in the transformed form and this AnyElementsOrNone is the last symbol in the template, the value or matching symbol at the right hand side of the assignment shall be assigned to the referenced element."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.3-051a",
+   "section": "15.6.3",
+   "type": "restriction",
+   "modality": "SHALL NOT",
+   "original": "If the AnyElementsOrNone symbol had a length restriction, only as many AnyElement symbols can be added as is the value of the upper bound of the restriction. If the position of the referenced item is greater or equal to the position of an AnyElementsOrNone symbol in the transformed form and this AnyElementsOrNone is the last symbol in the template, the value or matching symbol at the right hand side of the assignment shall be assigned to the referenced element.",
+   "canonical": "If the trailing AnyElementsOrNone symbol had a length restriction, the number of AnyElement symbols added in its place SHALL NOT exceed the upper bound of the length restriction.",
+   "condition": "reference on the left hand side; referenced position >= position of an AnyElementsOrNone that is the last symbol of the template; the AnyElementsOrNone had a length restriction",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11592,
+    11602
+   ],
+   "examples": [
+    {
+     "lines": [
+      11605,
+      11616
+     ],
+     "text": "type record of integer RoI;\n   :\n   var template RoI v_roI := {1, 2, * };\n   v_roI[4] := 5; // {1, 2, ?, ?, 5, *};\n   v_roI := {1, * length(1..2)};\n   v_roI[4] := 5; // {1, ?, ?, -, 5};\n     // short length restriction: only two ? symbols added and no * at the end\n   v_roI := {1, * length(1..5)};\n   v_roI[2] := 3; // {1, ?, 3, * length(0..3)};\n     // adjusted length restriction at the end"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.03_test_029.ttcn3",
+   "module": "M_15_06_03_test_029",
+   "header": "// @requirement: 15.6.3 -- If the AnyElementsOrNone symbol had a length restriction, only as many AnyElement symbols can be added as is the value of the upper bound of the restriction. If the position of the referenced item is greater or equal to the position of an AnyElementsOrNone symbol in the transformed form and this AnyElementsOrNone is the last symbol in the template, the value or matching symbol at the right hand side of the assignment shall be assigned to the referenced element."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.3-053a",
+   "section": "15.6.3",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The symbol is always appended if the original AnyElementsOrNone symbol was unrestricted. If the position of the referenced item is greater or equal to the position of an AnyElementsOrNone symbol in the transformed form and this AnyElementsOrNone is the last symbol in the template, the value or matching symbol at the right hand side of the assignment shall be assigned to the referenced element.",
+   "canonical": "If the original trailing AnyElementsOrNone symbol was unrestricted, an AnyElementsOrNone symbol IS always appended to the end of the template after the assignment.",
+   "condition": "reference on the left hand side; referenced position >= position of an AnyElementsOrNone that is the last symbol of the template; the original AnyElementsOrNone had no length restriction",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11592,
+    11602
+   ],
+   "examples": [
+    {
+     "lines": [
+      11605,
+      11616
+     ],
+     "text": "type record of integer RoI;\n   :\n   var template RoI v_roI := {1, 2, * };\n   v_roI[4] := 5; // {1, 2, ?, ?, 5, *};\n   v_roI := {1, * length(1..2)};\n   v_roI[4] := 5; // {1, ?, ?, -, 5};\n     // short length restriction: only two ? symbols added and no * at the end\n   v_roI := {1, * length(1..5)};\n   v_roI[2] := 3; // {1, ?, 3, * length(0..3)};\n     // adjusted length restriction at the end"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.03_test_030.ttcn3",
+   "module": "M_15_06_03_test_030",
+   "header": "// @requirement: 15.6.3 -- The symbol is always appended if the original AnyElementsOrNone symbol was unrestricted. If the position of the referenced item is greater or equal to the position of an AnyElementsOrNone symbol in the transformed form and this AnyElementsOrNone is the last symbol in the template, the value or matching symbol at the right hand side of the assignment shall be assigned to the referenced element."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.3-054a",
+   "section": "15.6.3",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "If the original AnyElementsOrNone had a length restriction, the symbol is appended only if the restriction included items beyond the referenced item. If the position of the referenced item is greater or equal to the position of an AnyElementsOrNone symbol in the transformed form and this AnyElementsOrNone is the last symbol in the template, the value or matching symbol at the right hand side of the assignment shall be assigned to the referenced element.",
+   "canonical": "If the original trailing AnyElementsOrNone had a length restriction, an AnyElementsOrNone symbol IS appended to the end of the template only if the restriction included items beyond the referenced item.",
+   "condition": "reference on the left hand side; referenced position >= position of an AnyElementsOrNone that is the last symbol of the template; the original AnyElementsOrNone had a length restriction",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11592,
+    11602
+   ],
+   "examples": [
+    {
+     "lines": [
+      11605,
+      11616
+     ],
+     "text": "type record of integer RoI;\n   :\n   var template RoI v_roI := {1, 2, * };\n   v_roI[4] := 5; // {1, 2, ?, ?, 5, *};\n   v_roI := {1, * length(1..2)};\n   v_roI[4] := 5; // {1, ?, ?, -, 5};\n     // short length restriction: only two ? symbols added and no * at the end\n   v_roI := {1, * length(1..5)};\n   v_roI[2] := 3; // {1, ?, 3, * length(0..3)};\n     // adjusted length restriction at the end"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.03_test_031.ttcn3",
+   "module": "M_15_06_03_test_031",
+   "header": "// @requirement: 15.6.3 -- If the original AnyElementsOrNone had a length restriction, the symbol is appended only if the restriction included items beyond the referenced item. If the position of the referenced item is greater or equal to the position of an AnyElementsOrNone symbol in the transformed form and this AnyElementsOrNone is the last symbol in the template, the value or matching symbol at the right hand side of the assignment shall be assigned to the referenced element."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.3-055a",
+   "section": "15.6.3",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "In such a case, the appended symbol contains the original length restriction adjusted by the difference between the size of the template before and after assignment. If the original AnyElementsOrNone had a length restriction, the symbol is appended only if the restriction included items beyond the referenced item.",
+   "canonical": "The appended AnyElementsOrNone symbol IS given the original length restriction adjusted by the difference between the size of the template before and after the assignment.",
+   "condition": "the original AnyElementsOrNone had a length restriction that included items beyond the referenced item",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "It is not stated how the bounds are adjusted (e.g. whether the lower bound is clamped at zero) nor how the template size is counted. Example 10 ({1, * length(1..5)} with v_roI[2] := 3 gives * length(0..3)) suggests both bounds are reduced by the number of added elements, with the lower bound not below zero.",
+    "readings": [
+     "Both bounds of the original restriction are reduced by the number of elements added by the assignment, with the lower bound not going below zero.",
+     "Both bounds are reduced by the difference in the number of template symbols before and after the assignment, which may yield a negative lower bound."
+    ]
+   },
+   "spec_lines": [
+    11592,
+    11602
+   ],
+   "examples": [
+    {
+     "lines": [
+      11605,
+      11616
+     ],
+     "text": "type record of integer RoI;\n   :\n   var template RoI v_roI := {1, 2, * };\n   v_roI[4] := 5; // {1, 2, ?, ?, 5, *};\n   v_roI := {1, * length(1..2)};\n   v_roI[4] := 5; // {1, ?, ?, -, 5};\n     // short length restriction: only two ? symbols added and no * at the end\n   v_roI := {1, * length(1..5)};\n   v_roI[2] := 3; // {1, ?, 3, * length(0..3)};\n     // adjusted length restriction at the end"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.03_test_032.ttcn3",
+   "module": "M_15_06_03_test_032",
+   "header": "// @requirement: 15.6.3 -- In such a case, the appended symbol contains the original length restriction adjusted by the difference between the size of the template before and after assignment. If the original AnyElementsOrNone had a length restriction, the symbol is appended only if the restriction included items beyond the referenced item."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.3-058a",
+   "section": "15.6.3",
+   "type": "restriction",
+   "modality": "SHALL NOT",
+   "original": "The index of the referenced item shall not violate type restrictions in any of the above cases.",
+   "canonical": "The index of an item referenced in a record of or set of template containing AnyElementsOrNone SHALL NOT violate the type restrictions of the record of or set of type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11618,
+    11618
+   ],
+   "examples": [
+    {
+     "lines": [
+      11605,
+      11616
+     ],
+     "text": "type record of integer RoI;\n   :\n   var template RoI v_roI := {1, 2, * };\n   v_roI[4] := 5; // {1, 2, ?, ?, 5, *};\n   v_roI := {1, * length(1..2)};\n   v_roI[4] := 5; // {1, ?, ?, -, 5};\n     // short length restriction: only two ? symbols added and no * at the end\n   v_roI := {1, * length(1..5)};\n   v_roI[2] := 3; // {1, ?, 3, * length(0..3)};\n     // adjusted length restriction at the end"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.03_test_033.ttcn3",
+   "module": "M_15_06_03_test_033",
+   "header": "// @requirement: 15.6.3 -- The index of the referenced item shall not violate type restrictions in any of the above cases."
+  }
+ ]
+}

@@ -1,0 +1,28 @@
+// @requirement: 21.1.1 -- The operation mtc identifies the MTC, the operation system identifies the test system interface and the operation self identifies the test component in which self has been called (see clause 6.2.11).
+// @id: TTCN3-CORE-21.1.1-005b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_01_01_test_007 {
+
+    type port P message { inout integer; }
+
+    type component C {
+        port P p;
+    }
+
+    type component S {
+        port P p;
+    }
+
+    testcase TC() runs on C system S {
+        map(system:p, self:p);
+        if (p.checkstate("Mapped") and not p.checkstate("Connected")) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

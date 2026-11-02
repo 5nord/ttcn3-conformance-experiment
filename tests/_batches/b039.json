@@ -1,0 +1,1293 @@
+{
+ "batch": "b039",
+ "requirements": [
+  {
+   "id": "TTCN3-CORE-15.6.4-001a",
+   "section": "15.6.4",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "While signature templates do not allow referencing their parameters directly (e.g. using dot notation), such a reference is possible when modifying a signature template.",
+   "canonical": "A signature parameter of a signature template SHALL NOT be referenced directly (e.g. using dot notation), except when modifying the signature template.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11622,
+    11624
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.06.04_test_001.ttcn3",
+   "module": "M_15_06_04_test_001",
+   "header": "// @requirement: 15.6.4 -- While signature templates do not allow referencing their parameters directly (e.g. using dot notation), such a reference is possible when modifying a signature template."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.4-001b",
+   "section": "15.6.4",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "While signature templates do not allow referencing their parameters directly (e.g. using dot notation), such a reference is possible when modifying a signature template.",
+   "canonical": "A modified signature template MAY reference a signature parameter of its parent signature template.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11622,
+    11624
+   ],
+   "examples": [
+    {
+     "lines": [
+      11650,
+      11655
+     ],
+     "text": "template MySignature s_mySign3 := ?;\n   template MySignature s_mySign4 modifies s_mySign3 := { par1 := 3 }; \n   // s_mySign3 is expanded to { par1 := ?, par2 := ? }, then 3 is assigned to par1,\n   // thus s_mySign4 will be { par1 := 3, par2 := ? }"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.04_test_002.ttcn3",
+   "module": "M_15_06_04_test_002",
+   "header": "// @requirement: 15.6.4 -- While signature templates do not allow referencing their parameters directly (e.g. using dot notation), such a reference is possible when modifying a signature template."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.4-004a",
+   "section": "15.6.4",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "a) Value lists and complemented lists: referencing a parameter of a signature template to which a value list or a complemented list is assigned, at the left hand side of an assignment, shall cause an error.",
+   "canonical": "Referencing a signature parameter of a signature template to which a template list or a complemented list is assigned, at the left hand side of an assignment, SHALL cause an error.",
+   "condition": "a template list or complemented list is assigned to the signature template; reference on the left hand side",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "\"Value list\" is used where the matching mechanism is called template list in clause B.1.2.1.",
+    "improper_terms": [
+     {
+      "used": "value list",
+      "proper": "template list",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    11626,
+    11627
+   ],
+   "examples": [
+    {
+     "lines": [
+      11632,
+      11637
+     ],
+     "text": "signature MySignature(in integer par1, in integer par2);\n   template MySignature s_mySign1 := ({ par1 := 1, par2 := 2 }, { par1 := 2, par2 := 1 });\n   template MySignature s_mySign2 modifies s_mySign1 := { par1 := ? }; \n   // shall cause an error as s_mySign1 contains a value list template"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.04_test_003.ttcn3",
+   "module": "M_15_06_04_test_003",
+   "header": "// @requirement: 15.6.4 -- a) Value lists and complemented lists: referencing a parameter of a signature template to which a value list or a complemented list is assigned, at the left hand side of an assignment, shall cause an error."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.4-007a",
+   "section": "15.6.4",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "b) _AnyValue: when referencing a parameter within a signature to which AnyValue is assigned, at the left hand_ side of an assignment, the signature template is implicitly expanded to the parameter level.",
+   "canonical": "When a signature parameter of a signature template to which AnyValue is assigned is referenced at the left hand side of an assignment, the signature template IS implicitly expanded to the parameter level.",
+   "condition": "AnyValue is assigned to the signature template; parameter referenced on the left hand side of an assignment",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "\"within a signature\" is used where the signature template is meant.",
+    "improper_terms": [
+     {
+      "used": "signature",
+      "proper": "signature template",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    11644,
+    11647
+   ],
+   "examples": [
+    {
+     "lines": [
+      11650,
+      11655
+     ],
+     "text": "template MySignature s_mySign3 := ?;\n   template MySignature s_mySign4 modifies s_mySign3 := { par1 := 3 }; \n   // s_mySign3 is expanded to { par1 := ?, par2 := ? }, then 3 is assigned to par1,\n   // thus s_mySign4 will be { par1 := 3, par2 := ? }"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.04_test_004.ttcn3",
+   "module": "M_15_06_04_test_004",
+   "header": "// @requirement: 15.6.4 -- b) _AnyValue: when referencing a parameter within a signature to which AnyValue is assigned, at the left hand_ side of an assignment, the signature template is implicitly expanded to the parameter level."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.4-008a",
+   "section": "15.6.4",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "During this expansion an AnyValue shall be assigned to all parameters of the template. b) _AnyValue: when referencing a parameter within a signature to which AnyValue is assigned, at the left hand_ side of an assignment, the signature template is implicitly expanded to the parameter level.",
+   "canonical": "During the implicit expansion of a signature template to which AnyValue is assigned, AnyValue SHALL be assigned to all signature parameters of the template.",
+   "condition": "AnyValue is assigned to the signature template; parameter referenced on the left hand side of an assignment",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11644,
+    11647
+   ],
+   "examples": [
+    {
+     "lines": [
+      11650,
+      11655
+     ],
+     "text": "template MySignature s_mySign3 := ?;\n   template MySignature s_mySign4 modifies s_mySign3 := { par1 := 3 }; \n   // s_mySign3 is expanded to { par1 := ?, par2 := ? }, then 3 is assigned to par1,\n   // thus s_mySign4 will be { par1 := 3, par2 := ? }"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.04_test_005.ttcn3",
+   "module": "M_15_06_04_test_005",
+   "header": "// @requirement: 15.6.4 -- During this expansion an AnyValue shall be assigned to all parameters of the template. b) _AnyValue: when referencing a parameter within a signature to which AnyValue is assigned, at the left hand_ side of an assignment, the signature template is implicitly expanded to the parameter level."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.4-009a",
+   "section": "15.6.4",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "After this expansion the value or matching mechanism at the right hand side of the assignment shall be assigned to the referenced parameter. b) _AnyValue: when referencing a parameter within a signature to which AnyValue is assigned, at the left hand_ side of an assignment, the signature template is implicitly expanded to the parameter level.",
+   "canonical": "After the implicit expansion of the signature template, the value or matching mechanism at the right hand side of the assignment SHALL be assigned to the referenced signature parameter.",
+   "condition": "AnyValue is assigned to the signature template; parameter referenced on the left hand side of an assignment",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11644,
+    11647
+   ],
+   "examples": [
+    {
+     "lines": [
+      11650,
+      11655
+     ],
+     "text": "template MySignature s_mySign3 := ?;\n   template MySignature s_mySign4 modifies s_mySign3 := { par1 := 3 }; \n   // s_mySign3 is expanded to { par1 := ?, par2 := ? }, then 3 is assigned to par1,\n   // thus s_mySign4 will be { par1 := 3, par2 := ? }"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.04_test_006.ttcn3",
+   "module": "M_15_06_04_test_006",
+   "header": "// @requirement: 15.6.4 -- After this expansion the value or matching mechanism at the right hand side of the assignment shall be assigned to the referenced parameter. b) _AnyValue: when referencing a parameter within a signature to which AnyValue is assigned, at the left hand_ side of an assignment, the signature template is implicitly expanded to the parameter level."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.5-001a",
+   "section": "15.6.5",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Both templates and template variables allow referencing alternatives inside a union template definition using the dot notation.",
+   "canonical": "A template or a template variable MAY reference an alternative inside a union template using the dot notation.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11659,
+    11661
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.06.05_test_001.ttcn3",
+   "module": "M_15_06_05_test_001",
+   "header": "// @requirement: 15.6.5 -- Both templates and template variables allow referencing alternatives inside a union template definition using the dot notation."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.5-004a",
+   "section": "15.6.5",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "a) _Omit, AnyValueOrNone, template lists and complemented lists: referencing an alternative of a union template_ or template field to which Omit, AnyValueOrNone, a template list or a complemented list is assigned, at the right hand side of an assignment, shall cause an error.",
+   "canonical": "Referencing an alternative of a union template or template field to which `omit`, AnyValueOrNone, a template list or a complemented list is assigned, at the right hand side of an assignment, SHALL cause an error.",
+   "condition": "omit, AnyValueOrNone, template list or complemented list assigned; reference on the right hand side",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11663,
+    11673
+   ],
+   "examples": [
+    {
+     "lines": [
+      11678,
+      11704
+     ],
+     "text": "type record R1 {\n     integer f1,\n     integer f2\n  }\n  type union U {\n     integer c1,\n     R1   c2\n  }\n  type record R2 {\n     integer g1,\n     U    g2 optional\n  }\n  :\n  var template R2 v_t1 := {\n     g1 := 5,\n     g2 := *\n  }\n  var template integer v_t2;\n  v_t1.g2.f1 := 1;\n     // after the assignment v_t2.g2 is { g2 := { f1 := 1, f2 := ? } }\n  v_t1.g2 := omit;\n  v_t2 := v_t1.g2.c1;\n     // causes an error as omit is assigned to v_t1.g2\n  var template U v_u := {c1 := omit}; //causes an error as union alternatives can not be omitted\n  var template U v_u2 := omit; // after the assignment v_u2 will be omit"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.05_test_002.ttcn3",
+   "module": "M_15_06_05_test_002",
+   "header": "// @requirement: 15.6.5 -- a) _Omit, AnyValueOrNone, template lists and complemented lists: referencing an alternative of a union template_ or template field to which Omit, AnyValueOrNone, a template list or a complemented list is assigned, at the right hand side of an assignment, shall cause an error."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.5-005a",
+   "section": "15.6.5",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "When referencing an alternative of a union template or template field to which AnyValueOrNone or Omit is assigned, at the left hand side of an assignment, the template field is implicitly set to be present and the referenced alternative becomes the chosen one.",
+   "canonical": "When an alternative of a union template or template field to which AnyValueOrNone or `omit` is assigned is referenced at the left hand side of an assignment, the template field IS implicitly set to be present.",
+   "condition": "AnyValueOrNone or omit is assigned to the union template or template field; reference on the left hand side",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11663,
+    11673
+   ],
+   "examples": [
+    {
+     "lines": [
+      11678,
+      11704
+     ],
+     "text": "type record R1 {\n     integer f1,\n     integer f2\n  }\n  type union U {\n     integer c1,\n     R1   c2\n  }\n  type record R2 {\n     integer g1,\n     U    g2 optional\n  }\n  :\n  var template R2 v_t1 := {\n     g1 := 5,\n     g2 := *\n  }\n  var template integer v_t2;\n  v_t1.g2.f1 := 1;\n     // after the assignment v_t2.g2 is { g2 := { f1 := 1, f2 := ? } }\n  v_t1.g2 := omit;\n  v_t2 := v_t1.g2.c1;\n     // causes an error as omit is assigned to v_t1.g2\n  var template U v_u := {c1 := omit}; //causes an error as union alternatives can not be omitted\n  var template U v_u2 := omit; // after the assignment v_u2 will be omit"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.05_test_003.ttcn3",
+   "module": "M_15_06_05_test_003",
+   "header": "// @requirement: 15.6.5 -- When referencing an alternative of a union template or template field to which AnyValueOrNone or Omit is assigned, at the left hand side of an assignment, the template field is implicitly set to be present and the referenced alternative becomes the chosen one."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.5-005b",
+   "section": "15.6.5",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "When referencing an alternative of a union template or template field to which AnyValueOrNone or Omit is assigned, at the left hand side of an assignment, the template field is implicitly set to be present and the referenced alternative becomes the chosen one.",
+   "canonical": "When an alternative of a union template or template field to which AnyValueOrNone or `omit` is assigned is referenced at the left hand side of an assignment, the referenced alternative IS made the chosen alternative.",
+   "condition": "AnyValueOrNone or omit is assigned to the union template or template field; reference on the left hand side",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11663,
+    11673
+   ],
+   "examples": [
+    {
+     "lines": [
+      11678,
+      11704
+     ],
+     "text": "type record R1 {\n     integer f1,\n     integer f2\n  }\n  type union U {\n     integer c1,\n     R1   c2\n  }\n  type record R2 {\n     integer g1,\n     U    g2 optional\n  }\n  :\n  var template R2 v_t1 := {\n     g1 := 5,\n     g2 := *\n  }\n  var template integer v_t2;\n  v_t1.g2.f1 := 1;\n     // after the assignment v_t2.g2 is { g2 := { f1 := 1, f2 := ? } }\n  v_t1.g2 := omit;\n  v_t2 := v_t1.g2.c1;\n     // causes an error as omit is assigned to v_t1.g2\n  var template U v_u := {c1 := omit}; //causes an error as union alternatives can not be omitted\n  var template U v_u2 := omit; // after the assignment v_u2 will be omit"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.05_test_004.ttcn3",
+   "module": "M_15_06_05_test_004",
+   "header": "// @requirement: 15.6.5 -- When referencing an alternative of a union template or template field to which AnyValueOrNone or Omit is assigned, at the left hand side of an assignment, the template field is implicitly set to be present and the referenced alternative becomes the chosen one."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.5-006a",
+   "section": "15.6.5",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "If the referenced alternative is not the last element of the dot notation, rules in clause 15.6.2 valid for AnyValue shall apply recursively for further expansion. When referencing an alternative of a union template or template field to which AnyValueOrNone or Omit is assigned, at the left hand side of an assignment, the template field is implicitly set to be present and the referenced alternative becomes the chosen one.",
+   "canonical": "If the referenced alternative of a union template or template field to which AnyValueOrNone or `omit` is assigned is not the last element of the dot notation, the rules of clause 15.6.2 for AnyValue SHALL apply recursively for further expansion.",
+   "condition": "AnyValueOrNone or omit is assigned to the union template or template field; reference on the left hand side; the referenced alternative is not the last element of the dot notation",
+   "cross_refs": [
+    "15.6.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11663,
+    11673
+   ],
+   "examples": [
+    {
+     "lines": [
+      11678,
+      11704
+     ],
+     "text": "type record R1 {\n     integer f1,\n     integer f2\n  }\n  type union U {\n     integer c1,\n     R1   c2\n  }\n  type record R2 {\n     integer g1,\n     U    g2 optional\n  }\n  :\n  var template R2 v_t1 := {\n     g1 := 5,\n     g2 := *\n  }\n  var template integer v_t2;\n  v_t1.g2.f1 := 1;\n     // after the assignment v_t2.g2 is { g2 := { f1 := 1, f2 := ? } }\n  v_t1.g2 := omit;\n  v_t2 := v_t1.g2.c1;\n     // causes an error as omit is assigned to v_t1.g2\n  var template U v_u := {c1 := omit}; //causes an error as union alternatives can not be omitted\n  var template U v_u2 := omit; // after the assignment v_u2 will be omit"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.05_test_005.ttcn3",
+   "module": "M_15_06_05_test_005",
+   "header": "// @requirement: 15.6.5 -- If the referenced alternative is not the last element of the dot notation, rules in clause 15.6.2 valid for AnyValue shall apply recursively for further expansion. When referencing an alternative of a union template or template field to which AnyValueOrNone or Omit is assigned, at the left hand side of an assignment, the template field is implicitly set to be present and the referenced alternative becomes the chosen one."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.5-007a",
+   "section": "15.6.5",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "After this expansion the value or matching mechanism at the right hand side of the assignment shall be assigned to the referenced subfield. When referencing an alternative of a union template or template field to which AnyValueOrNone or Omit is assigned, at the left hand side of an assignment, the template field is implicitly set to be present and the referenced alternative becomes the chosen one.",
+   "canonical": "After the expansion of a union template or template field to which AnyValueOrNone or `omit` is assigned, the value or matching mechanism at the right hand side of the assignment SHALL be assigned to the referenced subfield.",
+   "condition": "AnyValueOrNone or omit is assigned to the union template or template field; reference on the left hand side",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11663,
+    11673
+   ],
+   "examples": [
+    {
+     "lines": [
+      11678,
+      11704
+     ],
+     "text": "type record R1 {\n     integer f1,\n     integer f2\n  }\n  type union U {\n     integer c1,\n     R1   c2\n  }\n  type record R2 {\n     integer g1,\n     U    g2 optional\n  }\n  :\n  var template R2 v_t1 := {\n     g1 := 5,\n     g2 := *\n  }\n  var template integer v_t2;\n  v_t1.g2.f1 := 1;\n     // after the assignment v_t2.g2 is { g2 := { f1 := 1, f2 := ? } }\n  v_t1.g2 := omit;\n  v_t2 := v_t1.g2.c1;\n     // causes an error as omit is assigned to v_t1.g2\n  var template U v_u := {c1 := omit}; //causes an error as union alternatives can not be omitted\n  var template U v_u2 := omit; // after the assignment v_u2 will be omit"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.05_test_006.ttcn3",
+   "module": "M_15_06_05_test_006",
+   "header": "// @requirement: 15.6.5 -- After this expansion the value or matching mechanism at the right hand side of the assignment shall be assigned to the referenced subfield. When referencing an alternative of a union template or template field to which AnyValueOrNone or Omit is assigned, at the left hand side of an assignment, the template field is implicitly set to be present and the referenced alternative becomes the chosen one."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.5-008a",
+   "section": "15.6.5",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "Referencing an alternative of a union template field to which template lists or complemented template lists are assigned, at the left hand side of an assignment, shall cause an error.",
+   "canonical": "Referencing an alternative of a union template field to which a template list or a complemented list is assigned, at the left hand side of an assignment, SHALL cause an error.",
+   "condition": "template list or complemented list assigned; reference on the left hand side",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "The sentence names only a \"union template field\", while item a) otherwise covers \"union template or template field\"; it is unclear whether a union template (not a field) with a template list is also covered.",
+    "readings": [
+     "Referencing an alternative of a union template or union template field to which a template list or complemented list is assigned, at the left hand side of an assignment, SHALL cause an error.",
+     "Referencing an alternative of a union template field (but not of a top-level union template) to which a template list or complemented list is assigned, at the left hand side of an assignment, SHALL cause an error."
+    ],
+    "improper_terms": [
+     {
+      "used": "complemented template lists",
+      "proper": "complemented lists",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    11663,
+    11673
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.06.05_test_007.ttcn3",
+   "module": "M_15_06_05_test_007",
+   "header": "// @requirement: 15.6.5 -- Referencing an alternative of a union template field to which template lists or complemented template lists are assigned, at the left hand side of an assignment, shall cause an error."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.5-011a",
+   "section": "15.6.5",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "b) _AnyValue: when referencing an alternative of a union template or template field to which AnyValue is_ assigned, at the right hand side of an assignment, AnyValue shall be returned.",
+   "canonical": "When an alternative of a union template or template field to which AnyValue is assigned is referenced at the right hand side of an assignment, the reference SHALL return AnyValue.",
+   "condition": "AnyValue assigned; reference on the right hand side",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11711,
+    11717
+   ],
+   "examples": [
+    {
+     "lines": [
+      11720,
+      11726
+     ],
+     "text": "var template U v_t3 := ?;\n  v_t2 := v_t3.c1;\n     // after the assignment v_t2 will be ?\n  v_t3.c1.f1 := 1;\n     // after the assignment v_t3 will be { c1 := { f1 := 1, f2 := ? } }"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.05_test_008.ttcn3",
+   "module": "M_15_06_05_test_008",
+   "header": "// @requirement: 15.6.5 -- b) _AnyValue: when referencing an alternative of a union template or template field to which AnyValue is_ assigned, at the right hand side of an assignment, AnyValue shall be returned."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.5-012a",
+   "section": "15.6.5",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "When referencing an alternative of a union template or template field to which AnyValue is assigned, at the left hand side of an assignment, the referenced alternative becomes the chosen one.",
+   "canonical": "When an alternative of a union template or template field to which AnyValue is assigned is referenced at the left hand side of an assignment, the referenced alternative IS made the chosen alternative.",
+   "condition": "AnyValue assigned to the union template or template field; reference on the left hand side",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11711,
+    11717
+   ],
+   "examples": [
+    {
+     "lines": [
+      11720,
+      11726
+     ],
+     "text": "var template U v_t3 := ?;\n  v_t2 := v_t3.c1;\n     // after the assignment v_t2 will be ?\n  v_t3.c1.f1 := 1;\n     // after the assignment v_t3 will be { c1 := { f1 := 1, f2 := ? } }"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.05_test_009.ttcn3",
+   "module": "M_15_06_05_test_009",
+   "header": "// @requirement: 15.6.5 -- When referencing an alternative of a union template or template field to which AnyValue is assigned, at the left hand side of an assignment, the referenced alternative becomes the chosen one."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.5-013a",
+   "section": "15.6.5",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "If the referenced alternative is not the last element of the dot notation, rules in clause 15.6.2 valid for AnyValue shall apply recursively for further expansion. When referencing an alternative of a union template or template field to which AnyValue is assigned, at the left hand side of an assignment, the referenced alternative becomes the chosen one.",
+   "canonical": "If the referenced alternative of a union template or template field to which AnyValue is assigned is not the last element of the dot notation, the rules of clause 15.6.2 for AnyValue SHALL apply recursively for further expansion.",
+   "condition": "AnyValue assigned to the union template or template field; reference on the left hand side; the referenced alternative is not the last element of the dot notation",
+   "cross_refs": [
+    "15.6.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11711,
+    11717
+   ],
+   "examples": [
+    {
+     "lines": [
+      11720,
+      11726
+     ],
+     "text": "var template U v_t3 := ?;\n  v_t2 := v_t3.c1;\n     // after the assignment v_t2 will be ?\n  v_t3.c1.f1 := 1;\n     // after the assignment v_t3 will be { c1 := { f1 := 1, f2 := ? } }"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.05_test_010.ttcn3",
+   "module": "M_15_06_05_test_010",
+   "header": "// @requirement: 15.6.5 -- If the referenced alternative is not the last element of the dot notation, rules in clause 15.6.2 valid for AnyValue shall apply recursively for further expansion. When referencing an alternative of a union template or template field to which AnyValue is assigned, at the left hand side of an assignment, the referenced alternative becomes the chosen one."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.5-014a",
+   "section": "15.6.5",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "After this expansion the value or matching mechanism at the right hand side of the assignment shall be assigned to the referenced subfield. When referencing an alternative of a union template or template field to which AnyValue is assigned, at the left hand side of an assignment, the referenced alternative becomes the chosen one.",
+   "canonical": "After the expansion of a union template or template field to which AnyValue is assigned, the value or matching mechanism at the right hand side of the assignment SHALL be assigned to the referenced subfield.",
+   "condition": "AnyValue assigned to the union template or template field; reference on the left hand side",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11711,
+    11717
+   ],
+   "examples": [
+    {
+     "lines": [
+      11720,
+      11726
+     ],
+     "text": "var template U v_t3 := ?;\n  v_t2 := v_t3.c1;\n     // after the assignment v_t2 will be ?\n  v_t3.c1.f1 := 1;\n     // after the assignment v_t3 will be { c1 := { f1 := 1, f2 := ? } }"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.05_test_011.ttcn3",
+   "module": "M_15_06_05_test_011",
+   "header": "// @requirement: 15.6.5 -- After this expansion the value or matching mechanism at the right hand side of the assignment shall be assigned to the referenced subfield. When referencing an alternative of a union template or template field to which AnyValue is assigned, at the left hand side of an assignment, the referenced alternative becomes the chosen one."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.5-017a",
+   "section": "15.6.5",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "c) Ifpresent attribute: referencing an alternative of a union template field to which the ifpresent attribute is attached, shall cause an error (irrespective of the value or the matching mechanism to which ifpresent is appended).",
+   "canonical": "Referencing an alternative of a union template field to which the `ifpresent` attribute is attached SHALL cause an error, irrespective of the value or matching mechanism to which `ifpresent` is appended.",
+   "condition": "the ifpresent attribute is attached to the union template field",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11728,
+    11730
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.06.05_test_012.ttcn3",
+   "module": "M_15_06_05_test_012",
+   "header": "// @requirement: 15.6.5 -- c) Ifpresent attribute: referencing an alternative of a union template field to which the ifpresent attribute is attached, shall cause an error (irrespective of the value or the matching mechanism to which ifpresent is appended)."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.5-018a",
+   "section": "15.6.5",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "d) Special value null: referencing an alternative of an address type, which actual value is null shall cause an error.",
+   "canonical": "Referencing an alternative of an address type whose actual value is `null` SHALL cause an error.",
+   "condition": "the address type is a union type and its actual value is null",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11732,
+    11733
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.06.05_test_013.ttcn3",
+   "module": "M_15_06_05_test_013",
+   "header": "// @requirement: 15.6.5 -- d) Special value null: referencing an alternative of an address type, which actual value is null shall cause an error."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.6-001a",
+   "section": "15.6.6",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Both templates and template variables allow referencing elements of a map template or field using the index notation.",
+   "canonical": "A template or a template variable MAY reference an element of a map template or field using the index notation.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11737,
+    11739
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.06.06_test_001.ttcn3",
+   "module": "M_15_06_06_test_001",
+   "header": "// @requirement: 15.6.6 -- Both templates and template variables allow referencing elements of a map template or field using the index notation."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.6-004a",
+   "section": "15.6.6",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "a) _Omit: referencing an element within a map to which omit is assigned shall follow the rules specified in_ clause 6.2.15.7.",
+   "canonical": "Referencing an element within a map template or field to which `omit` is assigned SHALL follow the rules specified in clause 6.2.15.7.",
+   "condition": "omit is assigned to the map template or field",
+   "cross_refs": [
+    "6.2.15.7"
+   ],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "\"within a map\" is used where a map template or field is meant (omit cannot be assigned to a map value).",
+    "improper_terms": [
+     {
+      "used": "map",
+      "proper": "map template or field",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    11741,
+    11742
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.06.06_test_002.ttcn3",
+   "module": "M_15_06_06_test_002",
+   "header": "// @requirement: 15.6.6 -- a) _Omit: referencing an element within a map to which omit is assigned shall follow the rules specified in_ clause 6.2.15.7."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.6-005a",
+   "section": "15.6.6",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "b) Template lists and complemented lists: referencing an element within a map field to which a list or complemented list is assigned, shall cause an error.",
+   "canonical": "Referencing an element within a map template or field to which a template list or a complemented list is assigned SHALL cause an error.",
+   "condition": "a template list or complemented list is assigned",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "\"list\" is used for template list, and \"map field\" is used although Example 1 applies the rule to a map template variable.",
+    "improper_terms": [
+     {
+      "used": "list",
+      "proper": "template list",
+      "glossary": false
+     },
+     {
+      "used": "map field",
+      "proper": "map template or field",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    11744,
+    11745
+   ],
+   "examples": [
+    {
+     "lines": [
+      11750,
+      11758
+     ],
+     "text": "type map from charstring to integer TMap;\n     :\n     var template TMap v_map;\n     var template integer v_int;\n     v_map := ({[\"id\"] := 1}, {[\"id\"] := ?, [\"active\"] := 1});\n     v_int := v_map [0];\n    // shall cause an error as template list is assigned to v_map"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.06_test_003.ttcn3",
+   "module": "M_15_06_06_test_003",
+   "header": "// @requirement: 15.6.6 -- b) Template lists and complemented lists: referencing an element within a map field to which a list or complemented list is assigned, shall cause an error."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.6-008a",
+   "section": "15.6.6",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "c) _AnyValue: when referencing an element of a map template or field to which AnyValue is assigned, at the_ right- hand side of an assignment, AnyValueOrNone shall be returned.",
+   "canonical": "When an element of a map template or field to which AnyValue is assigned is referenced at the right hand side of an assignment, the reference SHALL return AnyValueOrNone.",
+   "condition": "AnyValue assigned; reference on the right hand side",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11760,
+    11766
+   ],
+   "examples": [
+    {
+     "lines": [
+      11769,
+      11780
+     ],
+     "text": "type map from charstring to integer TMap;\n     :\n     var template TMap v_map;\n     var template integer v_int;\n     :\n     v_map := ?;\n     v_int := v_map[\"test\"];\n     // after the assignment v_int will be AnyValueOrNone(*)\n     v_map[\"test\"] := 2;\n     // after the assignment v_map will be { *, [\"test\"] := 2 }"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.06_test_004.ttcn3",
+   "module": "M_15_06_06_test_004",
+   "header": "// @requirement: 15.6.6 -- c) _AnyValue: when referencing an element of a map template or field to which AnyValue is assigned, at the_ right- hand side of an assignment, AnyValueOrNone shall be returned."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.6-009a",
+   "section": "15.6.6",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "When referencing an element within a map template or field to which AnyValue is assigned, at the left-hand side of an assignment, the template or field is implicitly expanded recursively up to and including, the depth of the referenced subfield and AnyValue is assigned to the referenced field.",
+   "canonical": "When an element of a map template or field to which AnyValue is assigned is referenced at the left hand side of an assignment, the template or field IS implicitly expanded recursively up to and including the depth of the referenced subfield.",
+   "condition": "AnyValue assigned to the map template or field; reference on the left hand side",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11760,
+    11766
+   ],
+   "examples": [
+    {
+     "lines": [
+      11769,
+      11780
+     ],
+     "text": "type map from charstring to integer TMap;\n     :\n     var template TMap v_map;\n     var template integer v_int;\n     :\n     v_map := ?;\n     v_int := v_map[\"test\"];\n     // after the assignment v_int will be AnyValueOrNone(*)\n     v_map[\"test\"] := 2;\n     // after the assignment v_map will be { *, [\"test\"] := 2 }"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.06_test_005.ttcn3",
+   "module": "M_15_06_06_test_005",
+   "header": "// @requirement: 15.6.6 -- When referencing an element within a map template or field to which AnyValue is assigned, at the left-hand side of an assignment, the template or field is implicitly expanded recursively up to and including, the depth of the referenced subfield and AnyValue is assigned to the referenced field."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.6-009b",
+   "section": "15.6.6",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "When referencing an element within a map template or field to which AnyValue is assigned, at the left-hand side of an assignment, the template or field is implicitly expanded recursively up to and including, the depth of the referenced subfield and AnyValue is assigned to the referenced field.",
+   "canonical": "When an element of a map template or field to which AnyValue is assigned is referenced at the left hand side of an assignment, AnyValue IS assigned to the referenced field during the implicit expansion.",
+   "condition": "AnyValue assigned to the map template or field; reference on the left hand side",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11760,
+    11766
+   ],
+   "examples": [
+    {
+     "lines": [
+      11769,
+      11780
+     ],
+     "text": "type map from charstring to integer TMap;\n     :\n     var template TMap v_map;\n     var template integer v_int;\n     :\n     v_map := ?;\n     v_int := v_map[\"test\"];\n     // after the assignment v_int will be AnyValueOrNone(*)\n     v_map[\"test\"] := 2;\n     // after the assignment v_map will be { *, [\"test\"] := 2 }"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.06_test_006.ttcn3",
+   "module": "M_15_06_06_test_006",
+   "header": "// @requirement: 15.6.6 -- When referencing an element within a map template or field to which AnyValue is assigned, at the left-hand side of an assignment, the template or field is implicitly expanded recursively up to and including, the depth of the referenced subfield and AnyValue is assigned to the referenced field."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.6-010a",
+   "section": "15.6.6",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "Then the value or matching mechanism at the right-hand side of the assignment shall be assigned to the referenced field and _AnyElementsOrNone shall be added to the map template._ When referencing an element within a map template or field to which AnyValue is assigned, at the left-hand side of an assignment, the template or field is implicitly expanded recursively up to and including, the depth of the referenced subfield and AnyValue is assigned to the referenced field.",
+   "canonical": "After the implicit expansion of a map template or field to which AnyValue is assigned, the value or matching mechanism at the right hand side of the assignment SHALL be assigned to the referenced field.",
+   "condition": "AnyValue assigned to the map template or field; reference on the left hand side",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11760,
+    11766
+   ],
+   "examples": [
+    {
+     "lines": [
+      11769,
+      11780
+     ],
+     "text": "type map from charstring to integer TMap;\n     :\n     var template TMap v_map;\n     var template integer v_int;\n     :\n     v_map := ?;\n     v_int := v_map[\"test\"];\n     // after the assignment v_int will be AnyValueOrNone(*)\n     v_map[\"test\"] := 2;\n     // after the assignment v_map will be { *, [\"test\"] := 2 }"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.06_test_007.ttcn3",
+   "module": "M_15_06_06_test_007",
+   "header": "// @requirement: 15.6.6 -- Then the value or matching mechanism at the right-hand side of the assignment shall be assigned to the referenced field and _AnyElementsOrNone shall be added to the map template._ When referencing an element within a map template or field to which AnyValue is assigned, at the left-hand side of an assignment, the template or field is implicitly expanded recursively up to and including, the depth of the referenced subfield and AnyValue is assigned to the referenced field."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.6-010b",
+   "section": "15.6.6",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "Then the value or matching mechanism at the right-hand side of the assignment shall be assigned to the referenced field and _AnyElementsOrNone shall be added to the map template._ When referencing an element within a map template or field to which AnyValue is assigned, at the left-hand side of an assignment, the template or field is implicitly expanded recursively up to and including, the depth of the referenced subfield and AnyValue is assigned to the referenced field.",
+   "canonical": "After the assignment to an element of a map template or field to which AnyValue was assigned, AnyElementsOrNone SHALL be added to the map template.",
+   "condition": "AnyValue assigned to the map template or field; reference on the left hand side",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11760,
+    11766
+   ],
+   "examples": [
+    {
+     "lines": [
+      11769,
+      11780
+     ],
+     "text": "type map from charstring to integer TMap;\n     :\n     var template TMap v_map;\n     var template integer v_int;\n     :\n     v_map := ?;\n     v_int := v_map[\"test\"];\n     // after the assignment v_int will be AnyValueOrNone(*)\n     v_map[\"test\"] := 2;\n     // after the assignment v_map will be { *, [\"test\"] := 2 }"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.06_test_008.ttcn3",
+   "module": "M_15_06_06_test_008",
+   "header": "// @requirement: 15.6.6 -- Then the value or matching mechanism at the right-hand side of the assignment shall be assigned to the referenced field and _AnyElementsOrNone shall be added to the map template._ When referencing an element within a map template or field to which AnyValue is assigned, at the left-hand side of an assignment, the template or field is implicitly expanded recursively up to and including, the depth of the referenced subfield and AnyValue is assigned to the referenced field."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.6-013a",
+   "section": "15.6.6",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "d) _AnyValueOrNone: referencing an element within a map template or field to which AnyValueOrNone is_ assigned on the right-hand side of an assignment shall cause an error.",
+   "canonical": "Referencing an element within a map template or field to which AnyValueOrNone is assigned at the right hand side of an assignment SHALL cause an error.",
+   "condition": "AnyValueOrNone assigned; reference on the right hand side",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11787,
+    11788
+   ],
+   "examples": [
+    {
+     "lines": [
+      11796,
+      11805
+     ],
+     "text": "type map from charstring to integer TMap;\n     :\n     var template TMap v_map;\n     var template integer v_int;\n     :\n     v_map := *;\n     v_int := v_map[\"test\"];\n     // shall cause an error as v_map contains AnyValueOrNone"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.06_test_009.ttcn3",
+   "module": "M_15_06_06_test_009",
+   "header": "// @requirement: 15.6.6 -- d) _AnyValueOrNone: referencing an element within a map template or field to which AnyValueOrNone is_ assigned on the right-hand side of an assignment shall cause an error."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.6-014a",
+   "section": "15.6.6",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "When referencing an element within a map template or field to which AnyValueOrNone is assigned on the left-hand side of an assignment, the rules for AnyValue shall apply (see item c) for more details).",
+   "canonical": "When an element within a map template or field to which AnyValueOrNone is assigned is referenced at the left hand side of an assignment, the rules for AnyValue (item c) of clause 15.6.6) SHALL apply.",
+   "condition": "AnyValueOrNone assigned; reference on the left hand side",
+   "cross_refs": [
+    "15.6.6"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11787,
+    11793
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.06.06_test_010.ttcn3",
+   "module": "M_15_06_06_test_010",
+   "header": "// @requirement: 15.6.6 -- When referencing an element within a map template or field to which AnyValueOrNone is assigned on the left-hand side of an assignment, the rules for AnyValue shall apply (see item c) for more details)."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.6-019a",
+   "section": "15.6.6",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "e) Ifpresent attribute: referencing an element within a map template or field to which the ifpresent attribute is attached, shall cause an error (irrespective of the value or the matching mechanism to which ifpresent is appended).",
+   "canonical": "Referencing an element within a map template or field to which the `ifpresent` attribute is attached SHALL cause an error, irrespective of the value or matching mechanism to which `ifpresent` is appended.",
+   "condition": "the ifpresent attribute is attached",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11807,
+    11809
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.06.06_test_011.ttcn3",
+   "module": "M_15_06_06_test_011",
+   "header": "// @requirement: 15.6.6 -- e) Ifpresent attribute: referencing an element within a map template or field to which the ifpresent attribute is attached, shall cause an error (irrespective of the value or the matching mechanism to which ifpresent is appended)."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.6-020a",
+   "section": "15.6.6",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "f) _AnyElementsOrNone: when referencing an element of a map template or field that contains_ _AnyElementsOrNone, if the referenced element is not present and the reference occurs on the right-hand side_ of an assignment, AnyValueOrNone shall be returned.",
+   "canonical": "When an element of a map template or field that contains AnyElementsOrNone is referenced at the right hand side of an assignment and the referenced element is not present, the reference SHALL return AnyValueOrNone.",
+   "condition": "the map template or field contains AnyElementsOrNone; the referenced element is not present; reference on the right hand side",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11811,
+    11813
+   ],
+   "examples": [
+    {
+     "lines": [
+      11823,
+      11832
+     ],
+     "text": "type map from charstring to integer TMap;\n     :\n     var template TMap v_map;\n     var template integer v_int;\n     :\n     v_map := { *, [\"id\"] := 1 };\n     v_int := v_map[\"test\"];\n     // after the assignment v_int will be AnyValueOrNone(*)"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.06.06_test_012.ttcn3",
+   "module": "M_15_06_06_test_012",
+   "header": "// @requirement: 15.6.6 -- f) _AnyElementsOrNone: when referencing an element of a map template or field that contains_ _AnyElementsOrNone, if the referenced element is not present and the reference occurs on the right-hand side_ of an assignment, AnyValueOrNone shall be returned."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.6-021a",
+   "section": "15.6.6",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "When referencing an element of a map template or field that contains AnyElementsOrNone, if the referenced element is not present and the reference occurs on the left-hand side of an assignment, the template or field is implicitly expanded recursively up to and including, the depth of the referenced subfield and AnyValue is assigned to the referenced field.",
+   "canonical": "When an element that is not present is referenced at the left hand side of an assignment in a map template or field that contains AnyElementsOrNone, the template or field IS implicitly expanded recursively up to and including the depth of the referenced subfield.",
+   "condition": "the map template or field contains AnyElementsOrNone; the referenced element is not present; reference on the left hand side",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11815,
+    11820
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.06.06_test_013.ttcn3",
+   "module": "M_15_06_06_test_013",
+   "header": "// @requirement: 15.6.6 -- When referencing an element of a map template or field that contains AnyElementsOrNone, if the referenced element is not present and the reference occurs on the left-hand side of an assignment, the template or field is implicitly expanded recursively up to and including, the depth of the referenced subfield and AnyValue is assigned to the referenced field."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.6-021b",
+   "section": "15.6.6",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "When referencing an element of a map template or field that contains AnyElementsOrNone, if the referenced element is not present and the reference occurs on the left-hand side of an assignment, the template or field is implicitly expanded recursively up to and including, the depth of the referenced subfield and AnyValue is assigned to the referenced field.",
+   "canonical": "When an element that is not present is referenced at the left hand side of an assignment in a map template or field that contains AnyElementsOrNone, AnyValue IS assigned to the referenced field during the implicit expansion.",
+   "condition": "the map template or field contains AnyElementsOrNone; the referenced element is not present; reference on the left hand side",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11815,
+    11820
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.06.06_test_014.ttcn3",
+   "module": "M_15_06_06_test_014",
+   "header": "// @requirement: 15.6.6 -- When referencing an element of a map template or field that contains AnyElementsOrNone, if the referenced element is not present and the reference occurs on the left-hand side of an assignment, the template or field is implicitly expanded recursively up to and including, the depth of the referenced subfield and AnyValue is assigned to the referenced field."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.6-022a",
+   "section": "15.6.6",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "Then the value or matching mechanism at the right-hand side of the assignment shall be assigned to the referenced field and AnyElementsOrNone shall be added to the map template. When referencing an element of a map template or field that contains AnyElementsOrNone, if the referenced element is not present and the reference occurs on the left-hand side of an assignment, the template or field is implicitly expanded recursively up to and including, the depth of the referenced subfield and AnyValue is assigned to the referenced field.",
+   "canonical": "After the implicit expansion of a map template or field that contains AnyElementsOrNone, the value or matching mechanism at the right hand side of the assignment SHALL be assigned to the referenced field.",
+   "condition": "the map template or field contains AnyElementsOrNone; the referenced element is not present; reference on the left hand side",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11815,
+    11820
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.06.06_test_015.ttcn3",
+   "module": "M_15_06_06_test_015",
+   "header": "// @requirement: 15.6.6 -- Then the value or matching mechanism at the right-hand side of the assignment shall be assigned to the referenced field and AnyElementsOrNone shall be added to the map template. When referencing an element of a map template or field that contains AnyElementsOrNone, if the referenced element is not present and the reference occurs on the left-hand side of an assignment, the template or field is implicitly expanded recursively up to and including, the depth of the referenced subfield and AnyValue is assigned to the referenced field."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.6-022b",
+   "section": "15.6.6",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "Then the value or matching mechanism at the right-hand side of the assignment shall be assigned to the referenced field and AnyElementsOrNone shall be added to the map template. When referencing an element of a map template or field that contains AnyElementsOrNone, if the referenced element is not present and the reference occurs on the left-hand side of an assignment, the template or field is implicitly expanded recursively up to and including, the depth of the referenced subfield and AnyValue is assigned to the referenced field.",
+   "canonical": "After the assignment to a non-present element of a map template or field that contains AnyElementsOrNone, AnyElementsOrNone SHALL be added to the map template.",
+   "condition": "the map template or field contains AnyElementsOrNone; the referenced element is not present; reference on the left hand side",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "The map template already contains AnyElementsOrNone; it is unclear whether a second AnyElementsOrNone is added or the existing one is kept.",
+    "readings": [
+     "The map template SHALL contain AnyElementsOrNone after the assignment (the existing one is kept).",
+     "A further AnyElementsOrNone SHALL be added to the map template in addition to the existing one."
+    ]
+   },
+   "spec_lines": [
+    11815,
+    11820
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.06.06_test_016.ttcn3",
+   "module": "M_15_06_06_test_016",
+   "header": "// @requirement: 15.6.6 -- Then the value or matching mechanism at the right-hand side of the assignment shall be assigned to the referenced field and AnyElementsOrNone shall be added to the map template. When referencing an element of a map template or field that contains AnyElementsOrNone, if the referenced element is not present and the reference occurs on the left-hand side of an assignment, the template or field is implicitly expanded recursively up to and including, the depth of the referenced subfield and AnyValue is assigned to the referenced field."
+  },
+  {
+   "id": "TTCN3-CORE-15.6.6-025a",
+   "section": "15.6.6",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "g) Special value null: referencing an element of an address type that is derived from a map type and whose actual value is null shall cause an error.",
+   "canonical": "Referencing an element of an address type that is derived from a map type and whose actual value is `null` SHALL cause an error.",
+   "condition": "the address type is derived from a map type and its actual value is null",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11834,
+    11835
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.06.06_test_017.ttcn3",
+   "module": "M_15_06_06_test_017",
+   "header": "// @requirement: 15.6.6 -- g) Special value null: referencing an element of an address type that is derived from a map type and whose actual value is null shall cause an error."
+  },
+  {
+   "id": "TTCN3-CORE-15.7.0-001a",
+   "section": "15.7.0",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Generally, matching mechanisms are used to replace values of single template fields or to replace even the entire contents of a template.",
+   "canonical": "A matching mechanism MAY be used to replace the value of a single template field.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11841,
+    11842
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.07.00_test_001.ttcn3",
+   "module": "M_15_07_00_test_001",
+   "header": "// @requirement: 15.7.0 -- Generally, matching mechanisms are used to replace values of single template fields or to replace even the entire contents of a template."
+  },
+  {
+   "id": "TTCN3-CORE-15.7.0-001b",
+   "section": "15.7.0",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Generally, matching mechanisms are used to replace values of single template fields or to replace even the entire contents of a template.",
+   "canonical": "A matching mechanism MAY be used to replace the entire contents of a template.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11841,
+    11842
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.07.00_test_002.ttcn3",
+   "module": "M_15_07_00_test_002",
+   "header": "// @requirement: 15.7.0 -- Generally, matching mechanisms are used to replace values of single template fields or to replace even the entire contents of a template."
+  },
+  {
+   "id": "TTCN3-CORE-15.7.0-002a",
+   "section": "15.7.0",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Matching mechanisms may also be used in-line (see clause 15.4).",
+   "canonical": "A matching mechanism MAY be used in-line, i.e. in an in-line template.",
+   "condition": null,
+   "cross_refs": [
+    "15.4"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11841,
+    11842
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.07.00_test_003.ttcn3",
+   "module": "M_15_07_00_test_003",
+   "header": "// @requirement: 15.7.0 -- Matching mechanisms may also be used in-line (see clause 15.4)."
+  },
+  {
+   "id": "TTCN3-CORE-15.7.0-008a",
+   "section": "15.7.0",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Some of the mechanisms may be used in combination.",
+   "canonical": "Certain matching mechanisms MAY be used in combination with each other.",
+   "condition": null,
+   "cross_refs": [
+    "annex B"
+   ],
+   "ambiguity": {
+    "status": "ambiguous",
+    "readings": [
+     "Only the combinations of matching mechanisms explicitly defined in annex B (e.g. length restriction with AnyElementsOrNone, ifpresent with other mechanisms) MAY be used together.",
+     "Any matching mechanisms MAY be combined unless a combination is explicitly forbidden."
+    ],
+    "issue": "\"Some of the mechanisms\" does not state which mechanisms can be combined; the first reading (only combinations defined in annex B) is chosen because restriction a) forbids all applications not allowed by table 11."
+   },
+   "spec_lines": [
+    11854,
+    11854
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.07.00_test_004.ttcn3",
+   "module": "M_15_07_00_test_004",
+   "header": "// @requirement: 15.7.0 -- Some of the mechanisms may be used in combination."
+  },
+  {
+   "id": "TTCN3-CORE-15.7.0-013a",
+   "section": "15.7.0",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "a) All other applications of matching mechanisms than the ones allowed in table 11 are forbidden.",
+   "canonical": "A matching mechanism SHALL NOT be applied to a value or template of a type for which table 11 does not allow it.",
+   "condition": null,
+   "cross_refs": [
+    "15.7.1",
+    "annex B"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11869,
+    11869
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.07.00_test_005.ttcn3",
+   "module": "M_15_07_00_test_005",
+   "header": "// @requirement: 15.7.0 -- a) All other applications of matching mechanisms than the ones allowed in table 11 are forbidden."
+  },
+  {
+   "id": "TTCN3-CORE-15.7.0-018a",
+   "section": "15.7.0",
+   "type": "information",
+   "modality": "CAN",
+   "original": "NOTE 1: Can be assigned to templates of any type as a whole or to optional fields of record and set templates.",
+   "canonical": "`omit` CAN be assigned to a template of any type as a whole or to an optional field of a record or set template.",
+   "condition": null,
+   "cross_refs": [
+    "table 11"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11892,
+    11894
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.07.00_test_006.ttcn3",
+   "module": "M_15_07_00_test_006",
+   "header": "// @requirement: 15.7.0 -- NOTE 1: Can be assigned to templates of any type as a whole or to optional fields of record and set templates."
+  },
+  {
+   "id": "TTCN3-CORE-15.7.0-018b",
+   "section": "15.7.0",
+   "type": "information",
+   "modality": "CAN",
+   "original": "NOTE 1: Can be assigned to templates of any type as a whole or to optional fields of record and set templates.",
+   "canonical": "AnyValueOrNone (`*`) CAN be assigned to a template of any type as a whole or to an optional field of a record or set template.",
+   "condition": null,
+   "cross_refs": [
+    "table 11"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11892,
+    11894
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.07.00_test_007.ttcn3",
+   "module": "M_15_07_00_test_007",
+   "header": "// @requirement: 15.7.0 -- NOTE 1: Can be assigned to templates of any type as a whole or to optional fields of record and set templates."
+  },
+  {
+   "id": "TTCN3-CORE-15.7.0-018c",
+   "section": "15.7.0",
+   "type": "information",
+   "modality": "CAN",
+   "original": "NOTE 1: Can be assigned to templates of any type as a whole or to optional fields of record and set templates.",
+   "canonical": "`ifpresent` CAN be assigned to a template of any type as a whole or to an optional field of a record or set template.",
+   "condition": null,
+   "cross_refs": [
+    "table 11"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11892,
+    11894
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.07.00_test_008.ttcn3",
+   "module": "M_15_07_00_test_008",
+   "header": "// @requirement: 15.7.0 -- NOTE 1: Can be assigned to templates of any type as a whole or to optional fields of record and set templates."
+  },
+  {
+   "id": "TTCN3-CORE-15.7.0-019a",
+   "section": "15.7.0",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "However when matching, it shall be applied to optional fields of record and set types only (without restriction on the type of that field). NOTE 1: Can be assigned to templates of any type as a whole or to optional fields of record and set templates.",
+   "canonical": "When matching, `omit` SHALL be applied only to optional fields of record and set types, regardless of the type of that field.",
+   "condition": "matching is performed",
+   "cross_refs": [
+    "table 11"
+   ],
+   "ambiguity": {
+    "status": "ambiguous",
+    "readings": [
+     "`omit` assigned to a whole template SHALL NOT be used in a matching operation (e.g. receive) at all; it may only be applied when matching optional fields of record and set types.",
+     "`omit` assigned to a whole template is allowed and only matches optional fields of record and set types when it is used inside such a template."
+    ],
+    "issue": "\"it shall be applied ... only\" in combination with NOTE 1 allowing assignment to whole templates leaves open whether matching against a whole template containing `omit` is an error or simply never applies; the restriction reading is chosen."
+   },
+   "spec_lines": [
+    11892,
+    11894
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.07.00_test_009.ttcn3",
+   "module": "M_15_07_00_test_009",
+   "header": "// @requirement: 15.7.0 -- However when matching, it shall be applied to optional fields of record and set types only (without restriction on the type of that field). NOTE 1: Can be assigned to templates of any type as a whole or to optional fields of record and set templates."
+  },
+  {
+   "id": "TTCN3-CORE-15.7.0-019b",
+   "section": "15.7.0",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "However when matching, it shall be applied to optional fields of record and set types only (without restriction on the type of that field). NOTE 1: Can be assigned to templates of any type as a whole or to optional fields of record and set templates.",
+   "canonical": "When matching, AnyValueOrNone (`*`) SHALL be applied only to optional fields of record and set types, regardless of the type of that field.",
+   "condition": "matching is performed",
+   "cross_refs": [
+    "table 11"
+   ],
+   "ambiguity": {
+    "status": "ambiguous",
+    "readings": [
+     "AnyValueOrNone (`*`) assigned to a whole template SHALL NOT be used in a matching operation (e.g. receive) at all; it may only be applied when matching optional fields of record and set types.",
+     "AnyValueOrNone (`*`) assigned to a whole template is allowed and only matches optional fields of record and set types when it is used inside such a template."
+    ],
+    "issue": "\"it shall be applied ... only\" in combination with NOTE 1 allowing assignment to whole templates leaves open whether matching against a whole template containing AnyValueOrNone (`*`) is an error or simply never applies; the restriction reading is chosen."
+   },
+   "spec_lines": [
+    11892,
+    11894
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.07.00_test_010.ttcn3",
+   "module": "M_15_07_00_test_010",
+   "header": "// @requirement: 15.7.0 -- However when matching, it shall be applied to optional fields of record and set types only (without restriction on the type of that field). NOTE 1: Can be assigned to templates of any type as a whole or to optional fields of record and set templates."
+  },
+  {
+   "id": "TTCN3-CORE-15.7.0-019c",
+   "section": "15.7.0",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "However when matching, it shall be applied to optional fields of record and set types only (without restriction on the type of that field). NOTE 1: Can be assigned to templates of any type as a whole or to optional fields of record and set templates.",
+   "canonical": "When matching, `ifpresent` SHALL be applied only to optional fields of record and set types, regardless of the type of that field.",
+   "condition": "matching is performed",
+   "cross_refs": [
+    "table 11"
+   ],
+   "ambiguity": {
+    "status": "ambiguous",
+    "readings": [
+     "`ifpresent` assigned to a whole template SHALL NOT be used in a matching operation (e.g. receive) at all; it may only be applied when matching optional fields of record and set types.",
+     "`ifpresent` assigned to a whole template is allowed and only matches optional fields of record and set types when it is used inside such a template."
+    ],
+    "issue": "\"it shall be applied ... only\" in combination with NOTE 1 allowing assignment to whole templates leaves open whether matching against a whole template containing `ifpresent` is an error or simply never applies; the restriction reading is chosen."
+   },
+   "spec_lines": [
+    11892,
+    11894
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.07.00_test_011.ttcn3",
+   "module": "M_15_07_00_test_011",
+   "header": "// @requirement: 15.7.0 -- However when matching, it shall be applied to optional fields of record and set types only (without restriction on the type of that field). NOTE 1: Can be assigned to templates of any type as a whole or to optional fields of record and set templates."
+  },
+  {
+   "id": "TTCN3-CORE-15.7.0-020a",
+   "section": "15.7.0",
+   "type": "information",
+   "modality": "IS",
+   "original": "NOTE 2: Have matching mechanism meaning within character patterns only.",
+   "canonical": "For character string types, AnyElement (`?`) and AnyElementsOrNone (`*`) IS a matching mechanism only within a character pattern.",
+   "condition": null,
+   "cross_refs": [
+    "table 11",
+    "B.1.5"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    11895,
+    11895
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.07.00_test_012.ttcn3",
+   "module": "M_15_07_00_test_012",
+   "header": "// @requirement: 15.7.0 -- NOTE 2: Have matching mechanism meaning within character patterns only."
+  }
+ ]
+}

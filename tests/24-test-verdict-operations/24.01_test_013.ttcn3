@@ -1,0 +1,18 @@
+// @requirement: 24.1 -- Operation: timeout; Allowed: yes; Example: any timer.timeout
+// @id: TTCN3-CORE-24.1-013b
+// @verdict: pass reject
+module M_24_01_test_013 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        timer T := 0.1;
+        T.start;
+        all timer.timeout; // error: all is not allowed with timeout
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

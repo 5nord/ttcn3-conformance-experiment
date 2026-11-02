@@ -1,0 +1,28 @@
+// @requirement: 16.1.4 -- e) Calling non-deterministic external functions, i.e. external functions where the resulting values for actual inout or out parameters or the return value may differ for different invocations with the same actual in and inout parameters (see notes 4 and 6).
+// @id: TTCN3-CORE-16.1.4-008a
+// @verdict: pass reject
+module M_16_01_04_test_006 {
+
+    external function fx_nondet() return boolean;
+
+    type component C {
+        timer T := 0.1;
+    }
+
+    function f_guard() runs on C return boolean {
+        return fx_nondet(); // error: non-deterministic external function called
+    }
+
+    testcase TC() runs on C {
+        T.start;
+        alt {
+            [f_guard()] T.timeout {
+                setverdict(pass);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

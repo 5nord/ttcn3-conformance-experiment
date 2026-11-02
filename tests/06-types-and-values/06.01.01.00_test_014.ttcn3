@@ -1,0 +1,22 @@
+// @requirement: 6.1.1.0 -- Values of type octetstring shall be denoted by an arbitrary, but even, number (possibly zero) of the hexadecimal digits (uppercase and lowercase letters can equally be used as hex digits):
+// @id: TTCN3-CORE-6.1.1.0-018c
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_01_01_00_test_014 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var octetstring v_upper := 'FF96'O;
+        var octetstring v_lower := 'ff96'O;
+        var octetstring v_mixed := 'Ff96'O;
+        if (v_lower == v_upper and v_mixed == v_upper) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

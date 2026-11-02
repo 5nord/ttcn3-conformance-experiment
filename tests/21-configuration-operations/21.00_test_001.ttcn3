@@ -1,0 +1,20 @@
+// @requirement: 21.0 -- a) These operations shall only be used in: TTCN-3 test cases; behaviour invoked directly or indirectly from a test case or from behaviour started on a PTC.
+// @id: TTCN3-CORE-21.0-004a
+// @verdict: pass reject
+module M_21_00_test_001 {
+
+    type component C {}
+
+    function f_create() {
+        var C v_c := C.create; // error: configuration operation in a function invoked from control
+    }
+
+    testcase TC() runs on C {
+        setverdict(pass);
+    }
+
+    control {
+        f_create();
+        execute(TC());
+    }
+}

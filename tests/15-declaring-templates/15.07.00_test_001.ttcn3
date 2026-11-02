@@ -1,0 +1,28 @@
+// @requirement: 15.7.0 -- Generally, matching mechanisms are used to replace values of single template fields or to replace even the entire contents of a template.
+// @id: TTCN3-CORE-15.7.0-001a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_07_00_test_001 {
+
+    type record R {
+        integer f1,
+        integer f2
+    }
+
+    type component C {}
+
+    template R m_r := { f1 := ?, f2 := 1 };
+
+    testcase TC() runs on C {
+        var R v_ok := { f1 := 77, f2 := 1 };
+        var R v_nok := { f1 := 77, f2 := 2 };
+        if (match(v_ok, m_r) and not match(v_nok, m_r)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

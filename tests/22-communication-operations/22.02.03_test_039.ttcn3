@@ -1,0 +1,21 @@
+// @requirement: 22.2.3 -- f) The index redirection shall only be used when the operation is used on an any from port array construct.
+// @id: TTCN3-CORE-22.2.3-041a
+// @verdict: pass reject
+module M_22_02_03_test_039 {
+
+    type port P message { inout integer }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        var integer v_i;
+        p.trigger(integer:?) -> @index value v_i; // error: index redirection on a single port
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,21 @@
+// @requirement: 16.1.0 -- b) Functions started by using the start test component operation shall always have a runs on clause (see clause 22.5) and are considered to be invoked in the component to be started, i.e. not locally.
+// @id: TTCN3-CORE-16.1.0-022d
+// @verdict: pass reject
+module M_16_01_00_test_021 {
+
+    type component C {}
+
+    function f_noRunsOn() {
+        setverdict(pass);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        v_ptc.start(f_noRunsOn()); // error: started function has no runs on clause
+        v_ptc.done;
+    }
+
+    control {
+        execute(TC());
+    }
+}

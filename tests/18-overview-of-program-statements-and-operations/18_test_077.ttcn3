@@ -1,0 +1,37 @@
+// @requirement: 18 -- Statement: Unmap port from test system interface; Associated keyword or symbol: unmap; Can be invoked by test behaviour: Yes
+// @id: TTCN3-CORE-18-039c
+// @verdict: pass reject
+module M_18_test_077 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p;
+    }
+
+    type component S {
+        port P p;
+    }
+
+    function f_check() runs on C system S return boolean {
+        unmap(self:p, system:p); // error: unmap in a function called from an alt guard
+        return true;
+    }
+
+    testcase TC() runs on C system S {
+        timer T := 0.1;
+        map(self:p, system:p);
+        T.start;
+        alt {
+            [f_check()] T.timeout {
+                setverdict(pass);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

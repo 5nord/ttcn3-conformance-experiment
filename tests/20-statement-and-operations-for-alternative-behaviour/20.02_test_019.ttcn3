@@ -1,0 +1,44 @@
+// @requirement: 20.2 -- The done operation itself has no further effect.
+// @id: TTCN3-CORE-20.2-027a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_02_test_019 {
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p;
+    }
+
+    function f_send() runs on C {
+        p.send(1);
+        p.send(2);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        timer T_guard := 1.0;
+        connect(self:p, v_ptc:p);
+        v_ptc.start(f_send());
+        T_guard.start;
+        alt {
+            [] v_ptc.done {}
+            [] T_guard.timeout {
+                setverdict(fail);
+                stop;
+            }
+        }
+        alt {
+            [] v_ptc.done {
+                setverdict(pass);
+            }
+            [] T_guard.timeout {
+                setverdict(fail);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

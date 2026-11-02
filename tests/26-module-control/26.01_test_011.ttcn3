@@ -1,0 +1,25 @@
+// @requirement: 26.1 -- All these actions shall be performed implicitly i.e. without explicit create and start operations.
+// @id: TTCN3-CORE-26.1-008a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_26_01_test_011 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        if (self == mtc and p.checkstate("Started")) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

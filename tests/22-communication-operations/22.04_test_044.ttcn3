@@ -1,0 +1,42 @@
+// @requirement: 22.4 -- If the operation contains a sender clause but no from clause, the sender shall be type compatible with the variable or parameter referenced in the sender clause.
+// @id: TTCN3-CORE-22.4-040a
+// @verdict: pass accept, ttcn3verdict:error
+module M_22_04_test_044 {
+
+    type port MP message { inout integer; }
+
+    type component C {
+        port MP p;
+        timer T := 1.0;
+    }
+
+    type component P {
+        port MP q;
+    }
+
+    type component D {
+        port MP x;
+        var integer v_d;
+    }
+
+    function f_send() runs on P {
+        q.send(5);
+    }
+
+    testcase TC() runs on C {
+        var P v_ptc := P.create;
+        var D v_sender;
+        connect(v_ptc:q, mtc:p);
+        v_ptc.start(f_send());
+        T.start;
+        alt {
+            [] p.check(receive(5) -> sender v_sender) { } // causes test case error: sender of type P not compatible with D
+            [] T.timeout { }
+        }
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

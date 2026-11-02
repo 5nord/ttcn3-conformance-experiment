@@ -1,0 +1,27 @@
+// @requirement: 15.6.5 -- b) _AnyValue: when referencing an alternative of a union template or template field to which AnyValue is_ assigned, at the right hand side of an assignment, AnyValue shall be returned.
+// @id: TTCN3-CORE-15.6.5-011a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_06_05_test_008 {
+
+    type union U {
+        integer c1,
+        charstring c2
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template U v_t3 := ?;
+        var template integer v_t2;
+        v_t2 := v_t3.c1;
+        if (istemplatekind(v_t2, "AnyValue") and match(12345, v_t2)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

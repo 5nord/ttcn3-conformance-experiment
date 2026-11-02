@@ -1,0 +1,39 @@
+// @requirement: 8.2.5 -- Top-level module definitions and import statements have a visibility, which can be explicitly set.
+// @id: TTCN3-CORE-8.2.5-001c
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_02_05_test_003 {
+
+    import from M_08_02_05_test_003_A all;
+    import from M_08_02_05_test_003_B { import all };
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyString v_string := "abc";
+        var MyBoolean v_boolean := true;
+        if (v_string == "abc" and v_boolean and c_value == 1) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_05_test_003_A {
+    friend module M_08_02_05_test_003;
+    private type integer MyInteger;
+    friend type charstring MyString;
+    public type boolean MyBoolean;
+}
+
+module M_08_02_05_test_003_B {
+    public import from M_08_02_05_test_003_C { const c_value };
+}
+
+module M_08_02_05_test_003_C {
+    const integer c_value := 1;
+}

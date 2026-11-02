@@ -1,0 +1,19 @@
+// @requirement: C.2.1 -- When the function lengthof is applied to templates of record of or set of types, inpar shall only contain the following matching mechanisms: specific value, value list, complemented value list, "?" (AnyValue instead of value), "*" (AnyValueOrNone instead of value), SuperSet, SubSet, combined template, permutation and the length restriction matching attribute.
+// @id: TTCN3-CORE-C.2.1-015a
+// @verdict: pass reject
+module M_C_02_01_test_013 {
+
+    type component C {}
+    type record of integer RoI;
+
+    template RoI mw_roI := { 1, (2 .. 3) };
+
+    testcase TC() runs on C {
+        var integer v_len := lengthof(mw_roI); // error: value range not allowed in inpar
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

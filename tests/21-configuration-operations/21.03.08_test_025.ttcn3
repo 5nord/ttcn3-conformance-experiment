@@ -1,0 +1,17 @@
+// @requirement: 21.3.8 -- b) The ObjectReference followed by the killed keyword, i.e. used for identifying a specific PTC, shall be of a component type and shall not resolve to a template.
+// @id: TTCN3-CORE-21.3.8-024a
+// @verdict: pass reject
+module M_21_03_08_test_025 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_ref := 1;
+        v_ref.killed; // error: ObjectReference is not of a component type
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

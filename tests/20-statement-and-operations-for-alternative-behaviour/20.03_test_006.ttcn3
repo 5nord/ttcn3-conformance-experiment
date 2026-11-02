@@ -1,0 +1,20 @@
+// @requirement: 20.3 -- a) The repeat statement shall only be used within alt statements, call statements or altsteps.
+// @id: TTCN3-CORE-20.3-008a
+// @verdict: pass reject
+module M_20_03_test_006 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_count := 0;
+        v_count := v_count + 1;
+        if (v_count < 3) {
+            repeat; // error: repeat outside alt, call or altstep
+        }
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

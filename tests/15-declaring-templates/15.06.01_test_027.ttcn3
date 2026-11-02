@@ -1,0 +1,21 @@
+// @requirement: 15.6.1 -- d) When referencing an item of a character string template to which a specific value is assigned, if the index is equal to the length of the specific value and the right hand side contains a specific value, the character from the right hand side of the assignment shall be appended to the specific value on the left hand side.
+// @id: TTCN3-CORE-15.6.1-028a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_06_01_test_027 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template charstring v_char := "abc";
+        v_char[3] := "d";
+        if (match("abcd", v_char) and not match("abc", v_char)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

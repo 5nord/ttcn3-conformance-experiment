@@ -1,0 +1,23 @@
+// @requirement: 6.2.9 -- type port PortTypeIdentifier procedure "{" { (address Type ";" ) | (map param "(" { FormalValuePar [","] }+ ")") | (unmap param "(" { FormalValuePar [","] }+ ")") | ((in | out | inout) { Signature [ "," ] }+ ";") } "}"
+// @id: TTCN3-CORE-6.2.9-025a
+// @verdict: pass accept, noexecution
+module M_06_02_09_test_022 {
+
+    signature S1(in integer p_x);
+    signature S2(in integer p_x) return integer;
+    signature S3(inout charstring p_y);
+    signature S4();
+
+    type port P procedure {
+        address integer;
+        map param (in integer p_m1, in charstring p_m2);
+        unmap param (in boolean p_u1);
+        in S1, S2;
+        out S3;
+        inout S4;
+    }
+
+    type component C {
+        port P p;
+    }
+}

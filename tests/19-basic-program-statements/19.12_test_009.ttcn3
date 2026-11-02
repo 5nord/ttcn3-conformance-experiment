@@ -1,0 +1,33 @@
+// @requirement: 19.12 -- These statement blocks are not executed when the altstep is left by executing a break statement.
+// @id: TTCN3-CORE-19.12-021a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_12_test_009 {
+    type component C {
+        timer T_step := 0.1;
+    }
+
+    altstep a_step() runs on C {
+        [] T_step.timeout {
+            break;
+        }
+    }
+
+    testcase TC() runs on C {
+        var boolean v_blockExecuted := false;
+        T_step.start;
+        alt {
+            [] a_step() {
+                v_blockExecuted := true;
+            }
+        }
+        if (v_blockExecuted) {
+            setverdict(fail);
+        } else {
+            setverdict(pass);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

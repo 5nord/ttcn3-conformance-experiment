@@ -1,0 +1,18 @@
+// @requirement: 5.2.2 -- This means that a declaration in a lower level of scope shall not re-use the same identifier as a declaration in a higher level of scope in the same branch of the scope hierarchy.
+// @id: TTCN3-CORE-5.2.2-002a
+// @verdict: pass reject
+module M_05_02_02_test_002 {
+
+    const integer c_a := 1;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        const integer c_a := 2; // error: clash with module-level constant c_a
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

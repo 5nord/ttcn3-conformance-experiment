@@ -1,0 +1,33 @@
+// @requirement: 18 -- Statement: Connect component port to component port; Associated keyword or symbol: connect; Can be invoked by test behaviour: Yes
+// @id: TTCN3-CORE-18-036c
+// @verdict: pass reject
+module M_18_test_068 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p;
+    }
+
+    function f_check(C p_ptc) runs on C return boolean {
+        connect(self:p, p_ptc:p); // error: connect in a function called from an alt guard
+        return true;
+    }
+
+    testcase TC() runs on C {
+        timer T := 0.1;
+        var C v_ptc := C.create;
+        T.start;
+        alt {
+            [f_check(v_ptc)] T.timeout {
+                setverdict(pass);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

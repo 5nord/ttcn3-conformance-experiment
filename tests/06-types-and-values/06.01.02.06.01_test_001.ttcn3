@@ -1,0 +1,26 @@
+// @requirement: 6.1.2.6.1 -- Within integer and float (or derivations of these types) subtype definitions it is allowed to mix lists and ranges.
+// @id: TTCN3-CORE-6.1.2.6.1-001a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_01_02_06_01_test_001 {
+
+    type integer MyIntegerRange (1, 2, 3, 10 .. !20, 99, 100);
+    type float LessThanPiAndNaN (-infinity .. 3142E-3, not_a_number);
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyIntegerRange v_i1 := 2;
+        var MyIntegerRange v_i2 := 15;
+        var LessThanPiAndNaN v_f1 := 1.0;
+        var LessThanPiAndNaN v_f2 := not_a_number;
+        if (v_i1 == 2 and v_i2 == 15 and v_f1 == 1.0 and v_f2 == not_a_number) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,32 @@
+// @requirement: 15.6.2 -- After this expansion the value or matching_ mechanism at the right hand side of the assignment shall be assigned to the referenced subfield.
+// @id: TTCN3-CORE-15.6.2-014a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_06_02_test_011 {
+
+    type record R2 {
+        integer g1,
+        R2 g2 optional
+    }
+
+    type record R1 {
+        integer f1 optional,
+        R2 f2 optional
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template R1 v_r1 := {f1 := 0, f2 := ?};
+        v_r1.f2.g1 := (1 .. 3);
+        if (match({f1 := 0, f2 := {g1 := 2, g2 := omit}}, v_r1) and
+            not match({f1 := 0, f2 := {g1 := 4, g2 := omit}}, v_r1)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

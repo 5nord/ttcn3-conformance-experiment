@@ -1,0 +1,19 @@
+// @requirement: A.1.6.8.3 -- If more than one AndExpression exists, then the AndExpressions shall evaluate to specific values of compatible types
+// @id: TTCN3-CORE-A.1.6.8.3-006a
+// @verdict: pass reject
+module M_A_01_06_08_03_test_007 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var boolean v_b := true;
+        var charstring v_s := "a";
+        if (v_b xor v_s) { // error: operands of xor have incompatible types
+            setverdict(pass);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,43 @@
+// @requirement: 5.1 -- Language element: Constant definitions; Associated keyword: const; Specified in module definitions: Yes; Specified in module control: Yes; Specified in functions/ altsteps/test cases: Yes; Specified in test component type: Yes
+// @id: TTCN3-CORE-5.1-017a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_01_test_025 {
+
+    const integer c_module := 1;
+
+    type component C {
+        const integer c_component := 2;
+    }
+
+    function f_value() return integer {
+        const integer c_function := 3;
+        return c_function;
+    }
+
+    altstep a_timeout(timer p_timer) {
+        const integer c_altstep := 4;
+        [] p_timer.timeout {
+            if (c_altstep == 4) {
+                setverdict(pass);
+            } else {
+                setverdict(fail);
+            }
+        }
+    }
+
+    testcase TC(integer p_control) runs on C {
+        const integer c_testcase := 5;
+        timer T := 0.1;
+        if (c_module == 1 and c_component == 2 and f_value() == 3 and c_testcase == 5 and p_control == 6) {
+            T.start;
+            a_timeout(T);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        const integer c_control := 6;
+        execute(TC(c_control));
+    }
+}

@@ -1,0 +1,21 @@
+// @requirement: C.2.2 -- In addition to the general error causes in clause 16.1.2, error causes are:
+// @id: TTCN3-CORE-C.2.2-006a
+// @verdict: pass accept, ttcn3verdict:error
+module M_C_02_02_test_006 {
+
+    type component C {}
+    type record R {
+        integer f1,
+        integer f2 optional
+    }
+
+    testcase TC() runs on C {
+        var R v_r;
+        var integer v_size := sizeof(v_r); // error: actual in parameter is uninitialized
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

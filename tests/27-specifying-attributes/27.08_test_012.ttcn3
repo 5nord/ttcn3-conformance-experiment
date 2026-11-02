@@ -1,0 +1,31 @@
+// @requirement: 27.8 -- If the parameter is present, the returned value will contain variants that are bound to the encoding referenced by the parameter.
+// @id: TTCN3-CORE-27.8-012a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_27_08_test_012 {
+
+    type component C {}
+
+    type record of universal charstring RUC;
+
+    type integer MyInt with {
+        encode "Codec1";
+        encode "Codec2";
+        variant "Codec1"."Rule1A";
+        variant "Codec1"."Rule1B";
+        variant "Codec2"."Rule2A";
+        variant {"Codec1", "Codec2"}."RuleBoth"
+    }
+
+    testcase TC() runs on C {
+        var RUC v_variant := MyInt.variant("Codec1");
+        if (v_variant == { "Rule1A", "Rule1B", "RuleBoth" }) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

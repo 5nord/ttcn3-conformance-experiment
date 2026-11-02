@@ -1,0 +1,31 @@
+// @requirement: 20.5.2 -- This means, the actual parameters are bound to the default at the time of its activation (and not e.g. at the time of its invocation by the default mechanism).
+// @id: TTCN3-CORE-20.5.2-006a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_05_02_test_006 {
+
+    type component C {
+        timer T;
+        timer T_guard;
+        var integer v_seen := 0;
+    }
+
+    altstep a_p(integer p_x) runs on C {
+        [] T.timeout { v_seen := p_x; }
+    }
+
+    testcase TC() runs on C {
+        var integer v_x := 1;
+        activate(a_p(v_x));
+        v_x := 2;
+        T.start(0.1);
+        T_guard.start(0.5);
+        alt {
+            [] T_guard.timeout {}
+        }
+        if (v_seen == 1) { setverdict(pass); } else { setverdict(fail); }
+    }
+
+    control {
+        execute(TC());
+    }
+}

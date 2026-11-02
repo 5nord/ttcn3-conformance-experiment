@@ -1,0 +1,30 @@
+// @requirement: 15.8.1 -- Col1: template(value); Value: Yes; Template (omit): Rule; Template (value): Yes; Template (present): No; Template: No
+// @id: TTCN3-CORE-15.8.1-046a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_08_01_test_036 {
+    type record R {
+        integer a,
+        boolean b optional
+    }
+
+    template(value) R m_value := {a := 1, b := true};
+
+    function f_check(template(value) R p_r) {
+        setverdict(pass);
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var R v_r := {a := 1, b := true};
+        var template(value) R vt_r;
+        vt_r := v_r;
+        vt_r := m_value;
+        f_check(v_r);
+        f_check(m_value);
+    }
+
+    control {
+        execute(TC());
+    }
+}

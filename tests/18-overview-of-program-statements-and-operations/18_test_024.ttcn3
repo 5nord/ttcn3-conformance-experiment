@@ -1,0 +1,23 @@
+// @requirement: 18 -- Statement: Do while loop; Associated keyword or symbol: do {…} while (…); Can be invoked by control behaviour: Yes; Can be invoked by test behaviour: Yes; Can be directly or indirectly invoked from specific places (see note 1): Yes
+// @id: TTCN3-CORE-18-021a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_18_test_024 {
+
+    type component C {}
+
+    testcase TC(integer p_i) runs on C {
+        if (p_i == 3) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        var integer v_i := 0;
+        do {
+            v_i := v_i + 1;
+        } while (v_i < 3);
+        execute(TC(v_i));
+    }
+}

@@ -1,0 +1,22 @@
+// @requirement: 22.3.3 -- h) Applying a reply operation to an unmapped or disconnected port shall cause a test case error.
+// @id: TTCN3-CORE-22.3.3-024a
+// @verdict: pass accept, ttcn3verdict:error
+module M_22_03_03_test_023 {
+
+    signature S(out integer p_y);
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        p.reply(S:{1}); // error: port is neither connected nor mapped
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

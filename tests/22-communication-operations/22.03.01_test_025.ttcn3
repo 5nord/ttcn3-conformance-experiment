@@ -1,0 +1,44 @@
+// @requirement: 22.3.1 -- This can be done in the same manner as described in clause 22.2.1, i.e. the argument of the to clause of a call operation is for unicast calls the address of one receiving entity (or can be omitted in case of one-to-one connections), for multicast calls a list of addresses of a set of receivers and for broadcast calls the all component keyword.
+// @id: TTCN3-CORE-22.3.1-038a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_03_01_test_025 {
+
+    signature S(in integer p_x) return integer;
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+        timer T := 0.5;
+    }
+
+    function f_server() runs on C {
+        p.getcall(S:{?});
+        p.reply(S:{-} value 1);
+    }
+
+    function f_idle() runs on C {
+        T.start;
+        alt {
+            [] p.getcall { setverdict(fail); } // the unicast call shall not reach this component
+            [] T.timeout { setverdict(pass); }
+        }
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc1 := C.create, v_ptc2 := C.create;
+        connect(mtc:p, v_ptc1:p);
+        connect(mtc:p, v_ptc2:p);
+        v_ptc1.start(f_server());
+        v_ptc2.start(f_idle());
+        p.call(S:{1}, 1.0) to v_ptc1 {
+            [] p.getreply(S:{-} value 1) from v_ptc1 { setverdict(pass); }
+            [] p.catch(timeout) { setverdict(fail); }
+        }
+        v_ptc2.done;
+    }
+
+    control {
+        execute(TC());
+    }
+}

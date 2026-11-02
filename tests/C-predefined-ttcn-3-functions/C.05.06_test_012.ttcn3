@@ -1,0 +1,28 @@
+// @requirement: C.5.6 -- This value is also returned if the encoded_value parameter contains an unitialized value.
+// @id: TTCN3-CORE-C.5.6-012a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_05_06_test_012 {
+
+    type component C {}
+
+    type record R {
+        integer f1,
+        integer f2
+    } with { encode "JSON" }
+
+    const R c_r := { f1 := 1, f2 := 2 };
+
+    testcase TC() runs on C {
+        var octetstring v_o;
+        var R v_r;
+        if (decvalue_o(v_o, v_r) == 1) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

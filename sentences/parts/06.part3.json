@@ -1,0 +1,1190 @@
+{
+ "part": "06.part3",
+ "chapter": "6",
+ "chapter_file": "06-types-and-values",
+ "title": "Types and values",
+ "sections": {
+  "6.1.2.0": {
+   "title": "General",
+   "start": 3358
+  },
+  "6.1.2.1": {
+   "title": "Lists of templates",
+   "start": 3365
+  },
+  "6.1.2.2": {
+   "title": "Lists of types",
+   "start": 3384
+  },
+  "6.1.2.3": {
+   "title": "Ranges",
+   "start": 3403
+  },
+  "6.1.2.4": {
+   "title": "String length restrictions",
+   "start": 3473
+  },
+  "6.1.2.5": {
+   "title": "Pattern subtyping of character string types",
+   "start": 3498
+  },
+  "6.1.2.6.1": {
+   "title": "Mixing patterns, lists and ranges",
+   "start": 3529
+  },
+  "6.1.2.6.2": {
+   "title": "Using length restriction with other constraints",
+   "start": 3568
+  },
+  "6.2.0": {
+   "title": "General",
+   "start": 3602
+  }
+ },
+ "lines": [
+  3360,
+  3707
+ ],
+ "units": [
+  {
+   "id": "6.1.2.0-s001",
+   "section": "6.1.2.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "User-defined types shall be denoted by the keyword type.",
+   "lines": [
+    3360,
+    3363
+   ]
+  },
+  {
+   "id": "6.1.2.0-s002",
+   "section": "6.1.2.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "With user-defined types it is possible to create subtypes (such as lists, ranges and length restrictions) on basic types, structured types and anytype according to table 3.",
+   "lines": [
+    3360,
+    3363
+   ]
+  },
+  {
+   "id": "6.1.2.0-s003",
+   "section": "6.1.2.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Values of a subtype shall fulfil conditions specified by its constraint and all constraints existing in all its direct and indirect parent types up to the core type.",
+   "lines": [
+    3360,
+    3363
+   ]
+  },
+  {
+   "id": "6.1.2.1-s001",
+   "section": "6.1.2.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "TTCN-3 permits the specification of a list of distinguished templates as listed in table 3.",
+   "lines": [
+    3367,
+    3372
+   ]
+  },
+  {
+   "id": "6.1.2.1-s002",
+   "section": "6.1.2.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The templates in the list shall be instances of the type being constrained and the set of values matching at least one of these templates shall be a subset of the values defined by the type being constrained.",
+   "lines": [
+    3367,
+    3372
+   ]
+  },
+  {
+   "id": "6.1.2.1-s003",
+   "section": "6.1.2.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The subtype defined by this list restricts the allowed values of the subtype to those values matching at least one of the templates in the list.",
+   "lines": [
+    3367,
+    3372
+   ]
+  },
+  {
+   "id": "6.1.2.1-s004",
+   "section": "6.1.2.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The templates in the list shall only (directly or indirectly) reference other templates or constant expressions.",
+   "lines": [
+    3367,
+    3372
+   ]
+  },
+  {
+   "id": "6.1.2.1-s005",
+   "section": "6.1.2.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Constant expressions used (directly or indirectly) in the template expressions shall meet with the restrictions in clause 10 for constant expressions used in type definitions.",
+   "lines": [
+    3367,
+    3372
+   ]
+  },
+  {
+   "id": "6.1.2.1-s006",
+   "section": "6.1.2.1",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE:",
+   "lines": [
+    3374,
+    3374
+   ]
+  },
+  {
+   "id": "6.1.2.1-s007",
+   "section": "6.1.2.1",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "type bitstring MyListOfBitStrings ('01'B, '10'B, '11'B);\n  type float PI (3.1415926);\n  type charstring MyStringList (\"abcd\", \"rgy\", \"xyz\");\n  type universal charstring SpecialLetters \n                 (char(0, 0, 1, 111), char(0, 0, 1, 112), char(0, 0, 1, 113));",
+   "lines": [
+    3375,
+    3381
+   ]
+  },
+  {
+   "id": "6.1.2.2-s001",
+   "section": "6.1.2.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "TTCN-3 permits the specification of a list of subtypes as listed in table 3 for value lists.",
+   "lines": [
+    3391,
+    3393
+   ]
+  },
+  {
+   "id": "6.1.2.2-s002",
+   "section": "6.1.2.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The types in the list shall be subtypes of the root type.",
+   "lines": [
+    3391,
+    3393
+   ]
+  },
+  {
+   "id": "6.1.2.2-s003",
+   "section": "6.1.2.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The subtype defined by this list restricts the allowed values of the subtype to the union of the values of the referenced subtypes.",
+   "lines": [
+    3391,
+    3393
+   ]
+  },
+  {
+   "id": "6.1.2.2-s004",
+   "section": "6.1.2.2",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE:",
+   "lines": [
+    3395,
+    3395
+   ]
+  },
+  {
+   "id": "6.1.2.2-s005",
+   "section": "6.1.2.2",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "type bitstring BitStrings1 ('0'B, '1'B );\n  type bitstring BitStrings2 ('00'B, '01'B, '10'B, '10'B);\n  type bitstring BitStrings_1_2 (Bitstrings1, Bitstrings2);",
+   "lines": [
+    3396,
+    3400
+   ]
+  },
+  {
+   "id": "6.1.2.3-s001",
+   "section": "6.1.2.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "TTCN-3 permits the specification of range constraints for the types integer, charstring, `universal` charstring and float (or derivations of these types).",
+   "lines": [
+    3405,
+    3408
+   ]
+  },
+  {
+   "id": "6.1.2.3-s002",
+   "section": "6.1.2.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "For integer and float, the subtype defined by the range restricts the allowed values of the subtype to the values in the range including or excluding the lower boundary and/or the upper boundary.",
+   "lines": [
+    3405,
+    3408
+   ]
+  },
+  {
+   "id": "6.1.2.3-s003",
+   "section": "6.1.2.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The upper boundary shall be greater than or equal to the lower boundary.",
+   "lines": [
+    3405,
+    3408
+   ]
+  },
+  {
+   "id": "6.1.2.3-s004",
+   "section": "6.1.2.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "In order to specify an infinite integer range, the keyword -infinity or infinity can be used instead of a value indicating that there is no lower or upper boundary; -infinity shall not be used as the upper bound and infinity shall not be used as the lower bound for integer ranges.",
+   "lines": [
+    3410,
+    3412
+   ]
+  },
+  {
+   "id": "6.1.2.3-s005",
+   "section": "6.1.2.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Also for float, -infinity or infinity can be used as the bounds in range restrictions.",
+   "lines": [
+    3414,
+    3422
+   ]
+  },
+  {
+   "id": "6.1.2.3-s006",
+   "section": "6.1.2.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Using the special value -infinity as the lower bound shall indicate that the allowed numerical values are not restricted downward and the special value -infinity is also included.",
+   "lines": [
+    3414,
+    3422
+   ]
+  },
+  {
+   "id": "6.1.2.3-s007",
+   "section": "6.1.2.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "If both the lower and upper bounds denote -infinity, no numerical values are included, only the special value -infinity.",
+   "lines": [
+    3414,
+    3422
+   ]
+  },
+  {
+   "id": "6.1.2.3-s008",
+   "section": "6.1.2.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Using the special value infinity as the upper bound shall indicate that the allowed numerical values are not restricted upward and the special value infinity is also included.",
+   "lines": [
+    3414,
+    3422
+   ]
+  },
+  {
+   "id": "6.1.2.3-s009",
+   "section": "6.1.2.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "If both the lower and upper bounds denote infinity, no numerical values are included, only the special value infinity.",
+   "lines": [
+    3414,
+    3422
+   ]
+  },
+  {
+   "id": "6.1.2.3-s010",
+   "section": "6.1.2.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "If exclusive bounds (!infinity or !-infinity) is used instead, only the respective numerical float values are included in the range.",
+   "lines": [
+    3414,
+    3422
+   ]
+  },
+  {
+   "id": "6.1.2.3-s011",
+   "section": "6.1.2.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "In case of float, the special value not_a_number is not allowed in a range constraint.",
+   "lines": [
+    3414,
+    3422
+   ]
+  },
+  {
+   "id": "6.1.2.3-s012",
+   "section": "6.1.2.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "In the case of charstring and universal charstring types, the range restricts the allowed values for each separate character in the strings.",
+   "lines": [
+    3424,
+    3427
+   ]
+  },
+  {
+   "id": "6.1.2.3-s013",
+   "section": "6.1.2.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The boundaries shall evaluate to valid character positions according to the coded character set table(s) of the type (e.g. the given position shall not be empty).",
+   "lines": [
+    3424,
+    3427
+   ]
+  },
+  {
+   "id": "6.1.2.3-s014",
+   "section": "6.1.2.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Empty positions between the lower and the upper boundaries are not considered to be valid values of the specified range.",
+   "lines": [
+    3424,
+    3427
+   ]
+  },
+  {
+   "id": "6.1.2.3-s015",
+   "section": "6.1.2.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Constants used in the constant expressions defining the values shall meet with the restrictions in clause 10.",
+   "lines": [
+    3429,
+    3429
+   ]
+  },
+  {
+   "id": "6.1.2.3-s016",
+   "section": "6.1.2.3",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 1:",
+   "lines": [
+    3433,
+    3433
+   ]
+  },
+  {
+   "id": "6.1.2.3-s017",
+   "section": "6.1.2.3",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "type integer MyIntegerRange (0 .. 255);  // range from 0..255 \n                                 // (with inclusive boundaries)\n  type integer MyIntegerRange (0 .. !256);  // the same range as above (with left \n                                 // inclusive and right exclusive boundary)\n  type integer MyIntegerRange (!-1 .. 255);  // the same range as above(with left \n                                 // exclusive and right inclusive boundary)\n  type integer MyIntegerRange (!-1 .. !256);  // the same range as above\n                                 // (with exclusive boundaries)\n  type integer MyIntegerRange (-infinity .. -1); // all negative integer numbers\n  type float PiRange (3.14 .. 3142E-3);\n  type float LessThanPi (-infinity .. 3142E-3);\n  type float Numbers (-infinity .. infinity);  //includes all float values but not_a_number\n  type float Wrong (-infinity .. not_a_number); // causes an error as not_a_number is not \n                               // allowed in range subtyping",
+   "lines": [
+    3434,
+    3449
+   ]
+  },
+  {
+   "id": "6.1.2.3-s018",
+   "section": "6.1.2.3",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 2:",
+   "lines": [
+    3451,
+    3451
+   ]
+  },
+  {
+   "id": "6.1.2.3-s019",
+   "section": "6.1.2.3",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "type charstring MyCharString (\"a\" .. \"z\");\n  // Defines a string type of any length with each character within the specified range\n  type universal charstring MyUCharString1 (\"a\" .. !\"z\");\n  // Defines a string type of any length with each character within the range from a to y \n  // (character codes from 97 to 121), like \"abxy\"; \n  // strings containing any other character (including control characters), like\n  // \"abc2\" are disallowed.\n  type universal charstring MyUCharString2 (char(0, 0, 1, 111) .. char(0, 0, 1, 113)); \n  // Defines a string type of any length with each character within the range specified using",
+   "lines": [
+    3452,
+    3462
+   ]
+  },
+  {
+   "id": "6.1.2.3-s020",
+   "section": "6.1.2.3",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "// the quadruple notation",
+   "lines": [
+    3468,
+    3470
+   ]
+  },
+  {
+   "id": "6.1.2.4-s001",
+   "section": "6.1.2.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "TTCN-3 permits the specification of length restrictions on string types.",
+   "lines": [
+    3474,
+    3476
+   ]
+  },
+  {
+   "id": "6.1.2.4-s002",
+   "section": "6.1.2.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The length boundaries are based on different units depending on the string type with which they are used.",
+   "lines": [
+    3474,
+    3476
+   ]
+  },
+  {
+   "id": "6.1.2.4-s003",
+   "section": "6.1.2.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "In all cases, these boundaries shall be inclusive boundaries only and evaluate to non-negative integer values (or derived integer values).",
+   "lines": [
+    3474,
+    3476
+   ]
+  },
+  {
+   "id": "6.1.2.4-s004",
+   "section": "6.1.2.4",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE:",
+   "lines": [
+    3478,
+    3478
+   ]
+  },
+  {
+   "id": "6.1.2.4-s005",
+   "section": "6.1.2.4",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "type bitstring MyByte length(8);  // Exactly length 8 \n  type bitstring MyByte length(8 .. 8);  // Exactly length 8 \n  type bitstring MyNibbleToByte length(4 .. 8); // Minimum length 4, maximum length 8",
+   "lines": [
+    3479,
+    3483
+   ]
+  },
+  {
+   "id": "6.1.2.4-s006",
+   "section": "6.1.2.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Table 4 specifies the units of length for different string types.",
+   "lines": [
+    3485,
+    3485
+   ]
+  },
+  {
+   "id": "6.1.2.4-s007",
+   "section": "6.1.2.4",
+   "kind": "caption",
+   "context": null,
+   "normative": false,
+   "text": "Table 4: Units of length used in field length specifications",
+   "lines": [
+    3487,
+    3487
+   ]
+  },
+  {
+   "id": "6.1.2.4-s008",
+   "section": "6.1.2.4",
+   "kind": "table-text",
+   "context": null,
+   "normative": true,
+   "text": "**Type** **Units of Length** **bitstring** bits **hexstring** hexadecimal digits **octetstring** octets **character strings** characters",
+   "lines": [
+    3489,
+    3493
+   ]
+  },
+  {
+   "id": "6.1.2.4-s009",
+   "section": "6.1.2.4",
+   "kind": "table-text",
+   "context": null,
+   "normative": true,
+   "text": "For the upper bound the keyword infinity should also be used to indicate that there is no upper limit for the length.",
+   "lines": [
+    3495,
+    3496
+   ]
+  },
+  {
+   "id": "6.1.2.4-s010",
+   "section": "6.1.2.4",
+   "kind": "table-text",
+   "context": null,
+   "normative": true,
+   "text": "The upper boundary shall be greater than or equal to the lower boundary.",
+   "lines": [
+    3495,
+    3496
+   ]
+  },
+  {
+   "id": "6.1.2.5-s001",
+   "section": "6.1.2.5",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "TTCN-3 allows using character patterns specified in clause B.1.5 to constrain permitted values of charstring and universal charstring types.",
+   "lines": [
+    3500,
+    3503
+   ]
+  },
+  {
+   "id": "6.1.2.5-s002",
+   "section": "6.1.2.5",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The type constraint shall use the pattern keyword followed by a character pattern.",
+   "lines": [
+    3500,
+    3503
+   ]
+  },
+  {
+   "id": "6.1.2.5-s003",
+   "section": "6.1.2.5",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "All values denoted by the pattern shall be a subset of the type being sub typed.",
+   "lines": [
+    3500,
+    3503
+   ]
+  },
+  {
+   "id": "6.1.2.5-s004",
+   "section": "6.1.2.5",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Constants used in the constant expressions defining the values shall meet with the restrictions in clause 10.",
+   "lines": [
+    3500,
+    3503
+   ]
+  },
+  {
+   "id": "6.1.2.5-s005",
+   "section": "6.1.2.5",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "NOTE: Pattern subtyping can be seen as a special form of list constraint, where members of the list are not defined by listing specific character strings but via a mechanism generating elements of the list.",
+   "lines": [
+    3505,
+    3506
+   ]
+  },
+  {
+   "id": "6.1.2.5-s006",
+   "section": "6.1.2.5",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE:",
+   "lines": [
+    3508,
+    3508
+   ]
+  },
+  {
+   "id": "6.1.2.5-s007",
+   "section": "6.1.2.5",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "type charstring MyString (pattern \"abc*xyz\");\n     // all permitted values of MyString have prefix abc and postfix xyz\n  type charstring MyStringCaseAgnostic (pattern @nocase \"abc*xyz\");\n     // all permitted values of MyStringCaseAgnostic have a\n     // prefix abc or Abc or aBc or abC or ABc or aBC or AbC or ABC, and a\n     // postfix xyz or Xyz or xYz or xyZ or XYz or xYZ or XyZ or XYZ;\n  type universal charstring MyUString (pattern \"*\\r\\n\")\n     // all permitted values of MyUString are terminated by CR/LF\n  type charstring MyString2 (pattern \"abc?\\q{0,0,1,113}\");\n     // causes an error because the character denoted by the quadruple {0,0,1,113} is not a\n     // legal character of the TTCN-3 charstring type\n  type MyString MyString3 (pattern \"d*xyz\");\n     // causes an error because the type MyString does not contain a value starting with the\n     // character d",
+   "lines": [
+    3509,
+    3524
+   ]
+  },
+  {
+   "id": "6.1.2.6.1-s001",
+   "section": "6.1.2.6.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Within integer and float (or derivations of these types) subtype definitions it is allowed to mix lists and ranges.",
+   "lines": [
+    3531,
+    3533
+   ]
+  },
+  {
+   "id": "6.1.2.6.1-s002",
+   "section": "6.1.2.6.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "It is possible to mix both template list and type list subtyping with each other and with range subtyping.",
+   "lines": [
+    3531,
+    3533
+   ]
+  },
+  {
+   "id": "6.1.2.6.1-s003",
+   "section": "6.1.2.6.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Overlapping of different constraints is not an error.",
+   "lines": [
+    3531,
+    3533
+   ]
+  },
+  {
+   "id": "6.1.2.6.1-s004",
+   "section": "6.1.2.6.1",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Type: bitstring; Units of Length: bits",
+   "lines": [
+    3537,
+    3537
+   ]
+  },
+  {
+   "id": "6.1.2.6.1-s005",
+   "section": "6.1.2.6.1",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Type: hexstring; Units of Length: hexadecimal digits",
+   "lines": [
+    3538,
+    3538
+   ]
+  },
+  {
+   "id": "6.1.2.6.1-s006",
+   "section": "6.1.2.6.1",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Type: octetstring; Units of Length: octets",
+   "lines": [
+    3539,
+    3539
+   ]
+  },
+  {
+   "id": "6.1.2.6.1-s007",
+   "section": "6.1.2.6.1",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Type: character strings; Units of Length: characters",
+   "lines": [
+    3540,
+    3540
+   ]
+  },
+  {
+   "id": "6.1.2.6.1-s008",
+   "section": "6.1.2.6.1",
+   "kind": "table-header",
+   "context": null,
+   "normative": true,
+   "text": "Type; Units of Length",
+   "lines": [
+    3535,
+    3535
+   ]
+  },
+  {
+   "id": "6.1.2.6.1-s009",
+   "section": "6.1.2.6.1",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 1:",
+   "lines": [
+    3549,
+    3549
+   ]
+  },
+  {
+   "id": "6.1.2.6.1-s010",
+   "section": "6.1.2.6.1",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "type integer MyIntegerRange (1, 2, 3, 10 .. !20, 99, 100);\n  type float LessThanPiAndNaN (-infinity .. 3142E-3, not_a_number);",
+   "lines": [
+    3550,
+    3553
+   ]
+  },
+  {
+   "id": "6.1.2.6.1-s011",
+   "section": "6.1.2.6.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Within charstring and universal charstring subtype definitions it is not allowed to mix pattern, template list, type list, or range constraints.",
+   "lines": [
+    3555,
+    3556
+   ]
+  },
+  {
+   "id": "6.1.2.6.1-s012",
+   "section": "6.1.2.6.1",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE 2:",
+   "lines": [
+    3558,
+    3558
+   ]
+  },
+  {
+   "id": "6.1.2.6.1-s013",
+   "section": "6.1.2.6.1",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "type charstring MyCharStr0 (\"gr\", \"xyz\");\n     // contains character strings gr and xyz;\n  type charstring MyCharStr1 (\"a\"..\"z\");\n     // contains character strings of arbitrary length containing characters a to z.\n  type charstring MyCharStr2 (pattern \"[a-z]#(3,9)\");\n     // contains character strings of length from 3 to 9 characters containing characters a to z",
+   "lines": [
+    3559,
+    3566
+   ]
+  },
+  {
+   "id": "6.1.2.6.2-s001",
+   "section": "6.1.2.6.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Within bitstring, hexstring, `octetstring subtype definitions lists and length restriction may be mixed in` the same subtype definition.",
+   "lines": [
+    3570,
+    3571
+   ]
+  },
+  {
+   "id": "6.1.2.6.2-s002",
+   "section": "6.1.2.6.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Within charstring and universal charstring subtype definitions it is allowed to add a length restriction to constraints containing list, range or pattern subtyping in the same subtype definition.",
+   "lines": [
+    3573,
+    3574
+   ]
+  },
+  {
+   "id": "6.1.2.6.2-s003",
+   "section": "6.1.2.6.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "When mixed with other constraints the length restriction shall be the last element of the subtype definition.",
+   "lines": [
+    3576,
+    3578
+   ]
+  },
+  {
+   "id": "6.1.2.6.2-s004",
+   "section": "6.1.2.6.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The length restriction takes effect jointly with other subtyping mechanisms (i.e. the value set of the type consists of the common subset of the value sets identified by the list, range or pattern subtyping and the length restriction).",
+   "lines": [
+    3576,
+    3578
+   ]
+  },
+  {
+   "id": "6.1.2.6.2-s005",
+   "section": "6.1.2.6.2",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE:",
+   "lines": [
+    3580,
+    3580
+   ]
+  },
+  {
+   "id": "6.1.2.6.2-s006",
+   "section": "6.1.2.6.2",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "type charstring MyCharStr5 (\"gr\", \"xyz\") length (1..9);\n     // contains the character strings gr and xyz;\n  type charstring MyCharStr6 (\"a\"..\"z\") length (3..9);\n     // contains character strings of length from 3 to 9 characters and containing characters\n     // a to z\n  type charstring MyCharStr7 (pattern \"[a-z]#(3,9)\") length (1..9);\n     // contains character strings of length from 3 to 9 characters containing characters\n     // a to z\n  type charstring MyCharStr8 (pattern @nocase \"[a-z]#(3,9)\") length (1..8);\n     // contains character strings of length from 3 to 8 characters containing characters\n     // a to z and A to Z\n  type charstring MyCharStr9 (pattern \"[a-z]#(1,8)\") length (1..9);\n     // contains any character strings of length from 1 to 8 characters containing characters\n     // a to z\n  type charstring MyCharStr10 (\"gr\", \"xyz\") length (4);\n     // causes an error as it contains no value",
+   "lines": [
+    3581,
+    3598
+   ]
+  },
+  {
+   "id": "6.2.0-s001",
+   "section": "6.2.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The type keyword is also used to specify structured types such as record types, record `of types, set types, set` of types, enumerated types, union types and map types.",
+   "lines": [
+    3604,
+    3607
+   ]
+  },
+  {
+   "id": "6.2.0-s002",
+   "section": "6.2.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Values of these types may be given using an explicit assignment notation or a short-hand value list notation or in a mixed list and assignment notation.",
+   "lines": [
+    3604,
+    3607
+   ]
+  },
+  {
+   "id": "6.2.0-s003",
+   "section": "6.2.0",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 1:",
+   "lines": [
+    3616,
+    3616
+   ]
+  },
+  {
+   "id": "6.2.0-s004",
+   "section": "6.2.0",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "const MyRecordType c_myRecordValue:=  //assignment notation\n  {\n     field1 := '11001'B,\n     field2 := true,\n     field3 := \"A string\"\n  }\n  // Or \n  const MyRecordType c_myRecordValue:= {'11001'B, true, \"A string\"} //value list notation\n  // Or\n  Const MyRecordType c_myRecordValue := {'11001'B, field3 := \"A string\", field2 := true}\n                                             // mixed notation",
+   "lines": [
+    3617,
+    3629
+   ]
+  },
+  {
+   "id": "6.2.0-s005",
+   "section": "6.2.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The assignment and the mixed notation can be used for record, record of, set, set `of and map value` notations and for arrays.",
+   "lines": [
+    3631,
+    3638
+   ]
+  },
+  {
+   "id": "6.2.0-s006",
+   "section": "6.2.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "In these notations each assigned field or index shall not appear more than once and assignments to fields or indexes given in list notation are not allowed.",
+   "lines": [
+    3631,
+    3638
+   ]
+  },
+  {
+   "id": "6.2.0-s007",
+   "section": "6.2.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The assignment notation can also be used for union values.",
+   "lines": [
+    3631,
+    3638
+   ]
+  },
+  {
+   "id": "6.2.0-s008",
+   "section": "6.2.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The value list notation can be used for record, record of, set and set `of value notations and` for arrays.",
+   "lines": [
+    3631,
+    3638
+   ]
+  },
+  {
+   "id": "6.2.0-s009",
+   "section": "6.2.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The index notation as part of an assignment or mixed notation can be used as the left-hand side of element assignments for record of, set `of and map value notations and for arrays.",
+   "lines": [
+    3631,
+    3638
+   ]
+  },
+  {
+   "id": "6.2.0-s010",
+   "section": "6.2.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "In this notation each index shall not` appear more than once and shall conform to the range of indices allowed by the type definition.",
+   "lines": [
+    3631,
+    3638
+   ]
+  },
+  {
+   "id": "6.2.0-s011",
+   "section": "6.2.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "See more details in the subsequent clauses.",
+   "lines": [
+    3631,
+    3638
+   ]
+  },
+  {
+   "id": "6.2.0-s012",
+   "section": "6.2.0",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE 2:",
+   "lines": [
+    3640,
+    3640
+   ]
+  },
+  {
+   "id": "6.2.0-s013",
+   "section": "6.2.0",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "var MyRecordType v_myVariable:=  //assignment notation\n  {\n     field1 := '11001'B,\n     // field2 implicitly unspecified\n     field3 := \"A string\"\n  }\n  // or\n  var MyRecordType v_myVariable:=  //assignment notation\n  {\n     field1 := '11001'B,\n     field2 := -, // field2 explicitly unspecified\n     field3 := \"A string\"\n  }\n  // or \n  var MyRecordType v_myVariable:= {'11001'B, -, \"A string\"} //value list notation",
+   "lines": [
+    3641,
+    3657
+   ]
+  },
+  {
+   "id": "6.2.0-s014",
+   "section": "6.2.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "It is allowed to mix the two value notations in the same (immediate) context only in such a way that elements in list notation do not follow elements in assignment notation.",
+   "lines": [
+    3659,
+    3660
+   ]
+  },
+  {
+   "id": "6.2.0-s015",
+   "section": "6.2.0",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE 3:",
+   "lines": [
+    3662,
+    3662
+   ]
+  },
+  {
+   "id": "6.2.0-s016",
+   "section": "6.2.0",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "// This is disallowed\n  const MyRecordType c_myRecordValue:= {c_myIntegerValue, field2 := true, \"A string\"}",
+   "lines": [
+    3663,
+    3666
+   ]
+  },
+  {
+   "id": "6.2.0-s017",
+   "section": "6.2.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Where applicable TTCN-3 type definitions may be recursive.",
+   "lines": [
+    3668,
+    3669
+   ]
+  },
+  {
+   "id": "6.2.0-s018",
+   "section": "6.2.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The user, however, shall ensure that all type recursion is resolvable and that no infinite recursion occurs.",
+   "lines": [
+    3668,
+    3669
+   ]
+  },
+  {
+   "id": "6.2.0-s019",
+   "section": "6.2.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "In case of record and set types, to avoid infinite recursion, fields referencing to its own type, shall be optional.",
+   "lines": [
+    3671,
+    3671
+   ]
+  },
+  {
+   "id": "6.2.0-s020",
+   "section": "6.2.0",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE 4:",
+   "lines": [
+    3673,
+    3673
+   ]
+  },
+  {
+   "id": "6.2.0-s021",
+   "section": "6.2.0",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "// Valid recursive record type definition\n  type record MyRecord1\n  { \n    FieldType1 field1,\n    MyRecord1  field2 optional,\n    FieldType3 field3 \n  }\n  // Invalid recursive record type definition causing an error\n  type record MyRecord2\n  { \n    FieldType1 field1,\n    MyRecord2  field2,\n    FieldType3 field3 \n  }",
+   "lines": [
+    3674,
+    3689
+   ]
+  },
+  {
+   "id": "6.2.0-s022",
+   "section": "6.2.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "In case of union types, to avoid infinite recursion, at least one of the alternatives shall not reference its own type.",
+   "lines": [
+    3691,
+    3691
+   ]
+  },
+  {
+   "id": "6.2.0-s023",
+   "section": "6.2.0",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE 5:",
+   "lines": [
+    3693,
+    3693
+   ]
+  },
+  {
+   "id": "6.2.0-s024",
+   "section": "6.2.0",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "// Valid recursive union type definition\n  type union MyUnion1\n  {\n     MyUnion1  choice1,\n     charstring choice2\n  }\n  // Invalid recursive union type definition causing an error\n  type union MyUnion2\n  {\n     MyUnion2 choice1,\n     MyUnion2 choice2\n  }",
+   "lines": [
+    3694,
+    3707
+   ]
+  }
+ ]
+}

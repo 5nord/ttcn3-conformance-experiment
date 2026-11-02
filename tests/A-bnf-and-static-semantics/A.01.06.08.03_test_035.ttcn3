@@ -1,0 +1,21 @@
+// @requirement: A.1.6.8.3 -- Operands of the list operator shall be bitstring, hexstring, octetstring, (universal) character string, record of, set of, or array types, or derivates of these types.
+// @id: TTCN3-CORE-A.1.6.8.3-025a
+// @verdict: pass reject
+module M_A_01_06_08_03_test_035 {
+
+    type record R {
+        integer f1
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var R v_rec := {f1 := 1};
+        log(v_rec & v_rec); // error: record values are not valid operands of &
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

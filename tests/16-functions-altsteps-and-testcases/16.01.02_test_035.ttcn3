@@ -1,0 +1,30 @@
+// @requirement: 16.1.2 -- Col1: Length/size functions; Table 15: List of TTCN-3 predefined functions: Return the length of a value or template of any string type, record of, set of, array or map; Col3: lengthof
+// @id: TTCN3-CORE-16.1.2-044a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_16_01_02_test_035 {
+
+    type component C {}
+
+    type record of integer RoI;
+    type set of integer SoI;
+    type integer IntArray[3];
+
+    template RoI m_roi := { 1, 2, ? };
+
+    testcase TC() runs on C {
+        var RoI v_roi := { 1, 2, 3, 4 };
+        var SoI v_soi := { 1, 2 };
+        var IntArray v_arr := { 1, 2, 3 };
+        if (lengthof("abcde") == 5 and lengthof('0101'B) == 4 and lengthof('AB'O) == 1
+            and lengthof(v_roi) == 4 and lengthof(v_soi) == 2 and lengthof(v_arr) == 3
+            and lengthof(m_roi) == 3) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

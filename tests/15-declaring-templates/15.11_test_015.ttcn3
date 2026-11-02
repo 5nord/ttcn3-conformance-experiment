@@ -1,0 +1,21 @@
+// @requirement: 15.11 -- The concatenation of templates of character string types results in the sequential concatenation of the single templates from left to right.
+// @id: TTCN3-CORE-15.11-010a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_11_test_015 {
+
+    template charstring mw_t := "AB" & ? length(1) & "CD";
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (match("ABxCD", mw_t) and not match("CDxAB", mw_t)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

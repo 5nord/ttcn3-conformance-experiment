@@ -1,0 +1,22 @@
+// @requirement: 19.2 -- The scope of variables declared within an init statement shall be limited to the if-statement, including its else branch.
+// @id: TTCN3-CORE-19.2-009a
+// @verdict: pass reject
+module M_19_02_test_009 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_a := 0;
+        if (var integer v_x := 1; v_x > 0) {
+            v_a := v_x;
+        } else {
+            v_a := -v_x;
+        }
+        v_a := v_x; // error: v_x is not visible outside the if-else statement
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

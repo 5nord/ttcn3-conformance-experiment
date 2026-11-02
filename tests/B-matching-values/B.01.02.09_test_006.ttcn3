@@ -1,0 +1,16 @@
+// @requirement: B.1.2.9 -- a) It can be assigned to templates and template fields of bitstring, hexstring, octetstring, charstring and universal charstring types.
+// @id: TTCN3-CORE-B.1.2.9-005a
+// @verdict: pass reject
+module M_B_01_02_09_test_006 {
+
+    type component C {}
+
+    type integer Payload with { encode "JSON" }
+
+    type record Msg {
+        integer id,
+        integer payload
+    }
+
+    template Msg mw_msg := { id := ?, payload := decmatch Payload:? }; // error: decmatch assigned to an integer field
+}

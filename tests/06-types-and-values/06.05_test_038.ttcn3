@@ -1,0 +1,22 @@
+// @requirement: 6.5 -- The common type shall fulfil requirements for automatic typing._ q) Any other TTCN-3 language operation that can occur on the right-hand side of an assignment where the type context is unambiguous.
+// @id: TTCN3-CORE-6.5-031b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_05_test_038 {
+    type component C {}
+
+    testcase TC() runs on C {
+        timer T := 1.0;
+        T.start;
+        var v_autoA := T.running;
+        var v_autoB := getverdict;
+        if (v_autoA and v_autoB == none) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,22 @@
+// @requirement: 21.1.1 -- If in a map operation a param clause is present, exactly one of the components referenced by the operation shall be the system component reference, the type of the system component shall be known in the context of the operation either via a system clause or via a runs on clause in a testcase without system clause, the type of the system port to which the operation is applied shall include a map `param declaration, and the actual parameters shall conform to the map` **param** clause of the port type declaration of the system port used.
+// @id: TTCN3-CORE-21.1.1-037a
+// @verdict: pass reject
+module M_21_01_01_test_035 {
+
+    type port P message {
+        inout integer;
+        map param (integer p_x);
+    }
+
+    type component C { port P p; }
+
+    testcase TC() runs on C system C {
+        var C v_ptc := C.create;
+        map(self:p, v_ptc:p) param (5); // error: no system component reference
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

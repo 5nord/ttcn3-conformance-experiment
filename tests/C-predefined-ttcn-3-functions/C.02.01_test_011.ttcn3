@@ -1,0 +1,18 @@
+// @requirement: C.2.1 -- In case of stringtype templates inpar shall match values of the same length only with the exception of specific values and patterns.
+// @id: TTCN3-CORE-C.2.1-013a
+// @verdict: pass reject
+module M_C_02_01_test_011 {
+
+    type component C {}
+
+    template charstring mw_list := ("ab", "abc");
+
+    testcase TC() runs on C {
+        var integer v_len := lengthof(mw_list); // error: template list matches values of different lengths
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

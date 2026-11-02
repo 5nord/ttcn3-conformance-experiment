@@ -1,0 +1,28 @@
+// @requirement: B.1.5.3 -- The forms "#(,)" and "#()" are shorthand notations for "#(0,)", i.e. matches the preceding expression any number of times.
+// @id: TTCN3-CORE-B.1.5.3-006a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_05_03_test_008 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        template charstring m_p1 := pattern "[a-z]#(,)";
+        template charstring m_p2 := pattern "[a-z]#()";
+        template charstring m_ref := pattern "[a-z]#(0, )";
+        var charstring v_values[5] := { "", "a", "abc", "abcdefghij", "a1" };
+        setverdict(pass);
+        for (var integer i := 0; i < lengthof(v_values); i := i + 1) {
+            if (match(v_values[i], m_p1) != match(v_values[i], m_ref) or
+                match(v_values[i], m_p2) != match(v_values[i], m_ref)) {
+                setverdict(fail);
+            }
+        }
+        if (not match("", m_p1) or not match("abcdefghij", m_p2)) {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

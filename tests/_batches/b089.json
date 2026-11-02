@@ -1,0 +1,1454 @@
+{
+ "batch": "b089",
+ "requirements": [
+  {
+   "id": "TTCN3-CORE-B.1.2.10-001a",
+   "section": "B.1.2.10",
+   "type": "syntax",
+   "modality": "SHALL",
+   "original": "To match an enumerated value with an associated value list in its definition, the enumerated value name shall be referenced followed by a non-empty list of integer templates in parenthesis.",
+   "canonical": "To match an enumerated value with an associated value list, the template SHALL reference the enumerated value name followed by a list of integer templates in parentheses.",
+   "condition": "the enumerated value has an associated value list in its definition",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    23988,
+    23989
+   ],
+   "examples": [
+    {
+     "lines": [
+      23995,
+      24004
+     ],
+     "text": "type enumerated Days\n  {\n   Christmas(0), Easter(1), Other(2..365)\n  }\n  template integer mw_greater20 := complement(0 .. 20);\n  template mw_days1 := Other(5..6, greater20); // matches Other(5), Other(6) and \n                           // Other(21) .. Other(365)\n  template mw_days2 := Other(?); // matches Other(2) .. Other(365)"
+    }
+   ],
+   "file": "tests/B-matching-values/B.01.02.10_test_001.ttcn3",
+   "module": "M_B_01_02_10_test_001",
+   "header": "// @requirement: B.1.2.10 -- To match an enumerated value with an associated value list in its definition, the enumerated value name shall be referenced followed by a non-empty list of integer templates in parenthesis."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.2.10-001b",
+   "section": "B.1.2.10",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "To match an enumerated value with an associated value list in its definition, the enumerated value name shall be referenced followed by a non-empty list of integer templates in parenthesis.",
+   "canonical": "The list of integer templates following an enumerated value name in a template SHALL NOT be empty.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    23988,
+    23989
+   ],
+   "examples": [
+    {
+     "lines": [
+      23995,
+      24004
+     ],
+     "text": "type enumerated Days\n  {\n   Christmas(0), Easter(1), Other(2..365)\n  }\n  template integer mw_greater20 := complement(0 .. 20);\n  template mw_days1 := Other(5..6, greater20); // matches Other(5), Other(6) and \n                           // Other(21) .. Other(365)\n  template mw_days2 := Other(?); // matches Other(2) .. Other(365)"
+    }
+   ],
+   "file": "tests/B-matching-values/B.01.02.10_test_002.ttcn3",
+   "module": "M_B_01_02_10_test_002",
+   "header": "// @requirement: B.1.2.10 -- To match an enumerated value with an associated value list in its definition, the enumerated value name shall be referenced followed by a non-empty list of integer templates in parenthesis."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.2.10-002a",
+   "section": "B.1.2.10",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The template matches only those enumerated values of the same name where the associated integer values is matched by at least one of the integer templates.",
+   "canonical": "A template of the form enumerated value name followed by a list of integer templates matches only enumerated values of the same name whose associated integer value is matched by at least one of the integer templates.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    23991,
+    23992
+   ],
+   "examples": [
+    {
+     "lines": [
+      23995,
+      24004
+     ],
+     "text": "type enumerated Days\n  {\n   Christmas(0), Easter(1), Other(2..365)\n  }\n  template integer mw_greater20 := complement(0 .. 20);\n  template mw_days1 := Other(5..6, greater20); // matches Other(5), Other(6) and \n                           // Other(21) .. Other(365)\n  template mw_days2 := Other(?); // matches Other(2) .. Other(365)"
+    }
+   ],
+   "file": "tests/B-matching-values/B.01.02.10_test_003.ttcn3",
+   "module": "M_B_01_02_10_test_003",
+   "header": "// @requirement: B.1.2.10 -- The template matches only those enumerated values of the same name where the associated integer values is matched by at least one of the integer templates."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.3.0-001a",
+   "section": "B.1.3.0",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "The following matching mechanisms may be used inside explicit values of strings, records of, sets of, arrays or maps.",
+   "canonical": "The matching mechanisms of clause B.1.3 MAY be used inside explicit values of strings, record of types, set of types, arrays or maps.",
+   "condition": null,
+   "cross_refs": [
+    "B.1.3.1",
+    "B.1.3.2",
+    "B.1.3.3"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24010,
+    24011
+   ],
+   "examples": [],
+   "file": "tests/B-matching-values/B.01.03.00_test_001.ttcn3",
+   "module": "M_B_01_03_00_test_001",
+   "header": "// @requirement: B.1.3.0 -- The following matching mechanisms may be used inside explicit values of strings, records of, sets of, arrays or maps."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.3.1.0-001a",
+   "section": "B.1.3.1.0",
+   "type": "definition",
+   "modality": "IS",
+   "original": "The matching symbol \"?\" (AnyElement) is used to indicate that it replaces single elements of a string (except character strings, see table 4 for the lengths of the units being matched by \"?\" in a string), a record of, a set of or an array.",
+   "canonical": "The matching symbol \"?\" (AnyElement) replaces a single element of a string (except character strings), a record of, a set of or an array.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24017,
+    24018
+   ],
+   "examples": [
+    {
+     "lines": [
+      24025,
+      24032
+     ],
+     "text": "template MyMessageType mw_myTemplate:=\n  { :\n     field2 := \"abcxyz\", \n     field3 := '10???'B,  // where each \"?\" may either be 0 or 1 \n     field4 := {1, ?, 3}  // where ? may be any integer value \n  }"
+    }
+   ],
+   "file": "tests/B-matching-values/B.01.03.01.00_test_001.ttcn3",
+   "module": "M_B_01_03_01_00_test_001",
+   "header": "// @requirement: B.1.3.1.0 -- The matching symbol \"?\" (AnyElement) is used to indicate that it replaces single elements of a string (except character strings, see table 4 for the lengths of the units being matched by \"?\" in a string), a record of, a set of or an array."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.3.1.0-001b",
+   "section": "B.1.3.1.0",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The matching symbol \"?\" (AnyElement) is used to indicate that it replaces single elements of a string (except character strings, see table 4 for the lengths of the units being matched by \"?\" in a string), a record of, a set of or an array.",
+   "canonical": "The length of the unit matched by AnyElement in a string IS given by table 4.",
+   "condition": null,
+   "cross_refs": [
+    "6.1.2.4"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24017,
+    24018
+   ],
+   "examples": [],
+   "file": "tests/B-matching-values/B.01.03.01.00_test_002.ttcn3",
+   "module": "M_B_01_03_01_00_test_002",
+   "header": "// @requirement: B.1.3.1.0 -- The matching symbol \"?\" (AnyElement) is used to indicate that it replaces single elements of a string (except character strings, see table 4 for the lengths of the units being matched by \"?\" in a string), a record of, a set of or an array."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.3.1.0-002a",
+   "section": "B.1.3.1.0",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "a) It shall be used only within values of string types, record of types, set of types and arrays.",
+   "canonical": "AnyElement SHALL be used only within values of string types, record of types, set of types and arrays.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "'string types' includes character string types, although B.1.3.1.0 and B.1.3.1.1 state that \"?\" inside character strings is a literal character and that character patterns shall be used instead; chose the reading that excludes character strings.",
+    "readings": [
+     "AnyElement SHALL be used only within values of binary string types (bitstring, hexstring, octetstring), record of types, set of types and arrays.",
+     "AnyElement SHALL be used only within values of any string type (including character strings), record of types, set of types and arrays."
+    ]
+   },
+   "spec_lines": [
+    24022,
+    24022
+   ],
+   "examples": [
+    {
+     "lines": [
+      24025,
+      24032
+     ],
+     "text": "template MyMessageType mw_myTemplate:=\n  { :\n     field2 := \"abcxyz\", \n     field3 := '10???'B,  // where each \"?\" may either be 0 or 1 \n     field4 := {1, ?, 3}  // where ? may be any integer value \n  }"
+    }
+   ],
+   "file": "tests/B-matching-values/B.01.03.01.00_test_003.ttcn3",
+   "module": "M_B_01_03_01_00_test_003",
+   "header": "// @requirement: B.1.3.1.0 -- a) It shall be used only within values of string types, record of types, set of types and arrays."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.3.1.0-005a",
+   "section": "B.1.3.1.0",
+   "type": "information",
+   "modality": "IS",
+   "original": "Since both interpretations lead to the same match no problem arises.",
+   "canonical": "Interpreting \"?\" inside a record of, set of or array value as AnyValue or as AnyElement leads to the same matching result.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24039,
+    24039
+   ],
+   "examples": [
+    {
+     "lines": [
+      24025,
+      24032
+     ],
+     "text": "template MyMessageType mw_myTemplate:=\n  { :\n     field2 := \"abcxyz\", \n     field3 := '10???'B,  // where each \"?\" may either be 0 or 1 \n     field4 := {1, ?, 3}  // where ? may be any integer value \n  }"
+    }
+   ],
+   "file": "tests/B-matching-values/B.01.03.01.00_test_004.ttcn3",
+   "module": "M_B_01_03_01_00_test_004",
+   "header": "// @requirement: B.1.3.1.0 -- Since both interpretations lead to the same match no problem arises."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.3.1.1-001a",
+   "section": "B.1.3.1.1",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "If it is required to express the \"?\" wildcard in character strings it shall be done using character patterns (see clause B.1.5).",
+   "canonical": "A \"?\" wildcard in character strings SHALL be expressed using a character pattern.",
+   "condition": null,
+   "cross_refs": [
+    "B.1.5"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24043,
+    24045
+   ],
+   "examples": [],
+   "file": "tests/B-matching-values/B.01.03.01.01_test_001.ttcn3",
+   "module": "M_B_01_03_01_01_test_001",
+   "header": "// @requirement: B.1.3.1.1 -- If it is required to express the \"?\" wildcard in character strings it shall be done using character patterns (see clause B.1.5)."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.3.1.1-002a",
+   "section": "B.1.3.1.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "For example: \"abcdxyz\", \"abccxyz\", \"abcxxyz\" etc. will all match pattern \"abc?xyz\".",
+   "canonical": "The character pattern `pattern \"abc?xyz\"` IS matched by character strings such as \"abcdxyz\", \"abccxyz\" and \"abcxxyz\".",
+   "condition": null,
+   "cross_refs": [
+    "B.1.5"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24043,
+    24045
+   ],
+   "examples": [],
+   "file": "tests/B-matching-values/B.01.03.01.01_test_002.ttcn3",
+   "module": "M_B_01_03_01_01_test_002",
+   "header": "// @requirement: B.1.3.1.1 -- For example: \"abcdxyz\", \"abccxyz\", \"abcxxyz\" etc. will all match pattern \"abc?xyz\"."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.3.1.1-003a",
+   "section": "B.1.3.1.1",
+   "type": "semantics",
+   "modality": "IS NOT",
+   "original": "However, \"abcxyz\", \"abcdefxyz\", etc. will not.",
+   "canonical": "The character pattern `pattern \"abc?xyz\"` IS NOT matched by character strings such as \"abcxyz\" and \"abcdefxyz\".",
+   "condition": null,
+   "cross_refs": [
+    "B.1.5"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24043,
+    24045
+   ],
+   "examples": [],
+   "file": "tests/B-matching-values/B.01.03.01.01_test_003.ttcn3",
+   "module": "M_B_01_03_01_01_test_003",
+   "header": "// @requirement: B.1.3.1.1 -- However, \"abcxyz\", \"abcdefxyz\", etc. will not."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.3.2.0-001a",
+   "section": "B.1.3.2.0",
+   "type": "definition",
+   "modality": "IS",
+   "original": "The matching symbol \"*\" (AnyElementsOrNone) is used to indicate that it replaces none or any number of consecutive elements of a string (except character strings), a record of, a set of or an array.",
+   "canonical": "The matching symbol \"*\" (AnyElementsOrNone) replaces none or any number of consecutive elements of a string (except character strings), a record of, a set of or an array.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24051,
+    24053
+   ],
+   "examples": [
+    {
+     "lines": [
+      24070,
+      24089
+     ],
+     "text": "type record MyMessageType \n  {\n     charstring field1,\n     bitstring field2,\n     record of integer field3,\n     map from charstring to charstring field4\n  }\n  template MyMessageType mw_myTemplate:= \n  {\n     field1 := \"abcxyz*\", // \"*\" is not a matching symbol, it matches the \"*\" character\n     field2 := '10*11'B,  // where \"*\" may be any sequence of bits (possibly empty) \n     field3 := {*, 2, 3}  // where \"*\"may be any number of integer values or omitted \n     field4 := { *, [\"host\"] := \"localhost\", [\"port\"] := ? }\n  }\n  type charstring MyStrings[4];\n  function f() runs on MyComponent {\n     myPCO.receive(MyStrings:{\"abyz\", *, \"abc\" });\n  }"
+    }
+   ],
+   "file": "tests/B-matching-values/B.01.03.02.00_test_001.ttcn3",
+   "module": "M_B_01_03_02_00_test_001",
+   "header": "// @requirement: B.1.3.2.0 -- The matching symbol \"*\" (AnyElementsOrNone) is used to indicate that it replaces none or any number of consecutive elements of a string (except character strings), a record of, a set of or an array."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.3.2.0-002a",
+   "section": "B.1.3.2.0",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The \"*\" symbol matches the longest sequence of elements possible, according to the pattern as specified by the symbols surrounding the \"*\".",
+   "canonical": "AnyElementsOrNone matches the longest sequence of elements possible according to the pattern specified by the symbols surrounding the \"*\".",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24051,
+    24053
+   ],
+   "examples": [],
+   "file": "tests/B-matching-values/B.01.03.02.00_test_002.ttcn3",
+   "module": "M_B_01_03_02_00_test_002",
+   "header": "// @requirement: B.1.3.2.0 -- The \"*\" symbol matches the longest sequence of elements possible, according to the pattern as specified by the symbols surrounding the \"*\"."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.3.2.0-003a",
+   "section": "B.1.3.2.0",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "_AnyElementsOrNone is also used in templates of a map type where it replaces none or any number of elements whose_ keys are not present in the map template.",
+   "canonical": "AnyElementsOrNone in a map template replaces none or any number of elements whose keys are not present in the map template.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24055,
+    24056
+   ],
+   "examples": [
+    {
+     "lines": [
+      24070,
+      24089
+     ],
+     "text": "type record MyMessageType \n  {\n     charstring field1,\n     bitstring field2,\n     record of integer field3,\n     map from charstring to charstring field4\n  }\n  template MyMessageType mw_myTemplate:= \n  {\n     field1 := \"abcxyz*\", // \"*\" is not a matching symbol, it matches the \"*\" character\n     field2 := '10*11'B,  // where \"*\" may be any sequence of bits (possibly empty) \n     field3 := {*, 2, 3}  // where \"*\"may be any number of integer values or omitted \n     field4 := { *, [\"host\"] := \"localhost\", [\"port\"] := ? }\n  }\n  type charstring MyStrings[4];\n  function f() runs on MyComponent {\n     myPCO.receive(MyStrings:{\"abyz\", *, \"abc\" });\n  }"
+    }
+   ],
+   "file": "tests/B-matching-values/B.01.03.02.00_test_003.ttcn3",
+   "module": "M_B_01_03_02_00_test_003",
+   "header": "// @requirement: B.1.3.2.0 -- _AnyElementsOrNone is also used in templates of a map type where it replaces none or any number of elements whose_ keys are not present in the map template."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.3.2.0-004a",
+   "section": "B.1.3.2.0",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "If a \"*\" appears at the highest level inside a binary string, a record of, set of or array, it shall be interpreted as _AnyElementsOrNone._",
+   "canonical": "A \"*\" appearing at the highest level inside a binary string, record of, set of or array value SHALL be interpreted as AnyElementsOrNone.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24058,
+    24059
+   ],
+   "examples": [
+    {
+     "lines": [
+      24070,
+      24089
+     ],
+     "text": "type record MyMessageType \n  {\n     charstring field1,\n     bitstring field2,\n     record of integer field3,\n     map from charstring to charstring field4\n  }\n  template MyMessageType mw_myTemplate:= \n  {\n     field1 := \"abcxyz*\", // \"*\" is not a matching symbol, it matches the \"*\" character\n     field2 := '10*11'B,  // where \"*\" may be any sequence of bits (possibly empty) \n     field3 := {*, 2, 3}  // where \"*\"may be any number of integer values or omitted \n     field4 := { *, [\"host\"] := \"localhost\", [\"port\"] := ? }\n  }\n  type charstring MyStrings[4];\n  function f() runs on MyComponent {\n     myPCO.receive(MyStrings:{\"abyz\", *, \"abc\" });\n  }"
+    }
+   ],
+   "file": "tests/B-matching-values/B.01.03.02.00_test_004.ttcn3",
+   "module": "M_B_01_03_02_00_test_004",
+   "header": "// @requirement: B.1.3.2.0 -- If a \"*\" appears at the highest level inside a binary string, a record of, set of or array, it shall be interpreted as _AnyElementsOrNone._"
+  },
+  {
+   "id": "TTCN3-CORE-B.1.3.2.0-005a",
+   "section": "B.1.3.2.0",
+   "type": "information",
+   "modality": "IS NOT",
+   "original": "NOTE: This rule prevents the otherwise possible interpretation of \"*\" as AnyValueOrNone that replaces an element inside a binary string, record of, set of or array.",
+   "canonical": "A \"*\" at the highest level inside a binary string, record of, set of or array value IS NOT interpreted as AnyValueOrNone replacing a single element.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24061,
+    24062
+   ],
+   "examples": [],
+   "file": "tests/B-matching-values/B.01.03.02.00_test_005.ttcn3",
+   "module": "M_B_01_03_02_00_test_005",
+   "header": "// @requirement: B.1.3.2.0 -- NOTE: This rule prevents the otherwise possible interpretation of \"*\" as AnyValueOrNone that replaces an element inside a binary string, record of, set of or array."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.3.2.0-006a",
+   "section": "B.1.3.2.0",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "a) It shall be used only within values of binary string types, record of types, set of, map types and arrays and inside the permutation matching mechanism.",
+   "canonical": "AnyElementsOrNone SHALL be used only within values of binary string types, record of types, set of types, map types and arrays, and inside the permutation matching mechanism.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24066,
+    24067
+   ],
+   "examples": [
+    {
+     "lines": [
+      24070,
+      24089
+     ],
+     "text": "type record MyMessageType \n  {\n     charstring field1,\n     bitstring field2,\n     record of integer field3,\n     map from charstring to charstring field4\n  }\n  template MyMessageType mw_myTemplate:= \n  {\n     field1 := \"abcxyz*\", // \"*\" is not a matching symbol, it matches the \"*\" character\n     field2 := '10*11'B,  // where \"*\" may be any sequence of bits (possibly empty) \n     field3 := {*, 2, 3}  // where \"*\"may be any number of integer values or omitted \n     field4 := { *, [\"host\"] := \"localhost\", [\"port\"] := ? }\n  }\n  type charstring MyStrings[4];\n  function f() runs on MyComponent {\n     myPCO.receive(MyStrings:{\"abyz\", *, \"abc\" });\n  }"
+    }
+   ],
+   "file": "tests/B-matching-values/B.01.03.02.00_test_006.ttcn3",
+   "module": "M_B_01_03_02_00_test_006",
+   "header": "// @requirement: B.1.3.2.0 -- a) It shall be used only within values of binary string types, record of types, set of, map types and arrays and inside the permutation matching mechanism."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.3.2.1-001a",
+   "section": "B.1.3.2.1",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "If it is required to expressed the \"*\" wildcard in character strings it shall be done using character patterns (see clause B.1.5).",
+   "canonical": "A \"*\" wildcard in character strings SHALL be expressed using a character pattern.",
+   "condition": null,
+   "cross_refs": [
+    "B.1.5"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24093,
+    24094
+   ],
+   "examples": [],
+   "file": "tests/B-matching-values/B.01.03.02.01_test_001.ttcn3",
+   "module": "M_B_01_03_02_01_test_001",
+   "header": "// @requirement: B.1.3.2.1 -- If it is required to expressed the \"*\" wildcard in character strings it shall be done using character patterns (see clause B.1.5)."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.3.2.1-002a",
+   "section": "B.1.3.2.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "For example: \"abcxyz\", \"abcdefxyz\" \"abcabcxyz\" etc. will all match pattern \"abc*xyz\".",
+   "canonical": "The character pattern `pattern \"abc*xyz\"` IS matched by character strings such as \"abcxyz\", \"abcdefxyz\" and \"abcabcxyz\".",
+   "condition": null,
+   "cross_refs": [
+    "B.1.5"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24093,
+    24094
+   ],
+   "examples": [],
+   "file": "tests/B-matching-values/B.01.03.02.01_test_002.ttcn3",
+   "module": "M_B_01_03_02_01_test_002",
+   "header": "// @requirement: B.1.3.2.1 -- For example: \"abcxyz\", \"abcdefxyz\" \"abcabcxyz\" etc. will all match pattern \"abc*xyz\"."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.3.3-001a",
+   "section": "B.1.3.3",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "_Permutation is an operation for matching that shall be used only on values of record of and array types._ _Permutation is denoted by the keyword permutation.",
+   "canonical": "Permutation SHALL be used only on values of record of and array types.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "Permutation is called 'an operation for matching'; elsewhere it is a matching mechanism (used inside values).",
+    "improper_terms": [
+     {
+      "used": "operation for matching",
+      "proper": "matching mechanism",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    24098,
+    24099
+   ],
+   "examples": [
+    {
+     "lines": [
+      24146,
+      24194
+     ],
+     "text": "type record of integer MySequenceOfType;\n  template MySequenceOfType mw_myTemplate1 := { permutation ( 1, 2, 3 ), 5 };\n  // matches any of the following sequences of 4 integers: 1,2,3,5; 1,3,2,5; 2,1,3,5;\n  // 2,3,1,5; 3,1,2,5; or 3,2,1,5\n  template MySequenceOfType mw_myTemplate2 := { permutation ( 1, 2, ? ), 5 };\n  // matches any sequence of 4 integers that ends with 5 and contains 1 and 2 at least once in\n  // other positions\n  template MySequenceOfType mw_myTemplate3 := { permutation ( 1, 2, 3 ), * };\n  // matches any sequence of integers starting with 1,2,3; 1,3,2; 2,1,3; 2,3,1; 3,1,2 or 3,2,1\n  template MySequenceOfType mw_myTemplate4 := { *, permutation ( 1, 2, 3 )};\n  // matches any sequence of integers ending with 1,2,3; 1,3,2; 2,1,3; 2,3,1; 3,1,2 or 3,2,1\n  template MySequenceOfType mw_myTemplate5 := { *, permutation ( 1, 2, 3 ),* };\n  // matches any sequence of integers containing any of the following substrings at any position:\n  // 1,2,3; 1,3,2; 2,1,3; 2,3,1; 3,1,2 or 3,2,1 \n  template MySequenceOfType mw_myTemplate6 := { permutation ( 1, 2, * ), 5 };\n  // matches any sequence of integers that ends with 5 and containing 1 and 2 at least once in\n  // other positions\n  template MySequenceOfType mw_myTemplate7 := { permutation ( 1, 2, 3 ), * length (0..5)};\n  // matches any sequence of three to eight integers starting with 1,2,3; 1,3,2; 2,1,3; 2,3,1;\n  // 3,1,2 or 3,2,1\n  template integer mw_myInt1 := (1,2,3);\n  template integer mw_myInt2 := (1,2,?);\n  template inte"
+    }
+   ],
+   "file": "tests/B-matching-values/B.01.03.03_test_001.ttcn3",
+   "module": "M_B_01_03_03_test_001",
+   "header": "// @requirement: B.1.3.3 -- _Permutation is an operation for matching that shall be used only on values of record of and array types._ _Permutation is denoted by the keyword permutation."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.3.3-001b",
+   "section": "B.1.3.3",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "_Permutation is an operation for matching that shall be used only on values of record of and array types._ _Permutation is denoted by the keyword permutation.",
+   "canonical": "Permutation IS denoted by the keyword `permutation`.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24098,
+    24099
+   ],
+   "examples": [
+    {
+     "lines": [
+      24146,
+      24194
+     ],
+     "text": "type record of integer MySequenceOfType;\n  template MySequenceOfType mw_myTemplate1 := { permutation ( 1, 2, 3 ), 5 };\n  // matches any of the following sequences of 4 integers: 1,2,3,5; 1,3,2,5; 2,1,3,5;\n  // 2,3,1,5; 3,1,2,5; or 3,2,1,5\n  template MySequenceOfType mw_myTemplate2 := { permutation ( 1, 2, ? ), 5 };\n  // matches any sequence of 4 integers that ends with 5 and contains 1 and 2 at least once in\n  // other positions\n  template MySequenceOfType mw_myTemplate3 := { permutation ( 1, 2, 3 ), * };\n  // matches any sequence of integers starting with 1,2,3; 1,3,2; 2,1,3; 2,3,1; 3,1,2 or 3,2,1\n  template MySequenceOfType mw_myTemplate4 := { *, permutation ( 1, 2, 3 )};\n  // matches any sequence of integers ending with 1,2,3; 1,3,2; 2,1,3; 2,3,1; 3,1,2 or 3,2,1\n  template MySequenceOfType mw_myTemplate5 := { *, permutation ( 1, 2, 3 ),* };\n  // matches any sequence of integers containing any of the following substrings at any position:\n  // 1,2,3; 1,3,2; 2,1,3; 2,3,1; 3,1,2 or 3,2,1 \n  template MySequenceOfType mw_myTemplate6 := { permutation ( 1, 2, * ), 5 };\n  // matches any sequence of integers that ends with 5 and containing 1 and 2 at least once in\n  // other positions\n  template MySequenceOfType mw_myTemplate7 := { permutation ( 1, 2, 3 ), * length (0..5)};\n  // matches any sequence of three to eight integers starting with 1,2,3; 1,3,2; 2,1,3; 2,3,1;\n  // 3,1,2 or 3,2,1\n  template integer mw_myInt1 := (1,2,3);\n  template integer mw_myInt2 := (1,2,?);\n  template inte"
+    }
+   ],
+   "file": "tests/B-matching-values/B.01.03.03_test_002.ttcn3",
+   "module": "M_B_01_03_03_test_002",
+   "header": "// @requirement: B.1.3.3 -- _Permutation is an operation for matching that shall be used only on values of record of and array types._ _Permutation is denoted by the keyword permutation."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.3.3-003a",
+   "section": "B.1.3.3",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "A permutation without AnyElementsOrNone in place of a single record of element means that any series of elements is acceptable provided that there is a one to one mapping between elements in the record of and in the permutation list such that each element matches its corresponding element in the permutation list.",
+   "canonical": "A permutation without AnyElementsOrNone in place of a single record of element matches any series of elements for which there is a one-to-one mapping between the elements in the record of value and in the permutation list such that each element matches its corresponding element in the permutation list.",
+   "condition": "the permutation contains no AnyElementsOrNone",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24106,
+    24108
+   ],
+   "examples": [
+    {
+     "lines": [
+      24146,
+      24194
+     ],
+     "text": "type record of integer MySequenceOfType;\n  template MySequenceOfType mw_myTemplate1 := { permutation ( 1, 2, 3 ), 5 };\n  // matches any of the following sequences of 4 integers: 1,2,3,5; 1,3,2,5; 2,1,3,5;\n  // 2,3,1,5; 3,1,2,5; or 3,2,1,5\n  template MySequenceOfType mw_myTemplate2 := { permutation ( 1, 2, ? ), 5 };\n  // matches any sequence of 4 integers that ends with 5 and contains 1 and 2 at least once in\n  // other positions\n  template MySequenceOfType mw_myTemplate3 := { permutation ( 1, 2, 3 ), * };\n  // matches any sequence of integers starting with 1,2,3; 1,3,2; 2,1,3; 2,3,1; 3,1,2 or 3,2,1\n  template MySequenceOfType mw_myTemplate4 := { *, permutation ( 1, 2, 3 )};\n  // matches any sequence of integers ending with 1,2,3; 1,3,2; 2,1,3; 2,3,1; 3,1,2 or 3,2,1\n  template MySequenceOfType mw_myTemplate5 := { *, permutation ( 1, 2, 3 ),* };\n  // matches any sequence of integers containing any of the following substrings at any position:\n  // 1,2,3; 1,3,2; 2,1,3; 2,3,1; 3,1,2 or 3,2,1 \n  template MySequenceOfType mw_myTemplate6 := { permutation ( 1, 2, * ), 5 };\n  // matches any sequence of integers that ends with 5 and containing 1 and 2 at least once in\n  // other positions\n  template MySequenceOfType mw_myTemplate7 := { permutation ( 1, 2, 3 ), * length (0..5)};\n  // matches any sequence of three to eight integers starting with 1,2,3; 1,3,2; 2,1,3; 2,3,1;\n  // 3,1,2 or 3,2,1\n  template integer mw_myInt1 := (1,2,3);\n  template integer mw_myInt2 := (1,2,?);\n  template inte"
+    }
+   ],
+   "file": "tests/B-matching-values/B.01.03.03_test_003.ttcn3",
+   "module": "M_B_01_03_03_test_003",
+   "header": "// @requirement: B.1.3.3 -- A permutation without AnyElementsOrNone in place of a single record of element means that any series of elements is acceptable provided that there is a one to one mapping between elements in the record of and in the permutation list such that each element matches its corresponding element in the permutation list."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.3.3-004a",
+   "section": "B.1.3.3",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "_AnyElementsOrNone used inside permutation (directly or via reference) replaces none or any number of elements_ within the segment of the record of value matched by permutation.",
+   "canonical": "AnyElementsOrNone used inside a permutation, directly or via reference, replaces none or any number of elements within the segment of the record of value matched by the permutation.",
+   "condition": "AnyElementsOrNone is used inside a permutation",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24110,
+    24113
+   ],
+   "examples": [
+    {
+     "lines": [
+      24146,
+      24194
+     ],
+     "text": "type record of integer MySequenceOfType;\n  template MySequenceOfType mw_myTemplate1 := { permutation ( 1, 2, 3 ), 5 };\n  // matches any of the following sequences of 4 integers: 1,2,3,5; 1,3,2,5; 2,1,3,5;\n  // 2,3,1,5; 3,1,2,5; or 3,2,1,5\n  template MySequenceOfType mw_myTemplate2 := { permutation ( 1, 2, ? ), 5 };\n  // matches any sequence of 4 integers that ends with 5 and contains 1 and 2 at least once in\n  // other positions\n  template MySequenceOfType mw_myTemplate3 := { permutation ( 1, 2, 3 ), * };\n  // matches any sequence of integers starting with 1,2,3; 1,3,2; 2,1,3; 2,3,1; 3,1,2 or 3,2,1\n  template MySequenceOfType mw_myTemplate4 := { *, permutation ( 1, 2, 3 )};\n  // matches any sequence of integers ending with 1,2,3; 1,3,2; 2,1,3; 2,3,1; 3,1,2 or 3,2,1\n  template MySequenceOfType mw_myTemplate5 := { *, permutation ( 1, 2, 3 ),* };\n  // matches any sequence of integers containing any of the following substrings at any position:\n  // 1,2,3; 1,3,2; 2,1,3; 2,3,1; 3,1,2 or 3,2,1 \n  template MySequenceOfType mw_myTemplate6 := { permutation ( 1, 2, * ), 5 };\n  // matches any sequence of integers that ends with 5 and containing 1 and 2 at least once in\n  // other positions\n  template MySequenceOfType mw_myTemplate7 := { permutation ( 1, 2, 3 ), * length (0..5)};\n  // matches any sequence of three to eight integers starting with 1,2,3; 1,3,2; 2,1,3; 2,3,1;\n  // 3,1,2 or 3,2,1\n  template integer mw_myInt1 := (1,2,3);\n  template integer mw_myInt2 := (1,2,?);\n  template inte"
+    }
+   ],
+   "file": "tests/B-matching-values/B.01.03.03_test_004.ttcn3",
+   "module": "M_B_01_03_03_test_004",
+   "header": "// @requirement: B.1.3.3 -- _AnyElementsOrNone used inside permutation (directly or via reference) replaces none or any number of elements_ within the segment of the record of value matched by permutation."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.3.3-005a",
+   "section": "B.1.3.3",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The permutation matching is successful, if a subset of the elements in the record of matches the permutation list without the AnyElementsOrNone.",
+   "canonical": "A permutation containing AnyElementsOrNone matches successfully if a subset of the elements in the record of value matches the permutation list without the AnyElementsOrNone.",
+   "condition": "the permutation contains AnyElementsOrNone",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24110,
+    24113
+   ],
+   "examples": [
+    {
+     "lines": [
+      24146,
+      24194
+     ],
+     "text": "type record of integer MySequenceOfType;\n  template MySequenceOfType mw_myTemplate1 := { permutation ( 1, 2, 3 ), 5 };\n  // matches any of the following sequences of 4 integers: 1,2,3,5; 1,3,2,5; 2,1,3,5;\n  // 2,3,1,5; 3,1,2,5; or 3,2,1,5\n  template MySequenceOfType mw_myTemplate2 := { permutation ( 1, 2, ? ), 5 };\n  // matches any sequence of 4 integers that ends with 5 and contains 1 and 2 at least once in\n  // other positions\n  template MySequenceOfType mw_myTemplate3 := { permutation ( 1, 2, 3 ), * };\n  // matches any sequence of integers starting with 1,2,3; 1,3,2; 2,1,3; 2,3,1; 3,1,2 or 3,2,1\n  template MySequenceOfType mw_myTemplate4 := { *, permutation ( 1, 2, 3 )};\n  // matches any sequence of integers ending with 1,2,3; 1,3,2; 2,1,3; 2,3,1; 3,1,2 or 3,2,1\n  template MySequenceOfType mw_myTemplate5 := { *, permutation ( 1, 2, 3 ),* };\n  // matches any sequence of integers containing any of the following substrings at any position:\n  // 1,2,3; 1,3,2; 2,1,3; 2,3,1; 3,1,2 or 3,2,1 \n  template MySequenceOfType mw_myTemplate6 := { permutation ( 1, 2, * ), 5 };\n  // matches any sequence of integers that ends with 5 and containing 1 and 2 at least once in\n  // other positions\n  template MySequenceOfType mw_myTemplate7 := { permutation ( 1, 2, 3 ), * length (0..5)};\n  // matches any sequence of three to eight integers starting with 1,2,3; 1,3,2; 2,1,3; 2,3,1;\n  // 3,1,2 or 3,2,1\n  template integer mw_myInt1 := (1,2,3);\n  template integer mw_myInt2 := (1,2,?);\n  template inte"
+    }
+   ],
+   "file": "tests/B-matching-values/B.01.03.03_test_005.ttcn3",
+   "module": "M_B_01_03_03_test_005",
+   "header": "// @requirement: B.1.3.3 -- The permutation matching is successful, if a subset of the elements in the record of matches the permutation list without the AnyElementsOrNone."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.3.3-006a",
+   "section": "B.1.3.3",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "If both permutation and _AnyElementsOrNone are used in a record of template, they shall be evaluated jointly._",
+   "canonical": "If both permutation and AnyElementsOrNone are used in a record of template, they SHALL be evaluated jointly.",
+   "condition": "both permutation and AnyElementsOrNone are used in a record of template",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "'evaluated jointly' is not defined; chose the reading that the whole template is matched as one pattern (all possible element assignments considered), not permutation first and AnyElementsOrNone afterwards.",
+    "readings": [
+     "If both permutation and AnyElementsOrNone are used in a record of template, the matcher SHALL consider all assignments of elements to the permutation and to AnyElementsOrNone together (one combined pattern).",
+     "If both permutation and AnyElementsOrNone are used in a record of template, the matcher SHALL match the permutation and the AnyElementsOrNone in a single left-to-right pass without backtracking."
+    ]
+   },
+   "spec_lines": [
+    24110,
+    24113
+   ],
+   "examples": [
+    {
+     "lines": [
+      24146,
+      24194
+     ],
+     "text": "type record of integer MySequenceOfType;\n  template MySequenceOfType mw_myTemplate1 := { permutation ( 1, 2, 3 ), 5 };\n  // matches any of the following sequences of 4 integers: 1,2,3,5; 1,3,2,5; 2,1,3,5;\n  // 2,3,1,5; 3,1,2,5; or 3,2,1,5\n  template MySequenceOfType mw_myTemplate2 := { permutation ( 1, 2, ? ), 5 };\n  // matches any sequence of 4 integers that ends with 5 and contains 1 and 2 at least once in\n  // other positions\n  template MySequenceOfType mw_myTemplate3 := { permutation ( 1, 2, 3 ), * };\n  // matches any sequence of integers starting with 1,2,3; 1,3,2; 2,1,3; 2,3,1; 3,1,2 or 3,2,1\n  template MySequenceOfType mw_myTemplate4 := { *, permutation ( 1, 2, 3 )};\n  // matches any sequence of integers ending with 1,2,3; 1,3,2; 2,1,3; 2,3,1; 3,1,2 or 3,2,1\n  template MySequenceOfType mw_myTemplate5 := { *, permutation ( 1, 2, 3 ),* };\n  // matches any sequence of integers containing any of the following substrings at any position:\n  // 1,2,3; 1,3,2; 2,1,3; 2,3,1; 3,1,2 or 3,2,1 \n  template MySequenceOfType mw_myTemplate6 := { permutation ( 1, 2, * ), 5 };\n  // matches any sequence of integers that ends with 5 and containing 1 and 2 at least once in\n  // other positions\n  template MySequenceOfType mw_myTemplate7 := { permutation ( 1, 2, 3 ), * length (0..5)};\n  // matches any sequence of three to eight integers starting with 1,2,3; 1,3,2; 2,1,3; 2,3,1;\n  // 3,1,2 or 3,2,1\n  template integer mw_myInt1 := (1,2,3);\n  template integer mw_myInt2 := (1,2,?);\n  template inte"
+    }
+   ],
+   "file": "tests/B-matching-values/B.01.03.03_test_006.ttcn3",
+   "module": "M_B_01_03_03_test_006",
+   "header": "// @requirement: B.1.3.3 -- If both permutation and _AnyElementsOrNone are used in a record of template, they shall be evaluated jointly._"
+  },
+  {
+   "id": "TTCN3-CORE-B.1.3.3-007a",
+   "section": "B.1.3.3",
+   "type": "information",
+   "modality": "IS",
+   "original": "NOTE 1: _AnyElementsOrNone used inside permutation has a different effect as AnyElementsOrNone used in_ conjunction with permutation as in the latter AnyElementsOrNone replaces consecutive elements only.",
+   "canonical": "AnyElementsOrNone used in conjunction with a permutation (outside it) replaces consecutive elements only, unlike AnyElementsOrNone used inside a permutation.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24115,
+    24118
+   ],
+   "examples": [
+    {
+     "lines": [
+      24146,
+      24194
+     ],
+     "text": "type record of integer MySequenceOfType;\n  template MySequenceOfType mw_myTemplate1 := { permutation ( 1, 2, 3 ), 5 };\n  // matches any of the following sequences of 4 integers: 1,2,3,5; 1,3,2,5; 2,1,3,5;\n  // 2,3,1,5; 3,1,2,5; or 3,2,1,5\n  template MySequenceOfType mw_myTemplate2 := { permutation ( 1, 2, ? ), 5 };\n  // matches any sequence of 4 integers that ends with 5 and contains 1 and 2 at least once in\n  // other positions\n  template MySequenceOfType mw_myTemplate3 := { permutation ( 1, 2, 3 ), * };\n  // matches any sequence of integers starting with 1,2,3; 1,3,2; 2,1,3; 2,3,1; 3,1,2 or 3,2,1\n  template MySequenceOfType mw_myTemplate4 := { *, permutation ( 1, 2, 3 )};\n  // matches any sequence of integers ending with 1,2,3; 1,3,2; 2,1,3; 2,3,1; 3,1,2 or 3,2,1\n  template MySequenceOfType mw_myTemplate5 := { *, permutation ( 1, 2, 3 ),* };\n  // matches any sequence of integers containing any of the following substrings at any position:\n  // 1,2,3; 1,3,2; 2,1,3; 2,3,1; 3,1,2 or 3,2,1 \n  template MySequenceOfType mw_myTemplate6 := { permutation ( 1, 2, * ), 5 };\n  // matches any sequence of integers that ends with 5 and containing 1 and 2 at least once in\n  // other positions\n  template MySequenceOfType mw_myTemplate7 := { permutation ( 1, 2, 3 ), * length (0..5)};\n  // matches any sequence of three to eight integers starting with 1,2,3; 1,3,2; 2,1,3; 2,3,1;\n  // 3,1,2 or 3,2,1\n  template integer mw_myInt1 := (1,2,3);\n  template integer mw_myInt2 := (1,2,?);\n  template inte"
+    }
+   ],
+   "file": "tests/B-matching-values/B.01.03.03_test_007.ttcn3",
+   "module": "M_B_01_03_03_test_007",
+   "header": "// @requirement: B.1.3.3 -- NOTE 1: _AnyElementsOrNone used inside permutation has a different effect as AnyElementsOrNone used in_ conjunction with permutation as in the latter AnyElementsOrNone replaces consecutive elements only."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.3.3-008a",
+   "section": "B.1.3.3",
+   "type": "information",
+   "modality": "IS",
+   "original": "For example, {permutation(1,2,*)} is equivalent to ({*,1,*,2,*},{*,2,*,1,*}), while {permutation(1,2),*} is equivalent to ({1,2,*},{2,1,*}).",
+   "canonical": "The template {permutation(1,2,*)} IS equivalent to ({*,1,*,2,*},{*,2,*,1,*}), while {permutation(1,2),*} IS equivalent to ({1,2,*},{2,1,*}).",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24115,
+    24118
+   ],
+   "examples": [],
+   "file": "tests/B-matching-values/B.01.03.03_test_008.ttcn3",
+   "module": "M_B_01_03_03_test_008",
+   "header": "// @requirement: B.1.3.3 -- For example, {permutation(1,2,*)} is equivalent to ({*,1,*,2,*},{*,2,*,1,*}), while {permutation(1,2),*} is equivalent to ({1,2,*},{2,1,*})."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.3.3-009a",
+   "section": "B.1.3.3",
+   "type": "information",
+   "modality": "MAY",
+   "original": "NOTE 2: When AnyElementsOrNone is inside a permutation, a length attribute may be applied to _AnyElementsOrNone to restrict the number of elements matched by AnyElementsOrNone (see also_ clause B.1.4.1).",
+   "canonical": "A length attribute MAY be applied to AnyElementsOrNone inside a permutation to restrict the number of elements matched by AnyElementsOrNone.",
+   "condition": null,
+   "cross_refs": [
+    "B.1.4.1"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24120,
+    24122
+   ],
+   "examples": [
+    {
+     "lines": [
+      24146,
+      24194
+     ],
+     "text": "type record of integer MySequenceOfType;\n  template MySequenceOfType mw_myTemplate1 := { permutation ( 1, 2, 3 ), 5 };\n  // matches any of the following sequences of 4 integers: 1,2,3,5; 1,3,2,5; 2,1,3,5;\n  // 2,3,1,5; 3,1,2,5; or 3,2,1,5\n  template MySequenceOfType mw_myTemplate2 := { permutation ( 1, 2, ? ), 5 };\n  // matches any sequence of 4 integers that ends with 5 and contains 1 and 2 at least once in\n  // other positions\n  template MySequenceOfType mw_myTemplate3 := { permutation ( 1, 2, 3 ), * };\n  // matches any sequence of integers starting with 1,2,3; 1,3,2; 2,1,3; 2,3,1; 3,1,2 or 3,2,1\n  template MySequenceOfType mw_myTemplate4 := { *, permutation ( 1, 2, 3 )};\n  // matches any sequence of integers ending with 1,2,3; 1,3,2; 2,1,3; 2,3,1; 3,1,2 or 3,2,1\n  template MySequenceOfType mw_myTemplate5 := { *, permutation ( 1, 2, 3 ),* };\n  // matches any sequence of integers containing any of the following substrings at any position:\n  // 1,2,3; 1,3,2; 2,1,3; 2,3,1; 3,1,2 or 3,2,1 \n  template MySequenceOfType mw_myTemplate6 := { permutation ( 1, 2, * ), 5 };\n  // matches any sequence of integers that ends with 5 and containing 1 and 2 at least once in\n  // other positions\n  template MySequenceOfType mw_myTemplate7 := { permutation ( 1, 2, 3 ), * length (0..5)};\n  // matches any sequence of three to eight integers starting with 1,2,3; 1,3,2; 2,1,3; 2,3,1;\n  // 3,1,2 or 3,2,1\n  template integer mw_myInt1 := (1,2,3);\n  template integer mw_myInt2 := (1,2,?);\n  template inte"
+    }
+   ],
+   "file": "tests/B-matching-values/B.01.03.03_test_009.ttcn3",
+   "module": "M_B_01_03_03_test_009",
+   "header": "// @requirement: B.1.3.3 -- NOTE 2: When AnyElementsOrNone is inside a permutation, a length attribute may be applied to _AnyElementsOrNone to restrict the number of elements matched by AnyElementsOrNone (see also_ clause B.1.4.1)."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.3.3-010a",
+   "section": "B.1.3.3",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Besides specifying all individual values, it is possible to add all elements of a record of or set of template into permutations using an all from clause.",
+   "canonical": "All elements of a record of or set of template MAY be added into a permutation using an `all from` clause.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24124,
+    24125
+   ],
+   "examples": [
+    {
+     "lines": [
+      24197,
+      24202
+     ],
+     "text": "type record of integer RoI;\n  template RoI mw_roI1 := {1, 2, *};\n  template RoI mw_roI2 := {permutation(0, all from mw_roI1), 4, 5}; \n  // results in {permutation(0, 1, 2, *), 4, 5}"
+    }
+   ],
+   "file": "tests/B-matching-values/B.01.03.03_test_010.ttcn3",
+   "module": "M_B_01_03_03_test_010",
+   "header": "// @requirement: B.1.3.3 -- Besides specifying all individual values, it is possible to add all elements of a record of or set of template into permutations using an all from clause."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.3.3-011a",
+   "section": "B.1.3.3",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "original": "a) Each individual member listed in the permutation shall be of the type replicated by the record of or array type.",
+   "canonical": "Each individual member listed in a permutation SHALL be of the type replicated by the record of or array type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24129,
+    24130
+   ],
+   "examples": [
+    {
+     "lines": [
+      24146,
+      24194
+     ],
+     "text": "type record of integer MySequenceOfType;\n  template MySequenceOfType mw_myTemplate1 := { permutation ( 1, 2, 3 ), 5 };\n  // matches any of the following sequences of 4 integers: 1,2,3,5; 1,3,2,5; 2,1,3,5;\n  // 2,3,1,5; 3,1,2,5; or 3,2,1,5\n  template MySequenceOfType mw_myTemplate2 := { permutation ( 1, 2, ? ), 5 };\n  // matches any sequence of 4 integers that ends with 5 and contains 1 and 2 at least once in\n  // other positions\n  template MySequenceOfType mw_myTemplate3 := { permutation ( 1, 2, 3 ), * };\n  // matches any sequence of integers starting with 1,2,3; 1,3,2; 2,1,3; 2,3,1; 3,1,2 or 3,2,1\n  template MySequenceOfType mw_myTemplate4 := { *, permutation ( 1, 2, 3 )};\n  // matches any sequence of integers ending with 1,2,3; 1,3,2; 2,1,3; 2,3,1; 3,1,2 or 3,2,1\n  template MySequenceOfType mw_myTemplate5 := { *, permutation ( 1, 2, 3 ),* };\n  // matches any sequence of integers containing any of the following substrings at any position:\n  // 1,2,3; 1,3,2; 2,1,3; 2,3,1; 3,1,2 or 3,2,1 \n  template MySequenceOfType mw_myTemplate6 := { permutation ( 1, 2, * ), 5 };\n  // matches any sequence of integers that ends with 5 and containing 1 and 2 at least once in\n  // other positions\n  template MySequenceOfType mw_myTemplate7 := { permutation ( 1, 2, 3 ), * length (0..5)};\n  // matches any sequence of three to eight integers starting with 1,2,3; 1,3,2; 2,1,3; 2,3,1;\n  // 3,1,2 or 3,2,1\n  template integer mw_myInt1 := (1,2,3);\n  template integer mw_myInt2 := (1,2,?);\n  template inte"
+    }
+   ],
+   "file": "tests/B-matching-values/B.01.03.03_test_011.ttcn3",
+   "module": "M_B_01_03_03_test_011",
+   "header": "// @requirement: B.1.3.3 -- a) Each individual member listed in the permutation shall be of the type replicated by the record of or array type."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.3.3-012a",
+   "section": "B.1.3.3",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "original": "b) The member type of the permutation and the member type of the template in the all from clause shall be compatible.",
+   "canonical": "The member type of the permutation and the member type of the template in the `all from` clause SHALL be compatible.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24132,
+    24133
+   ],
+   "examples": [
+    {
+     "lines": [
+      24197,
+      24202
+     ],
+     "text": "type record of integer RoI;\n  template RoI mw_roI1 := {1, 2, *};\n  template RoI mw_roI2 := {permutation(0, all from mw_roI1), 4, 5}; \n  // results in {permutation(0, 1, 2, *), 4, 5}"
+    }
+   ],
+   "file": "tests/B-matching-values/B.01.03.03_test_012.ttcn3",
+   "module": "M_B_01_03_03_test_012",
+   "header": "// @requirement: B.1.3.3 -- b) The member type of the permutation and the member type of the template in the all from clause shall be compatible."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.3.3-013a",
+   "section": "B.1.3.3",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "c) The template referenced in the all from clause shall resolve either into specific value (see clause B.1.1) or combined template.",
+   "canonical": "The template referenced in an `all from` clause inside a permutation SHALL resolve into either a specific value or a combined template.",
+   "condition": null,
+   "cross_refs": [
+    "B.1.1"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24135,
+    24136
+   ],
+   "examples": [
+    {
+     "lines": [
+      24197,
+      24202
+     ],
+     "text": "type record of integer RoI;\n  template RoI mw_roI1 := {1, 2, *};\n  template RoI mw_roI2 := {permutation(0, all from mw_roI1), 4, 5}; \n  // results in {permutation(0, 1, 2, *), 4, 5}"
+    }
+   ],
+   "file": "tests/B-matching-values/B.01.03.03_test_013.ttcn3",
+   "module": "M_B_01_03_03_test_013",
+   "header": "// @requirement: B.1.3.3 -- c) The template referenced in the all from clause shall resolve either into specific value (see clause B.1.1) or combined template."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.3.3-014a",
+   "section": "B.1.3.3",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "The combined template shall not contain permutations.",
+   "canonical": "A combined template referenced in an `all from` clause inside a permutation SHALL NOT contain permutations.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24135,
+    24136
+   ],
+   "examples": [],
+   "file": "tests/B-matching-values/B.01.03.03_test_014.ttcn3",
+   "module": "M_B_01_03_03_test_014",
+   "header": "// @requirement: B.1.3.3 -- The combined template shall not contain permutations."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.3.3-016a",
+   "section": "B.1.3.3",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "e) Templates except AnyElementsOrNone listed in the permutation shall obey the present template restriction (see clause 15.8).",
+   "canonical": "Each template other than AnyElementsOrNone listed in a permutation SHALL obey the present template restriction.",
+   "condition": null,
+   "cross_refs": [
+    "15.8"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24140,
+    24141
+   ],
+   "examples": [
+    {
+     "lines": [
+      24146,
+      24194
+     ],
+     "text": "type record of integer MySequenceOfType;\n  template MySequenceOfType mw_myTemplate1 := { permutation ( 1, 2, 3 ), 5 };\n  // matches any of the following sequences of 4 integers: 1,2,3,5; 1,3,2,5; 2,1,3,5;\n  // 2,3,1,5; 3,1,2,5; or 3,2,1,5\n  template MySequenceOfType mw_myTemplate2 := { permutation ( 1, 2, ? ), 5 };\n  // matches any sequence of 4 integers that ends with 5 and contains 1 and 2 at least once in\n  // other positions\n  template MySequenceOfType mw_myTemplate3 := { permutation ( 1, 2, 3 ), * };\n  // matches any sequence of integers starting with 1,2,3; 1,3,2; 2,1,3; 2,3,1; 3,1,2 or 3,2,1\n  template MySequenceOfType mw_myTemplate4 := { *, permutation ( 1, 2, 3 )};\n  // matches any sequence of integers ending with 1,2,3; 1,3,2; 2,1,3; 2,3,1; 3,1,2 or 3,2,1\n  template MySequenceOfType mw_myTemplate5 := { *, permutation ( 1, 2, 3 ),* };\n  // matches any sequence of integers containing any of the following substrings at any position:\n  // 1,2,3; 1,3,2; 2,1,3; 2,3,1; 3,1,2 or 3,2,1 \n  template MySequenceOfType mw_myTemplate6 := { permutation ( 1, 2, * ), 5 };\n  // matches any sequence of integers that ends with 5 and containing 1 and 2 at least once in\n  // other positions\n  template MySequenceOfType mw_myTemplate7 := { permutation ( 1, 2, 3 ), * length (0..5)};\n  // matches any sequence of three to eight integers starting with 1,2,3; 1,3,2; 2,1,3; 2,3,1;\n  // 3,1,2 or 3,2,1\n  template integer mw_myInt1 := (1,2,3);\n  template integer mw_myInt2 := (1,2,?);\n  template inte"
+    }
+   ],
+   "file": "tests/B-matching-values/B.01.03.03_test_015.ttcn3",
+   "module": "M_B_01_03_03_test_015",
+   "header": "// @requirement: B.1.3.3 -- e) Templates except AnyElementsOrNone listed in the permutation shall obey the present template restriction (see clause 15.8)."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.4.1-001a",
+   "section": "B.1.4.1",
+   "type": "definition",
+   "modality": "IS",
+   "original": "The length restriction attribute is used to restrict the length of string values matching the template or the number of elements in a set `of, record` `of or array structure.`",
+   "canonical": "The length restriction attribute restricts the length of string values matching the template or the number of elements in a set of, record of or array value.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24212,
+    24213
+   ],
+   "examples": [
+    {
+     "lines": [
+      24262,
+      24283
+     ],
+     "text": "// Given the message type definition \n  type record MyMessageType3\n  {\n     record of integer field1,\n     record of integer field2,\n     charstring field3,\n     charstring  field4,\n     charstring field5\n  }\n  template MyMessageType3 mw_myTemplate:=\n  { \n     field1 := complement ({4,5},{1,4,8,9}) length (1 .. 6), // any value containing 1, 2, 3,\n       //4, 5 or 6 elements is accepted provided it is not {4,5} or {1,4,8,9} \n     field2 := { 1, * length(2), 3 } // matches the same values as {1, ?, ?, 3 } \n     field3 := \"ab*ab\" length(5),  // matches the character string \"ab*ab\" only \n     field4 := \"ab*ab\" length(13), // never matches as the specific value is of length 5\n                       // and not of length 13\n     Field5 := pattern \"ab*ab\" length(13), \n                   // max length of the AnyElementsOrNone string is 9 characters\n  }"
+    }
+   ],
+   "file": "tests/B-matching-values/B.01.04.01_test_001.ttcn3",
+   "module": "M_B_01_04_01_test_001",
+   "header": "// @requirement: B.1.4.1 -- The length restriction attribute is used to restrict the length of string values matching the template or the number of elements in a set `of, record` `of or array structure.`"
+  },
+  {
+   "id": "TTCN3-CORE-B.1.4.1-002a",
+   "section": "B.1.4.1",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "It can also be used in conjunction with the ifpresent matching attribute.",
+   "canonical": "The length restriction attribute MAY be used in conjunction with the ifpresent matching attribute.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24215,
+    24216
+   ],
+   "examples": [],
+   "file": "tests/B-matching-values/B.01.04.01_test_002.ttcn3",
+   "module": "M_B_01_04_01_test_002",
+   "header": "// @requirement: B.1.4.1 -- It can also be used in conjunction with the ifpresent matching attribute."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.4.1-004a",
+   "section": "B.1.4.1",
+   "type": "information",
+   "modality": "CAN",
+   "original": "NOTE: When the length attribute is used with a template list, elements of the list may be disabled by the attribute.",
+   "canonical": "When the length attribute is used with a template list, elements of the template list whose lengths do not satisfy the length attribute can never match (are disabled).",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24218,
+    24219
+   ],
+   "examples": [],
+   "file": "tests/B-matching-values/B.01.04.01_test_003.ttcn3",
+   "module": "M_B_01_04_01_test_003",
+   "header": "// @requirement: B.1.4.1 -- NOTE: When the length attribute is used with a template list, elements of the list may be disabled by the attribute."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.4.1-005a",
+   "section": "B.1.4.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The units of length are to be interpreted according to table 4 in the main body of the present document in the case of string values.",
+   "canonical": "For string values, the unit of length of a length restriction IS interpreted according to table 4.",
+   "condition": null,
+   "cross_refs": [
+    "6.1.2.4"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24221,
+    24222
+   ],
+   "examples": [],
+   "file": "tests/B-matching-values/B.01.04.01_test_004.ttcn3",
+   "module": "M_B_01_04_01_test_004",
+   "header": "// @requirement: B.1.4.1 -- The units of length are to be interpreted according to table 4 in the main body of the present document in the case of string values."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.4.1-006a",
+   "section": "B.1.4.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "For set of, `record of types and arrays the unit of length is the replicated type.`",
+   "canonical": "For set of types, record of types and arrays, the unit of length of a length restriction IS the replicated type (one element).",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24221,
+    24222
+   ],
+   "examples": [
+    {
+     "lines": [
+      24262,
+      24283
+     ],
+     "text": "// Given the message type definition \n  type record MyMessageType3\n  {\n     record of integer field1,\n     record of integer field2,\n     charstring field3,\n     charstring  field4,\n     charstring field5\n  }\n  template MyMessageType3 mw_myTemplate:=\n  { \n     field1 := complement ({4,5},{1,4,8,9}) length (1 .. 6), // any value containing 1, 2, 3,\n       //4, 5 or 6 elements is accepted provided it is not {4,5} or {1,4,8,9} \n     field2 := { 1, * length(2), 3 } // matches the same values as {1, ?, ?, 3 } \n     field3 := \"ab*ab\" length(5),  // matches the character string \"ab*ab\" only \n     field4 := \"ab*ab\" length(13), // never matches as the specific value is of length 5\n                       // and not of length 13\n     Field5 := pattern \"ab*ab\" length(13), \n                   // max length of the AnyElementsOrNone string is 9 characters\n  }"
+    }
+   ],
+   "file": "tests/B-matching-values/B.01.04.01_test_005.ttcn3",
+   "module": "M_B_01_04_01_test_005",
+   "header": "// @requirement: B.1.4.1 -- For set of, `record of types and arrays the unit of length is the replicated type.`"
+  },
+  {
+   "id": "TTCN3-CORE-B.1.4.1-007a",
+   "section": "B.1.4.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "A template field that uses length as an attribute of a symbol matches the corresponding field if, and only if, the field matches both the symbol and its associated attribute.",
+   "canonical": "A template field that uses a length restriction as an attribute of a matching symbol matches the corresponding field if, and only if, the field matches both the symbol and the length restriction.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24224,
+    24227
+   ],
+   "examples": [
+    {
+     "lines": [
+      24262,
+      24283
+     ],
+     "text": "// Given the message type definition \n  type record MyMessageType3\n  {\n     record of integer field1,\n     record of integer field2,\n     charstring field3,\n     charstring  field4,\n     charstring field5\n  }\n  template MyMessageType3 mw_myTemplate:=\n  { \n     field1 := complement ({4,5},{1,4,8,9}) length (1 .. 6), // any value containing 1, 2, 3,\n       //4, 5 or 6 elements is accepted provided it is not {4,5} or {1,4,8,9} \n     field2 := { 1, * length(2), 3 } // matches the same values as {1, ?, ?, 3 } \n     field3 := \"ab*ab\" length(5),  // matches the character string \"ab*ab\" only \n     field4 := \"ab*ab\" length(13), // never matches as the specific value is of length 5\n                       // and not of length 13\n     Field5 := pattern \"ab*ab\" length(13), \n                   // max length of the AnyElementsOrNone string is 9 characters\n  }"
+    }
+   ],
+   "file": "tests/B-matching-values/B.01.04.01_test_006.ttcn3",
+   "module": "M_B_01_04_01_test_006",
+   "header": "// @requirement: B.1.4.1 -- A template field that uses length as an attribute of a symbol matches the corresponding field if, and only if, the field matches both the symbol and its associated attribute."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.4.1-008a",
+   "section": "B.1.4.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The length attribute matches if the length of the field is greater than or equal to the specified lower bound and less than or equal to the upper bound.",
+   "canonical": "A length restriction with a range matches if the length of the field is greater than or equal to the lower bound and less than or equal to the upper bound.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24224,
+    24227
+   ],
+   "examples": [
+    {
+     "lines": [
+      24262,
+      24283
+     ],
+     "text": "// Given the message type definition \n  type record MyMessageType3\n  {\n     record of integer field1,\n     record of integer field2,\n     charstring field3,\n     charstring  field4,\n     charstring field5\n  }\n  template MyMessageType3 mw_myTemplate:=\n  { \n     field1 := complement ({4,5},{1,4,8,9}) length (1 .. 6), // any value containing 1, 2, 3,\n       //4, 5 or 6 elements is accepted provided it is not {4,5} or {1,4,8,9} \n     field2 := { 1, * length(2), 3 } // matches the same values as {1, ?, ?, 3 } \n     field3 := \"ab*ab\" length(5),  // matches the character string \"ab*ab\" only \n     field4 := \"ab*ab\" length(13), // never matches as the specific value is of length 5\n                       // and not of length 13\n     Field5 := pattern \"ab*ab\" length(13), \n                   // max length of the AnyElementsOrNone string is 9 characters\n  }"
+    }
+   ],
+   "file": "tests/B-matching-values/B.01.04.01_test_007.ttcn3",
+   "module": "M_B_01_04_01_test_007",
+   "header": "// @requirement: B.1.4.1 -- The length attribute matches if the length of the field is greater than or equal to the specified lower bound and less than or equal to the upper bound."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.4.1-009a",
+   "section": "B.1.4.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "In the case of a single length value the length attribute matches only if the length of the received field is exactly the specified value.",
+   "canonical": "A length restriction with a single length value matches only if the length of the field is exactly that value.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24224,
+    24227
+   ],
+   "examples": [
+    {
+     "lines": [
+      24262,
+      24283
+     ],
+     "text": "// Given the message type definition \n  type record MyMessageType3\n  {\n     record of integer field1,\n     record of integer field2,\n     charstring field3,\n     charstring  field4,\n     charstring field5\n  }\n  template MyMessageType3 mw_myTemplate:=\n  { \n     field1 := complement ({4,5},{1,4,8,9}) length (1 .. 6), // any value containing 1, 2, 3,\n       //4, 5 or 6 elements is accepted provided it is not {4,5} or {1,4,8,9} \n     field2 := { 1, * length(2), 3 } // matches the same values as {1, ?, ?, 3 } \n     field3 := \"ab*ab\" length(5),  // matches the character string \"ab*ab\" only \n     field4 := \"ab*ab\" length(13), // never matches as the specific value is of length 5\n                       // and not of length 13\n     Field5 := pattern \"ab*ab\" length(13), \n                   // max length of the AnyElementsOrNone string is 9 characters\n  }"
+    }
+   ],
+   "file": "tests/B-matching-values/B.01.04.01_test_008.ttcn3",
+   "module": "M_B_01_04_01_test_008",
+   "header": "// @requirement: B.1.4.1 -- In the case of a single length value the length attribute matches only if the length of the received field is exactly the specified value."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.4.1-010a",
+   "section": "B.1.4.1",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "It is allowed to use a length restriction in conjunction with the special value omit, however in this case the length attribute has no effect (i.e. with omit it is redundant).",
+   "canonical": "A length restriction MAY be used in conjunction with the special value `omit`.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24234,
+    24236
+   ],
+   "examples": [],
+   "file": "tests/B-matching-values/B.01.04.01_test_009.ttcn3",
+   "module": "M_B_01_04_01_test_009",
+   "header": "// @requirement: B.1.4.1 -- It is allowed to use a length restriction in conjunction with the special value omit, however in this case the length attribute has no effect (i.e. with omit it is redundant)."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.4.1-010b",
+   "section": "B.1.4.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "It is allowed to use a length restriction in conjunction with the special value omit, however in this case the length attribute has no effect (i.e. with omit it is redundant).",
+   "canonical": "A length restriction used in conjunction with `omit` has no effect.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24234,
+    24236
+   ],
+   "examples": [],
+   "file": "tests/B-matching-values/B.01.04.01_test_010.ttcn3",
+   "module": "M_B_01_04_01_test_010",
+   "header": "// @requirement: B.1.4.1 -- It is allowed to use a length restriction in conjunction with the special value omit, however in this case the length attribute has no effect (i.e. with omit it is redundant)."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.4.1-011a",
+   "section": "B.1.4.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "With AnyValueOrNone and ifpresent it places a restriction on the value, if any.",
+   "canonical": "A length restriction used with AnyValueOrNone or with ifpresent restricts the value, if a value is present.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24234,
+    24236
+   ],
+   "examples": [],
+   "file": "tests/B-matching-values/B.01.04.01_test_011.ttcn3",
+   "module": "M_B_01_04_01_test_011",
+   "header": "// @requirement: B.1.4.1 -- With AnyValueOrNone and ifpresent it places a restriction on the value, if any."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.4.1-012a",
+   "section": "B.1.4.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "If a length restriction is added to an AnyElementsOrNone matching mechanism, it constrains the number of elements matched by this matching mechanism.",
+   "canonical": "A length restriction added to AnyElementsOrNone constrains the number of elements matched by AnyElementsOrNone.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24238,
+    24240
+   ],
+   "examples": [
+    {
+     "lines": [
+      24262,
+      24283
+     ],
+     "text": "// Given the message type definition \n  type record MyMessageType3\n  {\n     record of integer field1,\n     record of integer field2,\n     charstring field3,\n     charstring  field4,\n     charstring field5\n  }\n  template MyMessageType3 mw_myTemplate:=\n  { \n     field1 := complement ({4,5},{1,4,8,9}) length (1 .. 6), // any value containing 1, 2, 3,\n       //4, 5 or 6 elements is accepted provided it is not {4,5} or {1,4,8,9} \n     field2 := { 1, * length(2), 3 } // matches the same values as {1, ?, ?, 3 } \n     field3 := \"ab*ab\" length(5),  // matches the character string \"ab*ab\" only \n     field4 := \"ab*ab\" length(13), // never matches as the specific value is of length 5\n                       // and not of length 13\n     Field5 := pattern \"ab*ab\" length(13), \n                   // max length of the AnyElementsOrNone string is 9 characters\n  }"
+    }
+   ],
+   "file": "tests/B-matching-values/B.01.04.01_test_012.ttcn3",
+   "module": "M_B_01_04_01_test_012",
+   "header": "// @requirement: B.1.4.1 -- If a length restriction is added to an AnyElementsOrNone matching mechanism, it constrains the number of elements matched by this matching mechanism."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.4.1-013a",
+   "section": "B.1.4.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The minimum and maximum number of elements matched by the _AnyElementsOrNone matching mechanism is equal to the lower bound and upper bound of the length restriction._",
+   "canonical": "The minimum and maximum number of elements matched by AnyElementsOrNone with a length restriction IS equal to the lower bound and upper bound of the length restriction, respectively.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24238,
+    24240
+   ],
+   "examples": [
+    {
+     "lines": [
+      24262,
+      24283
+     ],
+     "text": "// Given the message type definition \n  type record MyMessageType3\n  {\n     record of integer field1,\n     record of integer field2,\n     charstring field3,\n     charstring  field4,\n     charstring field5\n  }\n  template MyMessageType3 mw_myTemplate:=\n  { \n     field1 := complement ({4,5},{1,4,8,9}) length (1 .. 6), // any value containing 1, 2, 3,\n       //4, 5 or 6 elements is accepted provided it is not {4,5} or {1,4,8,9} \n     field2 := { 1, * length(2), 3 } // matches the same values as {1, ?, ?, 3 } \n     field3 := \"ab*ab\" length(5),  // matches the character string \"ab*ab\" only \n     field4 := \"ab*ab\" length(13), // never matches as the specific value is of length 5\n                       // and not of length 13\n     Field5 := pattern \"ab*ab\" length(13), \n                   // max length of the AnyElementsOrNone string is 9 characters\n  }"
+    }
+   ],
+   "file": "tests/B-matching-values/B.01.04.01_test_013.ttcn3",
+   "module": "M_B_01_04_01_test_013",
+   "header": "// @requirement: B.1.4.1 -- The minimum and maximum number of elements matched by the _AnyElementsOrNone matching mechanism is equal to the lower bound and upper bound of the length restriction._"
+  },
+  {
+   "id": "TTCN3-CORE-B.1.4.1-014a",
+   "section": "B.1.4.1",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "a) The length restriction shall be used only as an attribute of the following matching mechanisms: specific value, combined template, template list, complemented template list, AnyValue, AnyValueOrNone, AnyElement, _AnyElementsOrNone, superset, subset, and pattern._ b) It shall not be used directly with templates and template fields produced by concatenation (see clause 15.11).",
+   "canonical": "The length restriction SHALL be used only as an attribute of the matching mechanisms specific value, combined template, template list, complemented template list, AnyValue, AnyValueOrNone, AnyElement, AnyElementsOrNone, superset, subset and pattern.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24244,
+    24250
+   ],
+   "examples": [
+    {
+     "lines": [
+      24262,
+      24283
+     ],
+     "text": "// Given the message type definition \n  type record MyMessageType3\n  {\n     record of integer field1,\n     record of integer field2,\n     charstring field3,\n     charstring  field4,\n     charstring field5\n  }\n  template MyMessageType3 mw_myTemplate:=\n  { \n     field1 := complement ({4,5},{1,4,8,9}) length (1 .. 6), // any value containing 1, 2, 3,\n       //4, 5 or 6 elements is accepted provided it is not {4,5} or {1,4,8,9} \n     field2 := { 1, * length(2), 3 } // matches the same values as {1, ?, ?, 3 } \n     field3 := \"ab*ab\" length(5),  // matches the character string \"ab*ab\" only \n     field4 := \"ab*ab\" length(13), // never matches as the specific value is of length 5\n                       // and not of length 13\n     Field5 := pattern \"ab*ab\" length(13), \n                   // max length of the AnyElementsOrNone string is 9 characters\n  }"
+    }
+   ],
+   "file": "tests/B-matching-values/B.01.04.01_test_014.ttcn3",
+   "module": "M_B_01_04_01_test_014",
+   "header": "// @requirement: B.1.4.1 -- a) The length restriction shall be used only as an attribute of the following matching mechanisms: specific value, combined template, template list, complemented template list, AnyValue, AnyValueOrNone, AnyElement, _AnyElementsOrNone, superset, subset, and pattern._ b) It shall not be used directly with templates and template fields produced by concatenation (see clause 15.11)."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.4.1-014b",
+   "section": "B.1.4.1",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "a) The length restriction shall be used only as an attribute of the following matching mechanisms: specific value, combined template, template list, complemented template list, AnyValue, AnyValueOrNone, AnyElement, _AnyElementsOrNone, superset, subset, and pattern._ b) It shall not be used directly with templates and template fields produced by concatenation (see clause 15.11).",
+   "canonical": "The length restriction SHALL NOT be used directly with templates and template fields produced by concatenation.",
+   "condition": null,
+   "cross_refs": [
+    "15.11"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24244,
+    24250
+   ],
+   "examples": [],
+   "file": "tests/B-matching-values/B.01.04.01_test_015.ttcn3",
+   "module": "M_B_01_04_01_test_015",
+   "header": "// @requirement: B.1.4.1 -- a) The length restriction shall be used only as an attribute of the following matching mechanisms: specific value, combined template, template list, complemented template list, AnyValue, AnyValueOrNone, AnyElement, _AnyElementsOrNone, superset, subset, and pattern._ b) It shall not be used directly with templates and template fields produced by concatenation (see clause 15.11)."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.4.1-015a",
+   "section": "B.1.4.1",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "If the length of a template or template field produced by concatenation is wished to be restricted, the concatenation shall be enclosed into a pair of parentheses.",
+   "canonical": "If the length of a template or template field produced by concatenation is to be restricted, the concatenation SHALL be enclosed in parentheses.",
+   "condition": "a length restriction is applied to a template or template field produced by concatenation",
+   "cross_refs": [
+    "15.11"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24248,
+    24250
+   ],
+   "examples": [],
+   "file": "tests/B-matching-values/B.01.04.01_test_016.ttcn3",
+   "module": "M_B_01_04_01_test_016",
+   "header": "// @requirement: B.1.4.1 -- If the length of a template or template field produced by concatenation is wished to be restricted, the concatenation shall be enclosed into a pair of parentheses."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.4.1-016a",
+   "section": "B.1.4.1",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "c) The boundaries of the length restriction shall be denoted by expressions which resolve to specific non-negative integer values.",
+   "canonical": "The boundaries of a length restriction SHALL be expressions that resolve to specific non-negative integer values.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24252,
+    24253
+   ],
+   "examples": [],
+   "file": "tests/B-matching-values/B.01.04.01_test_017.ttcn3",
+   "module": "M_B_01_04_01_test_017",
+   "header": "// @requirement: B.1.4.1 -- c) The boundaries of the length restriction shall be denoted by expressions which resolve to specific non-negative integer values."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.4.1-017a",
+   "section": "B.1.4.1",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Alternatively, the keyword infinity can be used as a value for the upper boundary in order to indicate that there is no upper limit of length.",
+   "canonical": "The keyword `infinity` MAY be used as the upper boundary of a length restriction to indicate that there is no upper limit of length.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    24252,
+    24253
+   ],
+   "examples": [],
+   "file": "tests/B-matching-values/B.01.04.01_test_018.ttcn3",
+   "module": "M_B_01_04_01_test_018",
+   "header": "// @requirement: B.1.4.1 -- Alternatively, the keyword infinity can be used as a value for the upper boundary in order to indicate that there is no upper limit of length."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.4.1-018a",
+   "section": "B.1.4.1",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "d) The length specifications for the template shall not conflict with the length for restrictions (if any) of the corresponding type.",
+   "canonical": "The length restriction of a template SHALL NOT conflict with the length restriction (if any) of the corresponding type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "'conflict' is not defined; chose the reading that the template length range shall be within the type length range.",
+    "readings": [
+     "The length range of a template SHALL be a subset of the length range allowed by the corresponding type.",
+     "The length range of a template SHALL NOT be disjoint from (it SHALL overlap with) the length range allowed by the corresponding type."
+    ]
+   },
+   "spec_lines": [
+    24255,
+    24256
+   ],
+   "examples": [],
+   "file": "tests/B-matching-values/B.01.04.01_test_019.ttcn3",
+   "module": "M_B_01_04_01_test_019",
+   "header": "// @requirement: B.1.4.1 -- d) The length specifications for the template shall not conflict with the length for restrictions (if any) of the corresponding type."
+  },
+  {
+   "id": "TTCN3-CORE-B.1.4.1-019a",
+   "section": "B.1.4.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "e) When both the complement and the length restriction matching mechanisms are used for a template or template field, restrictions implied by them shall apply to the template or template field independently.",
+   "canonical": "When both complement and a length restriction are used for a template or template field, the restrictions implied by them SHALL apply to the template or template field independently.",
+   "condition": "both complement and length restriction are used for a template or template field",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "The length restriction is called a 'matching mechanism'; it is a matching attribute (clause B.1.4).",
+    "improper_terms": [
+     {
+      "used": "length restriction matching mechanism",
+      "proper": "length restriction attribute",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    24258,
+    24259
+   ],
+   "examples": [
+    {
+     "lines": [
+      24262,
+      24283
+     ],
+     "text": "// Given the message type definition \n  type record MyMessageType3\n  {\n     record of integer field1,\n     record of integer field2,\n     charstring field3,\n     charstring  field4,\n     charstring field5\n  }\n  template MyMessageType3 mw_myTemplate:=\n  { \n     field1 := complement ({4,5},{1,4,8,9}) length (1 .. 6), // any value containing 1, 2, 3,\n       //4, 5 or 6 elements is accepted provided it is not {4,5} or {1,4,8,9} \n     field2 := { 1, * length(2), 3 } // matches the same values as {1, ?, ?, 3 } \n     field3 := \"ab*ab\" length(5),  // matches the character string \"ab*ab\" only \n     field4 := \"ab*ab\" length(13), // never matches as the specific value is of length 5\n                       // and not of length 13\n     Field5 := pattern \"ab*ab\" length(13), \n                   // max length of the AnyElementsOrNone string is 9 characters\n  }"
+    }
+   ],
+   "file": "tests/B-matching-values/B.01.04.01_test_020.ttcn3",
+   "module": "M_B_01_04_01_test_020",
+   "header": "// @requirement: B.1.4.1 -- e) When both the complement and the length restriction matching mechanisms are used for a template or template field, restrictions implied by them shall apply to the template or template field independently."
+  }
+ ]
+}

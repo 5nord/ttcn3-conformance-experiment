@@ -1,0 +1,32 @@
+// @requirement: 9.0 -- Within every configuration there shall be one (and only one) Main Test Component (MTC).
+// @id: TTCN3-CORE-9.0-010a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_09_00_test_001 {
+
+    type component C {}
+
+    function f_check(C p_mtc) runs on C {
+        if (mtc == p_mtc and self != mtc) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc1 := C.create;
+        var C v_ptc2 := C.create;
+        v_ptc1.start(f_check(self));
+        v_ptc2.start(f_check(self));
+        all component.done;
+        if (self == mtc) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,26 @@
+// @requirement: 9.0 -- The behaviour defined in the body of the test case shall execute on this component.
+// @id: TTCN3-CORE-9.0-013a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_09_00_test_003 {
+
+    type component C {
+        var integer vc_x := 0;
+    }
+
+    function f_mtcValue() runs on C return integer {
+        return vc_x;
+    }
+
+    testcase TC() runs on C {
+        vc_x := 5;
+        if (self == mtc and f_mtcValue() == 5) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

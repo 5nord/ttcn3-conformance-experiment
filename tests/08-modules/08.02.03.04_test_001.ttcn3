@@ -1,0 +1,33 @@
+// @requirement: 8.2.3.4 -- The all keyword may be used to import all visible definitions of the same kind of a module.
+// @id: TTCN3-CORE-8.2.3.4-001a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_02_03_04_test_001 {
+
+    import from M_08_02_03_04_test_001_A {
+        type all;
+        const all
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyInt v_a := c_a;
+        var MyStr v_b := c_b;
+        if (v_a == 1 and v_b == "b") {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_03_04_test_001_A {
+    type integer MyInt;
+    type charstring MyStr;
+    const integer c_a := 1;
+    const charstring c_b := "b";
+}

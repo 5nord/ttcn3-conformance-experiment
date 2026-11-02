@@ -1,0 +1,33 @@
+// @requirement: 20.2 -- To avoid side effects that cause an inconsistency between the actual snapshot and the state of the component or introduce indeterminism in the evaluation of the following alt branches or the re-evaluation of the same alt branch, the restrictions imposed on the contents of functions called from special places (clause 16.1.4) shall apply to expressions occurring in the matching part of an alternative.
+// @id: TTCN3-CORE-20.2-076a
+// @verdict: pass reject
+module M_20_02_test_056 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p;
+    }
+
+    function f_value() runs on C return integer {
+        p.send(integer:1);
+        return 1;
+    }
+
+    testcase TC() runs on C {
+        alt {
+            [] p.receive(integer:f_value()) { // error: matching part calls function using send
+                setverdict(pass);
+            }
+            [else] {
+                setverdict(pass);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

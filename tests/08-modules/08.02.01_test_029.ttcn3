@@ -1,0 +1,18 @@
+// @requirement: 8.2.1 -- g) Module parameters shall not be used in type or array definitions.
+// @id: TTCN3-CORE-8.2.1-027a
+// @verdict: pass reject
+module M_08_02_01_test_029 {
+
+    modulepar integer mp_size := 3;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_array[mp_size]; // error: module parameter used in an array definition
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

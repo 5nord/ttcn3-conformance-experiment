@@ -1,0 +1,1270 @@
+{
+ "part": "22.part2",
+ "chapter": "22",
+ "chapter_file": "22-communication-operations",
+ "title": "Communication operations",
+ "sections": {
+  "22.1.4.0": {
+   "title": "General",
+   "start": 17451
+  },
+  "22.1.4.1": {
+   "title": "General format of the sending operations",
+   "start": 17465
+  },
+  "22.1.4.2": {
+   "title": "General format of the receiving operations",
+   "start": 17531
+  },
+  "22.2.0": {
+   "title": "General",
+   "start": 17624
+  },
+  "22.2.1": {
+   "title": "The Send operation",
+   "start": 17636
+  }
+ },
+ "lines": [
+  17453,
+  17731
+ ],
+ "units": [
+  {
+   "id": "22.1.4.0-s001",
+   "section": "22.1.4.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Operations such as send and call are used for the exchange of information among test components and between an SUT and test components.",
+   "lines": [
+    17453,
+    17454
+   ]
+  },
+  {
+   "id": "22.1.4.0-s002",
+   "section": "22.1.4.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "For explaining the general format of these operations, they can be structured into two groups:",
+   "lines": [
+    17453,
+    17454
+   ]
+  },
+  {
+   "id": "22.1.4.0-s003",
+   "section": "22.1.4.0",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "a) a test component sends a message (send operation), calls a procedure (call operation), or replies to an accepted call (reply operation) or raises an exception (raise operation).",
+   "lines": [
+    17456,
+    17458
+   ]
+  },
+  {
+   "id": "22.1.4.0-s004",
+   "section": "22.1.4.0",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "These actions are collectively referred to as sending operations;",
+   "lines": [
+    17456,
+    17458
+   ]
+  },
+  {
+   "id": "22.1.4.0-s005",
+   "section": "22.1.4.0",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "b) a component receives a message (receive operation), awaits a message (trigger operation),accepts a procedure call (getcall operation), receives a reply for a previously called procedure (getreply operation) or catches an exception (catch operation).",
+   "lines": [
+    17460,
+    17463
+   ]
+  },
+  {
+   "id": "22.1.4.0-s006",
+   "section": "22.1.4.0",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "These actions are collectively referred to as receiving _operations._",
+   "lines": [
+    17460,
+    17463
+   ]
+  },
+  {
+   "id": "22.1.4.1-s001",
+   "section": "22.1.4.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Sending operations consist of a send part and, in the case of a blocking procedure-based call operation, a response and exception handling part.",
+   "lines": [
+    17467,
+    17468
+   ]
+  },
+  {
+   "id": "22.1.4.1-s002",
+   "section": "22.1.4.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The send part:",
+   "lines": [
+    17470,
+    17470
+   ]
+  },
+  {
+   "id": "22.1.4.1-s003",
+   "section": "22.1.4.1",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "specifies the port at which the specified operation shall take place;",
+   "lines": [
+    17472,
+    17472
+   ]
+  },
+  {
+   "id": "22.1.4.1-s004",
+   "section": "22.1.4.1",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "defines the message or procedure call to be transmitted;",
+   "lines": [
+    17474,
+    17474
+   ]
+  },
+  {
+   "id": "22.1.4.1-s005",
+   "section": "22.1.4.1",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "gives an (optional) address part that uniquely identifies one or more communication partners to which a message, call, reply or exception shall be sent.",
+   "lines": [
+    17476,
+    17477
+   ]
+  },
+  {
+   "id": "22.1.4.1-s006",
+   "section": "22.1.4.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The port name, operation name and value shall be present in all sending operations.",
+   "lines": [
+    17479,
+    17480
+   ]
+  },
+  {
+   "id": "22.1.4.1-s007",
+   "section": "22.1.4.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The address part (denoted by the to keyword) is optional and need only be specified in cases of one-to-many connections where:",
+   "lines": [
+    17479,
+    17480
+   ]
+  },
+  {
+   "id": "22.1.4.1-s008",
+   "section": "22.1.4.1",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "unicast communication is used and one receiving entity shall be explicitly identified;",
+   "lines": [
+    17482,
+    17482
+   ]
+  },
+  {
+   "id": "22.1.4.1-s009",
+   "section": "22.1.4.1",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "multicast communication is used and a set of receiving entities has to be explicitly identified;",
+   "lines": [
+    17484,
+    17484
+   ]
+  },
+  {
+   "id": "22.1.4.1-s010",
+   "section": "22.1.4.1",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "broadcast communication is used and all entities connected to the specified port have to be addressed.",
+   "lines": [
+    17486,
+    17486
+   ]
+  },
+  {
+   "id": "22.1.4.1-s011",
+   "section": "22.1.4.1",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 1:",
+   "lines": [
+    17490,
+    17490
+   ]
+  },
+  {
+   "id": "22.1.4.1-s012",
+   "section": "22.1.4.1",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "**(Optional) response** **Send part**",
+   "lines": [
+    17492,
+    17493
+   ]
+  },
+  {
+   "id": "22.1.4.1-s013",
+   "section": "22.1.4.1",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "**and exception** **Port and operation** **Value part** **(Optional) address part** **handling part**",
+   "lines": [
+    17495,
+    17496
+   ]
+  },
+  {
+   "id": "22.1.4.1-s014",
+   "section": "22.1.4.1",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "myP1.send (v_myVariable + v_yourVariable - 2) to v_myPartner;",
+   "lines": [
+    17497,
+    17499
+   ]
+  },
+  {
+   "id": "22.1.4.1-s015",
+   "section": "22.1.4.1",
+   "kind": "prose",
+   "context": "Examples",
+   "normative": true,
+   "text": "Response and exception handling is only needed in cases of procedure-based communication.",
+   "lines": [
+    17501,
+    17504
+   ]
+  },
+  {
+   "id": "22.1.4.1-s016",
+   "section": "22.1.4.1",
+   "kind": "prose",
+   "context": "Examples",
+   "normative": true,
+   "text": "The response and exception handling part of the call operation is optional and is required for cases where the called procedure returns a value or has out or inout parameters whose values are needed within the calling component and for cases where the called procedure may raise exceptions which need to be handled by the calling component.",
+   "lines": [
+    17501,
+    17504
+   ]
+  },
+  {
+   "id": "22.1.4.1-s017",
+   "section": "22.1.4.1",
+   "kind": "prose",
+   "context": "Examples",
+   "normative": true,
+   "text": "The response and exception handling part of the call operation makes use of getreply and catch operations to provide the required functionality.",
+   "lines": [
+    17506,
+    17507
+   ]
+  },
+  {
+   "id": "22.1.4.1-s018",
+   "section": "22.1.4.1",
+   "kind": "table-row",
+   "context": "Examples",
+   "normative": true,
+   "text": "Send part: Port and operation; Col2: Value part; Col3: (Optional) address part; (Optional) response and exception: handling part",
+   "lines": [
+    17511,
+    17511
+   ]
+  },
+  {
+   "id": "22.1.4.1-s019",
+   "section": "22.1.4.1",
+   "kind": "table-row",
+   "context": "Examples",
+   "normative": true,
+   "text": "Send part: myP1.send; Col2: (v_myVariable + v_yourVariable - 2); Col3: to v_myPartner;",
+   "lines": [
+    17512,
+    17512
+   ]
+  },
+  {
+   "id": "22.1.4.1-s020",
+   "section": "22.1.4.1",
+   "kind": "table-header",
+   "context": "Examples",
+   "normative": true,
+   "text": "Send part; Col2; Col3; (Optional) response and exception",
+   "lines": [
+    17509,
+    17509
+   ]
+  },
+  {
+   "id": "22.1.4.1-s021",
+   "section": "22.1.4.1",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 2:",
+   "lines": [
+    17519,
+    17519
+   ]
+  },
+  {
+   "id": "22.1.4.1-s022",
+   "section": "22.1.4.1",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "**Send part** **(Optional) response and exception handling part** **Port and** **Value part** **(Optional)** **operation** **address part**",
+   "lines": [
+    17521,
+    17523
+   ]
+  },
+  {
+   "id": "22.1.4.1-s023",
+   "section": "22.1.4.1",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "myP1.call (MyProc:{s_myVar1}) {\n                                 [] myP1.getreply(MyProc:{s_myVar2}) {}\n                                 [] myP1.catch(MyProc, ExceptionOne) {}\n                               }",
+   "lines": [
+    17524,
+    17529
+   ]
+  },
+  {
+   "id": "22.1.4.2-s001",
+   "section": "22.1.4.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "A receiving operation consists of a receive part and an (optional) assignment part.",
+   "lines": [
+    17533,
+    17533
+   ]
+  },
+  {
+   "id": "22.1.4.2-s002",
+   "section": "22.1.4.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The receive part:",
+   "lines": [
+    17535,
+    17535
+   ]
+  },
+  {
+   "id": "22.1.4.2-s003",
+   "section": "22.1.4.2",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "a) specifies the port at which the operation shall take place;",
+   "lines": [
+    17537,
+    17537
+   ]
+  },
+  {
+   "id": "22.1.4.2-s004",
+   "section": "22.1.4.2",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "b) defines an optional matching part which specifies the acceptable input which will match the statement;",
+   "lines": [
+    17539,
+    17539
+   ]
+  },
+  {
+   "id": "22.1.4.2-s005",
+   "section": "22.1.4.2",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "c) gives an optional address expression that uniquely identifies the communication partner (in case of one-to-many connections).",
+   "lines": [
+    17541,
+    17542
+   ]
+  },
+  {
+   "id": "22.1.4.2-s006",
+   "section": "22.1.4.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The port name and operation name shall be present.",
+   "lines": [
+    17544,
+    17547
+   ]
+  },
+  {
+   "id": "22.1.4.2-s007",
+   "section": "22.1.4.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The matching part needs only be present if the content of the received communication shall be restricted.",
+   "lines": [
+    17544,
+    17547
+   ]
+  },
+  {
+   "id": "22.1.4.2-s008",
+   "section": "22.1.4.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The identification of the communication partner (denoted by the from keyword) is optional and need only be specified in cases of one-to-many connections where the receiving entity needs to be explicitly identified.",
+   "lines": [
+    17544,
+    17547
+   ]
+  },
+  {
+   "id": "22.1.4.2-s009",
+   "section": "22.1.4.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The assignment part in a receiving operation is optional.",
+   "lines": [
+    17549,
+    17553
+   ]
+  },
+  {
+   "id": "22.1.4.2-s010",
+   "section": "22.1.4.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "For message-based ports it is used when it is required to store received messages.",
+   "lines": [
+    17549,
+    17553
+   ]
+  },
+  {
+   "id": "22.1.4.2-s011",
+   "section": "22.1.4.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "In the case of procedure-based ports it is used for storing the in and inout parameters of an accepted call, for storing the return value or for storing exceptions.",
+   "lines": [
+    17549,
+    17553
+   ]
+  },
+  {
+   "id": "22.1.4.2-s012",
+   "section": "22.1.4.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "For the message or parameter value assignment part strong typing is not required, e.g. the variable used for storing a message shall be type-compatible to the type of the incoming message.",
+   "lines": [
+    17549,
+    17553
+   ]
+  },
+  {
+   "id": "22.1.4.2-s013",
+   "section": "22.1.4.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "In addition, the assignment part may also be used to assign the sender address of a message, exception, reply or call to a variable.",
+   "lines": [
+    17555,
+    17558
+   ]
+  },
+  {
+   "id": "22.1.4.2-s014",
+   "section": "22.1.4.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "This is useful for one-to-many connections where, for example, the same message or call can be received from different components, but the message, reply or exception shall be sent back to the original sending component.",
+   "lines": [
+    17555,
+    17558
+   ]
+  },
+  {
+   "id": "22.1.4.2-s015",
+   "section": "22.1.4.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "For receiving operations using the any port from a port array construction (see clause 22.2.2), the assignment part may also be used to store the indices that identify the specific port instance where the receiving operation matched.",
+   "lines": [
+    17560,
+    17561
+   ]
+  },
+  {
+   "id": "22.1.4.2-s016",
+   "section": "22.1.4.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "If a receiving operation is used as a stand-alone statement, the @nodefault modifier can be placed before it to indicate that the implicit alt statement containing the operation as an alternative shall have the @nodefault modifier.",
+   "lines": [
+    17563,
+    17564
+   ]
+  },
+  {
+   "id": "22.1.4.2-s017",
+   "section": "22.1.4.2",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE:",
+   "lines": [
+    17566,
+    17566
+   ]
+  },
+  {
+   "id": "22.1.4.2-s018",
+   "section": "22.1.4.2",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "**Receive part** **(Optional) assignment part** **Port and** **(Optional)** **(Optional)** **(Optional)** **(Optional)** **(Optional) sender** **operation** **Matching part** **address** **value** **parameter** **value assignment**",
+   "lines": [
+    17568,
+    17570
+   ]
+  },
+  {
+   "id": "22.1.4.2-s019",
+   "section": "22.1.4.2",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "**expression** **assignment** **value**",
+   "lines": [
+    17572,
+    17572
+   ]
+  },
+  {
+   "id": "22.1.4.2-s020",
+   "section": "22.1.4.2",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "**assignment**",
+   "lines": [
+    17574,
+    17574
+   ]
+  },
+  {
+   "id": "22.1.4.2-s021",
+   "section": "22.1.4.2",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "myP1.getreply (AProc:{?} value 5) ->  param (v_v1) sender v_aPeer",
+   "lines": [
+    17575,
+    17577
+   ]
+  },
+  {
+   "id": "22.1.4.2-s022",
+   "section": "22.1.4.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "**Receive part** **(Optional) assignment part** **Port and** **(Optional)** **(Optional)** **(Optional) value** **(Optional)** **(Optional)** **operation** **Matching part** **address** **assignment** **parameter** **sender value**",
+   "lines": [
+    17579,
+    17581
+   ]
+  },
+  {
+   "id": "22.1.4.2-s023",
+   "section": "22.1.4.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "**expression** **value** **assignment**",
+   "lines": [
+    17583,
+    17583
+   ]
+  },
+  {
+   "id": "22.1.4.2-s024",
+   "section": "22.1.4.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "**assignment**",
+   "lines": [
+    17585,
+    17585
+   ]
+  },
+  {
+   "id": "22.1.4.2-s025",
+   "section": "22.1.4.2",
+   "kind": "code",
+   "context": null,
+   "normative": true,
+   "text": "myP2.receive (mw_myTemplate(5,7)) from v_aPeer -> value v_myVar",
+   "lines": [
+    17586,
+    17588
+   ]
+  },
+  {
+   "id": "22.1.4.2-s026",
+   "section": "22.1.4.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Send part: Port and operation; Col2: Value part; Col3: (Optional) address part",
+   "lines": [
+    17592,
+    17592
+   ]
+  },
+  {
+   "id": "22.1.4.2-s027",
+   "section": "22.1.4.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Send part: myP1.call; Col2: (MyProc:{s_myVar1}); (Optional) response and exception handling part: { [] myP1.getreply(MyProc:{s_myVar2}) {} [] myP1.catch(MyProc, ExceptionOne) {} }",
+   "lines": [
+    17593,
+    17593
+   ]
+  },
+  {
+   "id": "22.1.4.2-s028",
+   "section": "22.1.4.2",
+   "kind": "table-header",
+   "context": null,
+   "normative": true,
+   "text": "Send part; Col2; Col3; (Optional) response and exception handling part",
+   "lines": [
+    17590,
+    17590
+   ]
+  },
+  {
+   "id": "22.1.4.2-s029",
+   "section": "22.1.4.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Receive part: Port and operation; Col2: (Optional) Matching part; Col3: (Optional) address expression; Col4: ->; (Optional) assignment part: (Optional) value assignment; Col6: (Optional) parameter value assignment; Col7: (Optional) sender value assignment",
+   "lines": [
+    17597,
+    17597
+   ]
+  },
+  {
+   "id": "22.1.4.2-s030",
+   "section": "22.1.4.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Receive part: myP1.getreply; Col2: (AProc:{?} value 5); Col6: param (v_v1); Col7: sender v_aPeer",
+   "lines": [
+    17598,
+    17598
+   ]
+  },
+  {
+   "id": "22.1.4.2-s031",
+   "section": "22.1.4.2",
+   "kind": "table-header",
+   "context": null,
+   "normative": true,
+   "text": "Receive part; Col2; Col3; Col4; (Optional) assignment part; Col6; Col7",
+   "lines": [
+    17595,
+    17595
+   ]
+  },
+  {
+   "id": "22.1.4.2-s032",
+   "section": "22.1.4.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Receive part: Port and operation; Col2: (Optional) Matching part; Col3: (Optional) address expression; Col4: ->; (Optional) assignment part: (Optional) value assignment; Col6: (Optional) parameter value assignment; Col7: (Optional) sender value assignment",
+   "lines": [
+    17602,
+    17602
+   ]
+  },
+  {
+   "id": "22.1.4.2-s033",
+   "section": "22.1.4.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Receive part: myP2.receive; Col2: (mw_myTemplate(5,7)); Col3: from v_aPeer; (Optional) assignment part: value v_myVar",
+   "lines": [
+    17603,
+    17603
+   ]
+  },
+  {
+   "id": "22.1.4.2-s034",
+   "section": "22.1.4.2",
+   "kind": "table-header",
+   "context": null,
+   "normative": true,
+   "text": "Receive part; Col2; Col3; Col4; (Optional) assignment part; Col6; Col7",
+   "lines": [
+    17600,
+    17600
+   ]
+  },
+  {
+   "id": "22.1.4.2-s035",
+   "section": "22.1.4.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "**Receive part** **(Optional) assignment part** **Port and** **(Optional)** **(Optional)** **(Optional)** **(Optional)** **(Optional)** **(Optional)** **operation** **Matching part** **address** **value** **parameter** **sender** **port index**",
+   "lines": [
+    17610,
+    17612
+   ]
+  },
+  {
+   "id": "22.1.4.2-s036",
+   "section": "22.1.4.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "**expression** **assignment** **value** **value** **assignment**",
+   "lines": [
+    17614,
+    17614
+   ]
+  },
+  {
+   "id": "22.1.4.2-s037",
+   "section": "22.1.4.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "**assignment** **assignment**",
+   "lines": [
+    17616,
+    17616
+   ]
+  },
+  {
+   "id": "22.1.4.2-s038",
+   "section": "22.1.4.2",
+   "kind": "code",
+   "context": null,
+   "normative": true,
+   "text": "any from (mw_myTemplate(5,7))  ->  @index\np.receive value v_i",
+   "lines": [
+    17617,
+    17620
+   ]
+  },
+  {
+   "id": "22.2.0-s001",
+   "section": "22.2.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The operations for message-based communication via asynchronous ports are summarized in table 23.",
+   "lines": [
+    17626,
+    17626
+   ]
+  },
+  {
+   "id": "22.2.0-s002",
+   "section": "22.2.0",
+   "kind": "caption",
+   "context": null,
+   "normative": false,
+   "text": "Table 23: Overview of TTCN-3 message-based communication",
+   "lines": [
+    17628,
+    17628
+   ]
+  },
+  {
+   "id": "22.2.0-s003",
+   "section": "22.2.0",
+   "kind": "table-text",
+   "context": null,
+   "normative": true,
+   "text": "**Communication operation** **Keyword** Send message **send** Receive message **receive** Trigger on message **trigger** Check message received **check**",
+   "lines": [
+    17630,
+    17634
+   ]
+  },
+  {
+   "id": "22.2.1-s001",
+   "section": "22.2.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The send operation is used to place a message on an outgoing message port.",
+   "lines": [
+    17638,
+    17638
+   ]
+  },
+  {
+   "id": "22.2.1-s002",
+   "section": "22.2.1",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "ObjectReference \".\" send \"(\" TemplateInstance \")\" \n  [ to Address ]",
+   "lines": [
+    17641,
+    17644
+   ]
+  },
+  {
+   "id": "22.2.1-s003",
+   "section": "22.2.1",
+   "kind": "note",
+   "context": "Syntactical Structure",
+   "normative": false,
+   "text": "NOTE: _Address may be an AddressRef, a list of AddressRef-s or \"all component\"._",
+   "lines": [
+    17646,
+    17646
+   ]
+  },
+  {
+   "id": "22.2.1-s004",
+   "section": "22.2.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The send operation places a message on an outgoing message port.",
+   "lines": [
+    17650,
+    17651
+   ]
+  },
+  {
+   "id": "22.2.1-s005",
+   "section": "22.2.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The message may be specified by referencing a defined template or can be defined as an in-line template.",
+   "lines": [
+    17650,
+    17651
+   ]
+  },
+  {
+   "id": "22.2.1-s006",
+   "section": "22.2.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "**Sending unicast, multicast or broadcast**",
+   "lines": [
+    17653,
+    17653
+   ]
+  },
+  {
+   "id": "22.2.1-s007",
+   "section": "22.2.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Unicast, multicast and broadcast communication can be determined by the optional to clause in the send operation.",
+   "lines": [
+    17655,
+    17657
+   ]
+  },
+  {
+   "id": "22.2.1-s008",
+   "section": "22.2.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "A to clause can be omitted in case of a one-to-one connection where unicast communication is used and the message receiver is uniquely determined by the test system structure.",
+   "lines": [
+    17655,
+    17657
+   ]
+  },
+  {
+   "id": "22.2.1-s009",
+   "section": "22.2.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Unicast communication is specified, if the to clause addresses one communication partner only.",
+   "lines": [
+    17659,
+    17661
+   ]
+  },
+  {
+   "id": "22.2.1-s010",
+   "section": "22.2.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Multicast communication is used, if the to clause includes a list of communication partners.",
+   "lines": [
+    17659,
+    17661
+   ]
+  },
+  {
+   "id": "22.2.1-s011",
+   "section": "22.2.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Broadcast is defined by using the to clause with all component keyword.",
+   "lines": [
+    17659,
+    17661
+   ]
+  },
+  {
+   "id": "22.2.1-s012",
+   "section": "22.2.1",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clause 5 and shown in table 16, the following restrictions apply:",
+   "lines": [
+    17665,
+    17666
+   ]
+  },
+  {
+   "id": "22.2.1-s013",
+   "section": "22.2.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) The TemplateInstance (and all parts of it) shall have a specific value i.e. the use of matching mechanisms such as AnyValue is not allowed.",
+   "lines": [
+    17668,
+    17669
+   ]
+  },
+  {
+   "id": "22.2.1-s014",
+   "section": "22.2.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "b) When defining the message in-line, the optional type part shall be used if there is ambiguity of the type of the message being sent.",
+   "lines": [
+    17671,
+    17672
+   ]
+  },
+  {
+   "id": "22.2.1-s015",
+   "section": "22.2.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "c) The send operation shall only be used on message-based ports and the type of the template to be sent shall be in the list of outgoing types of the port type definition.",
+   "lines": [
+    17674,
+    17675
+   ]
+  },
+  {
+   "id": "22.2.1-s016",
+   "section": "22.2.1",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Receive part: Port and operation; Col2: (Optional) Matching part; Col3: (Optional) address expression; Col4: ->; (Optional) assignment part: (Optional) value assignment; Col6: (Optional) parameter value assignment; Col7: (Optional) sender value assignment; Col8: (Optional) port index assignment",
+   "lines": [
+    17679,
+    17679
+   ]
+  },
+  {
+   "id": "22.2.1-s017",
+   "section": "22.2.1",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Receive part: any from p.receive; Col2: (mw_myTemplate(5,7)); Col8: @index value v_i",
+   "lines": [
+    17680,
+    17680
+   ]
+  },
+  {
+   "id": "22.2.1-s018",
+   "section": "22.2.1",
+   "kind": "table-header",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Receive part; Col2; Col3; Col4; (Optional) assignment part; Col6; Col7; Col8",
+   "lines": [
+    17677,
+    17677
+   ]
+  },
+  {
+   "id": "22.2.1-s019",
+   "section": "22.2.1",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Communication operation: Send message; Keyword: send",
+   "lines": [
+    17684,
+    17684
+   ]
+  },
+  {
+   "id": "22.2.1-s020",
+   "section": "22.2.1",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Communication operation: Receive message; Keyword: receive",
+   "lines": [
+    17685,
+    17685
+   ]
+  },
+  {
+   "id": "22.2.1-s021",
+   "section": "22.2.1",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Communication operation: Trigger on message; Keyword: trigger",
+   "lines": [
+    17686,
+    17686
+   ]
+  },
+  {
+   "id": "22.2.1-s022",
+   "section": "22.2.1",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Communication operation: Check message received; Keyword: check",
+   "lines": [
+    17687,
+    17687
+   ]
+  },
+  {
+   "id": "22.2.1-s023",
+   "section": "22.2.1",
+   "kind": "table-header",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Communication operation; Keyword",
+   "lines": [
+    17682,
+    17682
+   ]
+  },
+  {
+   "id": "22.2.1-s024",
+   "section": "22.2.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "d) A to clause shall be present in case of one-to-many connections.",
+   "lines": [
+    17694,
+    17694
+   ]
+  },
+  {
+   "id": "22.2.1-s025",
+   "section": "22.2.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "e) All AddressRef items in the to clause shall be of type address, component or of the address type bound to the port type (see clause 6.2.9) of the port instance referenced in the send operation.",
+   "lines": [
+    17696,
+    17698
+   ]
+  },
+  {
+   "id": "22.2.1-s026",
+   "section": "22.2.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "No AddressRef in the to clause shall contain the special value null at the time of the operation.",
+   "lines": [
+    17696,
+    17698
+   ]
+  },
+  {
+   "id": "22.2.1-s027",
+   "section": "22.2.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "f) Applying a send operation to an unmapped or disconnected port shall cause a test case error.",
+   "lines": [
+    17700,
+    17700
+   ]
+  },
+  {
+   "id": "22.2.1-s028",
+   "section": "22.2.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "g) The ObjectReference shall be of a port type.",
+   "lines": [
+    17702,
+    17702
+   ]
+  },
+  {
+   "id": "22.2.1-s029",
+   "section": "22.2.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "h) _TemplateInstance shall be of a data type._",
+   "lines": [
+    17704,
+    17704
+   ]
+  },
+  {
+   "id": "22.2.1-s030",
+   "section": "22.2.1",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 1: Simple send (receiver is determined from the test configuration)",
+   "lines": [
+    17708,
+    17708
+   ]
+  },
+  {
+   "id": "22.2.1-s031",
+   "section": "22.2.1",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "myPort.send(m_myTemplate(5,v_myVar)); // Sends the template m_myTemplate with the actual\n                          // parameters 5 and v_myVar via myPort.\n  myPort.send(5);  // Sends the integer value 5 (which is an in-line template)",
+   "lines": [
+    17709,
+    17713
+   ]
+  },
+  {
+   "id": "22.2.1-s032",
+   "section": "22.2.1",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 2: Sending with explicit to clause",
+   "lines": [
+    17715,
+    17715
+   ]
+  },
+  {
+   "id": "22.2.1-s033",
+   "section": "22.2.1",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "myPort.send(charstring:\"My string\") to v_myPartner; \n                          // Sends the string \"My string\" to a component with a\n                          // component reference stored in variable v_myPartner\n  myPCO.send(v_myVariable + v_yourVariable - 2) to v_myPartner;\n                     // Sends the result of the arithmetic expression to v_myPartner.\n  myPCO2.send(m_myTemplate) to (v_myPeerOne, v_myPeerTwo);\n                     // Specifies a multicast communication, where the value of\n                     // m_myTemplate is sent to the two component references stored\n                     // in the variables v_myPeerOne and v_myPeerTwo.\n  myPCO3.send(m_myTemplate) to all component;\n                     // Broadcast communication: the value of m_mytemplate is sent to\n                     // all components which can be addressed via this port. If\n                     // myPCO3 is a mapped port, the components may reside inside\n                     // the SUT.",
+   "lines": [
+    17716,
+    17731
+   ]
+  }
+ ]
+}

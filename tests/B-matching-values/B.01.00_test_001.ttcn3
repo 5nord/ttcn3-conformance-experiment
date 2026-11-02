@@ -1,0 +1,30 @@
+// @requirement: B.1.0 -- This annex specifies the matching mechanisms that may be used in TTCN-3 templates (and only in templates).
+// @id: TTCN3-CORE-B.1.0-001a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_00_test_001 {
+
+    type component C {}
+
+    type record R {
+        integer f1,
+        charstring f2
+    }
+
+    template R mw_r := {
+        f1 := (1 .. 10),
+        f2 := ?
+    }
+
+    testcase TC() runs on C {
+        var R v_r := { f1 := 5, f2 := "abc" };
+        if (match(v_r, mw_r)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

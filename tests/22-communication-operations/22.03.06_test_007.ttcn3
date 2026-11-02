@@ -1,0 +1,19 @@
+// @requirement: 22.3.6 -- This restriction shall be denoted by using the from keyword followed by a specification of an address or component reference, a list of address or component references or any component.
+// @id: TTCN3-CORE-22.3.6-009a
+// @verdict: pass accept, noexecution
+module M_22_03_06_test_007 {
+
+    signature S() exception (integer);
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    function f_catch(C p_peer1, C p_peer2) runs on C {
+        p.catch(S, integer:?) from p_peer1;
+        p.catch(S, integer:?) from (p_peer1, p_peer2);
+        p.catch(S, integer:?) from any component;
+    }
+}

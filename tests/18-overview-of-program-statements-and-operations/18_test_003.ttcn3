@@ -1,0 +1,23 @@
+// @requirement: 18 -- The individual statements in the sequence shall be separated by the delimiter ";".
+// @id: TTCN3-CORE-18-008a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_18_test_003 {
+
+    type component C {
+        timer T;
+    }
+
+    testcase TC() runs on C {
+        var integer v_x := 0;
+        v_x := 1; T.start(0.1); log("Done!"); v_x := v_x + 1;
+        if (v_x == 2 and T.running) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

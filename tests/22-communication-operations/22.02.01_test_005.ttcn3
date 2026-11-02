@@ -1,0 +1,59 @@
+// @requirement: 22.2.1 -- Unicast, multicast and broadcast communication can be determined by the optional to clause in the send operation.
+// @id: TTCN3-CORE-22.2.1-007a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_02_01_test_005 {
+
+    type port P message { inout integer }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    function f_expect(integer p_value) runs on C {
+        T.start;
+        alt {
+            [] p.receive(p_value) { T.stop; }
+            [] p.receive { setverdict(fail); stop; }
+            [] T.timeout { setverdict(fail); stop; }
+        }
+    }
+
+    function f_ptc1() runs on C {
+        f_expect(1);
+        f_expect(2);
+        f_expect(3);
+        setverdict(pass);
+    }
+
+    function f_ptc2() runs on C {
+        f_expect(2);
+        f_expect(3);
+        setverdict(pass);
+    }
+
+    function f_ptc3() runs on C {
+        f_expect(3);
+        setverdict(pass);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc1 := C.create;
+        var C v_ptc2 := C.create;
+        var C v_ptc3 := C.create;
+        connect(mtc:p, v_ptc1:p);
+        connect(mtc:p, v_ptc2:p);
+        connect(mtc:p, v_ptc3:p);
+        v_ptc1.start(f_ptc1());
+        v_ptc2.start(f_ptc2());
+        v_ptc3.start(f_ptc3());
+        p.send(1) to v_ptc1;
+        p.send(2) to (v_ptc1, v_ptc2);
+        p.send(3) to all component;
+        all component.done;
+    }
+
+    control {
+        execute(TC());
+    }
+}

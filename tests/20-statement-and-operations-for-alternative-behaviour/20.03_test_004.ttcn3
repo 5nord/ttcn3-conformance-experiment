@@ -1,0 +1,46 @@
+// @requirement: 20.3 -- If a repeat statement is used in a top alternative in an altstep definition, it causes a new snapshot and the re-evaluation of the alt statement from which the altstep has been called.
+// @id: TTCN3-CORE-20.3-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_03_test_004 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p1, p2;
+        var integer v_count := 0;
+    }
+
+    altstep a_step() runs on C {
+        [] p2.receive(integer:1) {
+            v_count := v_count + 1;
+            repeat;
+        }
+    }
+
+    testcase TC() runs on C {
+        timer T := 1.0;
+        connect(self:p1, self:p2);
+        p1.send(integer:1);
+        p1.send(integer:2);
+        T.start;
+        alt {
+            [] p2.receive(integer:2) {
+                if (v_count == 1) {
+                    setverdict(pass);
+                } else {
+                    setverdict(fail);
+                }
+            }
+            [] a_step();
+            [] T.timeout {
+                setverdict(fail);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

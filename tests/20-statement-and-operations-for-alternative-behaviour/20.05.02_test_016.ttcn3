@@ -1,0 +1,23 @@
+// @requirement: 20.5.2 -- e) The ObjectReference shall refer to a default that is marked as suspended in the list of defaults.
+// @id: TTCN3-CORE-20.5.2-018a
+// @verdict: pass accept, ttcn3verdict:error
+module M_20_05_02_test_016 {
+
+    type component C {
+        timer T;
+    }
+
+    altstep a_1() runs on C {
+        [] T.timeout {}
+    }
+
+    testcase TC() runs on C {
+        var default v_def := activate(a_1());
+        setverdict(pass);
+        activate(v_def); // error: referenced default is active, not suspended
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,25 @@
+// @requirement: 6.2.15.4 -- When used at the right-hand side of an assignment, the notation returns a boolean value indicating if the _AnyElementsOrNone_ is present within the map template.
+// @id: TTCN3-CORE-6.2.15.4-011a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_15_04_test_010 {
+
+    type map from charstring to integer MyMap;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template MyMap v_with := { *, ["a"] := 1 };
+        var template MyMap v_without := { ["a"] := 1 };
+        var boolean v_present := v_with[*];
+        var boolean v_absent := v_without[*];
+        if (v_present == true and v_absent == false) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

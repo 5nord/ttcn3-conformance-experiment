@@ -1,0 +1,26 @@
+// @requirement: 7.1.8.1 -- the value false otherwise. The ispresent operator returns:
+// @id: TTCN3-CORE-7.1.8.1-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_07_01_08_01_test_003 {
+
+    type record R { integer f1 optional, integer f2 optional }
+
+    type component C {}
+
+    template R mw_t2 := { f1 := omit, f2 := (5, 7) ifpresent };
+    template R mw_t3 := { f1 := *, f2 := ? };
+
+    testcase TC() runs on C {
+        var R v_r := { f1 := 1, f2 := omit };
+        if (not ispresent(v_r.f2) and not ispresent(mw_t2.f1) and not ispresent(mw_t2.f2) and
+            not ispresent(mw_t3.f1)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

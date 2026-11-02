@@ -1,0 +1,23 @@
+// @requirement: 19.3.1 -- The expression may be preceded by an _init statement (variable declaration or assignment), which executes before the expression is evaluated.
+// @id: TTCN3-CORE-19.3.1-007b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_03_01_test_006 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_a := 0;
+        select (v_a := 5; v_a * 2) {
+            case (10) {
+                setverdict(pass);
+            }
+            case else {
+                setverdict(fail);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

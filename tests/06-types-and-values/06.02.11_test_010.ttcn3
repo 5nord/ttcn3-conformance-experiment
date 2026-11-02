@@ -1,0 +1,26 @@
+// @requirement: 6.2.11 -- In addition, the special value null is available to indicate an undefined component reference, e.g. for the initialization of variables to handle component references.
+// @id: TTCN3-CORE-6.2.11-007a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_11_test_010 {
+
+    type component C {
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := null;
+        if (v_ptc == null) {
+            v_ptc := C.create;
+            if (v_ptc != null) {
+                setverdict(pass);
+            } else {
+                setverdict(fail);
+            }
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

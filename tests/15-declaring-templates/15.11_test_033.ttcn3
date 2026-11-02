@@ -1,0 +1,22 @@
+// @requirement: 15.11 -- Concatenation operand: ? length(1 .. infinity) or * length(1 .. infinity); Transformed string: "?+"
+// @id: TTCN3-CORE-15.11-029a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_11_test_033 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template charstring v_t1 := "AB" & ? length(1 .. infinity) & "C";
+        var template charstring v_t2 := "AB" & * length(1 .. infinity) & "C";
+        if (match("ABxC", v_t1) and match("ABxyzC", v_t1) and not match("ABC", v_t1) and
+            match("ABxC", v_t2) and match("ABxyzC", v_t2) and not match("ABC", v_t2)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

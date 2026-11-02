@@ -1,0 +1,31 @@
+// @requirement: 18 -- Statement: Start execution of test component behaviour; Associated keyword or symbol: start; Can be invoked by test behaviour: Yes
+// @id: TTCN3-CORE-18-043c
+// @verdict: pass reject
+module M_18_test_089 {
+
+    type component C {}
+
+    function f_ptc() runs on C {
+        setverdict(pass);
+    }
+
+    function f_guard(C p_c) runs on C return boolean {
+        p_c.start(f_ptc()); // error: component start in function called from a guard
+        return true;
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        timer T := 0.1;
+        T.start;
+        alt {
+            [f_guard(v_ptc)] T.timeout {
+                setverdict(pass);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

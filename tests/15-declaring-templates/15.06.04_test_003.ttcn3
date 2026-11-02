@@ -1,0 +1,20 @@
+// @requirement: 15.6.4 -- a) Value lists and complemented lists: referencing a parameter of a signature template to which a value list or a complemented list is assigned, at the left hand side of an assignment, shall cause an error.
+// @id: TTCN3-CORE-15.6.4-004a
+// @verdict: pass reject
+module M_15_06_04_test_003 {
+
+    signature S(in integer par1, in integer par2);
+
+    type component C {}
+
+    template S s_list := ({ par1 := 1, par2 := 2 }, { par1 := 2, par2 := 1 });
+    template S s_mod modifies s_list := { par1 := ? }; // error: parent contains a template list
+
+    testcase TC() runs on C {
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

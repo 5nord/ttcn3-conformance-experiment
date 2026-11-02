@@ -1,0 +1,854 @@
+{
+ "part": "16.part1",
+ "chapter": "16",
+ "chapter_file": "16-functions-altsteps-and-testcases",
+ "title": "Functions, altsteps and testcases",
+ "sections": {
+  "16.0": {
+   "title": "General",
+   "start": 12833
+  },
+  "16.1.0": {
+   "title": "General",
+   "start": 12840
+  },
+  "16.1.1": {
+   "title": "Invoking functions",
+   "start": 13020
+  }
+ },
+ "lines": [
+  12835,
+  13075
+ ],
+ "units": [
+  {
+   "id": "16.0-s001",
+   "section": "16.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "In TTCN-3, functions, altsteps and testcases are used to specify and structure test behaviour, define default behaviour and to structure computation in a module, etc. as described in the following clauses.",
+   "lines": [
+    12835,
+    12836
+   ]
+  },
+  {
+   "id": "16.1.0-s001",
+   "section": "16.1.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Functions are used in TTCN-3 to express test behaviour, to organize test execution or to structure computation in a module, for example, to calculate a single value, to initialize a set of variables or to check some condition.",
+   "lines": [
+    12842,
+    12843
+   ]
+  },
+  {
+   "id": "16.1.0-s002",
+   "section": "16.1.0",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "function [ @deterministic | @control ] ( FunctionIdentifier | control )\n  \"(\" [ { ( FormalValuePar | FormalTemplatePar ) [\",\"] } ] \")\"\n  [ runs on ComponentType ] \n  [ mtc ComponentType ]\n  [ system ComponentType ]\n  [ return [ TemplateModifier ] TypeOrNestedTypeDef [ArrayDef] ]\n  StatementBlock",
+   "lines": [
+    12846,
+    12854
+   ]
+  },
+  {
+   "id": "16.1.0-s003",
+   "section": "16.1.0",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Functions are portions of TTCN-3 behaviour, which perform a specific task and are relatively independent of the remaining behaviour.",
+   "lines": [
+    12858,
+    12859
+   ]
+  },
+  {
+   "id": "16.1.0-s004",
+   "section": "16.1.0",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Functions may return a value or a template.",
+   "lines": [
+    12861,
+    12864
+   ]
+  },
+  {
+   "id": "16.1.0-s005",
+   "section": "16.1.0",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Value return is denoted by the return keyword followed by a type expression.",
+   "lines": [
+    12861,
+    12864
+   ]
+  },
+  {
+   "id": "16.1.0-s006",
+   "section": "16.1.0",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Template return is denoted by the return keywords followed by a TemplateModifier and a type expression.",
+   "lines": [
+    12861,
+    12864
+   ]
+  },
+  {
+   "id": "16.1.0-s007",
+   "section": "16.1.0",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Execution of a return statement in the body of the function causes evaluation of the return value or template, the function to terminate and to return the result to the location of the call of the function.",
+   "lines": [
+    12861,
+    12864
+   ]
+  },
+  {
+   "id": "16.1.0-s008",
+   "section": "16.1.0",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The behaviour of a function can be defined by using statements and operations described in clauses 18 to 26.",
+   "lines": [
+    12866,
+    12866
+   ]
+  },
+  {
+   "id": "16.1.0-s009",
+   "section": "16.1.0",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Functions may be parameterized.",
+   "lines": [
+    12868,
+    12868
+   ]
+  },
+  {
+   "id": "16.1.0-s010",
+   "section": "16.1.0",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Functions may have an mtc clause.",
+   "lines": [
+    12870,
+    12871
+   ]
+  },
+  {
+   "id": "16.1.0-s011",
+   "section": "16.1.0",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If a function has an mtc clause, the type referenced by this clause shall be mtccompatible (see clause 6.3.2.7) with the type of the mtc component reference.",
+   "lines": [
+    12870,
+    12871
+   ]
+  },
+  {
+   "id": "16.1.0-s012",
+   "section": "16.1.0",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If the mtc clause is not present, the type of the mtc component reference is unknown in the scope of this function.",
+   "lines": [
+    12870,
+    12871
+   ]
+  },
+  {
+   "id": "16.1.0-s013",
+   "section": "16.1.0",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Functions may have a system clause.",
+   "lines": [
+    12873,
+    12875
+   ]
+  },
+  {
+   "id": "16.1.0-s014",
+   "section": "16.1.0",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If a function has a system clause, the type referenced by this clause shall be system-compatible (see clause 6.3.2.7) with the type of the system component reference.",
+   "lines": [
+    12873,
+    12875
+   ]
+  },
+  {
+   "id": "16.1.0-s015",
+   "section": "16.1.0",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If the system clause is not present, the type of the system component reference is unknown in the scope of this function.",
+   "lines": [
+    12873,
+    12875
+   ]
+  },
+  {
+   "id": "16.1.0-s016",
+   "section": "16.1.0",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Using the @deterministic modifier, a function can be declared to be deterministic.",
+   "lines": [
+    12877,
+    12879
+   ]
+  },
+  {
+   "id": "16.1.0-s017",
+   "section": "16.1.0",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Deterministic functions are safe to be used when called from specific places where non-determinism could lead to unexpected side effects (see clause 16.1.4).",
+   "lines": [
+    12877,
+    12879
+   ]
+  },
+  {
+   "id": "16.1.0-s018",
+   "section": "16.1.0",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "NOTE 0: The determination of determinism of a function is a semi-decidable problem and as such can and will not be exhaustively checked.",
+   "lines": [
+    12881,
+    12885
+   ]
+  },
+  {
+   "id": "16.1.0-s019",
+   "section": "16.1.0",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "As such, the annotation deterministic is mainly used for informational purposes and for allowing certain functions to be used during snapshot evaluation.",
+   "lines": [
+    12881,
+    12885
+   ]
+  },
+  {
+   "id": "16.1.0-s020",
+   "section": "16.1.0",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "Principally, a function can be seen as deterministic if it does not violate any of the restrictions from clause 16.1.4 which does not mean that violation of these restriction automatically leads to non-determinism.",
+   "lines": [
+    12881,
+    12885
+   ]
+  },
+  {
+   "id": "16.1.0-s021",
+   "section": "16.1.0",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clause 5, the following restrictions apply:",
+   "lines": [
+    12889,
+    12889
+   ]
+  },
+  {
+   "id": "16.1.0-s022",
+   "section": "16.1.0",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) A function without runs `on clause shall never invoke a function or altstep or activate an altstep as default` with a runs `on clause locally.` b) Functions started by using the start test component operation shall always have a runs `on clause` (see clause 22.5) and are considered to be invoked in the component to be started, i.e. not locally.",
+   "lines": [
+    12891,
+    12901
+   ]
+  },
+  {
+   "id": "16.1.0-s023",
+   "section": "16.1.0",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "However, the start test component operation may be invoked within behaviour without a runs `on clause.`",
+   "lines": [
+    12899,
+    12901
+   ]
+  },
+  {
+   "id": "16.1.0-s024",
+   "section": "16.1.0",
+   "kind": "note",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "NOTE 1: The restrictions concerning the runs `on clause are only related to functions and altsteps and not to test` cases.",
+   "lines": [
+    12903,
+    12904
+   ]
+  },
+  {
+   "id": "16.1.0-s025",
+   "section": "16.1.0",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "c) Functions called directly or indirectly from a module control function shall have no mtc or system clause.",
+   "lines": [
+    12906,
+    12906
+   ]
+  },
+  {
+   "id": "16.1.0-s026",
+   "section": "16.1.0",
+   "kind": "note",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "NOTE 2: Nevertheless, functions called directly or indirectly from the module control function are allowed to execute test cases.",
+   "lines": [
+    12908,
+    12909
+   ]
+  },
+  {
+   "id": "16.1.0-s027",
+   "section": "16.1.0",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "d) The rules for formal parameter lists shall be followed as defined in clause 5.4.",
+   "lines": [
+    12911,
+    12911
+   ]
+  },
+  {
+   "id": "16.1.0-s028",
+   "section": "16.1.0",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "e) For return TemplateModifier statements the restrictions specified in clause 15.0 shall apply.",
+   "lines": [
+    12913,
+    12913
+   ]
+  },
+  {
+   "id": "16.1.0-s029",
+   "section": "16.1.0",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "f) Template return can be restricted to the matching mechanisms specific value and omit, see clause 5.4.1.2.",
+   "lines": [
+    12915,
+    12915
+   ]
+  },
+  {
+   "id": "16.1.0-s030",
+   "section": "16.1.0",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "g) A return statement in a value returning function shall always have a value expression compatible to the type specified in the function header return clause.",
+   "lines": [
+    12917,
+    12918
+   ]
+  },
+  {
+   "id": "16.1.0-s031",
+   "section": "16.1.0",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "h) A return statement in a template returning function shall always have a template reference (including calling a value or template returning function)or template instance compatible to the type specified in the function header return clause.",
+   "lines": [
+    12920,
+    12923
+   ]
+  },
+  {
+   "id": "16.1.0-s032",
+   "section": "16.1.0",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "If the return clause has a template restriction, this restriction shall be adhered to by the returned template.",
+   "lines": [
+    12920,
+    12923
+   ]
+  },
+  {
+   "id": "16.1.0-s033",
+   "section": "16.1.0",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "i) If the function header includes a return clause, the function, when terminating, shall do so by executing a",
+   "lines": [
+    12925,
+    12925
+   ]
+  },
+  {
+   "id": "16.1.0-s034",
+   "section": "16.1.0",
+   "kind": "code",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "return statement. The function will cause a test case error if it terminates (i.e. reaches the end of the",
+   "lines": [
+    12926,
+    12928
+   ]
+  },
+  {
+   "id": "16.1.0-s035",
+   "section": "16.1.0",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "function body) without executing a return statement.",
+   "lines": [
+    12930,
+    12930
+   ]
+  },
+  {
+   "id": "16.1.0-s036",
+   "section": "16.1.0",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "j) If a function references the names of definitions that are defined inside a component type definition, the component type shall be referenced using the runs `on keywords in the function header.",
+   "lines": [
+    12932,
+    12934
+   ]
+  },
+  {
+   "id": "16.1.0-s037",
+   "section": "16.1.0",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "The one exception to` this rule is if all the necessary component-wide information is passed in the function as parameters.",
+   "lines": [
+    12932,
+    12934
+   ]
+  },
+  {
+   "id": "16.1.0-s038",
+   "section": "16.1.0",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "k) The additional restrictions in clause 16.1.5 shall apply to all explicit control functions.The list of statements and operations that are allowed to be used by control functions is provided by table 15.",
+   "lines": [
+    12936,
+    12937
+   ]
+  },
+  {
+   "id": "16.1.0-s039",
+   "section": "16.1.0",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 1: Function with return:",
+   "lines": [
+    12941,
+    12941
+   ]
+  },
+  {
+   "id": "16.1.0-s040",
+   "section": "16.1.0",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "// Definition of f_myFunction which has no parameters\n  function f_myFunction() return integer\n  {\n     return 7; // returns the integer value 7 when the function terminates\n  }",
+   "lines": [
+    12942,
+    12948
+   ]
+  },
+  {
+   "id": "16.1.0-s041",
+   "section": "16.1.0",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 2: Function with template return:",
+   "lines": [
+    12950,
+    12950
+   ]
+  },
+  {
+   "id": "16.1.0-s042",
+   "section": "16.1.0",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "// Definition of functions which may return matching symbols or templates\n  function f_myFunction2() return template integer\n  {\n  :\n     return ?; // returns the matching mechanism AnyValue\n  }\n  function f_myFunction3() return template octetstring\n  {\n  :\n     return 'FF??FF'O; // returns an octetstring with AnyValue inside it\n  }",
+   "lines": [
+    12951,
+    12963
+   ]
+  },
+  {
+   "id": "16.1.0-s043",
+   "section": "16.1.0",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 3: Function with runs on clause:",
+   "lines": [
+    12970,
+    12970
+   ]
+  },
+  {
+   "id": "16.1.0-s044",
+   "section": "16.1.0",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "function f_myFunction3() runs on MyPTCType {\n                     // f_myFunction3 does not return a value, but\n     var integer v_myVar := 5; // does make use of the port operation\n     pCO1.send(v_myVar);  // send and therefore requires a runs on\n                     // clause to resolve the port identifiers\n  } // by referencing a component type",
+   "lines": [
+    12971,
+    12978
+   ]
+  },
+  {
+   "id": "16.1.0-s045",
+   "section": "16.1.0",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 4: Parameterized function:",
+   "lines": [
+    12980,
+    12980
+   ]
+  },
+  {
+   "id": "16.1.0-s046",
+   "section": "16.1.0",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "function f_myFunction2(inout integer p_myPar1) {\n                     // f_myFunction2 does not return a value\n     p_myPar1 := 10 * p_myPar1; // but changes the value of p_myPar1 which\n  } // is passed in by reference",
+   "lines": [
+    12981,
+    12986
+   ]
+  },
+  {
+   "id": "16.1.0-s047",
+   "section": "16.1.0",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 5: Function without return statement:",
+   "lines": [
+    12988,
+    12988
+   ]
+  },
+  {
+   "id": "16.1.0-s048",
+   "section": "16.1.0",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "function f_myFunction5(inout integer p_myPar1) return integer {\n     if (p_myPar1 > 5) { \n     p_myPar1 := 5; \n      return p_myPar1; \n    } \n    // in case of p_myPar1 <= 5, f_myFunction5 does not terminate in a return statement\n    // and will cause a test case error\n  }",
+   "lines": [
+    12989,
+    12998
+   ]
+  },
+  {
+   "id": "16.1.0-s049",
+   "section": "16.1.0",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 6: Function with system and mtc:",
+   "lines": [
+    13000,
+    13000
+   ]
+  },
+  {
+   "id": "16.1.0-s050",
+   "section": "16.1.0",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "type component MtcType { ... }\n  type component SystemType { ... }\n  function f_myFunction6() runs on MyPtcType mtc MtcType system SystemType {\n     var MtcType v_mtc := mtc;\n     var SystemType v_system := system;\n     f_myFunction3(); // allowed, f_myFunction3() has no mtc and system clause\n     f_myFunction6(); // allowed, f_myFunction6() has compatible mtc and system clause\n  }\n  function f_myFunction7() runs on MyPtcType system SystemType {\n     var MtcType v_mtc := mtc; // not allowed, mtc type unknown\n     f_myFunction6(); // possible runtime error, no mtc clause of f_myFunction7\n  }\n  function MyFunction8() runs on MyPtcType mtc MtcType {\n     var SystemType v_system := system; // not allowed, system type unknown\n     f_myFunction6(); // possible runtime error, no system clause of f_myFunction8\n  }",
+   "lines": [
+    13001,
+    13018
+   ]
+  },
+  {
+   "id": "16.1.1-s001",
+   "section": "16.1.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "A function is invoked by referring to its name and providing the actual list of parameters.",
+   "lines": [
+    13022,
+    13022
+   ]
+  },
+  {
+   "id": "16.1.1-s002",
+   "section": "16.1.1",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "FunctionRef \"(\" [ { ActualPar [\",\"] } ] \")\"",
+   "lines": [
+    13025,
+    13027
+   ]
+  },
+  {
+   "id": "16.1.1-s003",
+   "section": "16.1.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "A function invocation results in the execution of the statement block of the invoked function.",
+   "lines": [
+    13031,
+    13034
+   ]
+  },
+  {
+   "id": "16.1.1-s004",
+   "section": "16.1.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The invoked function is performed by the test component invoking it.",
+   "lines": [
+    13031,
+    13034
+   ]
+  },
+  {
+   "id": "16.1.1-s005",
+   "section": "16.1.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Actual parameters are passed into the statement block.",
+   "lines": [
+    13031,
+    13034
+   ]
+  },
+  {
+   "id": "16.1.1-s006",
+   "section": "16.1.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If the function returns (upon termination and potentially with a return value), the test components continues its behaviour right after the function invocation.",
+   "lines": [
+    13031,
+    13034
+   ]
+  },
+  {
+   "id": "16.1.1-s007",
+   "section": "16.1.1",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clause 5, the following restrictions apply:",
+   "lines": [
+    13038,
+    13038
+   ]
+  },
+  {
+   "id": "16.1.1-s008",
+   "section": "16.1.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) Functions that do not return values shall be invoked directly.",
+   "lines": [
+    13040,
+    13041
+   ]
+  },
+  {
+   "id": "16.1.1-s009",
+   "section": "16.1.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Functions that return values may be invoked directly or inside expressions.",
+   "lines": [
+    13040,
+    13041
+   ]
+  },
+  {
+   "id": "16.1.1-s010",
+   "section": "16.1.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "b) The rules for actual parameter lists shall be followed as defined in clause 5.4.",
+   "lines": [
+    13043,
+    13043
+   ]
+  },
+  {
+   "id": "16.1.1-s011",
+   "section": "16.1.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "c) Special restrictions apply to functions bound to test components using the start test component operation.",
+   "lines": [
+    13050,
+    13051
+   ]
+  },
+  {
+   "id": "16.1.1-s012",
+   "section": "16.1.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "These restrictions are described in clause 21.3.2.",
+   "lines": [
+    13050,
+    13051
+   ]
+  },
+  {
+   "id": "16.1.1-s013",
+   "section": "16.1.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "d) When invoking a function, the compatibility to the test component type of the invoking test component as described in clause 6.3.2.7 need to be fulfilled.",
+   "lines": [
+    13053,
+    13054
+   ]
+  },
+  {
+   "id": "16.1.1-s014",
+   "section": "16.1.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "e) Restrictions on invoking functions from specific places are described in clause 16.1.4.",
+   "lines": [
+    13056,
+    13056
+   ]
+  },
+  {
+   "id": "16.1.1-s015",
+   "section": "16.1.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "f) When invoking a function, the mtc and system compatibility of the mtc and system components of the invoked function with the actual mtc and system types of the running test case as described in clause 6.3.2.7 need to be fulfilled.",
+   "lines": [
+    13058,
+    13060
+   ]
+  },
+  {
+   "id": "16.1.1-s016",
+   "section": "16.1.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "g) Invoking a function that returns an uninitialized value is allowed only if the function is invoked directly as a statement of a statement block or as the return value of a return statement.",
+   "lines": [
+    13062,
+    13065
+   ]
+  },
+  {
+   "id": "16.1.1-s017",
+   "section": "16.1.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In any other place, invoking a function that returns an uninitialized value shall cause an error (e.g. in an expression, as an actual parameter or on the right hand side of an assignment).",
+   "lines": [
+    13062,
+    13065
+   ]
+  },
+  {
+   "id": "16.1.1-s018",
+   "section": "16.1.1",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "v_myVar := f_myFunction4(); // The value returned by f_myFunction4 is assigned to v_myVar. \n                   // The types of the returned value and v_myVar have to be compatible\n  f_myFunction2(v_myVar2); // f_myFunction2 does not return a value and is called with the\n                   // actual parameter v_myVar2, which may be passed in by reference \n  v_myVar3 := f_myFunction6(4) + f_myFunction7(v_myVar3); // Functions used in expressions \n  f_myFunction7(); // Any return value is omitted in case of direct invocation.",
+   "lines": [
+    13068,
+    13075
+   ]
+  }
+ ]
+}

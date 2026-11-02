@@ -1,0 +1,26 @@
+// @requirement: 6.3.2.4 -- A union value "b" of union type "B" is compatible with union type "A" if the alternative selected in "b" has a corresponding alternative with identical name in "A" and the value of the selected alternative in "b" is compatible to the type of the corresponding alternative in "A".
+// @id: TTCN3-CORE-6.3.2.4-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_03_02_04_test_001 {
+
+    type component C {}
+
+    type union U1 { integer i }
+    type union U2 { integer i, boolean b }
+
+    testcase TC() runs on C {
+        var U1 v_u1 := { i := 1 };
+        var U2 v_u2 := v_u1;
+        v_u2.i := 2;
+        v_u1 := v_u2;
+        if (ischosen(v_u1.i) and v_u1.i == 2) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

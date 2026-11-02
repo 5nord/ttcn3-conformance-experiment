@@ -1,0 +1,19 @@
+// @requirement: 18 -- Statement: Raise exception (to an accepted call); Associated keyword or symbol: raise; Can be invoked by test behaviour: Yes
+// @id: TTCN3-CORE-18-055a
+// @verdict: pass reject
+module M_18_test_120 {
+
+    signature S() exception (integer);
+
+    type port P procedure {
+        inout S;
+    }
+
+    type component C {
+        port P p;
+    }
+
+    control {
+        p.raise(S, 1); // error: raise in control behaviour
+    }
+}

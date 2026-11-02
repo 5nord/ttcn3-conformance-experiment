@@ -1,0 +1,43 @@
+// @requirement: 8.2.3.2 -- [ Visibility ] import from ModuleId "{" { ( ( type { TypeDefIdentifier [ "," ] } ) | ( template { TemplateIdentifier [ "," ] } ) | ( const { ConstIdentifier [ "," ] } ) | ( testcase { TestcaseIdentifier [ "," ] } ) | ( altstep { AltstepIdentifier [ "," ] } ) | ( function { FunctionIdentifier [ "," ] } ) | ( signature { SignatureIdentifier [ "," ] } ) | ( modulepar { ModuleParIdentifier [ "," ] } ) ) [ ";" ] } "}" [ ";" ]
+// @id: TTCN3-CORE-8.2.3.2-003a
+// @verdict: pass accept, noexecution
+module M_08_02_03_02_test_003 {
+
+    private import from M_08_02_03_02_test_003_A {
+        type MyType1, MyType2;
+        template m_template
+        const c_value1, c_value2,
+        testcase TC_A;
+        altstep a_step;
+        function f_get
+        signature S_proc;
+        modulepar PX_VALUE
+    };
+
+    import from M_08_02_03_02_test_003_A {
+        type MyType1
+    }
+
+}
+
+module M_08_02_03_02_test_003_A {
+    type integer MyType1;
+    type charstring MyType2;
+    template MyType1 m_template := 1;
+    const integer c_value1 := 1;
+    const integer c_value2 := 2;
+    modulepar integer PX_VALUE := 3;
+    signature S_proc(in integer p_par);
+    type component CA {
+        timer T;
+    }
+    testcase TC_A() runs on CA {
+        setverdict(pass);
+    }
+    altstep a_step() runs on CA {
+        [] T.timeout {}
+    }
+    function f_get() return integer {
+        return 1;
+    }
+}

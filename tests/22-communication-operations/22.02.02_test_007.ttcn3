@@ -1,0 +1,38 @@
+// @requirement: 22.2.2 -- The matching criteria are related to the type and value of the message to be received.
+// @id: TTCN3-CORE-22.2.2-009a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_02_02_test_007 {
+
+    type port P message { inout integer, charstring }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    function f_send() runs on C {
+        p.send(charstring:"5");
+        p.send(integer:6);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_send());
+        T.start;
+        alt {
+            [] p.receive(integer:?) { setverdict(fail); stop; }
+            [] p.receive(charstring:"5") { }
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        alt {
+            [] p.receive(integer:5) { setverdict(fail); }
+            [] p.receive(integer:6) { setverdict(pass); }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

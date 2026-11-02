@@ -1,0 +1,20 @@
+// @requirement: 5.4.1.2 -- The template instance may be any template expression that is well-defined at the beginning of the scope of the parameterized entity, but shall not refer to other parameters in the same parameter list.
+// @id: TTCN3-CORE-5.4.1.2-019b
+// @verdict: pass reject
+module M_05_04_01_02_test_019 {
+    type component C {}
+
+    function f_match(template integer p_a, template integer p_b := p_a) return boolean { // error: refers to p_a
+        return match(1, p_b);
+    }
+
+    testcase TC() runs on C {
+        if (f_match(1, 1)) {
+            setverdict(pass);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

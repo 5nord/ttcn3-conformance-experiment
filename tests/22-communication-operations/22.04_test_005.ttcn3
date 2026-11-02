@@ -1,0 +1,46 @@
+// @requirement: 22.4 -- The check operation is a generic operation that allows read access to the top element of message-based and procedure-based incoming port queues without removing the top element from the queue.
+// @id: TTCN3-CORE-22.4-004b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_04_test_005 {
+
+    type port MP message { inout integer; }
+
+    signature S(inout integer p_x) return integer exception (charstring);
+
+    type port PP procedure { inout S; }
+
+    type component C {
+        port MP p1, p2;
+        port PP q1, q2;
+        timer T := 1.0;
+    }
+
+    testcase TC() runs on C {
+        connect(mtc:p1, mtc:p2);
+        connect(mtc:q1, mtc:q2);
+        p1.send(5);
+        q1.call(S:{1}, nowait);
+        T.start;
+        alt {
+            [] p2.check(receive(5)) { }
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        T.start;
+        alt {
+            [] q2.check(getcall(S:{1})) { }
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        alt {
+            [] p2.receive(5) { }
+            [else] { setverdict(fail); stop; }
+        }
+        alt {
+            [] q2.getcall(S:{1}) { setverdict(pass); }
+            [else] { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

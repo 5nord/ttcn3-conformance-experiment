@@ -1,0 +1,23 @@
+// @requirement: 22.2.1 -- No AddressRef in the to clause shall contain the special value null at the time of the operation.
+// @id: TTCN3-CORE-22.2.1-026a
+// @verdict: pass accept, ttcn3verdict:error
+module M_22_02_01_test_017 {
+
+    type port P message { inout integer }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        var C v_partner := null;
+        connect(mtc:p, v_ptc:p);
+        setverdict(pass);
+        p.send(1) to v_partner; // error: AddressRef is null
+    }
+
+    control {
+        execute(TC());
+    }
+}

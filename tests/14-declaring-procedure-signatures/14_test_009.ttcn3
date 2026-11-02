@@ -1,0 +1,32 @@
+// @requirement: 14 -- Signature definitions may have parameters.
+// @id: TTCN3-CORE-14-008a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_14_test_009 {
+
+    signature S(in integer p_a, in charstring p_b);
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    function f_server() runs on C {
+        p.getcall(S:{ p_a := 1, p_b := "x" });
+        p.reply(S:{ p_a := 1, p_b := "x" });
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_server());
+        p.call(S:{ p_a := 1, p_b := "x" }, 1.0) {
+            [] p.getreply(S:{ p_a := ?, p_b := ? }) { setverdict(pass); }
+            [] p.catch(timeout) { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

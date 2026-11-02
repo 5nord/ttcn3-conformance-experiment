@@ -1,0 +1,23 @@
+// @requirement: 22.2.2 -- a) When defining the message in-line, the optional type part shall be present whenever the type of the message being received is ambiguous.
+// @id: TTCN3-CORE-22.2.2-056a
+// @verdict: pass reject
+module M_22_02_02_test_047 {
+
+    type record R1 { integer a }
+    type record R2 { integer a }
+
+    type port P message { inout R1, R2 }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        p.receive({ a := 1 }); // error: in-line template type is ambiguous (R1 or R2)
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

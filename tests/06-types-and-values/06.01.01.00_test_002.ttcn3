@@ -1,0 +1,21 @@
+// @requirement: 6.1.1.0 -- Values of type bitstring shall be denoted by an arbitrary number (possibly zero) of the bit digits: 0 1, preceded by a single quote ( ' ) and followed by the pair of characters 'B.
+// @id: TTCN3-CORE-6.1.1.0-003a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_01_01_00_test_002 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var bitstring v_b := '01101'B;
+        var bitstring v_empty := ''B;
+        if (lengthof(v_b) == 5 and bit2int(v_b) == 13 and lengthof(v_empty) == 0) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

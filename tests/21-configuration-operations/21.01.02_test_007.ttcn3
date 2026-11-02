@@ -1,0 +1,26 @@
+// @requirement: 21.1.2 -- A disconnect or unmap operation has only an effect if the connection or mapping to be removed has been created beforehand.
+// @id: TTCN3-CORE-21.1.2-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_01_02_test_007 {
+
+    type port P message { inout integer; }
+
+    type component C { port P p1, p2; }
+
+    testcase TC() runs on C system C {
+        var C v_a := C.create;
+        var C v_b := C.create;
+        connect(self:p1, v_a:p1);
+        disconnect(self:p1, v_b:p1);
+        unmap(self:p2, system:p2);
+        if (p1.checkstate("Connected") and not p2.checkstate("Mapped")) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

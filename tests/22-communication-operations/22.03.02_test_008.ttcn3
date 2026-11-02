@@ -1,0 +1,35 @@
+// @requirement: 22.3.2 -- A getcall operation may be restricted to a certain communication partner in case of one-to-many connections.
+// @id: TTCN3-CORE-22.3.2-010a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_03_02_test_008 {
+
+    signature S(in integer p_x) noblock;
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    function f_client() runs on C {
+        p.call(S:{1});
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc1 := C.create, v_ptc2 := C.create;
+        connect(mtc:p, v_ptc1:p);
+        connect(mtc:p, v_ptc2:p);
+        v_ptc2.start(f_client());
+        T.start;
+        alt {
+            [] p.getcall(S:{?}) from v_ptc1 { setverdict(fail); }
+            [] p.getcall(S:{?}) from v_ptc2 { setverdict(pass); }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

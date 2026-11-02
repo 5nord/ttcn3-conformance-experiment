@@ -1,0 +1,27 @@
+// @requirement: D.2 -- A preprocessor or compiler shall replace all occurrences of __FILE__ with the actual canonical (absolute) file name in form of a charstring value.
+// @id: TTCN3-CORE-D.2-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_D_02_test_002 {
+
+    type component C {}
+
+    const charstring c_file := __FILE__;
+
+    function f_file() return charstring {
+        return __FILE__;
+    }
+
+    testcase TC() runs on C {
+        var charstring v_file := __FILE__;
+        if (match(c_file, pattern "?*D-preprocessing-macros?D.02_test_002.ttcn3") and
+            f_file() == c_file and v_file == c_file) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

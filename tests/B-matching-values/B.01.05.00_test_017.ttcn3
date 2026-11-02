@@ -1,0 +1,23 @@
+// @requirement: B.1.5.0 -- Metacharacter: \q{group,plane,row, cell} or \q{Uxxxx, Uxxx ….}; Indexing: Including the content enclosed within brackets; Description: Match one or more universal character. Both the quadruple and the USI-like syntaxes specified in clause 6.1.1 can be used
+// @id: TTCN3-CORE-B.1.5.0-020b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_05_00_test_017 {
+
+    type component C {}
+
+    template universal charstring mw_quadruple := pattern "\q{0, 0, 1, 113}";
+    template universal charstring mw_usi := pattern "\q{U0171}";
+
+    testcase TC() runs on C {
+        var universal charstring v_char := char(0, 0, 1, 113);
+        if (match(v_char, mw_quadruple) and match(v_char, mw_usi)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

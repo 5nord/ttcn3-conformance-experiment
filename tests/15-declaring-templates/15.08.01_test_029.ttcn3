@@ -1,0 +1,29 @@
+// @requirement: 15.8.1 -- Used with template restriction: present; ... Instead of values: Note 1; ... Col7: Note 1; ... Col17: Note 1
+// @id: TTCN3-CORE-15.8.1-040b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_08_01_test_029 {
+    type record R {
+        integer a,
+        boolean b optional
+    }
+
+    template(present) R mw_omit := {a := 1, b := omit};
+    template(present) R mw_anyOrNone := {a := 1, b := *};
+    template(present) R mw_ifp := {a := 1, b := true ifpresent};
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var R v_omit := {a := 1, b := omit};
+        var R v_true := {a := 1, b := true};
+        if (match(v_omit, mw_omit) and match(v_omit, mw_anyOrNone) and match(v_true, mw_anyOrNone) and match(v_omit, mw_ifp) and match(v_true, mw_ifp)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

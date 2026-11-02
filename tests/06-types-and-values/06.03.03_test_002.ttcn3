@@ -1,0 +1,30 @@
+// @requirement: 6.3.3 -- 2) Runs on compatibility: a function or altstep referring to component type "A" in its runs on clause may be called or started on a component instance of type 'B' if all the definitions of "A" have identical definitions in "B".
+// @id: TTCN3-CORE-6.3.3-003a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_03_03_test_002 {
+
+    type component CA {
+        var integer v_x := 1;
+    }
+    type component CB {
+        var integer v_x := 1;
+        var boolean v_y := true;
+    }
+
+    function f_increment() runs on CA {
+        v_x := v_x + 1;
+    }
+
+    testcase TC() runs on CB {
+        f_increment();
+        if (v_x == 2) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,25 @@
+// @requirement: 21.1.0 -- Operation: Self; Explanation: Gets the reference to the test component that executes this operation; Syntax Examples: self.stop;
+// @id: TTCN3-CORE-21.1.0-020a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_01_00_test_032 {
+
+    type component C {}
+
+    function f_check(C p_me) runs on C {
+        if (self == p_me and self != mtc) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        v_ptc.start(f_check(v_ptc));
+        v_ptc.done;
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,31 @@
+// @requirement: 19.1.1 -- Whenever assignments are used within the right hand side of an assignment (due to assignment notation), these rules apply recursively.
+// @id: TTCN3-CORE-19.1.1-012a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_01_01_test_012 {
+
+    type component C {}
+
+    type record Inner {
+        integer x,
+        integer y
+    }
+
+    type record Outer {
+        Inner c,
+        integer a
+    }
+
+    testcase TC() runs on C {
+        var Outer v_rec := { c := { x := 1, y := 2 }, a := 3 };
+        v_rec := { c := { x := v_rec.c.y, y := v_rec.c.x + v_rec.a }, a := v_rec.c.x };
+        if (v_rec == { c := { x := 2, y := 4 }, a := 1 }) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

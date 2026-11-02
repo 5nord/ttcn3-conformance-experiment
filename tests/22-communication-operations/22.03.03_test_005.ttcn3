@@ -1,0 +1,44 @@
+// @requirement: 22.3.3 -- The signature may either be defined in the form of a signature template or it may be defined in-line.
+// @id: TTCN3-CORE-22.3.3-008a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_03_03_test_005 {
+
+    signature S(out integer p_y) return integer;
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    template S s_reply := {p_y := 1};
+
+    altstep a_guard() runs on C {
+        [] T.timeout { setverdict(fail); stop; }
+    }
+
+    function f_server() runs on C {
+        p.getcall(S:{-});
+        p.reply(s_reply value 10);
+        p.getcall(S:{-});
+        p.reply(S:{2} value 20);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_server());
+        activate(a_guard());
+        T.start;
+        p.call(S:{-}, nowait);
+        p.call(S:{-}, nowait);
+        p.getreply(S:{1} value 10);
+        p.getreply(S:{2} value 20);
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

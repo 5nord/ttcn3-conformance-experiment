@@ -1,0 +1,1486 @@
+{
+ "part": "19.part2",
+ "chapter": "19",
+ "chapter_file": "19-basic-program-statements",
+ "title": "Basic program statements",
+ "sections": {
+  "19.3.1": {
+   "title": "The Select case statement",
+   "start": 14231
+  },
+  "19.3.2": {
+   "title": "The Select union statement",
+   "start": 14329
+  },
+  "19.4.1": {
+   "title": "The counter loop",
+   "start": 14406
+  },
+  "19.4.2": {
+   "title": "The range-based loop",
+   "start": 14454
+  },
+  "19.5": {
+   "title": "The While statement",
+   "start": 14601
+  },
+  "19.6": {
+   "title": "The Do-while statement",
+   "start": 14633
+  },
+  "19.7": {
+   "title": "The Label statement",
+   "start": 14658
+  },
+  "19.8": {
+   "title": "The Goto statement",
+   "start": 14711
+  }
+ },
+ "lines": [
+  14233,
+  14786
+ ],
+ "units": [
+  {
+   "id": "19.3.1-s001",
+   "section": "19.3.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The select case statement is an alternative syntactic form of the if-else statement.",
+   "lines": [
+    14233,
+    14233
+   ]
+  },
+  {
+   "id": "19.3.1-s002",
+   "section": "19.3.1",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "select \"(\" [(VarInstance|Assignment) \";\"] SingleExpression \")\" \"{\" \n     { case \"(\" { TemplateInstance[\",\"] } \")\" StatementBlock }+\n     [ case else StatementBlock ]\n  \"}\"",
+   "lines": [
+    14236,
+    14241
+   ]
+  },
+  {
+   "id": "19.3.1-s003",
+   "section": "19.3.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The select case statement is an alternative to using if .. else `if .. else statements when comparing a value to` one or several other values.",
+   "lines": [
+    14245,
+    14247
+   ]
+  },
+  {
+   "id": "19.3.1-s004",
+   "section": "19.3.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The statement contains a header part and one or more branches.",
+   "lines": [
+    14245,
+    14247
+   ]
+  },
+  {
+   "id": "19.3.1-s005",
+   "section": "19.3.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Never more than one of the branches is executed.",
+   "lines": [
+    14245,
+    14247
+   ]
+  },
+  {
+   "id": "19.3.1-s006",
+   "section": "19.3.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "In the header part of the select case statement an expression shall be given.",
+   "lines": [
+    14249,
+    14251
+   ]
+  },
+  {
+   "id": "19.3.1-s007",
+   "section": "19.3.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The expression may be preceded by an _init statement (variable declaration or assignment), which executes before the expression is evaluated.",
+   "lines": [
+    14249,
+    14251
+   ]
+  },
+  {
+   "id": "19.3.1-s008",
+   "section": "19.3.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The scope of_ variables declared within an init statement shall be limited to the select case statement.",
+   "lines": [
+    14249,
+    14251
+   ]
+  },
+  {
+   "id": "19.3.1-s009",
+   "section": "19.3.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Each branch starts with the case keyword followed by a list of templateInstance (a list branch, which may also contain a single element) or in the last branch the case keyword may be followed by the else keyword (an else branch) and a statement block.",
+   "lines": [
+    14253,
+    14255
+   ]
+  },
+  {
+   "id": "19.3.1-s010",
+   "section": "19.3.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "All templateInstance in all list branches shall be of a type compatible with the type of the expression in the header.",
+   "lines": [
+    14257,
+    14261
+   ]
+  },
+  {
+   "id": "19.3.1-s011",
+   "section": "19.3.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "A list branch is selected and the statement block of the selected branch is executed only, if any of the templateInstance matches the value of the expression in the header of the statement.",
+   "lines": [
+    14257,
+    14261
+   ]
+  },
+  {
+   "id": "19.3.1-s012",
+   "section": "19.3.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "On executing the statement block of the selected branch (i.e. not jumping out by a goto statement), execution continues with the statement following the select case statement.",
+   "lines": [
+    14257,
+    14261
+   ]
+  },
+  {
+   "id": "19.3.1-s013",
+   "section": "19.3.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The statement block of an else branch is always executed if no other branch textually preceding the else branch has been selected.",
+   "lines": [
+    14263,
+    14264
+   ]
+  },
+  {
+   "id": "19.3.1-s014",
+   "section": "19.3.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Branches are evaluated in their textual order.",
+   "lines": [
+    14266,
+    14268
+   ]
+  },
+  {
+   "id": "19.3.1-s015",
+   "section": "19.3.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If none of the templateInstance-s matches the value of the expression in the header and the statement contains no else branch, execution continues without executing any of the select case branches.",
+   "lines": [
+    14266,
+    14268
+   ]
+  },
+  {
+   "id": "19.3.1-s016",
+   "section": "19.3.1",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "NOTE 1: In general, it cannot be decided if templateInstances overlap or not.",
+   "lines": [
+    14270,
+    14272
+   ]
+  },
+  {
+   "id": "19.3.1-s017",
+   "section": "19.3.1",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "However, it is advised to use in the branches templateInstances that don't overlap.",
+   "lines": [
+    14270,
+    14272
+   ]
+  },
+  {
+   "id": "19.3.1-s018",
+   "section": "19.3.1",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "In such situations tools might provide better runtime performance.",
+   "lines": [
+    14270,
+    14272
+   ]
+  },
+  {
+   "id": "19.3.1-s019",
+   "section": "19.3.1",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "The handling however is tool-specific.",
+   "lines": [
+    14270,
+    14272
+   ]
+  },
+  {
+   "id": "19.3.1-s020",
+   "section": "19.3.1",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "NOTE 2: When more than one branch could be selected (the templateInstances overlap) the textually first will be selected.",
+   "lines": [
+    14274,
+    14275
+   ]
+  },
+  {
+   "id": "19.3.1-s021",
+   "section": "19.3.1",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "For this reason overlapping is discouraged, handling however is tool-specific.",
+   "lines": [
+    14274,
+    14275
+   ]
+  },
+  {
+   "id": "19.3.1-s022",
+   "section": "19.3.1",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clause 5 and shown in table 16, the following restrictions apply:",
+   "lines": [
+    14279,
+    14280
+   ]
+  },
+  {
+   "id": "19.3.1-s023",
+   "section": "19.3.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) The select _SingleExpression and the case TemplateInstance-s shall be type compatible._ b) When all templateInstances of all branches can be statically evaluated in compile time to specific values or value ranges no two branches shall match the same value.",
+   "lines": [
+    14282,
+    14285
+   ]
+  },
+  {
+   "id": "19.3.1-s024",
+   "section": "19.3.1",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "select (PX_MyModulePar) // where PX_MyModulePar is of charstring type\n  {\n     case (charstring:\"firstValue\")\n       {\n        log (\"The first branch is selected\");\n       }\n     case (v_myCharVar, c_myCharConst)\n       {\n        log (\"The second branch is selected\");\n       }\n     case else\n       {\n        log (\"The value of the module parameter PX_MyModulePar is selected\");\n       }\n  }\n  // the above select statement is equivalent to the following nested if-else statement.\n  // Note: the following textual replacement of the select-case statement is described in\n  // the operational semantics of TTCN-3.\n  {\n     var charstring v_myLocalVar := PX_MyModulePar;\n     if (match(v_myLocalVar, charstring:\"firstValue\")\n       {\n        log (\"The first branch is selected\");\n       }\n     else if (match(v_myLocalVar, v_myCharVar) or match(v_myLocalVar, c_myCharConst))\n       {\n        log (\"The second branch is selected\");\n       }\n     else\n       {\n        log (\"The value of the module parameter PX_MyModulePar is selected\");\n       }\n  }",
+   "lines": [
+    14293,
+    14327
+   ]
+  },
+  {
+   "id": "19.3.2-s001",
+   "section": "19.3.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "To allow easier usage of the select statement for values of union types or anytype, a special form of the select statement exists.",
+   "lines": [
+    14331,
+    14332
+   ]
+  },
+  {
+   "id": "19.3.2-s002",
+   "section": "19.3.2",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "select union \"(\" [(VarInstance|Assignment) \";\"] SingleExpression \")\" \"{\" \n     { case \"(\" ({ Identifier [\",\"] } | { TypeIdentifier [\",\"] }) \")\" StatementBlock }+\n     [ case else StatementBlock ]\n  \"}\"",
+   "lines": [
+    14335,
+    14340
+   ]
+  },
+  {
+   "id": "19.3.2-s003",
+   "section": "19.3.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The statement contains a header part and one or more branches.",
+   "lines": [
+    14344,
+    14344
+   ]
+  },
+  {
+   "id": "19.3.2-s004",
+   "section": "19.3.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Never more than one of the branches is executed.",
+   "lines": [
+    14344,
+    14344
+   ]
+  },
+  {
+   "id": "19.3.2-s005",
+   "section": "19.3.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "In the header part of the select union statement a template instance of union type or anytype shall be given.",
+   "lines": [
+    14346,
+    14348
+   ]
+  },
+  {
+   "id": "19.3.2-s006",
+   "section": "19.3.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The expression in the header may be preceded by an init statement (variable declaration or assignment), which executes before the expression is evaluated.",
+   "lines": [
+    14346,
+    14348
+   ]
+  },
+  {
+   "id": "19.3.2-s007",
+   "section": "19.3.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The scope of variables declared within an init statement shall be limited to the",
+   "lines": [
+    14346,
+    14348
+   ]
+  },
+  {
+   "id": "19.3.2-s008",
+   "section": "19.3.2",
+   "kind": "code",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "select union statement.",
+   "lines": [
+    14349,
+    14351
+   ]
+  },
+  {
+   "id": "19.3.2-s009",
+   "section": "19.3.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If the template instance has a union type, each branch shall start with the case keyword followed by one or more identifiers of the alternatives (fields) of the union type (a list branch) or in the last branch the case keyword may be followed by the else keyword (an else branch) and a statement block.",
+   "lines": [
+    14353,
+    14360
+   ]
+  },
+  {
+   "id": "19.3.2-s010",
+   "section": "19.3.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If the template instance has type anytype, each branch shall start with the case keyword followed by one or more type names (a list branch) or in the last branch the case keyword may be followed by the else keyword (an else branch) and a statement block.",
+   "lines": [
+    14353,
+    14360
+   ]
+  },
+  {
+   "id": "19.3.2-s011",
+   "section": "19.3.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The StatementBlock of the list branch containing the identifier or type identifier of the chosen alternative is executed.",
+   "lines": [
+    14353,
+    14360
+   ]
+  },
+  {
+   "id": "19.3.2-s012",
+   "section": "19.3.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If no case exists for the chosen alternative, the StatementBlock of the else branch, if it is present, is executed.",
+   "lines": [
+    14353,
+    14360
+   ]
+  },
+  {
+   "id": "19.3.2-s013",
+   "section": "19.3.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Otherwise, the select union statement has no effect.",
+   "lines": [
+    14353,
+    14360
+   ]
+  },
+  {
+   "id": "19.3.2-s014",
+   "section": "19.3.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) The SingleExpression in the header of the select union statement shall be of a union type.",
+   "lines": [
+    14364,
+    14365
+   ]
+  },
+  {
+   "id": "19.3.2-s015",
+   "section": "19.3.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "It shall be at least partially initialized.",
+   "lines": [
+    14364,
+    14365
+   ]
+  },
+  {
+   "id": "19.3.2-s016",
+   "section": "19.3.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "b) Every Identifier in a case of the select union statement shall be an identifier of an alternative of the",
+   "lines": [
+    14372,
+    14372
+   ]
+  },
+  {
+   "id": "19.3.2-s017",
+   "section": "19.3.2",
+   "kind": "code",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "union type of the template instance given to the statement's header.",
+   "lines": [
+    14373,
+    14375
+   ]
+  },
+  {
+   "id": "19.3.2-s018",
+   "section": "19.3.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "c) No two cases in a select union statement shall have the same case Identifier or TypeIdentifier.",
+   "lines": [
+    14377,
+    14377
+   ]
+  },
+  {
+   "id": "19.3.2-s019",
+   "section": "19.3.2",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "type union Messages { \n     MyMessageType1 msg1,\n     MyMessageType2 msg2,\n     MyMessageType3 msg3,\n     MyMessageType4 msg4,\n     MyMessageType5 msg5\n  }\n  function f_f(in Messages p_msg) {\n     select union (p_msg) {\n      case (msg1) { log(p_msg.msg1); }\n      case (msg2) { log(p_msg.msg2); }\n      case (msg3, msg4) { log(\"either msg3 or msg4\"); }\n      case else { log(\"unhandled variant\"); }\n  }\n  function f_g(in anytype p_msg) {\n     select union (p_msg) {\n      case (integer) { log(p_msg.integer); }\n      case (Messages) { f_f(p_msg.Messages); }\n      case else { log(\"unhandled anytype variant\"); }\n     }\n  }",
+   "lines": [
+    14380,
+    14402
+   ]
+  },
+  {
+   "id": "19.4.1-s001",
+   "section": "19.4.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The traditional form of the for statement defines a counter loop.",
+   "lines": [
+    14408,
+    14408
+   ]
+  },
+  {
+   "id": "19.4.1-s002",
+   "section": "19.4.1",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "for \"(\" ( VarInstance | Assignment ) \";\" BooleanExpression \";\" Assignment \")\"\n       StatementBlock",
+   "lines": [
+    14411,
+    14414
+   ]
+  },
+  {
+   "id": "19.4.1-s003",
+   "section": "19.4.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The for statement contains two assignments and a boolean expression.",
+   "lines": [
+    14418,
+    14420
+   ]
+  },
+  {
+   "id": "19.4.1-s004",
+   "section": "19.4.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The first assignment is necessary to initialize the index (or counter) variable of the loop.",
+   "lines": [
+    14418,
+    14420
+   ]
+  },
+  {
+   "id": "19.4.1-s005",
+   "section": "19.4.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The boolean expression terminates the loop and the second assignment is used to manipulate the index variable.",
+   "lines": [
+    14418,
+    14420
+   ]
+  },
+  {
+   "id": "19.4.1-s006",
+   "section": "19.4.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The value of the index variable is increased, decreased or manipulated in such a manner that after a certain number of execution loops a termination criteria is reached.",
+   "lines": [
+    14422,
+    14423
+   ]
+  },
+  {
+   "id": "19.4.1-s007",
+   "section": "19.4.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The termination criterion of the loop shall be expressed by a boolean expression.",
+   "lines": [
+    14425,
+    14429
+   ]
+  },
+  {
+   "id": "19.4.1-s008",
+   "section": "19.4.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "It is checked at the beginning of each new loop iteration.",
+   "lines": [
+    14425,
+    14429
+   ]
+  },
+  {
+   "id": "19.4.1-s009",
+   "section": "19.4.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If it evaluates to true, the execution continues with the statement block in the for statement, if it evaluates to false, the execution continues with the statement which immediately follows the for loop.",
+   "lines": [
+    14425,
+    14429
+   ]
+  },
+  {
+   "id": "19.4.1-s010",
+   "section": "19.4.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If a break statement is executed that is not within the body of an enclosed loop, alt, alststep or interleave, then the loop is terminated, too.",
+   "lines": [
+    14425,
+    14429
+   ]
+  },
+  {
+   "id": "19.4.1-s011",
+   "section": "19.4.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The index variable of a for loop can be declared before being used in the for statement or can be declared and initialized in the for statement header.",
+   "lines": [
+    14431,
+    14433
+   ]
+  },
+  {
+   "id": "19.4.1-s012",
+   "section": "19.4.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If the index variable is declared and initialized in the for statement header, the scope of the index variable is limited to the loop body, i.e. it is only visible inside the loop body.",
+   "lines": [
+    14431,
+    14433
+   ]
+  },
+  {
+   "id": "19.4.1-s013",
+   "section": "19.4.1",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "No specific restrictions in addition to the general static rules of TTCN-3 given in clause 5 and shown in table 16.",
+   "lines": [
+    14437,
+    14437
+   ]
+  },
+  {
+   "id": "19.4.1-s014",
+   "section": "19.4.1",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "var integer v_j; // Declaration of integer variable v_j\n  for (v_j:=1; v_j<=10; v_j:= v_j+1) { … } // Usage of variable v_j as index variable of the\n                            // for loop\n  for (var float v_i:=1.0; v_i<7.9; v_i:= v_i*1.35) { … } // Index variable v_i is declared and\n                               // initialized in the for loop header. Variable \n                               // v_i only is visible in the loop body.",
+   "lines": [
+    14445,
+    14452
+   ]
+  },
+  {
+   "id": "19.4.2-s001",
+   "section": "19.4.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The range-based loop iterates over the elements provided by a range expression.",
+   "lines": [
+    14456,
+    14456
+   ]
+  },
+  {
+   "id": "19.4.2-s002",
+   "section": "19.4.2",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "for \"(\" [ var TypeOrNestedTypeDef ] ValueRef in Expression \")\"\n      StatementBlock",
+   "lines": [
+    14459,
+    14462
+   ]
+  },
+  {
+   "id": "19.4.2-s003",
+   "section": "19.4.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The range expression is evaluated once before beginning the loop and may be partially initialized.",
+   "lines": [
+    14466,
+    14468
+   ]
+  },
+  {
+   "id": "19.4.2-s004",
+   "section": "19.4.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The range _expression shall evaluate to a value with root type record of, set of, array, octetstring, hexstring, bitstring,_ **charstring or universal charstring.**",
+   "lines": [
+    14466,
+    14468
+   ]
+  },
+  {
+   "id": "19.4.2-s005",
+   "section": "19.4.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Elements are iterated in sequential order.",
+   "lines": [
+    14470,
+    14471
+   ]
+  },
+  {
+   "id": "19.4.2-s006",
+   "section": "19.4.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "In each iteration the appropriate element is assigned to the iteration variable and the statement block is executed.",
+   "lines": [
+    14470,
+    14471
+   ]
+  },
+  {
+   "id": "19.4.2-s007",
+   "section": "19.4.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If the iteration variable is declared in the for statement header, its scope and lifetime is limited to the statement block, i.e. a new iteration variable is initialized in every iteration.",
+   "lines": [
+    14473,
+    14475
+   ]
+  },
+  {
+   "id": "19.4.2-s008",
+   "section": "19.4.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If the iteration variable is declared outside the for statement, after execution its value will be that of the last iteration.",
+   "lines": [
+    14473,
+    14475
+   ]
+  },
+  {
+   "id": "19.4.2-s009",
+   "section": "19.4.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The assignment to the iteration variable follows the rules specified in clause 19.1.1 with the exception that assignment of uninitialized elements is permitted.",
+   "lines": [
+    14477,
+    14479
+   ]
+  },
+  {
+   "id": "19.4.2-s010",
+   "section": "19.4.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "When an uninitialized value is assigned to the iterator variable, the iterator variable becomes uninitialized.",
+   "lines": [
+    14477,
+    14479
+   ]
+  },
+  {
+   "id": "19.4.2-s011",
+   "section": "19.4.2",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "NOTE 1: The iteration order of map keys and map values is tool dependent and is not guaranteed to be the same from one iteration to the next.",
+   "lines": [
+    14481,
+    14482
+   ]
+  },
+  {
+   "id": "19.4.2-s012",
+   "section": "19.4.2",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "NOTE 2: The behaviour of lazy or fuzzy iteration variables is not specified and should not be used to avoid future compatibility issues.",
+   "lines": [
+    14484,
+    14485
+   ]
+  },
+  {
+   "id": "19.4.2-s013",
+   "section": "19.4.2",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "No specific restrictions in addition to the general static rules of TTCN-3 given in clause 5 and shown in table 16.",
+   "lines": [
+    14489,
+    14489
+   ]
+  },
+  {
+   "id": "19.4.2-s014",
+   "section": "19.4.2",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 1:",
+   "lines": [
+    14493,
+    14493
+   ]
+  },
+  {
+   "id": "19.4.2-s015",
+   "section": "19.4.2",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "// Iterate over hexstring\n  //\n  var hexstring t := '12D'H;\n  for (var hexstring e in t) {\n     log(e);\n  }\n  // Output:\n  //  '1'H\n  //  '2'H\n  //  'D'H",
+   "lines": [
+    14494,
+    14505
+   ]
+  },
+  {
+   "id": "19.4.2-s016",
+   "section": "19.4.2",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 2:",
+   "lines": [
+    14507,
+    14507
+   ]
+  },
+  {
+   "id": "19.4.2-s017",
+   "section": "19.4.2",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "// Iterate over octetstring\n  //\n  var octetstring t := '12DE'O;\n  for (var octetstring e in t) {\n     log(e);\n  }\n  // Output:\n  //  '12'O\n  //  'DE'O",
+   "lines": [
+    14508,
+    14518
+   ]
+  },
+  {
+   "id": "19.4.2-s018",
+   "section": "19.4.2",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 3:",
+   "lines": [
+    14520,
+    14520
+   ]
+  },
+  {
+   "id": "19.4.2-s019",
+   "section": "19.4.2",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "// Iterate over the keys of a map\n  //\n  var map from charstring to integer m := {\n     [\"a\"] := 1,\n     [\"b\"] := 2,\n     [\"c\"] := 3,\n  }\n  for (var charstring k in m.from) {\n     log(k, \"=\", m[k]);\n  }\n  // Output (order may vary):\n  //  a=1\n  //  b=2\n  //  c=3",
+   "lines": [
+    14521,
+    14536
+   ]
+  },
+  {
+   "id": "19.4.2-s020",
+   "section": "19.4.2",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 4:",
+   "lines": [
+    14538,
+    14538
+   ]
+  },
+  {
+   "id": "19.4.2-s021",
+   "section": "19.4.2",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "// Iterate over partially initialized value\n  //\n  var integer i := 0;\n  var charstring e;\n  for (e in {\"a\", -, \"c\"}) {\n     log(i, \", \", e);\n     i++;\n  }\n  log(i, \", \", e);\n  // Output:\n  //  0, \"a\"\n  //  1, UNINITIALIZED\n  //  2, \"c\"\n  //  3, \"c\"",
+   "lines": [
+    14539,
+    14554
+   ]
+  },
+  {
+   "id": "19.4.2-s022",
+   "section": "19.4.2",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 5:",
+   "lines": [
+    14556,
+    14556
+   ]
+  },
+  {
+   "id": "19.4.2-s023",
+   "section": "19.4.2",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "// Scope of iterator variable\n  for (var integer x in {1,2,x}) { // ERROR: scope of x is limited to statement block\n    // ...\n  }",
+   "lines": [
+    14557,
+    14562
+   ]
+  },
+  {
+   "id": "19.4.2-s024",
+   "section": "19.4.2",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 6:",
+   "lines": [
+    14564,
+    14564
+   ]
+  },
+  {
+   "id": "19.4.2-s025",
+   "section": "19.4.2",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "for (var charstring c in f()) { // Range expression is evaluated only once\n    log(c);\n  }\n  // ...\n  function f() return record of charstring {\n    log(\"f called\");\n    return {\"a\", \"b\", \"c\"};\n  }\n  // Output:\n  // f called\n  // a\n  // b\n  // c",
+   "lines": [
+    14565,
+    14579
+   ]
+  },
+  {
+   "id": "19.4.2-s026",
+   "section": "19.4.2",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 7:",
+   "lines": [
+    14581,
+    14581
+   ]
+  },
+  {
+   "id": "19.4.2-s027",
+   "section": "19.4.2",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "// Modify record of from inside a loop\n  //\n  var integer i := 0;\n  var record of integer a := {1, 2, 3}\n  for (var integer x in a) { // a is evaluated once, modification of `a` has no effect\n                // on the number of iterations or iterated values.\n     log(x);\n     a[i+1] := 10*x;\n     i++;\n  }\n  log(a);\n  // Output:\n  // 1\n  // 2\n  // 3\n  // {1, 10, 20, 30}",
+   "lines": [
+    14582,
+    14599
+   ]
+  },
+  {
+   "id": "19.5-s001",
+   "section": "19.5",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "A while statement defines a loop that is executed as long as the loop condition holds.",
+   "lines": [
+    14603,
+    14603
+   ]
+  },
+  {
+   "id": "19.5-s002",
+   "section": "19.5",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "while \"(\" [(VarInstance|Assignment) \";\"] BooleanExpression \")\" StatementBlock",
+   "lines": [
+    14606,
+    14608
+   ]
+  },
+  {
+   "id": "19.5-s003",
+   "section": "19.5",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The loop condition may be preceded by an init statement (variable declaration or assignment), which executes before the expression is evaluated.",
+   "lines": [
+    14612,
+    14614
+   ]
+  },
+  {
+   "id": "19.5-s004",
+   "section": "19.5",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The scope of variables declared within an init statement shall be limited to the while statement.",
+   "lines": [
+    14612,
+    14614
+   ]
+  },
+  {
+   "id": "19.5-s005",
+   "section": "19.5",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The loop condition shall be checked at the beginning of each new loop iteration.",
+   "lines": [
+    14616,
+    14617
+   ]
+  },
+  {
+   "id": "19.5-s006",
+   "section": "19.5",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If the loop condition does not hold, then the loop is exited and execution shall continue with the statement, which immediately follows the while loop.",
+   "lines": [
+    14616,
+    14617
+   ]
+  },
+  {
+   "id": "19.5-s007",
+   "section": "19.5",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If a",
+   "lines": [
+    14616,
+    14617
+   ]
+  },
+  {
+   "id": "19.5-s008",
+   "section": "19.5",
+   "kind": "code",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "break statement is executed that is not within the body of an enclosed loop, alt, alststep or interleave, then the",
+   "lines": [
+    14618,
+    14620
+   ]
+  },
+  {
+   "id": "19.5-s009",
+   "section": "19.5",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "loop is terminated, too.",
+   "lines": [
+    14622,
+    14622
+   ]
+  },
+  {
+   "id": "19.5-s010",
+   "section": "19.5",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "No specific restrictions in addition to the general static rules of TTCN-3 given in clause 5 and shown in table 16.",
+   "lines": [
+    14626,
+    14626
+   ]
+  },
+  {
+   "id": "19.5-s011",
+   "section": "19.5",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "while (v_j<10){ … }",
+   "lines": [
+    14629,
+    14631
+   ]
+  },
+  {
+   "id": "19.6-s001",
+   "section": "19.6",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "A do-while statement defines a loop that is executed up until the loop condition does not hold.",
+   "lines": [
+    14635,
+    14635
+   ]
+  },
+  {
+   "id": "19.6-s002",
+   "section": "19.6",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "do StatementBlock while \"(\" BooleanExpression \")\"",
+   "lines": [
+    14638,
+    14640
+   ]
+  },
+  {
+   "id": "19.6-s003",
+   "section": "19.6",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The do-while loop is identical to a while loop with the exception that the loop condition shall be checked at the end of each loop iteration.",
+   "lines": [
+    14644,
+    14647
+   ]
+  },
+  {
+   "id": "19.6-s004",
+   "section": "19.6",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "This means when using a do-while loop the behaviour is executed at least once before the loop condition is evaluated for the first time.",
+   "lines": [
+    14644,
+    14647
+   ]
+  },
+  {
+   "id": "19.6-s005",
+   "section": "19.6",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If a break statement is executed that is not within the body of an enclosed loop, alt, alststep or interleave, then the loop is terminated, too.",
+   "lines": [
+    14644,
+    14647
+   ]
+  },
+  {
+   "id": "19.6-s006",
+   "section": "19.6",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "No specific restrictions in addition to the general static rules of TTCN-3 given in clause 5 and shown in table 16.",
+   "lines": [
+    14651,
+    14651
+   ]
+  },
+  {
+   "id": "19.6-s007",
+   "section": "19.6",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "do { … } while (v_j<10);",
+   "lines": [
+    14654,
+    14656
+   ]
+  },
+  {
+   "id": "19.7-s001",
+   "section": "19.7",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The label statement allows the specification of labels in test cases, functions and altsteps.",
+   "lines": [
+    14660,
+    14660
+   ]
+  },
+  {
+   "id": "19.7-s002",
+   "section": "19.7",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "label LabelIdentifier",
+   "lines": [
+    14663,
+    14665
+   ]
+  },
+  {
+   "id": "19.7-s003",
+   "section": "19.7",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "A label marks a statement.",
+   "lines": [
+    14674,
+    14675
+   ]
+  },
+  {
+   "id": "19.7-s004",
+   "section": "19.7",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The label is used by the goto statement (see clause 19.8) to transfer control to a labelled statement.",
+   "lines": [
+    14674,
+    14675
+   ]
+  },
+  {
+   "id": "19.7-s005",
+   "section": "19.7",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clause 5 and shown in table 16, the following restrictions apply:",
+   "lines": [
+    14679,
+    14680
+   ]
+  },
+  {
+   "id": "19.7-s006",
+   "section": "19.7",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) A label statement can be used freely like other TTCN-3 behavioural program statements according to the syntax rules defined in annex A. It can be used before or after a TTCN-3 statement but not as the first statement of an alternative or top alternative in an alt statement, interleave statement or altstep.",
+   "lines": [
+    14682,
+    14684
+   ]
+  },
+  {
+   "id": "19.7-s007",
+   "section": "19.7",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "b) Labels used following the label keyword shall be unique among all labels defined in the same test case, function or altstep.",
+   "lines": [
+    14686,
+    14687
+   ]
+  },
+  {
+   "id": "19.7-s008",
+   "section": "19.7",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "label MyLabel;  // Defines the label MyLabel\n  // The labels L1, L2 and L3 are defined in the following TTCN-3 code fragment \n   :\n  label L1; // Definition of label L1\n  alt{\n  [] pCO1.receive(mw_mySig1) \n     { label L2; // Definition of label L2 \n       pCO1.send(m_mySig2);\n       pCO1.receive(mw_ySig3)\n     }\n  [] pCO2.receive(mw_mySig4)\n     { pCO2.send(m_mySig5);\n       pCO2.send(m_mySig6);\n       label L3; // Definition of label L3 \n       pCO2.receive(mw_mySig7);\n     }\n  }\n   :",
+   "lines": [
+    14690,
+    14709
+   ]
+  },
+  {
+   "id": "19.8-s001",
+   "section": "19.8",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "A goto statement performs a jump to a label.",
+   "lines": [
+    14713,
+    14713
+   ]
+  },
+  {
+   "id": "19.8-s002",
+   "section": "19.8",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "goto LabelIdentifier",
+   "lines": [
+    14716,
+    14718
+   ]
+  },
+  {
+   "id": "19.8-s003",
+   "section": "19.8",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The goto statement can be used in functions, test cases and altsteps to transfer control to a labelled statement.",
+   "lines": [
+    14722,
+    14722
+   ]
+  },
+  {
+   "id": "19.8-s004",
+   "section": "19.8",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The goto statement provides the possibility to jump freely, i.e. forwards and backwards, within a sequence of statements, to jump out of a single compound statement (e.g. a while loop) and to jump over several levels out of nested compound statements (e.g. nested alternatives).",
+   "lines": [
+    14724,
+    14726
+   ]
+  },
+  {
+   "id": "19.8-s005",
+   "section": "19.8",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clause 5 and shown in table 16, the following restrictions apply:",
+   "lines": [
+    14730,
+    14731
+   ]
+  },
+  {
+   "id": "19.8-s006",
+   "section": "19.8",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) It is not allowed to jump out of or into functions, test cases and altsteps.",
+   "lines": [
+    14733,
+    14733
+   ]
+  },
+  {
+   "id": "19.8-s007",
+   "section": "19.8",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "b) It is not allowed to jump into a sequence of statements defined in a compound statement (i.e. alt statement,",
+   "lines": [
+    14735,
+    14735
+   ]
+  },
+  {
+   "id": "19.8-s008",
+   "section": "19.8",
+   "kind": "code",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "while loop, for loop, if-else statement, do-while loop and the interleave statement).",
+   "lines": [
+    14736,
+    14738
+   ]
+  },
+  {
+   "id": "19.8-s009",
+   "section": "19.8",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "c) It is not allowed to use the goto statement within an interleave statement.",
+   "lines": [
+    14740,
+    14740
+   ]
+  },
+  {
+   "id": "19.8-s010",
+   "section": "19.8",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "// The following TTCN-3 code fragment includes\n  :\n  label L1; // … the definition of label L1,\n  m_myVar := 2 * m_myVar;\n  if (m_myVar < 2000) { goto L1; } // … a jump backward to L1,\n  m_myVar2 := f_myFunction(m_myVar);\n  if (m_myVar2 > m_myVar) { goto L2; } // … a jump forward to L2, \n  pCO1.send(m_myVar);\n  pCO1.receive;\n  label L2;  // … the definition of label L2,\n  pCO2.send(integer: 21);\n  alt {\n   [] pCO1.receive { }\n   [] pCO2.receive(integer: 67) {\n       label L3; // … the definition of label L3,\n       pCO2.send(m_myVar);\n       alt {\n        [] pCO1.receive { }\n        [] pCO2.receive(integer: 90) {\n            pCO2.send(integer: 33);\n            pCO2.receive(integer: 13);\n            goto L4; // … a jump forward out of two nested alt statements,\n          }\n        [] pCO2.receive(mw_myError) {\n            goto L3; // … a jump backward out of the current alt statement,\n          }\n        [] any port.receive {\n            goto L2; // … a jump backward out of two nested alt statements,\n          }\n       }\n     }\n   [] any port.receive {\n       goto L2; // … and a long jump backward out of an alt statement.\n     }\n  }\n  label L4;\n  :",
+   "lines": [
+    14748,
+    14786
+   ]
+  }
+ ]
+}

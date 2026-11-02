@@ -1,0 +1,23 @@
+// @requirement: 19.3.1 -- Each branch starts with the case keyword followed by a list of templateInstance (a list branch, which may also contain a single element) or in the last branch the case keyword may be followed by the else keyword (an else branch) and a statement block.
+// @id: TTCN3-CORE-19.3.1-009c
+// @verdict: pass reject
+module M_19_03_01_test_010 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_x := 1;
+        select (v_x) {
+            case else {
+                setverdict(fail);
+            }
+            case (1) { // error: list branch after the else branch
+                setverdict(pass);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

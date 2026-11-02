@@ -1,0 +1,39 @@
+// @requirement: 22.1.4.1 -- broadcast communication is used and all entities connected to the specified port have to be addressed.
+// @id: TTCN3-CORE-22.1.4.1-010a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_01_04_01_test_009 {
+
+    signature S(in integer p_x) noblock;
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    function f_server() runs on C {
+        T.start;
+        alt {
+            [] p.getcall(S:{1}) { setverdict(pass); }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc1 := C.create, v_ptc2 := C.create, v_ptc3 := C.create;
+        connect(mtc:p, v_ptc1:p);
+        connect(mtc:p, v_ptc2:p);
+        connect(mtc:p, v_ptc3:p);
+        v_ptc1.start(f_server());
+        v_ptc2.start(f_server());
+        v_ptc3.start(f_server());
+        p.call(S:{1}) to all component;
+        all component.done;
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

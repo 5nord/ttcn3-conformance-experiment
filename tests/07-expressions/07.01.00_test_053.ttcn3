@@ -1,0 +1,32 @@
+// @requirement: 7.1.0 -- That is: a.b[x].d=>e.f is equivalent to `((((a.b)[x]).d)=>e).f`
+// @id: TTCN3-CORE-7.1.0-056a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_07_01_00_test_053 {
+
+    type record D {
+        integer f
+    }
+    type record E {
+        D d
+    }
+    type record of E EL;
+    type record A {
+        EL b
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_x := 1;
+        var A v_a := { b := { { d := { f := 1 } }, { d := { f := 2 } } } };
+        if (v_a.b[v_x].d.f == 2) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

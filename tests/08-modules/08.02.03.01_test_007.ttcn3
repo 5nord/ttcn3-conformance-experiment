@@ -1,0 +1,27 @@
+// @requirement: 8.2.3.1 -- In contrast to module definitions, which are by default public, import statements are by default private.
+// @id: TTCN3-CORE-8.2.3.1-007b
+// @verdict: pass reject
+module M_08_02_03_01_test_007 {
+
+    import from M_08_02_03_01_test_007_B { import all }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (c_a == 1) { // error: the import of c_a in module B is private, so c_a is not imported
+            setverdict(pass);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_03_01_test_007_B {
+    import from M_08_02_03_01_test_007_A { const c_a }
+}
+
+module M_08_02_03_01_test_007_A {
+    const integer c_a := 1;
+}

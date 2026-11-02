@@ -1,0 +1,27 @@
+// @requirement: 20.5.0 -- TTCN-3 allows the activation of altsteps (see clause 16.2.1) as defaults.
+// @id: TTCN3-CORE-20.5.0-001a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_05_00_test_001 {
+
+    type component C {
+        timer T;
+        timer T_guard;
+    }
+
+    altstep a_def() runs on C {
+        [] T.timeout { setverdict(pass); }
+    }
+
+    testcase TC() runs on C {
+        activate(a_def());
+        T.start(0.1);
+        T_guard.start(1.0);
+        alt {
+            [] T_guard.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,40 @@
+// @requirement: 21.3.1 -- A component is created with its full set of ports of which the input queues are empty and with its full set of constants, variables and timers.
+// @id: TTCN3-CORE-21.3.1-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_03_01_test_004 {
+
+    type port P message {
+        inout integer
+    }
+
+    type component C {
+        port P p1;
+        port P p2;
+    }
+
+    function f_ptc() runs on C {
+        timer T := 0.5;
+        T.start;
+        alt {
+            [] p1.receive {
+                setverdict(fail);
+            }
+            [] p2.receive {
+                setverdict(fail);
+            }
+            [] T.timeout {
+                setverdict(pass);
+            }
+        }
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        v_ptc.start(f_ptc());
+        v_ptc.done;
+    }
+
+    control {
+        execute(TC());
+    }
+}

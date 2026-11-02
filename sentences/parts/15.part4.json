@@ -1,0 +1,1374 @@
+{
+ "part": "15.part4",
+ "chapter": "15",
+ "chapter_file": "15-declaring-templates",
+ "title": "Declaring templates",
+ "sections": {
+  "15.6.3": {
+   "title": "Referencing record of and set of elements",
+   "start": 11389
+  },
+  "15.6.4": {
+   "title": "Referencing signature parameters",
+   "start": 11620
+  },
+  "15.6.5": {
+   "title": "Referencing union alternatives",
+   "start": 11657
+  },
+  "15.6.6": {
+   "title": "Referencing map elements",
+   "start": 11735
+  }
+ },
+ "lines": [
+  11391,
+  11835
+ ],
+ "units": [
+  {
+   "id": "15.6.3-s001",
+   "section": "15.6.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Both templates and template variables allow referencing elements of a record of, array or set of template or field using the index notation.",
+   "lines": [
+    11391,
+    11393
+   ]
+  },
+  {
+   "id": "15.6.3-s002",
+   "section": "15.6.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "However, a matching mechanism may be assigned to the template or field within which the element is referenced.",
+   "lines": [
+    11391,
+    11393
+   ]
+  },
+  {
+   "id": "15.6.3-s003",
+   "section": "15.6.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "This clause provides rules on handling such cases:",
+   "lines": [
+    11391,
+    11393
+   ]
+  },
+  {
+   "id": "15.6.3-s004",
+   "section": "15.6.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "a) _Omit: referencing an element within a record of, set of or array field to which omit is assigned shall follow the_ rules specified in clause 6.2.3.",
+   "lines": [
+    11395,
+    11396
+   ]
+  },
+  {
+   "id": "15.6.3-s005",
+   "section": "15.6.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "b) Template lists, complemented lists, subset and superset: referencing an element within a record of or set of field to which a complemented list, a subset or a superset is assigned, shall cause an error.",
+   "lines": [
+    11398,
+    11399
+   ]
+  },
+  {
+   "id": "15.6.3-s006",
+   "section": "15.6.3",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 1:",
+   "lines": [
+    11403,
+    11403
+   ]
+  },
+  {
+   "id": "15.6.3-s007",
+   "section": "15.6.3",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "type record of integer RoI;\n  :\n  var template RoI v_roI;\n  var template integer v_int;\n  v_roI := ({},{0},{0,0},{0,0,0});\n  v_int := v_RoI[0]; \n    // shall cause an error as template list is assigned to v_roI",
+   "lines": [
+    11404,
+    11412
+   ]
+  },
+  {
+   "id": "15.6.3-s008",
+   "section": "15.6.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "c) _AnyValue: when referencing an element of a record of or set of template or field to which AnyValue is_ assigned (without a length attribute), at the right hand side of an assignment, AnyValue shall be returned.",
+   "lines": [
+    11414,
+    11422
+   ]
+  },
+  {
+   "id": "15.6.3-s009",
+   "section": "15.6.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "If a length attribute is attached to the AnyValue, the index of the reference shall not violate the length attribute.",
+   "lines": [
+    11414,
+    11422
+   ]
+  },
+  {
+   "id": "15.6.3-s010",
+   "section": "15.6.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "When referencing an element within a record of or set of template or field to which AnyValue is assigned (without a length attribute), at the left hand side of an assignment, the value or matching mechanism at the right hand side of the assignment shall be assigned to the referenced element, AnyElement shall be assigned to all elements before the referenced one (if any) and a single AnyElementsOrNone shall be added at the end.",
+   "lines": [
+    11414,
+    11422
+   ]
+  },
+  {
+   "id": "15.6.3-s011",
+   "section": "15.6.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "When a length attribute is attached to AnyValue, the attribute shall be conveyed to the new template or field transparently.",
+   "lines": [
+    11414,
+    11422
+   ]
+  },
+  {
+   "id": "15.6.3-s012",
+   "section": "15.6.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "The index shall not violate type restrictions in any of the above cases.",
+   "lines": [
+    11414,
+    11422
+   ]
+  },
+  {
+   "id": "15.6.3-s013",
+   "section": "15.6.3",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE 2:",
+   "lines": [
+    11429,
+    11429
+   ]
+  },
+  {
+   "id": "15.6.3-s014",
+   "section": "15.6.3",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "type record of integer RoI;\n type record of RoI RoRoI;\n :\n var template RoI v_roI;\n var template RoRoI v_roRoI;\n var template integer v_int;\n :\n v_roI := ?;\n v_int := v_roI[5];\n   // after the assignment v_int will be AnyValue(?);\n v_roRoI := ?;\n v_roI := v_roRoI[5];\n   // after the assignment v_roI will be AnyValue(?);\n v_int := v_roRoI[5].[3];\n   // after the assignment v_int will be AnyValue(?);\n v_roI := ? length (2..5);\n v_int := v_roI[3];\n   // after the assignment v_int will be AnyValue(?);\n v_int := v_roI[5];\n   // shall cause an error as the referenced index is outside the length attribute\n   // (note that index 5 would refer to the 6[th] element);\n v_roRoI[2] := {0,0};\n   // after the assignment v_roRoI will be {?,?,{0,0},*};\n v_roRoI[4] := {1,1};\n   // after the assignment v_roRoI will be {?,?,{0,0},?,{1,1},*};\n v_roI[0] := -5;\n   // after the assignment v_roI will be {-5,*} length(2..5);\n v_roI := ? length (2..5);\n v_roI[1] := 1;\n   // after the assignment v_roI will be {?,1,*} length(2..5);\n v_roI[3] := ?;\n   // after the assignment v_roI will be {?,1,?,?,*} length(2..5);\n v_roI[5] := 5;\n   // after the assignment v_roI will be {?,1,?,?,?,5,*} length(2..5); note that v_roI\n   // becomes an empty set but that shall cause no error;",
+   "lines": [
+    11430,
+    11466
+   ]
+  },
+  {
+   "id": "15.6.3-s015",
+   "section": "15.6.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "d) _AnyValueOrNone: referencing an element within a record of, set of or array field to which AnyValueOrNone_ with or without a length attribute is assigned on the right hand side of an assignment shall cause an error.",
+   "lines": [
+    11468,
+    11471
+   ]
+  },
+  {
+   "id": "15.6.3-s016",
+   "section": "15.6.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "When referencing an element within a record of, set of or array field to which AnyValueOrNone is assigned on the left hand side of an assignment, the rules for AnyValue shall apply (see item c) for more details).",
+   "lines": [
+    11468,
+    11471
+   ]
+  },
+  {
+   "id": "15.6.3-s017",
+   "section": "15.6.3",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE 3:",
+   "lines": [
+    11473,
+    11473
+   ]
+  },
+  {
+   "id": "15.6.3-s018",
+   "section": "15.6.3",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "type record of integer RoI;\n type record R\n {\n   RoI field1 optional\n }\n :\n var template R mw_t1 := { field1 := * };\n var template integer mw_t2;\n mw_t1.field1[2] := 2; // after the assignment, mw_t1 will be { field1 := { ?, ?, 2, * } }\n mw_t1.field1 := *;\n mw_t2 := mw_t1.field1[0]; \n   // shall cause an error as mw_t1.field1 contains AnyValueOrNone",
+   "lines": [
+    11474,
+    11487
+   ]
+  },
+  {
+   "id": "15.6.3-s019",
+   "section": "15.6.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "e) _Permutation: when referencing an element of a record of template or field, which is located inside a_ permutation (based on its index), this shall cause an error.",
+   "lines": [
+    11489,
+    11492
+   ]
+  },
+  {
+   "id": "15.6.3-s020",
+   "section": "15.6.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "Indexes of elements sheltered by a permutation shall be determined based on the number of permutation elements.",
+   "lines": [
+    11489,
+    11492
+   ]
+  },
+  {
+   "id": "15.6.3-s021",
+   "section": "15.6.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "AnyElementsOrNone as a permutation element causes that the permutation shelters all record of element indexes.",
+   "lines": [
+    11489,
+    11492
+   ]
+  },
+  {
+   "id": "15.6.3-s022",
+   "section": "15.6.3",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE 4:",
+   "lines": [
+    11494,
+    11494
+   ]
+  },
+  {
+   "id": "15.6.3-s023",
+   "section": "15.6.3",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "v_roI:= {permutation(0,1,3,?),2,?};\n v_int := v_roI[5];\n   // after the assignment v_int will be AnyValue(?)\n v_roI:= {permutation(0,1,3,?),2,*};\n v_int := v_roI[5];\n   // after the assignment v_int will be * (AnyValueOrNone)\n v_int := v_roI[2];\n   // causes error as the third element (with index 2) is inside permutation\n v_roI:= {permutation(0,1,3,*),2,?};\n v_int := v_roI[5];\n   // causes error as the permutation contains AnyValueOrNone(*) that is able to\n   // cover any record of indexes",
+   "lines": [
+    11495,
+    11508
+   ]
+  },
+  {
+   "id": "15.6.3-s024",
+   "section": "15.6.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "f) Ifpresent attribute: referencing an element within a record of or set of field to which the ifpresent attribute is attached, shall cause an error (irrespective of the value or the matching mechanism to which ifpresent is appended).",
+   "lines": [
+    11510,
+    11511
+   ]
+  },
+  {
+   "id": "15.6.3-s025",
+   "section": "15.6.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "g) _AnyElementsOrNone: when referencing an element of a record of or set of template or field that contains_ _AnyElementsOrNone, the result of an operation is dependent on the position of AnyElementsOrNone, the_ referenced index and length attributes attached to AnyElementsOrNone.",
+   "lines": [
+    11513,
+    11515
+   ]
+  },
+  {
+   "id": "15.6.3-s026",
+   "section": "15.6.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "When resolving the reference, a transformed form of the record of or set of template is used.",
+   "lines": [
+    11517,
+    11522
+   ]
+  },
+  {
+   "id": "15.6.3-s027",
+   "section": "15.6.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The transformed form is equal to the original value where all occurrences of AnyElementsOrNone with a length restriction are replaced with a sequence of AnyElements of the same size as the lower bound.",
+   "lines": [
+    11517,
+    11522
+   ]
+  },
+  {
+   "id": "15.6.3-s028",
+   "section": "15.6.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "If the lower bound is greater than the upper bound, the sequence shall be followed by a single AnyElementsOrNone symbol with a length restriction.",
+   "lines": [
+    11517,
+    11522
+   ]
+  },
+  {
+   "id": "15.6.3-s029",
+   "section": "15.6.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The lower bound of this restriction is zero and the upper bound is the difference between the lower and upper bound of the original restriction.",
+   "lines": [
+    11517,
+    11522
+   ]
+  },
+  {
+   "id": "15.6.3-s030",
+   "section": "15.6.3",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE 5:",
+   "lines": [
+    11524,
+    11524
+   ]
+  },
+  {
+   "id": "15.6.3-s031",
+   "section": "15.6.3",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "type record of integer RoI;\n template RoI mw_roI := {1, * length(2), 5};  // transformed form: {1, ?, ?, 5}\n template RoI mw_roI := {1, * length(1..3), 5}; // transformed form: {1, ?, * length(0..2), 5}",
+   "lines": [
+    11525,
+    11529
+   ]
+  },
+  {
+   "id": "15.6.3-s032",
+   "section": "15.6.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "h) Special value null: referencing an element of an address type, which actual value is null shall cause an error.",
+   "lines": [
+    11531,
+    11532
+   ]
+  },
+  {
+   "id": "15.6.3-s033",
+   "section": "15.6.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "When the reference is used at the right hand side of the assignment, the following applies:",
+   "lines": [
+    11534,
+    11534
+   ]
+  },
+  {
+   "id": "15.6.3-s034",
+   "section": "15.6.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "If positions of all AnyElementsOrNone matching symbols in the transformed form are greater than the position of the referenced item, rules from the clause 6.2.3.2 are used for resolving the reference.",
+   "lines": [
+    11536,
+    11537
+   ]
+  },
+  {
+   "id": "15.6.3-s035",
+   "section": "15.6.3",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE 6:",
+   "lines": [
+    11539,
+    11539
+   ]
+  },
+  {
+   "id": "15.6.3-s036",
+   "section": "15.6.3",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "type record of integer RoI;\n :\n var template RoI v_roI := {1, 2, * length(2), 5};\n   // transformed form: {1, 2, ?, ?, 5}\n var template integer v_int;\n v_int := v_roI[1]; // after the assignment, v_int will be 2\n v_int := v_roI[2]; // after the assignment, v_int will be ?",
+   "lines": [
+    11540,
+    11548
+   ]
+  },
+  {
+   "id": "15.6.3-s037",
+   "section": "15.6.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "If the position of the referenced item is greater or equal to the position of any AnyElementsOrNone symbol in the transformed template, an error is generated.",
+   "lines": [
+    11550,
+    11551
+   ]
+  },
+  {
+   "id": "15.6.3-s038",
+   "section": "15.6.3",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE 7:",
+   "lines": [
+    11553,
+    11553
+   ]
+  },
+  {
+   "id": "15.6.3-s039",
+   "section": "15.6.3",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "type record of integer RoI;\n :\n var template RoI v_roI := {1, 2, *, 5}; \n var template integer v_int := v_roI[3]; // produces an error\n v_roI := {1, 2, *}; \n v_int := v_roI[2]; // produces an error",
+   "lines": [
+    11554,
+    11561
+   ]
+  },
+  {
+   "id": "15.6.3-s040",
+   "section": "15.6.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "When the reference is used at the left hand side of the assignment, the following applies:",
+   "lines": [
+    11563,
+    11563
+   ]
+  },
+  {
+   "id": "15.6.3-s041",
+   "section": "15.6.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "If positions of all AnyElementsOrNone matching symbols in the transformed form are greater than the position of the referenced item the following rules are used.",
+   "lines": [
+    11565,
+    11565
+   ]
+  },
+  {
+   "id": "15.6.3-s042",
+   "section": "15.6.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "If the referenced item is not a result of transformation, the value or matching symbol at the right hand side of the assignment shall replace the referenced symbol in the original template.",
+   "lines": [
+    11565,
+    11565
+   ]
+  },
+  {
+   "id": "15.6.3-s043",
+   "section": "15.6.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "If the referenced element was a result of transformation, then the AnyValueOrNone symbol in the original template is replaced with its transformed form and the assignment is performed afterwards.",
+   "lines": [
+    11565,
+    11565
+   ]
+  },
+  {
+   "id": "15.6.3-s044",
+   "section": "15.6.3",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE 8:",
+   "lines": [
+    11572,
+    11572
+   ]
+  },
+  {
+   "id": "15.6.3-s045",
+   "section": "15.6.3",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "type record of integer RoI;\n   :\n   var template RoI v_roI := {1, 2, * length(2), 5};\n     // transformed form: {1, 2, ?, ?, 5}\n   v_roI [1] := 10;  // after the assignment, v_RoI will be {1, 10, * length(2), 5}\n   v_roI [2] := 3;  // after the assignment, v_RoI will be {1, 10, 3, ?, 5}",
+   "lines": [
+    11573,
+    11580
+   ]
+  },
+  {
+   "id": "15.6.3-s046",
+   "section": "15.6.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "If the position of the referenced item is greater or equal to the position of any AnyElementsOrNone symbol in the transformed form and this AnyElementsOrNone symbol is not the last element in the template, an error is generated.",
+   "lines": [
+    11582,
+    11582
+   ]
+  },
+  {
+   "id": "15.6.3-s047",
+   "section": "15.6.3",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE 9:",
+   "lines": [
+    11584,
+    11584
+   ]
+  },
+  {
+   "id": "15.6.3-s048",
+   "section": "15.6.3",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "type record of integer RoI;\n   :\n   var template RoI v_roI:= {1, 2, *, 5}; \n   v_roI[3] := 4; // produces an error",
+   "lines": [
+    11585,
+    11590
+   ]
+  },
+  {
+   "id": "15.6.3-s049",
+   "section": "15.6.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "If the position of the referenced item is greater or equal to the position of an AnyElementsOrNone symbol in the transformed form and this AnyElementsOrNone is the last symbol in the template, the value or matching symbol at the right hand side of the assignment shall be assigned to the referenced element.",
+   "lines": [
+    11592,
+    11602
+   ]
+  },
+  {
+   "id": "15.6.3-s050",
+   "section": "15.6.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "Then the AnyElementsOrNone symbol and all unbound values between it and the referenced symbol shall be replaced with AnyElement symbols.",
+   "lines": [
+    11592,
+    11602
+   ]
+  },
+  {
+   "id": "15.6.3-s051",
+   "section": "15.6.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "If the AnyElementsOrNone symbol had a length restriction, only as many AnyElement symbols can be added as is the value of the upper bound of the restriction.",
+   "lines": [
+    11592,
+    11602
+   ]
+  },
+  {
+   "id": "15.6.3-s052",
+   "section": "15.6.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "As the last step, an AnyElementsOrNone symbol can be appended to the end of the template.",
+   "lines": [
+    11592,
+    11602
+   ]
+  },
+  {
+   "id": "15.6.3-s053",
+   "section": "15.6.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "The symbol is always appended if the original AnyElementsOrNone symbol was unrestricted.",
+   "lines": [
+    11592,
+    11602
+   ]
+  },
+  {
+   "id": "15.6.3-s054",
+   "section": "15.6.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "If the original AnyElementsOrNone had a length restriction, the symbol is appended only if the restriction included items beyond the referenced item.",
+   "lines": [
+    11592,
+    11602
+   ]
+  },
+  {
+   "id": "15.6.3-s055",
+   "section": "15.6.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "In such a case, the appended symbol contains the original length restriction adjusted by the difference between the size of the template before and after assignment.",
+   "lines": [
+    11592,
+    11602
+   ]
+  },
+  {
+   "id": "15.6.3-s056",
+   "section": "15.6.3",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE 10:",
+   "lines": [
+    11604,
+    11604
+   ]
+  },
+  {
+   "id": "15.6.3-s057",
+   "section": "15.6.3",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "type record of integer RoI;\n   :\n   var template RoI v_roI := {1, 2, * };\n   v_roI[4] := 5; // {1, 2, ?, ?, 5, *};\n   v_roI := {1, * length(1..2)};\n   v_roI[4] := 5; // {1, ?, ?, -, 5};\n     // short length restriction: only two ? symbols added and no * at the end\n   v_roI := {1, * length(1..5)};\n   v_roI[2] := 3; // {1, ?, 3, * length(0..3)};\n     // adjusted length restriction at the end",
+   "lines": [
+    11605,
+    11616
+   ]
+  },
+  {
+   "id": "15.6.3-s058",
+   "section": "15.6.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The index of the referenced item shall not violate type restrictions in any of the above cases.",
+   "lines": [
+    11618,
+    11618
+   ]
+  },
+  {
+   "id": "15.6.4-s001",
+   "section": "15.6.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "While signature templates do not allow referencing their parameters directly (e.g. using dot notation), such a reference is possible when modifying a signature template.",
+   "lines": [
+    11622,
+    11624
+   ]
+  },
+  {
+   "id": "15.6.4-s002",
+   "section": "15.6.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "However, there can be a matching mechanism assigned to the signature template.",
+   "lines": [
+    11622,
+    11624
+   ]
+  },
+  {
+   "id": "15.6.4-s003",
+   "section": "15.6.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "This clause provides rules for such cases.",
+   "lines": [
+    11622,
+    11624
+   ]
+  },
+  {
+   "id": "15.6.4-s004",
+   "section": "15.6.4",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "a) Value lists and complemented lists: referencing a parameter of a signature template to which a value list or a complemented list is assigned, at the left hand side of an assignment, shall cause an error.",
+   "lines": [
+    11626,
+    11627
+   ]
+  },
+  {
+   "id": "15.6.4-s005",
+   "section": "15.6.4",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 1:",
+   "lines": [
+    11631,
+    11631
+   ]
+  },
+  {
+   "id": "15.6.4-s006",
+   "section": "15.6.4",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "signature MySignature(in integer par1, in integer par2);\n   template MySignature s_mySign1 := ({ par1 := 1, par2 := 2 }, { par1 := 2, par2 := 1 });\n   template MySignature s_mySign2 modifies s_mySign1 := { par1 := ? }; \n   // shall cause an error as s_mySign1 contains a value list template",
+   "lines": [
+    11632,
+    11637
+   ]
+  },
+  {
+   "id": "15.6.4-s007",
+   "section": "15.6.4",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "b) _AnyValue: when referencing a parameter within a signature to which AnyValue is assigned, at the left hand_ side of an assignment, the signature template is implicitly expanded to the parameter level.",
+   "lines": [
+    11644,
+    11647
+   ]
+  },
+  {
+   "id": "15.6.4-s008",
+   "section": "15.6.4",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "During this expansion an AnyValue shall be assigned to all parameters of the template.",
+   "lines": [
+    11644,
+    11647
+   ]
+  },
+  {
+   "id": "15.6.4-s009",
+   "section": "15.6.4",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "After this expansion the value or matching mechanism at the right hand side of the assignment shall be assigned to the referenced parameter.",
+   "lines": [
+    11644,
+    11647
+   ]
+  },
+  {
+   "id": "15.6.4-s010",
+   "section": "15.6.4",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE 2:",
+   "lines": [
+    11649,
+    11649
+   ]
+  },
+  {
+   "id": "15.6.4-s011",
+   "section": "15.6.4",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "template MySignature s_mySign3 := ?;\n   template MySignature s_mySign4 modifies s_mySign3 := { par1 := 3 }; \n   // s_mySign3 is expanded to { par1 := ?, par2 := ? }, then 3 is assigned to par1,\n   // thus s_mySign4 will be { par1 := 3, par2 := ? }",
+   "lines": [
+    11650,
+    11655
+   ]
+  },
+  {
+   "id": "15.6.5-s001",
+   "section": "15.6.5",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Both templates and template variables allow referencing alternatives inside a union template definition using the dot notation.",
+   "lines": [
+    11659,
+    11661
+   ]
+  },
+  {
+   "id": "15.6.5-s002",
+   "section": "15.6.5",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "However, the referenced alternative may belong to template field containing a matching mechanism.",
+   "lines": [
+    11659,
+    11661
+   ]
+  },
+  {
+   "id": "15.6.5-s003",
+   "section": "15.6.5",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "This clause provides rules for such cases.",
+   "lines": [
+    11659,
+    11661
+   ]
+  },
+  {
+   "id": "15.6.5-s004",
+   "section": "15.6.5",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "a) _Omit, AnyValueOrNone, template lists and complemented lists: referencing an alternative of a union template_ or template field to which Omit, AnyValueOrNone, a template list or a complemented list is assigned, at the right hand side of an assignment, shall cause an error.",
+   "lines": [
+    11663,
+    11673
+   ]
+  },
+  {
+   "id": "15.6.5-s005",
+   "section": "15.6.5",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "When referencing an alternative of a union template or template field to which AnyValueOrNone or Omit is assigned, at the left hand side of an assignment, the template field is implicitly set to be present and the referenced alternative becomes the chosen one.",
+   "lines": [
+    11663,
+    11673
+   ]
+  },
+  {
+   "id": "15.6.5-s006",
+   "section": "15.6.5",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "If the referenced alternative is not the last element of the dot notation, rules in clause 15.6.2 valid for AnyValue shall apply recursively for further expansion.",
+   "lines": [
+    11663,
+    11673
+   ]
+  },
+  {
+   "id": "15.6.5-s007",
+   "section": "15.6.5",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "After this expansion the value or matching mechanism at the right hand side of the assignment shall be assigned to the referenced subfield.",
+   "lines": [
+    11663,
+    11673
+   ]
+  },
+  {
+   "id": "15.6.5-s008",
+   "section": "15.6.5",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "Referencing an alternative of a union template field to which template lists or complemented template lists are assigned, at the left hand side of an assignment, shall cause an error.",
+   "lines": [
+    11663,
+    11673
+   ]
+  },
+  {
+   "id": "15.6.5-s009",
+   "section": "15.6.5",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 1:",
+   "lines": [
+    11677,
+    11677
+   ]
+  },
+  {
+   "id": "15.6.5-s010",
+   "section": "15.6.5",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "type record R1 {\n     integer f1,\n     integer f2\n  }\n  type union U {\n     integer c1,\n     R1   c2\n  }\n  type record R2 {\n     integer g1,\n     U    g2 optional\n  }\n  :\n  var template R2 v_t1 := {\n     g1 := 5,\n     g2 := *\n  }\n  var template integer v_t2;\n  v_t1.g2.f1 := 1;\n     // after the assignment v_t2.g2 is { g2 := { f1 := 1, f2 := ? } }\n  v_t1.g2 := omit;\n  v_t2 := v_t1.g2.c1;\n     // causes an error as omit is assigned to v_t1.g2\n  var template U v_u := {c1 := omit}; //causes an error as union alternatives can not be omitted\n  var template U v_u2 := omit; // after the assignment v_u2 will be omit",
+   "lines": [
+    11678,
+    11704
+   ]
+  },
+  {
+   "id": "15.6.5-s011",
+   "section": "15.6.5",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "b) _AnyValue: when referencing an alternative of a union template or template field to which AnyValue is_ assigned, at the right hand side of an assignment, AnyValue shall be returned.",
+   "lines": [
+    11711,
+    11717
+   ]
+  },
+  {
+   "id": "15.6.5-s012",
+   "section": "15.6.5",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "When referencing an alternative of a union template or template field to which AnyValue is assigned, at the left hand side of an assignment, the referenced alternative becomes the chosen one.",
+   "lines": [
+    11711,
+    11717
+   ]
+  },
+  {
+   "id": "15.6.5-s013",
+   "section": "15.6.5",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "If the referenced alternative is not the last element of the dot notation, rules in clause 15.6.2 valid for AnyValue shall apply recursively for further expansion.",
+   "lines": [
+    11711,
+    11717
+   ]
+  },
+  {
+   "id": "15.6.5-s014",
+   "section": "15.6.5",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "After this expansion the value or matching mechanism at the right hand side of the assignment shall be assigned to the referenced subfield.",
+   "lines": [
+    11711,
+    11717
+   ]
+  },
+  {
+   "id": "15.6.5-s015",
+   "section": "15.6.5",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE 2:",
+   "lines": [
+    11719,
+    11719
+   ]
+  },
+  {
+   "id": "15.6.5-s016",
+   "section": "15.6.5",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "var template U v_t3 := ?;\n  v_t2 := v_t3.c1;\n     // after the assignment v_t2 will be ?\n  v_t3.c1.f1 := 1;\n     // after the assignment v_t3 will be { c1 := { f1 := 1, f2 := ? } }",
+   "lines": [
+    11720,
+    11726
+   ]
+  },
+  {
+   "id": "15.6.5-s017",
+   "section": "15.6.5",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "c) Ifpresent attribute: referencing an alternative of a union template field to which the ifpresent attribute is attached, shall cause an error (irrespective of the value or the matching mechanism to which ifpresent is appended).",
+   "lines": [
+    11728,
+    11730
+   ]
+  },
+  {
+   "id": "15.6.5-s018",
+   "section": "15.6.5",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "d) Special value null: referencing an alternative of an address type, which actual value is null shall cause an error.",
+   "lines": [
+    11732,
+    11733
+   ]
+  },
+  {
+   "id": "15.6.6-s001",
+   "section": "15.6.6",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Both templates and template variables allow referencing elements of a map template or field using the index notation.",
+   "lines": [
+    11737,
+    11739
+   ]
+  },
+  {
+   "id": "15.6.6-s002",
+   "section": "15.6.6",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "However, a matching mechanism may be assigned to the template or field within which the element is referenced.",
+   "lines": [
+    11737,
+    11739
+   ]
+  },
+  {
+   "id": "15.6.6-s003",
+   "section": "15.6.6",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "This clause provides rules on handling such cases:",
+   "lines": [
+    11737,
+    11739
+   ]
+  },
+  {
+   "id": "15.6.6-s004",
+   "section": "15.6.6",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "a) _Omit: referencing an element within a map to which omit is assigned shall follow the rules specified in_ clause 6.2.15.7.",
+   "lines": [
+    11741,
+    11742
+   ]
+  },
+  {
+   "id": "15.6.6-s005",
+   "section": "15.6.6",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "b) Template lists and complemented lists: referencing an element within a map field to which a list or complemented list is assigned, shall cause an error.",
+   "lines": [
+    11744,
+    11745
+   ]
+  },
+  {
+   "id": "15.6.6-s006",
+   "section": "15.6.6",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 1:",
+   "lines": [
+    11749,
+    11749
+   ]
+  },
+  {
+   "id": "15.6.6-s007",
+   "section": "15.6.6",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "type map from charstring to integer TMap;\n     :\n     var template TMap v_map;\n     var template integer v_int;\n     v_map := ({[\"id\"] := 1}, {[\"id\"] := ?, [\"active\"] := 1});\n     v_int := v_map [0];\n    // shall cause an error as template list is assigned to v_map",
+   "lines": [
+    11750,
+    11758
+   ]
+  },
+  {
+   "id": "15.6.6-s008",
+   "section": "15.6.6",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "c) _AnyValue: when referencing an element of a map template or field to which AnyValue is assigned, at the_ right- hand side of an assignment, AnyValueOrNone shall be returned.",
+   "lines": [
+    11760,
+    11766
+   ]
+  },
+  {
+   "id": "15.6.6-s009",
+   "section": "15.6.6",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "When referencing an element within a map template or field to which AnyValue is assigned, at the left-hand side of an assignment, the template or field is implicitly expanded recursively up to and including, the depth of the referenced subfield and AnyValue is assigned to the referenced field.",
+   "lines": [
+    11760,
+    11766
+   ]
+  },
+  {
+   "id": "15.6.6-s010",
+   "section": "15.6.6",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "Then the value or matching mechanism at the right-hand side of the assignment shall be assigned to the referenced field and _AnyElementsOrNone shall be added to the map template._",
+   "lines": [
+    11760,
+    11766
+   ]
+  },
+  {
+   "id": "15.6.6-s011",
+   "section": "15.6.6",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE 2:",
+   "lines": [
+    11768,
+    11768
+   ]
+  },
+  {
+   "id": "15.6.6-s012",
+   "section": "15.6.6",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "type map from charstring to integer TMap;\n     :\n     var template TMap v_map;\n     var template integer v_int;\n     :\n     v_map := ?;\n     v_int := v_map[\"test\"];\n     // after the assignment v_int will be AnyValueOrNone(*)\n     v_map[\"test\"] := 2;\n     // after the assignment v_map will be { *, [\"test\"] := 2 }",
+   "lines": [
+    11769,
+    11780
+   ]
+  },
+  {
+   "id": "15.6.6-s013",
+   "section": "15.6.6",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "d) _AnyValueOrNone: referencing an element within a map template or field to which AnyValueOrNone is_ assigned on the right-hand side of an assignment shall cause an error.",
+   "lines": [
+    11787,
+    11788
+   ]
+  },
+  {
+   "id": "15.6.6-s014",
+   "section": "15.6.6",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "When referencing an element within a",
+   "lines": [
+    11787,
+    11788
+   ]
+  },
+  {
+   "id": "15.6.6-s015",
+   "section": "15.6.6",
+   "kind": "code",
+   "context": null,
+   "normative": true,
+   "text": "map template or field to which AnyValueOrNone is assigned on the left-hand side of an assignment, the rules",
+   "lines": [
+    11789,
+    11791
+   ]
+  },
+  {
+   "id": "15.6.6-s016",
+   "section": "15.6.6",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "for AnyValue shall apply (see item c) for more details).",
+   "lines": [
+    11793,
+    11793
+   ]
+  },
+  {
+   "id": "15.6.6-s017",
+   "section": "15.6.6",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE 3:",
+   "lines": [
+    11795,
+    11795
+   ]
+  },
+  {
+   "id": "15.6.6-s018",
+   "section": "15.6.6",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "type map from charstring to integer TMap;\n     :\n     var template TMap v_map;\n     var template integer v_int;\n     :\n     v_map := *;\n     v_int := v_map[\"test\"];\n     // shall cause an error as v_map contains AnyValueOrNone",
+   "lines": [
+    11796,
+    11805
+   ]
+  },
+  {
+   "id": "15.6.6-s019",
+   "section": "15.6.6",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "e) Ifpresent attribute: referencing an element within a map template or field to which the ifpresent attribute is attached, shall cause an error (irrespective of the value or the matching mechanism to which ifpresent is appended).",
+   "lines": [
+    11807,
+    11809
+   ]
+  },
+  {
+   "id": "15.6.6-s020",
+   "section": "15.6.6",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "f) _AnyElementsOrNone: when referencing an element of a map template or field that contains_ _AnyElementsOrNone, if the referenced element is not present and the reference occurs on the right-hand side_ of an assignment, AnyValueOrNone shall be returned.",
+   "lines": [
+    11811,
+    11813
+   ]
+  },
+  {
+   "id": "15.6.6-s021",
+   "section": "15.6.6",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "When referencing an element of a map template or field that contains AnyElementsOrNone, if the referenced element is not present and the reference occurs on the left-hand side of an assignment, the template or field is implicitly expanded recursively up to and including, the depth of the referenced subfield and AnyValue is assigned to the referenced field.",
+   "lines": [
+    11815,
+    11820
+   ]
+  },
+  {
+   "id": "15.6.6-s022",
+   "section": "15.6.6",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Then the value or matching mechanism at the right-hand side of the assignment shall be assigned to the referenced field and AnyElementsOrNone shall be added to the map template.",
+   "lines": [
+    11815,
+    11820
+   ]
+  },
+  {
+   "id": "15.6.6-s023",
+   "section": "15.6.6",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE 4:",
+   "lines": [
+    11822,
+    11822
+   ]
+  },
+  {
+   "id": "15.6.6-s024",
+   "section": "15.6.6",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "type map from charstring to integer TMap;\n     :\n     var template TMap v_map;\n     var template integer v_int;\n     :\n     v_map := { *, [\"id\"] := 1 };\n     v_int := v_map[\"test\"];\n     // after the assignment v_int will be AnyValueOrNone(*)",
+   "lines": [
+    11823,
+    11832
+   ]
+  },
+  {
+   "id": "15.6.6-s025",
+   "section": "15.6.6",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "g) Special value null: referencing an element of an address type that is derived from a map type and whose actual value is null shall cause an error.",
+   "lines": [
+    11834,
+    11835
+   ]
+  }
+ ]
+}

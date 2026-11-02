@@ -1,0 +1,20 @@
+// @requirement: 5.4.2 -- Actual parameters that are passed by value to in formal value parameters shall be variables, literal values, module parameters, constants, value variables, invocations of value returning (external) functions, formal value parameters (of in, inout or out parameterization) of the current scope or expressions composed of the above.
+// @id: TTCN3-CORE-5.4.2-004a
+// @verdict: pass reject
+module M_05_04_02_test_006 {
+
+    type component C {}
+
+    function f(in integer p_i) {
+    }
+
+    testcase TC() runs on C {
+        var template integer v_t := 1;
+        f(v_t); // error: template variable passed to in formal value parameter
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

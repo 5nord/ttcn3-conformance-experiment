@@ -1,0 +1,47 @@
+// @requirement: 22.3.4 -- These matching criteria are related to the signature of the procedure to be processed and the communication partner.
+// @id: TTCN3-CORE-22.3.4-006a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_03_04_test_004 {
+
+    signature S1(out integer p_y);
+    signature S2(out integer p_y);
+
+    type port P procedure { inout S1, S2 }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    altstep a_guard() runs on C {
+        [] T.timeout { setverdict(fail); stop; }
+    }
+
+    function f_server() runs on C {
+        p.getcall(S1:{-});
+        p.reply(S1:{1});
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create, v_other := C.create;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_server());
+        activate(a_guard());
+        T.start;
+        p.call(S1:{-}, nowait);
+        p.check(getreply);
+        alt {
+            [] p.getreply(S2:{?}) { setverdict(fail); } // wrong signature
+            [] p.getreply(S1:{?}) from v_other { setverdict(fail); } // wrong partner
+            [else] {}
+        }
+        alt {
+            [] p.getreply(S1:{?}) from v_ptc { setverdict(pass); }
+            [else] { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

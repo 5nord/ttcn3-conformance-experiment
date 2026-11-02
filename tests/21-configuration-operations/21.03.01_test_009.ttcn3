@@ -1,0 +1,27 @@
+// @requirement: 21.3.1 -- The latter is created using the additional alive keyword.
+// @id: TTCN3-CORE-21.3.1-009a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_03_01_test_009 {
+
+    type component C {}
+
+    function f_ptc() runs on C {
+        setverdict(pass);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create alive;
+        v_ptc.start(f_ptc());
+        v_ptc.done;
+        v_ptc.start(f_ptc());
+        v_ptc.done;
+        if (not v_ptc.alive) {
+            setverdict(fail);
+        }
+        v_ptc.kill;
+    }
+
+    control {
+        execute(TC());
+    }
+}

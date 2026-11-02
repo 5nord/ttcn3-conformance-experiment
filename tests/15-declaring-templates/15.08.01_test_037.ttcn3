@@ -1,0 +1,23 @@
+// @requirement: 15.8.1 -- Col1: template(value); Value: Yes; Template (omit): Rule; ...
+// @id: TTCN3-CORE-15.8.1-046b
+// @verdict: pass reject
+module M_15_08_01_test_037 {
+    type record R {
+        integer a,
+        boolean b optional
+    }
+
+    template(omit) R m_omit := omit;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template(value) R vt_r;
+        vt_r := m_omit; // error: omit restricted template assigned to value restricted variable
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

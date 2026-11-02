@@ -1,0 +1,3870 @@
+{
+ "document": "ETSI ES 201 873-1 V4.17.1 (2025-09)",
+ "chapter": "7",
+ "title": "Expressions",
+ "file": "07-expressions",
+ "lines": [
+  6946,
+  8067
+ ],
+ "sections": {
+  "7": {
+   "title": "Expressions",
+   "start": 6946
+  },
+  "7.0": {
+   "title": "General",
+   "start": 6948
+  },
+  "7.1": {
+   "title": "Operators",
+   "start": 6993
+  },
+  "7.1.0": {
+   "title": "General",
+   "start": 6995
+  },
+  "7.1.1": {
+   "title": "Arithmetic operators",
+   "start": 7134
+  },
+  "7.1.2": {
+   "title": "List operator",
+   "start": 7190
+  },
+  "7.1.3": {
+   "title": "Relational operators",
+   "start": 7214
+  },
+  "7.1.4": {
+   "title": "Logical operators",
+   "start": 7425
+  },
+  "7.1.5": {
+   "title": "Bitwise operators",
+   "start": 7446
+  },
+  "7.1.6": {
+   "title": "Shift operators",
+   "start": 7526
+  },
+  "7.1.7": {
+   "title": "Rotate operators",
+   "start": 7572
+  },
+  "7.1.8": {
+   "title": "Presence checking operators",
+   "start": 7635
+  },
+  "7.1.8.0": {
+   "title": "General",
+   "start": 7637
+  },
+  "7.1.8.1": {
+   "title": "The ispresent operator",
+   "start": 7660
+  },
+  "7.1.8.2": {
+   "title": "The ischosen operator",
+   "start": 7737
+  },
+  "7.1.8.3": {
+   "title": "The isvalue operator",
+   "start": 7831
+  },
+  "7.1.8.4": {
+   "title": "The isbound operator",
+   "start": 7928
+  },
+  "7.2": {
+   "title": "Field references and list elements",
+   "start": 8002
+  },
+  "7.3": {
+   "title": "Decoded field reference",
+   "start": 8008
+  }
+ },
+ "units": [
+  {
+   "id": "7.0-s001",
+   "section": "7.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "TTCN-3 allows the specification of expressions.",
+   "lines": [
+    6950,
+    6951
+   ]
+  },
+  {
+   "id": "7.0-s002",
+   "section": "7.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "TTCN-3 expressions may be template references, value references or literals (i.e. no operation is involved), and may be composed of the operators defined in clause 7.1.",
+   "lines": [
+    6950,
+    6951
+   ]
+  },
+  {
+   "id": "7.0-s003",
+   "section": "7.0",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "NOTE: Templates can be used at the RHS of assignment, parameter passing and (predefined) functions where template passing is explicitly allowed.",
+   "lines": [
+    6953,
+    6954
+   ]
+  },
+  {
+   "id": "7.0-s004",
+   "section": "7.0",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "SingleExpression | \n  \"{\" { ( FieldReference \":=\" ( Expression | \"-\" )) [\",\"] } \"}\" | // compound expression\n  \"{\" [ { ( Expression | \"-\" ) [\",\"] } ] \"}\" // compound expression",
+   "lines": [
+    6957,
+    6961
+   ]
+  },
+  {
+   "id": "7.0-s005",
+   "section": "7.0",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Expressions may be built from other (simple) expressions.",
+   "lines": [
+    6965,
+    6967
+   ]
+  },
+  {
+   "id": "7.0-s006",
+   "section": "7.0",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Functions used in expressions shall have a return clause.",
+   "lines": [
+    6965,
+    6967
+   ]
+  },
+  {
+   "id": "7.0-s007",
+   "section": "7.0",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The operands of the operators used in an expression shall be values and their root types shall be the types specified for the appropriate operator in the subsequent clauses.",
+   "lines": [
+    6965,
+    6967
+   ]
+  },
+  {
+   "id": "7.0-s008",
+   "section": "7.0",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Assignment or list notations are used for expressions of record, set, record of, set of, array, union and anytype types.",
+   "lines": [
+    6969,
+    6969
+   ]
+  },
+  {
+   "id": "7.0-s009",
+   "section": "7.0",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clause 5, the following restrictions apply:",
+   "lines": [
+    6973,
+    6973
+   ]
+  },
+  {
+   "id": "7.0-s010",
+   "section": "7.0",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) At the point, when an expression is evaluated, the evaluated values of the operands used in expressions shall be completely initialized except where explicitly stated otherwise in the specific clause of the operator.",
+   "lines": [
+    6975,
+    6976
+   ]
+  },
+  {
+   "id": "7.0-s011",
+   "section": "7.0",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "b) The root types of the operands shall be the types specified for the appropriate operand.",
+   "lines": [
+    6978,
+    6978
+   ]
+  },
+  {
+   "id": "7.0-s012",
+   "section": "7.0",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "c) With the exception of the equality and non-equality operators, the special value null shall not be used as an operand of expressions (see clause 7.1.3).",
+   "lines": [
+    6980,
+    6981
+   ]
+  },
+  {
+   "id": "7.0-s013",
+   "section": "7.0",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "This means also that all fields and elements of structured types referenced in an expression shall contain completely initialized values, while other fields and elements, not used in the expression, may be uninitialized or contain omit.",
+   "lines": [
+    6983,
+    6984
+   ]
+  },
+  {
+   "id": "7.0-s014",
+   "section": "7.0",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "(c_x + c_y – f_increment(c_z))*3  // single expression\n  { a:= 1, b:= true }  // compound expression, assignment notation\n  { 1, true }  // compound expression, list notation",
+   "lines": [
+    6987,
+    6991
+   ]
+  },
+  {
+   "id": "7.1.0-s001",
+   "section": "7.1.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "TTCN-3 supports a number of predefined operators that may be used in the terms of TTCN-3 expressions.",
+   "lines": [
+    6997,
+    6998
+   ]
+  },
+  {
+   "id": "7.1.0-s002",
+   "section": "7.1.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The predefined operators fall into seven categories:",
+   "lines": [
+    6997,
+    6998
+   ]
+  },
+  {
+   "id": "7.1.0-s003",
+   "section": "7.1.0",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "a) arithmetic operators;",
+   "lines": [
+    7000,
+    7000
+   ]
+  },
+  {
+   "id": "7.1.0-s004",
+   "section": "7.1.0",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "b) list operator;",
+   "lines": [
+    7007,
+    7007
+   ]
+  },
+  {
+   "id": "7.1.0-s005",
+   "section": "7.1.0",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "c) relational operators;",
+   "lines": [
+    7009,
+    7009
+   ]
+  },
+  {
+   "id": "7.1.0-s006",
+   "section": "7.1.0",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "d) logical operators;",
+   "lines": [
+    7011,
+    7011
+   ]
+  },
+  {
+   "id": "7.1.0-s007",
+   "section": "7.1.0",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "e) bitwise operators;",
+   "lines": [
+    7013,
+    7013
+   ]
+  },
+  {
+   "id": "7.1.0-s008",
+   "section": "7.1.0",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "f) shift operators;",
+   "lines": [
+    7015,
+    7015
+   ]
+  },
+  {
+   "id": "7.1.0-s009",
+   "section": "7.1.0",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "g) rotate operators;",
+   "lines": [
+    7017,
+    7017
+   ]
+  },
+  {
+   "id": "7.1.0-s010",
+   "section": "7.1.0",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "h) presence checking operators.",
+   "lines": [
+    7019,
+    7019
+   ]
+  },
+  {
+   "id": "7.1.0-s011",
+   "section": "7.1.0",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clause 5, the following restrictions apply:",
+   "lines": [
+    7023,
+    7023
+   ]
+  },
+  {
+   "id": "7.1.0-s012",
+   "section": "7.1.0",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) When an expression is evaluated, the evaluated values used as the operands of operators shall be completely initialized, except for those operands for which it is explicitly allowed to be partially initialized (see clause 11.1).",
+   "lines": [
+    7025,
+    7027
+   ]
+  },
+  {
+   "id": "7.1.0-s013",
+   "section": "7.1.0",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "These operators are listed in table 5.",
+   "lines": [
+    7029,
+    7029
+   ]
+  },
+  {
+   "id": "7.1.0-s014",
+   "section": "7.1.0",
+   "kind": "caption",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "Table 5: List of TTCN-3 operators",
+   "lines": [
+    7031,
+    7031
+   ]
+  },
+  {
+   "id": "7.1.0-s015",
+   "section": "7.1.0",
+   "kind": "table-text",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "**Category** **Operator** **Symbol or Keyword** **Arithmetic operators** addition **+** subtraction **-** multiplication ***** division **/** modulo **mod** remainder **rem** **String operators** concatenation **&** **Relational operators** equal **==** less than **<** greater than **>** not equal **!=** greater than or equal **>=** less than or equal **<=** **Logical operators** logical not **not** logical and **and** logical or **or** logical xor **xor** **Bitwise operators** bitwise not **not4b** bitwise and **and4b** bitwise or **or4b** bitwise xor **xor4b** **Shift operators** shift left **<<** shift right **>>** **Rotate operators** rotate left **<@** rotate right **@>** **Presence checking operators** field presence check **ispresent** chosen alternative check **ischosen** value check **isvalue** bound check **isbound**",
+   "lines": [
+    7033,
+    7062
+   ]
+  },
+  {
+   "id": "7.1.0-s016",
+   "section": "7.1.0",
+   "kind": "table-text",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "The precedence of these operators is shown in table 6.",
+   "lines": [
+    7064,
+    7067
+   ]
+  },
+  {
+   "id": "7.1.0-s017",
+   "section": "7.1.0",
+   "kind": "table-text",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Within any row in this table, the listed operators have equal precedence.",
+   "lines": [
+    7064,
+    7067
+   ]
+  },
+  {
+   "id": "7.1.0-s018",
+   "section": "7.1.0",
+   "kind": "table-text",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "If more than one operator of equal precedence appears in an expression, the operations are evaluated from left to right.",
+   "lines": [
+    7064,
+    7067
+   ]
+  },
+  {
+   "id": "7.1.0-s019",
+   "section": "7.1.0",
+   "kind": "table-text",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Parentheses may be used to group operands in expressions, in which case a parenthesized expression has the highest precedence for evaluation.",
+   "lines": [
+    7064,
+    7067
+   ]
+  },
+  {
+   "id": "7.1.0-s020",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: Arithmetic operators; Operator: addition; Symbol or Keyword: +",
+   "lines": [
+    7071,
+    7071
+   ]
+  },
+  {
+   "id": "7.1.0-s021",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: subtraction; Operator: -",
+   "lines": [
+    7072,
+    7072
+   ]
+  },
+  {
+   "id": "7.1.0-s022",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: multiplication; Operator: *",
+   "lines": [
+    7073,
+    7073
+   ]
+  },
+  {
+   "id": "7.1.0-s023",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: division; Operator: /",
+   "lines": [
+    7074,
+    7074
+   ]
+  },
+  {
+   "id": "7.1.0-s024",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: modulo; Operator: mod",
+   "lines": [
+    7075,
+    7075
+   ]
+  },
+  {
+   "id": "7.1.0-s025",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: remainder; Operator: rem",
+   "lines": [
+    7076,
+    7076
+   ]
+  },
+  {
+   "id": "7.1.0-s026",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: String operators; Operator: concatenation; Symbol or Keyword: &",
+   "lines": [
+    7077,
+    7077
+   ]
+  },
+  {
+   "id": "7.1.0-s027",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: Relational operators; Operator: equal; Symbol or Keyword: ==",
+   "lines": [
+    7078,
+    7078
+   ]
+  },
+  {
+   "id": "7.1.0-s028",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: less than; Operator: <",
+   "lines": [
+    7079,
+    7079
+   ]
+  },
+  {
+   "id": "7.1.0-s029",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: greater than; Operator: >",
+   "lines": [
+    7080,
+    7080
+   ]
+  },
+  {
+   "id": "7.1.0-s030",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: not equal; Operator: !=",
+   "lines": [
+    7081,
+    7081
+   ]
+  },
+  {
+   "id": "7.1.0-s031",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: greater than or equal; Operator: >=",
+   "lines": [
+    7082,
+    7082
+   ]
+  },
+  {
+   "id": "7.1.0-s032",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: less than or equal; Operator: <=",
+   "lines": [
+    7083,
+    7083
+   ]
+  },
+  {
+   "id": "7.1.0-s033",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: Logical operators; Operator: logical not; Symbol or Keyword: not",
+   "lines": [
+    7084,
+    7084
+   ]
+  },
+  {
+   "id": "7.1.0-s034",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: logical and; Operator: and",
+   "lines": [
+    7085,
+    7085
+   ]
+  },
+  {
+   "id": "7.1.0-s035",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: logical or; Operator: or",
+   "lines": [
+    7086,
+    7086
+   ]
+  },
+  {
+   "id": "7.1.0-s036",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: logical xor; Operator: xor",
+   "lines": [
+    7087,
+    7087
+   ]
+  },
+  {
+   "id": "7.1.0-s037",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: Bitwise operators; Operator: bitwise not; Symbol or Keyword: not4b",
+   "lines": [
+    7088,
+    7088
+   ]
+  },
+  {
+   "id": "7.1.0-s038",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: bitwise and; Operator: and4b",
+   "lines": [
+    7089,
+    7089
+   ]
+  },
+  {
+   "id": "7.1.0-s039",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: bitwise or; Operator: or4b",
+   "lines": [
+    7090,
+    7090
+   ]
+  },
+  {
+   "id": "7.1.0-s040",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: bitwise xor; Operator: xor4b",
+   "lines": [
+    7091,
+    7091
+   ]
+  },
+  {
+   "id": "7.1.0-s041",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: Shift operators; Operator: shift left; Symbol or Keyword: <<",
+   "lines": [
+    7092,
+    7092
+   ]
+  },
+  {
+   "id": "7.1.0-s042",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: shift right; Operator: >>",
+   "lines": [
+    7093,
+    7093
+   ]
+  },
+  {
+   "id": "7.1.0-s043",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: Rotate operators; Operator: rotate left; Symbol or Keyword: <@",
+   "lines": [
+    7094,
+    7094
+   ]
+  },
+  {
+   "id": "7.1.0-s044",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: rotate right; Operator: @>",
+   "lines": [
+    7095,
+    7095
+   ]
+  },
+  {
+   "id": "7.1.0-s045",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: Presence checking operators; Operator: field presence check; Symbol or Keyword: ispresent",
+   "lines": [
+    7096,
+    7096
+   ]
+  },
+  {
+   "id": "7.1.0-s046",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: chosen alternative check; Operator: ischosen",
+   "lines": [
+    7097,
+    7097
+   ]
+  },
+  {
+   "id": "7.1.0-s047",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: value check; Operator: isvalue",
+   "lines": [
+    7098,
+    7098
+   ]
+  },
+  {
+   "id": "7.1.0-s048",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: bound check; Operator: isbound",
+   "lines": [
+    7099,
+    7099
+   ]
+  },
+  {
+   "id": "7.1.0-s049",
+   "section": "7.1.0",
+   "kind": "table-header",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category; Operator; Symbol or Keyword",
+   "lines": [
+    7069,
+    7069
+   ]
+  },
+  {
+   "id": "7.1.0-s050",
+   "section": "7.1.0",
+   "kind": "caption",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "Table 6: Precedence of Operators",
+   "lines": [
+    7106,
+    7106
+   ]
+  },
+  {
+   "id": "7.1.0-s051",
+   "section": "7.1.0",
+   "kind": "table-text",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "**Priority** **Operator type** **Operator** highest **( … )**",
+   "lines": [
+    7108,
+    7109
+   ]
+  },
+  {
+   "id": "7.1.0-s052",
+   "section": "7.1.0",
+   "kind": "table-text",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Unary **ispresent, ischosen, isvalue, isbound** Unary **+, -** Binary ***, /, mod, rem** Binary **+, -, &** Unary **not4b** Binary **and4b** Binary **xor4b** Binary **or4b** Binary **<<, >>, <@, @>** Binary **<, >, <=, >=** Binary **==, !=** Unary **not** Binary **and**",
+   "lines": [
+    7111,
+    7123
+   ]
+  },
+  {
+   "id": "7.1.0-s053",
+   "section": "7.1.0",
+   "kind": "table-text",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Lowest Binary **xor**",
+   "lines": [
+    7125,
+    7125
+   ]
+  },
+  {
+   "id": "7.1.0-s054",
+   "section": "7.1.0",
+   "kind": "table-text",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Binary **or**",
+   "lines": [
+    7127,
+    7127
+   ]
+  },
+  {
+   "id": "7.1.0-s055",
+   "section": "7.1.0",
+   "kind": "note",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "NOTE: Dot notation (\".\"), index notation (\" [ ] \") and the decoding notation (\" => \") should be evaluated from left to right, just after the evaluation of the parentheses (\" ( ) \") operator and before the evaluation of the ispresent, ischosen, isvalue, isbound operators.",
+   "lines": [
+    7129,
+    7130
+   ]
+  },
+  {
+   "id": "7.1.0-s056",
+   "section": "7.1.0",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "That is: a.b[x].d=>e.f is equivalent to `((((a.b)[x]).d)=>e).f`",
+   "lines": [
+    7132,
+    7132
+   ]
+  },
+  {
+   "id": "7.1.1-s001",
+   "section": "7.1.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The arithmetic operators represent the operations of addition, subtraction, multiplication, division, modulo and remainder.",
+   "lines": [
+    7136,
+    7139
+   ]
+  },
+  {
+   "id": "7.1.1-s002",
+   "section": "7.1.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Operands of these operators shall be of integer values (including derivations of integer) or floating-point numbers (including derivations of float, containing numeric values only), except for mod and rem which shall be used with integer (including derivations of integer) types only.",
+   "lines": [
+    7136,
+    7139
+   ]
+  },
+  {
+   "id": "7.1.1-s003",
+   "section": "7.1.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The usage of the special float values infinity, -infinity and not_a_number in arithmetic operators shall follow the rules defined in IEEE 754 [6].",
+   "lines": [
+    7141,
+    7142
+   ]
+  },
+  {
+   "id": "7.1.1-s004",
+   "section": "7.1.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "With integer types, the result type of arithmetic operations is integer.",
+   "lines": [
+    7144,
+    7145
+   ]
+  },
+  {
+   "id": "7.1.1-s005",
+   "section": "7.1.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "With float types, the result type of arithmetic operations is float.",
+   "lines": [
+    7144,
+    7145
+   ]
+  },
+  {
+   "id": "7.1.1-s006",
+   "section": "7.1.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "In the case where plus (+) or minus (-) is used as the unary operator the rules for operands apply as well.",
+   "lines": [
+    7147,
+    7150
+   ]
+  },
+  {
+   "id": "7.1.1-s007",
+   "section": "7.1.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The result of using the minus operator is the negative value of the operand if it was positive and vice versa.",
+   "lines": [
+    7147,
+    7150
+   ]
+  },
+  {
+   "id": "7.1.1-s008",
+   "section": "7.1.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The result of using the plus operator is the value of the operand, i.e. a positive value if the operand value was positive and a negative value if the operand value was negative.",
+   "lines": [
+    7147,
+    7150
+   ]
+  },
+  {
+   "id": "7.1.1-s009",
+   "section": "7.1.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The result of performing the division operation (/) on two:",
+   "lines": [
+    7152,
+    7152
+   ]
+  },
+  {
+   "id": "7.1.1-s010",
+   "section": "7.1.1",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "a) `integer values gives the whole integer part of the value resulting from dividing the first integer by` the second (i.e. fractions are discarded);",
+   "lines": [
+    7154,
+    7155
+   ]
+  },
+  {
+   "id": "7.1.1-s011",
+   "section": "7.1.1",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "b) numeric float values gives the float value resulting from dividing the first float by the second (i.e. fractions are not discarded).",
+   "lines": [
+    7157,
+    7158
+   ]
+  },
+  {
+   "id": "7.1.1-s012",
+   "section": "7.1.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The operators rem and mod compute on operands of type integer and have a result of type integer.",
+   "lines": [
+    7160,
+    7163
+   ]
+  },
+  {
+   "id": "7.1.1-s013",
+   "section": "7.1.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The operations x rem y and x mod y compute the rest that remains from an integer division of x by y.",
+   "lines": [
+    7160,
+    7163
+   ]
+  },
+  {
+   "id": "7.1.1-s014",
+   "section": "7.1.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Therefore, they are only defined for non-zero operands y.",
+   "lines": [
+    7160,
+    7163
+   ]
+  },
+  {
+   "id": "7.1.1-s015",
+   "section": "7.1.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "For positive x and y, both x `rem` `y and x` `mod` `y have the same result but for` negative arguments they differ.",
+   "lines": [
+    7160,
+    7163
+   ]
+  },
+  {
+   "id": "7.1.1-s016",
+   "section": "7.1.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Formally, mod and rem are defined as follows:",
+   "lines": [
+    7165,
+    7165
+   ]
+  },
+  {
+   "id": "7.1.1-s017",
+   "section": "7.1.1",
+   "kind": "code",
+   "context": null,
+   "normative": true,
+   "text": "x rem y = x - y * (x/y)\n  x mod y = x rem |y|  when x >= 0\n       = 0  when x < 0 and x rem |y| = 0\n       = |y| + x rem |y| when x < 0 and x rem |y| < 0",
+   "lines": [
+    7166,
+    7171
+   ]
+  },
+  {
+   "id": "7.1.1-s018",
+   "section": "7.1.1",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Priority: highest Lowest; Operator type: Unary Unary Binary Binary Unary Binary Binary Binary Binary Binary Binary Unary Binary Binary Binary; Operator: ( … ) ispresent, ischosen, isvalue, isbound +, - *, /, mod, rem +, -, & not4b and4b xor4b or4b <<, >>, <@, @> <, >, <=, >= ==, != not and xor or",
+   "lines": [
+    7175,
+    7175
+   ]
+  },
+  {
+   "id": "7.1.1-s019",
+   "section": "7.1.1",
+   "kind": "table-header",
+   "context": null,
+   "normative": true,
+   "text": "Priority; Operator type; Operator",
+   "lines": [
+    7173,
+    7173
+   ]
+  },
+  {
+   "id": "7.1.1-s020",
+   "section": "7.1.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Table 7 illustrates the difference between the mod and rem operator.",
+   "lines": [
+    7182,
+    7182
+   ]
+  },
+  {
+   "id": "7.1.1-s021",
+   "section": "7.1.1",
+   "kind": "caption",
+   "context": null,
+   "normative": false,
+   "text": "Table 7: Effect of mod and rem operator",
+   "lines": [
+    7184,
+    7184
+   ]
+  },
+  {
+   "id": "7.1.1-s022",
+   "section": "7.1.1",
+   "kind": "table-text",
+   "context": null,
+   "normative": true,
+   "text": "**x** **-3** **-2** **-1** **0** **1** **2** **3** **x mod 3** 0 1 2 0 1 2 0 **x rem 3** 0 -2 -1 0 1 2 0",
+   "lines": [
+    7186,
+    7188
+   ]
+  },
+  {
+   "id": "7.1.2-s001",
+   "section": "7.1.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The predefined list operator (&) performs concatenation of values of string types, record of, set of, or array of the same root types.",
+   "lines": [
+    7192,
+    7194
+   ]
+  },
+  {
+   "id": "7.1.2-s002",
+   "section": "7.1.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The operation is a simple concatenation from left to right.",
+   "lines": [
+    7192,
+    7194
+   ]
+  },
+  {
+   "id": "7.1.2-s003",
+   "section": "7.1.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "No form of arithmetic addition is implied.",
+   "lines": [
+    7192,
+    7194
+   ]
+  },
+  {
+   "id": "7.1.2-s004",
+   "section": "7.1.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The result type is the root type of the operands.",
+   "lines": [
+    7192,
+    7194
+   ]
+  },
+  {
+   "id": "7.1.2-s005",
+   "section": "7.1.2",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "NOTE 1: In case of the list types, both the outer type (i.e. record of, set of or array) and the iterated inner type need to have the same root type in a recursive manner.",
+   "lines": [
+    7196,
+    7197
+   ]
+  },
+  {
+   "id": "7.1.2-s006",
+   "section": "7.1.2",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "NOTE 2: It is also possible to concatenate two or more value list notation expressions if the result is to be used as a record of or array of the same root type as the concatenated expressions.",
+   "lines": [
+    7199,
+    7199
+   ]
+  },
+  {
+   "id": "7.1.2-s007",
+   "section": "7.1.2",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clause 5, the following restrictions apply:",
+   "lines": [
+    7203,
+    7203
+   ]
+  },
+  {
+   "id": "7.1.2-s008",
+   "section": "7.1.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) When the list concatenation operator is used for record of-s, set of-s and arrays, its operands shall be at least partially initialized.",
+   "lines": [
+    7205,
+    7206
+   ]
+  },
+  {
+   "id": "7.1.2-s009",
+   "section": "7.1.2",
+   "kind": "example-text",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "EXAMPLE:",
+   "lines": [
+    7208,
+    7208
+   ]
+  },
+  {
+   "id": "7.1.2-s010",
+   "section": "7.1.2",
+   "kind": "example-code",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "'1111'B & '0000'B & '1111'B gives '111100001111'B\n  {1,2} & {3,4} & {5,6} gives the following record of integer {1,2,3,4,5,6}",
+   "lines": [
+    7209,
+    7212
+   ]
+  },
+  {
+   "id": "7.1.3-s001",
+   "section": "7.1.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The predefined relational operators are equality (==), less than (<), greater than (>), non-equality to (!=), greater than or equal to (>=) and less than or equal to (<=).",
+   "lines": [
+    7216,
+    7217
+   ]
+  },
+  {
+   "id": "7.1.3-s002",
+   "section": "7.1.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The result type of all these operations is boolean.",
+   "lines": [
+    7216,
+    7217
+   ]
+  },
+  {
+   "id": "7.1.3-s003",
+   "section": "7.1.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The relational operators less than (<), greater than (>), greater than or equal to (>=), and less than or equal to (<=) shall have only operands of type integer (including derivations of integer), float (including derivations of float), or instances of the same enumerated type.",
+   "lines": [
+    7219,
+    7221
+   ]
+  },
+  {
+   "id": "7.1.3-s004",
+   "section": "7.1.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "It is not allowed to compare instances of different root types.",
+   "lines": [
+    7219,
+    7221
+   ]
+  },
+  {
+   "id": "7.1.3-s005",
+   "section": "7.1.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The address type is allowed for the equality (==) and non-equality (!=) operators, independent of its actual type, but when its actual type differs from the types specified above, it can be compared to the literal special value null only.",
+   "lines": [
+    7223,
+    7224
+   ]
+  },
+  {
+   "id": "7.1.3-s006",
+   "section": "7.1.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Operands of equality (==) and non-equality (!=) shall be completely initialized values or field references, and with the exception of enumerated types, shall be of compatible root types.",
+   "lines": [
+    7226,
+    7229
+   ]
+  },
+  {
+   "id": "7.1.3-s007",
+   "section": "7.1.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The values or field references being compared shall obey the following rules.",
+   "lines": [
+    7226,
+    7229
+   ]
+  },
+  {
+   "id": "7.1.3-s008",
+   "section": "7.1.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "This implies that instances of types not mentioned below shall not be operands of equality and non-equality:",
+   "lines": [
+    7226,
+    7229
+   ]
+  },
+  {
+   "id": "7.1.3-s009",
+   "section": "7.1.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "Two field references are equal if the referenced fields are both optional fields and both fields are set to omit or if both referenced fields (regardless if they are optional or not) are initialized with values and these values are equal.",
+   "lines": [
+    7231,
+    7231
+   ]
+  },
+  {
+   "id": "7.1.3-s010",
+   "section": "7.1.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "A field reference is equal to a value if the referenced field is initialized with a value and both values are equal.",
+   "lines": [
+    7231,
+    7231
+   ]
+  },
+  {
+   "id": "7.1.3-s011",
+   "section": "7.1.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "Two integer values are equal if and only if they contain the same value.",
+   "lines": [
+    7233,
+    7234
+   ]
+  },
+  {
+   "id": "7.1.3-s012",
+   "section": "7.1.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "Otherwise, normal mathematical ordering is applied.",
+   "lines": [
+    7233,
+    7234
+   ]
+  },
+  {
+   "id": "7.1.3-s013",
+   "section": "7.1.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "Enumerated values of the same, or different types can be compared.",
+   "lines": [
+    7236,
+    7239
+   ]
+  },
+  {
+   "id": "7.1.3-s014",
+   "section": "7.1.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "In the case of different enumerated types, expression \"b\" of type \"B\" can be compared with expression \"a\" of type \"A\" if the two types \"A\" and \"B\" can be merged to a consistent larger enumerated type (i.e. where numbers are not associated with different identifiers, see also clause 6.3.2.1).",
+   "lines": [
+    7236,
+    7239
+   ]
+  },
+  {
+   "id": "7.1.3-s015",
+   "section": "7.1.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "Two enumerated values are equal if and only if both their identifiers and associated integer values (associated either explicitly or implicitly, see clause 6.2.4) are the same.",
+   "lines": [
+    7236,
+    7239
+   ]
+  },
+  {
+   "id": "7.1.3-s016",
+   "section": "7.1.3",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "x: x mod 3 x rem 3; -3: 0 0; -2: 1 -2; -1: 2 -1; 0: 0 0; 1: 1 1; 2: 2 2; 3: 0 0",
+   "lines": [
+    7243,
+    7243
+   ]
+  },
+  {
+   "id": "7.1.3-s017",
+   "section": "7.1.3",
+   "kind": "table-header",
+   "context": null,
+   "normative": true,
+   "text": "x; -3; -2; -1; 0; 1; 2; 3",
+   "lines": [
+    7241,
+    7241
+   ]
+  },
+  {
+   "id": "7.1.3-s018",
+   "section": "7.1.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "Two floating-point numbers are equal if and only if they contain the same value.",
+   "lines": [
+    7250,
+    7256
+   ]
+  },
+  {
+   "id": "7.1.3-s019",
+   "section": "7.1.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "The values minus zero and plus zero are two distinct values (e.g. they are encoded differently in some standardized languages) and minus zero is less than plus zero, which represents zero.",
+   "lines": [
+    7250,
+    7256
+   ]
+  },
+  {
+   "id": "7.1.3-s020",
+   "section": "7.1.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "Otherwise, normal mathematical ordering is applied.",
+   "lines": [
+    7250,
+    7256
+   ]
+  },
+  {
+   "id": "7.1.3-s021",
+   "section": "7.1.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "The special values -infinity, `infinity and not_a_number are equal to themselves only.",
+   "lines": [
+    7250,
+    7256
+   ]
+  },
+  {
+   "id": "7.1.3-s022",
+   "section": "7.1.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "The special` value -infinity is less than any other float value.",
+   "lines": [
+    7250,
+    7256
+   ]
+  },
+  {
+   "id": "7.1.3-s023",
+   "section": "7.1.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "The special value infinity is greater than any numerical float values and -infinity.",
+   "lines": [
+    7250,
+    7256
+   ]
+  },
+  {
+   "id": "7.1.3-s024",
+   "section": "7.1.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "The special value not_a_number is greater than any other float value (including infinity).",
+   "lines": [
+    7250,
+    7256
+   ]
+  },
+  {
+   "id": "7.1.3-s025",
+   "section": "7.1.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "Two charstring or two universal charstring values are equal if and only if they have equal lengths and the characters at all positions are the same.",
+   "lines": [
+    7258,
+    7259
+   ]
+  },
+  {
+   "id": "7.1.3-s026",
+   "section": "7.1.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "For values of bitstring, hexstring or octetstring types, the same equality rule applies as for charstring values with the exception, that fractions which shall equal at all positions are bits, hexadecimal digits or pairs of hexadecimal digits accordingly.",
+   "lines": [
+    7261,
+    7263
+   ]
+  },
+  {
+   "id": "7.1.3-s027",
+   "section": "7.1.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "Two record values, or set values are equal respectively if and only if they are mutually compatible with the type of the other operand (see clause 6.3.2.2), the actual values of all present fields are equal to their corresponding fields and all fields corresponding to omitted fields are also omitted in the peer value.",
+   "lines": [
+    7265,
+    7267
+   ]
+  },
+  {
+   "id": "7.1.3-s028",
+   "section": "7.1.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "Two record of values, set of values or array values, respectively, are equal if and only if they are mutually compatible with the type of the other operand (see clause 6.3.2.3), they both have the same length, and each element of one value is equal to the corresponding element of the other value.",
+   "lines": [
+    7269,
+    7272
+   ]
+  },
+  {
+   "id": "7.1.3-s029",
+   "section": "7.1.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "Record of values and array values may also be compared, in which case the corresponding record of type of the array is being considered.",
+   "lines": [
+    7269,
+    7272
+   ]
+  },
+  {
+   "id": "7.1.3-s030",
+   "section": "7.1.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "Values of the same union type, and values of different union types in which at least one of the alternatives is compatible with the other type (see clause 6.3.2.4) can be compared (independent if a compatible alternative is the selected one or not).",
+   "lines": [
+    7274,
+    7278
+   ]
+  },
+  {
+   "id": "7.1.3-s031",
+   "section": "7.1.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "Two values of union types are equal if and only if in both values the name of the selected alternative is identical, they are compatible with the type of the other value, and the actual values of the chosen fields are equal.",
+   "lines": [
+    7274,
+    7278
+   ]
+  },
+  {
+   "id": "7.1.3-s032",
+   "section": "7.1.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "Values of the same or any two anytype types can be compared.",
+   "lines": [
+    7280,
+    7282
+   ]
+  },
+  {
+   "id": "7.1.3-s033",
+   "section": "7.1.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "For anytype values the same rule apply as to union values, with the addition that names of user-defined types defined with the same name in different modules do not denote the same type name of the selected alternatives.",
+   "lines": [
+    7280,
+    7282
+   ]
+  },
+  {
+   "id": "7.1.3-s034",
+   "section": "7.1.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "Two default, two port, two timer or two component values are equal if and only if they both are initialized with the special value null or they both contain a reference to the same entity (i.e. they designate the same default, port, timer or test component, independent of the actual state of the denoted object).",
+   "lines": [
+    7284,
+    7286
+   ]
+  },
+  {
+   "id": "7.1.3-s035",
+   "section": "7.1.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "It is also possible to use compound expressions (field assignment or value list notation) directly as operands of comparison operations of structured types.",
+   "lines": [
+    7288,
+    7293
+   ]
+  },
+  {
+   "id": "7.1.3-s036",
+   "section": "7.1.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "If there is a compound expression on both sides of the comparison operator, they shall both be value list notation expressions where the elements shall be of the same root type and they shall be compared like record of values with elements of that root type.",
+   "lines": [
+    7288,
+    7293
+   ]
+  },
+  {
+   "id": "7.1.3-s037",
+   "section": "7.1.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "If only one operand of the comparison operation is a compound expression it shall be compatible with the root type of the other operand and they shall be compared like values of that root type.",
+   "lines": [
+    7288,
+    7293
+   ]
+  },
+  {
+   "id": "7.1.3-s038",
+   "section": "7.1.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "Two maps are equal if and only if they are mutually compatible with the type of the other operand (see clause 6.3.2.2), they have the same number of key-value pairs and for each key-value pair in both maps there is a key-value pair in the other map where the key from one pair is equal to the key from the other pair and the value from one pair is equal to the value from the other pair.",
+   "lines": [
+    7295,
+    7298
+   ]
+  },
+  {
+   "id": "7.1.3-s039",
+   "section": "7.1.3",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 1: Comparing enumerated values",
+   "lines": [
+    7302,
+    7302
+   ]
+  },
+  {
+   "id": "7.1.3-s040",
+   "section": "7.1.3",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "// Given\n  type enumerated EWeekDays {\n     Mon, Tue, Wed, Thu, Fri, Sat, Sun\n  };\n  type enumerated EWorkDays {\n     Mon, Tue, Wed, Thu, Fri\n  };\n  type enumerated EDesWeekDays {\n     Tue, Wed, Thu, Fri, Sat, Sun, Mon\n  };",
+   "lines": [
+    7303,
+    7314
+   ]
+  },
+  {
+   "id": "7.1.3-s041",
+   "section": "7.1.3",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "var EWeekDays v_myWeekDayMon := Mon\n var EWeekDays v_myWeekDaySun := Sun\n var EWorkDays v_myWorkDayMon := Mon\n var EDesWeekDays v_myDesWeekDayMon := Mon\n // Then\n v_myWeekDayMon == v_myWorkDayMon;\n   // returns true\n v_myWeekDaySun == v_myWorkDayMon;\n   // returns false, because Sun is not a possible value in EworkDays\n v_myDesWeekDayMon == v_myWeekDayMon;\n   // returns false: though the identifiers in both enumerated types are the same,\n   // but the integer values associated with the identifiers are different",
+   "lines": [
+    7320,
+    7333
+   ]
+  },
+  {
+   "id": "7.1.3-s042",
+   "section": "7.1.3",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 2: Comparing values of other structured types",
+   "lines": [
+    7335,
+    7335
+   ]
+  },
+  {
+   "id": "7.1.3-s043",
+   "section": "7.1.3",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "// Given\n type set S1 {\n        integer a1 optional,\n        integer a2 optional,\n        integer a3 optional\n        };\n type set S2 {\n        integer b1 optional,\n        integer b2 optional,\n        integer b3 optional\n        };\n type set S3 {\n        integer c1 optional,\n        integer c2 optional,\n        };\n type set of integer SI;\n type union U1 {\n        integer d1,\n        integer d2,\n        };\n type union U2 {\n        integer e1,\n        integer e2,\n        };\n type union U3 {\n        integer d1,\n        integer d2,\n        boolean d3\n        };\n // And\n const S1 c_s1 := { a1 := 0, a2 := omit, a3 := 2 };\n   // Notice that the order of defining values of the fields does not matter\n const S2 c_s2a := { b1 := 0, b3 := 2, b2 := omit };\n const S2 c_s2b := { b2 := 0, b3 := 2, b1 := omit };\n const S3 c_s3 := { c1 := 0, c2 :=2 };\n var SI v_si:= { 0, -, 2 };\n const SI c_si := { 0, 2 };\n const U1 c_u1 := { d1:= 0 };\n const U2 c_u2 := { e1:= 0 };\n const U3 c_u3; := { d1:= 0 };\n // Then\n c_s1 == c_s2a;\n   // returns true\n c_s1 == c_s2b;\n   // returns false, because neither a1 nor a2 are equal to their counterparts\n   // (the corresponding element is not omitted)\n c_s1 == c_s3;\n   // returns false, because the effective value structures of s1 and s3 are not compatible\n c_s1 == v_si;\n   // causes test case error as v_si is not completely initialized\n   // (2nd element is left uninitialized)\n c_s1 == c_si;",
+   "lines": [
+    7336,
+    7389
+   ]
+  },
+  {
+   "id": "7.1.3-s044",
+   "section": "7.1.3",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "// returns false, as the counterpart of the omitted a2 is 2,\n     // but the counterpart of a3 is undefined \n  c_s3 == c_si;\n     // returns true\n  c_u1 == c_u2;\n     // causes error as U1 and U2 have no common subset of alternatives\n  c_u1 == c_u3;\n     // returns true, as alternatives with the same names are chosen and \n     // the actual values in the selected alternatives are equal\n  { 0, omit, 2 } == c_s1;\n    // returns true\n  c_s2a == { b1 := 0, b2:= omit, b3 := 2 };\n    // returns true\n  { c_s1, c_s2b } == { c_s2a, c_s1 };\n    // returns false because c_s2b != c_s1\n  { c_s1, c_s2b, c_s2a } == { c_s1 };\n    // returns false because of different length\n  c_s1.a1 == c_s2a.b1;\n    // returns true, both fields are initialized with values and the values are equal\n  c_s1.a2 == c_s2a.b2;\n    // returns true, both fields are omit\n  c_s1.a1 == c_s2a.b2;\n    // returns false, value vs. omit\n  c_s1.a1 == omit;\n    // error, omit is neither a value nor a field reference\n  c_s1.a2 == 3;\n    // false, omit vs. value",
+   "lines": [
+    7395,
+    7423
+   ]
+  },
+  {
+   "id": "7.1.4-s001",
+   "section": "7.1.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The predefined boolean operators perform the operations of negation, logical and, logical or and logical xor.",
+   "lines": [
+    7427,
+    7428
+   ]
+  },
+  {
+   "id": "7.1.4-s002",
+   "section": "7.1.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Their operands shall be of root type boolean.",
+   "lines": [
+    7427,
+    7428
+   ]
+  },
+  {
+   "id": "7.1.4-s003",
+   "section": "7.1.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The result type of logical operations is boolean.",
+   "lines": [
+    7427,
+    7428
+   ]
+  },
+  {
+   "id": "7.1.4-s004",
+   "section": "7.1.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The logical not is the unary operator that returns the value true if its operand was of value false and returns the value false if the operand was of value true.",
+   "lines": [
+    7430,
+    7431
+   ]
+  },
+  {
+   "id": "7.1.4-s005",
+   "section": "7.1.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The logical and returns the value true if both its operands are true; otherwise it returns the value false.",
+   "lines": [
+    7433,
+    7433
+   ]
+  },
+  {
+   "id": "7.1.4-s006",
+   "section": "7.1.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The logical or returns the value true if at least one of its operands is true; it returns the value false only if both operands are false.",
+   "lines": [
+    7435,
+    7436
+   ]
+  },
+  {
+   "id": "7.1.4-s007",
+   "section": "7.1.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The logical xor returns the value true if one of its operands is true; it returns the value false if both operands are false or if both operands are true.",
+   "lines": [
+    7438,
+    7439
+   ]
+  },
+  {
+   "id": "7.1.4-s008",
+   "section": "7.1.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Short circuit evaluation for boolean expressions is used, i.e. the evaluation of operands of logical operators is stopped once the overall result is known: in the case of the and operator, if the left argument evaluates to false, then the right argument is not evaluated and the whole expression evaluates to false.",
+   "lines": [
+    7441,
+    7444
+   ]
+  },
+  {
+   "id": "7.1.4-s009",
+   "section": "7.1.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "In the case of the or operator, if the left argument evaluates to true, then the right argument is not evaluated and the whole expression evaluates to true.",
+   "lines": [
+    7441,
+    7444
+   ]
+  },
+  {
+   "id": "7.1.5-s001",
+   "section": "7.1.5",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The predefined bitwise operators perform the operations of bitwise not, bitwise and, bitwise or and bitwise xor.",
+   "lines": [
+    7448,
+    7449
+   ]
+  },
+  {
+   "id": "7.1.5-s002",
+   "section": "7.1.5",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "These operators are known as not4b, and4b, or4b and xor4b respectively.",
+   "lines": [
+    7448,
+    7449
+   ]
+  },
+  {
+   "id": "7.1.5-s003",
+   "section": "7.1.5",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "NOTE: To be read as \"not for bit\", \"and for bit\", etc.",
+   "lines": [
+    7451,
+    7451
+   ]
+  },
+  {
+   "id": "7.1.5-s004",
+   "section": "7.1.5",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Their operands shall be of root type `bitstring, hexstring or octetstring.",
+   "lines": [
+    7453,
+    7455
+   ]
+  },
+  {
+   "id": "7.1.5-s005",
+   "section": "7.1.5",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "In the case of and4b, or4b and` xor4b the operands shall be of the same root types.The result type of the bitwise operators shall be the root type of the operands.",
+   "lines": [
+    7453,
+    7455
+   ]
+  },
+  {
+   "id": "7.1.5-s006",
+   "section": "7.1.5",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The bitwise not4b unary operator inverts the individual bit values of its operand.",
+   "lines": [
+    7457,
+    7458
+   ]
+  },
+  {
+   "id": "7.1.5-s007",
+   "section": "7.1.5",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "For each bit in the operand a 1 bit is set to 0 and a 0 bit is set to 1.",
+   "lines": [
+    7457,
+    7458
+   ]
+  },
+  {
+   "id": "7.1.5-s008",
+   "section": "7.1.5",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "That is:",
+   "lines": [
+    7457,
+    7458
+   ]
+  },
+  {
+   "id": "7.1.5-s009",
+   "section": "7.1.5",
+   "kind": "code",
+   "context": null,
+   "normative": true,
+   "text": "not4b '1'B gives '0'B\n  not4b '0'B gives '1'B",
+   "lines": [
+    7459,
+    7462
+   ]
+  },
+  {
+   "id": "7.1.5-s010",
+   "section": "7.1.5",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 1:",
+   "lines": [
+    7471,
+    7471
+   ]
+  },
+  {
+   "id": "7.1.5-s011",
+   "section": "7.1.5",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "not4b '1010'B gives '0101'B\n  not4b '1A5'H gives 'E5A'H\n  not4b '01A5'O gives 'FE5A'O",
+   "lines": [
+    7472,
+    7476
+   ]
+  },
+  {
+   "id": "7.1.5-s012",
+   "section": "7.1.5",
+   "kind": "prose",
+   "context": "Examples",
+   "normative": true,
+   "text": "The bitwise and4b operator accepts two operands of equal length.",
+   "lines": [
+    7478,
+    7479
+   ]
+  },
+  {
+   "id": "7.1.5-s013",
+   "section": "7.1.5",
+   "kind": "prose",
+   "context": "Examples",
+   "normative": true,
+   "text": "For each corresponding bit position, the resulting value is a 1 if both bits are set to 1, otherwise the value for the resulting bit is 0.",
+   "lines": [
+    7478,
+    7479
+   ]
+  },
+  {
+   "id": "7.1.5-s014",
+   "section": "7.1.5",
+   "kind": "prose",
+   "context": "Examples",
+   "normative": true,
+   "text": "That is:",
+   "lines": [
+    7478,
+    7479
+   ]
+  },
+  {
+   "id": "7.1.5-s015",
+   "section": "7.1.5",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "'1'B and4b '1'B gives '1'B\n  '1'B and4b '0'B gives '0'B\n  '0'B and4b '1'B gives '0'B\n  '0'B and4b '0'B gives '0'B",
+   "lines": [
+    7480,
+    7485
+   ]
+  },
+  {
+   "id": "7.1.5-s016",
+   "section": "7.1.5",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 2:",
+   "lines": [
+    7487,
+    7487
+   ]
+  },
+  {
+   "id": "7.1.5-s017",
+   "section": "7.1.5",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "'1001'B and4b '0101'B gives '0001'B\n  'B'H and4b '5'H gives '1'H\n  'FB'O and4b '15'O gives '11'O",
+   "lines": [
+    7488,
+    7492
+   ]
+  },
+  {
+   "id": "7.1.5-s018",
+   "section": "7.1.5",
+   "kind": "prose",
+   "context": "Examples",
+   "normative": true,
+   "text": "The bitwise or4b operator accepts two operands of equal length.",
+   "lines": [
+    7494,
+    7495
+   ]
+  },
+  {
+   "id": "7.1.5-s019",
+   "section": "7.1.5",
+   "kind": "prose",
+   "context": "Examples",
+   "normative": true,
+   "text": "For each corresponding bit position, the resulting value is 0 if both bits are set to 0, otherwise the value for the resulting bit is 1.",
+   "lines": [
+    7494,
+    7495
+   ]
+  },
+  {
+   "id": "7.1.5-s020",
+   "section": "7.1.5",
+   "kind": "prose",
+   "context": "Examples",
+   "normative": true,
+   "text": "That is:",
+   "lines": [
+    7494,
+    7495
+   ]
+  },
+  {
+   "id": "7.1.5-s021",
+   "section": "7.1.5",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "'1'B or4b '1'B gives '1'B\n  '1'B or4b '0'B gives '1'B\n  '0'B or4b '1'B gives '1'B\n  '0'B or4b '0'B gives '0'B",
+   "lines": [
+    7496,
+    7501
+   ]
+  },
+  {
+   "id": "7.1.5-s022",
+   "section": "7.1.5",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 3:",
+   "lines": [
+    7503,
+    7503
+   ]
+  },
+  {
+   "id": "7.1.5-s023",
+   "section": "7.1.5",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "'1001'B or4b '0101'B gives '1101'B\n  '9'H or4b '5'H gives 'D'H\n  'A9'O or4b 'F5'O gives 'FD'O",
+   "lines": [
+    7504,
+    7508
+   ]
+  },
+  {
+   "id": "7.1.5-s024",
+   "section": "7.1.5",
+   "kind": "prose",
+   "context": "Examples",
+   "normative": true,
+   "text": "The bitwise xor4b operator accepts two operands of equal length.",
+   "lines": [
+    7510,
+    7511
+   ]
+  },
+  {
+   "id": "7.1.5-s025",
+   "section": "7.1.5",
+   "kind": "prose",
+   "context": "Examples",
+   "normative": true,
+   "text": "For each corresponding bit position, the resulting value is 0 if both bits are set to 0 or if both bits are set to 1, otherwise the value for the resulting bit is 1.",
+   "lines": [
+    7510,
+    7511
+   ]
+  },
+  {
+   "id": "7.1.5-s026",
+   "section": "7.1.5",
+   "kind": "prose",
+   "context": "Examples",
+   "normative": true,
+   "text": "That is:",
+   "lines": [
+    7510,
+    7511
+   ]
+  },
+  {
+   "id": "7.1.5-s027",
+   "section": "7.1.5",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "'1'B xor4b '1'B gives '0'B\n  '0'B xor4b '0'B gives '0'B\n  '0'B xor4b '1'B gives '1'B\n  '1'B xor4b '0'B gives '1'B",
+   "lines": [
+    7512,
+    7517
+   ]
+  },
+  {
+   "id": "7.1.5-s028",
+   "section": "7.1.5",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 4:",
+   "lines": [
+    7519,
+    7519
+   ]
+  },
+  {
+   "id": "7.1.5-s029",
+   "section": "7.1.5",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "'1001'B xor4b '0101'B gives '1100'B\n  '9'H xor4b '5'H gives 'C'H\n  '39'O xor4b '15'O gives '2C'O",
+   "lines": [
+    7520,
+    7524
+   ]
+  },
+  {
+   "id": "7.1.6-s001",
+   "section": "7.1.6",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The predefined shift operators perform the shift left (<<) and shift right (>>)operations.",
+   "lines": [
+    7528,
+    7530
+   ]
+  },
+  {
+   "id": "7.1.6-s002",
+   "section": "7.1.6",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Their left-hand operand shall be of root type `bitstring, hexstring or octetstring.",
+   "lines": [
+    7528,
+    7530
+   ]
+  },
+  {
+   "id": "7.1.6-s003",
+   "section": "7.1.6",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Their right-hand operand shall be a non-negative` integer.",
+   "lines": [
+    7528,
+    7530
+   ]
+  },
+  {
+   "id": "7.1.6-s004",
+   "section": "7.1.6",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The result type of these operators shall be the same as the root type of the left operand.",
+   "lines": [
+    7528,
+    7530
+   ]
+  },
+  {
+   "id": "7.1.6-s005",
+   "section": "7.1.6",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The shift operators behave differently based upon the type of their left-hand operand.",
+   "lines": [
+    7532,
+    7533
+   ]
+  },
+  {
+   "id": "7.1.6-s006",
+   "section": "7.1.6",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "If the type of the left-hand operand is:",
+   "lines": [
+    7532,
+    7533
+   ]
+  },
+  {
+   "id": "7.1.6-s007",
+   "section": "7.1.6",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "a) `bitstring then the shift unit applied is 1 bit;` b) `hexstring then the shift unit applied is 1 hexadecimal digit;` c) `octetstring then the shift unit applied is 1 octet.`",
+   "lines": [
+    7535,
+    7539
+   ]
+  },
+  {
+   "id": "7.1.6-s008",
+   "section": "7.1.6",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The shift left (<<) operator accepts two operands.",
+   "lines": [
+    7541,
+    7544
+   ]
+  },
+  {
+   "id": "7.1.6-s009",
+   "section": "7.1.6",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "It shifts the left-hand operand by the number of shift units to the left as specified by the right-hand operand.",
+   "lines": [
+    7541,
+    7544
+   ]
+  },
+  {
+   "id": "7.1.6-s010",
+   "section": "7.1.6",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Excess shift units (bits, hexadecimal digits or octets) are discarded.",
+   "lines": [
+    7541,
+    7544
+   ]
+  },
+  {
+   "id": "7.1.6-s011",
+   "section": "7.1.6",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "For each shift unit shifted to the left, a zero ('0'B, '0'H, or '00'O determined according to the type of the left-hand operand) is inserted from the right-hand side of the left operand.",
+   "lines": [
+    7541,
+    7544
+   ]
+  },
+  {
+   "id": "7.1.6-s012",
+   "section": "7.1.6",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 1:",
+   "lines": [
+    7553,
+    7553
+   ]
+  },
+  {
+   "id": "7.1.6-s013",
+   "section": "7.1.6",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "'111001'B << 2 gives '100100'B\n  '12345'H << 2 gives '34500'H\n  '1122334455'O << (1+1) gives '3344550000'O",
+   "lines": [
+    7554,
+    7558
+   ]
+  },
+  {
+   "id": "7.1.6-s014",
+   "section": "7.1.6",
+   "kind": "prose",
+   "context": "Examples",
+   "normative": true,
+   "text": "The shift right (>>)operator accepts two operands.",
+   "lines": [
+    7560,
+    7563
+   ]
+  },
+  {
+   "id": "7.1.6-s015",
+   "section": "7.1.6",
+   "kind": "prose",
+   "context": "Examples",
+   "normative": true,
+   "text": "It shifts the left-hand operand by the number of shift units to the right as specified by the right-hand operand.",
+   "lines": [
+    7560,
+    7563
+   ]
+  },
+  {
+   "id": "7.1.6-s016",
+   "section": "7.1.6",
+   "kind": "prose",
+   "context": "Examples",
+   "normative": true,
+   "text": "Excess shift units (bits, hexadecimal digits or octets) are discarded.",
+   "lines": [
+    7560,
+    7563
+   ]
+  },
+  {
+   "id": "7.1.6-s017",
+   "section": "7.1.6",
+   "kind": "prose",
+   "context": "Examples",
+   "normative": true,
+   "text": "For each shift unit shifted to the right, a zero ('0'B, '0'H, or '00'O determined according to the type of the left-hand operand) is inserted from the left-hand side of the left operand.",
+   "lines": [
+    7560,
+    7563
+   ]
+  },
+  {
+   "id": "7.1.6-s018",
+   "section": "7.1.6",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 2:",
+   "lines": [
+    7565,
+    7565
+   ]
+  },
+  {
+   "id": "7.1.6-s019",
+   "section": "7.1.6",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "'111001'B >> 2 gives '001110'B  \n  '12345'H >> 2 gives '00123'H\n  '1122334455'O >> (1+1) gives '0000112233'O",
+   "lines": [
+    7566,
+    7570
+   ]
+  },
+  {
+   "id": "7.1.7-s001",
+   "section": "7.1.7",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The predefined rotate operators perform the rotate left (<@) and rotate right (@>) operators.",
+   "lines": [
+    7574,
+    7577
+   ]
+  },
+  {
+   "id": "7.1.7-s002",
+   "section": "7.1.7",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Their left-hand operand shall be of root type bitstring, hexstring, octetstring, charstring, universal `charstring,` record of, or set of.",
+   "lines": [
+    7574,
+    7577
+   ]
+  },
+  {
+   "id": "7.1.7-s003",
+   "section": "7.1.7",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Their right-hand operand shall be a non-negative integer.",
+   "lines": [
+    7574,
+    7577
+   ]
+  },
+  {
+   "id": "7.1.7-s004",
+   "section": "7.1.7",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The result type of these operators shall be the same as the root type of the left-hand operand.",
+   "lines": [
+    7574,
+    7577
+   ]
+  },
+  {
+   "id": "7.1.7-s005",
+   "section": "7.1.7",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "NOTE 1: Note that the root types of arrays is record of, therefore arrays are allowed as left-hand operands of rotate operators.",
+   "lines": [
+    7579,
+    7580
+   ]
+  },
+  {
+   "id": "7.1.7-s006",
+   "section": "7.1.7",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The rotate operators behave differently based upon the type of their left-hand operand.",
+   "lines": [
+    7582,
+    7583
+   ]
+  },
+  {
+   "id": "7.1.7-s007",
+   "section": "7.1.7",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "If the type of the left-hand operand is:",
+   "lines": [
+    7582,
+    7583
+   ]
+  },
+  {
+   "id": "7.1.7-s008",
+   "section": "7.1.7",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "a) `bitstring then the rotate unit applied is 1 bit;` b) `hexstring then the rotate unit applied is 1 hexadecimal digit;` c) `octetstring then the rotate unit applied is 1 octet;` d) `charstring or universal` `charstring then the rotate unit applied is one character;` e) `record of, set of, or array then the rotate unit applied is one element.`",
+   "lines": [
+    7585,
+    7593
+   ]
+  },
+  {
+   "id": "7.1.7-s009",
+   "section": "7.1.7",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The rotate left (<@) operator accepts two operands.",
+   "lines": [
+    7595,
+    7597
+   ]
+  },
+  {
+   "id": "7.1.7-s010",
+   "section": "7.1.7",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "It rotates the left-hand operand by the number of shift units to the left as specified by the right-hand operand.",
+   "lines": [
+    7595,
+    7597
+   ]
+  },
+  {
+   "id": "7.1.7-s011",
+   "section": "7.1.7",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Excess shift units (bits, hexadecimal digits, octets, characters, or elements) are re-inserted into the left-hand operand from its right-hand side.",
+   "lines": [
+    7595,
+    7597
+   ]
+  },
+  {
+   "id": "7.1.7-s012",
+   "section": "7.1.7",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clause 5, the following restrictions apply:",
+   "lines": [
+    7601,
+    7601
+   ]
+  },
+  {
+   "id": "7.1.7-s013",
+   "section": "7.1.7",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) When the rotate operator is used for record of-s, set of-s and arrays, its left hand operand shall be at least partially initialized.",
+   "lines": [
+    7603,
+    7604
+   ]
+  },
+  {
+   "id": "7.1.7-s014",
+   "section": "7.1.7",
+   "kind": "note",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "NOTE 2: Note that for the right hand operand restriction a) in clause 6.5 further on applies.",
+   "lines": [
+    7606,
+    7606
+   ]
+  },
+  {
+   "id": "7.1.7-s015",
+   "section": "7.1.7",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 1:",
+   "lines": [
+    7610,
+    7610
+   ]
+  },
+  {
+   "id": "7.1.7-s016",
+   "section": "7.1.7",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "'101001'B <@ 2 gives '100110'B\n  '12345'H <@ 2 gives '34512'H\n  '1122334455'O <@ (1+2) gives '4455112233'O\n  \"abcdefg\" <@ 3 gives \"defgabc\"",
+   "lines": [
+    7611,
+    7616
+   ]
+  },
+  {
+   "id": "7.1.7-s017",
+   "section": "7.1.7",
+   "kind": "prose",
+   "context": "Examples",
+   "normative": true,
+   "text": "The rotate right (@>) operator accepts two operands.",
+   "lines": [
+    7618,
+    7620
+   ]
+  },
+  {
+   "id": "7.1.7-s018",
+   "section": "7.1.7",
+   "kind": "prose",
+   "context": "Examples",
+   "normative": true,
+   "text": "It rotates the left-hand operand by the number of shift units to the right as specified by the right-hand operand.",
+   "lines": [
+    7618,
+    7620
+   ]
+  },
+  {
+   "id": "7.1.7-s019",
+   "section": "7.1.7",
+   "kind": "prose",
+   "context": "Examples",
+   "normative": true,
+   "text": "Excess shift units (bits, hexadecimal digits, octets, characters, or elements) are re-inserted into the left-hand operand from its left-hand side.",
+   "lines": [
+    7618,
+    7620
+   ]
+  },
+  {
+   "id": "7.1.7-s020",
+   "section": "7.1.7",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 2:",
+   "lines": [
+    7627,
+    7627
+   ]
+  },
+  {
+   "id": "7.1.7-s021",
+   "section": "7.1.7",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "'100001'B @> 2 gives '011000'B\n  '12345'H @> 2 gives '45123'H\n  '1122334455'O @> (1+2) gives '3344551122'O\n  \"abcdefg\" @> 3 gives \"efgabcd\"",
+   "lines": [
+    7628,
+    7633
+   ]
+  },
+  {
+   "id": "7.1.8.0-s001",
+   "section": "7.1.8.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The presence checking operators include ispresent, ischosen, isvalue and isbound operators.",
+   "lines": [
+    7639,
+    7640
+   ]
+  },
+  {
+   "id": "7.1.8.0-s002",
+   "section": "7.1.8.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The result type of the presence checking operators is boolean.",
+   "lines": [
+    7639,
+    7640
+   ]
+  },
+  {
+   "id": "7.1.8.0-s003",
+   "section": "7.1.8.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The operand of these operators can be of any type.",
+   "lines": [
+    7639,
+    7640
+   ]
+  },
+  {
+   "id": "7.1.8.0-s004",
+   "section": "7.1.8.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Specific rules apply if the operand of a presence checking operator is a data object reference, function instance, template instance or a result of the valueof operation followed by an ExtendedFieldReference.",
+   "lines": [
+    7642,
+    7646
+   ]
+  },
+  {
+   "id": "7.1.8.0-s005",
+   "section": "7.1.8.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "In these cases, if resolving dot notation, index notation (see clause 7.2) or decoded field references (see clause 7.3) included in the _ExtendedFieldReference would produce an error (e.g. if an index is out of range, when referencing a sub-field of an_ omitted field etc.), the following happens:",
+   "lines": [
+    7642,
+    7646
+   ]
+  },
+  {
+   "id": "7.1.8.0-s006",
+   "section": "7.1.8.0",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "No error is produced.",
+   "lines": [
+    7648,
+    7648
+   ]
+  },
+  {
+   "id": "7.1.8.0-s007",
+   "section": "7.1.8.0",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "Evaluation of all remaining unresolved fields in the ExtendedFieldReference is stopped.",
+   "lines": [
+    7650,
+    7652
+   ]
+  },
+  {
+   "id": "7.1.8.0-s008",
+   "section": "7.1.8.0",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "All remaining parts of the ExtendedFieldReference that are located right from the operation that would normally produce an error up to the end of the presence checking operator are not evaluated.",
+   "lines": [
+    7650,
+    7652
+   ]
+  },
+  {
+   "id": "7.1.8.0-s009",
+   "section": "7.1.8.0",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "The presence checking operator yields the value false.",
+   "lines": [
+    7654,
+    7654
+   ]
+  },
+  {
+   "id": "7.1.8.0-s010",
+   "section": "7.1.8.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The rule on special handling of dot notation, index notation and decoded field references is not applied recursively.",
+   "lines": [
+    7656,
+    7658
+   ]
+  },
+  {
+   "id": "7.1.8.0-s011",
+   "section": "7.1.8.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Errors occurring during resolving a value of an index inside index notation or a value of an encoding format parameter of a decoded field reference are not affected by this rule.",
+   "lines": [
+    7656,
+    7658
+   ]
+  },
+  {
+   "id": "7.1.8.1-s001",
+   "section": "7.1.8.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The ispresent operator checks whether a referenced field is present in a data object.",
+   "lines": [
+    7662,
+    7662
+   ]
+  },
+  {
+   "id": "7.1.8.1-s002",
+   "section": "7.1.8.1",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "ispresent \"(\" TemplateInstance \")\"",
+   "lines": [
+    7665,
+    7667
+   ]
+  },
+  {
+   "id": "7.1.8.1-s003",
+   "section": "7.1.8.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The ispresent operator returns:",
+   "lines": [
+    7671,
+    7671
+   ]
+  },
+  {
+   "id": "7.1.8.1-s004",
+   "section": "7.1.8.1",
+   "kind": "list-item",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "the value true if the operand fulfils the (present) template restriction as described in clause 15.8;",
+   "lines": [
+    7673,
+    7673
+   ]
+  },
+  {
+   "id": "7.1.8.1-s005",
+   "section": "7.1.8.1",
+   "kind": "list-item",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "the value false otherwise.",
+   "lines": [
+    7675,
+    7675
+   ]
+  },
+  {
+   "id": "7.1.8.1-s006",
+   "section": "7.1.8.1",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "NOTE 1: When the argument of ispresent is a subfield of a template field to which the \"?\" (AnyValue) matching is assigned, the extension mechanism specified in clause 15.6.2 applies.",
+   "lines": [
+    7677,
+    7678
+   ]
+  },
+  {
+   "id": "7.1.8.1-s007",
+   "section": "7.1.8.1",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "NOTE 2: This means that whenever ispresent(m_myTemplate) returns true:",
+   "lines": [
+    7680,
+    7680
+   ]
+  },
+  {
+   "id": "7.1.8.1-s008",
+   "section": "7.1.8.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "m_myTemplate can safely be assigned to a non-optional field of the type of the template in a template variable; m_myTemplate can safely be used as an actual template(present) parameter or assigned to a variable of kind template(present).",
+   "lines": [
+    7682,
+    7683
+   ]
+  },
+  {
+   "id": "7.1.8.1-s009",
+   "section": "7.1.8.1",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "General static rules of TTCN-3 given in clause 5 apply.",
+   "lines": [
+    7692,
+    7692
+   ]
+  },
+  {
+   "id": "7.1.8.1-s010",
+   "section": "7.1.8.1",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE:",
+   "lines": [
+    7696,
+    7696
+   ]
+  },
+  {
+   "id": "7.1.8.1-s011",
+   "section": "7.1.8.1",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "// Given \n  type record MyRecord \n   {\n     record {\n      boolean innerField1 optional,\n      integer innerField2 optional,\n      MyRecord innerField3 optional\n    } field1 optional,\n      integer field2\n     }\n  var MyRecord v_myRecord := { field1 := {}, field2 := 5 }\n  // type of field1 is record with fields, therefore field1 remains uninitialized\n  // after this assignment (no value is assigned to any of the fields of vl_MyRecord.field1)\n  var boolean v_checkResult := ispresent(v_myRecord.field1) // yields false\n  v_myRecord.field1 := omit\n  v_checkResult := ispresent(v_myRecord.field1) // yields false\n  // and therefore, v_myRecord.field1.innerField1 is an inaccessible reference\n  v_checkResult := ispresent(v_myRecord.field1.innerField3.field2) // yields false because \n  // innerField3 is unintialized and therefore, v_myRecord.field1.innerField3.field2 is an \n  // inaccessible reference\n  v_checkResult := ispresent(v_myRecord.field1.innerField1) // yields false because field1\n  // is omitted\n  var template MyRecord v_myRecordT := { field1 := ?, field2 := 5 }\n  v_checkResult := ispresent(v_myRecordT.field1) // yields true\n  v_checkResult := ispresent(v_myRecordT.field1.innerField1) // yields false because field1 is\n  // AnyValue (pls. note, that at expansion of field1 the optional field innerField1 obtains \"*\" \n  // that can match both a present and an omitted field\n  type record R { integer f1 optional, integer f2 optional } \n  template R mw_t1 := {f1 := 1, f2 :=(2 .. 4) } \n  template R mw_t2 := { f1 := omit, f2 := (5, 7) ifpresent } \n  template R mw_t3 := {f1 := *, f2 :=? } \n  v_checkResult := ispresent(mw_t1.f1) // yields true \n  v_checkResult := ispresent(mw_t1.f2) // yields true \n  v_checkResult := ispresent(mw_t2.f1) // yields false \n  v_checkResult := ispresent(mw_t2.f2) // yields false\n  v_checkResult := ispresent(mw_t3.f1) // yields false\n  v_checkResult := ispresent(mw_t3.f2) // yields true",
+   "lines": [
+    7697,
+    7735
+   ]
+  },
+  {
+   "id": "7.1.8.2-s001",
+   "section": "7.1.8.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The ischosen operator checks whether a referenced alternative is present in a data object.",
+   "lines": [
+    7739,
+    7739
+   ]
+  },
+  {
+   "id": "7.1.8.2-s002",
+   "section": "7.1.8.2",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "ischosen \"(\" TemplateInstance \")\"",
+   "lines": [
+    7742,
+    7744
+   ]
+  },
+  {
+   "id": "7.1.8.2-s003",
+   "section": "7.1.8.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "This operator is allowed for data objects of all data types that are a union-field-reference or a type alternative of an anytype.",
+   "lines": [
+    7753,
+    7754
+   ]
+  },
+  {
+   "id": "7.1.8.2-s004",
+   "section": "7.1.8.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The operator returns:",
+   "lines": [
+    7753,
+    7754
+   ]
+  },
+  {
+   "id": "7.1.8.2-s005",
+   "section": "7.1.8.2",
+   "kind": "list-item",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "the value true if and only if the data object reference specifies the variant of the union type or the type alternative of the anytype that is actually selected for the given data object;",
+   "lines": [
+    7756,
+    7757
+   ]
+  },
+  {
+   "id": "7.1.8.2-s006",
+   "section": "7.1.8.2",
+   "kind": "list-item",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "in all other cases false.",
+   "lines": [
+    7759,
+    7759
+   ]
+  },
+  {
+   "id": "7.1.8.2-s007",
+   "section": "7.1.8.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The ischosen operator is applicable to data objects of union types or of anytype containing a specific value or a value list.",
+   "lines": [
+    7761,
+    7764
+   ]
+  },
+  {
+   "id": "7.1.8.2-s008",
+   "section": "7.1.8.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "In case of a value list, the operator returns true if all data objects present in the value list have the given alternative selected.",
+   "lines": [
+    7761,
+    7764
+   ]
+  },
+  {
+   "id": "7.1.8.2-s009",
+   "section": "7.1.8.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The result is false if there is another alternative of the union type or anytype on which ischosen would return true.",
+   "lines": [
+    7761,
+    7764
+   ]
+  },
+  {
+   "id": "7.1.8.2-s010",
+   "section": "7.1.8.2",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "NOTE: Note that in case of anytype-s, no type compatibility is considered when determining the selected alternative; i.e. at the evaluation only the exact type chosen for the given value will satisfy the above criteria.",
+   "lines": [
+    7766,
+    7768
+   ]
+  },
+  {
+   "id": "7.1.8.2-s011",
+   "section": "7.1.8.2",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "General static rules of TTCN-3 given in clause 5 apply.",
+   "lines": [
+    7772,
+    7772
+   ]
+  },
+  {
+   "id": "7.1.8.2-s012",
+   "section": "7.1.8.2",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 1: Using ischosen for union types",
+   "lines": [
+    7776,
+    7776
+   ]
+  },
+  {
+   "id": "7.1.8.2-s013",
+   "section": "7.1.8.2",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "// inside module M:\n  type union U { integer f1, octetstring f2 } \n  template U m_u1 := {f1 := 1} \n  template U mw_u2 := {f2 := ?} \n  template U mw_u3 := ? \n  template U m_u4 := ({ f1 := 2 }, {f2 := 'AB'O }) \n  template U mw_u5 := ({ f2 := '12?'O }, { f2 := '*34'O length(2) }) \n  var boolean v_checkResult := ischosen(m_u1.f1) // returns true \n  v_checkResult := ischosen(m_u1.f2) // yields false \n  v_checkResult := ischosen(mw_u2.f1) // yields false \n  v_checkResult := ischosen(mw_u2.f2) // yields true \n  v_checkResult := ischosen(mw_u3.f1) // yields false \n  v_checkResult := ischosen(mw_u3.f2) // yields false\n  v_checkResult := ischosen(m_u4.f1) // yields false \n  v_checkResult := ischosen(m_u4.f2) // yields false \n  v_checkResult := ischosen(mw_u5.f1) // yields false \n  v_checkResult := ischosen(mw_u5.f2) // yields true \n  type record R { U u optional }\n  template R m_r1 := { omit }\n  var boolean v_checkResult := ischosen(m_r1.u.f1) // yields false",
+   "lines": [
+    7777,
+    7798
+   ]
+  },
+  {
+   "id": "7.1.8.2-s014",
+   "section": "7.1.8.2",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 2: Using ischosen for anytype",
+   "lines": [
+    7800,
+    7800
+   ]
+  },
+  {
+   "id": "7.1.8.2-s015",
+   "section": "7.1.8.2",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "template anytype mw_a1 := { U := mw_u5 }\n  template anytype mw_a2 := { M.U := { f1 := m_u1.f1 } }\n  var boolean v_checkResult := ischosen(mw_a1.U)   // yields true\n  v_checkResult := ischosen(mw_a1.M.U)  // yields true\n  v_checkResult := ischosen(mw_a1.integer) // yields false\n  v_checkResult := ischosen(mw_a2.U)    // yields true",
+   "lines": [
+    7801,
+    7808
+   ]
+  },
+  {
+   "id": "7.1.8.2-s016",
+   "section": "7.1.8.2",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 3:",
+   "lines": [
+    7815,
+    7815
+   ]
+  },
+  {
+   "id": "7.1.8.2-s017",
+   "section": "7.1.8.2",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "// Given \n  type union MyUnion\n     { PDU_type1 p1,\n       PDU_type2 p2,\n       PDU_type p3 \n     }\n  // and given that mw_myPDU is a template of MyUnion type\n  // and v_receivedPDU is also of MyUnion type \n  // then \n  myPort.receive(mw_myPDU) -> value v_receivedPDU\n  var boolean v_checkResult := ischosen(v_receivedPDU.p2)\n  // yields true if the actual instance of mw_myPDU carries a PDU of the type PDU_type2",
+   "lines": [
+    7816,
+    7829
+   ]
+  },
+  {
+   "id": "7.1.8.3-s001",
+   "section": "7.1.8.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The isvalue operator checks whether a referenced data object is a specific value.",
+   "lines": [
+    7833,
+    7833
+   ]
+  },
+  {
+   "id": "7.1.8.3-s002",
+   "section": "7.1.8.3",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "isvalue \"(\" TemplateInstance \")\"",
+   "lines": [
+    7836,
+    7838
+   ]
+  },
+  {
+   "id": "7.1.8.3-s003",
+   "section": "7.1.8.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The isvalue operator yields true, if the operand is completely initialized and resolves to a specific value.",
+   "lines": [
+    7842,
+    7844
+   ]
+  },
+  {
+   "id": "7.1.8.3-s004",
+   "section": "7.1.8.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If the operand is of record or set type, omitted optional fields shall be considered as initialized, i.e. the operator shall also yield true if optional fields of the operand are set to omit.",
+   "lines": [
+    7842,
+    7844
+   ]
+  },
+  {
+   "id": "7.1.8.3-s005",
+   "section": "7.1.8.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The operator shall yield false otherwise.",
+   "lines": [
+    7842,
+    7844
+   ]
+  },
+  {
+   "id": "7.1.8.3-s006",
+   "section": "7.1.8.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The specific value null is considered as concrete value.",
+   "lines": [
+    7846,
+    7846
+   ]
+  },
+  {
+   "id": "7.1.8.3-s007",
+   "section": "7.1.8.3",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "General static rules of TTCN-3 given in clause 5 apply.",
+   "lines": [
+    7850,
+    7850
+   ]
+  },
+  {
+   "id": "7.1.8.3-s008",
+   "section": "7.1.8.3",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 1: Simple types:",
+   "lines": [
+    7854,
+    7854
+   ]
+  },
+  {
+   "id": "7.1.8.3-s009",
+   "section": "7.1.8.3",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "template charstring m_char0 := \"ABCD\"; //template containing a specific value matching\n  template charstring m_char1 := \"AB?D\"; //template containing a specific value matching\n                          //note, that \"?\" is not a matching symbol in this case\n  template charstring mw_char2 := pattern \"ABCD\"; // a pattern matching a single value only\n  template charstring mw_char3 := pattern \"AB?D\"; // pattern matching\n  template charstring m_char4 := (\"ABCD\"); // template containing a specific value (expression)\n  template charstring mw_char5 := (\"ABCD\",\"EFGH\"); // a value list matching a single value only\n  var boolean v_checkResult := isvalue(m_char0); // yields true\n  v_checkResult := isvalue(m_char1); // yields true\n  v_checkResult := isvalue(mw_char2); // yields false\n  v_checkResult := isvalue(mw_char3); // yields false\n  v_checkResult := isvalue(m_char4); // yields true\n  v_checkResult := isvalue(mw_char5); // yields false",
+   "lines": [
+    7855,
+    7869
+   ]
+  },
+  {
+   "id": "7.1.8.3-s010",
+   "section": "7.1.8.3",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 2: Special types:",
+   "lines": [
+    7871,
+    7871
+   ]
+  },
+  {
+   "id": "7.1.8.3-s011",
+   "section": "7.1.8.3",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "var default v_default := null;\n  var boolean v_checkResult := isvalue(v_default); // yields true",
+   "lines": [
+    7872,
+    7875
+   ]
+  },
+  {
+   "id": "7.1.8.3-s012",
+   "section": "7.1.8.3",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 3: Record/set types:",
+   "lines": [
+    7877,
+    7877
+   ]
+  },
+  {
+   "id": "7.1.8.3-s013",
+   "section": "7.1.8.3",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "type record MyRec {\n     integer f1 optional,\n     integer f2 optional\n  }\n  var MyRec v_myRec;\n  var template MyRec v_myRecT;\n  var boolean_checkResult := isvalue(v_myRec);   // yields false\n  v_checkResult := isvalue(v_myRecT);  // yields false\n  v_myRec  := { f1 := 5, f2 := omit }\n  v_myRecT := { f1 := ?, f2 := 5 }\n  v_checkResult := isvalue(v_myRec);   // yields true\n  v_checkResult := isvalue(v_myRec.f2); // yields false; \n  v_checkResult := isvalue(v_myRecT);  // yields false\n  v_checkResult := isvalue(v_myRecT.f1); // yields false\n  v_checkResult := isvalue(v_myRecT.f2); // yields true\n  v_myRecT.f2 := omit;\n  v_checkResult := isvalue(v_myRecT.f2); // yields false",
+   "lines": [
+    7878,
+    7896
+   ]
+  },
+  {
+   "id": "7.1.8.3-s014",
+   "section": "7.1.8.3",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 4: Union types:",
+   "lines": [
+    7898,
+    7898
+   ]
+  },
+  {
+   "id": "7.1.8.3-s015",
+   "section": "7.1.8.3",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "type union MyUnion {\n     integer ch1,\n     integer ch2\n  }\n  template MyUnion m_myUnion := { ch1 := 5 }\n  template MyUnion mw_myUnion := { ch1 := ? }\n  var boolean v_checkResult := isvalue(m_myUnion);   // yields true\n  v_checkResult := isvalue(mw_myUnion);   // yields false\n  v_checkResult := isvalue(mw_myUnion.ch1); // yields false\n  // note, this is different from ischosen(mw_myUnion.ch1) as isvalue checks the content of the \n  // choice ch1, while ischosen is checking if ch1 has been selected or not\n  v_checkResult := isvalue(mw_myUnion.ch2); // yields false",
+   "lines": [
+    7899,
+    7912
+   ]
+  },
+  {
+   "id": "7.1.8.3-s016",
+   "section": "7.1.8.3",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 5: Nested types:",
+   "lines": [
+    7914,
+    7914
+   ]
+  },
+  {
+   "id": "7.1.8.3-s017",
+   "section": "7.1.8.3",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "type record MyRecord {\n     MyUnion u optional \n  }\n  template MyRecord m_myRecord := { u := m_myUnion }\n  template MyRecord mw_myRecord := { u := mw_myUnion }\n  template MyRecord m_myRecord2 := { u := omit }\n  var boolean v_checkResult := isvalue(m_myRecord.u.ch1); // yields true\n  v_checkResult := isvalue(mw_myRecord.u.ch1); // yields false\n  v_checkResult := isvalue(mw_myRecord.u.ch2); // yields false\n  v_checkResult := isvalue(m_myRecord.u.ch2); // yields false",
+   "lines": [
+    7915,
+    7926
+   ]
+  },
+  {
+   "id": "7.1.8.4-s001",
+   "section": "7.1.8.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The isbound operator checks whether a referenced data object is at least partially initialized.",
+   "lines": [
+    7930,
+    7930
+   ]
+  },
+  {
+   "id": "7.1.8.4-s002",
+   "section": "7.1.8.4",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "isbound \"(\" TemplateInstance \")\"",
+   "lines": [
+    7933,
+    7935
+   ]
+  },
+  {
+   "id": "7.1.8.4-s003",
+   "section": "7.1.8.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The isbound operator yields true, if the operand is at least partially initialized.",
+   "lines": [
+    7939,
+    7939
+   ]
+  },
+  {
+   "id": "7.1.8.4-s004",
+   "section": "7.1.8.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If the operand is of a record or",
+   "lines": [
+    7939,
+    7939
+   ]
+  },
+  {
+   "id": "7.1.8.4-s005",
+   "section": "7.1.8.4",
+   "kind": "code",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "set type, omitted optional fields shall be considered as initialized, i.e. the operator shall also yield true if at least one",
+   "lines": [
+    7940,
+    7942
+   ]
+  },
+  {
+   "id": "7.1.8.4-s006",
+   "section": "7.1.8.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "optional field of the operand is set to omit.",
+   "lines": [
+    7944,
+    7946
+   ]
+  },
+  {
+   "id": "7.1.8.4-s007",
+   "section": "7.1.8.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The operator shall yield false otherwise.",
+   "lines": [
+    7944,
+    7946
+   ]
+  },
+  {
+   "id": "7.1.8.4-s008",
+   "section": "7.1.8.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Inaccessible fields (e.g. non-selected alternatives of union types, subfields of omitted record and set types or subfields of non-selected union fields) shall be considered as uninitialized, i.e. isbound shall yield for them false.",
+   "lines": [
+    7944,
+    7946
+   ]
+  },
+  {
+   "id": "7.1.8.4-s009",
+   "section": "7.1.8.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The specific value null is considered as concrete value.",
+   "lines": [
+    7948,
+    7948
+   ]
+  },
+  {
+   "id": "7.1.8.4-s010",
+   "section": "7.1.8.4",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 1: Simple types",
+   "lines": [
+    7952,
+    7952
+   ]
+  },
+  {
+   "id": "7.1.8.4-s011",
+   "section": "7.1.8.4",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "var template charstring v_char; \n  var boolean_checkResult := isbound(v_char); // yields false as v_char is uninitialized\n  v_char := \"AB?D\";              // template containing a specific value\n  checkResult := isbound(v_char);       // yields true\n  v_char := pattern \"AB?D\";          // template containing a pattern matching\n  checkResult := isbound(v_char);       // yields true",
+   "lines": [
+    7953,
+    7960
+   ]
+  },
+  {
+   "id": "7.1.8.4-s012",
+   "section": "7.1.8.4",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 2: Special types",
+   "lines": [
+    7962,
+    7962
+   ]
+  },
+  {
+   "id": "7.1.8.4-s013",
+   "section": "7.1.8.4",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "var default v_default := null;\n  var boolean_checkResult := isbound(v_default); // yields true",
+   "lines": [
+    7963,
+    7966
+   ]
+  },
+  {
+   "id": "7.1.8.4-s014",
+   "section": "7.1.8.4",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 3: Record/set types",
+   "lines": [
+    7968,
+    7968
+   ]
+  },
+  {
+   "id": "7.1.8.4-s015",
+   "section": "7.1.8.4",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "type record MyRec {\n     integer f1,\n     MyRec f2 optional\n  }\n  var MyRec v_myRec;\n  var boolean_checkResult := isbound(v_myRec); // yields false\n  v_myRec.f2 := omit;\n  checkResult := isbound(v_myRec);      // yields true as v_myRec is partially initialized,\n                  // field f2 is set to omit\n  v_myRec := { f1 := 5, f2 := omit }\n  checkResult := isbound(v_myRec);      // yields true as v_myRec is completely initialized\n  checkResult := isbound(v_myRec.f2.f1);   // yields false as v_myRec.f2.f1 is inaccessible\n  checkResult := isbound(v_myRec.f1/0);   // shall cause an error already during evaluating the\n                  // operand because the operand is not a reference and division by \n                  // zero causes a runtime error\n  type union MyUnion {\n     integer ch1,\n     MyRec  ch2\n  }\n  var template MyUnion v_myUnion;\n  checkResult := isbound(v_myUnion);    // yields false, as v_myUnion is uninitialized\n  checkResult := isbound(v_myUnion.ch1);  // yields false, as alternative ch1 is uninitialized\n  v_myUnion := { ch1 := 5 };\n  checkResult := isbound(v_myUnion);    // yields true\n  checkResult := isbound(v_myUnion.ch1);  // yields true\n  checkResult := isbound(v_myUnion.ch2);  // yields false as the ch2 alternative is not selected\n  checkResult := isbound(v_myUnion.ch2.f1); // yields false as the field f1 is inaccessible\n  checkResult := isbound(v_myUnion.ch1/0); // shall cause an error already during evaluating the\n                  // operand because the operand is not a reference and division by \n                  // zero causes a runtime error",
+   "lines": [
+    7969,
+    8000
+   ]
+  },
+  {
+   "id": "7.2-s001",
+   "section": "7.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Within expressions, fields of record and set types are referenced with the dot notation \".field\".",
+   "lines": [
+    8004,
+    8006
+   ]
+  },
+  {
+   "id": "7.2-s002",
+   "section": "7.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Elements of record of, set of, array and string types are referenced with the index notation \"[index]\".",
+   "lines": [
+    8004,
+    8006
+   ]
+  },
+  {
+   "id": "7.2-s003",
+   "section": "7.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Dot and brackets have the same binding power.",
+   "lines": [
+    8004,
+    8006
+   ]
+  },
+  {
+   "id": "7.2-s004",
+   "section": "7.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Field references and list elements are evaluated from left to right.",
+   "lines": [
+    8004,
+    8006
+   ]
+  },
+  {
+   "id": "7.3-s001",
+   "section": "7.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Decoded field reference is a specific notation called decoding notation that can be applied to expressions of bitstring, hexstring, octetstring, charstring or universal charstring types.",
+   "lines": [
+    8010,
+    8012
+   ]
+  },
+  {
+   "id": "7.3-s002",
+   "section": "7.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "It is used for accessing content of implicitly decoded payload fields.",
+   "lines": [
+    8010,
+    8012
+   ]
+  },
+  {
+   "id": "7.3-s003",
+   "section": "7.3",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "ReferencedValue \"=>\" ( PredefinedType | TypeIdentifier | \n     ( \"(\" Type [ \",\" Expression ] \")\" ) )",
+   "lines": [
+    8015,
+    8018
+   ]
+  },
+  {
+   "id": "7.3-s004",
+   "section": "7.3",
+   "kind": "prose",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "The ReferencedValue preceding the => symbol in a decoding notation shall be decoded into a value of the type following the => symbol.",
+   "lines": [
+    8025,
+    8026
+   ]
+  },
+  {
+   "id": "7.3-s005",
+   "section": "7.3",
+   "kind": "prose",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "Failure of this decoding shall cause a test case error.",
+   "lines": [
+    8025,
+    8026
+   ]
+  },
+  {
+   "id": "7.3-s006",
+   "section": "7.3",
+   "kind": "prose",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "In case the ReferencedValue is of the",
+   "lines": [
+    8025,
+    8026
+   ]
+  },
+  {
+   "id": "7.3-s007",
+   "section": "7.3",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "universal charstring type and the extended syntax with parentheses is used, the Type can be followed by an",
+   "lines": [
+    8027,
+    8029
+   ]
+  },
+  {
+   "id": "7.3-s008",
+   "section": "7.3",
+   "kind": "prose",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "optional parameter defining the encoding format.",
+   "lines": [
+    8031,
+    8034
+   ]
+  },
+  {
+   "id": "7.3-s009",
+   "section": "7.3",
+   "kind": "prose",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "The parameter shall be of the charstring type and it shall contain one of the strings allowed for the decvalue_unichar function (specified in clause C.5.4).",
+   "lines": [
+    8031,
+    8034
+   ]
+  },
+  {
+   "id": "7.3-s010",
+   "section": "7.3",
+   "kind": "prose",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "Any other value shall cause an error.",
+   "lines": [
+    8031,
+    8034
+   ]
+  },
+  {
+   "id": "7.3-s011",
+   "section": "7.3",
+   "kind": "prose",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "In case the ReferencedValue is not a universal `charstring, the optional parameter shall not be` present.",
+   "lines": [
+    8031,
+    8034
+   ]
+  },
+  {
+   "id": "7.3-s012",
+   "section": "7.3",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clause 5, the following restrictions apply:",
+   "lines": [
+    8038,
+    8038
+   ]
+  },
+  {
+   "id": "7.3-s013",
+   "section": "7.3",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) If the type following the => symbol is not enclosed into parentheses, only a built-in type or a type reference consisting of a single identifier can be used.",
+   "lines": [
+    8040,
+    8042
+   ]
+  },
+  {
+   "id": "7.3-s014",
+   "section": "7.3",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Extended type references shall always use the extended syntax with parentheses.",
+   "lines": [
+    8040,
+    8042
+   ]
+  },
+  {
+   "id": "7.3-s015",
+   "section": "7.3",
+   "kind": "example-text",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "EXAMPLE:",
+   "lines": [
+    8044,
+    8044
+   ]
+  },
+  {
+   "id": "7.3-s016",
+   "section": "7.3",
+   "kind": "example-code",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "type record PDU {\n     PduHeader header,\n     bitstring outerPayload\n  }\n  type record OuterPayload {\n     OuterPayloadHeader header,\n     universal charstring innerPayload\n  }\n  type record InnerPayload {\n     integer data1,\n     charstring data2\n  }\n  ...\n  var PDU v_pdu;\n  var InnerPayload v_inner;\n  ... // v_pdu is filled with data;\n  v_inner := v_pdu.outerPayload=>OuterPayload.innerPayload=>(InnerPayload, \"UTF-8\");\n  // v_pdu.outerPayload field is first decoded into a value of the OuterPayload type\n  // the innerPayload field of the decoding result is subsequently decoded into a value\n  // of the InnerPayload type (using UTF-8 format for conversion into a bitstring)",
+   "lines": [
+    8045,
+    8066
+   ]
+  }
+ ]
+}

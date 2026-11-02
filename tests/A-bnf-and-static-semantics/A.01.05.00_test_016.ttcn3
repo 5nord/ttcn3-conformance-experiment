@@ -1,0 +1,22 @@
+// @requirement: A.1.5.0 -- Begin/end block symbols: Bitstring, hexstring and Octetstring values; { }: B H O
+// @id: TTCN3-CORE-A.1.5.0-020a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_A_01_05_00_test_016 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var bitstring v_b := '101'B;
+        var hexstring v_h := 'A5F'H;
+        var octetstring v_o := '0AFF'O;
+        if (bit2int(v_b) == 5 and hex2int(v_h) == 2655 and oct2int(v_o) == 2815) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

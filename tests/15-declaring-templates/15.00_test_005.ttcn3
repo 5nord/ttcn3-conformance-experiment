@@ -1,0 +1,43 @@
+// @requirement: 15.0 -- Within a template values, ranges and matching attributes can be specified and then used in both message-based and procedure-based communications.
+// @id: TTCN3-CORE-15.0-008a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_00_test_005 {
+
+    type record R { integer i, float f, charstring c }
+
+    signature S(in integer p_i, in float p_f, in charstring p_c);
+
+    type port PM message { inout R }
+    type port PP procedure { inout S }
+
+    type component C {
+        port PM pm1;
+        port PM pm2;
+        port PP pp1;
+        port PP pp2;
+        timer T := 1.0;
+    }
+
+    template R mw_msg := { i := 1, f := (0.0 .. 2.0), c := ? }
+    template S sw_call := { p_i := 1, p_f := (0.0 .. 2.0), p_c := ? }
+
+    altstep a_guard() runs on C {
+        [] T.timeout { setverdict(fail); stop; }
+    }
+
+    testcase TC() runs on C {
+        connect(self:pm1, self:pm2);
+        connect(self:pp1, self:pp2);
+        activate(a_guard());
+        T.start;
+        pm1.send(R:{ i := 1, f := 1.5, c := "abc" });
+        pm2.receive(mw_msg);
+        pp1.call(S:{ p_i := 1, p_f := 1.5, p_c := "abc" }, nowait);
+        pp2.getcall(sw_call);
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

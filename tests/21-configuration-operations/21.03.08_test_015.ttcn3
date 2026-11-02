@@ -1,0 +1,39 @@
+// @requirement: 21.3.8 -- When the all keyword is used with the killed operation, it matches if all PTCs of the test case have ceased to exist.
+// @id: TTCN3-CORE-21.3.8-013a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_03_08_test_015 {
+
+    type component C {}
+
+    function f_ptc() runs on C {}
+
+    testcase TC() runs on C {
+        timer T := 1.0;
+        var C v_ptc1 := C.create;
+        var C v_ptc2 := C.create alive;
+        v_ptc1.start(f_ptc());
+        v_ptc2.start(f_ptc());
+        v_ptc2.done;
+        alt {
+            [] all component.killed {
+                setverdict(fail);
+                stop;
+            }
+            [else] {}
+        }
+        v_ptc2.kill;
+        T.start;
+        alt {
+            [] all component.killed {
+                setverdict(pass);
+            }
+            [] T.timeout {
+                setverdict(fail);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,1036 @@
+{
+ "batch": "b019",
+ "requirements": [
+  {
+   "id": "TTCN3-CORE-6.3.2.1-001a",
+   "section": "6.3.2.1",
+   "type": "static-semantics",
+   "modality": "IS NOT",
+   "original": "Enumerated types are only compatible with other enumerated types.",
+   "canonical": "An enumerated type IS NOT compatible with any type other than an enumerated type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6415,
+    6416
+   ],
+   "examples": [
+    {
+     "lines": [
+      6419,
+      6460
+     ],
+     "text": "// Given\n  type enumerated EWeekDays {\n     Mon, Tue, Wed, Thu, Fri, Sat, Sun\n  };\n  type enumerated EWorkDays {\n     Mon, Tue, Wed, Thu, Fri\n  };\n  type enumerated EDesWeekDays {\n     Tue, Wed, Thu, Fri, Sat, Sun, Mon\n  };\n  type enumerated EComplexValues {\n   e_num (1),\n   e_expr (2+2),\n   e_bin_conv (bit2int('0111'B)),\n   e_oct_conv (oct2int('34'O)),\n   e_hex_conv (hex2int('AC'H))\n  }\n  type enumerated ESimpleValues {\n   e_num (1),\n   e_expr (4),\n   e_bin_conv (7),\n   e_oct_conv (52),\n   e_hex_conv (172)\n  }\n  var EWeekDays v_myWeekDayMon := Mon\n  var EWeekDays v_myWeekDaySun := Sun\n  var EWorkDays v_myWorkDayMon := Mon\n  var EDesWeekDays v_myDesWeekDayMon := Mon\n  var EComplexValues v_myComplexValuedEnum := e_bin_conv;\n  var ESimpleValues v_mySimpleValuedEnum := e_bin_conv;\n  v_myWorkDayMon := v_myWeekDayMon\n     // works\n  v_mySimpleValuedEnum := v_myComplexValuedEnum;\n     // works\n  v_myWorkDayMon := v_myWeekDaySun\n     // causes an error as Sun is not a member of EWorkDays\n  v_myDesWeekDayMon := v_myWeekDayMon\n     // causes an error as Mon in EDesWeekDays and EWeekDays have different associated \n     // numbers; since this is true for all enumerated values in EWeekDays, these two \n     // types are fully incompatible"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.03.02.01_test_001.ttcn3",
+   "module": "M_06_03_02_01_test_001",
+   "header": "// @requirement: 6.3.2.1 -- Enumerated types are only compatible with other enumerated types."
+  },
+  {
+   "id": "TTCN3-CORE-6.3.2.1-002a",
+   "section": "6.3.2.1",
+   "type": "static-semantics",
+   "modality": "IS",
+   "original": "An enumerated value \"b\" of an enumerated type \"B\" is compatible with enumerated type \"A\" if the identifier of the value \"b\" is also defined in \"A\" and the integer(s) associated with value \"b\" are also associated with the same identifier in \"A\".",
+   "canonical": "An enumerated value \"b\" of an enumerated type \"B\" IS compatible with an enumerated type \"A\" if the identifier of value \"b\" is also defined in type \"A\" and the integer value(s) associated with value \"b\" are associated with the same identifier in type \"A\".",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6415,
+    6416
+   ],
+   "examples": [
+    {
+     "lines": [
+      6419,
+      6460
+     ],
+     "text": "// Given\n  type enumerated EWeekDays {\n     Mon, Tue, Wed, Thu, Fri, Sat, Sun\n  };\n  type enumerated EWorkDays {\n     Mon, Tue, Wed, Thu, Fri\n  };\n  type enumerated EDesWeekDays {\n     Tue, Wed, Thu, Fri, Sat, Sun, Mon\n  };\n  type enumerated EComplexValues {\n   e_num (1),\n   e_expr (2+2),\n   e_bin_conv (bit2int('0111'B)),\n   e_oct_conv (oct2int('34'O)),\n   e_hex_conv (hex2int('AC'H))\n  }\n  type enumerated ESimpleValues {\n   e_num (1),\n   e_expr (4),\n   e_bin_conv (7),\n   e_oct_conv (52),\n   e_hex_conv (172)\n  }\n  var EWeekDays v_myWeekDayMon := Mon\n  var EWeekDays v_myWeekDaySun := Sun\n  var EWorkDays v_myWorkDayMon := Mon\n  var EDesWeekDays v_myDesWeekDayMon := Mon\n  var EComplexValues v_myComplexValuedEnum := e_bin_conv;\n  var ESimpleValues v_mySimpleValuedEnum := e_bin_conv;\n  v_myWorkDayMon := v_myWeekDayMon\n     // works\n  v_mySimpleValuedEnum := v_myComplexValuedEnum;\n     // works\n  v_myWorkDayMon := v_myWeekDaySun\n     // causes an error as Sun is not a member of EWorkDays\n  v_myDesWeekDayMon := v_myWeekDayMon\n     // causes an error as Mon in EDesWeekDays and EWeekDays have different associated \n     // numbers; since this is true for all enumerated values in EWeekDays, these two \n     // types are fully incompatible"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.03.02.01_test_002.ttcn3",
+   "module": "M_06_03_02_01_test_002",
+   "header": "// @requirement: 6.3.2.1 -- An enumerated value \"b\" of an enumerated type \"B\" is compatible with enumerated type \"A\" if the identifier of the value \"b\" is also defined in \"A\" and the integer(s) associated with value \"b\" are also associated with the same identifier in \"A\"."
+  },
+  {
+   "id": "TTCN3-CORE-6.3.2.2-001a",
+   "section": "6.3.2.2",
+   "type": "static-semantics",
+   "modality": "IS",
+   "original": "record types are compatible if the number, and optional aspect of the fields in the textual order of definition are identical, the types of each field are compatible and the value of each existing field of the value \"b\" is compatible with the type of its corresponding field in type \"A\".",
+   "canonical": "A value \"b\" of record type \"B\" IS compatible with record type \"A\" if the number and the optionality of the fields in textual order of definition are identical, the types of corresponding fields are compatible, and the value of each present field of value \"b\" is compatible with the type of the corresponding field in type \"A\".",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "'the types of each field are compatible' does not say whether field types need only the same root type or must be compatible including subtyping; EXAMPLE 1 accepts AType (field a(0..10)) and BType (field a integer), so the root-type reading was chosen. Field names are irrelevant (EXAMPLE 1, CType).",
+    "readings": [
+     "Corresponding field types SHALL resolve to the same root type; subtype violations are checked on the field values of value \"b\".",
+     "Corresponding field types SHALL be compatible including their subtype constraints."
+    ]
+   },
+   "spec_lines": [
+    6463,
+    6463
+   ],
+   "examples": [
+    {
+     "lines": [
+      6473,
+      6517
+     ],
+     "text": "// Given\n  type record AType {\n     integer a(0..10) optional,\n     integer b(0..10) optional,\n     boolean c\n  }\n  type record BType {\n     integer a optional,\n     integer b(0..10) optional,\n     boolean c\n  }\n  type record CType {  // type with different field names\n     integer d optional,\n     integer e optional,\n     boolean f\n  }\n  type record DType {  // type with field c optional\n     integer a optional,\n     integer b optional,\n     boolean c optional\n  }\n  type record EType {  // type with an extra field d\n     integer a optional,\n     integer b optional,\n     boolean c,\n     float d optional\n  }\n  var AType v_myVarA := { -, 1, true};\n  var BType v_myVarB := { omit, 2, true};\n  var CType v_myVarC := { 3, omit, true};\n  var DType v_myVarD := { 4, 4, true};\n  var EType v_myVarE := { 5, 5, true, omit};\n  // Then\n  v_myVarA := v_myVarB; // is a valid assignment,\n                 // new value of MyVarA is ( a :=omit, b:= 2, c:= true)\n  v_myVarC := v_myVarB; // is a valid assignment\n                 // new value of MyVarC is ( d :=omit, e:= 2, f:= true)\n  v_myVarA := v_myVarD; // is NOT a valid assignment because the optionality of fields does not \n                 // match \n  v_myVarA := v_myVarE; // is NOT a valid assignment because the number of fields does not match\n  v_myVarC := { d:= 20 }; // actual value of MyVarC is { d:=20, e:=2,f:= true }\n  v_myVarA := v_myVarC // is NOT a valid assignment because field 'd' of MyVarC violates \n                 // subtyping of f"
+    },
+    {
+     "lines": [
+      6703,
+      6716
+     ],
+     "text": "// Given\n  type record JType {\n     AType a,\n     integer b optional,\n     integer c\n  }\n  var JType v_myVarJ; \n  // If considering the declarations in clause 6.3.2.2, EXAMPLE 1 above, then\n  v_myVarJ.a := v_myVarA;\n  // is a valid assignment as the type of field a of JType and AType are compatible\n  v_myVarB := v_myVarJ.a;\n  // is a valid assignment as BType and the type of field a of JType are compatible"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.03.02.02_test_001.ttcn3",
+   "module": "M_06_03_02_02_test_001",
+   "header": "// @requirement: 6.3.2.2 -- record types are compatible if the number, and optional aspect of the fields in the textual order of definition are identical, the types of each field are compatible and the value of each existing field of the value \"b\" is compatible with the type of its corresponding field in type \"A\"."
+  },
+  {
+   "id": "TTCN3-CORE-6.3.2.2-002a",
+   "section": "6.3.2.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The value of each field in the value \"b\" is assigned to the corresponding field in the value of type \"A\".",
+   "canonical": "When a value \"b\" of a record type is assigned to an object of a compatible record type \"A\", the value of each field of value \"b\" IS assigned to the positionally corresponding field of the value of type \"A\".",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6463,
+    6463
+   ],
+   "examples": [
+    {
+     "lines": [
+      6473,
+      6517
+     ],
+     "text": "// Given\n  type record AType {\n     integer a(0..10) optional,\n     integer b(0..10) optional,\n     boolean c\n  }\n  type record BType {\n     integer a optional,\n     integer b(0..10) optional,\n     boolean c\n  }\n  type record CType {  // type with different field names\n     integer d optional,\n     integer e optional,\n     boolean f\n  }\n  type record DType {  // type with field c optional\n     integer a optional,\n     integer b optional,\n     boolean c optional\n  }\n  type record EType {  // type with an extra field d\n     integer a optional,\n     integer b optional,\n     boolean c,\n     float d optional\n  }\n  var AType v_myVarA := { -, 1, true};\n  var BType v_myVarB := { omit, 2, true};\n  var CType v_myVarC := { 3, omit, true};\n  var DType v_myVarD := { 4, 4, true};\n  var EType v_myVarE := { 5, 5, true, omit};\n  // Then\n  v_myVarA := v_myVarB; // is a valid assignment,\n                 // new value of MyVarA is ( a :=omit, b:= 2, c:= true)\n  v_myVarC := v_myVarB; // is a valid assignment\n                 // new value of MyVarC is ( d :=omit, e:= 2, f:= true)\n  v_myVarA := v_myVarD; // is NOT a valid assignment because the optionality of fields does not \n                 // match \n  v_myVarA := v_myVarE; // is NOT a valid assignment because the number of fields does not match\n  v_myVarC := { d:= 20 }; // actual value of MyVarC is { d:=20, e:=2,f:= true }\n  v_myVarA := v_myVarC // is NOT a valid assignment because field 'd' of MyVarC violates \n                 // subtyping of f"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.03.02.02_test_002.ttcn3",
+   "module": "M_06_03_02_02_test_002",
+   "header": "// @requirement: 6.3.2.2 -- The value of each field in the value \"b\" is assigned to the corresponding field in the value of type \"A\"."
+  },
+  {
+   "id": "TTCN3-CORE-6.3.2.2-005a",
+   "section": "6.3.2.2",
+   "type": "static-semantics",
+   "modality": "IS",
+   "original": "`record of` types and arrays are compatible if their element types are compatible and value \"b\" does not violate any length subtyping of the `record of` type \"A\" or dimensions of the array type.",
+   "canonical": "A value \"b\" of a `record of` type or array type IS compatible with a `record of` type or array type \"A\" if the element types are compatible and value \"b\" does not violate any length subtyping of the `record of` type \"A\" or the dimensions of the array type \"A\".",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6519,
+    6519
+   ],
+   "examples": [
+    {
+     "lines": [
+      6524,
+      6546
+     ],
+     "text": "// Given\n  type record of integer IType;\n  type record of float HType;\n  var HType v_myVarH := { 1.0, omit, 2.0 };\n  var IType v_myVarI;\n  var integer v_myArrayVar[2];\n\n  // Then\n  v_myVarI := { 3, 4 };\n  v_myArrayVar := v_myVarI;\n  // is a valid assignment as element types are compatible and the assigned value \n  // doesn't violate length restriction set by array dimension\n  v_myVarI2 := v_myArrayVar;\n  // is a valid assignment as element types are compatible and the target variable type has\n  // no length restriction\n  v_myVarI[2] := 5; // the value of v_myVarI is { 3, 4, 5 } now\n  v_myArrayVar := v_myVarI;\n  // is NOT a valid assignment as v_myVarI contains more elements than the array dimension\n  // allows\n  v_myVarH := v_myVarI;\n  // is NOT a valid assignment as element types are not compatible"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.03.02.02_test_003.ttcn3",
+   "module": "M_06_03_02_02_test_003",
+   "header": "// @requirement: 6.3.2.2 -- `record of` types and arrays are compatible if their element types are compatible and value \"b\" does not violate any length subtyping of the `record of` type \"A\" or dimensions of the array type."
+  },
+  {
+   "id": "TTCN3-CORE-6.3.2.2-006a",
+   "section": "6.3.2.2",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "Values of elements of the value \"b\" shall be assigned sequentially to the instance of type \"A\", including undefined elements.",
+   "canonical": "When a value \"b\" of a `record of` or array type is assigned to an instance of type \"A\", the element values of value \"b\" SHALL be assigned sequentially to the instance of type \"A\", including undefined elements.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6519,
+    6519
+   ],
+   "examples": [
+    {
+     "lines": [
+      6524,
+      6546
+     ],
+     "text": "// Given\n  type record of integer IType;\n  type record of float HType;\n  var HType v_myVarH := { 1.0, omit, 2.0 };\n  var IType v_myVarI;\n  var integer v_myArrayVar[2];\n\n  // Then\n  v_myVarI := { 3, 4 };\n  v_myArrayVar := v_myVarI;\n  // is a valid assignment as element types are compatible and the assigned value \n  // doesn't violate length restriction set by array dimension\n  v_myVarI2 := v_myArrayVar;\n  // is a valid assignment as element types are compatible and the target variable type has\n  // no length restriction\n  v_myVarI[2] := 5; // the value of v_myVarI is { 3, 4, 5 } now\n  v_myArrayVar := v_myVarI;\n  // is NOT a valid assignment as v_myVarI contains more elements than the array dimension\n  // allows\n  v_myVarH := v_myVarI;\n  // is NOT a valid assignment as element types are not compatible"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.03.02.02_test_004.ttcn3",
+   "module": "M_06_03_02_02_test_004",
+   "header": "// @requirement: 6.3.2.2 -- Values of elements of the value \"b\" shall be assigned sequentially to the instance of type \"A\", including undefined elements."
+  },
+  {
+   "id": "TTCN3-CORE-6.3.2.2-007a",
+   "section": "6.3.2.2",
+   "type": "static-semantics",
+   "modality": "IS",
+   "original": "Two array types are compatible if their corresponding `record of` types are compatible.",
+   "canonical": "An array type IS compatible with another array type if their corresponding `record of` types are compatible.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6521,
+    6521
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.03.02.02_test_005.ttcn3",
+   "module": "M_06_03_02_02_test_005",
+   "header": "// @requirement: 6.3.2.2 -- Two array types are compatible if their corresponding `record of` types are compatible."
+  },
+  {
+   "id": "TTCN3-CORE-6.3.2.3-001a",
+   "section": "6.3.2.3",
+   "type": "static-semantics",
+   "modality": "IS NOT",
+   "original": "set types are only compatible with other set types and set of types are only compatible with other set of types.",
+   "canonical": "A set type IS NOT compatible with any type other than a set type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6549,
+    6549
+   ],
+   "examples": [
+    {
+     "lines": [
+      6562,
+      6579
+     ],
+     "text": "// Given\n  type set FType {\n     integer a optional,\n     integer b optional,\n     boolean c\n  }\n  type set GType {\n     integer d  optional,\n     integer e  optional,\n     boolean f\n  }\n  var FType v_myVarF := { a:=1, c:=true };\n  var GType v_myVarG := { f:=true, d:=7};\n  // Then\n  v_myVarF := v_myVarG; // is a valid assignment as types FType and GType are compatible\n  v_myVarF := v_myVarA; // is NOT a valid assignment as v_myVarA is a record type"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.03.02.03_test_001.ttcn3",
+   "module": "M_06_03_02_03_test_001",
+   "header": "// @requirement: 6.3.2.3 -- set types are only compatible with other set types and set of types are only compatible with other set of types."
+  },
+  {
+   "id": "TTCN3-CORE-6.3.2.3-001b",
+   "section": "6.3.2.3",
+   "type": "static-semantics",
+   "modality": "IS NOT",
+   "original": "set types are only compatible with other set types and set of types are only compatible with other set of types.",
+   "canonical": "A `set of` type IS NOT compatible with any type other than a `set of` type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6549,
+    6549
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.03.02.03_test_002.ttcn3",
+   "module": "M_06_03_02_03_test_002",
+   "header": "// @requirement: 6.3.2.3 -- set types are only compatible with other set types and set of types are only compatible with other set of types."
+  },
+  {
+   "id": "TTCN3-CORE-6.3.2.3-002a",
+   "section": "6.3.2.3",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "original": "For set types the same compatibility rules shall apply as to record types and for set `of types the same` compatibility rules shall apply as to record `of types.`",
+   "canonical": "The compatibility rules for record types SHALL apply to set types.",
+   "condition": null,
+   "cross_refs": [
+    "6.3.2.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6551,
+    6552
+   ],
+   "examples": [
+    {
+     "lines": [
+      6562,
+      6579
+     ],
+     "text": "// Given\n  type set FType {\n     integer a optional,\n     integer b optional,\n     boolean c\n  }\n  type set GType {\n     integer d  optional,\n     integer e  optional,\n     boolean f\n  }\n  var FType v_myVarF := { a:=1, c:=true };\n  var GType v_myVarG := { f:=true, d:=7};\n  // Then\n  v_myVarF := v_myVarG; // is a valid assignment as types FType and GType are compatible\n  v_myVarF := v_myVarA; // is NOT a valid assignment as v_myVarA is a record type"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.03.02.03_test_003.ttcn3",
+   "module": "M_06_03_02_03_test_003",
+   "header": "// @requirement: 6.3.2.3 -- For set types the same compatibility rules shall apply as to record types and for set `of types the same` compatibility rules shall apply as to record `of types.`"
+  },
+  {
+   "id": "TTCN3-CORE-6.3.2.3-002b",
+   "section": "6.3.2.3",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "original": "For set types the same compatibility rules shall apply as to record types and for set `of types the same` compatibility rules shall apply as to record `of types.`",
+   "canonical": "The compatibility rules for `record of` types SHALL apply to `set of` types.",
+   "condition": null,
+   "cross_refs": [
+    "6.3.2.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6551,
+    6552
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.03.02.03_test_004.ttcn3",
+   "module": "M_06_03_02_03_test_004",
+   "header": "// @requirement: 6.3.2.3 -- For set types the same compatibility rules shall apply as to record types and for set `of types the same` compatibility rules shall apply as to record `of types.`"
+  },
+  {
+   "id": "TTCN3-CORE-6.3.2.3-003a",
+   "section": "6.3.2.3",
+   "type": "information",
+   "modality": "IS",
+   "original": "NOTE 1: This implies that though the order of elements at sending and receipt is unknown, when determining type compatibility for set types, the textual order of the fields in the type definition is decisive.",
+   "canonical": "When determining type compatibility of set types, the textual order of the fields in the set type definition IS decisive, although the order of elements at sending and receipt is unknown.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6554,
+    6555
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.03.02.03_test_005.ttcn3",
+   "module": "M_06_03_02_03_test_005",
+   "header": "// @requirement: 6.3.2.3 -- NOTE 1: This implies that though the order of elements at sending and receipt is unknown, when determining type compatibility for set types, the textual order of the fields in the type definition is decisive."
+  },
+  {
+   "id": "TTCN3-CORE-6.3.2.3-004a",
+   "section": "6.3.2.3",
+   "type": "information",
+   "modality": "IS NOT",
+   "original": "NOTE 2: In set values the order of fields may be arbitrary, however this does not affect type compatibility as field names unambiguously identify, which fields of the related set type correspond to which set value fields.",
+   "canonical": "The arbitrary order of fields in a set value IS NOT relevant for type compatibility, because the field names identify which fields of the set type correspond to which set value fields.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6557,
+    6559
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.03.02.03_test_006.ttcn3",
+   "module": "M_06_03_02_03_test_006",
+   "header": "// @requirement: 6.3.2.3 -- NOTE 2: In set values the order of fields may be arbitrary, however this does not affect type compatibility as field names unambiguously identify, which fields of the related set type correspond to which set value fields."
+  },
+  {
+   "id": "TTCN3-CORE-6.3.2.4-002a",
+   "section": "6.3.2.4",
+   "type": "static-semantics",
+   "modality": "IS",
+   "original": "A union value \"b\" of union type \"B\" is compatible with union type \"A\" if the alternative selected in \"b\" has a corresponding alternative with identical name in \"A\" and the value of the selected alternative in \"b\" is compatible to the type of the corresponding alternative in \"A\".",
+   "canonical": "A union value \"b\" of union type \"B\" IS compatible with union type \"A\" if the alternative selected in value \"b\" has a corresponding alternative with identical name in type \"A\" and the value of the selected alternative is compatible with the type of that corresponding alternative.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6585,
+    6587
+   ],
+   "examples": [
+    {
+     "lines": [
+      6614,
+      6624
+     ],
+     "text": "type union U1 {integer i};\n  type union U2 {integer i, boolean b};\n  var U1 v_u1 := {i := 1};\n  var U2 v_u2 := v_u1;  // correct as all alternatives of U1 exist in U2\n  v_u1:= v_u2; // correct as the alternative i is selected in v_u2 and is \n                   // compatible to i in U1\n  v_u2:= {b := true};\n  v_u1:= v_u2; // incorrect as v_u1 has no alternative b\n  var anytype v_x := v_u1;  // incorrect as the anytype is not a union type."
+    },
+    {
+     "lines": [
+      6627,
+      6647
+     ],
+     "text": "type union U3 { @default integer i, boolean b }\n  type union U4 { integer i, @default boolean b }\n  var U3 v_u3 := 3 // correct as i in U3 is declared with @default\n  v_u3 := v_u2; // correct because all alternatives in U2 exist in U3 \n                 // and are compatible\n  v_u2 := 3;  // incorrect as 3 is not of a union type and there is\n                 // no field in U2 declared with @default\n  v_u2 := v_u3; // also correct\n  v_u2 := v_u1.i;  // incorrect as U2 has no default alternative\n  v_u3 := v_u1.i;  // correct as the default alternative in U3 is compatible with U1.i\n  var integer v_int := v_u3 * 2 // v_int is 6 as v_u3 is treated as v_u3.i\n  var U3 v_u32 := {b := true};\n  var U4 v_u4 := true;\n  v_int := v_u4 *2; // incorrect as v_u4 is treated as a boolean, and cannot be multiplied\n  v_int := v_u32 *2;  // incorrect as \"v_u32\" would be treated as v_u32.i,\n                 // which is not the selected alternative\n  log(v_u4);  // results in \"{ b:=true }\" logged; for backward compatibility when\n                 // a union value is used in a log statement directly, no conversion\n                 // is performed."
+    }
+   ],
+   "file": "tests/06-types-and-values/06.03.02.04_test_001.ttcn3",
+   "module": "M_06_03_02_04_test_001",
+   "header": "// @requirement: 6.3.2.4 -- A union value \"b\" of union type \"B\" is compatible with union type \"A\" if the alternative selected in \"b\" has a corresponding alternative with identical name in \"A\" and the value of the selected alternative in \"b\" is compatible to the type of the corresponding alternative in \"A\"."
+  },
+  {
+   "id": "TTCN3-CORE-6.3.2.4-004a",
+   "section": "6.3.2.4",
+   "type": "static-semantics",
+   "modality": "IS",
+   "original": "A union value \"b\" of union type \"B\" with a default alternative of type \"C\" is compatible with an arbitrary type \"A\" if the alternative selected in \"b\" is the default alternative and the value of the default alternative is compatible to \"A\".",
+   "canonical": "A union value \"b\" of union type \"B\" with a default alternative of type \"C\" IS compatible with an arbitrary type \"A\" if the alternative selected in value \"b\" is the default alternative and the value of the default alternative is compatible with type \"A\".",
+   "condition": "the first union compatibility rule did not determine compatibility",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6594,
+    6597
+   ],
+   "examples": [
+    {
+     "lines": [
+      6627,
+      6647
+     ],
+     "text": "type union U3 { @default integer i, boolean b }\n  type union U4 { integer i, @default boolean b }\n  var U3 v_u3 := 3 // correct as i in U3 is declared with @default\n  v_u3 := v_u2; // correct because all alternatives in U2 exist in U3 \n                 // and are compatible\n  v_u2 := 3;  // incorrect as 3 is not of a union type and there is\n                 // no field in U2 declared with @default\n  v_u2 := v_u3; // also correct\n  v_u2 := v_u1.i;  // incorrect as U2 has no default alternative\n  v_u3 := v_u1.i;  // correct as the default alternative in U3 is compatible with U1.i\n  var integer v_int := v_u3 * 2 // v_int is 6 as v_u3 is treated as v_u3.i\n  var U3 v_u32 := {b := true};\n  var U4 v_u4 := true;\n  v_int := v_u4 *2; // incorrect as v_u4 is treated as a boolean, and cannot be multiplied\n  v_int := v_u32 *2;  // incorrect as \"v_u32\" would be treated as v_u32.i,\n                 // which is not the selected alternative\n  log(v_u4);  // results in \"{ b:=true }\" logged; for backward compatibility when\n                 // a union value is used in a log statement directly, no conversion\n                 // is performed."
+    }
+   ],
+   "file": "tests/06-types-and-values/06.03.02.04_test_002.ttcn3",
+   "module": "M_06_03_02_04_test_002",
+   "header": "// @requirement: 6.3.2.4 -- A union value \"b\" of union type \"B\" with a default alternative of type \"C\" is compatible with an arbitrary type \"A\" if the alternative selected in \"b\" is the default alternative and the value of the default alternative is compatible to \"A\"."
+  },
+  {
+   "id": "TTCN3-CORE-6.3.2.4-005a",
+   "section": "6.3.2.4",
+   "type": "static-semantics",
+   "modality": "IS",
+   "original": "A value \"a\" of an arbitrary type \"A\" is compatible with a **union type \"B\" with a default alternative of type \"C\" if value \"a\" is compatible to \"C\".**",
+   "canonical": "A value \"a\" of an arbitrary type \"A\" IS compatible with a union type \"B\" with a default alternative of type \"C\" if value \"a\" is compatible with type \"C\".",
+   "condition": "the first union compatibility rule did not determine compatibility",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6594,
+    6597
+   ],
+   "examples": [
+    {
+     "lines": [
+      6627,
+      6647
+     ],
+     "text": "type union U3 { @default integer i, boolean b }\n  type union U4 { integer i, @default boolean b }\n  var U3 v_u3 := 3 // correct as i in U3 is declared with @default\n  v_u3 := v_u2; // correct because all alternatives in U2 exist in U3 \n                 // and are compatible\n  v_u2 := 3;  // incorrect as 3 is not of a union type and there is\n                 // no field in U2 declared with @default\n  v_u2 := v_u3; // also correct\n  v_u2 := v_u1.i;  // incorrect as U2 has no default alternative\n  v_u3 := v_u1.i;  // correct as the default alternative in U3 is compatible with U1.i\n  var integer v_int := v_u3 * 2 // v_int is 6 as v_u3 is treated as v_u3.i\n  var U3 v_u32 := {b := true};\n  var U4 v_u4 := true;\n  v_int := v_u4 *2; // incorrect as v_u4 is treated as a boolean, and cannot be multiplied\n  v_int := v_u32 *2;  // incorrect as \"v_u32\" would be treated as v_u32.i,\n                 // which is not the selected alternative\n  log(v_u4);  // results in \"{ b:=true }\" logged; for backward compatibility when\n                 // a union value is used in a log statement directly, no conversion\n                 // is performed."
+    }
+   ],
+   "file": "tests/06-types-and-values/06.03.02.04_test_003.ttcn3",
+   "module": "M_06_03_02_04_test_003",
+   "header": "// @requirement: 6.3.2.4 -- A value \"a\" of an arbitrary type \"A\" is compatible with a **union type \"B\" with a default alternative of type \"C\" if value \"a\" is compatible to \"C\".**"
+  },
+  {
+   "id": "TTCN3-CORE-6.3.2.4-006a",
+   "section": "6.3.2.4",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "When considering the compatibility of two union types, initially the first rule (which is not dependent on the existence of a default alternative) shall be applied.",
+   "canonical": "When checking the compatibility of two union types, a TTCN-3 tool SHALL first apply the rule based on identically named alternatives, which does not depend on a default alternative.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6599,
+    6602
+   ],
+   "examples": [
+    {
+     "lines": [
+      6627,
+      6647
+     ],
+     "text": "type union U3 { @default integer i, boolean b }\n  type union U4 { integer i, @default boolean b }\n  var U3 v_u3 := 3 // correct as i in U3 is declared with @default\n  v_u3 := v_u2; // correct because all alternatives in U2 exist in U3 \n                 // and are compatible\n  v_u2 := 3;  // incorrect as 3 is not of a union type and there is\n                 // no field in U2 declared with @default\n  v_u2 := v_u3; // also correct\n  v_u2 := v_u1.i;  // incorrect as U2 has no default alternative\n  v_u3 := v_u1.i;  // correct as the default alternative in U3 is compatible with U1.i\n  var integer v_int := v_u3 * 2 // v_int is 6 as v_u3 is treated as v_u3.i\n  var U3 v_u32 := {b := true};\n  var U4 v_u4 := true;\n  v_int := v_u4 *2; // incorrect as v_u4 is treated as a boolean, and cannot be multiplied\n  v_int := v_u32 *2;  // incorrect as \"v_u32\" would be treated as v_u32.i,\n                 // which is not the selected alternative\n  log(v_u4);  // results in \"{ b:=true }\" logged; for backward compatibility when\n                 // a union value is used in a log statement directly, no conversion\n                 // is performed."
+    }
+   ],
+   "file": "tests/06-types-and-values/06.03.02.04_test_004.ttcn3",
+   "module": "M_06_03_02_04_test_004",
+   "header": "// @requirement: 6.3.2.4 -- When considering the compatibility of two union types, initially the first rule (which is not dependent on the existence of a default alternative) shall be applied."
+  },
+  {
+   "id": "TTCN3-CORE-6.3.2.4-007a",
+   "section": "6.3.2.4",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "The second rule shall only be used to check compatibility, when - using the first rule - no compatibility has been determined.",
+   "canonical": "A TTCN-3 tool SHALL use the default-alternative compatibility rules only if the rule based on identically named alternatives has not determined compatibility.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "'The second rule' is singular, but the 'Otherwise' bullet contains two default-alternative rules (union-to-arbitrary and arbitrary-to-union). Chose the reading that both are meant.",
+    "readings": [
+     "A TTCN-3 tool SHALL use both default-alternative rules only if the identical-alternative rule has not determined compatibility.",
+     "A TTCN-3 tool SHALL use only the union-to-arbitrary default-alternative rule as fallback; the arbitrary-to-union rule applies independently."
+    ]
+   },
+   "spec_lines": [
+    6599,
+    6602
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.03.02.04_test_005.ttcn3",
+   "module": "M_06_03_02_04_test_005",
+   "header": "// @requirement: 6.3.2.4 -- The second rule shall only be used to check compatibility, when - using the first rule - no compatibility has been determined."
+  },
+  {
+   "id": "TTCN3-CORE-6.3.2.4-009a",
+   "section": "6.3.2.4",
+   "type": "information",
+   "modality": "CAN",
+   "original": "NOTE 1: It is possible to have nested unions with default alternatives.",
+   "canonical": "A union type with a default alternative CAN be nested within another union type with a default alternative.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6604,
+    6606
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.03.02.04_test_006.ttcn3",
+   "module": "M_06_03_02_04_test_006",
+   "header": "// @requirement: 6.3.2.4 -- NOTE 1: It is possible to have nested unions with default alternatives."
+  },
+  {
+   "id": "TTCN3-CORE-6.3.2.4-010a",
+   "section": "6.3.2.4",
+   "type": "information",
+   "modality": "IS",
+   "original": "The rules above make type compatibility along the default alternatives transitive, i.e. the outermost union type is compatible with the type of the innermost default union alternative if all containing alternatives are also default alternatives.",
+   "canonical": "Type compatibility along default alternatives IS transitive: the outermost union type is compatible with the type of the innermost default alternative if all containing alternatives are default alternatives.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6604,
+    6606
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.03.02.04_test_007.ttcn3",
+   "module": "M_06_03_02_04_test_007",
+   "header": "// @requirement: 6.3.2.4 -- The rules above make type compatibility along the default alternatives transitive, i.e. the outermost union type is compatible with the type of the innermost default union alternative if all containing alternatives are also default alternatives."
+  },
+  {
+   "id": "TTCN3-CORE-6.3.2.4-011a",
+   "section": "6.3.2.4",
+   "type": "information",
+   "modality": "IS",
+   "original": "NOTE 2: When a union with a default alternative is used in an expression it will be resolved to its long notation, before the expression is evaluated.",
+   "canonical": "A union value with a default alternative used in an expression IS resolved to its long notation (the default alternative) before the expression is evaluated.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6608,
+    6609
+   ],
+   "examples": [
+    {
+     "lines": [
+      6627,
+      6647
+     ],
+     "text": "type union U3 { @default integer i, boolean b }\n  type union U4 { integer i, @default boolean b }\n  var U3 v_u3 := 3 // correct as i in U3 is declared with @default\n  v_u3 := v_u2; // correct because all alternatives in U2 exist in U3 \n                 // and are compatible\n  v_u2 := 3;  // incorrect as 3 is not of a union type and there is\n                 // no field in U2 declared with @default\n  v_u2 := v_u3; // also correct\n  v_u2 := v_u1.i;  // incorrect as U2 has no default alternative\n  v_u3 := v_u1.i;  // correct as the default alternative in U3 is compatible with U1.i\n  var integer v_int := v_u3 * 2 // v_int is 6 as v_u3 is treated as v_u3.i\n  var U3 v_u32 := {b := true};\n  var U4 v_u4 := true;\n  v_int := v_u4 *2; // incorrect as v_u4 is treated as a boolean, and cannot be multiplied\n  v_int := v_u32 *2;  // incorrect as \"v_u32\" would be treated as v_u32.i,\n                 // which is not the selected alternative\n  log(v_u4);  // results in \"{ b:=true }\" logged; for backward compatibility when\n                 // a union value is used in a log statement directly, no conversion\n                 // is performed."
+    }
+   ],
+   "file": "tests/06-types-and-values/06.03.02.04_test_008.ttcn3",
+   "module": "M_06_03_02_04_test_008",
+   "header": "// @requirement: 6.3.2.4 -- NOTE 2: When a union with a default alternative is used in an expression it will be resolved to its long notation, before the expression is evaluated."
+  },
+  {
+   "id": "TTCN3-CORE-6.3.2.4-015a",
+   "section": "6.3.2.4",
+   "type": "information",
+   "modality": "IS NOT",
+   "original": "log(v_u4); // results in \"{ b:=true }\" logged; for backward compatibility when a union value is used in a log statement directly, no conversion is performed.",
+   "canonical": "A union value with a default alternative used directly in a `log` statement IS NOT converted to its default alternative; the union value itself is logged.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6627,
+    6647
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.03.02.04_test_009.ttcn3",
+   "module": "M_06_03_02_04_test_009",
+   "header": "// @requirement: 6.3.2.4 -- log(v_u4); // results in \"{ b:=true }\" logged; for backward compatibility when a union value is used in a log statement directly, no conversion is performed."
+  },
+  {
+   "id": "TTCN3-CORE-6.3.2.5-001a",
+   "section": "6.3.2.5",
+   "type": "static-semantics",
+   "modality": "IS NOT",
+   "original": "**anytype types are only compatible with other anytype types.",
+   "canonical": "An `anytype` type IS NOT compatible with any type other than an `anytype` type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6651,
+    6652
+   ],
+   "examples": [
+    {
+     "lines": [
+      6668,
+      6696
+     ],
+     "text": "//anytype composed of TTCN-3 built-in basic type integer, I, and F\n  }\n  module B {\n     type integer I (0..2);\n     type anytype Atype ({I:=?},{integer:=?},{float:=?});\n  }\n  module C {\n     import from A all;\n     import from B all;\n     type union U {\n       integer I (0..2)\n     }\n     control {\n       var A.Atype v_aa;\n       var A.Atype v_aaI := { A.I := 1 } // type I is imported from A and B\n       var A.Atype v_aaF := { F := 1.0 } // type F is only imported from A\n       var B.Atype v_ba := { integer := 1 }\n       var B.Atype v_baI := { B.I := 1 } // type I is imported from A and B\n       var U v_u := { I := 1 } // I is a field name in U\n     v_aa := v_ba; // correct, the value of aa1 becomes { integer := 1 }\n     v_aa := v_baI;  // incorrect, type B.I is not present in the anytype A.Atype\n     v_aa := v_u;  // incorrect, type of u is not anytype but a user defined union type\n     v_ba := { float := 1.0 }; // correct, assigning a literal value\n     v_ba := v_aaI;  // incorrect, type A.I is not present in the anytype B.Atype\n     v_ba := v_aaF;  // incorrect, type A.F is not present in the anytype B.Atype\n     }\n  }"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.03.02.05_test_001.ttcn3",
+   "module": "M_06_03_02_05_test_001",
+   "header": "// @requirement: 6.3.2.5 -- **anytype types are only compatible with other anytype types."
+  },
+  {
+   "id": "TTCN3-CORE-6.3.2.5-002a",
+   "section": "6.3.2.5",
+   "type": "static-semantics",
+   "modality": "IS",
+   "original": "An anytype value \"b\" of anytype type \"B\" is compatible** with anytype type \"A\" if the alternative selected in \"b\" is also contained in \"A\".",
+   "canonical": "An `anytype` value \"b\" of `anytype` type \"B\" IS compatible with `anytype` type \"A\" if the alternative selected in value \"b\" is also contained in type \"A\".",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6651,
+    6652
+   ],
+   "examples": [
+    {
+     "lines": [
+      6657,
+      6662
+     ],
+     "text": "module A {\n     type integer I (0..2);\n     type float F;\n     type anytype Atype ({I:=?},{F:=?},{integer:=?});"
+    },
+    {
+     "lines": [
+      6668,
+      6696
+     ],
+     "text": "//anytype composed of TTCN-3 built-in basic type integer, I, and F\n  }\n  module B {\n     type integer I (0..2);\n     type anytype Atype ({I:=?},{integer:=?},{float:=?});\n  }\n  module C {\n     import from A all;\n     import from B all;\n     type union U {\n       integer I (0..2)\n     }\n     control {\n       var A.Atype v_aa;\n       var A.Atype v_aaI := { A.I := 1 } // type I is imported from A and B\n       var A.Atype v_aaF := { F := 1.0 } // type F is only imported from A\n       var B.Atype v_ba := { integer := 1 }\n       var B.Atype v_baI := { B.I := 1 } // type I is imported from A and B\n       var U v_u := { I := 1 } // I is a field name in U\n     v_aa := v_ba; // correct, the value of aa1 becomes { integer := 1 }\n     v_aa := v_baI;  // incorrect, type B.I is not present in the anytype A.Atype\n     v_aa := v_u;  // incorrect, type of u is not anytype but a user defined union type\n     v_ba := { float := 1.0 }; // correct, assigning a literal value\n     v_ba := v_aaI;  // incorrect, type A.I is not present in the anytype B.Atype\n     v_ba := v_aaF;  // incorrect, type A.F is not present in the anytype B.Atype\n     }\n  }"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.03.02.05_test_002.ttcn3",
+   "module": "M_06_03_02_05_test_002",
+   "header": "// @requirement: 6.3.2.5 -- An anytype value \"b\" of anytype type \"B\" is compatible** with anytype type \"A\" if the alternative selected in \"b\" is also contained in \"A\"."
+  },
+  {
+   "id": "TTCN3-CORE-6.3.2.5-003a",
+   "section": "6.3.2.5",
+   "type": "information",
+   "modality": "IS",
+   "original": "NOTE: Only anytype types that are constrained to a fixed set of types via list subtyping can be a potential cause for anytype incompatibility, i.e. if the set of types contained in type \"A\" does not contain the type selected in \"b\".",
+   "canonical": "Only an `anytype` type that is constrained to a fixed set of types via list subtyping CAN cause `anytype` incompatibility, namely when the set of types contained in type \"A\" does not contain the type selected in value \"b\".",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6654,
+    6654
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.03.02.05_test_003.ttcn3",
+   "module": "M_06_03_02_05_test_003",
+   "header": "// @requirement: 6.3.2.5 -- NOTE: Only anytype types that are constrained to a fixed set of types via list subtyping can be a potential cause for anytype incompatibility, i.e. if the set of types contained in type \"A\" does not contain the type selected in \"b\"."
+  },
+  {
+   "id": "TTCN3-CORE-6.3.2.6-001a",
+   "section": "6.3.2.6",
+   "type": "static-semantics",
+   "modality": "IS",
+   "original": "The rules defined in this clause for structured types compatibility are also valid for the sub-structure of such types.",
+   "canonical": "The structured type compatibility rules of clause 6.3.2 ARE also valid for the sub-structures (fields and elements) of structured types.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6700,
+    6700
+   ],
+   "examples": [
+    {
+     "lines": [
+      6703,
+      6716
+     ],
+     "text": "// Given\n  type record JType {\n     AType a,\n     integer b optional,\n     integer c\n  }\n  var JType v_myVarJ; \n  // If considering the declarations in clause 6.3.2.2, EXAMPLE 1 above, then\n  v_myVarJ.a := v_myVarA;\n  // is a valid assignment as the type of field a of JType and AType are compatible\n  v_myVarB := v_myVarJ.a;\n  // is a valid assignment as BType and the type of field a of JType are compatible"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.03.02.06_test_001.ttcn3",
+   "module": "M_06_03_02_06_test_001",
+   "header": "// @requirement: 6.3.2.6 -- The rules defined in this clause for structured types compatibility are also valid for the sub-structure of such types."
+  },
+  {
+   "id": "TTCN3-CORE-6.3.2.7-001a",
+   "section": "6.3.2.7",
+   "type": "static-semantics",
+   "modality": "IS",
+   "original": "Values of all existing TTCN-3 types are compatible with the open type occurring in the left hand side of an assignment.",
+   "canonical": "A value of any TTCN-3 type IS compatible with an open type occurring on the left hand side of an assignment.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6720,
+    6722
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.03.02.07_test_001.ttcn3",
+   "module": "M_06_03_02_07_test_001",
+   "header": "// @requirement: 6.3.2.7 -- Values of all existing TTCN-3 types are compatible with the open type occurring in the left hand side of an assignment."
+  },
+  {
+   "id": "TTCN3-CORE-6.3.2.7-002a",
+   "section": "6.3.2.7",
+   "type": "static-semantics",
+   "modality": "IS",
+   "original": "Values of open type occurring on the right hand side of an assignment are compatible with a value \"a\" of a type \"A\", if the actual value contained in the open type value is compatible with \"A\".",
+   "canonical": "A value of an open type occurring on the right hand side of an assignment IS compatible with type \"A\" if the actual value contained in the open type value is compatible with type \"A\".",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "The rule says the open type value is compatible 'with a value \"a\" of a type \"A\"'; compatibility is defined between a value and a type, not between two values.",
+    "improper_terms": [
+     {
+      "used": "compatible with a value \"a\" of a type \"A\"",
+      "proper": "compatible with type \"A\"",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    6720,
+    6722
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.03.02.07_test_002.ttcn3",
+   "module": "M_06_03_02_07_test_002",
+   "header": "// @requirement: 6.3.2.7 -- Values of open type occurring on the right hand side of an assignment are compatible with a value \"a\" of a type \"A\", if the actual value contained in the open type value is compatible with \"A\"."
+  },
+  {
+   "id": "TTCN3-CORE-6.3.3-002a",
+   "section": "6.3.3",
+   "type": "static-semantics",
+   "modality": "IS",
+   "original": "1) Compatibility of a component reference value with a component type (e.g. when passing a component reference as an actual parameter to a function or an altstep or when assigning a component reference value to a variable of different component type): a component reference \"b\" of component type \"B\" is compatible with component type \"A\" if all definitions of \"A\" have identical definitions in \"B\".",
+   "canonical": "A component reference \"b\" of component type \"B\" IS compatible with component type \"A\" if all definitions of type \"A\" have identical definitions in type \"B\".",
+   "condition": "a component reference is passed as actual parameter or assigned to a variable of a different component type",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6733,
+    6736
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.03.03_test_001.ttcn3",
+   "module": "M_06_03_03_test_001",
+   "header": "// @requirement: 6.3.3 -- 1) Compatibility of a component reference value with a component type (e.g. when passing a component reference as an actual parameter to a function or an altstep or when assigning a component reference value to a variable of different component type): a component reference \"b\" of component type \"B\" is compatible with component type \"A\" if all definitions of \"A\" have identical definitions in \"B\"."
+  },
+  {
+   "id": "TTCN3-CORE-6.3.3-003a",
+   "section": "6.3.3",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "2) Runs on compatibility: a function or altstep referring to component type \"A\" in its runs on clause may be called or started on a component instance of type 'B' if all the definitions of \"A\" have identical definitions in \"B\".",
+   "canonical": "A function or altstep referring to component type \"A\" in its `runs on` clause MAY be called or started on a component instance of type \"B\" if all definitions of type \"A\" have identical definitions in type \"B\".",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6738,
+    6740
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.03.03_test_002.ttcn3",
+   "module": "M_06_03_03_test_002",
+   "header": "// @requirement: 6.3.3 -- 2) Runs on compatibility: a function or altstep referring to component type \"A\" in its runs on clause may be called or started on a component instance of type 'B' if all the definitions of \"A\" have identical definitions in \"B\"."
+  },
+  {
+   "id": "TTCN3-CORE-6.3.3-004a",
+   "section": "6.3.3",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "3) Mtc compatibility: a function or altstep referring to component type \"A\" in its mtc clause may be called or started in any context that has a mtc clause of type \"B\" or a testcase with a runs on clause of type \"B\" if all the port definitions of \"A\" have identical definitions in \"B\".",
+   "canonical": "A function or altstep referring to component type \"A\" in its `mtc` clause MAY be called or started in any context that has an `mtc` clause of type \"B\", or in a testcase with a `runs on` clause of type \"B\", if all port definitions of type \"A\" have identical definitions in type \"B\".",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6742,
+    6746
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.03.03_test_003.ttcn3",
+   "module": "M_06_03_03_test_003",
+   "header": "// @requirement: 6.3.3 -- 3) Mtc compatibility: a function or altstep referring to component type \"A\" in its mtc clause may be called or started in any context that has a mtc clause of type \"B\" or a testcase with a runs on clause of type \"B\" if all the port definitions of \"A\" have identical definitions in \"B\"."
+  },
+  {
+   "id": "TTCN3-CORE-6.3.3-005a",
+   "section": "6.3.3",
+   "type": "semantics",
+   "modality": "CAN",
+   "original": "If the type of the mtc is unknown in the calling function, this can lead to runtime errors if the component type \"A\" is not mtc-compatible with the type of the running mtc.",
+   "canonical": "If the type of the MTC is unknown in the calling function and component type \"A\" is not mtc-compatible with the type of the running MTC, a runtime error CAN occur.",
+   "condition": "the type of the MTC is unknown in the calling function",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "'can lead to runtime errors' does not say whether a runtime error is mandatory when incompatibility is detected.",
+    "readings": [
+     "A TTCN-3 tool SHALL raise a runtime error when a function with an `mtc` clause of type \"A\" is called in a context whose running MTC is not mtc-compatible with \"A\".",
+     "A TTCN-3 tool MAY produce a runtime error (or undefined behaviour) in that situation."
+    ]
+   },
+   "spec_lines": [
+    6742,
+    6746
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.03.03_test_004.ttcn3",
+   "module": "M_06_03_03_test_004",
+   "header": "// @requirement: 6.3.3 -- If the type of the mtc is unknown in the calling function, this can lead to runtime errors if the component type \"A\" is not mtc-compatible with the type of the running mtc."
+  },
+  {
+   "id": "TTCN3-CORE-6.3.3-006a",
+   "section": "6.3.3",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "4) System compatibility: a function or altstep referring to component type \"A\" in its system clause may be called or started in any context that has a system clause of type \"B\" or a test case with a runs on clause of type \"B\" and no system clause if all the port definitions of \"A\" have identical definitions in \"B\".",
+   "canonical": "A function or altstep referring to component type \"A\" in its `system` clause MAY be called or started in any context that has a `system` clause of type \"B\", or in a testcase with a `runs on` clause of type \"B\" and no `system` clause, if all port definitions of type \"A\" have identical definitions in type \"B\".",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6748,
+    6752
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.03.03_test_005.ttcn3",
+   "module": "M_06_03_03_test_005",
+   "header": "// @requirement: 6.3.3 -- 4) System compatibility: a function or altstep referring to component type \"A\" in its system clause may be called or started in any context that has a system clause of type \"B\" or a test case with a runs on clause of type \"B\" and no system clause if all the port definitions of \"A\" have identical definitions in \"B\"."
+  },
+  {
+   "id": "TTCN3-CORE-6.3.3-007a",
+   "section": "6.3.3",
+   "type": "semantics",
+   "modality": "CAN",
+   "original": "If the type of the system is unknown in the calling function, this can lead to runtime errors if the component type \"A\" is not system-compatible with the type of the system the current test case was started on.",
+   "canonical": "If the type of the system is unknown in the calling function and component type \"A\" is not system-compatible with the type of the system the current test case was started on, a runtime error CAN occur.",
+   "condition": "the type of the system is unknown in the calling function",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "'can lead to runtime errors' does not say whether a runtime error is mandatory when incompatibility is detected.",
+    "readings": [
+     "A TTCN-3 tool SHALL raise a runtime error when the system is not system-compatible with \"A\".",
+     "A TTCN-3 tool MAY produce a runtime error in that situation."
+    ]
+   },
+   "spec_lines": [
+    6748,
+    6752
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.03.03_test_006.ttcn3",
+   "module": "M_06_03_03_test_006",
+   "header": "// @requirement: 6.3.3 -- If the type of the system is unknown in the calling function, this can lead to runtime errors if the component type \"A\" is not system-compatible with the type of the system the current test case was started on."
+  },
+  {
+   "id": "TTCN3-CORE-6.3.3-009a",
+   "section": "6.3.3",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "a) For port instances, both the type and the identifier shall be identical.",
+   "canonical": "For component type compatibility, a port instance in type \"A\" and its counterpart in type \"B\" SHALL have identical port types and identical identifiers.",
+   "condition": null,
+   "cross_refs": [
+    "6.3.3"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6756,
+    6756
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.03.03_test_007.ttcn3",
+   "module": "M_06_03_03_test_007",
+   "header": "// @requirement: 6.3.3 -- a) For port instances, both the type and the identifier shall be identical."
+  },
+  {
+   "id": "TTCN3-CORE-6.3.3-010a",
+   "section": "6.3.3",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "b) For timer instances, identifiers shall be identical and either both shall have identical initial durations or both shall have no initial duration.",
+   "canonical": "For component type compatibility, a timer instance in type \"A\" and its counterpart in type \"B\" SHALL have identical identifiers.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6758,
+    6759
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.03.03_test_008.ttcn3",
+   "module": "M_06_03_03_test_008",
+   "header": "// @requirement: 6.3.3 -- b) For timer instances, identifiers shall be identical and either both shall have identical initial durations or both shall have no initial duration."
+  },
+  {
+   "id": "TTCN3-CORE-6.3.3-010b",
+   "section": "6.3.3",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "b) For timer instances, identifiers shall be identical and either both shall have identical initial durations or both shall have no initial duration.",
+   "canonical": "For component type compatibility, a timer instance in type \"A\" and its counterpart in type \"B\" SHALL either both have identical initial durations or both have no initial duration.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6758,
+    6759
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.03.03_test_009.ttcn3",
+   "module": "M_06_03_03_test_009",
+   "header": "// @requirement: 6.3.3 -- b) For timer instances, identifiers shall be identical and either both shall have identical initial durations or both shall have no initial duration."
+  },
+  {
+   "id": "TTCN3-CORE-6.3.3-011a",
+   "section": "6.3.3",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "c) For variable instances and constant definitions, the identifiers, the types and initialization values shall be identical (in case of variables this means that either the values are missing in both definitions or are the same).",
+   "canonical": "For component type compatibility, a variable instance or constant definition in type \"A\" and its counterpart in type \"B\" SHALL have identical identifiers and identical types.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6761,
+    6762
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.03.03_test_010.ttcn3",
+   "module": "M_06_03_03_test_010",
+   "header": "// @requirement: 6.3.3 -- c) For variable instances and constant definitions, the identifiers, the types and initialization values shall be identical (in case of variables this means that either the values are missing in both definitions or are the same)."
+  },
+  {
+   "id": "TTCN3-CORE-6.3.3-011b",
+   "section": "6.3.3",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "c) For variable instances and constant definitions, the identifiers, the types and initialization values shall be identical (in case of variables this means that either the values are missing in both definitions or are the same).",
+   "canonical": "For component type compatibility, a variable instance or constant definition in type \"A\" and its counterpart in type \"B\" SHALL have identical initialization values; for variables, either both definitions have no initial value or both have the same value.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6761,
+    6762
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.03.03_test_011.ttcn3",
+   "module": "M_06_03_03_test_011",
+   "header": "// @requirement: 6.3.3 -- c) For variable instances and constant definitions, the identifiers, the types and initialization values shall be identical (in case of variables this means that either the values are missing in both definitions or are the same)."
+  },
+  {
+   "id": "TTCN3-CORE-6.3.3-012a",
+   "section": "6.3.3",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "d) For local template definitions, the identifiers, the types, the formal parameter lists and the assigned template or template field values shall be identical.",
+   "canonical": "For component type compatibility, a component template in type \"A\" and its counterpart in type \"B\" SHALL have identical identifiers, types, formal parameter lists and assigned template or template field values.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "'local template definitions' means templates declared in the component type, which the glossary calls component templates.",
+    "improper_terms": [
+     {
+      "used": "local template definitions",
+      "proper": "component template",
+      "glossary": true
+     }
+    ]
+   },
+   "spec_lines": [
+    6764,
+    6765
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.03.03_test_012.ttcn3",
+   "module": "M_06_03_03_test_012",
+   "header": "// @requirement: 6.3.3 -- d) For local template definitions, the identifiers, the types, the formal parameter lists and the assigned template or template field values shall be identical."
+  }
+ ]
+}

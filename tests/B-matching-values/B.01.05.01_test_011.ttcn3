@@ -1,0 +1,25 @@
+// @requirement: B.1.5.1 -- Metacharacter: +; Indexing: Including the preceding expression; Description: Match the preceding expression one or several times (postfix); the same as #(1,). See clause B.1.5.3 for more details
+// @id: TTCN3-CORE-B.1.5.1-011a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_05_01_test_011 {
+
+    type component C {}
+
+    template charstring mw_plus := pattern "[ab]+";
+    template charstring mw_rep := pattern "[ab]#(1,)";
+
+    testcase TC() runs on C {
+        if (match("a", mw_plus) and match("abba", mw_plus)
+            and not match("", mw_plus) and not match("abc", mw_plus)
+            and match("a", mw_rep) and match("abba", mw_rep)
+            and not match("", mw_rep) and not match("abc", mw_rep)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

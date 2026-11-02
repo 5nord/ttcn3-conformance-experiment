@@ -1,0 +1,19 @@
+// @requirement: 21.3.6 -- d) If the index redirection is used for single-dimensional component arrays, the type of the integer variable shall allow storing the highest index of the respective array.
+// @id: TTCN3-CORE-21.3.6-021a
+// @verdict: pass reject
+module M_21_03_06_test_019 {
+
+    type component C {}
+
+    type integer I0To1 (0..1);
+
+    testcase TC() runs on C {
+        var C v_arr[3] := { C.create, C.create, C.create };
+        var I0To1 v_idx;
+        var boolean v_b := any from v_arr.running -> @index value v_idx; // error: type cannot store index 2
+    }
+
+    control {
+        execute(TC());
+    }
+}

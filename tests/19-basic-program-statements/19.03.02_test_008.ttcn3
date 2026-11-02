@@ -1,0 +1,31 @@
+// @requirement: 19.3.2 -- If the template instance has a union type, each branch shall start with the case keyword followed by one or more identifiers of the alternatives (fields) of the union type (a list branch) or in the last branch the case keyword may be followed by the else keyword (an else branch) and a statement block.
+// @id: TTCN3-CORE-19.3.2-009a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_03_02_test_008 {
+
+    type component C {}
+
+    type union U {
+        integer a,
+        boolean b,
+        charstring c,
+        float d
+    }
+
+    testcase TC() runs on C {
+        var U v_u := { c := "x" };
+        setverdict(fail);
+        select union (v_u) {
+            case (a) {
+                setverdict(fail);
+            }
+            case (b, c, d) {
+                setverdict(pass);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

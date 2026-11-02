@@ -1,0 +1,52 @@
+// @requirement: 19.3.2 -- The StatementBlock of the list branch containing the identifier or type identifier of the chosen alternative is executed.
+// @id: TTCN3-CORE-19.3.2-011a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_03_02_test_012 {
+
+    type component C {}
+
+    type union U {
+        integer a,
+        boolean b,
+        charstring c
+    }
+
+    testcase TC() runs on C {
+        var U v_u := { b := true };
+        var anytype v_any := { charstring := "x" };
+        var integer v_trace := 0;
+        select union (v_u) {
+            case (a) {
+                v_trace := 1;
+            }
+            case (c, b) {
+                v_trace := 2;
+            }
+            case else {
+                v_trace := 3;
+            }
+        }
+        select union (v_any) {
+            case (integer) {
+                v_trace := 0;
+            }
+            case (charstring) {
+                v_trace := v_trace * 10;
+            }
+            case else {
+                v_trace := 0;
+            }
+        }
+        if (v_trace == 20) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+} with {
+    extension "anytype integer, charstring"
+}

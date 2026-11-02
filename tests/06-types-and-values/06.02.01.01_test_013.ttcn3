@@ -1,0 +1,43 @@
+// @requirement: 6.2.1.1 -- b) Expansion of record of/set of/array, union and set values and intermediate fields shall follow the rules of item a) in clauses 6.2.7 and 6.2.5.1 and clause 6.2.2.1 correspondingly.
+// @id: TTCN3-CORE-6.2.1.1-017a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_01_01_test_013 {
+
+    type component C {}
+
+    type record of integer RoI;
+
+    type union U {
+        integer a1,
+        boolean a2
+    }
+
+    type set S {
+        integer s1,
+        integer s2
+    }
+
+    type record R {
+        RoI f_list optional,
+        U f_union optional,
+        S f_set optional
+    }
+
+    testcase TC() runs on C {
+        var R v_r;
+        v_r.f_list[1] := 5;
+        v_r.f_union.a1 := 6;
+        v_r.f_set.s1 := 7;
+        if (lengthof(v_r.f_list) == 2 and not isbound(v_r.f_list[0]) and v_r.f_list[1] == 5 and
+            ischosen(v_r.f_union.a1) and v_r.f_union.a1 == 6 and
+            v_r.f_set.s1 == 7 and not isbound(v_r.f_set.s2)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

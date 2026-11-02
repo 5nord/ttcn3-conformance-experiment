@@ -1,0 +1,415 @@
+{
+  "document": "ETSI ES 201 873-1 V4.17.1 (2025-09)",
+  "section": "3.1 Terms",
+  "terms": [
+    {
+      "term": "actual parameter",
+      "definition": "value, expression, template or name reference (identifier) to be passed as parameter to the invoked entity (function, test case, altstep, etc.) as defined at the place of invoking"
+    },
+    {
+      "term": "assignment notation",
+      "definition": "notation that can be used for record, set, record of and set of values, where the fields or the elements to which a value is assigned are identified explicitly within a pair of curly brackets (\"{\" and \"}\") by the field names or the positions of the elements"
+    },
+    {
+      "term": "automatic type",
+      "definition": "notation used in variable, constant and module parameter declarations where the type part of the declaration is missing and the type is implicitly set by the provided initial value"
+    },
+    {
+      "term": "basic types",
+      "definition": "set of predefined TTCN-3 types described in clauses 6.1.0 and 6.1.1 of the present document",
+      "notes": [
+        "Basic types are referenced by their names."
+      ]
+    },
+    {
+      "term": "behaviour definition",
+      "definition": "dynamic test behaviour, which is either a testcase, a function, or an altstep definition"
+    },
+    {
+      "term": "communication port",
+      "definition": "abstract mechanism facilitating communication between test components",
+      "notes": [
+        "A communication port is modelled as a FIFO queue in the receiving direction. Ports can be message-based or procedure-based."
+      ]
+    },
+    {
+      "term": "compatible type",
+      "definition": "TTCN-3 is not strongly typed but the language does require type compatibility",
+      "notes": [
+        "Variables, constants, templates, etc. have compatible types if conditions in clause 6.3 are met."
+      ]
+    },
+    {
+      "term": "completely initialized",
+      "definition": "value or template is completely initialized if it is not uninitialized and, if its type is a structured type, all its required parts are completely initialized",
+      "notes": [
+        "Additionally, templates are completely initialized if they are assigned a matching mechanism all parts of which are completely initialized. If a value or template is completely initialized, it fulfils the requirement of being \"at least partially initialized\".",
+        "A value or template of a simple, component or default type is completely initialized if anything but the unchanged symbol \"-\" has been assigned to it. A value or template of a union or anytype type is completely initialized if one of its variants has been completely initialized. A value or template of a record or set type with only optional fields and the optional \"implicit omit\" attribute attached, is completely initialized if the value \"{}\" is assigned, as allfields are implicitly set to omit. A value or template of a record or set type with no fields is completely initialized with assignment of the value \"{}\". A value or template of a record of, set of or array type is completely initialized if at least the first n elements are completely initialized, where n is the minimal length imposed by the type length restriction or array definition. Thus in case of n equals 0, the assignment of the value \"{}\" also completely initializes such a record of, set of or array."
+      ]
+    },
+    {
+      "term": "component constant",
+      "definition": "constant defined in a component type"
+    },
+    {
+      "term": "component data types",
+      "definition": "collection of all data types, component types and structured types whose sub-elements are component data types"
+    },
+    {
+      "term": "component port",
+      "definition": "port defined in a component type"
+    },
+    {
+      "term": "component template",
+      "definition": "template defined in a component type"
+    },
+    {
+      "term": "component timer",
+      "definition": "timer defined in a component type"
+    },
+    {
+      "term": "component variable",
+      "definition": "variable defined in a component type"
+    },
+    {
+      "term": "control behaviour",
+      "definition": "collection of module control functions with the name control and functions and altsteps called by control directly or through other control functions or altsteps, and are used for the dynamic execution of test cases",
+      "notes": [
+        "Such functions and altsteps are called control functions and control altsteps respectively. Module control functions can be used as an entry point of executing a test suite. Declaring functions or altsteps with the modifier @control explicitly allows to distinguish them from test case behaviour definitions in their special role. Module control functions and behaviour definitions with the @control modifier are called explicit control behaviour definitions, i.e. explicit control functions and explicit control altsteps."
+      ]
+    },
+    {
+      "term": "core type",
+      "definition": "type that defines the structure and properties of values which is equal to the root type for all basic types, special types default, timer and the open type, to the type specifying the array dimensions in case of array types and to such a type in the type hierarchy whose declaration directly references the root type in case of all other types",
+      "notes": [
+        "As address is more a predefined type name than a distinct type with its own properties, the core type of an address type and all of its derivatives is the same as the core type was, if the type was defined with a name different from address."
+      ]
+    },
+    {
+      "term": "data types",
+      "definition": "all types whose values or sub-elements cannot contain object references",
+      "notes": [
+        "Data types include simple basic types, basic string types, and the special data type anytype. Data types also include all structured types where all their sub-elements are of a data type. All user defined types based on a data type are data types as well. See more details in table 3 of the present document."
+      ]
+    },
+    {
+      "term": "defined types (defined TTCN-3 types)",
+      "definition": "set of all predefined TTCN-3 types (basic types, all structured types, the type anytype, the address, port and component types and the default type) and all user-defined types declared either in the module or imported from other TTCN-3 modules"
+    },
+    {
+      "term": "deterministic function",
+      "definition": "function that for the same input in the in and inout parameters always yields the same output both for the return result as well as the inout and out parameters",
+      "notes": [
+        "A non-deterministic function is one that is not deterministic.",
+        "In general, it cannot be decided if a function is deterministic or not. However, a function can be specified to be deterministic, i.e. the function is supposed to be deterministic. In this case, a violation of the determinism can be detected and handled accordingly. The handling however is tool-specific."
+      ]
+    },
+    {
+      "term": "dynamic parameterization",
+      "definition": "form of parameterization, in which actual parameters are dependent on runtime events",
+      "examples": [
+        "The value of the actual parameter is a value received during runtime or depends on a received value by a logical relation."
+      ]
+    },
+    {
+      "term": "exception",
+      "definition": "in cases of procedure-based communication, an exception (if defined) is raised by an answering entity if it cannot answer a remote procedure call with the normal expected response"
+    },
+    {
+      "term": "formal parameter",
+      "definition": "typed name or typed template reference (identifier) not resolved at the time of the definition of an entity (function, test case, altstep, etc.) but at the time of invoking it",
+      "notes": [
+        "Actual values or templates (or their names) to be used at the place of formal parameters are passed from the place of invoking the entity (see also the definition of actual parameter)."
+      ]
+    },
+    {
+      "term": "fuzzy value or template",
+      "definition": "value or template instance that is declared to be fuzzy and consequently the expression, initializing or partly initializing it (including actual parameters passed to in formal parameters), is subject to lazy evaluation",
+      "notes": [
+        "During execution, this expression is re-evaluated each time when the fuzzy object is referenced, except when at the left hand side of an assignment or passing it to a fuzzy or lazy formal parameters. The result of this (re)evaluation is used as the actual value or template of the fuzzy instance. When new content is assigned to a fuzzy instance or to its subpart, the right hand side of the assignment is subject to lazy evaluation again."
+      ]
+    },
+    {
+      "term": "global visibility",
+      "definition": "attribute of an entity (module parameter, constant, template, etc.) whose identifier can be referenced anywhere within the module where it is defined including all functions, test cases and altsteps defined within the same module"
+    },
+    {
+      "term": "Implementation Conformance Statement (ICS)",
+      "definition": "See Recommendation ITU-T X.290 [i.41]."
+    },
+    {
+      "term": "Implementation eXtra Information for Testing (IXIT)",
+      "definition": "See Recommendation ITU-T X.290 [i.41]."
+    },
+    {
+      "term": "Implementation Under Test (IUT)",
+      "definition": "See Recommendation ITU-T X.290 [i.41]."
+    },
+    {
+      "term": "in parameterization",
+      "definition": "kind of parameterization where the value of the actual parameter (the argument) is assigned to the formal parameter when the parameterized object is invoked, but the value of the formal parameter is not passed back to the actual parameter when the invoked object completes",
+      "notes": [
+        "In in parameterization, parameters are passed by value.",
+        "The arguments are evaluated before the parameterized object is entered.",
+        "Only the values of the arguments are passed and changes to the arguments within the invoked object have no effect on the arguments as seen by the invoking object."
+      ]
+    },
+    {
+      "term": "index notation",
+      "definition": "notation to access individual elements of record of, set of, array and string values or templates, where the element to be accessed is identified explicitly by an index value enclosed in square brackets (\"[\" and \"]\") which specifies the position of that element within the referenced value or template and the index value is either an integer value, array of integers or record of integers",
+      "notes": [
+        "Integer values used for indexing (either directly or as elements of the record of or array values) always lie within the index range of the type of the referenced value or template. Except for those arrays which are defined with an explicit index range, the index range always has 0 as the index for the first element."
+      ]
+    },
+    {
+      "term": "initialization",
+      "definition": "value or template, or a value or template field is initialized when a content is first assigned to it",
+      "notes": [
+        "The assignment may be explicit at the declaration of the given object, in which case the same restrictions apply as for the right-hand side of the assignment operation, or at first use on the left-hand side of an assignment, or may be implicit. Implicit initialization occurs when a yet uninitialized object is passed as actual parameter to an out formal parameter of a directly called testcase, function or altstep returns with a non-uninitialized value or template that is assigned to the actual parameter; or when module parameters not initialized in the TTCN-3 code get their runtime values before test suite execution."
+      ]
+    },
+    {
+      "term": "inout parameterization",
+      "definition": "kind of parameterization that uses passing by reference, i.e. when the parameterized object is invoked, the formal parameter is linked with the actual parameter and gets direct access to the same data content that is currently represented by the actual parameter",
+      "notes": [
+        "The invoked object uses the actual parameter directly, so that all changes made in the formal parameter become immediately effective on the actual parameter. If the same actual parameter is passed to two distinct formal parameters, a change in one formal parameter becomes immediately effective in the other one (and in the actual parameter).",
+        "Inout parameters can be used for functions, altsteps, and test cases only, if not restricted by further rules, e.g. altsteps activated as defaults."
+      ]
+    },
+    {
+      "term": "invalid expression/operation",
+      "definition": "expression or operation is invalid if it does not follow the conditions and restrictions of the present document and should cause a dynamic error during execution when they are evaluated, or might cause a static error when they are statically analysed or possibly could be warned about during static analysis"
+    },
+    {
+      "term": "known types",
+      "definition": "set of all TTCN-3 predefined types, types defined in a TTCN-3 module and types imported into that module from other TTCN-3 modules or from non-TTCN-3 modules"
+    },
+    {
+      "term": "lazy evaluation",
+      "definition": "evaluation of an expression, delayed during execution until the value or template instance, to which the result of the evaluation should have been assigned or passed to as actual parameter, is first referenced at another place than the left hand side of an assignment or an actual parameter passed to a fuzzy or lazy formal parameter",
+      "notes": [
+        "During execution, this delayed evaluation is carried out at the first actual reference, even when the result is to be used in an expression that is also subject to lazy evaluation. For the evaluation the actual values at the time of the evaluation are to be used (not the actual values at the time of the assignment or parameter passing). This implies that components of the expression may be uninitialized at the time, when execution reaches the assignment or parameter passing, but may be initialized by the time of the evaluation that can lead to successful evaluation. If, by the time of the evaluation, execution has left the scope unit, in which one or more components of the expression is defined, the actual values of the component(s) at the time of leaving the scope unit are to be stored for the purpose of the delayed evaluation (but only for that, i.e. the values are not accessible for the user)."
+      ]
+    },
+    {
+      "term": "lazy value or template",
+      "definition": "value or template instance for which the expression, initializing or partly initializing it (including actual parameters passed to in formal parameters), is subject to lazy evaluation",
+      "notes": [
+        "When, during execution, the delayed (lazy) evaluation is taking place, its result is stored in the lazy value or template and the lazy instance is used further on like ordinary values and templates, until the next use of the lazy variable or parameter on the left hand side of an assignment. When a new content is assigned to a lazy instance or to its subpart, the right hand side of the assignment is subject to lazy evaluation again. If, during execution, no expression referencing the lazy object is evaluated, the lazy value or template instance is never evaluated."
+      ]
+    },
+    {
+      "term": "left hand side (of assignment)",
+      "definition": "value or template variable identifier or a field name of a structured type value or template variable (including array index if any), which stands left to an assignment symbol (:=)",
+      "notes": [
+        "A constant, module parameter, timer, structured type field name or a template header (including template type, name and formal parameter list) standing left of an assignment symbol (:=) in declarations and or a modified template definitions are out of the scope of this definition as not being part of an assignment."
+      ]
+    },
+    {
+      "term": "local visibility",
+      "definition": "attribute of an entity (constant, variable, etc.) that its identifier can be referenced only within the function, test case or altstep where it is defined"
+    },
+    {
+      "term": "Main Test Component (MTC)",
+      "definition": "See Recommendation ITU-T X.292 [i.40]."
+    },
+    {
+      "term": "object",
+      "definition": "instance of one of the object types (component, default, port and timer)",
+      "notes": [
+        "Objects of type default, port or timer, which are owned by the component that instantiated them, are local objects while objects of type component are global objects. Global objects can be referenced from other component scopes while references to local objects can only be used by the component they are bound to."
+      ]
+    },
+    {
+      "term": "object reference",
+      "definition": "special kind of value used for instances of component, default, port and timer types which represents a reference to an existing entity in the TE",
+      "notes": [
+        "When used in assignments or parameter passing, only the reference to the entity is copied, but not the entity itself. An object reference can also be initialized with the special value null in which case it does not reference an object."
+      ]
+    },
+    {
+      "term": "out parameterization",
+      "definition": "kind of parameterization where the actual parameter's content (the argument) is not passed to the formal parameter when the parameterized object is invoked, but the content of the formal parameter is passed back to the actual parameter when the invoked object completes, if the formal parameter has been initialized during the invocation and the actual parameter is the reference evaluated at the time of the invocation",
+      "notes": [
+        "In out parameterization, parameters are passed by value.",
+        "Out parameters can be used for functions, altsteps, and test cases only, if not restricted by further rules, e.g. altsteps activated as defaults.",
+        "Formal out parameters are uninitialized (unbound) when the invoked object is entered."
+      ]
+    },
+    {
+      "term": "Parallel Test Component (PTC)",
+      "definition": "See Recommendation ITU-T X.292 [i.40]."
+    },
+    {
+      "term": "parent type",
+      "definition": "type referenced in a subtype declaration",
+      "notes": [
+        "The subtype is derived from the parent type, potentially adding contraints or additional attributes."
+      ]
+    },
+    {
+      "term": "partially initialized",
+      "definition": "value or template is partially initialized if initialization has taken place on it or to at least one of its fields or elements",
+      "notes": [
+        "A template variable is initialized if a matching mechanism has been assigned to it or to at least one of its fields or elements, directly or indirectly via expansion (see clause 15.6). A template is initialized if a matching mechanism has been assigned to it, directly or indirectly via expansion (see clause 15.6)."
+      ]
+    },
+    {
+      "term": "passing by reference",
+      "definition": "ability to link an actual parameter with a formal parameter of a function, altstep or test case and to control its actual value within the function, altstep or test case by using the formal parameter reference, i.e. no copy of the data content is made and the actual and formal parameters share the same data content"
+    },
+    {
+      "term": "passing by value",
+      "definition": "ability to make a copy of a data content of an actual or formal parameter before passing it to a formal or actual parameter, i.e. the actual and formal parameters do not share the same data content",
+      "notes": [
+        "When passing object references by value, a new reference is created, but the referenced entity remains the same."
+      ]
+    },
+    {
+      "term": "qualified name",
+      "definition": "TTCN-3 elements can be identified unambiguously by qualified names",
+      "notes": [
+        "For modules, the qualified name is the <module name>. For global definitions such as testcases, functions, etc. the qualified name is <module name>.<definition name>. For control, the qualified name is <module name>.control. For local definitions, such as variables, local templates, etc. within a global definition, the qualified name is <module name>.<global definition name>.<local definition name>."
+      ]
+    },
+    {
+      "term": "right hand side (of assignment)",
+      "definition": "expression, template reference or signature parameter identifier which stands right to an assignment symbol (:=)",
+      "notes": [
+        "Expressions and template references standing right of an assignment symbol (:=) in constant, module parameter, timer, template or modified template declarations are out of the scope of this definition as not being part of an assignment."
+      ]
+    },
+    {
+      "term": "root type",
+      "definition": "type represented by a TTCN-3 keyword which is the most basic type all other types defined in a module are derived or built from.",
+      "notes": [
+        "Root types of types derived from TTCN-3 basic types are the respective basic types.",
+        "The root type of user defined record types is record, the root type of user defined record of and array types is record of, the root type of user defined set types is set, the root type of user defined set of types is set of. The root type of user defined union types is union, the root type of anytypes is anytype, the root type of enumerations is enumerated and the root type of maps is map. The root types of special types are default, component, port, timer and any.",
+        "As address is more a predefined type name than a distinct type with its own properties, the root type of an address type and all of its derivatives is the same as the root type was, if the type was defined with a name different from address."
+      ]
+    },
+    {
+      "term": "static parameterization",
+      "definition": "form of parameterization, in which actual parameters are independent of runtime events; i.e. known at compile time or in case of module parameters are known by the start of the test suite execution",
+      "notes": [
+        "A static parameter is to be known from the test suite specification, (including imported definitions), or the test system is aware of its value before execution time.",
+        "All types are known at compile time, i.e. are statically bound."
+      ]
+    },
+    {
+      "term": "strong typing",
+      "definition": "strict enforcement of type compatibility by type name equivalence with no exceptions",
+      "notes": [
+        "Nested structured types used in variable, constant, formal parameter, template or modulepar declarations have no type name associated with them. For that reason, values of these types cannot be used in operations requiring strong typing."
+      ]
+    },
+    {
+      "term": "super type",
+      "definition": "type that other types derive from is called a super type"
+    },
+    {
+      "term": "System Under Test (SUT)",
+      "definition": "See Recommendation ITU-T X.290 [i.41]."
+    },
+    {
+      "term": "template",
+      "definition": "TTCN-3 data objects are values or templates by definition. A TTCN-3 template identifies a subset of the values of its type (where the subset may contain a single instance of the type, several instances or all instances) or the matching mechanism omit",
+      "notes": [
+        "Templates are defined by global and local templates, template variable definitions, or formal template parameters. Any of those are templates from the point of view of their usage, irrespective of their actual content; for example, a template variable containing a specific value is a template."
+      ]
+    },
+    {
+      "term": "template parameterization",
+      "definition": "ability to pass a template as an actual parameter into a parameterized object via a template parameter",
+      "notes": [
+        "This actual template parameter is added to the specification of that object and may complete it.",
+        "Values passed to formal template parameters are considered to be in-line templates (see clause 15.4)."
+      ]
+    },
+    {
+      "term": "test behaviour",
+      "definition": "(or behaviour) test case, function or altstep started on a test component when executing an execute or a start component statement and all functions and altsteps called recursively",
+      "notes": [
+        "During a test case execution each test component has its own behaviour and hence several test behaviours may run concurrently in the test system (i.e. a test case can be seen as a collection of test behaviour)."
+      ]
+    },
+    {
+      "term": "test case",
+      "definition": "See Recommendation ITU-T X.290 [i.41]."
+    },
+    {
+      "term": "test case error",
+      "definition": "See Recommendation ITU-T X.290 [i.41]."
+    },
+    {
+      "term": "test suite",
+      "definition": "set of TTCN-3 modules that contains a completely defined set of test cases, optionally supplemented with one or more TTCN-3 control functions"
+    },
+    {
+      "term": "test system",
+      "definition": "See Recommendation ITU-T X.290 [i.41]."
+    },
+    {
+      "term": "test system interface",
+      "definition": "test component that provides a mapping of the ports available in the (abstract) TTCN-3 test system to those offered by the SUT"
+    },
+    {
+      "term": "type compatibility",
+      "definition": "language feature that allows to use values, expressions or templates of a given type as actual values of another type",
+      "examples": [
+        "At assignments, as actual parameters at calling a function, referencing a template, etc. or as a return value of a function."
+      ]
+    },
+    {
+      "term": "type context",
+      "definition": "\"In the context of a type\" means that at least one object involved in the given TTCN-3 action (an assignment, operation, parameter passing, etc.) identifies a concrete type unambiguously",
+      "notes": [
+        "Either directly (e.g. an in-line template) or by means of a typed TTCN-3 object (e.g. via a constant, variable, formal parameter, etc.)."
+      ]
+    },
+    {
+      "term": "uninitialized",
+      "definition": "value or template is uninitialized as long as no initialization of it or at least one of its parts has occurred"
+    },
+    {
+      "term": "unqualified name",
+      "definition": "unqualified name of a TTCN-3 element is its name without any qualification"
+    },
+    {
+      "term": "user-defined type",
+      "definition": "type that is defined by subtyping of a basic type or declaring or subtyping a structured type",
+      "notes": [
+        "User-defined types are referenced by their identifiers (names)."
+      ]
+    },
+    {
+      "term": "valid expressions/operations",
+      "definition": "expression or operation that follow the conditions and restrictions of the present document and can be safely compiled and executed"
+    },
+    {
+      "term": "value",
+      "definition": "TTCN-3 data objects are values or templates by definition. A TTCN-3 value is an instance of its type",
+      "notes": [
+        "Values are defined by module parameters, constants, value variables, or formal value parameters. Any of those are value objects from the point of view of their usage. A template containing only specific value matching - though referring to a single instance of its type - is not a value object, but is a template object."
+      ]
+    },
+    {
+      "term": "value list notation",
+      "definition": "notation that can be used for record, set, record of and set of values, where the values of the subsequent fields or elements are listed within a pair of curly brackets (\"{\" and \"}\"), without an explicit identification of the field name or element position"
+    },
+    {
+      "term": "value notation",
+      "definition": "notation by which an identifier is associated with a given value or range of a particular type",
+      "notes": [
+        "Values may be constants or variables."
+      ]
+    },
+    {
+      "term": "value parameterization",
+      "definition": "ability to pass a value as an actual parameter into a parameterized object via a value parameter",
+      "notes": [
+        "This actual value parameter is added to the specification of that object and may complete it."
+      ]
+    }
+  ]
+}

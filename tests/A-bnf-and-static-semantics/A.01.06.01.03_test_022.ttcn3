@@ -1,0 +1,16 @@
+// @requirement: A.1.6.1.3 -- When the corresponding formal parameter is not of template type the TemplateInstance production shall resolve to one or more SingleExpressions
+// @id: TTCN3-CORE-A.1.6.1.3-016a
+// @verdict: pass reject
+module M_A_01_06_01_03_test_022 {
+
+    type component C {}
+
+    function f_a(in integer p_x) return integer {
+        return p_x;
+    }
+
+    testcase TC() runs on C {
+        var integer v_a := f_a((1, 2)); // error: value list template for value parameter
+        setverdict(pass);
+    }
+}

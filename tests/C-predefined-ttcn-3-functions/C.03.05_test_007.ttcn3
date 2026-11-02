@@ -1,0 +1,31 @@
+// @requirement: C.3.5 -- NOTE: Clause E.2.2.5 includes the type definition TemplateKind and a constant for each of the allowed values of the kind parameter.
+// @id: TTCN3-CORE-C.3.5-013a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_03_05_test_007 {
+
+    type component C {}
+
+    type charstring TemplateKind ("value", "list", "complement", "AnyValue", "?", "AnyValueOrNone",
+        "*", "range", "subset", "superset", "omit", "decmatch", "AnyElement", "AnyElementsOrNone",
+        "permutation", "length", "ifpresent", "pattern");
+
+    const TemplateKind VALUE := "value";
+    const TemplateKind ANY_VALUE := "AnyValue";
+    const TemplateKind LIST := "list";
+
+    testcase TC() runs on C {
+        var template integer v_t1 := ?;
+        var template integer v_t2 := (1, 2);
+        if (istemplatekind(v_t1, ANY_VALUE) and
+            istemplatekind(v_t2, LIST) and
+            not istemplatekind(v_t1, VALUE)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

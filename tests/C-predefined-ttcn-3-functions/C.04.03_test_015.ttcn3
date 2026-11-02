@@ -1,0 +1,18 @@
+// @requirement: C.4.3 -- The repl parameter is allowed to contain a template that shall contain a specific value, pattern or AnyValue without any matching attributes attached to it.
+// @id: TTCN3-CORE-C.4.3-013b
+// @verdict: pass reject
+module M_C_04_03_test_015 {
+
+    type component C {}
+
+    template charstring mw_repl := ? length(2);
+
+    testcase TC() runs on C {
+        var template charstring v_res := replace("abcd", 1, 2, mw_repl); // error: repl has a length matching attribute
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

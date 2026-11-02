@@ -1,0 +1,20 @@
+// @requirement: 22.3.6 -- d) Catching timeout exceptions shall be restricted to the exception handling part of a call.
+// @id: TTCN3-CORE-22.3.6-048a
+// @verdict: pass reject
+module M_22_03_06_test_042 {
+
+    signature S() exception (integer);
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    function f_call() runs on C {
+        p.call(S:{}, nowait);
+        alt {
+            [] p.catch(timeout) {} // error: timeout exception caught outside of a call
+        }
+    }
+}

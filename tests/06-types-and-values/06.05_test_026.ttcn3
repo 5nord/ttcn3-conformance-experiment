@@ -1,0 +1,21 @@
+// @requirement: 6.5 -- l) Index assignment notation where all indexes have a common type in case the type is different from the integer type and all item values have a common type shall provide an automatic type map from _{common type of the indexes} to_ _{common type of the values}.
+// @id: TTCN3-CORE-6.5-021a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_05_test_026 {
+    type component C {}
+
+    testcase TC() runs on C {
+        var v_auto := { ["basePrice"] := 5.0, ["vat"] := 1.0 };
+        v_auto["total"] := 6.0;
+        var map from charstring to float v_map := v_auto;
+        if (v_map["basePrice"] == 5.0 and v_map["total"] == 6.0) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

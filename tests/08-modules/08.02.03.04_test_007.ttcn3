@@ -1,0 +1,31 @@
+// @requirement: 8.2.3.4 -- The effect of importing definitions of the same kind is identical to an import statement that lists all visible definitions of that kind except of those that are listed in the except specification.
+// @id: TTCN3-CORE-8.2.3.4-007a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_02_03_04_test_007 {
+
+    import from M_08_02_03_04_test_007_A {
+        const all except c_b
+    }
+
+    const integer c_b := 20;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (c_a == 1 and c_b == 20 and c_c == 3) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_03_04_test_007_A {
+    const integer c_a := 1;
+    const integer c_b := 2;
+    const integer c_c := 3;
+}

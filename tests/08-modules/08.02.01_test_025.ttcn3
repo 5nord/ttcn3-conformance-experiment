@@ -1,0 +1,21 @@
+// @requirement: 8.2.1 -- f) The TemplateBody of a module parameter shall respect the limitations given in clause 16.1.4. and shall be compatible with the TypeOrNestedTypeDef of the declaration and conform to the given TemplateModifier.
+// @id: TTCN3-CORE-8.2.1-025a
+// @verdict: pass reject
+module M_08_02_01_test_025 {
+
+    function f_random() return float {
+        return rnd();
+    }
+
+    modulepar float mp_value := f_random(); // error: called function uses rnd, forbidden by clause 16.1.4
+
+    type component C {}
+
+    testcase TC() runs on C {
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

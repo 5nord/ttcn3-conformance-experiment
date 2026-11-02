@@ -1,0 +1,24 @@
+// @requirement: 9.0 -- During execution of a test case, other components can be created dynamically by the explicit use of the create operation.
+// @id: TTCN3-CORE-9.0-014a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_09_00_test_004 {
+
+    type component C {}
+
+    function f() runs on C {
+        setverdict(pass);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        if (v_ptc == null or v_ptc == mtc) {
+            setverdict(fail);
+        }
+        v_ptc.start(f());
+        v_ptc.done;
+    }
+
+    control {
+        execute(TC());
+    }
+}

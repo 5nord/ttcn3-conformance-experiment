@@ -1,0 +1,24 @@
+// @requirement: 16.2.0 -- f) Altsteps started by using the start test component operation shall always have a runs on clause (see clause 22.5) and are considered to be invoked in the component to be started, i.e. not locally.
+// @id: TTCN3-CORE-16.2.0-031a
+// @verdict: pass reject
+module M_16_02_00_test_029 {
+
+    type component C {}
+
+    altstep a_ptc() {
+        [] any timer.timeout {
+            setverdict(pass);
+        }
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        v_ptc.start(a_ptc()); // error: started altstep has no runs on clause
+        v_ptc.done;
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

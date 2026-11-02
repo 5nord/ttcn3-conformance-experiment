@@ -1,0 +1,1342 @@
+{
+ "part": "C.part5",
+ "chapter": "C",
+ "chapter_file": "C-predefined-ttcn-3-functions",
+ "title": "Predefined TTCN-3 functions",
+ "sections": {
+  "C.5.1": {
+   "title": "The encoding function",
+   "start": 26165
+  },
+  "C.5.2": {
+   "title": "The decoding function",
+   "start": 26189
+  },
+  "C.5.3": {
+   "title": "The encoding to universal charstring function",
+   "start": 26226
+  },
+  "C.5.4": {
+   "title": "The decoding from universal charstring function",
+   "start": 26297
+  },
+  "C.5.5": {
+   "title": "The encoding to octetstring function",
+   "start": 26380
+  },
+  "C.5.6": {
+   "title": "The decoding from octetstring function",
+   "start": 26409
+  },
+  "C.5.7": {
+   "title": "Retrieving the type of string encoding",
+   "start": 26437
+  },
+  "C.5.8": {
+   "title": "Removing BOMs of UCS encoding schemes",
+   "start": 26457
+  }
+ },
+ "lines": [
+  26167,
+  26498
+ ],
+ "units": [
+  {
+   "id": "C.5.1-s001",
+   "section": "C.5.1",
+   "kind": "code",
+   "context": null,
+   "normative": true,
+   "text": "encvalue(in template (value) any inpar,\n        in universal charstring encoding_info := \"\",\n        in universal charstring dynamic_encoding := \"\") return bitstring",
+   "lines": [
+    26167,
+    26171
+   ]
+  },
+  {
+   "id": "C.5.1-s002",
+   "section": "C.5.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The encvalue function encodes a value or template into a bitstring.",
+   "lines": [
+    26173,
+    26173
+   ]
+  },
+  {
+   "id": "C.5.1-s003",
+   "section": "C.5.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "When the actual parameter that is passed to",
+   "lines": [
+    26173,
+    26173
+   ]
+  },
+  {
+   "id": "C.5.1-s004",
+   "section": "C.5.1",
+   "kind": "code",
+   "context": null,
+   "normative": true,
+   "text": "inpar is a template, it shall resolve to a specific value (the same restrictions apply as for the argument of the send\nstatement). The returned bitstring represents the encoded value of inpar, however, the TTCN-3 test system need not\nmake any check on its correctness. The optional encoding_info parameter is used for passing additional encoding\ninformation to the codec and, if it is omitted, no additional information is sent to the codec.\n\nThe optional dynamic_encoding parameter is used for dynamic selection of encode attribute of the inpar value\nfor this single encvalue call. The rules for dynamic selection of the encode attribute are described in clause 27.9.\n\nIn addition to the general error causes in clause 16.1.2, error causes are:\n\n  - Encoding fails due to a runtime system problem (i.e. no encoding function exists for the actual type of inpar).",
+   "lines": [
+    26174,
+    26187
+   ]
+  },
+  {
+   "id": "C.5.2-s001",
+   "section": "C.5.2",
+   "kind": "code",
+   "context": null,
+   "normative": true,
+   "text": "decvalue(inout bitstring encoded_value,\n      out any decoded_value,\n        in universal charstring decoding_info := \"\",\n        in universal charstring dynamic_encoding := \"\") return integer",
+   "lines": [
+    26191,
+    26196
+   ]
+  },
+  {
+   "id": "C.5.2-s002",
+   "section": "C.5.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The decvalue function decodes a bitstring into a value.",
+   "lines": [
+    26203,
+    26206
+   ]
+  },
+  {
+   "id": "C.5.2-s003",
+   "section": "C.5.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The test system shall suppose that the bitstring encoded_value represents an encoded instance of the actual type of decoded_value.",
+   "lines": [
+    26203,
+    26206
+   ]
+  },
+  {
+   "id": "C.5.2-s004",
+   "section": "C.5.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The optional decoding_info parameter is used for passing additional decoding information to the codec and, if it is omitted, no additional information is sent to the codec.",
+   "lines": [
+    26203,
+    26206
+   ]
+  },
+  {
+   "id": "C.5.2-s005",
+   "section": "C.5.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The optional dynamic_encoding parameter is used for dynamic selection of encode attribute of the decoded_value parameter for this single decvalue call.",
+   "lines": [
+    26208,
+    26210
+   ]
+  },
+  {
+   "id": "C.5.2-s006",
+   "section": "C.5.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The rules for dynamic selection of the encode attribute are described in clause 27.9.",
+   "lines": [
+    26208,
+    26210
+   ]
+  },
+  {
+   "id": "C.5.2-s007",
+   "section": "C.5.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "If the decoding was successful, then the used bits are removed from the parameter encoded_value, the rest is returned (in the parameter encoded_value), and the decoded value is returned in the parameter decoded_value.",
+   "lines": [
+    26212,
+    26215
+   ]
+  },
+  {
+   "id": "C.5.2-s008",
+   "section": "C.5.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "If the decoding was unsuccessful, the actual parameters for encoded_value and decoded_value are not changed.",
+   "lines": [
+    26212,
+    26215
+   ]
+  },
+  {
+   "id": "C.5.2-s009",
+   "section": "C.5.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The function shall return an integer value to indicate success or failure of the decoding below:",
+   "lines": [
+    26212,
+    26215
+   ]
+  },
+  {
+   "id": "C.5.2-s010",
+   "section": "C.5.2",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "The return value 0 indicates that decoding was successful.",
+   "lines": [
+    26217,
+    26217
+   ]
+  },
+  {
+   "id": "C.5.2-s011",
+   "section": "C.5.2",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "The return value 1 indicates an unspecified cause of decoding failure.",
+   "lines": [
+    26219,
+    26219
+   ]
+  },
+  {
+   "id": "C.5.2-s012",
+   "section": "C.5.2",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "This value is also returned if the encoded_value parameter contains an unitialized value.",
+   "lines": [
+    26219,
+    26219
+   ]
+  },
+  {
+   "id": "C.5.2-s013",
+   "section": "C.5.2",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "The return value 2 indicates that decoding could not be completed as encoded_value did not contain enough bits.",
+   "lines": [
+    26221,
+    26222
+   ]
+  },
+  {
+   "id": "C.5.2-s014",
+   "section": "C.5.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The restrictions in clause 16.1.2 apply.",
+   "lines": [
+    26224,
+    26224
+   ]
+  },
+  {
+   "id": "C.5.3-s001",
+   "section": "C.5.3",
+   "kind": "code",
+   "context": null,
+   "normative": true,
+   "text": "encvalue_unichar(in template (value) any inpar, \n             in charstring string_serialization := \"UTF-8\",\n             in universal charstring encoding_info := \"\",\n             in universal charstring dynamic_encoding := \"\") \n             return universal charstring",
+   "lines": [
+    26227,
+    26233
+   ]
+  },
+  {
+   "id": "C.5.3-s002",
+   "section": "C.5.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The encvalue_unichar function encodes a value or template into a universal charstring.",
+   "lines": [
+    26235,
+    26240
+   ]
+  },
+  {
+   "id": "C.5.3-s003",
+   "section": "C.5.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "When the actual parameter that is passed to inpar is a template, it shall resolve to a specific value (the same restrictions apply as for the argument of the send statement).",
+   "lines": [
+    26235,
+    26240
+   ]
+  },
+  {
+   "id": "C.5.3-s004",
+   "section": "C.5.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The returned universal charstring represents the encoded value of inpar, however, the TTCN-3 test system need not make any check on its correctness.",
+   "lines": [
+    26235,
+    26240
+   ]
+  },
+  {
+   "id": "C.5.3-s005",
+   "section": "C.5.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "If the optional string_serialization parameter is omitted, the default value \"UTF-8\" is used.",
+   "lines": [
+    26235,
+    26240
+   ]
+  },
+  {
+   "id": "C.5.3-s006",
+   "section": "C.5.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The optional encoding_info parameter is used for passing additional encoding information to the codec and, if it is omitted, no additional information is sent to the codec.",
+   "lines": [
+    26235,
+    26240
+   ]
+  },
+  {
+   "id": "C.5.3-s007",
+   "section": "C.5.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The optional dynamic_encoding parameter is used for dynamic selection of encode attribute of the inpar value for this single encvalue_unichar call.",
+   "lines": [
+    26242,
+    26244
+   ]
+  },
+  {
+   "id": "C.5.3-s008",
+   "section": "C.5.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The rules for dynamic selection of the encode attribute are described in clause 27.9.",
+   "lines": [
+    26242,
+    26244
+   ]
+  },
+  {
+   "id": "C.5.3-s009",
+   "section": "C.5.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The following values (see ISO/IEC 10646 [2]) are allowed as string_serialization actual parameters (for the description of the UCS encoding scheme see clause 27.5):",
+   "lines": [
+    26246,
+    26247
+   ]
+  },
+  {
+   "id": "C.5.3-s010",
+   "section": "C.5.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "a) \"UTF-8\" b) \"UTF-16\" c) \"UTF-16LE\" d) \"UTF-16BE\" e) \"UTF-32\" f) \"UTF-32LE\" g) \"UTF-32BE\"",
+   "lines": [
+    26249,
+    26261
+   ]
+  },
+  {
+   "id": "C.5.3-s011",
+   "section": "C.5.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The serialized bitstring shall not include the optional signature (see clause 10 of ISO/IEC 10646 [2], also known as byte order mark).",
+   "lines": [
+    26263,
+    26264
+   ]
+  },
+  {
+   "id": "C.5.3-s012",
+   "section": "C.5.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "In case of \"UTF-16\" and \"UTF-32\" big-endian ordering shall be used (as described in clauses 10.4 and 10.7 of ISO/IEC 10646 [2]).",
+   "lines": [
+    26271,
+    26272
+   ]
+  },
+  {
+   "id": "C.5.3-s013",
+   "section": "C.5.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The specific semantics of this function are explained by the following TTCN-3 definition:",
+   "lines": [
+    26274,
+    26274
+   ]
+  },
+  {
+   "id": "C.5.3-s014",
+   "section": "C.5.3",
+   "kind": "code",
+   "context": null,
+   "normative": true,
+   "text": "function encvalue_unichar(in template(value) any inpar,\n                  in charstring enc\n                  in universal charstring encoding_info := \"\",\n                  in universal charstring dynamic_encoding := \"\")\n    return universal charstring {\n     return oct2unichar(bit2oct(encvalue(inpar, encoding_info, dynamic_encoding)), enc);\n  }",
+   "lines": [
+    26275,
+    26282
+   ]
+  },
+  {
+   "id": "C.5.3-s015",
+   "section": "C.5.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The encvalue_unichar function first invokes the encvalue function in order to encode the value passed in the inpar parameter to a bitstring.",
+   "lines": [
+    26284,
+    26289
+   ]
+  },
+  {
+   "id": "C.5.3-s016",
+   "section": "C.5.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The bitstring is then converted to an octetstring by the bit2oct function and subsequently to a universal charstring using the oct2unichar function.",
+   "lines": [
+    26284,
+    26289
+   ]
+  },
+  {
+   "id": "C.5.3-s017",
+   "section": "C.5.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The string_serialization parameter defines how the encoded octets (in fact the encoded bitstring received from the codec) contain the characters.",
+   "lines": [
+    26284,
+    26289
+   ]
+  },
+  {
+   "id": "C.5.3-s018",
+   "section": "C.5.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The universal charstring value is then returned as the result of the encvalue_unichar function.",
+   "lines": [
+    26284,
+    26289
+   ]
+  },
+  {
+   "id": "C.5.3-s019",
+   "section": "C.5.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "In addition to the general error causes in clause 16.1.2, error causes are:",
+   "lines": [
+    26291,
+    26291
+   ]
+  },
+  {
+   "id": "C.5.3-s020",
+   "section": "C.5.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "Encoding fails due to a runtime system problem (i.e. no encoding function exists for the actual type of inpar).",
+   "lines": [
+    26293,
+    26293
+   ]
+  },
+  {
+   "id": "C.5.3-s021",
+   "section": "C.5.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "The given string encoding is not recognized.",
+   "lines": [
+    26295,
+    26295
+   ]
+  },
+  {
+   "id": "C.5.4-s001",
+   "section": "C.5.4",
+   "kind": "code",
+   "context": null,
+   "normative": true,
+   "text": "decvalue_unichar(inout universal charstring encoded_value,\n             out any decoded_value, \n             in charstring string_serialization:= \"UTF-8\",\n             in universal charstring decoding_info := \"\",\n             in universal charstring dynamic_encoding := \"\") \n             return integer",
+   "lines": [
+    26298,
+    26305
+   ]
+  },
+  {
+   "id": "C.5.4-s002",
+   "section": "C.5.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The decvalue_unichar function decodes (part of) a universal charstring into a value.",
+   "lines": [
+    26307,
+    26310
+   ]
+  },
+  {
+   "id": "C.5.4-s003",
+   "section": "C.5.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The test system shall suppose that a prefix of the universal charstring encoded_value represents an encoded instance of the actual type of decoded_value.",
+   "lines": [
+    26307,
+    26310
+   ]
+  },
+  {
+   "id": "C.5.4-s004",
+   "section": "C.5.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The optional decoding_info parameter is used for passing additional decoding information to the codec and, if it is omitted, no additional information is sent to the codec.",
+   "lines": [
+    26307,
+    26310
+   ]
+  },
+  {
+   "id": "C.5.4-s005",
+   "section": "C.5.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The optional dynamic_encoding parameter is used for dynamic selection of encode attribute of the decoded_value parameter for this single decvalue_unichar call.",
+   "lines": [
+    26312,
+    26312
+   ]
+  },
+  {
+   "id": "C.5.4-s006",
+   "section": "C.5.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The rules for dynamic selection of the encode attribute are described in clause 27.9.",
+   "lines": [
+    26312,
+    26312
+   ]
+  },
+  {
+   "id": "C.5.4-s007",
+   "section": "C.5.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "If the decoding was successful, then the characters used for decoding are removed from the parameter encoded_value, the rest is returned (in the parameter encoded_value), and the decoded value is returned in the parameter decoded_value.",
+   "lines": [
+    26314,
+    26314
+   ]
+  },
+  {
+   "id": "C.5.4-s008",
+   "section": "C.5.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "If the decoding was unsuccessful, the actual parameters for encoded_value and decoded_value are not changed.",
+   "lines": [
+    26314,
+    26314
+   ]
+  },
+  {
+   "id": "C.5.4-s009",
+   "section": "C.5.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The function shall return an integer value to indicate success or failure of the decoding below:",
+   "lines": [
+    26314,
+    26314
+   ]
+  },
+  {
+   "id": "C.5.4-s010",
+   "section": "C.5.4",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "The return value 0 indicates that decoding was successful.",
+   "lines": [
+    26316,
+    26316
+   ]
+  },
+  {
+   "id": "C.5.4-s011",
+   "section": "C.5.4",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "The return value 1 indicates an unspecified cause of decoding failure.",
+   "lines": [
+    26318,
+    26318
+   ]
+  },
+  {
+   "id": "C.5.4-s012",
+   "section": "C.5.4",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "This value is also returned if the encoded_value parameter contains an unitialized value.",
+   "lines": [
+    26318,
+    26318
+   ]
+  },
+  {
+   "id": "C.5.4-s013",
+   "section": "C.5.4",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "The return value 2 indicates that decoding could not be completed as encoded_value did not contain enough bits.",
+   "lines": [
+    26320,
+    26321
+   ]
+  },
+  {
+   "id": "C.5.4-s014",
+   "section": "C.5.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "If the optional string_serialization parameter is omitted, the default value \"UTF-8\" is used.",
+   "lines": [
+    26323,
+    26323
+   ]
+  },
+  {
+   "id": "C.5.4-s015",
+   "section": "C.5.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The following values (see ISO/IEC 10646 [2]) are allowed as string_serialization actual parameters (for the description of the UCS encoding scheme see clause 27.5):",
+   "lines": [
+    26325,
+    26326
+   ]
+  },
+  {
+   "id": "C.5.4-s016",
+   "section": "C.5.4",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "a) \"UTF-8\" b) \"UTF-16\" c) \"UTF-16LE\" d) \"UTF-16BE\" e) \"UTF-32\" f) \"UTF-32LE\" g) \"UTF-32BE\"",
+   "lines": [
+    26328,
+    26345
+   ]
+  },
+  {
+   "id": "C.5.4-s017",
+   "section": "C.5.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The serialized bitstring shall not include the optional signature (see clause 10 of ISO/IEC 10646 [2], also known as byte order mark).",
+   "lines": [
+    26347,
+    26348
+   ]
+  },
+  {
+   "id": "C.5.4-s018",
+   "section": "C.5.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "In case of \"UTF-16\" and \"UTF-32\" big-endian ordering shall be used (as described in clauses 10.4 and 10.7 of ISO/IEC 10646 [2]).",
+   "lines": [
+    26350,
+    26351
+   ]
+  },
+  {
+   "id": "C.5.4-s019",
+   "section": "C.5.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The semantics of the function can be explained by the following TTCN-3 function:",
+   "lines": [
+    26353,
+    26353
+   ]
+  },
+  {
+   "id": "C.5.4-s020",
+   "section": "C.5.4",
+   "kind": "code",
+   "context": null,
+   "normative": true,
+   "text": "function decvalue_unichar (inout universal charstring encoded_value,\n                  out any decoded_value, \n                  in charstring string_encoding := \"UTF-8\"\",\n                  in universal charstring decoding_info := \"\",\n                  in universal charstring dynamic_encoding := \"\") return integer {\n    var bitstring v_str = oct2bit(unichar2oct(encoded_value, string_encoding));\n    var integer v_result := decvalue(v_str, decoded_value, decoding_info, dynamic_encoding);\n    if (v_result == 0) { // success\n     encoded_value := oct2unichar(bit2oct(v_str), string_encoding);\n    }\n   return v_result;\n  }",
+   "lines": [
+    26354,
+    26367
+   ]
+  },
+  {
+   "id": "C.5.4-s021",
+   "section": "C.5.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The decvalue_unichar function first converts the universal charstring value passed in the encoded_value parameter into an octetstring using the unichar2oct function.",
+   "lines": [
+    26369,
+    26376
+   ]
+  },
+  {
+   "id": "C.5.4-s022",
+   "section": "C.5.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The string_encoding parameter controls how the characters are converted into octets (in fact how the bitstring sent to the codec contains the characters).",
+   "lines": [
+    26369,
+    26376
+   ]
+  },
+  {
+   "id": "C.5.4-s023",
+   "section": "C.5.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The octetstring is subsequently converted into a bitstring by the oct2bit function.",
+   "lines": [
+    26369,
+    26376
+   ]
+  },
+  {
+   "id": "C.5.4-s024",
+   "section": "C.5.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "This bitstring is then passed as a parameter to the standard decvalue function that performs the actual decoding.",
+   "lines": [
+    26369,
+    26376
+   ]
+  },
+  {
+   "id": "C.5.4-s025",
+   "section": "C.5.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "In case of successful decoding, the undecoded part of the message is automatically converted from bitstring to octetstring by the bit2oct function and then to universal charstring using the oct2unichar function.",
+   "lines": [
+    26369,
+    26376
+   ]
+  },
+  {
+   "id": "C.5.4-s026",
+   "section": "C.5.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "This universal charstring is then assigned to the encoded_value parameter.",
+   "lines": [
+    26369,
+    26376
+   ]
+  },
+  {
+   "id": "C.5.4-s027",
+   "section": "C.5.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The result of decoding is then returned to the TE, finishing the decvalue_unichar call.",
+   "lines": [
+    26369,
+    26376
+   ]
+  },
+  {
+   "id": "C.5.4-s028",
+   "section": "C.5.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The restrictions in clause 16.1.2 apply.",
+   "lines": [
+    26378,
+    26378
+   ]
+  },
+  {
+   "id": "C.5.5-s001",
+   "section": "C.5.5",
+   "kind": "code",
+   "context": null,
+   "normative": true,
+   "text": "encvalue_o(in template (value) any inpar,\n         in universal charstring encoding_info := \"\",\n         in universal charstring dynamic_encoding := \"\",\n         out integer bit_length) return octetstring",
+   "lines": [
+    26381,
+    26386
+   ]
+  },
+  {
+   "id": "C.5.5-s002",
+   "section": "C.5.5",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The encvalue_o function encodes a value or template into an octetstring.",
+   "lines": [
+    26388,
+    26395
+   ]
+  },
+  {
+   "id": "C.5.5-s003",
+   "section": "C.5.5",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "When the actual parameter that is passed to inpar is a template, it shall resolve to a specific value (the same restrictions apply as for the argument of the send statement).",
+   "lines": [
+    26388,
+    26395
+   ]
+  },
+  {
+   "id": "C.5.5-s004",
+   "section": "C.5.5",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The returned octetstring represents the encoded value of inpar, however, the TTCN-3 test system need not make any check on its correctness.",
+   "lines": [
+    26388,
+    26395
+   ]
+  },
+  {
+   "id": "C.5.5-s005",
+   "section": "C.5.5",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "In case the encoded message is not octet-based and has a bit length not divisible by 8, the encoded message will be left-aligned in the returned octetstring and the least significant (8 - (bit length mod 8)) bits in the least significant octet will be 0.",
+   "lines": [
+    26388,
+    26395
+   ]
+  },
+  {
+   "id": "C.5.5-s006",
+   "section": "C.5.5",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The bit length can be assigned to a variable by usage of the formal out parameter bit_length.",
+   "lines": [
+    26388,
+    26395
+   ]
+  },
+  {
+   "id": "C.5.5-s007",
+   "section": "C.5.5",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The optional encoding_info parameter is used for passing additional encoding information to the codec and, if it is omitted, no additional information is sent to the codec.",
+   "lines": [
+    26388,
+    26395
+   ]
+  },
+  {
+   "id": "C.5.5-s008",
+   "section": "C.5.5",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The optional dynamic_encoding parameter is used for dynamic selection of encode attribute of the inpar value for this single encvalue_o call.",
+   "lines": [
+    26397,
+    26398
+   ]
+  },
+  {
+   "id": "C.5.5-s009",
+   "section": "C.5.5",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The rules for dynamic selection of the encode attribute are described in clause 27.9.",
+   "lines": [
+    26397,
+    26398
+   ]
+  },
+  {
+   "id": "C.5.5-s010",
+   "section": "C.5.5",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "In addition to the general error causes in clause 16.1.2, error causes are:",
+   "lines": [
+    26400,
+    26400
+   ]
+  },
+  {
+   "id": "C.5.5-s011",
+   "section": "C.5.5",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "Encoding fails due to a runtime system problem (i.e. no encoding function exists for the actual type of inpar).",
+   "lines": [
+    26402,
+    26402
+   ]
+  },
+  {
+   "id": "C.5.6-s001",
+   "section": "C.5.6",
+   "kind": "code",
+   "context": null,
+   "normative": true,
+   "text": "decvalue_o(inout octetstring encoded_value,\n         out any decoded_value,\n         in universal charstring decoding_info := \"\",\n         in universal charstring dynamic_encoding := \"\") return integer",
+   "lines": [
+    26410,
+    26415
+   ]
+  },
+  {
+   "id": "C.5.6-s002",
+   "section": "C.5.6",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The decvalue_o function decodes an octetstring into a value.",
+   "lines": [
+    26417,
+    26419
+   ]
+  },
+  {
+   "id": "C.5.6-s003",
+   "section": "C.5.6",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The test system shall suppose that the octetstring encoded_value represents an encoded instance of the actual type of decoded_value.",
+   "lines": [
+    26417,
+    26419
+   ]
+  },
+  {
+   "id": "C.5.6-s004",
+   "section": "C.5.6",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The optional decoding_info parameter is used for passing additional decoding information to the codec and, if it is omitted, no additional information is sent to the codec.",
+   "lines": [
+    26417,
+    26419
+   ]
+  },
+  {
+   "id": "C.5.6-s005",
+   "section": "C.5.6",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The optional dynamic_encoding parameter is used for dynamic selection of encode attribute of the decoded_value parameter for this single decvalue_o call.",
+   "lines": [
+    26421,
+    26421
+   ]
+  },
+  {
+   "id": "C.5.6-s006",
+   "section": "C.5.6",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The rules for dynamic selection of the encode attribute are described in clause 27.9.",
+   "lines": [
+    26421,
+    26421
+   ]
+  },
+  {
+   "id": "C.5.6-s007",
+   "section": "C.5.6",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "If the decoding was successful, then the used octets are removed from the parameter encoded_value, the rest is returned (in the parameter encoded_value), and the decoded value is returned in the parameter decoded_value.",
+   "lines": [
+    26423,
+    26426
+   ]
+  },
+  {
+   "id": "C.5.6-s008",
+   "section": "C.5.6",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "If the decoding was unsuccessful, the actual parameters for encoded_value and decoded_value are not changed.",
+   "lines": [
+    26423,
+    26426
+   ]
+  },
+  {
+   "id": "C.5.6-s009",
+   "section": "C.5.6",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The function shall return an integer value to indicate success or failure of the decoding below:",
+   "lines": [
+    26423,
+    26426
+   ]
+  },
+  {
+   "id": "C.5.6-s010",
+   "section": "C.5.6",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "The return value 0 indicates that decoding was successful.",
+   "lines": [
+    26428,
+    26428
+   ]
+  },
+  {
+   "id": "C.5.6-s011",
+   "section": "C.5.6",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "The return value 1 indicates an unspecified cause of decoding failure.",
+   "lines": [
+    26430,
+    26430
+   ]
+  },
+  {
+   "id": "C.5.6-s012",
+   "section": "C.5.6",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "This value is also returned if the encoded_value parameter contains an unitialized value.",
+   "lines": [
+    26430,
+    26430
+   ]
+  },
+  {
+   "id": "C.5.6-s013",
+   "section": "C.5.6",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "The return value 2 indicates that decoding could not be completed as encoded_value did not contain enough octets.",
+   "lines": [
+    26432,
+    26433
+   ]
+  },
+  {
+   "id": "C.5.6-s014",
+   "section": "C.5.6",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The restrictions in clause 16.1.2 apply.",
+   "lines": [
+    26435,
+    26435
+   ]
+  },
+  {
+   "id": "C.5.7-s001",
+   "section": "C.5.7",
+   "kind": "code",
+   "context": null,
+   "normative": true,
+   "text": "get_stringencoding(in octetstring encoded_value) return charstring",
+   "lines": [
+    26438,
+    26440
+   ]
+  },
+  {
+   "id": "C.5.7-s002",
+   "section": "C.5.7",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The get_stringencoding function analyses the encoded_value and returns the UCS encoding scheme according to clause 10 of ISO/IEC 10646 [2] (see also clause 27.5 of the present document).",
+   "lines": [
+    26442,
+    26444
+   ]
+  },
+  {
+   "id": "C.5.7-s003",
+   "section": "C.5.7",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The identified encoding scheme, or the value \"<unknown>\", if the type of encoding cannot be determined unanimously, shall be returned as a character string.",
+   "lines": [
+    26442,
+    26444
+   ]
+  },
+  {
+   "id": "C.5.7-s004",
+   "section": "C.5.7",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "NOTE: The initial octet sequence (also known as byte order mark, BOM), when present, allows identifying the encoding scheme unanimously.",
+   "lines": [
+    26446,
+    26449
+   ]
+  },
+  {
+   "id": "C.5.7-s005",
+   "section": "C.5.7",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "When it is not present, other symptoms may be used to identify the encoding scheme unanimously; for example, only UTF-8 may have odd number of octets and bit distribution according to table 2 of clause 9.1 of ISO/IEC 10646 [2].",
+   "lines": [
+    26446,
+    26449
+   ]
+  },
+  {
+   "id": "C.5.7-s006",
+   "section": "C.5.7",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE:",
+   "lines": [
+    26451,
+    26451
+   ]
+  },
+  {
+   "id": "C.5.7-s007",
+   "section": "C.5.7",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "match ( get_stringencoding('6869C3BA7A'O),charstring:\"UTF-8\") // true\n  //(the octetstring contains the UTF-8 encoding of the character sequence \"hiúz\")",
+   "lines": [
+    26452,
+    26455
+   ]
+  },
+  {
+   "id": "C.5.8-s001",
+   "section": "C.5.8",
+   "kind": "code",
+   "context": null,
+   "normative": true,
+   "text": "remove_bom(in octetstring encoded_value) return octetstring",
+   "lines": [
+    26458,
+    26460
+   ]
+  },
+  {
+   "id": "C.5.8-s002",
+   "section": "C.5.8",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The remove_bom function removes the optional FEFF ZERO WIDTH NO-BREAK SPACE sequence that may be present at the beginning of a stream of serialized (encoded) universal character strings to indicate the order of the octets within the encoding form, as defined in clause 10 of ISO/IEC 10646 [2].",
+   "lines": [
+    26462,
+    26466
+   ]
+  },
+  {
+   "id": "C.5.8-s003",
+   "section": "C.5.8",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "If no FEFF ZERO WIDTH NO-BREAK SPACE sequence present in the encoded_value parameter, the function shall return the value of the parameter without change.",
+   "lines": [
+    26462,
+    26466
+   ]
+  },
+  {
+   "id": "C.5.8-s004",
+   "section": "C.5.8",
+   "kind": "caption",
+   "context": null,
+   "normative": false,
+   "text": "Table C.2: Overview of initial octet sequences used for BOM",
+   "lines": [
+    26473,
+    26473
+   ]
+  },
+  {
+   "id": "C.5.8-s005",
+   "section": "C.5.8",
+   "kind": "table-text",
+   "context": null,
+   "normative": true,
+   "text": "**Coding scheme** **initial octet sequence** **comments** UTF-8 EF BB BF signature not required / no effect UTF-16BE FE FF no signature meaning UTF-16LE FF FE no signature meaning",
+   "lines": [
+    26475,
+    26478
+   ]
+  },
+  {
+   "id": "C.5.8-s006",
+   "section": "C.5.8",
+   "kind": "table-text",
+   "context": null,
+   "normative": true,
+   "text": "FE FF signature UTF-16 FF FE (default FE FF) UTF-32BE 00 00 FE FF no signature meaning UTF-32LE FF FE 00 00 no signature meaning",
+   "lines": [
+    26480,
+    26484
+   ]
+  },
+  {
+   "id": "C.5.8-s007",
+   "section": "C.5.8",
+   "kind": "table-text",
+   "context": null,
+   "normative": true,
+   "text": "00 00 FE FF signature UTF-32 FF FE 00 00 (default 00 00 FE FF)",
+   "lines": [
+    26486,
+    26488
+   ]
+  },
+  {
+   "id": "C.5.8-s008",
+   "section": "C.5.8",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE:",
+   "lines": [
+    26490,
+    26490
+   ]
+  },
+  {
+   "id": "C.5.8-s009",
+   "section": "C.5.8",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "remove_bom('FEFF0068006900FA007A'O) // returns '0068006900FA007A'O\nremove_bom('BC'O) ) // returns 'BC'O\n// note that this octetstring doesn't contain valid UCS character\n//example use: automatic decoding of encoded character strings:\noct2unichar(remove_bom(v_myEncodedCharacterSequence),\n       get_stringencoding(v_myEncodedCharacterSequence))",
+   "lines": [
+    26491,
+    26498
+   ]
+  }
+ ]
+}

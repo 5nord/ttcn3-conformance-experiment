@@ -1,0 +1,20 @@
+// @requirement: A.1.6.4.2 -- It shall evaluate to a value or template (literal or template instance) conforming to the template(value) restriction.
+// @id: TTCN3-CORE-A.1.6.4.2-001b
+// @verdict: pass reject
+module M_A_01_06_04_02_test_002 {
+
+    signature S() return integer;
+
+    type port P procedure {
+        inout S
+    }
+
+    type component C {
+        port P p;
+    }
+
+    function f_server() runs on C {
+        p.getcall(S:{});
+        p.reply(S:{} value ?); // error: reply value does not conform to template(value)
+    }
+}

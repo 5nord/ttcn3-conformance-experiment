@@ -1,0 +1,44 @@
+// @requirement: 16.2.1 -- An unsuccessful termination of the altstep (i.e. all top alternatives of the altstep have been checked and no matching branch is found) causes the evaluation of the next alternative or invocation of the default mechanism (if the explicit call is the last alternative of the alt statement).
+// @id: TTCN3-CORE-16.2.1-010b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_16_02_01_test_011 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p;
+        timer T;
+    }
+
+    altstep a_step() runs on C {
+        [] p.receive(integer:2) {
+            setverdict(fail);
+        }
+    }
+
+    altstep a_def() runs on C {
+        [] p.receive(integer:1) {
+            setverdict(pass);
+        }
+    }
+
+    testcase TC() runs on C {
+        connect(self:p, self:p);
+        var default v_def := activate(a_def());
+        p.send(1);
+        T.start(1.0);
+        alt {
+            [] T.timeout {
+                setverdict(fail);
+            }
+            [] a_step();
+        }
+        deactivate(v_def);
+    }
+
+    control {
+        execute(TC());
+    }
+}

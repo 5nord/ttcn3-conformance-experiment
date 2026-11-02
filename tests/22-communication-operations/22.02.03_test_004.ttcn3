@@ -1,0 +1,31 @@
+// @requirement: 22.2.3 -- If that top message meets the matching criteria, the trigger operation behaves in the same manner as a receive operation.
+// @id: TTCN3-CORE-22.2.3-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_02_03_test_004 {
+
+    type port P message { inout integer }
+
+    type component C {
+        port P p;
+        port P q;
+        timer T := 1.0;
+    }
+
+    testcase TC() runs on C {
+        var integer v_x;
+        var C v_sender;
+        connect(mtc:p, mtc:q);
+        q.send(5);
+        T.start;
+        alt {
+            [] p.trigger(integer:5) -> value v_x sender v_sender {
+                if (v_x == 5 and v_sender == mtc) { setverdict(pass); } else { setverdict(fail); }
+            }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

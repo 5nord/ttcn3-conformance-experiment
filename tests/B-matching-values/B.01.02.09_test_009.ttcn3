@@ -1,0 +1,16 @@
+// @requirement: B.1.2.9 -- c) The optional encoding format parameter can be used only for fields of r universal `charstring types.` The parameter value shall be of the charstring type and it shall contain one of the strings allowed for the decvalue_unichar predefined function (specified in clause C.5.4).
+// @id: TTCN3-CORE-B.1.2.9-007b
+// @verdict: pass reject
+module M_B_01_02_09_test_009 {
+
+    type component C {}
+
+    type integer Payload with { encode "JSON" }
+
+    type record Msg {
+        integer id,
+        universal charstring payload
+    }
+
+    template Msg mw_msg := { id := ?, payload := decmatch (8) Payload:? }; // error: encoding format is not of charstring type
+}

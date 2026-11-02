@@ -1,0 +1,47 @@
+// @requirement: 22.3.2 -- k) If a variable referenced in the param, sender or @index clause is a lazy or fuzzy variable, the expression assigned to this variable is equal to the result produced by the getcall operation, i.e. later evaluation of the lazy or fuzzy variable does not lead to repeated invocation of the getcall operation.
+// @id: TTCN3-CORE-22.3.2-047a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_03_02_test_045 {
+
+    signature S(in integer p_x) noblock;
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    altstep a_guard() runs on C {
+        [] T.timeout { setverdict(fail); stop; }
+    }
+
+    function f_client() runs on C {
+        p.call(S:{1});
+        p.call(S:{2});
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        var @lazy integer v_lazy;
+        var @fuzzy C v_fuzzy;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_client());
+        activate(a_guard());
+        T.start;
+        p.getcall(S:{?}) -> param(v_lazy) sender v_fuzzy;
+        p.check(getcall(S:{2}));
+        if (v_lazy == 1 and v_lazy == 1 and v_fuzzy == v_ptc and v_fuzzy == v_ptc) {
+            alt {
+                [] p.getcall(S:{2}) { setverdict(pass); } // the second call is still queued
+                [else] { setverdict(fail); }
+            }
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,1410 @@
+{
+ "part": "08.part2",
+ "chapter": "8",
+ "chapter_file": "08-modules",
+ "title": "Modules",
+ "sections": {
+  "8.2.3.1": {
+   "title": "General format of import",
+   "start": 8409
+  }
+ },
+ "lines": [
+  8411,
+  8902
+ ],
+ "units": [
+  {
+   "id": "8.2.3.1-s001",
+   "section": "8.2.3.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "An import statement can be used anywhere in the module definitions part.",
+   "lines": [
+    8411,
+    8411
+   ]
+  },
+  {
+   "id": "8.2.3.1-s002",
+   "section": "8.2.3.1",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "[ Visibility ] import from ModuleId [-> LocalModuleName]\n     ( \n       ( all [ except \"{\" ExceptSpec \"}\" ] ) \n       |\n       ( \"{\" ImportSpec \"}\" )\n     )\n  [ \";\" ]",
+   "lines": [
+    8414,
+    8422
+   ]
+  },
+  {
+   "id": "8.2.3.1-s003",
+   "section": "8.2.3.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "TTCN-3 supports the import of the following definitions: module parameters, user defined types, signatures, constants, data templates, signature templates, functions, external functions, altsteps and test cases.",
+   "lines": [
+    8426,
+    8431
+   ]
+  },
+  {
+   "id": "8.2.3.1-s004",
+   "section": "8.2.3.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Each definition has a name (defines the identifier of the definition, e.g. a function name), a specification (e.g. a type specification or a signature of a function) and in the case of functions, altsteps and test cases an associated behaviour description.",
+   "lines": [
+    8426,
+    8431
+   ]
+  },
+  {
+   "id": "8.2.3.1-s005",
+   "section": "8.2.3.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "In addition, import statements of one module can be explicitly imported by another module (see clause 8.2.3.7).",
+   "lines": [
+    8426,
+    8431
+   ]
+  },
+  {
+   "id": "8.2.3.1-s006",
+   "section": "8.2.3.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Only definitions or import statements visible from the importing module can be imported (see clause 8.2.5).",
+   "lines": [
+    8426,
+    8431
+   ]
+  },
+  {
+   "id": "8.2.3.1-s007",
+   "section": "8.2.3.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "In contrast to module definitions, which are by default public, import statements are by default private.",
+   "lines": [
+    8433,
+    8433
+   ]
+  },
+  {
+   "id": "8.2.3.1-s008",
+   "section": "8.2.3.1",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 1a:",
+   "lines": [
+    8437,
+    8437
+   ]
+  },
+  {
+   "id": "8.2.3.1-s009",
+   "section": "8.2.3.1",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "{\n const MyType3 c_myConst := …;\n : // further behaviour\n}",
+   "lines": [
+    8439,
+    8444
+   ]
+  },
+  {
+   "id": "8.2.3.1-s010",
+   "section": "8.2.3.1",
+   "kind": "table-row",
+   "context": "Examples",
+   "normative": true,
+   "text": "Col1: function; Name: f_myFunction; Specification: (inout MyType1 p_myPar) return MyType2 runs on MyCompType; Behaviour description: { const MyType3 c_myConst := …; : // further behaviour }",
+   "lines": [
+    8448,
+    8448
+   ]
+  },
+  {
+   "id": "8.2.3.1-s011",
+   "section": "8.2.3.1",
+   "kind": "table-header",
+   "context": "Examples",
+   "normative": true,
+   "text": "Col1; Name; Specification; Behaviour description",
+   "lines": [
+    8446,
+    8446
+   ]
+  },
+  {
+   "id": "8.2.3.1-s012",
+   "section": "8.2.3.1",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "MyType4 field1,\n integer field2 \n}",
+   "lines": [
+    8450,
+    8454
+   ]
+  },
+  {
+   "id": "8.2.3.1-s013",
+   "section": "8.2.3.1",
+   "kind": "table-row",
+   "context": "Examples",
+   "normative": true,
+   "text": "Col1: type; Specification: record; Name: MyRecordType; Specification: { MyType4 field1, integer field2 }",
+   "lines": [
+    8458,
+    8458
+   ]
+  },
+  {
+   "id": "8.2.3.1-s014",
+   "section": "8.2.3.1",
+   "kind": "table-header",
+   "context": "Examples",
+   "normative": true,
+   "text": "Col1; Specification; Name; Specification",
+   "lines": [
+    8456,
+    8456
+   ]
+  },
+  {
+   "id": "8.2.3.1-s015",
+   "section": "8.2.3.1",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "field1 := 1,\n field2 := c_myConst, // c_myConst is a module constant\n field3 := PX_ModulePar // PX_ModulePar is module parameter\n}",
+   "lines": [
+    8465,
+    8470
+   ]
+  },
+  {
+   "id": "8.2.3.1-s016",
+   "section": "8.2.3.1",
+   "kind": "table-row",
+   "context": "Examples",
+   "normative": true,
+   "text": "Col1: template; Specification: MyType5; Name: m_myTemplate; Specification: := { field1 := 1, field2 := c_myConst, // c_myConst is a module constant field3 := PX_ModulePar // PX_ModulePar is module parameter }",
+   "lines": [
+    8474,
+    8474
+   ]
+  },
+  {
+   "id": "8.2.3.1-s017",
+   "section": "8.2.3.1",
+   "kind": "table-header",
+   "context": "Examples",
+   "normative": true,
+   "text": "Col1; Specification; Name; Specification",
+   "lines": [
+    8472,
+    8472
+   ]
+  },
+  {
+   "id": "8.2.3.1-s018",
+   "section": "8.2.3.1",
+   "kind": "prose",
+   "context": "Examples",
+   "normative": true,
+   "text": "Behaviour descriptions have no effect on the import mechanism, because their internals are considered to be invisible to the importer when the corresponding functions, altsteps or test cases are imported.",
+   "lines": [
+    8477,
+    8479
+   ]
+  },
+  {
+   "id": "8.2.3.1-s019",
+   "section": "8.2.3.1",
+   "kind": "prose",
+   "context": "Examples",
+   "normative": true,
+   "text": "Thus, they are not considered in the following descriptions.",
+   "lines": [
+    8477,
+    8479
+   ]
+  },
+  {
+   "id": "8.2.3.1-s020",
+   "section": "8.2.3.1",
+   "kind": "prose",
+   "context": "Examples",
+   "normative": true,
+   "text": "The specification part of an importable definition contains local definitions (e.g. field names of structured type definitions or values of enumerated types) and referenced definitions (e.g. references to type definitions, templates, constants or module parameters).",
+   "lines": [
+    8481,
+    8483
+   ]
+  },
+  {
+   "id": "8.2.3.1-s021",
+   "section": "8.2.3.1",
+   "kind": "prose",
+   "context": "Examples",
+   "normative": true,
+   "text": "For the examples above, this means:",
+   "lines": [
+    8481,
+    8483
+   ]
+  },
+  {
+   "id": "8.2.3.1-s022",
+   "section": "8.2.3.1",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "**Name** **Local definitions** **Referenced definitions** `function` f_myFunction p_myPar MyType1, MyType2, MyCompType `type` MyRecordType field1, field2 MyType4, integer `template` m_myTemplate MyType5, field1, field2, field3, c_myConst, PX_ModulePar",
+   "lines": [
+    8485,
+    8488
+   ]
+  },
+  {
+   "id": "8.2.3.1-s023",
+   "section": "8.2.3.1",
+   "kind": "note",
+   "context": "Examples",
+   "normative": false,
+   "text": "NOTE 1: The local definitions column refers to identifiers only that are newly defined in the importable definition.",
+   "lines": [
+    8490,
+    8492
+   ]
+  },
+  {
+   "id": "8.2.3.1-s024",
+   "section": "8.2.3.1",
+   "kind": "note",
+   "context": "Examples",
+   "normative": false,
+   "text": "Values assigned to individual fields of importable definitions, e.g. in template definitions, may also be considered as local definitions, but they are not important for the explanation of the import mechanism.",
+   "lines": [
+    8490,
+    8492
+   ]
+  },
+  {
+   "id": "8.2.3.1-s025",
+   "section": "8.2.3.1",
+   "kind": "note",
+   "context": "Examples",
+   "normative": false,
+   "text": "NOTE 2: The referenced definitions field1, field2 and field3 of template MyTemplate are the field names of MyType5, i.e. they are referenced via MyType5.",
+   "lines": [
+    8494,
+    8495
+   ]
+  },
+  {
+   "id": "8.2.3.1-s026",
+   "section": "8.2.3.1",
+   "kind": "prose",
+   "context": "Examples",
+   "normative": true,
+   "text": "Referenced definitions are also importable definitions, i.e. the source of a referenced definition can again be structured into a name and a specification part and the specification part also contains local and referenced definitions.",
+   "lines": [
+    8497,
+    8499
+   ]
+  },
+  {
+   "id": "8.2.3.1-s027",
+   "section": "8.2.3.1",
+   "kind": "prose",
+   "context": "Examples",
+   "normative": true,
+   "text": "In other words, an importable definition may be built up recursively from other importable definitions.",
+   "lines": [
+    8497,
+    8499
+   ]
+  },
+  {
+   "id": "8.2.3.1-s028",
+   "section": "8.2.3.1",
+   "kind": "prose",
+   "context": "Examples",
+   "normative": true,
+   "text": "The TTCN-3 import mechanism is related to the local and referenced definitions used in the specification part of the importable definitions.",
+   "lines": [
+    8501,
+    8502
+   ]
+  },
+  {
+   "id": "8.2.3.1-s029",
+   "section": "8.2.3.1",
+   "kind": "prose",
+   "context": "Examples",
+   "normative": true,
+   "text": "Table 8 specifies the possible local and referenced definitions of importable definitions.",
+   "lines": [
+    8501,
+    8502
+   ]
+  },
+  {
+   "id": "8.2.3.1-s030",
+   "section": "8.2.3.1",
+   "kind": "caption",
+   "context": "Examples",
+   "normative": false,
+   "text": "Table 8: Possible local and referenced definitions of importable definitions",
+   "lines": [
+    8504,
+    8504
+   ]
+  },
+  {
+   "id": "8.2.3.1-s031",
+   "section": "8.2.3.1",
+   "kind": "table-text",
+   "context": "Examples",
+   "normative": true,
+   "text": "**Importable Definition** **Possible Local Definitions** **Possible Referenced Definitions** Module parameter Module parameter type User-defined type (for all)",
+   "lines": [
+    8506,
+    8508
+   ]
+  },
+  {
+   "id": "8.2.3.1-s032",
+   "section": "8.2.3.1",
+   "kind": "table-text",
+   "context": "Examples",
+   "normative": true,
+   "text": "- enumerated type Concrete values",
+   "lines": [
+    8510,
+    8510
+   ]
+  },
+  {
+   "id": "8.2.3.1-s033",
+   "section": "8.2.3.1",
+   "kind": "table-text",
+   "context": "Examples",
+   "normative": true,
+   "text": "- structured type Field names, nested type Field types definitions",
+   "lines": [
+    8512,
+    8513
+   ]
+  },
+  {
+   "id": "8.2.3.1-s034",
+   "section": "8.2.3.1",
+   "kind": "table-text",
+   "context": "Examples",
+   "normative": true,
+   "text": "- port type Message types, signatures",
+   "lines": [
+    8515,
+    8515
+   ]
+  },
+  {
+   "id": "8.2.3.1-s035",
+   "section": "8.2.3.1",
+   "kind": "table-text",
+   "context": "Examples",
+   "normative": true,
+   "text": "- component type Constant names, variable names, Constant types, variable types, port types timer names and port names",
+   "lines": [
+    8517,
+    8518
+   ]
+  },
+  {
+   "id": "8.2.3.1-s036",
+   "section": "8.2.3.1",
+   "kind": "table-text",
+   "context": "Examples",
+   "normative": true,
+   "text": "Signature Parameter names Parameter types, return type, types of exceptions Constant Constant type Data Template Parameter names Template type, parameter types, constants, module parameters, functions Signature template Signature definition, constants, module parameters functions Function Parameter names Parameter types, return type, component type (runs on clause) External function Parameter names Parameter types, return type Altstep Parameter names Parameter types, component type (runs on clause)",
+   "lines": [
+    8520,
+    8529
+   ]
+  },
+  {
+   "id": "8.2.3.1-s037",
+   "section": "8.2.3.1",
+   "kind": "table-text",
+   "context": "Examples",
+   "normative": true,
+   "text": "Test case Parameter names Parameter types, component types (runs on- and system clause)",
+   "lines": [
+    8531,
+    8531
+   ]
+  },
+  {
+   "id": "8.2.3.1-s038",
+   "section": "8.2.3.1",
+   "kind": "note",
+   "context": "Examples",
+   "normative": false,
+   "text": "NOTE 1: For the import of import statements see clause 8.2.3.7.",
+   "lines": [
+    8533,
+    8533
+   ]
+  },
+  {
+   "id": "8.2.3.1-s039",
+   "section": "8.2.3.1",
+   "kind": "note",
+   "context": "Examples",
+   "normative": false,
+   "text": "NOTE 2: For the import of groups see clause 8.2.3.3.",
+   "lines": [
+    8534,
+    8534
+   ]
+  },
+  {
+   "id": "8.2.3.1-s040",
+   "section": "8.2.3.1",
+   "kind": "table-row",
+   "context": "Examples",
+   "normative": true,
+   "text": "Col1: function; Name: f_myFunction; Local definitions: p_myPar; Referenced definitions: MyType1, MyType2, MyCompType",
+   "lines": [
+    8538,
+    8538
+   ]
+  },
+  {
+   "id": "8.2.3.1-s041",
+   "section": "8.2.3.1",
+   "kind": "table-row",
+   "context": "Examples",
+   "normative": true,
+   "text": "Col1: type; Name: MyRecordType; Local definitions: field1, field2; Referenced definitions: MyType4, integer",
+   "lines": [
+    8539,
+    8539
+   ]
+  },
+  {
+   "id": "8.2.3.1-s042",
+   "section": "8.2.3.1",
+   "kind": "table-row",
+   "context": "Examples",
+   "normative": true,
+   "text": "Col1: template; Name: m_myTemplate; Referenced definitions: MyType5, field1, field2, field3, c_myConst, PX_ModulePar",
+   "lines": [
+    8540,
+    8540
+   ]
+  },
+  {
+   "id": "8.2.3.1-s043",
+   "section": "8.2.3.1",
+   "kind": "table-header",
+   "context": "Examples",
+   "normative": true,
+   "text": "Col1; Name; Local definitions; Referenced definitions",
+   "lines": [
+    8536,
+    8536
+   ]
+  },
+  {
+   "id": "8.2.3.1-s044",
+   "section": "8.2.3.1",
+   "kind": "table-row",
+   "context": "Examples",
+   "normative": true,
+   "text": "Importable Definition: Module parameter; Possible Referenced Definitions: Module parameter type",
+   "lines": [
+    8544,
+    8544
+   ]
+  },
+  {
+   "id": "8.2.3.1-s045",
+   "section": "8.2.3.1",
+   "kind": "table-row",
+   "context": "Examples",
+   "normative": true,
+   "text": "Importable Definition: User-defined type (for all)",
+   "lines": [
+    8545,
+    8545
+   ]
+  },
+  {
+   "id": "8.2.3.1-s046",
+   "section": "8.2.3.1",
+   "kind": "table-row",
+   "context": "Examples",
+   "normative": true,
+   "text": "Importable Definition: • enumerated type; Possible Local Definitions: Concrete values",
+   "lines": [
+    8546,
+    8546
+   ]
+  },
+  {
+   "id": "8.2.3.1-s047",
+   "section": "8.2.3.1",
+   "kind": "table-row",
+   "context": "Examples",
+   "normative": true,
+   "text": "Importable Definition: • structured type; Possible Local Definitions: Field names, nested type definitions; Possible Referenced Definitions: Field types",
+   "lines": [
+    8547,
+    8547
+   ]
+  },
+  {
+   "id": "8.2.3.1-s048",
+   "section": "8.2.3.1",
+   "kind": "table-row",
+   "context": "Examples",
+   "normative": true,
+   "text": "Importable Definition: • port type; Possible Referenced Definitions: Message types, signatures",
+   "lines": [
+    8548,
+    8548
+   ]
+  },
+  {
+   "id": "8.2.3.1-s049",
+   "section": "8.2.3.1",
+   "kind": "table-row",
+   "context": "Examples",
+   "normative": true,
+   "text": "Importable Definition: • component type; Possible Local Definitions: Constant names, variable names, timer names and port names; Possible Referenced Definitions: Constant types, variable types, port types",
+   "lines": [
+    8549,
+    8549
+   ]
+  },
+  {
+   "id": "8.2.3.1-s050",
+   "section": "8.2.3.1",
+   "kind": "table-row",
+   "context": "Examples",
+   "normative": true,
+   "text": "Importable Definition: Signature; Possible Local Definitions: Parameter names; Possible Referenced Definitions: Parameter types, return type, types of exceptions",
+   "lines": [
+    8550,
+    8550
+   ]
+  },
+  {
+   "id": "8.2.3.1-s051",
+   "section": "8.2.3.1",
+   "kind": "table-row",
+   "context": "Examples",
+   "normative": true,
+   "text": "Importable Definition: Constant; Possible Referenced Definitions: Constant type",
+   "lines": [
+    8551,
+    8551
+   ]
+  },
+  {
+   "id": "8.2.3.1-s052",
+   "section": "8.2.3.1",
+   "kind": "table-row",
+   "context": "Examples",
+   "normative": true,
+   "text": "Importable Definition: Data Template; Possible Local Definitions: Parameter names; Possible Referenced Definitions: Template type, parameter types, constants, module parameters, functions",
+   "lines": [
+    8552,
+    8552
+   ]
+  },
+  {
+   "id": "8.2.3.1-s053",
+   "section": "8.2.3.1",
+   "kind": "table-row",
+   "context": "Examples",
+   "normative": true,
+   "text": "Importable Definition: Signature template; Possible Referenced Definitions: Signature definition, constants, module parameters functions",
+   "lines": [
+    8553,
+    8553
+   ]
+  },
+  {
+   "id": "8.2.3.1-s054",
+   "section": "8.2.3.1",
+   "kind": "table-row",
+   "context": "Examples",
+   "normative": true,
+   "text": "Importable Definition: Function; Possible Local Definitions: Parameter names; Possible Referenced Definitions: Parameter types, return type, component type (runs on clause)",
+   "lines": [
+    8554,
+    8554
+   ]
+  },
+  {
+   "id": "8.2.3.1-s055",
+   "section": "8.2.3.1",
+   "kind": "table-row",
+   "context": "Examples",
+   "normative": true,
+   "text": "Importable Definition: External function; Possible Local Definitions: Parameter names; Possible Referenced Definitions: Parameter types, return type",
+   "lines": [
+    8555,
+    8555
+   ]
+  },
+  {
+   "id": "8.2.3.1-s056",
+   "section": "8.2.3.1",
+   "kind": "table-row",
+   "context": "Examples",
+   "normative": true,
+   "text": "Importable Definition: Altstep; Possible Local Definitions: Parameter names; Possible Referenced Definitions: Parameter types, component type (runs on clause)",
+   "lines": [
+    8556,
+    8556
+   ]
+  },
+  {
+   "id": "8.2.3.1-s057",
+   "section": "8.2.3.1",
+   "kind": "table-row",
+   "context": "Examples",
+   "normative": true,
+   "text": "Importable Definition: Test case; Possible Local Definitions: Parameter names; Possible Referenced Definitions: Parameter types, component types (runs on- and system clause)",
+   "lines": [
+    8557,
+    8557
+   ]
+  },
+  {
+   "id": "8.2.3.1-s058",
+   "section": "8.2.3.1",
+   "kind": "note",
+   "context": "Examples",
+   "normative": false,
+   "text": "NOTE 1: For the import of import statements see clause 8.2.3.7.",
+   "lines": [
+    8558,
+    8558
+   ]
+  },
+  {
+   "id": "8.2.3.1-s059",
+   "section": "8.2.3.1",
+   "kind": "note",
+   "context": "Examples",
+   "normative": false,
+   "text": "NOTE 2: For the import of groups see clause 8.2.3.3.",
+   "lines": [
+    8558,
+    8558
+   ]
+  },
+  {
+   "id": "8.2.3.1-s060",
+   "section": "8.2.3.1",
+   "kind": "table-header",
+   "context": "Examples",
+   "normative": true,
+   "text": "Importable Definition; Possible Local Definitions; Possible Referenced Definitions",
+   "lines": [
+    8542,
+    8542
+   ]
+  },
+  {
+   "id": "8.2.3.1-s061",
+   "section": "8.2.3.1",
+   "kind": "prose",
+   "context": "Examples",
+   "normative": true,
+   "text": "The TTCN-3 import mechanism distinguishes between the identifier of a referenced definition and the information _necessary for the usage of a referenced definition within the imported definition.",
+   "lines": [
+    8565,
+    8567
+   ]
+  },
+  {
+   "id": "8.2.3.1-s062",
+   "section": "8.2.3.1",
+   "kind": "prose",
+   "context": "Examples",
+   "normative": true,
+   "text": "For the usage, the identifier of a_ referenced definition is not required and therefore not imported automatically.",
+   "lines": [
+    8565,
+    8567
+   ]
+  },
+  {
+   "id": "8.2.3.1-s063",
+   "section": "8.2.3.1",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 1b: Differentiation between information necessary for the usage and the identifier",
+   "lines": [
+    8569,
+    8569
+   ]
+  },
+  {
+   "id": "8.2.3.1-s064",
+   "section": "8.2.3.1",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "module A {\n    type record MyRec1 {\n     integer field1,\n     charstring field2\n   }\n  }\n  module B {\n    import from A all;\n    type record MyRec2 {\n    MyRec1 myField1,\n     // \"myField1\" is the local definition, \"MyRec1\" is a referenced definition;\n     // the name \"MyRec1\" shall be imported in this case as is directly referenced\n     boolean myField2\n   }\n  }\n  module C {\n    import from B all;\n    const MyRec2 c_myRec2 := {\n    myField1 := { field1 := 5, field2 := \"A\" },\n     // to define myField1 of MyRec2 the name \"MyRec1\" is not needed, the\n     // information necessary for the usage is its type information,\n     // i.e. names and types of its fields field1 and field2 \n      // which is embeddded in the imported definition of MyRec2\n    myField2 := true\n   }\n  }",
+   "lines": [
+    8570,
+    8597
+   ]
+  },
+  {
+   "id": "8.2.3.1-s065",
+   "section": "8.2.3.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "If an imported definition has attributes (defined by means of a with statement) then the attributes shall also be imported.",
+   "lines": [
+    8599,
+    8600
+   ]
+  },
+  {
+   "id": "8.2.3.1-s066",
+   "section": "8.2.3.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The mechanism to change attributes of imported definitions is explained in clause 27.1.3.",
+   "lines": [
+    8599,
+    8600
+   ]
+  },
+  {
+   "id": "8.2.3.1-s067",
+   "section": "8.2.3.1",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "NOTE 3: If the module has global attributes they are associated to definitions without these attributes.",
+   "lines": [
+    8602,
+    8602
+   ]
+  },
+  {
+   "id": "8.2.3.1-s068",
+   "section": "8.2.3.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The use of import on single definitions, groups of definitions, definitions of the same kind, etc. may lead to situations where the same definition is referred to more than once.",
+   "lines": [
+    8604,
+    8606
+   ]
+  },
+  {
+   "id": "8.2.3.1-s069",
+   "section": "8.2.3.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Such cases shall be resolved by the system and definitions shall be imported only once.",
+   "lines": [
+    8604,
+    8606
+   ]
+  },
+  {
+   "id": "8.2.3.1-s070",
+   "section": "8.2.3.1",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "NOTE 4: The mechanisms to resolve such ambiguities, e.g. overwriting and sending warnings to the user, are outside the scope of the present document and should be provided by TTCN-3 tools.",
+   "lines": [
+    8608,
+    8609
+   ]
+  },
+  {
+   "id": "8.2.3.1-s071",
+   "section": "8.2.3.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "All import statements and definitions within import statements are considered to be treated independently one after the other in the order of their appearance.",
+   "lines": [
+    8611,
+    8612
+   ]
+  },
+  {
+   "id": "8.2.3.1-s072",
+   "section": "8.2.3.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "All TTCN-3 modules shall have their own name space in which all definitions shall be uniquely identified.",
+   "lines": [
+    8614,
+    8620
+   ]
+  },
+  {
+   "id": "8.2.3.1-s073",
+   "section": "8.2.3.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Name _clashes may occur due to import, e.g. import from different modules.",
+   "lines": [
+    8614,
+    8620
+   ]
+  },
+  {
+   "id": "8.2.3.1-s074",
+   "section": "8.2.3.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Name clashes shall be resolved using qualified_ name(s) for the imported definition(s), i.e. prefixing the imported definition (which causes the name clash) by the identifier of the module in which it has been defined; the prefix and the identifier shall be separated by a dot (\".\").",
+   "lines": [
+    8614,
+    8620
+   ]
+  },
+  {
+   "id": "8.2.3.1-s075",
+   "section": "8.2.3.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "If the type of the component referenced in a connection operation is known (either when the component reference is a variable or value returned from a function or the type is defined the runs on, mtc or system clause of the calling function), the referenced port declaration shall be present in this component type.",
+   "lines": [
+    8614,
+    8620
+   ]
+  },
+  {
+   "id": "8.2.3.1-s076",
+   "section": "8.2.3.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "There is one exception to this rule: when in the context of an enumerated type (see clause 6.2.4), an enumerated value is clashing with the name of a definition in the importing module, the enumerated value shall take precedence and the definition in the importing module shall be referenced by using its qualified name (see example 5 below in this clause).",
+   "lines": [
+    8622,
+    8624
+   ]
+  },
+  {
+   "id": "8.2.3.1-s077",
+   "section": "8.2.3.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "In cases where there are no ambiguities the prefixing need not (but may) be present when the imported definitions are used.",
+   "lines": [
+    8626,
+    8629
+   ]
+  },
+  {
+   "id": "8.2.3.1-s078",
+   "section": "8.2.3.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "When the definition is referenced in the same module where it is defined, the module identifier of the module (the current module) also may be used for prefixing the identifier of the definition.",
+   "lines": [
+    8626,
+    8629
+   ]
+  },
+  {
+   "id": "8.2.3.1-s079",
+   "section": "8.2.3.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "For the latter case, prefixing shall only be used for definitions with global visibility for the module.",
+   "lines": [
+    8626,
+    8629
+   ]
+  },
+  {
+   "id": "8.2.3.1-s080",
+   "section": "8.2.3.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "It is allowed to rename a module name during its import.",
+   "lines": [
+    8631,
+    8631
+   ]
+  },
+  {
+   "id": "8.2.3.1-s081",
+   "section": "8.2.3.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The new name will be visible only in the importing module.",
+   "lines": [
+    8631,
+    8631
+   ]
+  },
+  {
+   "id": "8.2.3.1-s082",
+   "section": "8.2.3.1",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clause 5, the following restrictions apply:",
+   "lines": [
+    8640,
+    8640
+   ]
+  },
+  {
+   "id": "8.2.3.1-s083",
+   "section": "8.2.3.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) An import statement shall only be used in the module definitions part and not be used within a function definition and alike.",
+   "lines": [
+    8642,
+    8643
+   ]
+  },
+  {
+   "id": "8.2.3.1-s084",
+   "section": "8.2.3.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "b) Only top-level visible definitions of a module may be imported.",
+   "lines": [
+    8645,
+    8647
+   ]
+  },
+  {
+   "id": "8.2.3.1-s085",
+   "section": "8.2.3.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Definitions which are top-level but invisible to the importing module or which occur at a lower scope (e.g. local constants defined in a function) shall not be imported.",
+   "lines": [
+    8645,
+    8647
+   ]
+  },
+  {
+   "id": "8.2.3.1-s086",
+   "section": "8.2.3.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "c) A definition is imported together with its name and all local definitions.",
+   "lines": [
+    8649,
+    8649
+   ]
+  },
+  {
+   "id": "8.2.3.1-s087",
+   "section": "8.2.3.1",
+   "kind": "note",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "NOTE 5: A local definition, e.g. a field name of a user-defined record type or an enumerated value, has only meaning in the context of the definitions in which it is defined, e.g. a field name of a record type can only be used to access a field of the record type and not outside this context.",
+   "lines": [
+    8651,
+    8653
+   ]
+  },
+  {
+   "id": "8.2.3.1-s088",
+   "section": "8.2.3.1",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In particular, importing an enumerated type does not impose the restriction given in clause 6.2.4 on global names defined in the importing module.",
+   "lines": [
+    8655,
+    8656
+   ]
+  },
+  {
+   "id": "8.2.3.1-s089",
+   "section": "8.2.3.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "d) A definition is imported together with all information of referenced definitions that are necessary for the usage of the imported definition, independent of the visibility of the referenced definitions (see clause 8.2.5).",
+   "lines": [
+    8658,
+    8659
+   ]
+  },
+  {
+   "id": "8.2.3.1-s090",
+   "section": "8.2.3.1",
+   "kind": "note",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "NOTE 6: If module C imports a definition from module B that uses a type reference defined in module A, the corresponding information necessary for the usage of that type is automatically imported into module C (see example 6 below in this clause).",
+   "lines": [
+    8661,
+    8663
+   ]
+  },
+  {
+   "id": "8.2.3.1-s091",
+   "section": "8.2.3.1",
+   "kind": "note",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "Identifiers of referenced definitions are not automatically imported.",
+   "lines": [
+    8661,
+    8663
+   ]
+  },
+  {
+   "id": "8.2.3.1-s092",
+   "section": "8.2.3.1",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In particular, if module C imports global value or template definitions (e.g. constants, module parameters, templates) or local definitions (e.g. formal parameters of templates, functions, etc. or constants and variables of component types) of an enumerated type from module B, the enumerated values of this type (i.e. the identifiers) are implicitly and automatically imported to module C. That is, the enumerated values are known when an enumerated value or template is used in module C (e.g. when an actual parameter is passed or a value is assigned to a component variable).",
+   "lines": [
+    8665,
+    8671
+   ]
+  },
+  {
+   "id": "8.2.3.1-s093",
+   "section": "8.2.3.1",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Note that this implicit importing does not impose the restriction given in clause 6.2.4 on global names defined in module C.",
+   "lines": [
+    8665,
+    8671
+   ]
+  },
+  {
+   "id": "8.2.3.1-s094",
+   "section": "8.2.3.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "e) If the referenced definitions are wished to be used in the importing module, they shall be explicitly imported either directly from its source module or indirectly by importing the import statements of a module importing it (see clause 8.2.3.7).",
+   "lines": [
+    8673,
+    8675
+   ]
+  },
+  {
+   "id": "8.2.3.1-s095",
+   "section": "8.2.3.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "f) When importing a function, altstep or test case the corresponding behaviour specifications and all definitions used inside the behaviour specifications remain invisible for the importing module.",
+   "lines": [
+    8677,
+    8678
+   ]
+  },
+  {
+   "id": "8.2.3.1-s096",
+   "section": "8.2.3.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "g) The language specification (see clause 8.1) of the import statement shall not override the language specification of the importing module.",
+   "lines": [
+    8680,
+    8681
+   ]
+  },
+  {
+   "id": "8.2.3.1-s097",
+   "section": "8.2.3.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "h) The language specification of the import statement shall be identical to the language specification of the source module from which definitions are imported (see clause 8.2.3.8) provided a language specification is defined in the source module.",
+   "lines": [
+    8683,
+    8687
+   ]
+  },
+  {
+   "id": "8.2.3.1-s098",
+   "section": "8.2.3.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "If not, the language specification in the import statement is taken as the language specification of the source module.",
+   "lines": [
+    8683,
+    8687
+   ]
+  },
+  {
+   "id": "8.2.3.1-s099",
+   "section": "8.2.3.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "If the source module uses however language concepts not being part of that language specification, this causes an error for the import statement.",
+   "lines": [
+    8683,
+    8687
+   ]
+  },
+  {
+   "id": "8.2.3.1-s100",
+   "section": "8.2.3.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "i) If an imported module is renamed in the import clause, the original module name is not imported and cannot be used for referencing the imported module.",
+   "lines": [
+    8689,
+    8691
+   ]
+  },
+  {
+   "id": "8.2.3.1-s101",
+   "section": "8.2.3.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "The imported module can be referenced using the new local name only.",
+   "lines": [
+    8689,
+    8691
+   ]
+  },
+  {
+   "id": "8.2.3.1-s102",
+   "section": "8.2.3.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "j) If an imported module is renamed in the import clause, the new local name of the module shall be unique in the scope of the importing module.",
+   "lines": [
+    8693,
+    8694
+   ]
+  },
+  {
+   "id": "8.2.3.1-s103",
+   "section": "8.2.3.1",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 1: Selected import examples:",
+   "lines": [
+    8698,
+    8698
+   ]
+  },
+  {
+   "id": "8.2.3.1-s104",
+   "section": "8.2.3.1",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "module MyModuleA\n  { :\n     // Scope of the imported definitions is global to MyModuleA\n     import from MyModuleB all; // import of all definitions from MyModuleB\n     import from MyModuleC {  // import of selected definitions from MyModuleC\n\n     type MyType1, MyType2; // import of types MyType1 and MyType2\n     template all // import of all templates\n   }\n   :\n   function f_myBehaviourC()\n   {\n     // import cannot be used here \n      :\n   }\n   :\n   control\n   {\n     // import cannot be used here \n     :\n   }\n }",
+   "lines": [
+    8699,
+    8722
+   ]
+  },
+  {
+   "id": "8.2.3.1-s105",
+   "section": "8.2.3.1",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 2: Use of imported definitions and visibility of definitions referenced by them:",
+   "lines": [
+    8724,
+    8724
+   ]
+  },
+  {
+   "id": "8.2.3.1-s106",
+   "section": "8.2.3.1",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "module ModuleONE {\n   modulepar integer ModPar1 := …;\n   type record RecordType_T1 {\n     integer Field1_T1,\n     :\n   }\n   type record RecordType_T2 {\n     RecordType_T1 Field1_T2, \n     :\n   }\n   const integer c_myConst := …;\n   template RecordType_T2 m_t2 (RecordType_T1 p_tempParT2):= { // parameterized template\n     Field1_T2 := …, \n     :\n   }\n } // end module ModuleONE\n module ModuleTWO {\n   import from ModuleONE {\n     template m_t2\n   }\n   // Only the names m_T2 and p_tempParT2 will be visible in ModuleTWO. Please note, that\n   // the identifier p_tempParT2 can only be used when modifying m_t2. All information\n   // necessary for the usage of m_t2, e.g. for type checking purposes, are imported\n   // for the referenced definitions RecordType_T1, Field1_T2, etc., but their identifiers are \n   // not visible in ModuleTWO.\n   // This means, e.g. it is not possible to use the constant c_myConst or to declare a\n   // variable of type RecordType_T1 or RecordType_T2 in ModuleTWO without explicitly importing\n   // these types.\n   import from ModuleONE {\n     modulepar ModPar2\n   }\n   // The module parameter ModPar2 of ModuleONE is imported from ModuleONE and\n   // can be used like an integer constant\n } // end module ModuleTWO\n module ModuleTHREE {\n   import from ModuleONE all; // imports all definitions from ModuleONE\n   type port MyPortType message {\n     inout RecordType_T2  // Reference to a type defined in ModuleONE\n   }\n   type component MyCompType {\n     var integer v_myComponentVar := ModPar2; \n                    // Reference to a module parameter of ModuleONE\n\n     :\n   }\n   function f_myFunction () return integer {\n     return c_myConst // Reference to a module constant of ModuleONE\n   }\n   testcase TC_MyTestCase (out RecordType_T2 p_myPar) runs on MyCompType {\n     :\n     MyPort.send(m_t2); // Sending a template defined in ModuleONE\n     :\n   } \n } // end ModuleTHREE\n module ModuleFOUR {\n   import from ModuleTHREE {\n     testcase TC_MyTestCase\n   }\n   // Only the name TC_MyTestCase will be visible and usable in ModuleFOUR.\n   // Type information for RecordType_T2 is imported via ModuleTHREE from ModuleONE and\n   // Type information for MyCompType is imported from ModuleTHREE. All definitions\n   // used in the behaviour part of TC_MyTestCase remain hidden for the user of ModuleFOUR.\n } // end ModuleFOUR",
+   "lines": [
+    8725,
+    8789
+   ]
+  },
+  {
+   "id": "8.2.3.1-s107",
+   "section": "8.2.3.1",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 3: Handling of name clashes:",
+   "lines": [
+    8791,
+    8791
+   ]
+  },
+  {
+   "id": "8.2.3.1-s108",
+   "section": "8.2.3.1",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "module MyModuleA {\n    :\n   type bitstring MyTypeA;\n   import from SomeModuleC {\n     type MyTypeA, // Where MyTypeA is of type character string\n          MyTypeB  // Where MyTypeB is of type character string\n   }\n    :\n   control {\n      :\n     var SomeModuleC.MyTypeA v_myVar1 := \"Test String\"; // Prefix shall be used \n     var MyTypeA v_myVar2 := '10110011'B;  // This is the original MyTypeA \n      :\n     var MyTypeB v_myVar3 := \"Test String\";  // Prefix need not be used … \n     var SomeModuleC.MyTypeB v_myVar3 := \"Test String\"; // … but it can be if wished \n      :\n   }\n }",
+   "lines": [
+    8792,
+    8811
+   ]
+  },
+  {
+   "id": "8.2.3.1-s109",
+   "section": "8.2.3.1",
+   "kind": "note",
+   "context": "Examples",
+   "normative": false,
+   "text": "NOTE 7: Definitions with the same name defined in different modules are always assumed to be different, even if the actual definitions in the different modules are identical.",
+   "lines": [
+    8813,
+    8816
+   ]
+  },
+  {
+   "id": "8.2.3.1-s110",
+   "section": "8.2.3.1",
+   "kind": "note",
+   "context": "Examples",
+   "normative": false,
+   "text": "For example, importing a type that is already defined locally, even with the same name, would lead to two different types being available in the module.",
+   "lines": [
+    8813,
+    8816
+   ]
+  },
+  {
+   "id": "8.2.3.1-s111",
+   "section": "8.2.3.1",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 4: Renaming imported module:",
+   "lines": [
+    8818,
+    8818
+   ]
+  },
+  {
+   "id": "8.2.3.1-s112",
+   "section": "8.2.3.1",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "module MyModuleA {\n   import from VeryLongModuleNameB -> ShortNameB {\n     type MyTypeA, // Where MyTypeA is of type character string\n   }\n    :\n   control {\n      :\n     var ShortNameB.MyTypeA v_myVar1 := \"Test String\"; // Is correct \n     var VeryLongModuleNameB.MyTypeA v_myVar2 := \"Test String\";  // Causes an error\n          // as the original module name cannot be used for referencing if the\n          // imported module has been renamed.\n   }\n }",
+   "lines": [
+    8819,
+    8833
+   ]
+  },
+  {
+   "id": "8.2.3.1-s113",
+   "section": "8.2.3.1",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 5: Name clash between enumerated values and global definitions:",
+   "lines": [
+    8840,
+    8840
+   ]
+  },
+  {
+   "id": "8.2.3.1-s114",
+   "section": "8.2.3.1",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "module A {\n  type enumerated MyEnumType {enumX, enumY}\n  type enumerated MyEnumType2 {enumY, enumZ}\n }\n module B {\n  import from A all;\n  const MyEnumType enumY := enumX; // this is not allowed as enumerated values restrict \n                  // global names (see clause 6.2.4)\n  const MyEnumType2 enumX := enumY;// this is allowed as MyEnumtype2 does not contain enumX\n  const MyEnumType enumZ := enumX; // allowed as MyEnumType does not contain enumZ\n }\n module C {\n  import from A all;\n  import from B all;\n  const integer enumZ := 0;\n  const integer enumY := 1;\n  const MyEnumType2 enumX := enumY;\n  modulepar MyEnumType PX_MyModulePar1 := enumY\n  // the default value of the module parameter will be the value enumY, as the type of \n  // PX_MyModulePar1 creates the context of MyEnumType and in this context enumerated values\n  // take precedence over global definition names; note that for the same context reason there\n  // is no name clash between the enumerated values defined in MyEnumType and in MyEnumType2\n  modulepar MyEnumType PX_MyModulePar2 := B.enumZ\n  // the default value of the module parameter will be the value enumX, as the prefix\n  // identifies the constant definition enumZ unambiguously, which has the value enumX \n  modulepar integer PX_IntegerPar := enumZ;\n  // the default value of the module parameter will be 0 as this assignment is not in the\n  // context of an enumerated type, hence no name clash occurs\n  modulepar MyEnumType PX_MyModulePar3 := C.enumX\n  // causes an error as PX_MyModulePar3 and the constant enumX in module C has different types\n }",
+   "lines": [
+    8841,
+    8873
+   ]
+  },
+  {
+   "id": "8.2.3.1-s115",
+   "section": "8.2.3.1",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 6: Importing local definitions transitively:",
+   "lines": [
+    8875,
+    8875
+   ]
+  },
+  {
+   "id": "8.2.3.1-s116",
+   "section": "8.2.3.1",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "module A {\n  type enumerated MyEnumType { enumX, enumY, enumZ}\n  type record MyRec { integer a, integer b }\n  type component MyComp { var MyRec v_rec := { a := 5 } }\n }\n module B {\n  import from A all;\n  modulepar MyEnumType PX_MyModulePar := enumY;\n  type component MyCompUser extends MyComp {}\n }\n module C {\n  import from B all;\n  testcase TC() runs on MyCompUser {\n   if (PX_MyModulePar == enumY) {\n    // the enumerated value enumY is known in C without explicitly importing it from A\n    setverdict(pass)\n   }\n   if (v_rec.a == 5) {\n    v_rec.b := v_rec.a;\n    // Both the variable name v_rec and the record field names are known in C without\n    // explicitly importing them from A\n    setverdict (pass)\n   }\n  }\n }",
+   "lines": [
+    8876,
+    8902
+   ]
+  }
+ ]
+}

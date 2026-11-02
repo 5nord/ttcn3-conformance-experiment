@@ -1,0 +1,34 @@
+// @requirement: C.2.2 -- The function sizeof is applicable to templates of record and set types.
+// @id: TTCN3-CORE-C.2.2-003a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_02_02_test_003 {
+
+    type component C {}
+    type record MyPDU {
+        boolean field1 optional,
+        integer field2
+    }
+    type set S {
+        integer f1,
+        bitstring f2 optional,
+        charstring f3 optional
+    }
+
+    template MyPDU m_myTemplate := { field1 := omit, field2 := 5 };
+    template S mw_s1 := { f1 := (0 .. 99), f2 := omit, f3 := ? };
+    template S mw_s3 := ({ f1 := 1, f2 := omit, f3 := "ABC" },
+                         { f1 := 2, f3 := omit, f2 := '1'B },
+                         { f3 := omit, f1 := 3, f2 := '1?1'B });
+
+    testcase TC() runs on C {
+        if (sizeof(m_myTemplate) == 1 and sizeof(mw_s1) == 2 and sizeof(mw_s3) == 2) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

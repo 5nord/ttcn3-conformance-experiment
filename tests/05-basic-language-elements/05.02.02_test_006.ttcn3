@@ -1,0 +1,19 @@
+// @requirement: 5.2.2 -- Identifiers for fields of structured types, enumerated values and groups do not have to be globally unique, however in the case of enumerated values the identifiers, within the same module, they shall only be reused for enumerated values within other enumerated types or as identifiers for fields of structured types.
+// @id: TTCN3-CORE-5.2.2-004b
+// @verdict: pass reject
+module M_05_02_02_test_006 {
+
+    type enumerated E { e_a, e_b }
+
+    const integer e_a := 1; // error: enumerated value reused as constant name
+
+    type component C {}
+
+    testcase TC() runs on C {
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

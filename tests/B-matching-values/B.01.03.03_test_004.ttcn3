@@ -1,0 +1,31 @@
+// @requirement: B.1.3.3 -- _AnyElementsOrNone used inside permutation (directly or via reference) replaces none or any number of elements_ within the segment of the record of value matched by permutation.
+// @id: TTCN3-CORE-B.1.3.3-004a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_03_03_test_004 {
+
+    type record of integer RoI;
+
+    type component C {}
+
+    template integer mw_anyOrNone := *;
+    template RoI mw_direct := {permutation(1, 2, *), 5};
+    template RoI mw_ref := {permutation(mw_anyOrNone, 1, 2), 5};
+
+    testcase TC() runs on C {
+        var RoI v_none := {2, 1, 5};
+        var RoI v_many := {3, 1, 4, 4, 2, 5};
+        var RoI v_noEnd := {3, 1, 4, 2};
+        if (match(v_none, mw_direct) and match(v_many, mw_direct) and
+            not match(v_noEnd, mw_direct) and
+            match(v_none, mw_ref) and match(v_many, mw_ref) and
+            not match(v_noEnd, mw_ref)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

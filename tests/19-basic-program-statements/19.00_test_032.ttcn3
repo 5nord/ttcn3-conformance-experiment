@@ -1,0 +1,22 @@
+// @requirement: 19.0 -- Statement: Stop timer; Associated keyword or symbol: stop; Can be invoked by control behaviour: Yes; Can be invoked by test behaviour: Yes
+// @id: TTCN3-CORE-19.0-013b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_00_test_032 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        timer T;
+        T.start(5.0);
+        T.stop;
+        if (not T.running) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

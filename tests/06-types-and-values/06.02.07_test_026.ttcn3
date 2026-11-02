@@ -1,0 +1,24 @@
+// @requirement: 6.2.7 -- If the value of the element indicated by the index at the right-hand of an assignment is undefined or if the index notation is applied to an uninitialized or omitted array value on the right hand side of an assignment, error shall be caused.
+// @id: TTCN3-CORE-6.2.7-028b
+// @verdict: pass accept, ttcn3verdict:error
+module M_06_02_07_test_026 {
+
+    type integer MyArray[3];
+
+    type record R {
+        MyArray arr optional
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var R v_r := { arr := omit };
+        setverdict(pass);
+        var integer v_i := v_r.arr[0]; // error: index notation applied to an omitted array
+        log(v_i);
+    }
+
+    control {
+        execute(TC());
+    }
+}

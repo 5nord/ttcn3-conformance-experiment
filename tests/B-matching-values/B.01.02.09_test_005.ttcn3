@@ -1,0 +1,25 @@
+// @requirement: B.1.2.9 -- The optional encoding format parameter may specify one of the UCS encoding formats (see clause C.5.4) that shall be used for the decoding trial, i.e. it overrides any variant attribute attached to the decoding target or the type of the decoding target (for example, for predefined variant attributes see clause 27.5).
+// @id: TTCN3-CORE-B.1.2.9-004c
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_02_09_test_005 {
+
+    type component C {}
+
+    type universal charstring Payload with { encode "JSON"; variant "UTF-16" }
+
+    template universal charstring mw_utf8 := decmatch ("UTF-8") Payload:"ab";
+
+    testcase TC() runs on C {
+        var Payload v_val := "ab";
+        var universal charstring v_enc := encvalue_unichar(v_val, "UTF-8");
+        if (match(v_enc, mw_utf8)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,14 @@
+// @requirement: 20.4 -- c) An interleave used inside control behaviour shall only contain timeout statements in the event parts of the alternatives.
+// @id: TTCN3-CORE-20.4-023a
+// @verdict: pass reject
+module M_20_04_test_014 {
+
+    control {
+        timer T := 1.0;
+        T.start;
+        interleave {
+            [] T.timeout {}
+            [] all component.done {} // error: non-timeout event in control part
+        }
+    }
+}

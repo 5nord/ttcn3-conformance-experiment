@@ -1,0 +1,42 @@
+// @requirement: 22.3.6 -- To catch an exception on any port from a specific port array, indices use the any from PortArrayRef syntax where PortArrayRef shall be a reference to a port array identifier.
+// @id: TTCN3-CORE-22.3.6-036a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_03_06_test_029 {
+
+    signature S() exception (integer);
+
+    type port P procedure { inout S }
+
+    type component CS {
+        port P pa[2];
+        timer T := 1.0;
+    }
+
+    type component CC {
+        port P p;
+    }
+
+    altstep a_guard() runs on CS {
+        [] T.timeout { setverdict(fail); stop; }
+    }
+
+    function f_server() runs on CC {
+        p.getcall(S:{});
+        p.raise(S, integer:1);
+    }
+
+    testcase TC() runs on CS {
+        var CC v_ptc := CC.create;
+        connect(mtc:pa[1], v_ptc:p);
+        v_ptc.start(f_server());
+        activate(a_guard());
+        T.start;
+        pa[1].call(S:{}, nowait);
+        any from pa.catch(S, integer:1);
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

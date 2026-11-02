@@ -1,0 +1,30 @@
+// @requirement: 23.1 -- However, within a given scope unit only timers known in the scope unit can be accessed individually, i.e. timers that are declared in the scope unit, passed in as parameters to the scope unit or known via a runs-on clause.
+// @id: TTCN3-CORE-23.1-007a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_23_01_test_003 {
+
+    type component C {
+        timer T_comp := 1.0;
+    }
+
+    function f_access(timer p_t) runs on C return boolean {
+        timer T_local := 1.0;
+        T_local.start;
+        return T_local.running and p_t.running and T_comp.running;
+    }
+
+    testcase TC() runs on C {
+        timer T_param := 1.0;
+        T_param.start;
+        T_comp.start;
+        if (f_access(T_param)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,32 @@
+// @requirement: 26.1 -- Statement: Re-evaluation of alternative behaviour (see note); Associated keyword or symbol: repeat
+// @id: TTCN3-CORE-26.1-025a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_26_01_test_025 {
+
+    type component C {}
+
+    testcase TC(integer p_count) runs on C {
+        if (p_count == 1) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        var integer v_count := 0;
+        timer T1 := 0.1;
+        timer T2 := 0.5;
+        T1.start;
+        T2.start;
+        alt {
+            [] T1.timeout {
+                v_count := v_count + 1;
+                repeat;
+            }
+            [] T2.timeout {
+            }
+        }
+        execute(TC(v_count));
+    }
+}

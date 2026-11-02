@@ -1,0 +1,42 @@
+// @requirement: 14 -- Exceptions that may be raised by remote procedures are represented in TTCN-3 as values of a specific type.
+// @id: TTCN3-CORE-14-015a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_14_test_017 {
+
+    type record ExcRec { integer code }
+
+    signature S() exception (ExcRec);
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    function f_server() runs on C {
+        p.getcall(S:{});
+        p.raise(S, ExcRec:{ code := 7 });
+    }
+
+    testcase TC() runs on C {
+        var ExcRec v_exc;
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_server());
+        p.call(S:{}, 1.0) {
+            [] p.getreply(S:{}) { setverdict(fail); }
+            [] p.catch(S, ExcRec:?) -> value v_exc {
+                if (v_exc.code == 7) {
+                    setverdict(pass);
+                } else {
+                    setverdict(fail);
+                }
+            }
+            [] p.catch(timeout) { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,34 @@
+// @requirement: 22.4 -- [ @nodefault ] ( ObjectReference | any port | any from PortArrayRef ) "." check [ "(" ( PortReceiveOp | PortGetCallOp | PortGetReplyOp | PortCatchOp ) | ( [ from Address ] [ "->" [ sender ValueRef] [ @index value ValueRef] ] ) ")" ]
+// @id: TTCN3-CORE-22.4-002a
+// @verdict: pass accept, noexecution
+module M_22_04_test_002 {
+
+    type port MP message { inout integer; }
+
+    signature S(inout integer p_x) return integer exception (charstring);
+
+    type port PP procedure { inout S; }
+
+    type component C {
+        port MP p;
+        port MP pa[3];
+        port PP q;
+    }
+
+    function f_check() runs on C {
+        var C v_sender;
+        var integer v_i;
+        p.check;
+        @nodefault p.check;
+        p.check(receive(5));
+        q.check(getcall(S:{?}));
+        q.check(getreply(S:{?} value ?));
+        q.check(catch(S, charstring:?));
+        p.check(from mtc);
+        p.check(-> sender v_sender);
+        p.check(from mtc -> sender v_sender);
+        any port.check;
+        any from pa.check(-> @index value v_i);
+        any from pa.check(-> sender v_sender @index value v_i);
+    }
+}

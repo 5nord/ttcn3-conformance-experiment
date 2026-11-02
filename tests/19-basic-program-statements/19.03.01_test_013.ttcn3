@@ -1,0 +1,32 @@
+// @requirement: 19.3.1 -- On executing the statement block of the selected branch (i.e. not jumping out by a goto statement), execution continues with the statement following the select case statement.
+// @id: TTCN3-CORE-19.3.1-012a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_03_01_test_013 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_x := 1;
+        var integer v_trace := 0;
+        select (v_x) {
+            case (1) {
+                v_trace := 1;
+            }
+            case (2) {
+                v_trace := 2;
+            }
+            case else {
+                v_trace := 3;
+            }
+        }
+        if (v_trace == 1) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

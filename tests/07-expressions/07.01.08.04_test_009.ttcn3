@@ -1,0 +1,25 @@
+// @requirement: 7.1.8.4 -- checkResult := isbound(v_myRec.f1/0); // shall cause an error already during evaluating the operand because the operand is not a reference and division by zero causes a runtime error
+// @id: TTCN3-CORE-7.1.8.4-015a
+// @verdict: pass accept, ttcn3verdict:error
+module M_07_01_08_04_test_009 {
+
+    type component C {}
+
+    type record R {
+        integer f1,
+        integer f2 optional
+    }
+
+    testcase TC() runs on C {
+        var R v_rec := { f1 := 5, f2 := omit };
+        var integer v_zero := 0;
+        var boolean v_res;
+        setverdict(pass);
+        v_res := isbound(v_rec.f1 / v_zero); // error: division by zero
+        setverdict(fail);
+    }
+
+    control {
+        execute(TC());
+    }
+}

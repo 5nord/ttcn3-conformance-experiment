@@ -1,0 +1,20 @@
+// @requirement: 7.3 -- ReferencedValue "=>" ( PredefinedType | TypeIdentifier | ( "(" Type [ "," Expression ] ")" ) )
+// @id: TTCN3-CORE-7.3-003a
+// @verdict: pass accept, noexecution
+module M_07_03_test_002 {
+
+    type record R {
+        integer f1
+    }
+
+    type record P {
+        bitstring payload
+    }
+
+    function f(P p_pdu, universal charstring p_uc) {
+        var integer v_int := p_pdu.payload => integer;
+        var R v_rec := p_pdu.payload => R;
+        v_rec := p_pdu.payload => (R);
+        v_rec := p_uc => (R, "UTF-8");
+    }
+}

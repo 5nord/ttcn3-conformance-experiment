@@ -1,0 +1,31 @@
+// @requirement: 8.2.3.3 -- a) The group to be imported shall be defined in the module from which it is to be imported.
+// @id: TTCN3-CORE-8.2.3.3-014a
+// @verdict: pass reject
+module M_08_02_03_03_test_014 {
+
+    import from M_08_02_03_03_test_014_A {
+        group g_groupB // error: g_groupB is defined in M_08_02_03_03_test_014_B
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_03_03_test_014_A {
+    group g_groupA {
+        const integer c_valueA := 1;
+    }
+}
+
+module M_08_02_03_03_test_014_B {
+    group g_groupB {
+        const integer c_valueB := 2;
+    }
+}

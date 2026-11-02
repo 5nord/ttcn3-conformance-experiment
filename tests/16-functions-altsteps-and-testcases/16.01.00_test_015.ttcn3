@@ -1,0 +1,29 @@
+// @requirement: 16.1.0 -- If a function has a system clause, the type referenced by this clause shall be system-compatible (see clause 6.3.2.7) with the type of the system component reference.
+// @id: TTCN3-CORE-16.1.0-014a
+// @verdict: pass reject
+module M_16_01_00_test_015 {
+
+    type port P message {
+        inout integer
+    }
+
+    type component A {
+        port P p_a;
+    }
+
+    type component C {}
+
+    type component S {}
+
+    function f_systemA() system A {
+    }
+
+    testcase TC() runs on C system S {
+        f_systemA(); // error: A is not system-compatible with the system type S
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

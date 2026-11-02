@@ -1,0 +1,24 @@
+// @requirement: 26.1 -- A test case terminates with the termination of the MTC.
+// @id: TTCN3-CORE-26.1-020a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_26_01_test_020 {
+
+    type component C {}
+
+    function f_wait() runs on C {
+        timer T := 3.0;
+        T.start;
+        T.timeout;
+        setverdict(fail);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        v_ptc.start(f_wait());
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC(), 2.0);
+    }
+}

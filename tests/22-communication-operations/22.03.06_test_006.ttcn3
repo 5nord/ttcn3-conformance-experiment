@@ -1,0 +1,51 @@
+// @requirement: 22.3.6 -- A catch operation may be restricted to a certain communication partner in case of one-to-many connections.
+// @id: TTCN3-CORE-22.3.6-008a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_03_06_test_006 {
+
+    signature S() exception (integer);
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    altstep a_guard() runs on C {
+        [] T.timeout { setverdict(fail); stop; }
+    }
+
+    function f_server() runs on C {
+        p.getcall(S:{});
+        p.raise(S, integer:0);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc1 := C.create, v_ptc2 := C.create;
+        var integer v_n1 := 0, v_n2 := 0;
+        connect(mtc:p, v_ptc1:p);
+        connect(mtc:p, v_ptc2:p);
+        v_ptc1.start(f_server());
+        v_ptc2.start(f_server());
+        activate(a_guard());
+        T.start;
+        p.call(S:{}, nowait) to v_ptc1;
+        p.call(S:{}, nowait) to v_ptc2;
+        for (var integer i := 0; i < 2; i := i + 1) {
+            alt {
+                [] p.catch(S, integer:0) from v_ptc1 { v_n1 := v_n1 + 1; }
+                [] p.catch(S, integer:0) from v_ptc2 { v_n2 := v_n2 + 1; }
+            }
+        }
+        if (v_n1 == 1 and v_n2 == 1) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

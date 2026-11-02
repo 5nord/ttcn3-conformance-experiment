@@ -1,0 +1,41 @@
+// @requirement: 20.2 -- The selection causes the execution of the statement block following the done operation.
+// @id: TTCN3-CORE-20.2-026a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_02_test_018 {
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p;
+    }
+
+    function f_send() runs on C {
+        p.send(1);
+        p.send(2);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        var boolean v_blockExecuted := false;
+        timer T_guard := 1.0;
+        connect(self:p, v_ptc:p);
+        v_ptc.start(f_send());
+        T_guard.start;
+        alt {
+            [] v_ptc.done {
+                v_blockExecuted := true;
+            }
+            [] T_guard.timeout {}
+        }
+        if (v_blockExecuted) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

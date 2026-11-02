@@ -1,0 +1,42 @@
+// @requirement: 22.1.4.2 -- In addition, the assignment part may also be used to assign the sender address of a message, exception, reply or call to a variable.
+// @id: TTCN3-CORE-22.1.4.2-013a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_01_04_02_test_012 {
+
+    type port P message { inout integer }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    function f_ptc(integer p_value) runs on C {
+        p.send(p_value);
+        T.start;
+        alt {
+            [] p.receive(p_value + 100) { setverdict(pass); }
+            [] p.receive { setverdict(fail); }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc1 := C.create, v_ptc2 := C.create;
+        var C v_sender;
+        var integer v_x;
+        connect(mtc:p, v_ptc1:p);
+        connect(mtc:p, v_ptc2:p);
+        v_ptc1.start(f_ptc(1));
+        v_ptc2.start(f_ptc(2));
+        for (var integer i := 0; i < 2; i := i + 1) {
+            p.receive(integer:?) -> value v_x sender v_sender;
+            p.send(v_x + 100) to v_sender;
+        }
+        all component.done;
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

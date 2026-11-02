@@ -1,0 +1,32 @@
+// @requirement: C.5.6 -- The function shall return an integer value to indicate success or failure of the decoding below:
+// @id: TTCN3-CORE-C.5.6-009a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_05_06_test_009 {
+
+    type component C {}
+
+    type record R {
+        integer f1,
+        integer f2
+    } with { encode "JSON" }
+
+    const R c_r := { f1 := 1, f2 := 2 };
+
+    testcase TC() runs on C {
+        var integer v_len;
+        var octetstring v_ok := encvalue_o(c_r, "", "", v_len);
+        var octetstring v_bad := ''O;
+        var R v_r;
+        var integer v_res1 := decvalue_o(v_ok, v_r);
+        var integer v_res2 := decvalue_o(v_bad, v_r);
+        if (v_res1 == 0 and v_res2 != 0) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

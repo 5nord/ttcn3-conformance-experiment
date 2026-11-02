@@ -1,0 +1,34 @@
+// @requirement: 20.2 -- The statement block of the else branch is always executed if no other alternative textually preceding the else branch has proceeded.
+// @id: TTCN3-CORE-20.2-054a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_02_test_037 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        timer T := 5.0;
+        T.start;
+        alt {
+            [] T.timeout {
+                setverdict(fail);
+            }
+            [] p.receive {
+                setverdict(fail);
+            }
+            [else] {
+                setverdict(pass);
+            }
+        }
+        T.stop;
+    }
+
+    control {
+        execute(TC());
+    }
+}

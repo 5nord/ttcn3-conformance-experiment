@@ -1,0 +1,1246 @@
+{
+ "part": "06.part10",
+ "chapter": "6",
+ "chapter_file": "06-types-and-values",
+ "title": "Types and values",
+ "sections": {
+  "6.3.0": {
+   "title": "General",
+   "start": 6277
+  },
+  "6.3.1": {
+   "title": "Compatibility of non-structured types",
+   "start": 6289
+  },
+  "6.3.2.0": {
+   "title": "General",
+   "start": 6408
+  },
+  "6.3.2.1": {
+   "title": "Compatibility of enumerated types",
+   "start": 6413
+  },
+  "6.3.2.2": {
+   "title": "Compatibility of record and record of types",
+   "start": 6462
+  },
+  "6.3.2.3": {
+   "title": "Compatibility of set and set of types",
+   "start": 6548
+  },
+  "6.3.2.4": {
+   "title": "Compatibility of union types",
+   "start": 6581
+  },
+  "6.3.2.5": {
+   "title": "Compatibility of anytype types",
+   "start": 6649
+  },
+  "6.3.2.6": {
+   "title": "Compatibility between sub-structures",
+   "start": 6698
+  },
+  "6.3.2.7": {
+   "title": "Compatibility of the open type",
+   "start": 6718
+  },
+  "6.3.3": {
+   "title": "Compatibility of component types",
+   "start": 6729
+  },
+  "6.3.4": {
+   "title": "Type compatibility of communication and connection operations",
+   "start": 6767
+  },
+  "6.3.5": {
+   "title": "Type conversion",
+   "start": 6807
+  },
+  "6.3.6": {
+   "title": "Type compatibility of port types",
+   "start": 6818
+  },
+  "6.3.7": {
+   "title": "Type compatibility of timer types",
+   "start": 6823
+  },
+  "6.3.8": {
+   "title": "Type Compatibility of Map Types",
+   "start": 6828
+  },
+  "6.4": {
+   "title": "Type synonym",
+   "start": 6844
+  }
+ },
+ "lines": [
+  6279,
+  6852
+ ],
+ "units": [
+  {
+   "id": "6.3.0-s001",
+   "section": "6.3.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Generally, TTCN-3 requires type compatibility of values at assignments, instantiations and comparison.",
+   "lines": [
+    6279,
+    6279
+   ]
+  },
+  {
+   "id": "6.3.0-s002",
+   "section": "6.3.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "For the purpose of this clause the actual value to be assigned, passed as parameter, etc. is called value \"b\".",
+   "lines": [
+    6281,
+    6283
+   ]
+  },
+  {
+   "id": "6.3.0-s003",
+   "section": "6.3.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The type of value \"b\" is called type \"B\".",
+   "lines": [
+    6281,
+    6283
+   ]
+  },
+  {
+   "id": "6.3.0-s004",
+   "section": "6.3.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The type of the formal parameter, which is to obtain the actual value of value \"b\" is called type \"A\".",
+   "lines": [
+    6281,
+    6283
+   ]
+  },
+  {
+   "id": "6.3.0-s005",
+   "section": "6.3.0",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "NOTE: As address is more a predefined type name than a distinct type with its own properties, the same type compatibility rules apply to an address type and to its derivatives as the rules were if the type was defined with a name different from address.",
+   "lines": [
+    6285,
+    6287
+   ]
+  },
+  {
+   "id": "6.3.1-s001",
+   "section": "6.3.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "For variables, constants, templates, etc. of simple basic types and basic string types the value \"b\" is compatible to type \"A\" if type \"B\" resolves to the same root type as type \"A\" (e.g. integer) and it does not violate subtyping (e.g. ranges, length restrictions) of type \"A\".",
+   "lines": [
+    6291,
+    6294
+   ]
+  },
+  {
+   "id": "6.3.1-s002",
+   "section": "6.3.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Compatibility between charstring and universal charstring is defined below.",
+   "lines": [
+    6291,
+    6294
+   ]
+  },
+  {
+   "id": "6.3.1-s003",
+   "section": "6.3.1",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 1: Compatibility of integers:",
+   "lines": [
+    6298,
+    6298
+   ]
+  },
+  {
+   "id": "6.3.1-s004",
+   "section": "6.3.1",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "// Given \n  type integer MyInteger(1 .. 10);\n  :\n  var integer v_x;\n  var MyInteger v_y; \n  // Then \n  v_y := 5; // is a valid assignment \n  v_x := v_y;\n  // is a valid assignment, because v_y has the same root type as v_x and no subtyping is violated\n  v_x := 20; // is a valid assignment\n  v_y := v_x;\n  // is NOT a valid assignment, because the value of v_x is out of the range of MyInteger\n  v_x := 5; // is a valid assignment\n  v_y := v_x;\n  // is a valid assignment, because the value of v_x is now within the range of MyInteger",
+   "lines": [
+    6299,
+    6315
+   ]
+  },
+  {
+   "id": "6.3.1-s005",
+   "section": "6.3.1",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 2: Compatibility of floats:",
+   "lines": [
+    6317,
+    6317
+   ]
+  },
+  {
+   "id": "6.3.1-s006",
+   "section": "6.3.1",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "// Given \n  type float PositiveFloats(0.0 .. infinity);\n  :\n  var PositiveFloats v_x;\n  var float v_y; \n  // Then \n  v_y := 5.0; // is a valid assignment \n  v_x := v_y;\n  // is a valid assignment, because v_y has the same root type as v_x and no subtyping is violated\n  v_y := -20.0; // is a valid assignment\n  v_x := v_y;\n  // causes an error, because the value of v_y is out of the range of PositiveFloats\n  v_y := not_a_number; // is a valid assignment\n  v_x := v_y;\n  // causes an error, because the value not_a_number is out of the range of PositiveFloats",
+   "lines": [
+    6318,
+    6334
+   ]
+  },
+  {
+   "id": "6.3.1-s007",
+   "section": "6.3.1",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 3: Compatibility of charstrings:",
+   "lines": [
+    6341,
+    6341
+   ]
+  },
+  {
+   "id": "6.3.1-s008",
+   "section": "6.3.1",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "//Given\n  type charstring MyChar length (1);\n  type charstring MySingleChar length (1);\n  var MyChar v_myCharacter;\n  var charstring v_myCharString; \n  var MySingleChar v_mySingleCharString := \"B\";\n  //Then\n  v_myCharString := v_mySingleCharString;\n  //is a valid assignment as charstring restricted to length 1 is compatible with charstring.\n  v_myCharacter := v_mySingleCharString;\n  //is a valid assignment as two single-character-length charstrings are compatible.\n  //Given\n  v_myCharString := \"abcd\";\n  //Then\n  v_myCharacter := v_myCharString[1];\n  //is valid as the r.h.s. notation addresses a single element from the string\n  //Given\n  var charstring v_myCharacterArray [5] := {\"A\", \"B\", \"C\", \"D\", \"E\"}\n  //Then\n  v_myCharString := v_myCharacterArray[1];\n  //is valid and assigns the value \"B\" to v_myCharString;",
+   "lines": [
+    6342,
+    6364
+   ]
+  },
+  {
+   "id": "6.3.1-s009",
+   "section": "6.3.1",
+   "kind": "prose",
+   "context": "Examples",
+   "normative": true,
+   "text": "For variables, constants, templates, etc. of charstring type, value 'b' is compatible with a universal charstring type 'A' unless it violates any type constraint specification (range, list or length) of type \"A\".",
+   "lines": [
+    6366,
+    6367
+   ]
+  },
+  {
+   "id": "6.3.1-s010",
+   "section": "6.3.1",
+   "kind": "prose",
+   "context": "Examples",
+   "normative": true,
+   "text": "For variables, constants, templates, etc. of universal charstring type, value 'b' is compatible with a charstring type 'A' if all characters used in value 'b' have their corresponding characters (i.e. the same control or graphical character using the same character code) in the type charstring and it does not violate any type constraint specification (range, list or length) of type \"A\".",
+   "lines": [
+    6369,
+    6371
+   ]
+  },
+  {
+   "id": "6.3.1-s011",
+   "section": "6.3.1",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 4: Compatibility of character and universal character strings:",
+   "lines": [
+    6373,
+    6373
+   ]
+  },
+  {
+   "id": "6.3.1-s012",
+   "section": "6.3.1",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "//Given\n  type charstring MyChar length (1);\n  ...\n  var MyChar v_myCharacter;\n  var charstring v_myCharString; \n  var universal charstring v_myUnivCharString; \n  // Given\n  v_myCharString := \"abcd\";\n  // Then\n  v_myUnivCharString := v_myCharString\n  //is valid as charstring and universal charstring are compatible\n  v_myCharacter := v_myUnivCharString [1];\n  // is valid as the r.h.s. notation addresses a single element of the string,\n  // containing a character compatible with charstring\n  // Given\n  v_myUnivCharString := \"bet\" & char ( 0, 0, 1, 113);\n  // Then\n  v_myCharString := v_myUnivCharString;\n  // is invalid as v_myUnivCharString contains a character not in ISO 646.\n  // Given\n  var charstring v_myCharacterArray [5] := {\"A\", \"B\", \"C\", \"D\", \"E\"}\n  // Then\n  v_myCharString := v_myCharacterArray[1];\n  // is valid and assigns the value \"B\" to v_myCharString;",
+   "lines": [
+    6374,
+    6399
+   ]
+  },
+  {
+   "id": "6.3.2.0-s001",
+   "section": "6.3.2.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "This clause defines compatibility rules for structured types.",
+   "lines": [
+    6410,
+    6411
+   ]
+  },
+  {
+   "id": "6.3.2.0-s002",
+   "section": "6.3.2.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "In subsequent clauses, \"value \"b\"\" is called the value to be assigned, e.g. when passed as parameter, to an object of type \"A\".",
+   "lines": [
+    6410,
+    6411
+   ]
+  },
+  {
+   "id": "6.3.2.1-s001",
+   "section": "6.3.2.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Enumerated types are only compatible with other enumerated types.",
+   "lines": [
+    6415,
+    6416
+   ]
+  },
+  {
+   "id": "6.3.2.1-s002",
+   "section": "6.3.2.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "An enumerated value \"b\" of an enumerated type \"B\" is compatible with enumerated type \"A\" if the identifier of the value \"b\" is also defined in \"A\" and the integer(s) associated with value \"b\" are also associated with the same identifier in \"A\".",
+   "lines": [
+    6415,
+    6416
+   ]
+  },
+  {
+   "id": "6.3.2.1-s003",
+   "section": "6.3.2.1",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE: Assigning enumerated values:",
+   "lines": [
+    6418,
+    6418
+   ]
+  },
+  {
+   "id": "6.3.2.1-s004",
+   "section": "6.3.2.1",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "// Given\n  type enumerated EWeekDays {\n     Mon, Tue, Wed, Thu, Fri, Sat, Sun\n  };\n  type enumerated EWorkDays {\n     Mon, Tue, Wed, Thu, Fri\n  };\n  type enumerated EDesWeekDays {\n     Tue, Wed, Thu, Fri, Sat, Sun, Mon\n  };\n  type enumerated EComplexValues {\n   e_num (1),\n   e_expr (2+2),\n   e_bin_conv (bit2int('0111'B)),\n   e_oct_conv (oct2int('34'O)),\n   e_hex_conv (hex2int('AC'H))\n  }\n  type enumerated ESimpleValues {\n   e_num (1),\n   e_expr (4),\n   e_bin_conv (7),\n   e_oct_conv (52),\n   e_hex_conv (172)\n  }\n  var EWeekDays v_myWeekDayMon := Mon\n  var EWeekDays v_myWeekDaySun := Sun\n  var EWorkDays v_myWorkDayMon := Mon\n  var EDesWeekDays v_myDesWeekDayMon := Mon\n  var EComplexValues v_myComplexValuedEnum := e_bin_conv;\n  var ESimpleValues v_mySimpleValuedEnum := e_bin_conv;\n  v_myWorkDayMon := v_myWeekDayMon\n     // works\n  v_mySimpleValuedEnum := v_myComplexValuedEnum;\n     // works\n  v_myWorkDayMon := v_myWeekDaySun\n     // causes an error as Sun is not a member of EWorkDays\n  v_myDesWeekDayMon := v_myWeekDayMon\n     // causes an error as Mon in EDesWeekDays and EWeekDays have different associated \n     // numbers; since this is true for all enumerated values in EWeekDays, these two \n     // types are fully incompatible",
+   "lines": [
+    6419,
+    6460
+   ]
+  },
+  {
+   "id": "6.3.2.2-s001",
+   "section": "6.3.2.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "record types are compatible if the number, and optional aspect of the fields in the textual order of definition are identical, the types of each field are compatible and the value of each existing field of the value \"b\" is compatible with the type of its corresponding field in type \"A\".",
+   "lines": [
+    6463,
+    6463
+   ]
+  },
+  {
+   "id": "6.3.2.2-s002",
+   "section": "6.3.2.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The value of each field in the value \"b\" is assigned to the corresponding field in the value of type \"A\".",
+   "lines": [
+    6463,
+    6463
+   ]
+  },
+  {
+   "id": "6.3.2.2-s003",
+   "section": "6.3.2.2",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 1:",
+   "lines": [
+    6472,
+    6472
+   ]
+  },
+  {
+   "id": "6.3.2.2-s004",
+   "section": "6.3.2.2",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "// Given\n  type record AType {\n     integer a(0..10) optional,\n     integer b(0..10) optional,\n     boolean c\n  }\n  type record BType {\n     integer a optional,\n     integer b(0..10) optional,\n     boolean c\n  }\n  type record CType {  // type with different field names\n     integer d optional,\n     integer e optional,\n     boolean f\n  }\n  type record DType {  // type with field c optional\n     integer a optional,\n     integer b optional,\n     boolean c optional\n  }\n  type record EType {  // type with an extra field d\n     integer a optional,\n     integer b optional,\n     boolean c,\n     float d optional\n  }\n  var AType v_myVarA := { -, 1, true};\n  var BType v_myVarB := { omit, 2, true};\n  var CType v_myVarC := { 3, omit, true};\n  var DType v_myVarD := { 4, 4, true};\n  var EType v_myVarE := { 5, 5, true, omit};\n  // Then\n  v_myVarA := v_myVarB; // is a valid assignment,\n                 // new value of MyVarA is ( a :=omit, b:= 2, c:= true)\n  v_myVarC := v_myVarB; // is a valid assignment\n                 // new value of MyVarC is ( d :=omit, e:= 2, f:= true)\n  v_myVarA := v_myVarD; // is NOT a valid assignment because the optionality of fields does not \n                 // match \n  v_myVarA := v_myVarE; // is NOT a valid assignment because the number of fields does not match\n  v_myVarC := { d:= 20 }; // actual value of MyVarC is { d:=20, e:=2,f:= true }\n  v_myVarA := v_myVarC // is NOT a valid assignment because field 'd' of MyVarC violates \n                 // subtyping of field 'a' of AType",
+   "lines": [
+    6473,
+    6517
+   ]
+  },
+  {
+   "id": "6.3.2.2-s005",
+   "section": "6.3.2.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "`record of` types and arrays are compatible if their element types are compatible and value \"b\" does not violate any length subtyping of the `record of` type \"A\" or dimensions of the array type.",
+   "lines": [
+    6519,
+    6519
+   ]
+  },
+  {
+   "id": "6.3.2.2-s006",
+   "section": "6.3.2.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Values of elements of the value \"b\" shall be assigned sequentially to the instance of type \"A\", including undefined elements.",
+   "lines": [
+    6519,
+    6519
+   ]
+  },
+  {
+   "id": "6.3.2.2-s007",
+   "section": "6.3.2.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Two array types are compatible if their corresponding `record of` types are compatible.",
+   "lines": [
+    6521,
+    6521
+   ]
+  },
+  {
+   "id": "6.3.2.2-s008",
+   "section": "6.3.2.2",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE 2:",
+   "lines": [
+    6523,
+    6523
+   ]
+  },
+  {
+   "id": "6.3.2.2-s009",
+   "section": "6.3.2.2",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "// Given\n  type record of integer IType;\n  type record of float HType;\n  var HType v_myVarH := { 1.0, omit, 2.0 };\n  var IType v_myVarI;\n  var integer v_myArrayVar[2];\n\n  // Then\n  v_myVarI := { 3, 4 };\n  v_myArrayVar := v_myVarI;\n  // is a valid assignment as element types are compatible and the assigned value \n  // doesn't violate length restriction set by array dimension\n  v_myVarI2 := v_myArrayVar;\n  // is a valid assignment as element types are compatible and the target variable type has\n  // no length restriction\n  v_myVarI[2] := 5; // the value of v_myVarI is { 3, 4, 5 } now\n  v_myArrayVar := v_myVarI;\n  // is NOT a valid assignment as v_myVarI contains more elements than the array dimension\n  // allows\n  v_myVarH := v_myVarI;\n  // is NOT a valid assignment as element types are not compatible",
+   "lines": [
+    6524,
+    6546
+   ]
+  },
+  {
+   "id": "6.3.2.3-s001",
+   "section": "6.3.2.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "set types are only compatible with other set types and set of types are only compatible with other set of types.",
+   "lines": [
+    6549,
+    6549
+   ]
+  },
+  {
+   "id": "6.3.2.3-s002",
+   "section": "6.3.2.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "For set types the same compatibility rules shall apply as to record types and for set `of types the same` compatibility rules shall apply as to record `of types.`",
+   "lines": [
+    6551,
+    6552
+   ]
+  },
+  {
+   "id": "6.3.2.3-s003",
+   "section": "6.3.2.3",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "NOTE 1: This implies that though the order of elements at sending and receipt is unknown, when determining type compatibility for set types, the textual order of the fields in the type definition is decisive.",
+   "lines": [
+    6554,
+    6555
+   ]
+  },
+  {
+   "id": "6.3.2.3-s004",
+   "section": "6.3.2.3",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "NOTE 2: In set values the order of fields may be arbitrary, however this does not affect type compatibility as field names unambiguously identify, which fields of the related set type correspond to which set value fields.",
+   "lines": [
+    6557,
+    6559
+   ]
+  },
+  {
+   "id": "6.3.2.3-s005",
+   "section": "6.3.2.3",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE:",
+   "lines": [
+    6561,
+    6561
+   ]
+  },
+  {
+   "id": "6.3.2.3-s006",
+   "section": "6.3.2.3",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "// Given\n  type set FType {\n     integer a optional,\n     integer b optional,\n     boolean c\n  }\n  type set GType {\n     integer d  optional,\n     integer e  optional,\n     boolean f\n  }\n  var FType v_myVarF := { a:=1, c:=true };\n  var GType v_myVarG := { f:=true, d:=7};\n  // Then\n  v_myVarF := v_myVarG; // is a valid assignment as types FType and GType are compatible\n  v_myVarF := v_myVarA; // is NOT a valid assignment as v_myVarA is a record type",
+   "lines": [
+    6562,
+    6579
+   ]
+  },
+  {
+   "id": "6.3.2.4-s001",
+   "section": "6.3.2.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The compatibility rules for union types are the following:",
+   "lines": [
+    6583,
+    6583
+   ]
+  },
+  {
+   "id": "6.3.2.4-s002",
+   "section": "6.3.2.4",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "A union value \"b\" of union type \"B\" is compatible with union type \"A\" if the alternative selected in \"b\" has a corresponding alternative with identical name in \"A\" and the value of the selected alternative in \"b\" is compatible to the type of the corresponding alternative in \"A\".",
+   "lines": [
+    6585,
+    6587
+   ]
+  },
+  {
+   "id": "6.3.2.4-s003",
+   "section": "6.3.2.4",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "Otherwise, the following rules apply.",
+   "lines": [
+    6594,
+    6597
+   ]
+  },
+  {
+   "id": "6.3.2.4-s004",
+   "section": "6.3.2.4",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "A union value \"b\" of union type \"B\" with a default alternative of type \"C\" is compatible with an arbitrary type \"A\" if the alternative selected in \"b\" is the default alternative and the value of the default alternative is compatible to \"A\".",
+   "lines": [
+    6594,
+    6597
+   ]
+  },
+  {
+   "id": "6.3.2.4-s005",
+   "section": "6.3.2.4",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "A value \"a\" of an arbitrary type \"A\" is compatible with a **union type \"B\" with a default alternative of type \"C\" if value \"a\" is compatible to \"C\".**",
+   "lines": [
+    6594,
+    6597
+   ]
+  },
+  {
+   "id": "6.3.2.4-s006",
+   "section": "6.3.2.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "When considering the compatibility of two union types, initially the first rule (which is not dependent on the existence of a default alternative) shall be applied.",
+   "lines": [
+    6599,
+    6602
+   ]
+  },
+  {
+   "id": "6.3.2.4-s007",
+   "section": "6.3.2.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The second rule shall only be used to check compatibility, when - using the first rule - no compatibility has been determined.",
+   "lines": [
+    6599,
+    6602
+   ]
+  },
+  {
+   "id": "6.3.2.4-s008",
+   "section": "6.3.2.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "This order shall avoid ambiguity in case that a default alternative would otherwise also be compatible with the union itself.",
+   "lines": [
+    6599,
+    6602
+   ]
+  },
+  {
+   "id": "6.3.2.4-s009",
+   "section": "6.3.2.4",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "NOTE 1: It is possible to have nested unions with default alternatives.",
+   "lines": [
+    6604,
+    6606
+   ]
+  },
+  {
+   "id": "6.3.2.4-s010",
+   "section": "6.3.2.4",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "The rules above make type compatibility along the default alternatives transitive, i.e. the outermost union type is compatible with the type of the innermost default union alternative if all containing alternatives are also default alternatives.",
+   "lines": [
+    6604,
+    6606
+   ]
+  },
+  {
+   "id": "6.3.2.4-s011",
+   "section": "6.3.2.4",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "NOTE 2: When a union with a default alternative is used in an expression it will be resolved to its long notation, before the expression is evaluated.",
+   "lines": [
+    6608,
+    6609
+   ]
+  },
+  {
+   "id": "6.3.2.4-s012",
+   "section": "6.3.2.4",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 1:",
+   "lines": [
+    6613,
+    6613
+   ]
+  },
+  {
+   "id": "6.3.2.4-s013",
+   "section": "6.3.2.4",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "type union U1 {integer i};\n  type union U2 {integer i, boolean b};\n  var U1 v_u1 := {i := 1};\n  var U2 v_u2 := v_u1;  // correct as all alternatives of U1 exist in U2\n  v_u1:= v_u2; // correct as the alternative i is selected in v_u2 and is \n                   // compatible to i in U1\n  v_u2:= {b := true};\n  v_u1:= v_u2; // incorrect as v_u1 has no alternative b\n  var anytype v_x := v_u1;  // incorrect as the anytype is not a union type.",
+   "lines": [
+    6614,
+    6624
+   ]
+  },
+  {
+   "id": "6.3.2.4-s014",
+   "section": "6.3.2.4",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 2: Using union values of unions with default alternatives",
+   "lines": [
+    6626,
+    6626
+   ]
+  },
+  {
+   "id": "6.3.2.4-s015",
+   "section": "6.3.2.4",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "type union U3 { @default integer i, boolean b }\n  type union U4 { integer i, @default boolean b }\n  var U3 v_u3 := 3 // correct as i in U3 is declared with @default\n  v_u3 := v_u2; // correct because all alternatives in U2 exist in U3 \n                 // and are compatible\n  v_u2 := 3;  // incorrect as 3 is not of a union type and there is\n                 // no field in U2 declared with @default\n  v_u2 := v_u3; // also correct\n  v_u2 := v_u1.i;  // incorrect as U2 has no default alternative\n  v_u3 := v_u1.i;  // correct as the default alternative in U3 is compatible with U1.i\n  var integer v_int := v_u3 * 2 // v_int is 6 as v_u3 is treated as v_u3.i\n  var U3 v_u32 := {b := true};\n  var U4 v_u4 := true;\n  v_int := v_u4 *2; // incorrect as v_u4 is treated as a boolean, and cannot be multiplied\n  v_int := v_u32 *2;  // incorrect as \"v_u32\" would be treated as v_u32.i,\n                 // which is not the selected alternative\n  log(v_u4);  // results in \"{ b:=true }\" logged; for backward compatibility when\n                 // a union value is used in a log statement directly, no conversion\n                 // is performed.",
+   "lines": [
+    6627,
+    6647
+   ]
+  },
+  {
+   "id": "6.3.2.5-s001",
+   "section": "6.3.2.5",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "**anytype types are only compatible with other anytype types.",
+   "lines": [
+    6651,
+    6652
+   ]
+  },
+  {
+   "id": "6.3.2.5-s002",
+   "section": "6.3.2.5",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "An anytype value \"b\" of anytype type \"B\" is compatible** with anytype type \"A\" if the alternative selected in \"b\" is also contained in \"A\".",
+   "lines": [
+    6651,
+    6652
+   ]
+  },
+  {
+   "id": "6.3.2.5-s003",
+   "section": "6.3.2.5",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "NOTE: Only anytype types that are constrained to a fixed set of types via list subtyping can be a potential cause for anytype incompatibility, i.e. if the set of types contained in type \"A\" does not contain the type selected in \"b\".",
+   "lines": [
+    6654,
+    6654
+   ]
+  },
+  {
+   "id": "6.3.2.5-s004",
+   "section": "6.3.2.5",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE:",
+   "lines": [
+    6656,
+    6656
+   ]
+  },
+  {
+   "id": "6.3.2.5-s005",
+   "section": "6.3.2.5",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "module A {\n     type integer I (0..2);\n     type float F;\n     type anytype Atype ({I:=?},{F:=?},{integer:=?});",
+   "lines": [
+    6657,
+    6662
+   ]
+  },
+  {
+   "id": "6.3.2.5-s006",
+   "section": "6.3.2.5",
+   "kind": "code",
+   "context": null,
+   "normative": true,
+   "text": "//anytype composed of TTCN-3 built-in basic type integer, I, and F\n  }\n  module B {\n     type integer I (0..2);\n     type anytype Atype ({I:=?},{integer:=?},{float:=?});\n  }\n  module C {\n     import from A all;\n     import from B all;\n     type union U {\n       integer I (0..2)\n     }\n     control {\n       var A.Atype v_aa;\n       var A.Atype v_aaI := { A.I := 1 } // type I is imported from A and B\n       var A.Atype v_aaF := { F := 1.0 } // type F is only imported from A\n       var B.Atype v_ba := { integer := 1 }\n       var B.Atype v_baI := { B.I := 1 } // type I is imported from A and B\n       var U v_u := { I := 1 } // I is a field name in U\n     v_aa := v_ba; // correct, the value of aa1 becomes { integer := 1 }\n     v_aa := v_baI;  // incorrect, type B.I is not present in the anytype A.Atype\n     v_aa := v_u;  // incorrect, type of u is not anytype but a user defined union type\n     v_ba := { float := 1.0 }; // correct, assigning a literal value\n     v_ba := v_aaI;  // incorrect, type A.I is not present in the anytype B.Atype\n     v_ba := v_aaF;  // incorrect, type A.F is not present in the anytype B.Atype\n     }\n  }",
+   "lines": [
+    6668,
+    6696
+   ]
+  },
+  {
+   "id": "6.3.2.6-s001",
+   "section": "6.3.2.6",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The rules defined in this clause for structured types compatibility are also valid for the sub-structure of such types.",
+   "lines": [
+    6700,
+    6700
+   ]
+  },
+  {
+   "id": "6.3.2.6-s002",
+   "section": "6.3.2.6",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE:",
+   "lines": [
+    6702,
+    6702
+   ]
+  },
+  {
+   "id": "6.3.2.6-s003",
+   "section": "6.3.2.6",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "// Given\n  type record JType {\n     AType a,\n     integer b optional,\n     integer c\n  }\n  var JType v_myVarJ; \n  // If considering the declarations in clause 6.3.2.2, EXAMPLE 1 above, then\n  v_myVarJ.a := v_myVarA;\n  // is a valid assignment as the type of field a of JType and AType are compatible\n  v_myVarB := v_myVarJ.a;\n  // is a valid assignment as BType and the type of field a of JType are compatible",
+   "lines": [
+    6703,
+    6716
+   ]
+  },
+  {
+   "id": "6.3.2.7-s001",
+   "section": "6.3.2.7",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Values of all existing TTCN-3 types are compatible with the open type occurring in the left hand side of an assignment.",
+   "lines": [
+    6720,
+    6722
+   ]
+  },
+  {
+   "id": "6.3.2.7-s002",
+   "section": "6.3.2.7",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Values of open type occurring on the right hand side of an assignment are compatible with a value \"a\" of a type \"A\", if the actual value contained in the open type value is compatible with \"A\".",
+   "lines": [
+    6720,
+    6722
+   ]
+  },
+  {
+   "id": "6.3.3-s001",
+   "section": "6.3.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Type compatibility of component types has to be considered in different conditions:",
+   "lines": [
+    6731,
+    6731
+   ]
+  },
+  {
+   "id": "6.3.3-s002",
+   "section": "6.3.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "1) Compatibility of a component reference value with a component type (e.g. when passing a component reference as an actual parameter to a function or an altstep or when assigning a component reference value to a variable of different component type): a component reference \"b\" of component type \"B\" is compatible with component type \"A\" if all definitions of \"A\" have identical definitions in \"B\".",
+   "lines": [
+    6733,
+    6736
+   ]
+  },
+  {
+   "id": "6.3.3-s003",
+   "section": "6.3.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "2) Runs on compatibility: a function or altstep referring to component type \"A\" in its runs on clause may be called or started on a component instance of type 'B' if all the definitions of \"A\" have identical definitions in \"B\".",
+   "lines": [
+    6738,
+    6740
+   ]
+  },
+  {
+   "id": "6.3.3-s004",
+   "section": "6.3.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "3) Mtc compatibility: a function or altstep referring to component type \"A\" in its mtc clause may be called or started in any context that has a mtc clause of type \"B\" or a testcase with a runs on clause of type \"B\" if all the port definitions of \"A\" have identical definitions in \"B\".",
+   "lines": [
+    6742,
+    6746
+   ]
+  },
+  {
+   "id": "6.3.3-s005",
+   "section": "6.3.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "If the type of the mtc is unknown in the calling function, this can lead to runtime errors if the component type \"A\" is not mtc-compatible with the type of the running mtc.",
+   "lines": [
+    6742,
+    6746
+   ]
+  },
+  {
+   "id": "6.3.3-s006",
+   "section": "6.3.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "4) System compatibility: a function or altstep referring to component type \"A\" in its system clause may be called or started in any context that has a system clause of type \"B\" or a test case with a runs on clause of type \"B\" and no system clause if all the port definitions of \"A\" have identical definitions in \"B\".",
+   "lines": [
+    6748,
+    6752
+   ]
+  },
+  {
+   "id": "6.3.3-s007",
+   "section": "6.3.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "If the type of the system is unknown in the calling function, this can lead to runtime errors if the component type \"A\" is not system-compatible with the type of the system the current test case was started on.",
+   "lines": [
+    6748,
+    6752
+   ]
+  },
+  {
+   "id": "6.3.3-s008",
+   "section": "6.3.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Identity of definitions in \"A\" with definitions of \"B\" is determined based on the following rules:",
+   "lines": [
+    6754,
+    6754
+   ]
+  },
+  {
+   "id": "6.3.3-s009",
+   "section": "6.3.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "a) For port instances, both the type and the identifier shall be identical.",
+   "lines": [
+    6756,
+    6756
+   ]
+  },
+  {
+   "id": "6.3.3-s010",
+   "section": "6.3.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "b) For timer instances, identifiers shall be identical and either both shall have identical initial durations or both shall have no initial duration.",
+   "lines": [
+    6758,
+    6759
+   ]
+  },
+  {
+   "id": "6.3.3-s011",
+   "section": "6.3.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "c) For variable instances and constant definitions, the identifiers, the types and initialization values shall be identical (in case of variables this means that either the values are missing in both definitions or are the same).",
+   "lines": [
+    6761,
+    6762
+   ]
+  },
+  {
+   "id": "6.3.3-s012",
+   "section": "6.3.3",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "d) For local template definitions, the identifiers, the types, the formal parameter lists and the assigned template or template field values shall be identical.",
+   "lines": [
+    6764,
+    6765
+   ]
+  },
+  {
+   "id": "6.3.4-s001",
+   "section": "6.3.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The communication operations (see clause 22) `send, receive, trigger, call, getcall, reply, getreply` and raise and connection operations connect, map, disconnect and unmap (see clause 21.1) are exceptions to the weaker rule of type compatibility and require strong typing.",
+   "lines": [
+    6769,
+    6776
+   ]
+  },
+  {
+   "id": "6.3.4-s002",
+   "section": "6.3.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The types of values or templates directly used as parameters of the operations send, receive and trigger shall also be explicitly defined in the associated port type definition.",
+   "lines": [
+    6769,
+    6776
+   ]
+  },
+  {
+   "id": "6.3.4-s003",
+   "section": "6.3.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The signature type of the parameter list given to the operations call, getcall, reply, getreply and the signature type given to the operations catch and raise shall also be explicitly defined in the associated port type definition.",
+   "lines": [
+    6769,
+    6776
+   ]
+  },
+  {
+   "id": "6.3.4-s004",
+   "section": "6.3.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The types of values or templates directly used as exceptions to the operations catch and raise shall be explicitly defined in the exceptions part of the definition of the signature given to the operation.",
+   "lines": [
+    6769,
+    6776
+   ]
+  },
+  {
+   "id": "6.3.4-s005",
+   "section": "6.3.4",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE:",
+   "lines": [
+    6778,
+    6778
+   ]
+  },
+  {
+   "id": "6.3.4-s006",
+   "section": "6.3.4",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "type record MyRec {...}  // user defined type\n  type MyRec MyRecAlias;  // a type alias\n  type port MyPort message { inout MyRec, MyRecAlias; }  // port that can transport both types\n  type component MyComponent { port MyPort p; }\n  template MyRecAlias m_myRecAlias:= {...}  // a template of the alias type\n  var MyComponent v_myComp1 := MyComponent.create, v_myComp2 := MyComponent.create; \n  connect (v_myComp1:p, v_myComp2:p) // two connected PTCs via ports that can \n                               // transport the user-defined and the alias type\n  // in v_myComp1:\n  p.send (m_myRecAlias);  // sending of template of alias type",
+   "lines": [
+    6779,
+    6790
+   ]
+  },
+  {
+   "id": "6.3.4-s007",
+   "section": "6.3.4",
+   "kind": "code",
+   "context": null,
+   "normative": true,
+   "text": "// in v_myComp2:\n  p.receive (MyRec:?); \n  // shall not match as the transmitted template is of the alias type and \n  // not of the user-defined type\n  // in v_myComp2:\n  var MyRec v_x;\n  p.receive (MyRecAlias:?) -> value v_x; \n  // shall not cause an error since storing the value requires no strong typing",
+   "lines": [
+    6796,
+    6805
+   ]
+  },
+  {
+   "id": "6.3.5-s001",
+   "section": "6.3.5",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "If it is necessary to convert values of one type to values of another type, because their types have different root types, then either one of the predefined conversion functions defined in clause 16.1.2 or a user defined function shall be used.",
+   "lines": [
+    6809,
+    6810
+   ]
+  },
+  {
+   "id": "6.3.5-s002",
+   "section": "6.3.5",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE:",
+   "lines": [
+    6812,
+    6812
+   ]
+  },
+  {
+   "id": "6.3.5-s003",
+   "section": "6.3.5",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "// To convert an integer value to a hexstring value use the predefined function int2hex \n  MyHstring := int2hex(123, 4);",
+   "lines": [
+    6813,
+    6816
+   ]
+  },
+  {
+   "id": "6.3.6-s001",
+   "section": "6.3.6",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "For variables, constants and parameters of port types, the reference to a port \"b\" of type \"B\" is compatible to type \"A\" if type \"B\" and type \"A\" are equal or synonym types.",
+   "lines": [
+    6820,
+    6821
+   ]
+  },
+  {
+   "id": "6.3.7-s001",
+   "section": "6.3.7",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "For variables, constants and parameters of timer types, the reference to a timer is compatible with any other timer reference.",
+   "lines": [
+    6825,
+    6826
+   ]
+  },
+  {
+   "id": "6.3.8-s001",
+   "section": "6.3.8",
+   "kind": "code",
+   "context": null,
+   "normative": true,
+   "text": "map types are only compatible with other map types. A value \"b\" of a map type \"B\" is compatible with a map type \"A\"",
+   "lines": [
+    6829,
+    6831
+   ]
+  },
+  {
+   "id": "6.3.8-s002",
+   "section": "6.3.8",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "if the from type of \"A\" is compatible with the from type of \"B\" and the to type of \"B\" is compatible with the to type of \"A\".",
+   "lines": [
+    6833,
+    6834
+   ]
+  },
+  {
+   "id": "6.3.8-s003",
+   "section": "6.3.8",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE:",
+   "lines": [
+    6836,
+    6836
+   ]
+  },
+  {
+   "id": "6.3.8-s004",
+   "section": "6.3.8",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "type map from charstring to universal charstring Map1;\n  type map from universal charstring to charstring Map2; \n  // every value of Map2 can be used in a variable of Map1 but access to values \n  // associated with keys that are not charstring values is not possible",
+   "lines": [
+    6837,
+    6842
+   ]
+  },
+  {
+   "id": "6.4-s001",
+   "section": "6.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "A type can be defined as a synonym to another type.",
+   "lines": [
+    6846,
+    6847
+   ]
+  },
+  {
+   "id": "6.4-s002",
+   "section": "6.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Type synonyms can be defined for all kinds of types.",
+   "lines": [
+    6846,
+    6847
+   ]
+  },
+  {
+   "id": "6.4-s003",
+   "section": "6.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Synonym types are compatible.",
+   "lines": [
+    6846,
+    6847
+   ]
+  },
+  {
+   "id": "6.4-s004",
+   "section": "6.4",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE:",
+   "lines": [
+    6849,
+    6849
+   ]
+  },
+  {
+   "id": "6.4-s005",
+   "section": "6.4",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "type MyType1 MyType2; // MyType2 is synonym to MyType1",
+   "lines": [
+    6850,
+    6852
+   ]
+  }
+ ]
+}

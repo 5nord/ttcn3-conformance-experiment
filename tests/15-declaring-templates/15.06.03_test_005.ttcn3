@@ -1,0 +1,19 @@
+// @requirement: 15.6.3 -- If a length attribute is attached to the AnyValue, the index of the reference shall not violate the length attribute.
+// @id: TTCN3-CORE-15.6.3-009a
+// @verdict: pass accept, ttcn3verdict:error
+module M_15_06_03_test_005 {
+
+    type record of integer RoI;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template RoI v_roI := ? length (2 .. 5);
+        var template integer v_int := v_roI[5]; // error: index outside the length attribute
+        setverdict(fail);
+    }
+
+    control {
+        execute(TC());
+    }
+}

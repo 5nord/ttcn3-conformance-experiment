@@ -1,0 +1,23 @@
+// @requirement: 12 -- The timer value is interpreted with a base unit of seconds.
+// @id: TTCN3-CORE-12-015a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_12_test_015 {
+    type component C {}
+
+    testcase TC() runs on C {
+        timer T_t;
+        timer T_w := 0.2;
+        T_t.start(3.0);
+        T_w.start;
+        T_w.timeout;
+        var float v_elapsed := T_t.read;
+        if (T_t.running and v_elapsed >= 0.2 and v_elapsed < 3.0) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }}

@@ -1,0 +1,29 @@
+// @requirement: 21.3.5 -- The index of the first component found alive can optionally be assigned to an integer variable for single-dimensional component arrays or to an integer array or record of integer variable for multi-dimensional component arrays.
+// @id: TTCN3-CORE-21.3.5-012a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_03_05_test_012 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var C v_arr1[2] := { C.create, C.create };
+        var C v_arr2[2][2] := { { C.create, C.create }, { C.create, C.create } };
+        var integer v_idx1 := -1;
+        var integer v_idx2[2] := { -1, -1 };
+        v_arr1[0].kill;
+        v_arr2[0][0].kill;
+        v_arr2[0][1].kill;
+        v_arr2[1][1].kill;
+        if (any from v_arr1.alive -> @index value v_idx1 and
+            any from v_arr2.alive -> @index value v_idx2 and
+            v_idx1 == 1 and v_idx2 == { 1, 0 }) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

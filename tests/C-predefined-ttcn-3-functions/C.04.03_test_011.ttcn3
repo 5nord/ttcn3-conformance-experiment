@@ -1,0 +1,25 @@
+// @requirement: C.4.3 -- NOTE 1: The root types of arrays is record of, therefore if inpar or repl or both are an array, the returned type is record of.
+// @id: TTCN3-CORE-C.4.3-009a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_04_03_test_011 {
+
+    type component C {}
+
+    type record of integer RoI;
+    type integer IntArr[3];
+
+    testcase TC() runs on C {
+        var IntArr v_in := { 1, 2, 3 };
+        var IntArr v_repl := { 7, 8, 9 };
+        var RoI v_res := replace(v_in, 3, 0, v_repl);
+        if (lengthof(v_res) == 6 and v_res == { 1, 2, 3, 7, 8, 9 }) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

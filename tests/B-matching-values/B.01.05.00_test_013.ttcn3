@@ -1,0 +1,24 @@
+// @requirement: B.1.5.0 -- Metacharacter: [ ]; Indexing: Including the content; Description: Match any character within the specified set, see clause B.1.5.1 for more details
+// @id: TTCN3-CORE-B.1.5.0-017a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_05_00_test_013 {
+
+    type component C {}
+
+    template charstring mw_pattern := pattern "x[abc]y";
+
+    testcase TC() runs on C {
+        if (match("xay", mw_pattern) and
+            match("xcy", mw_pattern) and
+            not match("xdy", mw_pattern) and
+            not match("xaby", mw_pattern)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

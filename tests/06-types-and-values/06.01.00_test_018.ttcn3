@@ -1,0 +1,26 @@
+// @requirement: 6.1.0 -- Class of type: Structured types; Keyword: record; Subtype: list (see note)
+// @id: TTCN3-CORE-6.1.0-018b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_01_00_test_018 {
+
+    type record MyRecord {
+        integer a
+    }
+
+    type MyRecord MyRecordList ({ a := 1 }, { a := 2 });
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyRecordList v_rec := { a := 2 };
+        if (v_rec.a == 2) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

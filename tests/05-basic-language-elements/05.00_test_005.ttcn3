@@ -1,0 +1,28 @@
+// @requirement: 5.0 -- Program statements (such as if-else and do-while) can be used to specify the selection and execution order of individual test cases.
+// @id: TTCN3-CORE-5.0-007b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_00_test_005 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        setverdict(pass);
+    }
+
+    testcase TC_never() runs on C {
+        setverdict(fail);
+    }
+
+    control {
+        var integer v_count := 0;
+        var verdicttype v_verdict := none;
+        do {
+            if (v_count < 2) {
+                v_verdict := execute(TC());
+            } else {
+                v_verdict := execute(TC_never());
+            }
+            v_count := v_count + 1;
+        } while (v_count < 2 and v_verdict == pass);
+    }
+}

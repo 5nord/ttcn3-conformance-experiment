@@ -1,0 +1,27 @@
+// @requirement: 21.1.1 -- If a parameter list is present, the actual parameters shall conform to the map **param** clause of the port type declaration of the system port used.
+// @id: TTCN3-CORE-21.1.1-013a
+// @verdict: pass reject
+module M_21_01_01_test_016 {
+
+    type port P message {
+        inout integer;
+        map param (integer p_option);
+    }
+
+    type component C {
+        port P p;
+    }
+
+    type component S {
+        port P p;
+    }
+
+    testcase TC() runs on C system S {
+        map(mtc:p, system:p) param ("abc"); // error: charstring does not conform to integer
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

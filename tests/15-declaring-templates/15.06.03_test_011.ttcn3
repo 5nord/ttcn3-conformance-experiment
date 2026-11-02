@@ -1,0 +1,23 @@
+// @requirement: 15.6.3 -- d) _AnyValueOrNone: referencing an element within a record of, set of or array field to which AnyValueOrNone_ with or without a length attribute is assigned on the right hand side of an assignment shall cause an error.
+// @id: TTCN3-CORE-15.6.3-015a
+// @verdict: pass accept, ttcn3verdict:error
+module M_15_06_03_test_011 {
+
+    type record of integer RoI;
+
+    type record R {
+        RoI field1 optional
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template R v_r := {field1 := *};
+        var template integer v_int := v_r.field1[0]; // error: field1 contains AnyValueOrNone
+        setverdict(fail);
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,31 @@
+// @requirement: 8.2.3.5 -- All visible definitions of a module definitions part may be imported using the all keyword next to the module name.
+// @id: TTCN3-CORE-8.2.3.5-001a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_02_03_05_test_001 {
+
+    import from M_08_02_03_05_test_001_A all;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyInt v_i := f_inc(c_a);
+        if (match(v_i, m_two)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_03_05_test_001_A {
+    type integer MyInt;
+    const MyInt c_a := 1;
+    template MyInt m_two := 2;
+    function f_inc(MyInt p_i) return MyInt {
+        return p_i + 1;
+    }
+}

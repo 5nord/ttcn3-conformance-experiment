@@ -1,0 +1,26 @@
+// @requirement: 6.2.2.0 -- Set types and values are similar to records except that the ordering of the set fields is not significant.
+// @id: TTCN3-CORE-6.2.2.0-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_02_00_test_001 {
+
+    type component C {}
+
+    type set S {
+        integer field1,
+        charstring field2
+    }
+
+    testcase TC() runs on C {
+        var S v_s1 := { field2 := "a", field1 := 1 };
+        var S v_s2 := { field1 := 1, field2 := "a" };
+        if (v_s1 == v_s2 and v_s1.field1 == 1 and v_s1.field2 == "a") {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

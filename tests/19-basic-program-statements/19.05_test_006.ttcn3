@@ -1,0 +1,32 @@
+// @requirement: 19.5 -- The loop condition shall be checked at the beginning of each new loop iteration.
+// @id: TTCN3-CORE-19.5-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_05_test_006 {
+
+    type component C {
+        var integer v_evals := 0;
+        var integer v_body := 0;
+    }
+
+    function f_cond(integer p_limit) runs on C return boolean {
+        if (v_evals != v_body) {
+            setverdict(fail);
+        }
+        v_evals := v_evals + 1;
+        return v_body < p_limit;
+    }
+
+    testcase TC() runs on C {
+        setverdict(pass);
+        while (f_cond(3)) {
+            v_body := v_body + 1;
+        }
+        if (v_evals != 4 or v_body != 3) {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

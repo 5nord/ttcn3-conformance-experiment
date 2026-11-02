@@ -1,0 +1,20 @@
+// @requirement: C.5.4 -- The following values (see ISO/IEC 10646 [2]) are allowed as string_serialization actual parameters (for the description of the UCS encoding scheme see clause 27.5): a) "UTF-8" b) "UTF-16" c) "UTF-16LE" d) "UTF-16BE" e) "UTF-32" f) "UTF-32LE" g) "UTF-32BE"
+// @id: TTCN3-CORE-C.5.4-015a
+// @verdict: pass reject
+module M_C_05_04_test_015 {
+
+    type component C {}
+
+    type integer I with { variant "32 bit" };
+
+    testcase TC() runs on C {
+        var universal charstring v_enc := "ABCD";
+        var I v_dec;
+        var integer v_res := decvalue_unichar(v_enc, v_dec, "ASCII"); // error: not an allowed string_serialization value
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

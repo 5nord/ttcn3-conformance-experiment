@@ -1,0 +1,17 @@
+// @requirement: C.3.5 -- In addition to the general error causes given in clause 16.1.2, the following restrictions apply:
+// @id: TTCN3-CORE-C.3.5-015a
+// @verdict: pass accept, ttcn3verdict:error
+module M_C_03_05_test_008 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template integer v_t;
+        var boolean v_res := istemplatekind(v_t, "AnyValue"); // error: actual in parameter is uninitialized
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

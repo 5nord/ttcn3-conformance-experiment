@@ -1,0 +1,39 @@
+// @requirement: 6.2.8 -- TTCN-3 allows the activation of altsteps (see clause 16.2.1) as defaults to capture recurring behaviour.
+// @id: TTCN3-CORE-6.2.8-001a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_08_test_001 {
+
+    type component C {
+        timer T;
+        var integer v_hits := 0;
+    }
+
+    altstep a_def() runs on C {
+        [] T.timeout {
+            v_hits := v_hits + 1;
+        }
+    }
+
+    testcase TC() runs on C {
+        timer T_guard;
+        var default v_d := activate(a_def());
+        for (var integer i := 0; i < 2; i := i + 1) {
+            T.start(0.1);
+            T_guard.start(1.0);
+            alt {
+                [] T_guard.timeout {}
+            }
+            T_guard.stop;
+        }
+        deactivate(v_d);
+        if (v_hits == 2) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,24 @@
+// @requirement: 7.3 -- Failure of this decoding shall cause a test case error. The ReferencedValue preceding the => symbol in a decoding notation shall be decoded into a value of the type following the => symbol.
+// @id: TTCN3-CORE-7.3-005a
+// @verdict: pass accept, ttcn3verdict:error
+module M_07_03_test_004 {
+
+    type component C {}
+
+    type record R {
+        integer f1,
+        charstring f2
+    }
+
+    testcase TC() runs on C {
+        var bitstring v_bs := ''B;
+        var R v_dec;
+        setverdict(pass);
+        v_dec := v_bs => R; // error: empty bitstring cannot be decoded
+        setverdict(fail);
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,25 @@
+// @requirement: 6.1.2.2 -- The subtype defined by this list restricts the allowed values of the subtype to the union of the values of the referenced subtypes.
+// @id: TTCN3-CORE-6.1.2.2-003a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_01_02_02_test_003 {
+
+    type bitstring BitStrings1 ('0'B, '1'B);
+    type bitstring BitStrings2 ('00'B, '01'B);
+    type bitstring BitStrings_1_2 (BitStrings1, BitStrings2);
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var BitStrings_1_2 v_first := '1'B;
+        var BitStrings_1_2 v_second := '01'B;
+        if (v_first == '1'B and v_second == '01'B) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

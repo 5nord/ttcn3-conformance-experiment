@@ -1,0 +1,28 @@
+// @requirement: 21.0 -- **Reference Operations** Mtc Gets the reference to the MTC `connect(mtc:p, ptc:p);` System Gets the reference to the test system `map(c:p, system:sutPort);` interface
+// @id: TTCN3-CORE-21.0-026c
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_00_test_038 {
+
+    type port P message { inout integer; }
+
+    type component C {
+        port P p;
+    }
+
+    type component S {
+        port P sutPort;
+    }
+
+    testcase TC() runs on C system S {
+        map(self:p, system:sutPort);
+        if (p.checkstate("Mapped")) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

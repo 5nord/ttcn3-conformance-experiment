@@ -1,0 +1,21 @@
+// @requirement: 21.3.7 -- e) The (optional) value clause for storing the final local verdict of a PTC shall not be used in combination with all component or any component.
+// @id: TTCN3-CORE-21.3.7-029a
+// @verdict: pass reject
+module M_21_03_07_test_032 {
+
+    type component C {}
+
+    function f_ptc() runs on C {}
+
+    testcase TC() runs on C {
+        var verdicttype v_verdict;
+        var C v_ptc := C.create;
+        v_ptc.start(f_ptc());
+        any component.done -> value v_verdict; // error: value clause with any component
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

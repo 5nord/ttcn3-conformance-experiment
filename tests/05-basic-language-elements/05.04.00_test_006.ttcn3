@@ -1,0 +1,39 @@
+// @requirement: 5.4.0 -- Values, templates, timers, and ports may be used as actual parameters.
+// @id: TTCN3-CORE-5.4.0-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_04_00_test_006 {
+
+    type port P message {
+        inout integer
+    }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    function f_check(integer p_value, template integer p_tmpl, timer p_timer, P p_port) {
+        p_port.send(p_value);
+        p_timer.start;
+        alt {
+            [] p_port.receive(p_tmpl) {
+                setverdict(pass);
+            }
+            [] p_port.receive {
+                setverdict(fail);
+            }
+            [] p_timer.timeout {
+                setverdict(fail);
+            }
+        }
+    }
+
+    testcase TC() runs on C {
+        connect(self:p, self:p);
+        f_check(5, (1 .. 10), T, p);
+    }
+
+    control {
+        execute(TC());
+    }
+}

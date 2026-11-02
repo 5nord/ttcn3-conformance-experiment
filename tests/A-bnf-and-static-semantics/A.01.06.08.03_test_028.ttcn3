@@ -1,0 +1,29 @@
+// @requirement: A.1.6.8.3 -- IndexRef shall be used when referencing elements of values or arrays.
+// @id: TTCN3-CORE-A.1.6.8.3-019b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_A_01_06_08_03_test_028 {
+
+    type record of integer RoI;
+
+    type record R {
+        RoI f_list
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var R v_rec := {f_list := {1, 2}};
+        var integer v_arr[2] := {3, 4};
+        v_rec.f_list[1] := 20;
+        v_arr[0] := 30;
+        if (v_rec.f_list[1] == 20 and v_arr[0] == 30 and v_arr[1] == 4) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

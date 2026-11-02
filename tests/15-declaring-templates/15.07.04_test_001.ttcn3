@@ -1,0 +1,23 @@
+// @requirement: 15.7.4 -- length "(" ConstantExpression [ ".." ( ConstantExpression | infinity ) ] ")" [ ifpresent ] | ifpresent
+// @id: TTCN3-CORE-15.7.4-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_07_04_test_001 {
+    template charstring mw_len := ? length (3);
+    template charstring mw_range := ? length (1 .. 5);
+    template charstring mw_inf := ? length (2 .. infinity) ifpresent;
+    template integer mw_ifp := 5 ifpresent;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (match("abc", mw_len) and match("abcde", mw_range) and match("ab", mw_inf) and match(5, mw_ifp)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

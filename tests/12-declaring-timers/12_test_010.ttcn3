@@ -1,0 +1,18 @@
+// @requirement: 12 -- Default duration(s) assignment shall use the array value notation as specified in clause 15.8.2.
+// @id: TTCN3-CORE-12-010a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_12_test_010 {
+    type component C {}
+
+    testcase TC() runs on C {
+        timer T_arr[2] := { 0.05, 0.1 };
+        T_arr[0].start;
+        T_arr[1].start;
+        T_arr[0].timeout;
+        T_arr[1].timeout;
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }}

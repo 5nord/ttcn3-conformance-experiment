@@ -1,0 +1,22 @@
+// @requirement: 15.9 -- Types of the expression and the template instance shall be compatible (see clause 6.2.15).
+// @id: TTCN3-CORE-15.9-005a
+// @verdict: pass reject
+module M_15_09_test_004 {
+
+    type record R { integer a, integer b optional }
+
+    const R c_r := { a := 1, b := omit };
+    const integer c_c := 1;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (match(c_r, c_c)) { // error: incompatible types
+            setverdict(pass);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

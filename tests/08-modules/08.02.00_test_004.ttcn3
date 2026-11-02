@@ -1,0 +1,32 @@
+// @requirement: 8.2.0 -- { [ Visibility ] ( TypeDef | ConstDef | TemplateDef | ModuleParDef | FunctionDef | SignatureDef | TestcaseDef | AltstepDef | ImportDef | GroupDef | ExtFunctionDef | FriendDef | ModuleControlDef ) [ WithStatement ] [ ";" ] }+
+// @id: TTCN3-CORE-8.2.0-007a
+// @verdict: pass accept, noexecution
+module M_08_02_00_test_004 {
+
+    public type integer MyInt with { display "d" };
+    private const integer c_value := 1;
+    public template integer m_value := ? with { display "d" }
+    friend modulepar integer mp_value := 1;
+    public function f_test() {};
+    signature S(in integer p_x) return integer;
+    type component C {}
+    testcase TC() runs on C {
+        setverdict(pass);
+    }
+    altstep a_test() {
+        [] any timer.timeout {}
+    };
+    import from M_08_02_00_test_004_A all;
+    group g_group {
+        const integer c_inGroup := 2;
+    } with { display "d" };
+    external function f_ext(integer p_x) return integer;
+    friend module M_08_02_00_test_004_A;
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_00_test_004_A {
+    const integer c_imported := 3;
+}

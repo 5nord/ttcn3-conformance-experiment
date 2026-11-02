@@ -1,0 +1,39 @@
+// @requirement: 6.2.10.1 -- These declarations are visible to all testcases, functions and altsteps that run on an instance of the given component type.
+// @id: TTCN3-CORE-6.2.10.1-014a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_10_01_test_005 {
+
+    type component C {
+        const integer cc_i := 1;
+        var integer vc_i := 0;
+        template integer mw_i := 1;
+        timer tc_t := 0.1;
+    }
+
+    function f_inc() runs on C {
+        vc_i := vc_i + cc_i;
+    }
+
+    altstep a_timeout() runs on C {
+        [] tc_t.timeout {
+            if (match(cc_i, mw_i)) {
+                vc_i := vc_i + cc_i;
+            }
+        }
+    }
+
+    testcase TC() runs on C {
+        f_inc();
+        tc_t.start;
+        a_timeout();
+        if (vc_i == 2) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

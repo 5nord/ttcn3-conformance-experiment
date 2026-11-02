@@ -1,0 +1,28 @@
+// @requirement: 15.6.5 -- a) _Omit, AnyValueOrNone, template lists and complemented lists: referencing an alternative of a union template_ or template field to which Omit, AnyValueOrNone, a template list or a complemented list is assigned, at the right hand side of an assignment, shall cause an error.
+// @id: TTCN3-CORE-15.6.5-004a
+// @verdict: pass accept, ttcn3verdict:error
+module M_15_06_05_test_002 {
+
+    type union U {
+        integer c1,
+        charstring c2
+    }
+
+    type record R2 {
+        integer g1,
+        U g2 optional
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template R2 v_t1 := { g1 := 5, g2 := omit };
+        var template integer v_t2;
+        v_t2 := v_t1.g2.c1; // error: omit is assigned to v_t1.g2
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,27 @@
+// @requirement: 21.1.2 -- The disconnect and unmap operations perform the disconnection (of previously connected) ports of test components and the unmapping of (previously mapped) ports of test components and ports in the test system interface.
+// @id: TTCN3-CORE-21.1.2-003a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_01_02_test_003 {
+
+    type port P message { inout integer; }
+
+    type component C { port P p; }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(self:p, v_ptc:p);
+        if (not p.checkstate("Connected")) {
+            setverdict(fail, "port not connected");
+        }
+        disconnect(self:p, v_ptc:p);
+        if (not p.checkstate("Connected")) {
+            setverdict(pass);
+        } else {
+            setverdict(fail, "port still connected");
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,18 @@
+// @requirement: 15.0 -- e) The body of a fuzzy template shall not contain function calls of functions with inout or out parameters.
+// @id: TTCN3-CORE-15.0-022a
+// @verdict: pass reject
+module M_15_00_test_018 {
+
+    type component C {}
+
+    function f_out(out integer p_x) return integer {
+        p_x := 1;
+        return 1;
+    }
+
+    testcase TC() runs on C {
+        var integer v_x;
+        template @fuzzy integer m_fuzzy := f_out(v_x); // error: function with out parameter in fuzzy template body
+        setverdict(pass);
+    }
+}

@@ -1,0 +1,27 @@
+// @requirement: 19.2 -- Boolean expressions may be preceded by an init statement (variable declaration or assignment), which executes before the expression is evaluated.
+// @id: TTCN3-CORE-19.2-008b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_02_test_008 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_a := 1;
+        var integer v_hits := 0;
+        if (v_a := 10; v_a == 10) {
+            v_hits := v_hits + 1;
+        }
+        if (var integer v_x := v_a * 2; v_x == 20) {
+            v_hits := v_hits + 1;
+        }
+        if (v_hits == 2) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,28 @@
+// @requirement: 15.5 -- e) After completing initialization, modified global and local templates that do not contain the @abstract modifier shall be fully initialized.
+// @id: TTCN3-CORE-15.5-038a
+// @verdict: pass reject
+module M_15_05_test_034 {
+
+    type record R {
+        integer f1 optional,
+        charstring f2,
+        boolean f3
+    }
+
+    template @abstract R m_r1 := { f1 := 1, f2 := "A string" };
+    template R m_r2 modifies m_r1 := { f2 := "B string" }; // error: field f3 not initialized
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (match({ f1 := 1, f2 := "B string", f3 := true }, m_r2)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

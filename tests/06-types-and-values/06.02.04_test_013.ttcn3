@@ -1,0 +1,22 @@
+// @requirement: 6.2.4 -- The third example is the comparison operators: if the type of one of the operands is uniquely identified, it is used as a type context for the other operand (see example 2 below).
+// @id: TTCN3-CORE-6.2.4-011a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_04_test_013 {
+
+    type component C {}
+
+    type enumerated E { e_a, e_b, e_c };
+
+    testcase TC() runs on C {
+        var E v_e := e_b;
+        if (v_e == e_b and e_b == v_e and e_c != v_e) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

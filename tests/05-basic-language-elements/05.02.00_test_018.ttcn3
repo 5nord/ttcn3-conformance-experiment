@@ -1,0 +1,32 @@
+// @requirement: 5.2.0 -- module definitions part module component type function without altstep without template user defined control part runs on-clause runs on-clause named type statement block statement block statement block testcase with function with altstep with runs on-clause runs on-clause runs on-clause and optional system-clause nested nested nested statement block statement block statement block statement block statement block statement block nested nested nested statement block statement block statement block
+// @id: TTCN3-CORE-5.2.0-028b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_02_00_test_018 {
+
+    type component C {
+        var integer vc_x := 1;
+        timer T := 0.1;
+    }
+
+    type component S {}
+
+    function f_inc() runs on C {
+        vc_x := vc_x + 1;
+    }
+
+    altstep a_check() runs on C {
+        [vc_x == 2] T.timeout {
+            setverdict(pass);
+        }
+    }
+
+    testcase TC() runs on C system S {
+        f_inc();
+        T.start;
+        a_check();
+    }
+
+    control {
+        execute(TC());
+    }
+}

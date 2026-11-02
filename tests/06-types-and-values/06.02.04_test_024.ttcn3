@@ -1,0 +1,28 @@
+// @requirement: 6.2.4 -- These values are only used by the system to allow the use of relational operators.
+// @id: TTCN3-CORE-6.2.4-022a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_04_test_024 {
+
+    type component C {}
+
+    type enumerated E {
+        e_a (10),
+        e_b (5),
+        e_c (20 .. 30)
+    };
+
+    testcase TC() runs on C {
+        var E v_a := e_a;
+        var E v_b := e_b;
+        var E v_c := e_c(25);
+        if (v_b < v_a and v_a <= v_c and v_c > e_c(21) and v_c >= e_c(25)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

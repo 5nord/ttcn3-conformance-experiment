@@ -1,0 +1,21 @@
+// @requirement: A.1.6.1.3 -- WildcardLengthMatch shall be used when MatchingSymbol is used in fractions of a concatenated string or list (see clause 15.11)
+// @id: TTCN3-CORE-A.1.6.1.3-009a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_A_01_06_01_03_test_012 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        template bitstring mw_bits := '01'B & ? length(2) & '1'B;
+
+        if (match('01101'B, mw_bits) and not match('0111'B, mw_bits)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

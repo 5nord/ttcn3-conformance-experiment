@@ -1,0 +1,32 @@
+// @requirement: 21.1.1 -- 1) outlist-PORT1 ⊆ inlist-PORT2 and outlist-PORT2 ⊆ inlist-PORT1; and
+// @id: TTCN3-CORE-21.1.1-024a
+// @verdict: pass reject
+module M_21_01_01_test_019 {
+
+    type port P1 message {
+        out integer;
+        out charstring;
+    }
+
+    type port P2 message {
+        in integer;
+    }
+
+    type component C1 {
+        port P1 p;
+    }
+
+    type component C2 {
+        port P2 p;
+    }
+
+    testcase TC() runs on C1 {
+        var C2 v_ptc := C2.create;
+        connect(mtc:p, v_ptc:p); // error: outlist of mtc:p is not a subset of inlist of v_ptc:p
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

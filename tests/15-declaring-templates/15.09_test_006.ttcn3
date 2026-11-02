@@ -1,0 +1,21 @@
+// @requirement: 15.9 -- In the special case, matching a non-optional value expression (e.g. a value variable or non-optional field of a value) with a template instance that matches an omitted field (i.e. one of the matching mechanisms Omit, AnyValueOrNone, _IfPresent) shall be allowed and shall be treated as if the value expression were an optional field.
+// @id: TTCN3-CORE-15.9-007a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_09_test_006 {
+
+    const integer c_c := 1;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (match(c_c, *) and match(c_c, 1 ifpresent) and not match(c_c, omit)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,37 @@
+// @requirement: 22.3.2 -- Failure of this decoding shall cause a test case error.
+// @id: TTCN3-CORE-22.3.2-018a
+// @verdict: pass accept, ttcn3verdict:error
+module M_22_03_02_test_015 {
+
+    signature S(in octetstring p_enc) noblock;
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    altstep a_guard() runs on C {
+        [] T.timeout { setverdict(fail); stop; }
+    }
+
+    function f_client() runs on C {
+        p.call(S:{''O});
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        var integer v_i;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_client());
+        activate(a_guard());
+        T.start;
+        p.getcall(S:{?}) -> param(v_i := @decoded p_enc); // error: empty octetstring cannot be decoded
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

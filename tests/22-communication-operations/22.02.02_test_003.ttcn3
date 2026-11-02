@@ -1,0 +1,40 @@
+// @requirement: 22.2.2 -- The message may be specified by referencing a defined template or can be defined as an in-line template.
+// @id: TTCN3-CORE-22.2.2-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_02_02_test_003 {
+
+    type port P message { inout integer }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    template integer mw_small := (1 .. 5);
+
+    function f_send() runs on C {
+        p.send(3);
+        p.send(8);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_send());
+        T.start;
+        alt {
+            [] p.receive(mw_small) { }
+            [] p.receive { setverdict(fail); stop; }
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        alt {
+            [] p.receive(integer:(6 .. 10)) { setverdict(pass); }
+            [] p.receive { setverdict(fail); }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

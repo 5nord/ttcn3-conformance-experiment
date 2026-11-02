@@ -1,0 +1,39 @@
+// @requirement: 20.2 -- The optional statement block shall be executed only, if an alternative of the altstep referenced in the altstep-branch has been selected and executed.
+// @id: TTCN3-CORE-20.2-024a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_02_test_016 {
+    type component C {
+        timer T_step;
+    }
+
+    altstep a_step() runs on C {
+        [] T_step.timeout {}
+    }
+
+    testcase TC() runs on C {
+        var integer v_blocks := 0;
+        timer T_guard := 0.1;
+        T_guard.start;
+        alt {
+            [] a_step() {
+                setverdict(fail);
+            }
+            [] T_guard.timeout {}
+        }
+        T_step.start(0.1);
+        alt {
+            [] a_step() {
+                v_blocks := v_blocks + 1;
+            }
+        }
+        if (v_blocks == 1) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

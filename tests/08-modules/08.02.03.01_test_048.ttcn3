@@ -1,0 +1,28 @@
+// @requirement: 8.2.3.1 -- a) An import statement shall only be used in the module definitions part and not be used within a function definition and alike.
+// @id: TTCN3-CORE-8.2.3.1-083b
+// @verdict: pass reject
+module M_08_02_03_01_test_048 {
+
+    type component C {}
+
+    function f_get() return integer {
+        import from M_08_02_03_01_test_048_A all; // error: import within a function definition
+        return 42;
+    }
+
+    testcase TC() runs on C {
+        if (f_get() == 42) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_03_01_test_048_A {
+    const integer c_value := 42;
+}

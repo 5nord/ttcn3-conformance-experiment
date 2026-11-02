@@ -1,0 +1,23 @@
+// @requirement: 8.2.3.1 -- Definitions which are top-level but invisible to the importing module or which occur at a lower scope (e.g. local constants defined in a function) shall not be imported.
+// @id: TTCN3-CORE-8.2.3.1-085a
+// @verdict: pass reject
+module M_08_02_03_01_test_050 {
+
+    import from M_08_02_03_01_test_050_A {
+        const c_private // error: private definition is invisible to the importing module
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_03_01_test_050_A {
+    private const integer c_private := 42;
+}

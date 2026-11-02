@@ -1,0 +1,23 @@
+// @requirement: 6.3.2.4 -- NOTE 1: It is possible to have nested unions with default alternatives.
+// @id: TTCN3-CORE-6.3.2.4-009a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_03_02_04_test_006 {
+
+    type component C {}
+
+    type union UInner { @default integer i, boolean b }
+    type union UOuter { @default UInner u, charstring s }
+
+    testcase TC() runs on C {
+        var UOuter v_o := { u := { i := 1 } };
+        if (ischosen(v_o.u) and ischosen(v_o.u.i) and v_o.u.i == 1) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

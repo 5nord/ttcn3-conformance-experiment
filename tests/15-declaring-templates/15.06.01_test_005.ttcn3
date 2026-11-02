@@ -1,0 +1,26 @@
+// @requirement: 15.6.1 -- If the referenced binary string contains a matching mechanism inside a value, this matching mechanism is treated as a single item for indexing purposes.
+// @id: TTCN3-CORE-15.6.1-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_06_01_test_005 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template octetstring v_oct := '01??AB*'O, v_e1, v_e2;
+        var template bitstring v_bit := '1*0'B, v_e3;
+        v_e1 := v_oct[3];
+        v_e2 := v_oct[4];
+        v_e3 := v_bit[2];
+        if (match('AB'O, v_e1) and not match('01'O, v_e1)
+            and match(''O, v_e2) and match('ABCD'O, v_e2)
+            and match('0'B, v_e3) and not match('1'B, v_e3)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

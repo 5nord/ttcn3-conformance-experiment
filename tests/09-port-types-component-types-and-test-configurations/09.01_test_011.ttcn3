@@ -1,0 +1,22 @@
+// @requirement: 9.1 -- A port that is connected shall not be mapped and a port that is mapped shall not be connected (see figure 7 (g)).
+// @id: TTCN3-CORE-9.1-019a
+// @verdict: pass accept, ttcn3verdict:error
+module M_09_01_test_011 {
+
+    type port P message { inout integer; }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C system C {
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        map(mtc:p, system:p); // error: connected port is mapped
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

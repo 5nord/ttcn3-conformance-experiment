@@ -1,0 +1,1182 @@
+{
+ "batch": "b053",
+ "requirements": [
+  {
+   "id": "TTCN3-CORE-19.4.2-002a",
+   "section": "19.4.2",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "for \"(\" [ var TypeOrNestedTypeDef ] ValueRef in Expression \")\" StatementBlock",
+   "canonical": "The range-based loop has the syntax `for` \"(\" [`var` TypeOrNestedTypeDef] ValueRef `in` Expression \")\" StatementBlock.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14459,
+    14462
+   ],
+   "examples": [
+    {
+     "lines": [
+      14494,
+      14505
+     ],
+     "text": "// Iterate over hexstring\n  //\n  var hexstring t := '12D'H;\n  for (var hexstring e in t) {\n     log(e);\n  }\n  // Output:\n  //  '1'H\n  //  '2'H\n  //  'D'H"
+    },
+    {
+     "lines": [
+      14508,
+      14518
+     ],
+     "text": "// Iterate over octetstring\n  //\n  var octetstring t := '12DE'O;\n  for (var octetstring e in t) {\n     log(e);\n  }\n  // Output:\n  //  '12'O\n  //  'DE'O"
+    }
+   ],
+   "file": "tests/19-basic-program-statements/19.04.02_test_001.ttcn3",
+   "module": "M_19_04_02_test_001",
+   "header": "// @requirement: 19.4.2 -- for \"(\" [ var TypeOrNestedTypeDef ] ValueRef in Expression \")\" StatementBlock"
+  },
+  {
+   "id": "TTCN3-CORE-19.4.2-003a",
+   "section": "19.4.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The range expression is evaluated once before beginning the loop and may be partially initialized.",
+   "canonical": "The range expression of a range-based loop IS evaluated exactly once before the loop begins.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14466,
+    14468
+   ],
+   "examples": [
+    {
+     "lines": [
+      14565,
+      14579
+     ],
+     "text": "for (var charstring c in f()) { // Range expression is evaluated only once\n    log(c);\n  }\n  // ...\n  function f() return record of charstring {\n    log(\"f called\");\n    return {\"a\", \"b\", \"c\"};\n  }\n  // Output:\n  // f called\n  // a\n  // b\n  // c"
+    },
+    {
+     "lines": [
+      14582,
+      14599
+     ],
+     "text": "// Modify record of from inside a loop\n  //\n  var integer i := 0;\n  var record of integer a := {1, 2, 3}\n  for (var integer x in a) { // a is evaluated once, modification of `a` has no effect\n                // on the number of iterations or iterated values.\n     log(x);\n     a[i+1] := 10*x;\n     i++;\n  }\n  log(a);\n  // Output:\n  // 1\n  // 2\n  // 3\n  // {1, 10, 20, 30}"
+    }
+   ],
+   "file": "tests/19-basic-program-statements/19.04.02_test_002.ttcn3",
+   "module": "M_19_04_02_test_002",
+   "header": "// @requirement: 19.4.2 -- The range expression is evaluated once before beginning the loop and may be partially initialized."
+  },
+  {
+   "id": "TTCN3-CORE-19.4.2-003b",
+   "section": "19.4.2",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "The range expression is evaluated once before beginning the loop and may be partially initialized.",
+   "canonical": "The range expression of a range-based loop MAY be partially initialized.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14466,
+    14468
+   ],
+   "examples": [
+    {
+     "lines": [
+      14539,
+      14554
+     ],
+     "text": "// Iterate over partially initialized value\n  //\n  var integer i := 0;\n  var charstring e;\n  for (e in {\"a\", -, \"c\"}) {\n     log(i, \", \", e);\n     i++;\n  }\n  log(i, \", \", e);\n  // Output:\n  //  0, \"a\"\n  //  1, UNINITIALIZED\n  //  2, \"c\"\n  //  3, \"c\""
+    }
+   ],
+   "file": "tests/19-basic-program-statements/19.04.02_test_003.ttcn3",
+   "module": "M_19_04_02_test_003",
+   "header": "// @requirement: 19.4.2 -- The range expression is evaluated once before beginning the loop and may be partially initialized."
+  },
+  {
+   "id": "TTCN3-CORE-19.4.2-004a",
+   "section": "19.4.2",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "original": "The range _expression shall evaluate to a value with root type record of, set of, array, octetstring, hexstring, bitstring,_ **charstring or universal charstring.**",
+   "canonical": "The range expression of a range-based loop SHALL evaluate to a value whose root type is record of, set of, array, octetstring, hexstring, bitstring, charstring or universal charstring.",
+   "condition": null,
+   "cross_refs": [
+    "3.1"
+   ],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "The list does not include map types, but NOTE 1 and EXAMPLE 3 iterate over map keys (m.from); chosen reading: map key/value projections count as record of / set of values.",
+    "readings": [
+     "The range expression SHALL be of one of the listed root types, where map key and value projections (`.from`, `.to`) are regarded as set of values.",
+     "The range expression SHALL be of one of the listed root types only, so iteration over map keys or values is not allowed."
+    ]
+   },
+   "spec_lines": [
+    14466,
+    14468
+   ],
+   "examples": [
+    {
+     "lines": [
+      14494,
+      14505
+     ],
+     "text": "// Iterate over hexstring\n  //\n  var hexstring t := '12D'H;\n  for (var hexstring e in t) {\n     log(e);\n  }\n  // Output:\n  //  '1'H\n  //  '2'H\n  //  'D'H"
+    },
+    {
+     "lines": [
+      14508,
+      14518
+     ],
+     "text": "// Iterate over octetstring\n  //\n  var octetstring t := '12DE'O;\n  for (var octetstring e in t) {\n     log(e);\n  }\n  // Output:\n  //  '12'O\n  //  'DE'O"
+    },
+    {
+     "lines": [
+      14521,
+      14536
+     ],
+     "text": "// Iterate over the keys of a map\n  //\n  var map from charstring to integer m := {\n     [\"a\"] := 1,\n     [\"b\"] := 2,\n     [\"c\"] := 3,\n  }\n  for (var charstring k in m.from) {\n     log(k, \"=\", m[k]);\n  }\n  // Output (order may vary):\n  //  a=1\n  //  b=2\n  //  c=3"
+    }
+   ],
+   "file": "tests/19-basic-program-statements/19.04.02_test_004.ttcn3",
+   "module": "M_19_04_02_test_004",
+   "header": "// @requirement: 19.4.2 -- The range _expression shall evaluate to a value with root type record of, set of, array, octetstring, hexstring, bitstring,_ **charstring or universal charstring.**"
+  },
+  {
+   "id": "TTCN3-CORE-19.4.2-005a",
+   "section": "19.4.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Elements are iterated in sequential order.",
+   "canonical": "A range-based loop iterates over the elements of the range expression in sequential order.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14470,
+    14471
+   ],
+   "examples": [
+    {
+     "lines": [
+      14494,
+      14505
+     ],
+     "text": "// Iterate over hexstring\n  //\n  var hexstring t := '12D'H;\n  for (var hexstring e in t) {\n     log(e);\n  }\n  // Output:\n  //  '1'H\n  //  '2'H\n  //  'D'H"
+    }
+   ],
+   "file": "tests/19-basic-program-statements/19.04.02_test_005.ttcn3",
+   "module": "M_19_04_02_test_005",
+   "header": "// @requirement: 19.4.2 -- Elements are iterated in sequential order."
+  },
+  {
+   "id": "TTCN3-CORE-19.4.2-006a",
+   "section": "19.4.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "In each iteration the appropriate element is assigned to the iteration variable and the statement block is executed.",
+   "canonical": "In each iteration of a range-based loop the corresponding element IS assigned to the iteration variable.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14470,
+    14471
+   ],
+   "examples": [
+    {
+     "lines": [
+      14494,
+      14505
+     ],
+     "text": "// Iterate over hexstring\n  //\n  var hexstring t := '12D'H;\n  for (var hexstring e in t) {\n     log(e);\n  }\n  // Output:\n  //  '1'H\n  //  '2'H\n  //  'D'H"
+    }
+   ],
+   "file": "tests/19-basic-program-statements/19.04.02_test_006.ttcn3",
+   "module": "M_19_04_02_test_006",
+   "header": "// @requirement: 19.4.2 -- In each iteration the appropriate element is assigned to the iteration variable and the statement block is executed."
+  },
+  {
+   "id": "TTCN3-CORE-19.4.2-006b",
+   "section": "19.4.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "In each iteration the appropriate element is assigned to the iteration variable and the statement block is executed.",
+   "canonical": "In each iteration of a range-based loop the statement block IS executed after the element has been assigned to the iteration variable.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14470,
+    14471
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.04.02_test_007.ttcn3",
+   "module": "M_19_04_02_test_007",
+   "header": "// @requirement: 19.4.2 -- In each iteration the appropriate element is assigned to the iteration variable and the statement block is executed."
+  },
+  {
+   "id": "TTCN3-CORE-19.4.2-007a",
+   "section": "19.4.2",
+   "type": "static-semantics",
+   "modality": "IS",
+   "original": "If the iteration variable is declared in the for statement header, its scope and lifetime is limited to the statement block, i.e. a new iteration variable is initialized in every iteration.",
+   "canonical": "If the iteration variable is declared in the for statement header, its scope and lifetime ARE limited to the statement block.",
+   "condition": "the iteration variable is declared in the for statement header",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14473,
+    14475
+   ],
+   "examples": [
+    {
+     "lines": [
+      14557,
+      14562
+     ],
+     "text": "// Scope of iterator variable\n  for (var integer x in {1,2,x}) { // ERROR: scope of x is limited to statement block\n    // ...\n  }"
+    }
+   ],
+   "file": "tests/19-basic-program-statements/19.04.02_test_008.ttcn3",
+   "module": "M_19_04_02_test_008",
+   "header": "// @requirement: 19.4.2 -- If the iteration variable is declared in the for statement header, its scope and lifetime is limited to the statement block, i.e. a new iteration variable is initialized in every iteration."
+  },
+  {
+   "id": "TTCN3-CORE-19.4.2-007b",
+   "section": "19.4.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "If the iteration variable is declared in the for statement header, its scope and lifetime is limited to the statement block, i.e. a new iteration variable is initialized in every iteration.",
+   "canonical": "If the iteration variable is declared in the for statement header, a new iteration variable IS initialized in every iteration.",
+   "condition": "the iteration variable is declared in the for statement header",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14473,
+    14475
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.04.02_test_009.ttcn3",
+   "module": "M_19_04_02_test_009",
+   "header": "// @requirement: 19.4.2 -- If the iteration variable is declared in the for statement header, its scope and lifetime is limited to the statement block, i.e. a new iteration variable is initialized in every iteration."
+  },
+  {
+   "id": "TTCN3-CORE-19.4.2-008a",
+   "section": "19.4.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "If the iteration variable is declared outside the for statement, after execution its value will be that of the last iteration.",
+   "canonical": "If the iteration variable is declared outside the for statement, its value after the execution of the loop IS that of the last iteration.",
+   "condition": "the iteration variable is declared outside the for statement",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14473,
+    14475
+   ],
+   "examples": [
+    {
+     "lines": [
+      14539,
+      14554
+     ],
+     "text": "// Iterate over partially initialized value\n  //\n  var integer i := 0;\n  var charstring e;\n  for (e in {\"a\", -, \"c\"}) {\n     log(i, \", \", e);\n     i++;\n  }\n  log(i, \", \", e);\n  // Output:\n  //  0, \"a\"\n  //  1, UNINITIALIZED\n  //  2, \"c\"\n  //  3, \"c\""
+    }
+   ],
+   "file": "tests/19-basic-program-statements/19.04.02_test_010.ttcn3",
+   "module": "M_19_04_02_test_010",
+   "header": "// @requirement: 19.4.2 -- If the iteration variable is declared outside the for statement, after execution its value will be that of the last iteration."
+  },
+  {
+   "id": "TTCN3-CORE-19.4.2-009a",
+   "section": "19.4.2",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "The assignment to the iteration variable follows the rules specified in clause 19.1.1 with the exception that assignment of uninitialized elements is permitted.",
+   "canonical": "The assignment of an element to the iteration variable SHALL follow the assignment rules of clause 19.1.1.",
+   "condition": null,
+   "cross_refs": [
+    "19.1.1"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14477,
+    14479
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.04.02_test_011.ttcn3",
+   "module": "M_19_04_02_test_011",
+   "header": "// @requirement: 19.4.2 -- The assignment to the iteration variable follows the rules specified in clause 19.1.1 with the exception that assignment of uninitialized elements is permitted."
+  },
+  {
+   "id": "TTCN3-CORE-19.4.2-009b",
+   "section": "19.4.2",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "The assignment to the iteration variable follows the rules specified in clause 19.1.1 with the exception that assignment of uninitialized elements is permitted.",
+   "canonical": "An uninitialized element MAY be assigned to the iteration variable of a range-based loop.",
+   "condition": null,
+   "cross_refs": [
+    "19.1.1"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14477,
+    14479
+   ],
+   "examples": [
+    {
+     "lines": [
+      14539,
+      14554
+     ],
+     "text": "// Iterate over partially initialized value\n  //\n  var integer i := 0;\n  var charstring e;\n  for (e in {\"a\", -, \"c\"}) {\n     log(i, \", \", e);\n     i++;\n  }\n  log(i, \", \", e);\n  // Output:\n  //  0, \"a\"\n  //  1, UNINITIALIZED\n  //  2, \"c\"\n  //  3, \"c\""
+    }
+   ],
+   "file": "tests/19-basic-program-statements/19.04.02_test_012.ttcn3",
+   "module": "M_19_04_02_test_012",
+   "header": "// @requirement: 19.4.2 -- The assignment to the iteration variable follows the rules specified in clause 19.1.1 with the exception that assignment of uninitialized elements is permitted."
+  },
+  {
+   "id": "TTCN3-CORE-19.4.2-010a",
+   "section": "19.4.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "When an uninitialized value is assigned to the iterator variable, the iterator variable becomes uninitialized.",
+   "canonical": "When an uninitialized value is assigned to the iteration variable, the iteration variable IS uninitialized.",
+   "condition": "an uninitialized element is assigned",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "The sentence uses 'iterator variable' while the rest of the clause uses 'iteration variable'.",
+    "improper_terms": [
+     {
+      "used": "iterator variable",
+      "proper": "iteration variable",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    14477,
+    14479
+   ],
+   "examples": [
+    {
+     "lines": [
+      14539,
+      14554
+     ],
+     "text": "// Iterate over partially initialized value\n  //\n  var integer i := 0;\n  var charstring e;\n  for (e in {\"a\", -, \"c\"}) {\n     log(i, \", \", e);\n     i++;\n  }\n  log(i, \", \", e);\n  // Output:\n  //  0, \"a\"\n  //  1, UNINITIALIZED\n  //  2, \"c\"\n  //  3, \"c\""
+    }
+   ],
+   "file": "tests/19-basic-program-statements/19.04.02_test_013.ttcn3",
+   "module": "M_19_04_02_test_013",
+   "header": "// @requirement: 19.4.2 -- When an uninitialized value is assigned to the iterator variable, the iterator variable becomes uninitialized."
+  },
+  {
+   "id": "TTCN3-CORE-19.5-001a",
+   "section": "19.5",
+   "type": "definition",
+   "modality": "IS",
+   "original": "A while statement defines a loop that is executed as long as the loop condition holds.",
+   "canonical": "A while statement IS a loop that is executed as long as the loop condition holds.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14603,
+    14603
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.05_test_001.ttcn3",
+   "module": "M_19_05_test_001",
+   "header": "// @requirement: 19.5 -- A while statement defines a loop that is executed as long as the loop condition holds."
+  },
+  {
+   "id": "TTCN3-CORE-19.5-002a",
+   "section": "19.5",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "while \"(\" [(VarInstance|Assignment) \";\"] BooleanExpression \")\" StatementBlock",
+   "canonical": "The while statement has the syntax `while` \"(\" [(VarInstance | Assignment) \";\"] BooleanExpression \")\" StatementBlock.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14606,
+    14608
+   ],
+   "examples": [
+    {
+     "lines": [
+      14629,
+      14631
+     ],
+     "text": "while (v_j<10){ … }"
+    }
+   ],
+   "file": "tests/19-basic-program-statements/19.05_test_002.ttcn3",
+   "module": "M_19_05_test_002",
+   "header": "// @requirement: 19.5 -- while \"(\" [(VarInstance|Assignment) \";\"] BooleanExpression \")\" StatementBlock"
+  },
+  {
+   "id": "TTCN3-CORE-19.5-003a",
+   "section": "19.5",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "The loop condition may be preceded by an init statement (variable declaration or assignment), which executes before the expression is evaluated.",
+   "canonical": "The loop condition of a while statement MAY be preceded by an init statement (variable declaration or assignment).",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14612,
+    14614
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.05_test_003.ttcn3",
+   "module": "M_19_05_test_003",
+   "header": "// @requirement: 19.5 -- The loop condition may be preceded by an init statement (variable declaration or assignment), which executes before the expression is evaluated."
+  },
+  {
+   "id": "TTCN3-CORE-19.5-003b",
+   "section": "19.5",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The loop condition may be preceded by an init statement (variable declaration or assignment), which executes before the expression is evaluated.",
+   "canonical": "The init statement of a while statement IS executed before the loop condition is evaluated.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "Unclear whether the init statement executes once before the first evaluation or before every evaluation of the loop condition; chosen reading: once.",
+    "readings": [
+     "The init statement of a while statement IS executed once, before the loop condition is evaluated for the first time.",
+     "The init statement of a while statement IS executed before each evaluation of the loop condition."
+    ]
+   },
+   "spec_lines": [
+    14612,
+    14614
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.05_test_004.ttcn3",
+   "module": "M_19_05_test_004",
+   "header": "// @requirement: 19.5 -- The loop condition may be preceded by an init statement (variable declaration or assignment), which executes before the expression is evaluated."
+  },
+  {
+   "id": "TTCN3-CORE-19.5-004a",
+   "section": "19.5",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "The scope of variables declared within an init statement shall be limited to the while statement.",
+   "canonical": "The scope of a variable declared within the init statement of a while statement SHALL be limited to the while statement.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14612,
+    14614
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.05_test_005.ttcn3",
+   "module": "M_19_05_test_005",
+   "header": "// @requirement: 19.5 -- The scope of variables declared within an init statement shall be limited to the while statement."
+  },
+  {
+   "id": "TTCN3-CORE-19.5-005a",
+   "section": "19.5",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "The loop condition shall be checked at the beginning of each new loop iteration.",
+   "canonical": "The loop condition of a while statement SHALL be checked at the beginning of each new loop iteration.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14616,
+    14617
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.05_test_006.ttcn3",
+   "module": "M_19_05_test_006",
+   "header": "// @requirement: 19.5 -- The loop condition shall be checked at the beginning of each new loop iteration."
+  },
+  {
+   "id": "TTCN3-CORE-19.5-006a",
+   "section": "19.5",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "If the loop condition does not hold, then the loop is exited and execution shall continue with the statement, which immediately follows the while loop.",
+   "canonical": "If the loop condition of a while statement does not hold, the loop SHALL be exited and execution SHALL continue with the statement immediately following the while loop.",
+   "condition": "the loop condition does not hold",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14616,
+    14617
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.05_test_007.ttcn3",
+   "module": "M_19_05_test_007",
+   "header": "// @requirement: 19.5 -- If the loop condition does not hold, then the loop is exited and execution shall continue with the statement, which immediately follows the while loop."
+  },
+  {
+   "id": "TTCN3-CORE-19.5-007a",
+   "section": "19.5",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "If a break statement is executed that is not within the body of an enclosed loop, alt, alststep or interleave, then the loop is terminated, too.",
+   "canonical": "If a break statement is executed that is not within the body of an enclosed loop, alt statement, altstep or interleave statement, the while loop IS terminated.",
+   "condition": "the break statement is not within an enclosed loop, alt, altstep or interleave",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "The text uses the misspelling 'alststep' instead of 'altstep'.",
+    "improper_terms": [
+     {
+      "used": "alststep",
+      "proper": "altstep",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    14616,
+    14622
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.05_test_008.ttcn3",
+   "module": "M_19_05_test_008",
+   "header": "// @requirement: 19.5 -- If a break statement is executed that is not within the body of an enclosed loop, alt, alststep or interleave, then the loop is terminated, too."
+  },
+  {
+   "id": "TTCN3-CORE-19.6-001a",
+   "section": "19.6",
+   "type": "definition",
+   "modality": "IS",
+   "original": "A do-while statement defines a loop that is executed up until the loop condition does not hold.",
+   "canonical": "A do-while statement IS a loop that is executed until the loop condition does not hold.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14635,
+    14635
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.06_test_001.ttcn3",
+   "module": "M_19_06_test_001",
+   "header": "// @requirement: 19.6 -- A do-while statement defines a loop that is executed up until the loop condition does not hold."
+  },
+  {
+   "id": "TTCN3-CORE-19.6-002a",
+   "section": "19.6",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "do StatementBlock while \"(\" BooleanExpression \")\"",
+   "canonical": "The do-while statement has the syntax `do` StatementBlock `while` \"(\" BooleanExpression \")\".",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14638,
+    14640
+   ],
+   "examples": [
+    {
+     "lines": [
+      14654,
+      14656
+     ],
+     "text": "do { … } while (v_j<10);"
+    }
+   ],
+   "file": "tests/19-basic-program-statements/19.06_test_002.ttcn3",
+   "module": "M_19_06_test_002",
+   "header": "// @requirement: 19.6 -- do StatementBlock while \"(\" BooleanExpression \")\""
+  },
+  {
+   "id": "TTCN3-CORE-19.6-003a",
+   "section": "19.6",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The do-while loop is identical to a while loop with the exception that the loop condition shall be checked at the end of each loop iteration.",
+   "canonical": "A do-while loop IS identical to a while loop except for the point at which the loop condition is checked.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14644,
+    14647
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.06_test_003.ttcn3",
+   "module": "M_19_06_test_003",
+   "header": "// @requirement: 19.6 -- The do-while loop is identical to a while loop with the exception that the loop condition shall be checked at the end of each loop iteration."
+  },
+  {
+   "id": "TTCN3-CORE-19.6-003b",
+   "section": "19.6",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "The do-while loop is identical to a while loop with the exception that the loop condition shall be checked at the end of each loop iteration.",
+   "canonical": "The loop condition of a do-while statement SHALL be checked at the end of each loop iteration.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14644,
+    14647
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.06_test_004.ttcn3",
+   "module": "M_19_06_test_004",
+   "header": "// @requirement: 19.6 -- The do-while loop is identical to a while loop with the exception that the loop condition shall be checked at the end of each loop iteration."
+  },
+  {
+   "id": "TTCN3-CORE-19.6-004a",
+   "section": "19.6",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "This means when using a do-while loop the behaviour is executed at least once before the loop condition is evaluated for the first time.",
+   "canonical": "The statement block of a do-while loop IS executed at least once before the loop condition is evaluated for the first time.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14644,
+    14647
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.06_test_005.ttcn3",
+   "module": "M_19_06_test_005",
+   "header": "// @requirement: 19.6 -- This means when using a do-while loop the behaviour is executed at least once before the loop condition is evaluated for the first time."
+  },
+  {
+   "id": "TTCN3-CORE-19.6-005a",
+   "section": "19.6",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "If a break statement is executed that is not within the body of an enclosed loop, alt, alststep or interleave, then the loop is terminated, too.",
+   "canonical": "If a break statement is executed that is not within the body of an enclosed loop, alt statement, altstep or interleave statement, the do-while loop IS terminated.",
+   "condition": "the break statement is not within an enclosed loop, alt, altstep or interleave",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "The text uses the misspelling 'alststep' instead of 'altstep'.",
+    "improper_terms": [
+     {
+      "used": "alststep",
+      "proper": "altstep",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    14644,
+    14647
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.06_test_006.ttcn3",
+   "module": "M_19_06_test_006",
+   "header": "// @requirement: 19.6 -- If a break statement is executed that is not within the body of an enclosed loop, alt, alststep or interleave, then the loop is terminated, too."
+  },
+  {
+   "id": "TTCN3-CORE-19.7-001a",
+   "section": "19.7",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "The label statement allows the specification of labels in test cases, functions and altsteps.",
+   "canonical": "A label statement MAY be used in test cases, functions and altsteps.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14660,
+    14660
+   ],
+   "examples": [
+    {
+     "lines": [
+      14690,
+      14709
+     ],
+     "text": "label MyLabel;  // Defines the label MyLabel\n  // The labels L1, L2 and L3 are defined in the following TTCN-3 code fragment \n   :\n  label L1; // Definition of label L1\n  alt{\n  [] pCO1.receive(mw_mySig1) \n     { label L2; // Definition of label L2 \n       pCO1.send(m_mySig2);\n       pCO1.receive(mw_ySig3)\n     }\n  [] pCO2.receive(mw_mySig4)\n     { pCO2.send(m_mySig5);\n       pCO2.send(m_mySig6);\n       label L3; // Definition of label L3 \n       pCO2.receive(mw_mySig7);\n     }\n  }\n   :"
+    }
+   ],
+   "file": "tests/19-basic-program-statements/19.07_test_001.ttcn3",
+   "module": "M_19_07_test_001",
+   "header": "// @requirement: 19.7 -- The label statement allows the specification of labels in test cases, functions and altsteps."
+  },
+  {
+   "id": "TTCN3-CORE-19.7-002a",
+   "section": "19.7",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "label LabelIdentifier",
+   "canonical": "The label statement has the syntax `label` LabelIdentifier.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14663,
+    14665
+   ],
+   "examples": [
+    {
+     "lines": [
+      14690,
+      14709
+     ],
+     "text": "label MyLabel;  // Defines the label MyLabel\n  // The labels L1, L2 and L3 are defined in the following TTCN-3 code fragment \n   :\n  label L1; // Definition of label L1\n  alt{\n  [] pCO1.receive(mw_mySig1) \n     { label L2; // Definition of label L2 \n       pCO1.send(m_mySig2);\n       pCO1.receive(mw_ySig3)\n     }\n  [] pCO2.receive(mw_mySig4)\n     { pCO2.send(m_mySig5);\n       pCO2.send(m_mySig6);\n       label L3; // Definition of label L3 \n       pCO2.receive(mw_mySig7);\n     }\n  }\n   :"
+    }
+   ],
+   "file": "tests/19-basic-program-statements/19.07_test_002.ttcn3",
+   "module": "M_19_07_test_002",
+   "header": "// @requirement: 19.7 -- label LabelIdentifier"
+  },
+  {
+   "id": "TTCN3-CORE-19.7-004a",
+   "section": "19.7",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The label is used by the goto statement (see clause 19.8) to transfer control to a labelled statement.",
+   "canonical": "A label IS used by the goto statement to transfer control to the labelled statement.",
+   "condition": null,
+   "cross_refs": [
+    "19.8"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14674,
+    14675
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.07_test_003.ttcn3",
+   "module": "M_19_07_test_003",
+   "header": "// @requirement: 19.7 -- The label is used by the goto statement (see clause 19.8) to transfer control to a labelled statement."
+  },
+  {
+   "id": "TTCN3-CORE-19.7-006a",
+   "section": "19.7",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "a) A label statement can be used freely like other TTCN-3 behavioural program statements according to the syntax rules defined in annex A.",
+   "canonical": "A label statement MAY be used like any other TTCN-3 behavioural program statement according to the syntax rules of annex A.",
+   "condition": null,
+   "cross_refs": [
+    "A"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14682,
+    14684
+   ],
+   "examples": [
+    {
+     "lines": [
+      14690,
+      14709
+     ],
+     "text": "label MyLabel;  // Defines the label MyLabel\n  // The labels L1, L2 and L3 are defined in the following TTCN-3 code fragment \n   :\n  label L1; // Definition of label L1\n  alt{\n  [] pCO1.receive(mw_mySig1) \n     { label L2; // Definition of label L2 \n       pCO1.send(m_mySig2);\n       pCO1.receive(mw_ySig3)\n     }\n  [] pCO2.receive(mw_mySig4)\n     { pCO2.send(m_mySig5);\n       pCO2.send(m_mySig6);\n       label L3; // Definition of label L3 \n       pCO2.receive(mw_mySig7);\n     }\n  }\n   :"
+    }
+   ],
+   "file": "tests/19-basic-program-statements/19.07_test_004.ttcn3",
+   "module": "M_19_07_test_004",
+   "header": "// @requirement: 19.7 -- a) A label statement can be used freely like other TTCN-3 behavioural program statements according to the syntax rules defined in annex A."
+  },
+  {
+   "id": "TTCN3-CORE-19.7-006b",
+   "section": "19.7",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "It can be used before or after a TTCN-3 statement",
+   "canonical": "A label statement MAY be placed before or after a TTCN-3 statement.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14682,
+    14684
+   ],
+   "examples": [
+    {
+     "lines": [
+      14690,
+      14709
+     ],
+     "text": "label MyLabel;  // Defines the label MyLabel\n  // The labels L1, L2 and L3 are defined in the following TTCN-3 code fragment \n   :\n  label L1; // Definition of label L1\n  alt{\n  [] pCO1.receive(mw_mySig1) \n     { label L2; // Definition of label L2 \n       pCO1.send(m_mySig2);\n       pCO1.receive(mw_ySig3)\n     }\n  [] pCO2.receive(mw_mySig4)\n     { pCO2.send(m_mySig5);\n       pCO2.send(m_mySig6);\n       label L3; // Definition of label L3 \n       pCO2.receive(mw_mySig7);\n     }\n  }\n   :"
+    }
+   ],
+   "file": "tests/19-basic-program-statements/19.07_test_005.ttcn3",
+   "module": "M_19_07_test_005",
+   "header": "// @requirement: 19.7 -- It can be used before or after a TTCN-3 statement"
+  },
+  {
+   "id": "TTCN3-CORE-19.7-006c",
+   "section": "19.7",
+   "type": "restriction",
+   "modality": "SHALL NOT",
+   "original": "but not as the first statement of an alternative or top alternative in an alt statement, interleave statement or altstep.",
+   "canonical": "A label statement SHALL NOT be the first statement of an alternative or top alternative in an alt statement, interleave statement or altstep.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14682,
+    14684
+   ],
+   "examples": [
+    {
+     "lines": [
+      14690,
+      14709
+     ],
+     "text": "label MyLabel;  // Defines the label MyLabel\n  // The labels L1, L2 and L3 are defined in the following TTCN-3 code fragment \n   :\n  label L1; // Definition of label L1\n  alt{\n  [] pCO1.receive(mw_mySig1) \n     { label L2; // Definition of label L2 \n       pCO1.send(m_mySig2);\n       pCO1.receive(mw_ySig3)\n     }\n  [] pCO2.receive(mw_mySig4)\n     { pCO2.send(m_mySig5);\n       pCO2.send(m_mySig6);\n       label L3; // Definition of label L3 \n       pCO2.receive(mw_mySig7);\n     }\n  }\n   :"
+    }
+   ],
+   "file": "tests/19-basic-program-statements/19.07_test_006.ttcn3",
+   "module": "M_19_07_test_006",
+   "header": "// @requirement: 19.7 -- but not as the first statement of an alternative or top alternative in an alt statement, interleave statement or altstep."
+  },
+  {
+   "id": "TTCN3-CORE-19.7-007a",
+   "section": "19.7",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "original": "b) Labels used following the label keyword shall be unique among all labels defined in the same test case, function or altstep.",
+   "canonical": "A label defined by a label statement SHALL be unique among all labels defined in the same test case, function or altstep.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14686,
+    14687
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.07_test_007.ttcn3",
+   "module": "M_19_07_test_007",
+   "header": "// @requirement: 19.7 -- b) Labels used following the label keyword shall be unique among all labels defined in the same test case, function or altstep."
+  },
+  {
+   "id": "TTCN3-CORE-19.8-001a",
+   "section": "19.8",
+   "type": "definition",
+   "modality": "IS",
+   "original": "A goto statement performs a jump to a label.",
+   "canonical": "A goto statement performs a jump to a label.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14713,
+    14713
+   ],
+   "examples": [
+    {
+     "lines": [
+      14748,
+      14786
+     ],
+     "text": "// The following TTCN-3 code fragment includes\n  :\n  label L1; // … the definition of label L1,\n  m_myVar := 2 * m_myVar;\n  if (m_myVar < 2000) { goto L1; } // … a jump backward to L1,\n  m_myVar2 := f_myFunction(m_myVar);\n  if (m_myVar2 > m_myVar) { goto L2; } // … a jump forward to L2, \n  pCO1.send(m_myVar);\n  pCO1.receive;\n  label L2;  // … the definition of label L2,\n  pCO2.send(integer: 21);\n  alt {\n   [] pCO1.receive { }\n   [] pCO2.receive(integer: 67) {\n       label L3; // … the definition of label L3,\n       pCO2.send(m_myVar);\n       alt {\n        [] pCO1.receive { }\n        [] pCO2.receive(integer: 90) {\n            pCO2.send(integer: 33);\n            pCO2.receive(integer: 13);\n            goto L4; // … a jump forward out of two nested alt statements,\n          }\n        [] pCO2.receive(mw_myError) {\n            goto L3; // … a jump backward out of the current alt statement,\n          }\n        [] any port.receive {\n            goto L2; // … a jump backward out of two nested alt statements,\n          }\n       }\n     }\n   [] any port.receive {\n       goto L2; // … and a long jump backward out of an alt statement.\n     }\n  }\n  label L4;\n  :"
+    }
+   ],
+   "file": "tests/19-basic-program-statements/19.08_test_001.ttcn3",
+   "module": "M_19_08_test_001",
+   "header": "// @requirement: 19.8 -- A goto statement performs a jump to a label."
+  },
+  {
+   "id": "TTCN3-CORE-19.8-002a",
+   "section": "19.8",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "goto LabelIdentifier",
+   "canonical": "The goto statement has the syntax `goto` LabelIdentifier.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14716,
+    14718
+   ],
+   "examples": [
+    {
+     "lines": [
+      14748,
+      14786
+     ],
+     "text": "// The following TTCN-3 code fragment includes\n  :\n  label L1; // … the definition of label L1,\n  m_myVar := 2 * m_myVar;\n  if (m_myVar < 2000) { goto L1; } // … a jump backward to L1,\n  m_myVar2 := f_myFunction(m_myVar);\n  if (m_myVar2 > m_myVar) { goto L2; } // … a jump forward to L2, \n  pCO1.send(m_myVar);\n  pCO1.receive;\n  label L2;  // … the definition of label L2,\n  pCO2.send(integer: 21);\n  alt {\n   [] pCO1.receive { }\n   [] pCO2.receive(integer: 67) {\n       label L3; // … the definition of label L3,\n       pCO2.send(m_myVar);\n       alt {\n        [] pCO1.receive { }\n        [] pCO2.receive(integer: 90) {\n            pCO2.send(integer: 33);\n            pCO2.receive(integer: 13);\n            goto L4; // … a jump forward out of two nested alt statements,\n          }\n        [] pCO2.receive(mw_myError) {\n            goto L3; // … a jump backward out of the current alt statement,\n          }\n        [] any port.receive {\n            goto L2; // … a jump backward out of two nested alt statements,\n          }\n       }\n     }\n   [] any port.receive {\n       goto L2; // … and a long jump backward out of an alt statement.\n     }\n  }\n  label L4;\n  :"
+    }
+   ],
+   "file": "tests/19-basic-program-statements/19.08_test_002.ttcn3",
+   "module": "M_19_08_test_002",
+   "header": "// @requirement: 19.8 -- goto LabelIdentifier"
+  },
+  {
+   "id": "TTCN3-CORE-19.8-003a",
+   "section": "19.8",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "The goto statement can be used in functions, test cases and altsteps to transfer control to a labelled statement.",
+   "canonical": "A goto statement MAY be used in functions, test cases and altsteps to transfer control to a labelled statement.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14722,
+    14722
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.08_test_003.ttcn3",
+   "module": "M_19_08_test_003",
+   "header": "// @requirement: 19.8 -- The goto statement can be used in functions, test cases and altsteps to transfer control to a labelled statement."
+  },
+  {
+   "id": "TTCN3-CORE-19.8-004a",
+   "section": "19.8",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "The goto statement provides the possibility to jump freely, i.e. forwards and backwards, within a sequence of statements, to jump out of a single compound statement (e.g. a while loop) and to jump over several levels out of nested compound statements (e.g. nested alternatives).",
+   "canonical": "A goto statement MAY jump forwards and backwards within a sequence of statements.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14724,
+    14726
+   ],
+   "examples": [
+    {
+     "lines": [
+      14748,
+      14786
+     ],
+     "text": "// The following TTCN-3 code fragment includes\n  :\n  label L1; // … the definition of label L1,\n  m_myVar := 2 * m_myVar;\n  if (m_myVar < 2000) { goto L1; } // … a jump backward to L1,\n  m_myVar2 := f_myFunction(m_myVar);\n  if (m_myVar2 > m_myVar) { goto L2; } // … a jump forward to L2, \n  pCO1.send(m_myVar);\n  pCO1.receive;\n  label L2;  // … the definition of label L2,\n  pCO2.send(integer: 21);\n  alt {\n   [] pCO1.receive { }\n   [] pCO2.receive(integer: 67) {\n       label L3; // … the definition of label L3,\n       pCO2.send(m_myVar);\n       alt {\n        [] pCO1.receive { }\n        [] pCO2.receive(integer: 90) {\n            pCO2.send(integer: 33);\n            pCO2.receive(integer: 13);\n            goto L4; // … a jump forward out of two nested alt statements,\n          }\n        [] pCO2.receive(mw_myError) {\n            goto L3; // … a jump backward out of the current alt statement,\n          }\n        [] any port.receive {\n            goto L2; // … a jump backward out of two nested alt statements,\n          }\n       }\n     }\n   [] any port.receive {\n       goto L2; // … and a long jump backward out of an alt statement.\n     }\n  }\n  label L4;\n  :"
+    }
+   ],
+   "file": "tests/19-basic-program-statements/19.08_test_004.ttcn3",
+   "module": "M_19_08_test_004",
+   "header": "// @requirement: 19.8 -- The goto statement provides the possibility to jump freely, i.e. forwards and backwards, within a sequence of statements, to jump out of a single compound statement (e.g. a while loop) and to jump over several levels out of nested compound statements (e.g. nested alternatives)."
+  },
+  {
+   "id": "TTCN3-CORE-19.8-004b",
+   "section": "19.8",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "The goto statement provides the possibility to jump freely, i.e. forwards and backwards, within a sequence of statements, to jump out of a single compound statement (e.g. a while loop) and to jump over several levels out of nested compound statements (e.g. nested alternatives).",
+   "canonical": "A goto statement MAY jump out of a single compound statement.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14724,
+    14726
+   ],
+   "examples": [
+    {
+     "lines": [
+      14748,
+      14786
+     ],
+     "text": "// The following TTCN-3 code fragment includes\n  :\n  label L1; // … the definition of label L1,\n  m_myVar := 2 * m_myVar;\n  if (m_myVar < 2000) { goto L1; } // … a jump backward to L1,\n  m_myVar2 := f_myFunction(m_myVar);\n  if (m_myVar2 > m_myVar) { goto L2; } // … a jump forward to L2, \n  pCO1.send(m_myVar);\n  pCO1.receive;\n  label L2;  // … the definition of label L2,\n  pCO2.send(integer: 21);\n  alt {\n   [] pCO1.receive { }\n   [] pCO2.receive(integer: 67) {\n       label L3; // … the definition of label L3,\n       pCO2.send(m_myVar);\n       alt {\n        [] pCO1.receive { }\n        [] pCO2.receive(integer: 90) {\n            pCO2.send(integer: 33);\n            pCO2.receive(integer: 13);\n            goto L4; // … a jump forward out of two nested alt statements,\n          }\n        [] pCO2.receive(mw_myError) {\n            goto L3; // … a jump backward out of the current alt statement,\n          }\n        [] any port.receive {\n            goto L2; // … a jump backward out of two nested alt statements,\n          }\n       }\n     }\n   [] any port.receive {\n       goto L2; // … and a long jump backward out of an alt statement.\n     }\n  }\n  label L4;\n  :"
+    }
+   ],
+   "file": "tests/19-basic-program-statements/19.08_test_005.ttcn3",
+   "module": "M_19_08_test_005",
+   "header": "// @requirement: 19.8 -- The goto statement provides the possibility to jump freely, i.e. forwards and backwards, within a sequence of statements, to jump out of a single compound statement (e.g. a while loop) and to jump over several levels out of nested compound statements (e.g. nested alternatives)."
+  },
+  {
+   "id": "TTCN3-CORE-19.8-004c",
+   "section": "19.8",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "The goto statement provides the possibility to jump freely, i.e. forwards and backwards, within a sequence of statements, to jump out of a single compound statement (e.g. a while loop) and to jump over several levels out of nested compound statements (e.g. nested alternatives).",
+   "canonical": "A goto statement MAY jump over several levels out of nested compound statements.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14724,
+    14726
+   ],
+   "examples": [
+    {
+     "lines": [
+      14748,
+      14786
+     ],
+     "text": "// The following TTCN-3 code fragment includes\n  :\n  label L1; // … the definition of label L1,\n  m_myVar := 2 * m_myVar;\n  if (m_myVar < 2000) { goto L1; } // … a jump backward to L1,\n  m_myVar2 := f_myFunction(m_myVar);\n  if (m_myVar2 > m_myVar) { goto L2; } // … a jump forward to L2, \n  pCO1.send(m_myVar);\n  pCO1.receive;\n  label L2;  // … the definition of label L2,\n  pCO2.send(integer: 21);\n  alt {\n   [] pCO1.receive { }\n   [] pCO2.receive(integer: 67) {\n       label L3; // … the definition of label L3,\n       pCO2.send(m_myVar);\n       alt {\n        [] pCO1.receive { }\n        [] pCO2.receive(integer: 90) {\n            pCO2.send(integer: 33);\n            pCO2.receive(integer: 13);\n            goto L4; // … a jump forward out of two nested alt statements,\n          }\n        [] pCO2.receive(mw_myError) {\n            goto L3; // … a jump backward out of the current alt statement,\n          }\n        [] any port.receive {\n            goto L2; // … a jump backward out of two nested alt statements,\n          }\n       }\n     }\n   [] any port.receive {\n       goto L2; // … and a long jump backward out of an alt statement.\n     }\n  }\n  label L4;\n  :"
+    }
+   ],
+   "file": "tests/19-basic-program-statements/19.08_test_006.ttcn3",
+   "module": "M_19_08_test_006",
+   "header": "// @requirement: 19.8 -- The goto statement provides the possibility to jump freely, i.e. forwards and backwards, within a sequence of statements, to jump out of a single compound statement (e.g. a while loop) and to jump over several levels out of nested compound statements (e.g. nested alternatives)."
+  },
+  {
+   "id": "TTCN3-CORE-19.8-006a",
+   "section": "19.8",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "a) It is not allowed to jump out of or into functions, test cases and altsteps.",
+   "canonical": "A goto statement SHALL NOT jump out of a function, test case or altstep.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14733,
+    14733
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.08_test_007.ttcn3",
+   "module": "M_19_08_test_007",
+   "header": "// @requirement: 19.8 -- a) It is not allowed to jump out of or into functions, test cases and altsteps."
+  },
+  {
+   "id": "TTCN3-CORE-19.8-006b",
+   "section": "19.8",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "a) It is not allowed to jump out of or into functions, test cases and altsteps.",
+   "canonical": "A goto statement SHALL NOT jump into a function, test case or altstep.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14733,
+    14733
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.08_test_008.ttcn3",
+   "module": "M_19_08_test_008",
+   "header": "// @requirement: 19.8 -- a) It is not allowed to jump out of or into functions, test cases and altsteps."
+  },
+  {
+   "id": "TTCN3-CORE-19.8-007a",
+   "section": "19.8",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "b) It is not allowed to jump into a sequence of statements defined in a compound statement (i.e. alt statement, while loop, for loop, if-else statement, do-while loop and the interleave statement).",
+   "canonical": "A goto statement SHALL NOT jump into a sequence of statements defined in a compound statement (alt statement, while loop, for loop, if-else statement, do-while loop or interleave statement).",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "The list introduced by 'i.e.' omits select case and select union statements and plain statement blocks; chosen reading: the list is exhaustive.",
+    "readings": [
+     "A goto statement SHALL NOT jump into the statements of an alt, while, for, if-else, do-while or interleave statement only.",
+     "A goto statement SHALL NOT jump into any compound statement, including select case and select union statements."
+    ]
+   },
+   "spec_lines": [
+    14735,
+    14738
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.08_test_009.ttcn3",
+   "module": "M_19_08_test_009",
+   "header": "// @requirement: 19.8 -- b) It is not allowed to jump into a sequence of statements defined in a compound statement (i.e. alt statement, while loop, for loop, if-else statement, do-while loop and the interleave statement)."
+  },
+  {
+   "id": "TTCN3-CORE-19.8-009a",
+   "section": "19.8",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "c) It is not allowed to use the goto statement within an interleave statement.",
+   "canonical": "A goto statement SHALL NOT be used within an interleave statement.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14740,
+    14740
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.08_test_010.ttcn3",
+   "module": "M_19_08_test_010",
+   "header": "// @requirement: 19.8 -- c) It is not allowed to use the goto statement within an interleave statement."
+  }
+ ]
+}

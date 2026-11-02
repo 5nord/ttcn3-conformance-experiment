@@ -1,0 +1,23 @@
+// @requirement: 22.3.6 -- n) When assigning implicitly decoded exception fields (by using the @decoded modifier) in cases where the value or template to be matched uses the MatchDecodedContent (decmatch) matching for the parameter to be stored, the type of the template in the MatchDecodedContent matching shall be type-compatible to the type of the variable the decoded field is stored into.
+// @id: TTCN3-CORE-22.3.6-062a
+// @verdict: pass reject
+module M_22_03_06_test_060 {
+
+    type record E {
+        integer id,
+        octetstring payload
+    }
+
+    signature S() exception (E);
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    function f_catch() runs on C {
+        var charstring v_cs;
+        p.catch(S, E:{id := ?, payload := decmatch integer:?}) -> value (v_cs := @decoded payload); // error: decmatch type integer incompatible with charstring
+    }
+}

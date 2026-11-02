@@ -1,0 +1,20 @@
+// @requirement: D.0 -- Preprocessing macros shall not be replaced inside literal charstring values and templates and not in TTCN-3 comments.
+// @id: TTCN3-CORE-D.0-003a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_D_00_test_002 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var charstring v_str := "__MODULE__";
+        if (v_str != __MODULE__ and lengthof(v_str) == 10 and v_str == "_" & "_MODULE__") {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

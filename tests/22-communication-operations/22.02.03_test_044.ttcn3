@@ -1,0 +1,44 @@
+// @requirement: 22.2.3 -- i) If a variable referenced in the value, sender or @index clause is a lazy or fuzzy variable, the expression assigned to this variable is equal to the result produced by the trigger operation, i.e. later evaluation of the lazy or fuzzy variable does not lead to repeated invocation of the trigger operation.
+// @id: TTCN3-CORE-22.2.3-044b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_02_03_test_044 {
+
+    type port P message { inout integer }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    altstep a_guard() runs on C {
+        [] T.timeout { setverdict(fail); stop; }
+    }
+
+    function f_send() runs on C {
+        p.send(1);
+        p.send(2);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        var @fuzzy integer v_fuzzy;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_send());
+        activate(a_guard());
+        T.start;
+        p.trigger(integer:?) -> value v_fuzzy;
+        p.check(receive(integer:2));
+        if (v_fuzzy == 1 and v_fuzzy == 1) {
+            alt {
+                [] p.receive(integer:2) { setverdict(pass); } // the second message is still queued
+                [else] { setverdict(fail); }
+            }
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

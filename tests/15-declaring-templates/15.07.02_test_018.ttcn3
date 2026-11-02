@@ -1,0 +1,20 @@
+// @requirement: 15.7.2 -- b) All templates and values used in the matching mechanisms above (including the referenced ones, e.g. within a pattern) shall be completely initialized.
+// @id: TTCN3-CORE-15.7.2-022a
+// @verdict: pass accept, ttcn3verdict:error
+module M_15_07_02_test_018 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_unbound;
+        var template integer v_list := (1, v_unbound); // error: v_unbound is not initialized
+        if (match(2, v_list)) {
+            setverdict(fail);
+        }
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,30 @@
+// @requirement: 11.0 -- Alternatively, variables can be declared fuzzy using the @fuzzy modifier.
+// @id: TTCN3-CORE-11.0-010a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_11_00_test_009 {
+
+    type component C {
+        var integer vc_count := 0;
+    }
+
+    function f_next() runs on C return integer {
+        vc_count := vc_count + 1;
+        return vc_count;
+    }
+
+    testcase TC() runs on C {
+        var @fuzzy integer v_fuzzy := f_next();
+        var integer v_before := vc_count;
+        var integer v_first := v_fuzzy;
+        var integer v_second := v_fuzzy;
+        if (v_before == 0 and v_first == 1 and v_second == 2 and vc_count == 2) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

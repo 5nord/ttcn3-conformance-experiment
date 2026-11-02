@@ -1,0 +1,28 @@
+// @requirement: 15.6.1 -- d) A specific value containing a single AnyElement matching mechanism with the ifpresent matching attribute attached to it if the referenced template is of a binary string type to which the AnyValueOrNone matching mechanism is assigned.
+// @id: TTCN3-CORE-15.6.1-014a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_06_01_test_014 {
+
+    type component C {}
+
+    type record R {
+        octetstring f optional
+    }
+
+    const R c_omit := { f := omit };
+
+    testcase TC() runs on C {
+        var template octetstring v_oct := *, v_e;
+        v_e := v_oct[0];
+        var template R v_r := { f := v_e };
+        if (match('AA'O, v_e) and not match('AABB'O, v_e) and match(c_omit, v_r)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

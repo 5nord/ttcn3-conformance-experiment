@@ -1,0 +1,30 @@
+// @requirement: 15.2 -- and no other matching mechanisms shall be used for these parameters, neither directly nor indirectly.
+// @id: TTCN3-CORE-15.2-016a
+// @verdict: pass reject
+module M_15_02_test_017 {
+
+    signature RemoteProc(in integer Par1, out integer Par2, inout integer Par3) return integer;
+
+    type port P procedure {
+        inout RemoteProc;
+    }
+
+    type component C {
+        port P p1;
+        port P p2;
+    }
+
+    template integer mw_any := ?;
+
+    template RemoteProc s_reply := { Par1 := -, Par2 := 20, Par3 := mw_any }
+
+    testcase TC() runs on C {
+        connect(self:p1, self:p2);
+        p2.reply(s_reply value 1); // error: inout parameter Par3 indirectly contains a matching mechanism
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

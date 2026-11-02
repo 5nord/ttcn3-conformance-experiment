@@ -1,0 +1,24 @@
+// @requirement: 15.6.6 -- f) _AnyElementsOrNone: when referencing an element of a map template or field that contains_ _AnyElementsOrNone, if the referenced element is not present and the reference occurs on the right-hand side_ of an assignment, AnyValueOrNone shall be returned.
+// @id: TTCN3-CORE-15.6.6-020a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_06_06_test_012 {
+
+    type map from charstring to integer TMap;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template TMap v_map := { *, ["id"] := 1 };
+        var template integer v_int;
+        v_int := v_map["test"];
+        if (istemplatekind(v_int, "AnyValueOrNone")) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

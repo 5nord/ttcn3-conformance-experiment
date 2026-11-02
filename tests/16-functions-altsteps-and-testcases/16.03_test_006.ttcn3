@@ -1,0 +1,32 @@
+// @requirement: 16.3 -- a) interface part (optional): denoted by the keyword runs `on which references the required component type for` the MTC and makes the associated port names visible within the MTC behaviour.
+// @id: TTCN3-CORE-16.3-013b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_16_03_test_006 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p;
+        timer T;
+    }
+
+    testcase TC() runs on C {
+        connect(self:p, self:p);
+        p.send(1);
+        T.start(1.0);
+        alt {
+            [] p.receive(integer:1) {
+                setverdict(pass);
+            }
+            [] T.timeout {
+                setverdict(fail);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

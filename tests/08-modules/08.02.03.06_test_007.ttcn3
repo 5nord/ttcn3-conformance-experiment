@@ -1,0 +1,26 @@
+// @requirement: 8.2.3.6 -- Such elements can be used in a TTCN-3 module of a given edition only if they have a TTCN-3 view in that TTCN-3 edition.
+// @id: TTCN3-CORE-8.2.3.6-010a
+// @verdict: pass reject
+module M_08_02_03_06_test_007 language "TTCN-3:2023" {
+
+    import from M_08_02_03_06_test_007_A language "TTCN-3:2005" {
+        const all
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (c_int == 1 and c_oid == c_oid) { // error: c_oid of type objid has no TTCN-3 view in this edition
+            setverdict(pass);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_03_06_test_007_A language "TTCN-3:2005" {
+    const integer c_int := 1;
+    const objid c_oid := objid { 0 4 0 };
+}

@@ -1,0 +1,44 @@
+// @requirement: 20.2 -- A receiving-branch is selected if the Boolean guard is fulfilled and if the matching criteria of receiving operation is fulfilled by one of the messages, calls, replies or exceptions in the snapshot.
+// @id: TTCN3-CORE-20.2-033a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_02_test_025 {
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p;
+    }
+
+    function f_send() runs on C {
+        p.send(1);
+        p.send(2);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(self:p, v_ptc:p);
+        v_ptc.start(f_send());
+        v_ptc.done;
+        timer T_guard := 1.0;
+        T_guard.start;
+        alt {
+            [false] p.receive(1) {
+                setverdict(fail);
+            }
+            [] p.receive(2) {
+                setverdict(fail);
+            }
+            [] p.receive(1) {
+                setverdict(pass);
+            }
+            [] T_guard.timeout {
+                setverdict(fail);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

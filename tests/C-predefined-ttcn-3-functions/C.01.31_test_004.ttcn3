@@ -1,0 +1,21 @@
+// @requirement: C.1.31 -- The octets are interpreted as mandated by the standardized mapping associated with the given string_encoding and the resulting characters are appended to the returned value.
+// @id: TTCN3-CORE-C.1.31-003b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_01_31_test_004 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var octetstring v_in := '41C3844243'O;
+        var universal charstring v_res := oct2unichar(v_in, "UTF-8");
+        if (v_res == "A" & char(0, 0, 0, 196) & "BC" and lengthof(v_res) == 4) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

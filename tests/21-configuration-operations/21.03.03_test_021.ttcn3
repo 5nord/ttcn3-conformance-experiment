@@ -1,0 +1,54 @@
+// @requirement: 21.3.3 -- For example, if the behaviour of an alive-type component is stopped during assigning a new value to an already bound variable, the variable shall remain bound after the component is stopped (with the old or the new value).
+// @id: TTCN3-CORE-21.3.3-018a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_03_03_test_021 {
+
+    type port P message { inout integer; }
+
+    type component C {
+        port P p;
+        var integer v_x;
+    }
+
+    function f_first() runs on C {
+        timer T_z;
+        v_x := 0;
+        p.send(0);
+        while (true) {
+            v_x := v_x + 1;
+            T_z.start(0.001);
+            T_z.timeout;
+        }
+    }
+
+    function f_second() runs on C {
+        if (isbound(v_x)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    testcase TC() runs on C {
+        timer T := 2.0;
+        timer T_d := 0.2;
+        var C v_ptc := C.create alive;
+        connect(self:p, v_ptc:p);
+        v_ptc.start(f_first());
+        T.start;
+        alt {
+            [] p.receive(0) {}
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        T_d.start;
+        T_d.timeout;
+        v_ptc.stop;
+        v_ptc.start(f_second());
+        v_ptc.done;
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

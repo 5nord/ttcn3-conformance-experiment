@@ -1,0 +1,1426 @@
+{
+ "part": "23",
+ "chapter": "23",
+ "chapter_file": "23-timer-operations",
+ "title": "Timer operations",
+ "sections": {
+  "23.0": {
+   "title": "General",
+   "start": 19747
+  },
+  "23.1": {
+   "title": "The timer mechanism",
+   "start": 19787
+  },
+  "23.2": {
+   "title": "The Start timer operation",
+   "start": 19814
+  },
+  "23.3": {
+   "title": "The Stop timer operation",
+   "start": 19871
+  },
+  "23.4": {
+   "title": "The Read timer operation",
+   "start": 19904
+  },
+  "23.5": {
+   "title": "The Running timer operation",
+   "start": 19940
+  },
+  "23.6": {
+   "title": "The Timeout operation",
+   "start": 20009
+  },
+  "23.7": {
+   "title": "Summary of use of any and all with timers",
+   "start": 20092
+  }
+ },
+ "lines": [
+  19749,
+  20104
+ ],
+ "units": [
+  {
+   "id": "23.0-s001",
+   "section": "23.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "TTCN-3 supports a number of timer operations as given in table 27.",
+   "lines": [
+    19749,
+    19750
+   ]
+  },
+  {
+   "id": "23.0-s002",
+   "section": "23.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "These operations may be used in test cases, functions and altsteps.",
+   "lines": [
+    19749,
+    19750
+   ]
+  },
+  {
+   "id": "23.0-s003",
+   "section": "23.0",
+   "kind": "caption",
+   "context": null,
+   "normative": false,
+   "text": "Table 27: Overview of TTCN-3 timer operations",
+   "lines": [
+    19752,
+    19752
+   ]
+  },
+  {
+   "id": "23.0-s004",
+   "section": "23.0",
+   "kind": "table-text",
+   "context": null,
+   "normative": true,
+   "text": "**Timer operations** **Statement** **Associated keyword or symbol** Start timer **start** Stop timer **stop** Read elapsed time **read** Check if timer running **running** Timeout event **timeout**",
+   "lines": [
+    19754,
+    19760
+   ]
+  },
+  {
+   "id": "23.0-s005",
+   "section": "23.0",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Table 26: Any and: Operation; All with ports: Allowed; Col4: Example",
+   "lines": [
+    19764,
+    19764
+   ]
+  },
+  {
+   "id": "23.0-s006",
+   "section": "23.0",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Table 26: Any and: any; All with ports: all",
+   "lines": [
+    19765,
+    19765
+   ]
+  },
+  {
+   "id": "23.0-s007",
+   "section": "23.0",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Table 26: Any and: receive, trigger, getcall, getreply, catch, check); All with ports: yes; Col4: any port.receive",
+   "lines": [
+    19766,
+    19766
+   ]
+  },
+  {
+   "id": "23.0-s008",
+   "section": "23.0",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Table 26: Any and: connect / map",
+   "lines": [
+    19767,
+    19767
+   ]
+  },
+  {
+   "id": "23.0-s009",
+   "section": "23.0",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Table 26: Any and: disconnect / unmap; Col3: yes; Col4: unmap(self : all port)",
+   "lines": [
+    19768,
+    19768
+   ]
+  },
+  {
+   "id": "23.0-s010",
+   "section": "23.0",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Table 26: Any and: start, stop, clear, halt; Col3: yes; Col4: all port.start",
+   "lines": [
+    19769,
+    19769
+   ]
+  },
+  {
+   "id": "23.0-s011",
+   "section": "23.0",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Table 26: Any and: Checkstate; All with ports: yes; Col3: yes; Col4: any port.checkstate(\"Started\") all port.checkstate(\"Connected\")",
+   "lines": [
+    19770,
+    19770
+   ]
+  },
+  {
+   "id": "23.0-s012",
+   "section": "23.0",
+   "kind": "table-header",
+   "context": null,
+   "normative": true,
+   "text": "Table 26: Any and; All with ports; Col3; Col4",
+   "lines": [
+    19762,
+    19762
+   ]
+  },
+  {
+   "id": "23.0-s013",
+   "section": "23.0",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Table 27: Overview of TTCN-3 timer operations: Timer operations",
+   "lines": [
+    19774,
+    19774
+   ]
+  },
+  {
+   "id": "23.0-s014",
+   "section": "23.0",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Table 27: Overview of TTCN-3 timer operations: Statement; Col2: Associated keyword or symbol",
+   "lines": [
+    19775,
+    19775
+   ]
+  },
+  {
+   "id": "23.0-s015",
+   "section": "23.0",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Table 27: Overview of TTCN-3 timer operations: Start timer; Col2: start",
+   "lines": [
+    19776,
+    19776
+   ]
+  },
+  {
+   "id": "23.0-s016",
+   "section": "23.0",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Table 27: Overview of TTCN-3 timer operations: Stop timer; Col2: stop",
+   "lines": [
+    19777,
+    19777
+   ]
+  },
+  {
+   "id": "23.0-s017",
+   "section": "23.0",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Table 27: Overview of TTCN-3 timer operations: Read elapsed time; Col2: read",
+   "lines": [
+    19778,
+    19778
+   ]
+  },
+  {
+   "id": "23.0-s018",
+   "section": "23.0",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Table 27: Overview of TTCN-3 timer operations: Check if timer running; Col2: running",
+   "lines": [
+    19779,
+    19779
+   ]
+  },
+  {
+   "id": "23.0-s019",
+   "section": "23.0",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Table 27: Overview of TTCN-3 timer operations: Timeout event; Col2: timeout",
+   "lines": [
+    19780,
+    19780
+   ]
+  },
+  {
+   "id": "23.0-s020",
+   "section": "23.0",
+   "kind": "table-header",
+   "context": null,
+   "normative": true,
+   "text": "Table 27: Overview of TTCN-3 timer operations; Col2",
+   "lines": [
+    19772,
+    19772
+   ]
+  },
+  {
+   "id": "23.1-s001",
+   "section": "23.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "It is assumed that each test component and control component maintain their own running-timers _list and timeout-list,_ i.e. a list of all timers that are actually running and a list of all timers that have timed out.",
+   "lines": [
+    19789,
+    19792
+   ]
+  },
+  {
+   "id": "23.1-s002",
+   "section": "23.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The timeout-lists are part of the snapshots that are taken when a test case is executed.",
+   "lines": [
+    19789,
+    19792
+   ]
+  },
+  {
+   "id": "23.1-s003",
+   "section": "23.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The running-timers list and timeout-list are updated if a timer of the component is started, is stopped, times out or the component executes a timeout operation.",
+   "lines": [
+    19789,
+    19792
+   ]
+  },
+  {
+   "id": "23.1-s004",
+   "section": "23.1",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "NOTE 1: The running-timers list and the timeout-list are only a conceptual lists and do not restrict the implementation of timers.",
+   "lines": [
+    19794,
+    19796
+   ]
+  },
+  {
+   "id": "23.1-s005",
+   "section": "23.1",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "Other data structures like a set, where the access to timeout events is not restricted by, e.g. the order in which the timeout events have happened, may also be used.",
+   "lines": [
+    19794,
+    19796
+   ]
+  },
+  {
+   "id": "23.1-s006",
+   "section": "23.1",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "NOTE 2: Conceptually, each test and control component maintain one running-timers list and one timeout-list only.",
+   "lines": [
+    19798,
+    19805
+   ]
+  },
+  {
+   "id": "23.1-s007",
+   "section": "23.1",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "However, within a given scope unit only timers known in the scope unit can be accessed individually, i.e. timers that are declared in the scope unit, passed in as parameters to the scope unit or known via a runs-on clause.",
+   "lines": [
+    19798,
+    19805
+   ]
+  },
+  {
+   "id": "23.1-s008",
+   "section": "23.1",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "In some special cases (e.g. for re-establishing a test component during a test run), it can be necessary to stop timers local to other scope units or to check if timers local to other scope units are running or have already timed out.",
+   "lines": [
+    19798,
+    19805
+   ]
+  },
+  {
+   "id": "23.1-s009",
+   "section": "23.1",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "This can be done by using the keywords all and any in combination with the timer operations stop, timeout and running.",
+   "lines": [
+    19798,
+    19805
+   ]
+  },
+  {
+   "id": "23.1-s010",
+   "section": "23.1",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "Allowed combinations are defined in clause 23.7.",
+   "lines": [
+    19798,
+    19805
+   ]
+  },
+  {
+   "id": "23.1-s011",
+   "section": "23.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "When a timer expires, the timer becomes immediately inactive.",
+   "lines": [
+    19807,
+    19810
+   ]
+  },
+  {
+   "id": "23.1-s012",
+   "section": "23.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "A timeout event is placed in the timeout-list and the timer is removed from the running-timer list of the component for which the timer has been declared.",
+   "lines": [
+    19807,
+    19810
+   ]
+  },
+  {
+   "id": "23.1-s013",
+   "section": "23.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Only one entry for any particular timer may appear in the timeout-list and running-timer list of the component for which the timer has been declared.",
+   "lines": [
+    19807,
+    19810
+   ]
+  },
+  {
+   "id": "23.1-s014",
+   "section": "23.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "All running timers shall automatically be cancelled when a test component is explicitly or implicitly stopped.",
+   "lines": [
+    19812,
+    19812
+   ]
+  },
+  {
+   "id": "23.2-s001",
+   "section": "23.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The start timer operation is used to indicate that a timer shall start running.",
+   "lines": [
+    19816,
+    19816
+   ]
+  },
+  {
+   "id": "23.2-s002",
+   "section": "23.2",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "ObjectReference \".\" start [ \"(\" ObjectReference \")\" ]",
+   "lines": [
+    19819,
+    19821
+   ]
+  },
+  {
+   "id": "23.2-s003",
+   "section": "23.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "When a timer is started, its name is added to the list of running timers (for the given scope unit).",
+   "lines": [
+    19825,
+    19825
+   ]
+  },
+  {
+   "id": "23.2-s004",
+   "section": "23.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The optional timer value parameter shall be used if no default duration is given, or if it is desired to override the default value specified in the timer declaration.",
+   "lines": [
+    19827,
+    19830
+   ]
+  },
+  {
+   "id": "23.2-s005",
+   "section": "23.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "When a timer duration is overridden, the new value applies only to the current instance of the timer, any later start operations for this timer, which do not specify a duration, shall use the default duration.",
+   "lines": [
+    19827,
+    19830
+   ]
+  },
+  {
+   "id": "23.2-s006",
+   "section": "23.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Starting a timer with the timer value 0.0 means that the timer times out immediately.",
+   "lines": [
+    19832,
+    19834
+   ]
+  },
+  {
+   "id": "23.2-s007",
+   "section": "23.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Starting a timer with a negative timer value, e.g. the timer value is the result of an expression, or without a specified timer value shall cause a runtime error.",
+   "lines": [
+    19832,
+    19834
+   ]
+  },
+  {
+   "id": "23.2-s008",
+   "section": "23.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The timer clock runs from the float value zero (0.0) up to maximum stated by the duration parameter.",
+   "lines": [
+    19836,
+    19836
+   ]
+  },
+  {
+   "id": "23.2-s009",
+   "section": "23.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The start operation may be applied to a running timer, in which case the timer is stopped and re-started.",
+   "lines": [
+    19838,
+    19838
+   ]
+  },
+  {
+   "id": "23.2-s010",
+   "section": "23.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The start operation may be applied to a timer that has already expired; in this case, any entry in the timeout list for this timer shall be removed.",
+   "lines": [
+    19840,
+    19841
+   ]
+  },
+  {
+   "id": "23.2-s011",
+   "section": "23.2",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clause 5 and shown in table 16, the following restrictions apply:",
+   "lines": [
+    19845,
+    19846
+   ]
+  },
+  {
+   "id": "23.2-s012",
+   "section": "23.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) The SingleExpression representing the timer value shall be a non-negative numerical float number (i.e. the value shall be greater than or equal to 0.0; infinity and not_a_number are disallowed).",
+   "lines": [
+    19848,
+    19849
+   ]
+  },
+  {
+   "id": "23.2-s013",
+   "section": "23.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "b) The ObjectReference shall be of the timer type.",
+   "lines": [
+    19851,
+    19851
+   ]
+  },
+  {
+   "id": "23.2-s014",
+   "section": "23.2",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "t_myTimer1.start; // t_myTimer1 is started with the default duration \n  t_myTimer2.start(20E-3); // t_myTimer2 is started with a duration of 20 ms\n  // Elements of timer arrays may also be started in a loop, for example\n  timer t_myTimer [5];\n  var float v_timerValues [5];\n  for (var integer v_i := 0; v_i<=4; v_i:=v_i+1)\n   { v_timerValues [v_i] := 1.0 }\n  for (var integer v_i := 0; v_i<=4; v_i:=v_i+1)\n   {t_myTimer [v_i].start ( v_timerValues [v_i])}",
+   "lines": [
+    19859,
+    19869
+   ]
+  },
+  {
+   "id": "23.3-s001",
+   "section": "23.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The stop operation is used to stop a running timer.",
+   "lines": [
+    19873,
+    19873
+   ]
+  },
+  {
+   "id": "23.3-s002",
+   "section": "23.3",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "( ObjectReference |\n     all timer ) \".\" stop",
+   "lines": [
+    19876,
+    19879
+   ]
+  },
+  {
+   "id": "23.3-s003",
+   "section": "23.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "A stop operation removes a running timer from the list of running timers.",
+   "lines": [
+    19883,
+    19884
+   ]
+  },
+  {
+   "id": "23.3-s004",
+   "section": "23.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "A stopped timer becomes inactive and its elapsed time is set to the float value zero (0.0).",
+   "lines": [
+    19883,
+    19884
+   ]
+  },
+  {
+   "id": "23.3-s005",
+   "section": "23.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Stopping an inactive timer is a valid operation, although it does not have any effect.",
+   "lines": [
+    19886,
+    19887
+   ]
+  },
+  {
+   "id": "23.3-s006",
+   "section": "23.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Stopping an expired timer causes the entry for this timer in the timeout-list to be removed.",
+   "lines": [
+    19886,
+    19887
+   ]
+  },
+  {
+   "id": "23.3-s007",
+   "section": "23.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The all keyword may be used to stop all timers that have been started on a test component or control component.",
+   "lines": [
+    19889,
+    19889
+   ]
+  },
+  {
+   "id": "23.3-s008",
+   "section": "23.3",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clause 5 and shown in table 16, the following restrictions apply:",
+   "lines": [
+    19893,
+    19894
+   ]
+  },
+  {
+   "id": "23.3-s009",
+   "section": "23.3",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) The ObjectReference shall be of the timer type.",
+   "lines": [
+    19896,
+    19896
+   ]
+  },
+  {
+   "id": "23.3-s010",
+   "section": "23.3",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "t_myTimer1.stop;  // stops t_myTimer1 \n  all timer.stop;  // stops all running timers",
+   "lines": [
+    19899,
+    19902
+   ]
+  },
+  {
+   "id": "23.4-s001",
+   "section": "23.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The read operation is used to retrieve the time that has elapsed since the specified timer was started.",
+   "lines": [
+    19906,
+    19906
+   ]
+  },
+  {
+   "id": "23.4-s002",
+   "section": "23.4",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "ObjectReference \".\" read",
+   "lines": [
+    19909,
+    19911
+   ]
+  },
+  {
+   "id": "23.4-s003",
+   "section": "23.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The read operation returns the time that has elapsed since the specified timer was started.",
+   "lines": [
+    19915,
+    19916
+   ]
+  },
+  {
+   "id": "23.4-s004",
+   "section": "23.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The returned value shall be of type float.",
+   "lines": [
+    19915,
+    19916
+   ]
+  },
+  {
+   "id": "23.4-s005",
+   "section": "23.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Applying the read operation on an inactive timer, i.e. on a timer not listed on the running-timer list, will return the float value zero (0.0).",
+   "lines": [
+    19918,
+    19919
+   ]
+  },
+  {
+   "id": "23.4-s006",
+   "section": "23.4",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clause 5 and shown in table 16, the following restrictions apply:",
+   "lines": [
+    19928,
+    19929
+   ]
+  },
+  {
+   "id": "23.4-s007",
+   "section": "23.4",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) The ObjectReference shall be of the timer type.",
+   "lines": [
+    19931,
+    19931
+   ]
+  },
+  {
+   "id": "23.4-s008",
+   "section": "23.4",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "var float v_myVar;\n  v_myVar := t_myTimer1.read; // assign to v_myVar the time that has elapsed since t_myTimer1 \n                  // was started",
+   "lines": [
+    19934,
+    19938
+   ]
+  },
+  {
+   "id": "23.5-s001",
+   "section": "23.5",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The running timer operation is used to check whether a timer is in the running-timer list.",
+   "lines": [
+    19942,
+    19942
+   ]
+  },
+  {
+   "id": "23.5-s002",
+   "section": "23.5",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "( ObjectReference ) | any timer | any from TimerArrayRef ) \".\" running\n  [\"->\" @index value ValueRef]",
+   "lines": [
+    19945,
+    19948
+   ]
+  },
+  {
+   "id": "23.5-s003",
+   "section": "23.5",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The running timer operation is used to check whether a specific timer visible in the given scope unit is listed on the running-timer list or not (i.e. that it has been started and has neither timed out nor been stopped).",
+   "lines": [
+    19952,
+    19954
+   ]
+  },
+  {
+   "id": "23.5-s004",
+   "section": "23.5",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The operation returns the value true if the timer is listed on the list, false otherwise.",
+   "lines": [
+    19952,
+    19954
+   ]
+  },
+  {
+   "id": "23.5-s005",
+   "section": "23.5",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The any keyword may be used to check if any timer started on a test component or control component is running.",
+   "lines": [
+    19956,
+    19956
+   ]
+  },
+  {
+   "id": "23.5-s006",
+   "section": "23.5",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "When the any from `TimerArrayRef` notation is used, where TimerArrayRef shall be a timer array identifier, the timers from the referenced array are iterated over and their states are checked individually, from innermost to outermost dimension from lowest to highest index for each dimension.",
+   "lines": [
+    19958,
+    19963
+   ]
+  },
+  {
+   "id": "23.5-s007",
+   "section": "23.5",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The first timer to be found in the running state causes the operation returning with the true value.",
+   "lines": [
+    19958,
+    19963
+   ]
+  },
+  {
+   "id": "23.5-s008",
+   "section": "23.5",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If no running timer is found in the array, the operation returns with the false value.",
+   "lines": [
+    19958,
+    19963
+   ]
+  },
+  {
+   "id": "23.5-s009",
+   "section": "23.5",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The index of the first timer found running can optionally be stored in an integer variable for a single-dimensional array, or to an integer array or record of integer variable for multi-dimensional timer arrays.",
+   "lines": [
+    19958,
+    19963
+   ]
+  },
+  {
+   "id": "23.5-s010",
+   "section": "23.5",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clause 5 and shown in table 16, the following restrictions apply:",
+   "lines": [
+    19967,
+    19968
+   ]
+  },
+  {
+   "id": "23.5-s011",
+   "section": "23.5",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) _TimerArrayRef shall be a reference to a completely initialized timer array._ b) The index redirection shall only be used for any from timer array running operations.",
+   "lines": [
+    19970,
+    19972
+   ]
+  },
+  {
+   "id": "23.5-s012",
+   "section": "23.5",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "c) If the index redirection is used for single-dimensional timer arrays, the type of the integer variable shall allow storing the highest index of the respective timer array.",
+   "lines": [
+    19974,
+    19975
+   ]
+  },
+  {
+   "id": "23.5-s013",
+   "section": "23.5",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "d) If the index redirection is used for multi-dimensional timer arrays, the size of the integer array or record of integer type shall exactly be the same as the dimension of the respective timer array, and its type shall allow storing the highest index (from all dimensions) of the timer array.",
+   "lines": [
+    19977,
+    19979
+   ]
+  },
+  {
+   "id": "23.5-s014",
+   "section": "23.5",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "e) The ObjectReference shall be of the timer type.",
+   "lines": [
+    19981,
+    19981
+   ]
+  },
+  {
+   "id": "23.5-s015",
+   "section": "23.5",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 1: Checking if a specific timer is running:",
+   "lines": [
+    19985,
+    19985
+   ]
+  },
+  {
+   "id": "23.5-s016",
+   "section": "23.5",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "if (t_myTimer1.running) { … }",
+   "lines": [
+    19986,
+    19988
+   ]
+  },
+  {
+   "id": "23.5-s017",
+   "section": "23.5",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 2: Checking if an arbitrary timer is running:",
+   "lines": [
+    19990,
+    19990
+   ]
+  },
+  {
+   "id": "23.5-s018",
+   "section": "23.5",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "if (any timer.running) { … }",
+   "lines": [
+    19991,
+    19993
+   ]
+  },
+  {
+   "id": "23.5-s019",
+   "section": "23.5",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 3: Checking if an arbitrary timer from a timer array is running:",
+   "lines": [
+    20000,
+    20000
+   ]
+  },
+  {
+   "id": "23.5-s020",
+   "section": "23.5",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "timer t_myTimerArray[2][2];\n  var integer v_i[2];\n  if (any from t_myTimerArray.running -> @index value v_i;) { … } \n  // checks if any timer from array is running\n  // assigns index of matched timer to v_i",
+   "lines": [
+    20001,
+    20007
+   ]
+  },
+  {
+   "id": "23.6-s001",
+   "section": "23.6",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The timeout operation allows to check the expiration of timers.",
+   "lines": [
+    20011,
+    20011
+   ]
+  },
+  {
+   "id": "23.6-s002",
+   "section": "23.6",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "[ @nodefault ] ( ObjectReference | any timer | any from TimerArrayRef ) \".\" timeout\n  [\"->\" @index value ValueRef]",
+   "lines": [
+    20014,
+    20017
+   ]
+  },
+  {
+   "id": "23.6-s003",
+   "section": "23.6",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The timeout operation allows to check the expiration of a specific timer in the scope unit of a test component or control component in which the timeout operation has been called or of any timer that has been started on a test component or control component before entering the scope in which the timeout operation has been called.",
+   "lines": [
+    20021,
+    20023
+   ]
+  },
+  {
+   "id": "23.6-s004",
+   "section": "23.6",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "When a timeout operation is processed, if a timer name is indicated, the timeout-list is searched according to the TTCN-3 scope rules.",
+   "lines": [
+    20025,
+    20027
+   ]
+  },
+  {
+   "id": "23.6-s005",
+   "section": "23.6",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If there is a timeout event matching the timer name, that event is removed from the timeout-list, and the timeout operation succeeds.",
+   "lines": [
+    20025,
+    20027
+   ]
+  },
+  {
+   "id": "23.6-s006",
+   "section": "23.6",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The timeout can be used to determine an alternative in an alt statement or as stand-alone statement in a behaviour description.",
+   "lines": [
+    20029,
+    20032
+   ]
+  },
+  {
+   "id": "23.6-s007",
+   "section": "23.6",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "In the latter case a timeout operation is considered to be shorthand for an alt statement with the timeout operation as the only alternative.",
+   "lines": [
+    20029,
+    20032
+   ]
+  },
+  {
+   "id": "23.6-s008",
+   "section": "23.6",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If the @nodefault modifier is placed before a stand-alone timeout operation, the implicit alt statement also contains the @nodefault modifier.",
+   "lines": [
+    20029,
+    20032
+   ]
+  },
+  {
+   "id": "23.6-s009",
+   "section": "23.6",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The any keyword used with the timeout operation succeeds if the timeout-list is not empty.",
+   "lines": [
+    20034,
+    20035
+   ]
+  },
+  {
+   "id": "23.6-s010",
+   "section": "23.6",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "In this case a randomly chosen timeout event is removed from the timeout-list.",
+   "lines": [
+    20034,
+    20035
+   ]
+  },
+  {
+   "id": "23.6-s011",
+   "section": "23.6",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "When the any from `TimerArrayRef` notation is used, where TimerArrayRef shall be a timer array identifier, the timers from the referenced array are iterated over and individually checked for timeout from innermost to outermost dimension from lowest to highest index for each dimension.",
+   "lines": [
+    20037,
+    20042
+   ]
+  },
+  {
+   "id": "23.6-s012",
+   "section": "23.6",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The first timer to be found in the timeout-list causes that timer to be removed from the list and the timeout operation succeeds.",
+   "lines": [
+    20037,
+    20042
+   ]
+  },
+  {
+   "id": "23.6-s013",
+   "section": "23.6",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The index of the matched timer can be optionally stored in an integer variable for single-dimensional arrays or to an integer array or record of integer variable for multi-dimensional timer arrays.",
+   "lines": [
+    20037,
+    20042
+   ]
+  },
+  {
+   "id": "23.6-s014",
+   "section": "23.6",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clause 5 and shown in table 16, the following restrictions apply:",
+   "lines": [
+    20046,
+    20047
+   ]
+  },
+  {
+   "id": "23.6-s015",
+   "section": "23.6",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) The timeout operation does not return any value and therefore shall not be used in an expression.",
+   "lines": [
+    20049,
+    20049
+   ]
+  },
+  {
+   "id": "23.6-s016",
+   "section": "23.6",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "b) _TimerArrayRef shall be a reference to a completely initialized timer array._ c) The index redirection shall only be used for any from timer array timeout operations.",
+   "lines": [
+    20051,
+    20053
+   ]
+  },
+  {
+   "id": "23.6-s017",
+   "section": "23.6",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "d) If the index redirection is used for single-dimensional timer arrays, the type of the integer variable shall allow storing the highest index of the respective timer array.",
+   "lines": [
+    20055,
+    20056
+   ]
+  },
+  {
+   "id": "23.6-s018",
+   "section": "23.6",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "e) If the index redirection is used for multi-dimensional timer arrays, the size of the integer array or record of integer type shall exactly be the same as the dimension of the respective timer array, and its type shall allow storing the highest index (from all dimensions) of the timer array.",
+   "lines": [
+    20058,
+    20060
+   ]
+  },
+  {
+   "id": "23.6-s019",
+   "section": "23.6",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "f) The ObjectReference shall be of the timer type.",
+   "lines": [
+    20062,
+    20062
+   ]
+  },
+  {
+   "id": "23.6-s020",
+   "section": "23.6",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "g) The @nodefault modifier is allowed only in stand-alone timeout statements.",
+   "lines": [
+    20064,
+    20064
+   ]
+  },
+  {
+   "id": "23.6-s021",
+   "section": "23.6",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 1: Timeout of a specific timer:",
+   "lines": [
+    20073,
+    20073
+   ]
+  },
+  {
+   "id": "23.6-s022",
+   "section": "23.6",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "t_myTimer1.timeout; // checks for the timeout of the previously started timer MyTimer1",
+   "lines": [
+    20074,
+    20076
+   ]
+  },
+  {
+   "id": "23.6-s023",
+   "section": "23.6",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 2: Timeout of an arbitrary timer:",
+   "lines": [
+    20078,
+    20078
+   ]
+  },
+  {
+   "id": "23.6-s024",
+   "section": "23.6",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "any timer.timeout; // checks for the timeout of any previously started timer",
+   "lines": [
+    20079,
+    20081
+   ]
+  },
+  {
+   "id": "23.6-s025",
+   "section": "23.6",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 3: Timeout of a timer from a timer array:",
+   "lines": [
+    20083,
+    20083
+   ]
+  },
+  {
+   "id": "23.6-s026",
+   "section": "23.6",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "timer t_myTimerArray[2][2];\n  var integer v_i[2];\n  any from t_myTimerArray.timeout -> @index value v_i; \n  // checks for the timeout of any timer from array\n  // assigns index of matched timer to v_i",
+   "lines": [
+    20084,
+    20090
+   ]
+  },
+  {
+   "id": "23.7-s001",
+   "section": "23.7",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The keywords any and all may be used with timer operations as indicated in table 28.",
+   "lines": [
+    20094,
+    20094
+   ]
+  },
+  {
+   "id": "23.7-s002",
+   "section": "23.7",
+   "kind": "caption",
+   "context": null,
+   "normative": false,
+   "text": "Table 28: Any and All with Timers",
+   "lines": [
+    20096,
+    20096
+   ]
+  },
+  {
+   "id": "23.7-s003",
+   "section": "23.7",
+   "kind": "table-text",
+   "context": null,
+   "normative": true,
+   "text": "**Operation** **Allowed** **Example** **any** **all** **start** **stop** `yes` **all timer.stop** **read** **running** `yes` **if (any timer.running) {…}** **timeout** `yes` **any timer.timeout**",
+   "lines": [
+    20098,
+    20104
+   ]
+  }
+ ]
+}

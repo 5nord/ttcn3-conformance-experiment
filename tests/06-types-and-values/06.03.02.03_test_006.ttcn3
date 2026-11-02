@@ -1,0 +1,32 @@
+// @requirement: 6.3.2.3 -- NOTE 2: In set values the order of fields may be arbitrary, however this does not affect type compatibility as field names unambiguously identify, which fields of the related set type correspond to which set value fields.
+// @id: TTCN3-CORE-6.3.2.3-004a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_03_02_03_test_006 {
+
+    type component C {}
+
+    type set FType {
+        integer a,
+        integer b,
+        boolean c
+    }
+    type set GType {
+        integer d,
+        integer e,
+        boolean f
+    }
+
+    testcase TC() runs on C {
+        var GType v_myVarG := { f := true, e := 5, d := 7 };
+        var FType v_myVarF := v_myVarG;
+        if (v_myVarF.a == 7 and v_myVarF.b == 5 and v_myVarF.c == true) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

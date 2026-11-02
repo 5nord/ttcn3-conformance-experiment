@@ -1,0 +1,34 @@
+// @requirement: 21.3.3 -- Stopping an alive-type component shall stop the currently running behaviour only but the component continues to exist and can execute new behaviour (started on it using the start operation).
+// @id: TTCN3-CORE-21.3.3-013b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_03_03_test_016 {
+
+    type component C {}
+
+    function f_wait() runs on C {
+        timer T_w := 5.0;
+        T_w.start;
+        T_w.timeout;
+    }
+
+    testcase TC() runs on C {
+        timer T := 0.5;
+        var C v_ptc := C.create alive;
+        v_ptc.start(f_wait());
+        v_ptc.stop;
+        T.start;
+        alt {
+            [] v_ptc.killed { setverdict(fail); }
+            [] T.timeout {}
+        }
+        if (v_ptc.alive) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

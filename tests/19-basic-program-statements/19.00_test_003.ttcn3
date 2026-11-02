@@ -1,0 +1,33 @@
+// @requirement: 19.0 -- Statement: Accept procedure call from remote entity; Associated keyword or symbol: getcall; Can be invoked by test behaviour: Yes
+// @id: TTCN3-CORE-19.0-002c
+// @verdict: pass reject
+module M_19_00_test_003 {
+
+    signature S();
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    function f_guard() runs on C return boolean {
+        alt {
+            [] p.getcall(S:{}) {} // error: getcall in function called from an alt guard
+            [else] {}
+        }
+        return true;
+    }
+
+    testcase TC() runs on C {
+        timer T := 0.1;
+        T.start;
+        alt {
+            [f_guard()] T.timeout { setverdict(pass); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

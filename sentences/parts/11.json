@@ -1,0 +1,878 @@
+{
+ "part": "11",
+ "chapter": "11",
+ "chapter_file": "11-declaring-variables",
+ "title": "Declaring variables",
+ "sections": {
+  "11.0": {
+   "title": "General",
+   "start": 9999
+  },
+  "11.1": {
+   "title": "Value variables",
+   "start": 10048
+  },
+  "11.2": {
+   "title": "Template variables",
+   "start": 10123
+  }
+ },
+ "lines": [
+  10001,
+  10220
+ ],
+ "units": [
+  {
+   "id": "11.0-s001",
+   "section": "11.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "TTCN-3 variables are statically typed variables.",
+   "lines": [
+    10001,
+    10002
+   ]
+  },
+  {
+   "id": "11.0-s002",
+   "section": "11.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Variables are either value variables to store values or template variables to store templates.",
+   "lines": [
+    10001,
+    10002
+   ]
+  },
+  {
+   "id": "11.0-s003",
+   "section": "11.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Variables can be of simple basic types, basic string types, structured types, special data types (including subtypes derived from these types) as well as address, component or default, port or timer types.",
+   "lines": [
+    10004,
+    10005
+   ]
+  },
+  {
+   "id": "11.0-s004",
+   "section": "11.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The type of the variable is either provided explicitly or implicitly according to the rules for automatic typing specified in clause 6.5.",
+   "lines": [
+    10007,
+    10009
+   ]
+  },
+  {
+   "id": "11.0-s005",
+   "section": "11.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "When automatic typing is used, the TypeOrNestedParDef part of the declaration is missing and the type of the variable is equal to the type of the expression or template body on the right-hand side of the assignment.",
+   "lines": [
+    10007,
+    10009
+   ]
+  },
+  {
+   "id": "11.0-s006",
+   "section": "11.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Variables can be declared and used in test cases, functions and altsteps.",
+   "lines": [
+    10011,
+    10013
+   ]
+  },
+  {
+   "id": "11.0-s007",
+   "section": "11.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Additionally, variables can be declared in component type definitions.",
+   "lines": [
+    10011,
+    10013
+   ]
+  },
+  {
+   "id": "11.0-s008",
+   "section": "11.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "These variables can be used in test cases, altsteps and functions which are running on a given component type.",
+   "lines": [
+    10011,
+    10013
+   ]
+  },
+  {
+   "id": "11.0-s009",
+   "section": "11.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Variables can be declared lazy using the @lazy modifier.",
+   "lines": [
+    10015,
+    10015
+   ]
+  },
+  {
+   "id": "11.0-s010",
+   "section": "11.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Alternatively, variables can be declared fuzzy using the @fuzzy modifier.",
+   "lines": [
+    10017,
+    10017
+   ]
+  },
+  {
+   "id": "11.0-s011",
+   "section": "11.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "If a variable is declared fuzzy or lazy they can additionally declared with the @deterministic modifier to indicate that when used in a deterministic evaluation context, any evaluation of the variable would have no side effect and would yield the same result.",
+   "lines": [
+    10019,
+    10021
+   ]
+  },
+  {
+   "id": "11.0-s012",
+   "section": "11.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Lazy and fuzzy features are valid only in the scope, where the variables' names are visible.",
+   "lines": [
+    10023,
+    10025
+   ]
+  },
+  {
+   "id": "11.0-s013",
+   "section": "11.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "For example, if a fuzzy variable is passed to a formal parameter declared without a modifier, it loses its fuzzy feature inside the called function.",
+   "lines": [
+    10023,
+    10025
+   ]
+  },
+  {
+   "id": "11.0-s014",
+   "section": "11.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Similarly, if it is passed to a lazy formal parameter, it becomes lazy within the called function.",
+   "lines": [
+    10023,
+    10025
+   ]
+  },
+  {
+   "id": "11.0-s015",
+   "section": "11.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Whenever a lazy or fuzzy variable is assigned, the TE is required to save the lexical environment (the set of directly or indirectly referenced values and templates) valid at the time of the assignment, so that it is possible to resolve the expression at the time of evaluation of the lazy or fuzzy value or template.",
+   "lines": [
+    10027,
+    10031
+   ]
+  },
+  {
+   "id": "11.0-s016",
+   "section": "11.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "If the assignment was made on a lower scope than the evaluation, saving the lexical environment extends lifetime of the referenced variables defined on that lower scope.",
+   "lines": [
+    10027,
+    10031
+   ]
+  },
+  {
+   "id": "11.0-s017",
+   "section": "11.0",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "var @fuzzy integer v_fuzzy := 1;\n  var integer v_var;\n  var boolean v_condition := true;\n  if (v_condition) {\n     var integer v_local := 0;\n     v_fuzzy := v_local;\n     v_local := 10;\n  }\n  // although v_local is no longer valid at this point, v_fuzzy still evaluates to 10 because\n  // the lexical environment is available to the fuzzy variable:\n  v_var := v_fuzzy;",
+   "lines": [
+    10034,
+    10046
+   ]
+  },
+  {
+   "id": "11.1-s001",
+   "section": "11.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "A TTCN-3 value variable stores values.",
+   "lines": [
+    10050,
+    10051
+   ]
+  },
+  {
+   "id": "11.1-s002",
+   "section": "11.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "It is declared by the var keyword followed by a type identifier or a nested type definition and a variable identifier.",
+   "lines": [
+    10050,
+    10051
+   ]
+  },
+  {
+   "id": "11.1-s003",
+   "section": "11.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "An initial value can be assigned at variable declaration.",
+   "lines": [
+    10050,
+    10051
+   ]
+  },
+  {
+   "id": "11.1-s004",
+   "section": "11.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "It may be used at the right hand side as well as at the left hand side of assignments, in expressions, following the return keyword in bodies of functions with a return clause in their headers and may be passed to both value and template-type formal parameters.",
+   "lines": [
+    10053,
+    10055
+   ]
+  },
+  {
+   "id": "11.1-s005",
+   "section": "11.1",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "var [ ( @lazy | @fuzzy ) [ @deterministic ] ] [ TypeOrNestedTypeDef ]\n   { VarIdentifier [ ArrayDef ] [ \":=\" Expression ] [ \",\" ] }+ [ \";\" ]",
+   "lines": [
+    10058,
+    10061
+   ]
+  },
+  {
+   "id": "11.1-s006",
+   "section": "11.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "A value variable associates a name with the location of a value.",
+   "lines": [
+    10070,
+    10072
+   ]
+  },
+  {
+   "id": "11.1-s007",
+   "section": "11.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "A value variable may change its value during test execution several times.",
+   "lines": [
+    10070,
+    10072
+   ]
+  },
+  {
+   "id": "11.1-s008",
+   "section": "11.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "A value can be assigned several times to a value variable.",
+   "lines": [
+    10070,
+    10072
+   ]
+  },
+  {
+   "id": "11.1-s009",
+   "section": "11.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The value variable can be referenced multiple times in a TTCN-3 module.",
+   "lines": [
+    10070,
+    10072
+   ]
+  },
+  {
+   "id": "11.1-s010",
+   "section": "11.1",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clause 5, the following restrictions apply:",
+   "lines": [
+    10076,
+    10076
+   ]
+  },
+  {
+   "id": "11.1-s011",
+   "section": "11.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) _Expression shall evaluate to a value which is type compatible with TypeOrNestedTypeDef._ b) Value variables shall store values only.",
+   "lines": [
+    10078,
+    10080
+   ]
+  },
+  {
+   "id": "11.1-s012",
+   "section": "11.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "c) Value variables shall not be declared or used in a module definitions part (i.e. global variables are not supported in TTCN-3).",
+   "lines": [
+    10082,
+    10083
+   ]
+  },
+  {
+   "id": "11.1-s013",
+   "section": "11.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "d) Use of uninitialized value variables at other places than the left hand side of assignments, in return statements, or as actual parameters passed to formal parameters shall cause an error.",
+   "lines": [
+    10085,
+    10086
+   ]
+  },
+  {
+   "id": "11.1-s014",
+   "section": "11.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "e) The initialization or assignment of a fuzzy or lazy variable shall not contain function calls of functions with inout or out parameters.",
+   "lines": [
+    10088,
+    10089
+   ]
+  },
+  {
+   "id": "11.1-s015",
+   "section": "11.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "The called functions may use other functions with inout or out parameters internally.",
+   "lines": [
+    10088,
+    10089
+   ]
+  },
+  {
+   "id": "11.1-s016",
+   "section": "11.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "f) If a lazy or fuzzy value variable is used in deterministic contexts (i.e. during the evaluation of a snapshot or initialization of global non-fuzzy templates), it shall be declared @deterministic and the expression assigned to the variable shall fulfill the restrictions imposed on content of functions used in special places given in clause 16.1.4.",
+   "lines": [
+    10091,
+    10094
+   ]
+  },
+  {
+   "id": "11.1-s017",
+   "section": "11.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "g) The expression assigned to a lazy or fuzzy variable might contain a direct or indirect reference to this variable.",
+   "lines": [
+    10096,
+    10097
+   ]
+  },
+  {
+   "id": "11.1-s018",
+   "section": "11.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Evaluation of such an expression shall cause a dynamic error.",
+   "lines": [
+    10096,
+    10097
+   ]
+  },
+  {
+   "id": "11.1-s019",
+   "section": "11.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "h) Using the dot notation (see clauses 6.2.1.1, 6.2.2.1 and 6.2.5.1) and index notation (see clauses 6.2.7 and 6.2.3.0) for referencing a field, alternative or element of an address value, which actual value is null shall cause an error.",
+   "lines": [
+    10099,
+    10101
+   ]
+  },
+  {
+   "id": "11.1-s020",
+   "section": "11.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "i) The expression shall evaluate to a value, which is at least partially initialized.",
+   "lines": [
+    10103,
+    10103
+   ]
+  },
+  {
+   "id": "11.1-s021",
+   "section": "11.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "j) If the TypeOrNestedTypeDef part is missing from the declaration, the ArrayDef part shall be missing as well and the assignment part (i.e. \":=\" Expression) shall be present.",
+   "lines": [
+    10105,
+    10106
+   ]
+  },
+  {
+   "id": "11.1-s022",
+   "section": "11.1",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "var integer v_myVar0;\n  var integer v_myVar1 := 1;\n  var boolean v_myVar2 := true, v_myVar3 := false;\n  var @lazy integer v_myLazyVar1 := v_myVar1+1;\n  var timer v_timer1;\n  var record of integer v_numbers := {1, 2, 3}; // declaration with a nested type\n  timer t_myTimer1; v_myVar1 := 2;\n  v_myVar1 := v_myLazyVar1; // v_myLazyVar1 evaluates to 2 + 1\n  v_myLazyVar1 := v_myLazyVar1 + 1;\n  v_myVar1 := v_myLazyVar1; // causes an error as v_myLazyVar1 references itself\n  v_timer1 := t_myTimer1;",
+   "lines": [
+    10109,
+    10121
+   ]
+  },
+  {
+   "id": "11.2-s001",
+   "section": "11.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "A TTCN-3 template variable stores templates.",
+   "lines": [
+    10125,
+    10126
+   ]
+  },
+  {
+   "id": "11.2-s002",
+   "section": "11.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "They are declared by the `var template` keyword followed by a type identifier and a variable identifier.",
+   "lines": [
+    10125,
+    10126
+   ]
+  },
+  {
+   "id": "11.2-s003",
+   "section": "11.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "An initial content can be assigned at declaration.",
+   "lines": [
+    10125,
+    10126
+   ]
+  },
+  {
+   "id": "11.2-s004",
+   "section": "11.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "In addition to values, template variables may also store matching mechanisms (see clause 15.6.6).",
+   "lines": [
+    10125,
+    10126
+   ]
+  },
+  {
+   "id": "11.2-s005",
+   "section": "11.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Template variables may be used on the right hand side as well as on the left hand side of assignments, following the `return` keyword in bodies of functions defining a template-type return value in their headers and may be passed as actual parameters to template-type formal parameters.",
+   "lines": [
+    10128,
+    10129
+   ]
+  },
+  {
+   "id": "11.2-s006",
+   "section": "11.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "It is also allowed to assign a template instance to a template variable or a template variable field.",
+   "lines": [
+    10128,
+    10129
+   ]
+  },
+  {
+   "id": "11.2-s007",
+   "section": "11.2",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "var TemplateModifier [ (@lazy | @fuzzy) [ @deterministic ] ]\n   [ TypeOrNestedTypeDef ] { VarIdentifier [ ArrayDef ] \":=\" TemplateBody [ \",\" ] }+ [ \";\" ]",
+   "lines": [
+    10137,
+    10140
+   ]
+  },
+  {
+   "id": "11.2-s008",
+   "section": "11.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "A template variable associates a name with the location of a template or a value (as every value is also a template).",
+   "lines": [
+    10144,
+    10146
+   ]
+  },
+  {
+   "id": "11.2-s009",
+   "section": "11.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "A template variable may change its template during test execution several times.",
+   "lines": [
+    10144,
+    10146
+   ]
+  },
+  {
+   "id": "11.2-s010",
+   "section": "11.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "A template or value can be assigned several times to a template variable.",
+   "lines": [
+    10144,
+    10146
+   ]
+  },
+  {
+   "id": "11.2-s011",
+   "section": "11.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The template variable can be referenced multiple times in a TTCN-3 module.",
+   "lines": [
+    10144,
+    10146
+   ]
+  },
+  {
+   "id": "11.2-s012",
+   "section": "11.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The content of a template variable can be restricted to the matching mechanisms specific value and omit in the same way as formal template parameters, see clause 5.4.1.2.",
+   "lines": [
+    10148,
+    10150
+   ]
+  },
+  {
+   "id": "11.2-s013",
+   "section": "11.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The restriction template (omit) can be replaced by the shorthand notation omit.",
+   "lines": [
+    10148,
+    10150
+   ]
+  },
+  {
+   "id": "11.2-s014",
+   "section": "11.2",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "NOTE 1: String and list type templates can be concatenated, see clause 15.11.",
+   "lines": [
+    10152,
+    10152
+   ]
+  },
+  {
+   "id": "11.2-s015",
+   "section": "11.2",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clause 5, the following restrictions apply:",
+   "lines": [
+    10156,
+    10156
+   ]
+  },
+  {
+   "id": "11.2-s016",
+   "section": "11.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) Template variables shall not be declared or used in a module definitions part (i.e. global variables are not supported in TTCN-3).",
+   "lines": [
+    10158,
+    10159
+   ]
+  },
+  {
+   "id": "11.2-s017",
+   "section": "11.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "b) When used on the right hand side of assignments template variables shall not be operands of TTCN-3 operators (see clause 7.1) and the variable on the left hand side shall be a template variable too.",
+   "lines": [
+    10161,
+    10162
+   ]
+  },
+  {
+   "id": "11.2-s018",
+   "section": "11.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "c) When accessing element of template variables either on the left hand side or on the right hand side of assignments, the rules given in clause 15.6 shall apply.",
+   "lines": [
+    10164,
+    10165
+   ]
+  },
+  {
+   "id": "11.2-s019",
+   "section": "11.2",
+   "kind": "note",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "NOTE 2: While it is not allowed to directly apply TTCN-3 operations to template variables, it is allowed to use the dot notation and the index notation to inspect and modify template variable fields.",
+   "lines": [
+    10167,
+    10168
+   ]
+  },
+  {
+   "id": "11.2-s020",
+   "section": "11.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "d) Use of uninitialized template variables at other places than the left hand side of assignments, in return statements, or as actual parameters passed to formal parameters shall cause an error.",
+   "lines": [
+    10170,
+    10171
+   ]
+  },
+  {
+   "id": "11.2-s021",
+   "section": "11.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "e) Void.",
+   "lines": [
+    10173,
+    10173
+   ]
+  },
+  {
+   "id": "11.2-s022",
+   "section": "11.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "f) If the template variable is restricted, then the template used to initialize it shall contain only the matching mechanisms as described in clause 15.8.",
+   "lines": [
+    10175,
+    10176
+   ]
+  },
+  {
+   "id": "11.2-s023",
+   "section": "11.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "g) Template variables, similarly to global and local templates, shall be fully specified in order to be used in sending and receiving operations.",
+   "lines": [
+    10178,
+    10179
+   ]
+  },
+  {
+   "id": "11.2-s024",
+   "section": "11.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "h) Restrictions on templates in clause 15.0 shall apply.",
+   "lines": [
+    10181,
+    10181
+   ]
+  },
+  {
+   "id": "11.2-s025",
+   "section": "11.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "i) The initialization or assignment of a fuzzy or lazy variable shall not contain function calls of functions with inout or out parameters.",
+   "lines": [
+    10183,
+    10184
+   ]
+  },
+  {
+   "id": "11.2-s026",
+   "section": "11.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "The called functions may use other functions with inout or out parameters internally.",
+   "lines": [
+    10183,
+    10184
+   ]
+  },
+  {
+   "id": "11.2-s027",
+   "section": "11.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "j) If a lazy or fuzzy template variable is used in deterministic contexts (i.e. during the evaluation of a snapshot or initialization of global non-fuzzy templates), it shall be declared @deterministic and the template body assigned to the variable shall fulfill the restrictions imposed on content of functions used in special places given in clause 16.1.4.",
+   "lines": [
+    10186,
+    10189
+   ]
+  },
+  {
+   "id": "11.2-s028",
+   "section": "11.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "k) Using the dot notation (see clauses 6.2.1.1, 6.2.2.1 and 6.2.5.1) and index notation (see clause 6.2.7) for referencing a field, alternative or element of an address value, which actual value is null shall cause an error.",
+   "lines": [
+    10191,
+    10193
+   ]
+  },
+  {
+   "id": "11.2-s029",
+   "section": "11.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "l) The template body at the right-hand side of the assignment symbol shall evaluate to a value or template, which is type compatible with the variable being declared.",
+   "lines": [
+    10195,
+    10196
+   ]
+  },
+  {
+   "id": "11.2-s030",
+   "section": "11.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "m) The template body at the right-hand side of the assignment symbol shall evaluate to an object that is at least partially initialized.",
+   "lines": [
+    10198,
+    10199
+   ]
+  },
+  {
+   "id": "11.2-s031",
+   "section": "11.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "n) If the TypeOrNestedTypeDef part is missing from the declaration, the ArrayDef part shall be missing as well and the assignment part (i.e. \":=\" TemplateBody) shall be present.",
+   "lines": [
+    10201,
+    10202
+   ]
+  },
+  {
+   "id": "11.2-s032",
+   "section": "11.2",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "var template integer v_myVarTemp1 := ?;\n  var template MyRecord v_myVarTemp2 := { field1 := true, field2 := * },\n                v_myVarTemp3 := { field1 := ?, field2 := v_myVarTemp1 };\n  var template @fuzzy float v_fuzzTemp1 := rnd(); // evaluated on every usage\n  var template @fuzzy MyRecord v_fuzzTemp2 := { rnd() < 0.5, float2int(rnd()) };\n  var template @lazy float LazyTemp1 := v_fuzzTemp1; // evaluates v_fuzzTemp1\n  var template @lazy MyRecord v_lazyTemp2 := \n     { v_lazyTemp1 < 0.5, float2int(v_fuzzTemp1) }; // evaluates v_lazyTemp1 and v_fuzzTemp1\n  v_lazyTemp2.field1 := true; // evaluates v_lazyTemp2 and overwrites field1 with true",
+   "lines": [
+    10210,
+    10220
+   ]
+  }
+ ]
+}

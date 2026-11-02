@@ -1,0 +1,21 @@
+// @requirement: 5.4.2 -- For out formal parameters, the type of the formal parameter shall be compatible with the type of the actual parameter.
+// @id: TTCN3-CORE-5.4.2-041a
+// @verdict: pass reject
+module M_05_04_02_test_045 {
+
+    type component C {}
+
+    function f(out integer p_i) {
+        p_i := 1;
+    }
+
+    testcase TC() runs on C {
+        var charstring v_s;
+        f(v_s); // error: out formal parameter type integer not compatible with charstring
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

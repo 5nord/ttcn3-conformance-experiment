@@ -1,0 +1,22 @@
+// @requirement: 6.3.4 -- The types of values or templates directly used as exceptions to the operations catch and raise shall be explicitly defined in the exceptions part of the definition of the signature given to the operation.
+// @id: TTCN3-CORE-6.3.4-004a
+// @verdict: pass reject
+module M_06_03_04_test_005 {
+    type record R1 { integer f }
+    type record R2 { integer f }
+    signature S(in integer p_x) exception (R1);
+    type port P procedure { inout S }
+    type component C { port P p }
+
+    const R2 c_r2 := { f := 1 };
+
+    testcase TC() runs on C {
+        connect(mtc:p, mtc:p);
+        p.raise(S, c_r2); // error: R2 is not in the exception list of S
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

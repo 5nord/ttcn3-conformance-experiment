@@ -1,0 +1,23 @@
+// @requirement: 6.1.2.3 -- Using the special value infinity as the upper bound shall indicate that the allowed numerical values are not restricted upward and the special value infinity is also included.
+// @id: TTCN3-CORE-6.1.2.3-008a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_01_02_03_test_011 {
+
+    type float MyGreaterThanZero (0.0 .. infinity);
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyGreaterThanZero v_large := 1.0E300;
+        var MyGreaterThanZero v_inf := infinity;
+        if (v_large == 1.0E300 and v_inf == infinity) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,28 @@
+// @requirement: A.1.6.8.3 -- TemplateInstance-s shall be Identifier-s if the UnionKeyword is present in the surrounding SelectCaseConstruct (see clause 19.3.2)
+// @id: TTCN3-CORE-A.1.6.8.3-026a
+// @verdict: pass reject
+module M_A_01_06_08_03_test_036 {
+
+    type union U {
+        integer f1,
+        charstring f2
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var U v_u := {f1 := 1};
+        select union (v_u) {
+            case (1) { // error: case of select union is not an alternative identifier
+                setverdict(pass);
+            }
+            case else {
+                setverdict(fail);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

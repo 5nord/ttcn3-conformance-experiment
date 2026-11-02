@@ -1,0 +1,23 @@
+// @requirement: 22.4 -- If the queue is empty the check operation fails.
+// @id: TTCN3-CORE-22.4-008a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_04_test_011 {
+
+    type port MP message { inout integer; }
+
+    type component C {
+        port MP p1, p2;
+    }
+
+    testcase TC() runs on C {
+        connect(mtc:p1, mtc:p2);
+        alt {
+            [] p2.check { setverdict(fail); }
+            [else] { setverdict(pass); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

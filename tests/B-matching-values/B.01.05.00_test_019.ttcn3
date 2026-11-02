@@ -1,0 +1,25 @@
+// @requirement: B.1.5.0 -- Metacharacter: {\reference}; Indexing: Including the reference; Description: Insert the referenced user defined string and interpret it as a set of literals. See clause 27.9 for more details
+// @id: TTCN3-CORE-B.1.5.0-022a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_05_00_test_019 {
+
+    type component C {}
+
+    const charstring c_ref := "ab?*";
+
+    template charstring mw_pattern := pattern "x{\c_ref}y";
+
+    testcase TC() runs on C {
+        if (match("xab?*y", mw_pattern) and
+            not match("xabcy", mw_pattern) and
+            not match("xabcdy", mw_pattern)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

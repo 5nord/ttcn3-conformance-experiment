@@ -1,0 +1,36 @@
+// @requirement: 16.2.1 -- c) When invoking an altstep, the mtc and system compatibility of the mtc and system components of the invoked altstep with the actual mtc and system types of the running test case as described in clause 6.3.2.7 need to be fulfilled.
+// @id: TTCN3-CORE-16.2.1-022b
+// @verdict: pass reject
+module M_16_02_01_test_023 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        timer T;
+    }
+
+    type component S {
+    }
+
+    type component S2 {
+        port P p;
+    }
+
+    altstep a_step() runs on C system S2 {
+        [] T.timeout {}
+    }
+
+    testcase TC() runs on C system S {
+        T.start(0.1);
+        alt {
+            [] a_step(); // error: system type S is not system-compatible with S2
+        }
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,24 @@
+// @requirement: 15.6.3 -- In such a case, the appended symbol contains the original length restriction adjusted by the difference between the size of the template before and after assignment. If the original AnyElementsOrNone had a length restriction, the symbol is appended only if the restriction included items beyond the referenced item.
+// @id: TTCN3-CORE-15.6.3-055a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_06_03_test_032 {
+
+    type record of integer RoI;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template RoI v_roI := {1, * length (1 .. 5)};
+        v_roI[2] := 3;
+        if (match({1, 0, 3}, v_roI) and match({1, 0, 3, 4, 4, 4}, v_roI) and
+            not match({1, 0, 3, 4, 4, 4, 4}, v_roI)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

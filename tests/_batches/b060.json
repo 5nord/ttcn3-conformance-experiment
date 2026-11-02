@@ -1,0 +1,1214 @@
+{
+ "batch": "b060",
+ "requirements": [
+  {
+   "id": "TTCN3-CORE-21.1.1-031a",
+   "section": "21.1.1",
+   "type": "information",
+   "modality": "CAN",
+   "original": "NOTE 2: Note that PORT1 and PORT2 can occur in any order, thus the system adapter port can be either the first or the second operand of the map operation.",
+   "canonical": "The system port CAN be either the first or the second operand of a `map` operation.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16157,
+    16158
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.01.01_test_028.ttcn3",
+   "module": "M_21_01_01_test_028",
+   "header": "// @requirement: 21.1.1 -- NOTE 2: Note that PORT1 and PORT2 can occur in any order, thus the system adapter port can be either the first or the second operand of the map operation."
+  },
+  {
+   "id": "TTCN3-CORE-21.1.1-032a",
+   "section": "21.1.1",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "d) In all other cases, the operations shall not be allowed.",
+   "canonical": "A `connect` operation that does not satisfy the conditions of restriction b) SHALL NOT be allowed.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16141,
+    16160
+   ],
+   "examples": [
+    {
+     "lines": [
+      16215,
+      16230
+     ],
+     "text": "type port P message { inout integer; }\n  type component C1 { port P p1; }\n  type component C2 { port P p1, p2; }\n  testcase TC runs on C1 system C1\n  {\n    var C1 v_ptc := C2.create; // valid assignment, instance of C2 is compatible with C1 type\n    connect (self:p1, v_ptc:p1); // valid, p1 is present in C1 type definition\n    disconnect (self:p1, v_ptc:p1);\n    connect (self:p1, v_ptc:p2); // invalid, although the real instance in v_ptc is of the\n   // C2 type, the variable itself is of the C1 type making the p2 port invisible to the\n   // connection operation\n    connect (v_ptc:p1, system:p1); // invalid, connect parameters shall not contain\n   // a system port reference\n  }"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.01.01_test_029.ttcn3",
+   "module": "M_21_01_01_test_029",
+   "header": "// @requirement: 21.1.1 -- d) In all other cases, the operations shall not be allowed."
+  },
+  {
+   "id": "TTCN3-CORE-21.1.1-032b",
+   "section": "21.1.1",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "d) In all other cases, the operations shall not be allowed.",
+   "canonical": "A `map` operation that does not satisfy the conditions of restriction c) SHALL NOT be allowed.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16149,
+    16160
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.01.01_test_030.ttcn3",
+   "module": "M_21_01_01_test_030",
+   "header": "// @requirement: 21.1.1 -- d) In all other cases, the operations shall not be allowed."
+  },
+  {
+   "id": "TTCN3-CORE-21.1.1-034a",
+   "section": "21.1.1",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "All checks, which could not be made at compile-time, shall be made at runtime and shall lead to a test case error when failing.",
+   "canonical": "A consistency check for `connect` or `map` that cannot be made at compile time SHALL be made at runtime.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16162,
+    16164
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.01.01_test_031.ttcn3",
+   "module": "M_21_01_01_test_031",
+   "header": "// @requirement: 21.1.1 -- All checks, which could not be made at compile-time, shall be made at runtime and shall lead to a test case error when failing."
+  },
+  {
+   "id": "TTCN3-CORE-21.1.1-034b",
+   "section": "21.1.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "All checks, which could not be made at compile-time, shall be made at runtime and shall lead to a test case error when failing.",
+   "canonical": "A failing runtime consistency check for `connect` or `map` SHALL lead to a test case error.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16162,
+    16164
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.01.01_test_032.ttcn3",
+   "module": "M_21_01_01_test_032",
+   "header": "// @requirement: 21.1.1 -- All checks, which could not be made at compile-time, shall be made at runtime and shall lead to a test case error when failing."
+  },
+  {
+   "id": "TTCN3-CORE-21.1.1-035a",
+   "section": "21.1.1",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "f) In addition, the restrictions on allowed and disallowed connections described in clause 9.1 apply.",
+   "canonical": "The restrictions on allowed and disallowed connections described in clause 9.1 SHALL apply to `connect` and `map` operations.",
+   "condition": null,
+   "cross_refs": [
+    "9.1"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16166,
+    16166
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.01.01_test_033.ttcn3",
+   "module": "M_21_01_01_test_033",
+   "header": "// @requirement: 21.1.1 -- f) In addition, the restrictions on allowed and disallowed connections described in clause 9.1 apply."
+  },
+  {
+   "id": "TTCN3-CORE-21.1.1-036a",
+   "section": "21.1.1",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "g) In map operations, param clauses are optional.",
+   "canonical": "A `map` operation MAY omit the param clause.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16168,
+    16172
+   ],
+   "examples": [
+    {
+     "lines": [
+      16181,
+      16195
+     ],
+     "text": "// It is assumed that the ports Port1, Port2, Port3 and PCO1 are properly defined and declared\n  // in the corresponding port type and component type definitions \n   :\n  var MyComponentType v_myNewPTC;\n  v_myNewPTC := MyComponentType.create;\n   :\n  connect(v_myNewPTC:port1, mtc:port3);\n  map(v_myNewPTC:port2, system:pCO1);\n   :\n  // In this example a new component of type MyComponentType is created and its reference stored\n  // in variable v_myNewPTC. Afterwards in the connect operation, port1 of this new component\n  // is connected with port3 of the MTC. By means of the map operation, port2 of the new component\n  // is then connected to port pCO1 of the test system interface"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.01.01_test_034.ttcn3",
+   "module": "M_21_01_01_test_034",
+   "header": "// @requirement: 21.1.1 -- g) In map operations, param clauses are optional."
+  },
+  {
+   "id": "TTCN3-CORE-21.1.1-037a",
+   "section": "21.1.1",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "If in a map operation a param clause is present, exactly one of the components referenced by the operation shall be the system component reference, the type of the system component shall be known in the context of the operation either via a system clause or via a runs on clause in a testcase without system clause, the type of the system port to which the operation is applied shall include a map `param declaration, and the actual parameters shall conform to the map` **param** clause of the port type declaration of the system port used.",
+   "canonical": "If a `map` operation has a param clause, exactly one of the components referenced by the operation SHALL be the system component reference.",
+   "condition": "a param clause is present",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16168,
+    16172
+   ],
+   "examples": [
+    {
+     "lines": [
+      16203,
+      16212
+     ],
+     "text": ":\n  var MyConfigType v_myConfig := { option := 1, lock := false};\n   :\n  map(mtc:port4, system:pCO2) param (v_myConfig);\n   :\n  // In this example by means of the map operation, port4 of the MTC is connected to the port pCO2\n  // of the test system interface, and additionally a parameter containing configuration options\n  // for the connection is passed."
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.01.01_test_035.ttcn3",
+   "module": "M_21_01_01_test_035",
+   "header": "// @requirement: 21.1.1 -- If in a map operation a param clause is present, exactly one of the components referenced by the operation shall be the system component reference, the type of the system component shall be known in the context of the operation either via a system clause or via a runs on clause in a testcase without system clause, the type of the system port to which the operation is applied shall include a map `param declaration, and the actual parameters shall conform to the map` **param** clause of the port type declaration of the system port used."
+  },
+  {
+   "id": "TTCN3-CORE-21.1.1-037b",
+   "section": "21.1.1",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "If in a map operation a param clause is present, exactly one of the components referenced by the operation shall be the system component reference, the type of the system component shall be known in the context of the operation either via a system clause or via a runs on clause in a testcase without system clause, the type of the system port to which the operation is applied shall include a map `param declaration, and the actual parameters shall conform to the map` **param** clause of the port type declaration of the system port used.",
+   "canonical": "If a `map` operation has a param clause, the type of the system component SHALL be known in the context of the operation, either via a system clause or via the runs on clause of a testcase without system clause.",
+   "condition": "a param clause is present",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16168,
+    16172
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.01.01_test_036.ttcn3",
+   "module": "M_21_01_01_test_036",
+   "header": "// @requirement: 21.1.1 -- If in a map operation a param clause is present, exactly one of the components referenced by the operation shall be the system component reference, the type of the system component shall be known in the context of the operation either via a system clause or via a runs on clause in a testcase without system clause, the type of the system port to which the operation is applied shall include a map `param declaration, and the actual parameters shall conform to the map` **param** clause of the port type declaration of the system port used."
+  },
+  {
+   "id": "TTCN3-CORE-21.1.1-037c",
+   "section": "21.1.1",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "If in a map operation a param clause is present, exactly one of the components referenced by the operation shall be the system component reference, the type of the system component shall be known in the context of the operation either via a system clause or via a runs on clause in a testcase without system clause, the type of the system port to which the operation is applied shall include a map `param declaration, and the actual parameters shall conform to the map` **param** clause of the port type declaration of the system port used.",
+   "canonical": "If a `map` operation has a param clause, the type of the system port to which the operation is applied SHALL include a map param declaration.",
+   "condition": "a param clause is present",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16168,
+    16172
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.01.01_test_037.ttcn3",
+   "module": "M_21_01_01_test_037",
+   "header": "// @requirement: 21.1.1 -- If in a map operation a param clause is present, exactly one of the components referenced by the operation shall be the system component reference, the type of the system component shall be known in the context of the operation either via a system clause or via a runs on clause in a testcase without system clause, the type of the system port to which the operation is applied shall include a map `param declaration, and the actual parameters shall conform to the map` **param** clause of the port type declaration of the system port used."
+  },
+  {
+   "id": "TTCN3-CORE-21.1.1-037d",
+   "section": "21.1.1",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "If in a map operation a param clause is present, exactly one of the components referenced by the operation shall be the system component reference, the type of the system component shall be known in the context of the operation either via a system clause or via a runs on clause in a testcase without system clause, the type of the system port to which the operation is applied shall include a map `param declaration, and the actual parameters shall conform to the map` **param** clause of the port type declaration of the system port used.",
+   "canonical": "If a `map` operation has a param clause, its actual parameters SHALL conform to the map param clause of the port type declaration of the system port used.",
+   "condition": "a param clause is present",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16168,
+    16172
+   ],
+   "examples": [
+    {
+     "lines": [
+      16203,
+      16212
+     ],
+     "text": ":\n  var MyConfigType v_myConfig := { option := 1, lock := false};\n   :\n  map(mtc:port4, system:pCO2) param (v_myConfig);\n   :\n  // In this example by means of the map operation, port4 of the MTC is connected to the port pCO2\n  // of the test system interface, and additionally a parameter containing configuration options\n  // for the connection is passed."
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.01.01_test_038.ttcn3",
+   "module": "M_21_01_01_test_038",
+   "header": "// @requirement: 21.1.1 -- If in a map operation a param clause is present, exactly one of the components referenced by the operation shall be the system component reference, the type of the system component shall be known in the context of the operation either via a system clause or via a runs on clause in a testcase without system clause, the type of the system port to which the operation is applied shall include a map `param declaration, and the actual parameters shall conform to the map` **param** clause of the port type declaration of the system port used."
+  },
+  {
+   "id": "TTCN3-CORE-21.1.1-038a",
+   "section": "21.1.1",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "h) If the type of the component referenced in a connection operation is known (either when the component reference is a variable or value returned from a function or the type is defined in the runs on, mtc or system clause of the calling function), the referenced port declaration shall be present in this component type.",
+   "canonical": "If the type of a component referenced in a `connect` or `map` operation is known (the component reference is a variable or a value returned from a function, or the type is defined in the runs on, mtc or system clause of the calling function), the referenced port SHALL be declared in that component type.",
+   "condition": "the component type of the referenced component is known",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "improper_terms": [
+     {
+      "used": "connection operation",
+      "proper": "connect or map operation",
+      "glossary": false
+     }
+    ],
+    "issue": "'connection operation' is not a defined term; in clause 21.1.1 it refers to connect and map, the same rule is repeated for disconnect/unmap in 21.1.2."
+   },
+   "spec_lines": [
+    16174,
+    16176
+   ],
+   "examples": [
+    {
+     "lines": [
+      16215,
+      16230
+     ],
+     "text": "type port P message { inout integer; }\n  type component C1 { port P p1; }\n  type component C2 { port P p1, p2; }\n  testcase TC runs on C1 system C1\n  {\n    var C1 v_ptc := C2.create; // valid assignment, instance of C2 is compatible with C1 type\n    connect (self:p1, v_ptc:p1); // valid, p1 is present in C1 type definition\n    disconnect (self:p1, v_ptc:p1);\n    connect (self:p1, v_ptc:p2); // invalid, although the real instance in v_ptc is of the\n   // C2 type, the variable itself is of the C1 type making the p2 port invisible to the\n   // connection operation\n    connect (v_ptc:p1, system:p1); // invalid, connect parameters shall not contain\n   // a system port reference\n  }"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.01.01_test_039.ttcn3",
+   "module": "M_21_01_01_test_039",
+   "header": "// @requirement: 21.1.1 -- h) If the type of the component referenced in a connection operation is known (either when the component reference is a variable or value returned from a function or the type is defined in the runs on, mtc or system clause of the calling function), the referenced port declaration shall be present in this component type."
+  },
+  {
+   "id": "TTCN3-CORE-21.1.2-002a",
+   "section": "21.1.2",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "disconnect [ ( \"(\" ComponentRef \":\" Port \",\" ComponentRef \":\" Port \")\" ) | ( \"(\" PortRef \")\" ) | ( \"(\" ComponentRef \":\" all port \")\" ) | ( \"(\" all component \":\" all port \")\" ) ] unmap [ ( \"(\" ComponentRef \":\" Port \",\" ComponentRef \":\" Port \")\" [ param \"(\" [ { ActualPar [\",\"] }+ ] \")\" ] ) | ( \"(\" PortRef \")\" [ param \"(\" [ { ActualPar [\",\"] }+ ] \")\" ] ) | ( \"(\" ComponentRef \":\" all port \")\" ) | ( \"(\" all component \":\" all port \")\" ) ]",
+   "canonical": "The `disconnect` operation has the syntax disconnect optionally followed by one of ( ComponentRef : Port , ComponentRef : Port ), ( PortRef ), ( ComponentRef : all port ) or ( all component : all port ).",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16237,
+    16247
+   ],
+   "examples": [
+    {
+     "lines": [
+      16303,
+      16309
+     ],
+     "text": "connect(myNewComponent:port1, mtc:port3);\n  map(myNewComponent:port2, system:pCO1);\n   :\n  disconnect(myNewComponent:port1, mtc:port3); // disconnect previously made connection\n  unmap(myNewComponent:port2, system:pCO1); // unmap previously made mapping"
+    },
+    {
+     "lines": [
+      16312,
+      16316
+     ],
+     "text": "disconnect(myNewComponent:port1); // disconnects all connections of Port1, which\n                               // is owned by component myNewComponent.\n  unmap(myNewComponent:all port);  // unmaps all ports of component myNewComponent"
+    },
+    {
+     "lines": [
+      16319,
+      16327
+     ],
+     "text": "disconnect;  // is a shorthand form for …\n  disconnect(self:all port);  // which disconnects all ports of the component\n                               // that called the operation\n   :\n  unmap;  // is a shorthand form for …\n  unmap(self:all port); // which unmaps all ports of the component\n                               // that called the operation"
+    },
+    {
+     "lines": [
+      16330,
+      16336
+     ],
+     "text": "disconnect(all component:all port);  // the MTC disconnects all ports of all\n                               // components in the test configuration.\n   :\n  unmap(all component:all port);  // the MTC unmaps all ports of all\n                               // components in the test configuration."
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.01.02_test_001.ttcn3",
+   "module": "M_21_01_02_test_001",
+   "header": "// @requirement: 21.1.2 -- disconnect [ ( \"(\" ComponentRef \":\" Port \",\" ComponentRef \":\" Port \")\" ) | ( \"(\" PortRef \")\" ) | ( \"(\" ComponentRef \":\" all port \")\" ) | ( \"(\" all component \":\" all port \")\" ) ] unmap [ ( \"(\" ComponentRef \":\" Port \",\" ComponentRef \":\" Port \")\" [ param \"(\" [ { ActualPar [\",\"] }+ ] \")\" ] ) | ( \"(\" PortRef \")\" [ param \"(\" [ { ActualPar [\",\"] }+ ] \")\" ] ) | ( \"(\" ComponentRef \":\" all port \")\" ) | ( \"(\" all component \":\" all port \")\" ) ]"
+  },
+  {
+   "id": "TTCN3-CORE-21.1.2-002b",
+   "section": "21.1.2",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "disconnect [ ( \"(\" ComponentRef \":\" Port \",\" ComponentRef \":\" Port \")\" ) | ( \"(\" PortRef \")\" ) | ( \"(\" ComponentRef \":\" all port \")\" ) | ( \"(\" all component \":\" all port \")\" ) ] unmap [ ( \"(\" ComponentRef \":\" Port \",\" ComponentRef \":\" Port \")\" [ param \"(\" [ { ActualPar [\",\"] }+ ] \")\" ] ) | ( \"(\" PortRef \")\" [ param \"(\" [ { ActualPar [\",\"] }+ ] \")\" ] ) | ( \"(\" ComponentRef \":\" all port \")\" ) | ( \"(\" all component \":\" all port \")\" ) ]",
+   "canonical": "The `unmap` operation has the syntax unmap optionally followed by one of ( ComponentRef : Port , ComponentRef : Port ) [param clause], ( PortRef ) [param clause], ( ComponentRef : all port ) or ( all component : all port ).",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16237,
+    16247
+   ],
+   "examples": [
+    {
+     "lines": [
+      16303,
+      16309
+     ],
+     "text": "connect(myNewComponent:port1, mtc:port3);\n  map(myNewComponent:port2, system:pCO1);\n   :\n  disconnect(myNewComponent:port1, mtc:port3); // disconnect previously made connection\n  unmap(myNewComponent:port2, system:pCO1); // unmap previously made mapping"
+    },
+    {
+     "lines": [
+      16312,
+      16316
+     ],
+     "text": "disconnect(myNewComponent:port1); // disconnects all connections of Port1, which\n                               // is owned by component myNewComponent.\n  unmap(myNewComponent:all port);  // unmaps all ports of component myNewComponent"
+    },
+    {
+     "lines": [
+      16319,
+      16327
+     ],
+     "text": "disconnect;  // is a shorthand form for …\n  disconnect(self:all port);  // which disconnects all ports of the component\n                               // that called the operation\n   :\n  unmap;  // is a shorthand form for …\n  unmap(self:all port); // which unmaps all ports of the component\n                               // that called the operation"
+    },
+    {
+     "lines": [
+      16330,
+      16336
+     ],
+     "text": "disconnect(all component:all port);  // the MTC disconnects all ports of all\n                               // components in the test configuration.\n   :\n  unmap(all component:all port);  // the MTC unmaps all ports of all\n                               // components in the test configuration."
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.01.02_test_002.ttcn3",
+   "module": "M_21_01_02_test_002",
+   "header": "// @requirement: 21.1.2 -- disconnect [ ( \"(\" ComponentRef \":\" Port \",\" ComponentRef \":\" Port \")\" ) | ( \"(\" PortRef \")\" ) | ( \"(\" ComponentRef \":\" all port \")\" ) | ( \"(\" all component \":\" all port \")\" ) ] unmap [ ( \"(\" ComponentRef \":\" Port \",\" ComponentRef \":\" Port \")\" [ param \"(\" [ { ActualPar [\",\"] }+ ] \")\" ] ) | ( \"(\" PortRef \")\" [ param \"(\" [ { ActualPar [\",\"] }+ ] \")\" ] ) | ( \"(\" ComponentRef \":\" all port \")\" ) | ( \"(\" all component \":\" all port \")\" ) ]"
+  },
+  {
+   "id": "TTCN3-CORE-21.1.2-003a",
+   "section": "21.1.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The disconnect and unmap operations perform the disconnection (of previously connected) ports of test components and the unmapping of (previously mapped) ports of test components and ports in the test system interface.",
+   "canonical": "The `disconnect` operation disconnects previously connected ports of test components.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16251,
+    16252
+   ],
+   "examples": [
+    {
+     "lines": [
+      16303,
+      16309
+     ],
+     "text": "connect(myNewComponent:port1, mtc:port3);\n  map(myNewComponent:port2, system:pCO1);\n   :\n  disconnect(myNewComponent:port1, mtc:port3); // disconnect previously made connection\n  unmap(myNewComponent:port2, system:pCO1); // unmap previously made mapping"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.01.02_test_003.ttcn3",
+   "module": "M_21_01_02_test_003",
+   "header": "// @requirement: 21.1.2 -- The disconnect and unmap operations perform the disconnection (of previously connected) ports of test components and the unmapping of (previously mapped) ports of test components and ports in the test system interface."
+  },
+  {
+   "id": "TTCN3-CORE-21.1.2-003b",
+   "section": "21.1.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The disconnect and unmap operations perform the disconnection (of previously connected) ports of test components and the unmapping of (previously mapped) ports of test components and ports in the test system interface.",
+   "canonical": "The `unmap` operation unmaps previously mapped ports of test components and ports of the test system interface.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16251,
+    16252
+   ],
+   "examples": [
+    {
+     "lines": [
+      16303,
+      16309
+     ],
+     "text": "connect(myNewComponent:port1, mtc:port3);\n  map(myNewComponent:port2, system:pCO1);\n   :\n  disconnect(myNewComponent:port1, mtc:port3); // disconnect previously made connection\n  unmap(myNewComponent:port2, system:pCO1); // unmap previously made mapping"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.01.02_test_004.ttcn3",
+   "module": "M_21_01_02_test_004",
+   "header": "// @requirement: 21.1.2 -- The disconnect and unmap operations perform the disconnection (of previously connected) ports of test components and the unmapping of (previously mapped) ports of test components and ports in the test system interface."
+  },
+  {
+   "id": "TTCN3-CORE-21.1.2-004a",
+   "section": "21.1.2",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Both, the disconnect and unmap operations can be called from any component if the relevant component references together with the names of the relevant ports are known.",
+   "canonical": "A `disconnect` operation MAY be called from any test component if the relevant component references and the names of the relevant ports are known.",
+   "condition": "the component references and port names are known",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16254,
+    16256
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.01.02_test_005.ttcn3",
+   "module": "M_21_01_02_test_005",
+   "header": "// @requirement: 21.1.2 -- Both, the disconnect and unmap operations can be called from any component if the relevant component references together with the names of the relevant ports are known."
+  },
+  {
+   "id": "TTCN3-CORE-21.1.2-004b",
+   "section": "21.1.2",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Both, the disconnect and unmap operations can be called from any component if the relevant component references together with the names of the relevant ports are known.",
+   "canonical": "An `unmap` operation MAY be called from any test component if the relevant component references and the names of the relevant ports are known.",
+   "condition": "the component references and port names are known",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16254,
+    16256
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.01.02_test_006.ttcn3",
+   "module": "M_21_01_02_test_006",
+   "header": "// @requirement: 21.1.2 -- Both, the disconnect and unmap operations can be called from any component if the relevant component references together with the names of the relevant ports are known."
+  },
+  {
+   "id": "TTCN3-CORE-21.1.2-005a",
+   "section": "21.1.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "A disconnect or unmap operation has only an effect if the connection or mapping to be removed has been created beforehand.",
+   "canonical": "A `disconnect` or `unmap` operation has an effect only if the connection or mapping to be removed has been created beforehand; otherwise it has no effect.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "readings": [
+     "A `disconnect` or `unmap` operation for a non-existing connection or mapping has no effect and test execution continues.",
+     "A `disconnect` or `unmap` operation for a non-existing connection or mapping is an error."
+    ],
+    "issue": "The sentence does not say explicitly whether removing a non-existing connection is silently ignored or an error; the first reading (no-op, analogous to 21.1.1 for connect/map) was chosen."
+   },
+   "spec_lines": [
+    16254,
+    16256
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.01.02_test_007.ttcn3",
+   "module": "M_21_01_02_test_007",
+   "header": "// @requirement: 21.1.2 -- A disconnect or unmap operation has only an effect if the connection or mapping to be removed has been created beforehand."
+  },
+  {
+   "id": "TTCN3-CORE-21.1.2-006a",
+   "section": "21.1.2",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "To ease disconnect and unmap operations related to all connections and mappings of a component or a port, it is allowed to use disconnect and unmap operations with one argument only.",
+   "canonical": "A `disconnect` or `unmap` operation MAY be used with one argument only, to address all connections or mappings of a component or a port.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16258,
+    16261
+   ],
+   "examples": [
+    {
+     "lines": [
+      16312,
+      16316
+     ],
+     "text": "disconnect(myNewComponent:port1); // disconnects all connections of Port1, which\n                               // is owned by component myNewComponent.\n  unmap(myNewComponent:all port);  // unmaps all ports of component myNewComponent"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.01.02_test_008.ttcn3",
+   "module": "M_21_01_02_test_008",
+   "header": "// @requirement: 21.1.2 -- To ease disconnect and unmap operations related to all connections and mappings of a component or a port, it is allowed to use disconnect and unmap operations with one argument only."
+  },
+  {
+   "id": "TTCN3-CORE-21.1.2-007a",
+   "section": "21.1.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "This one argument specifies one side of the connections to be disconnected or unmapped.",
+   "canonical": "The single argument of a `disconnect` or `unmap` operation specifies one side of the connections or mappings to be removed, and all connections or mappings of that side are removed.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16258,
+    16261
+   ],
+   "examples": [
+    {
+     "lines": [
+      16312,
+      16316
+     ],
+     "text": "disconnect(myNewComponent:port1); // disconnects all connections of Port1, which\n                               // is owned by component myNewComponent.\n  unmap(myNewComponent:all port);  // unmaps all ports of component myNewComponent"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.01.02_test_009.ttcn3",
+   "module": "M_21_01_02_test_009",
+   "header": "// @requirement: 21.1.2 -- This one argument specifies one side of the connections to be disconnected or unmapped."
+  },
+  {
+   "id": "TTCN3-CORE-21.1.2-008a",
+   "section": "21.1.2",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "The all port keyword can be used to denote all ports of a component.",
+   "canonical": "The `all port` keyword MAY be used in a `disconnect` or `unmap` operation to denote all ports of a component.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16258,
+    16261
+   ],
+   "examples": [
+    {
+     "lines": [
+      16312,
+      16316
+     ],
+     "text": "disconnect(myNewComponent:port1); // disconnects all connections of Port1, which\n                               // is owned by component myNewComponent.\n  unmap(myNewComponent:all port);  // unmaps all ports of component myNewComponent"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.01.02_test_010.ttcn3",
+   "module": "M_21_01_02_test_010",
+   "header": "// @requirement: 21.1.2 -- The all port keyword can be used to denote all ports of a component."
+  },
+  {
+   "id": "TTCN3-CORE-21.1.2-009a",
+   "section": "21.1.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The usage of a disconnect or unmap operation without any parameters is a shorthand form for using the operation with the parameter self:all port.",
+   "canonical": "A `disconnect` or `unmap` operation without any parameters IS a shorthand form for the same operation with the parameter self:all port.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16263,
+    16264
+   ],
+   "examples": [
+    {
+     "lines": [
+      16319,
+      16327
+     ],
+     "text": "disconnect;  // is a shorthand form for …\n  disconnect(self:all port);  // which disconnects all ports of the component\n                               // that called the operation\n   :\n  unmap;  // is a shorthand form for …\n  unmap(self:all port); // which unmaps all ports of the component\n                               // that called the operation"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.01.02_test_011.ttcn3",
+   "module": "M_21_01_02_test_011",
+   "header": "// @requirement: 21.1.2 -- The usage of a disconnect or unmap operation without any parameters is a shorthand form for using the operation with the parameter self:all port."
+  },
+  {
+   "id": "TTCN3-CORE-21.1.2-010a",
+   "section": "21.1.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "It disconnects or unmaps all ports of the component that calls the operation.",
+   "canonical": "A `disconnect` or `unmap` operation without parameters disconnects or unmaps all ports of the test component that calls the operation.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16263,
+    16264
+   ],
+   "examples": [
+    {
+     "lines": [
+      16319,
+      16327
+     ],
+     "text": "disconnect;  // is a shorthand form for …\n  disconnect(self:all port);  // which disconnects all ports of the component\n                               // that called the operation\n   :\n  unmap;  // is a shorthand form for …\n  unmap(self:all port); // which unmaps all ports of the component\n                               // that called the operation"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.01.02_test_012.ttcn3",
+   "module": "M_21_01_02_test_012",
+   "header": "// @requirement: 21.1.2 -- It disconnects or unmaps all ports of the component that calls the operation."
+  },
+  {
+   "id": "TTCN3-CORE-21.1.2-011a",
+   "section": "21.1.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "The all component keyword shall only be used in combination with the all port keyword, i.e. all component:all port, and shall only be used by the MTC.",
+   "canonical": "The `all component` keyword SHALL only be used in combination with the `all port` keyword, i.e. as all component:all port.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16266,
+    16269
+   ],
+   "examples": [
+    {
+     "lines": [
+      16330,
+      16336
+     ],
+     "text": "disconnect(all component:all port);  // the MTC disconnects all ports of all\n                               // components in the test configuration.\n   :\n  unmap(all component:all port);  // the MTC unmaps all ports of all\n                               // components in the test configuration."
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.01.02_test_013.ttcn3",
+   "module": "M_21_01_02_test_013",
+   "header": "// @requirement: 21.1.2 -- The all component keyword shall only be used in combination with the all port keyword, i.e. all component:all port, and shall only be used by the MTC."
+  },
+  {
+   "id": "TTCN3-CORE-21.1.2-011b",
+   "section": "21.1.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "The all component keyword shall only be used in combination with the all port keyword, i.e. all component:all port, and shall only be used by the MTC.",
+   "canonical": "The `all component` keyword SHALL only be used by the MTC.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16266,
+    16269
+   ],
+   "examples": [
+    {
+     "lines": [
+      16330,
+      16336
+     ],
+     "text": "disconnect(all component:all port);  // the MTC disconnects all ports of all\n                               // components in the test configuration.\n   :\n  unmap(all component:all port);  // the MTC unmaps all ports of all\n                               // components in the test configuration."
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.01.02_test_014.ttcn3",
+   "module": "M_21_01_02_test_014",
+   "header": "// @requirement: 21.1.2 -- The all component keyword shall only be used in combination with the all port keyword, i.e. all component:all port, and shall only be used by the MTC."
+  },
+  {
+   "id": "TTCN3-CORE-21.1.2-012a",
+   "section": "21.1.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "Furthermore, the all component:all port argument shall be used as the one and only argument of a disconnect or unmap operation and it allows to release all connections and mappings of the test configuration.",
+   "canonical": "The all component:all port argument SHALL be the one and only argument of a `disconnect` or `unmap` operation.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16266,
+    16269
+   ],
+   "examples": [
+    {
+     "lines": [
+      16330,
+      16336
+     ],
+     "text": "disconnect(all component:all port);  // the MTC disconnects all ports of all\n                               // components in the test configuration.\n   :\n  unmap(all component:all port);  // the MTC unmaps all ports of all\n                               // components in the test configuration."
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.01.02_test_015.ttcn3",
+   "module": "M_21_01_02_test_015",
+   "header": "// @requirement: 21.1.2 -- Furthermore, the all component:all port argument shall be used as the one and only argument of a disconnect or unmap operation and it allows to release all connections and mappings of the test configuration."
+  },
+  {
+   "id": "TTCN3-CORE-21.1.2-012b",
+   "section": "21.1.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Furthermore, the all component:all port argument shall be used as the one and only argument of a disconnect or unmap operation and it allows to release all connections and mappings of the test configuration.",
+   "canonical": "A `disconnect` or `unmap` operation with the argument all component:all port releases all connections or mappings of the test configuration.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16266,
+    16269
+   ],
+   "examples": [
+    {
+     "lines": [
+      16330,
+      16336
+     ],
+     "text": "disconnect(all component:all port);  // the MTC disconnects all ports of all\n                               // components in the test configuration.\n   :\n  unmap(all component:all port);  // the MTC unmaps all ports of all\n                               // components in the test configuration."
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.01.02_test_016.ttcn3",
+   "module": "M_21_01_02_test_016",
+   "header": "// @requirement: 21.1.2 -- Furthermore, the all component:all port argument shall be used as the one and only argument of a disconnect or unmap operation and it allows to release all connections and mappings of the test configuration."
+  },
+  {
+   "id": "TTCN3-CORE-21.1.2-013a",
+   "section": "21.1.2",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Similar to the map operation, unmap provides an optional parameter list for configuration purposes.",
+   "canonical": "An `unmap` operation MAY contain an optional parameter list (param clause) for configuration purposes.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16276,
+    16278
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.01.02_test_017.ttcn3",
+   "module": "M_21_01_02_test_017",
+   "header": "// @requirement: 21.1.2 -- Similar to the map operation, unmap provides an optional parameter list for configuration purposes."
+  },
+  {
+   "id": "TTCN3-CORE-21.1.2-014a",
+   "section": "21.1.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "If a parameter list is present, the actual parameters shall conform to the unmap **param clause of the port type declaration of the system** port used.",
+   "canonical": "If a param clause is present in an `unmap` operation, its actual parameters SHALL conform to the unmap param clause of the port type declaration of the system port used.",
+   "condition": "the unmap operation has a parameter list",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16276,
+    16278
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.01.02_test_018.ttcn3",
+   "module": "M_21_01_02_test_018",
+   "header": "// @requirement: 21.1.2 -- If a parameter list is present, the actual parameters shall conform to the unmap **param clause of the port type declaration of the system** port used."
+  },
+  {
+   "id": "TTCN3-CORE-21.1.2-017a",
+   "section": "21.1.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "a) In an unmap operation, a param clause shall only be present if the system port to which the param clause belongs to is explicitly referenced.",
+   "canonical": "In an `unmap` operation, a param clause SHALL only be present if the system port to which the param clause belongs is explicitly referenced.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "readings": [
+     "A param clause is only allowed in the forms ( ComponentRef : Port , ComponentRef : Port ) and ( PortRef ) where PortRef denotes a system port by name, not with all port forms.",
+     "A param clause is only allowed in the two-operand form where the system port is explicitly named, not in the one-argument ( PortRef ) form."
+    ],
+    "issue": "The syntax allows a param clause after ( PortRef ), but it is unclear whether a single component port reference counts as 'explicitly referencing' the mapped system port; the first reading was chosen."
+   },
+   "spec_lines": [
+    16285,
+    16286
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.01.02_test_019.ttcn3",
+   "module": "M_21_01_02_test_019",
+   "header": "// @requirement: 21.1.2 -- a) In an unmap operation, a param clause shall only be present if the system port to which the param clause belongs to is explicitly referenced."
+  },
+  {
+   "id": "TTCN3-CORE-21.1.2-018a",
+   "section": "21.1.2",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "b) In unmap operations, param clauses are optional.",
+   "canonical": "An `unmap` operation MAY omit the param clause.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16288,
+    16292
+   ],
+   "examples": [
+    {
+     "lines": [
+      16303,
+      16309
+     ],
+     "text": "connect(myNewComponent:port1, mtc:port3);\n  map(myNewComponent:port2, system:pCO1);\n   :\n  disconnect(myNewComponent:port1, mtc:port3); // disconnect previously made connection\n  unmap(myNewComponent:port2, system:pCO1); // unmap previously made mapping"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.01.02_test_020.ttcn3",
+   "module": "M_21_01_02_test_020",
+   "header": "// @requirement: 21.1.2 -- b) In unmap operations, param clauses are optional."
+  },
+  {
+   "id": "TTCN3-CORE-21.1.2-019a",
+   "section": "21.1.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "If in an unmap operation a param clause is present, exactly one of the components referenced by the operation shall be the system component reference, the type of the system component shall be known in the context of the operation either via a system clause or via a runs on clause in a testcase without system clause, the type of the system port to which the operation is applied shall include an unmap param declaration and the actual parameters shall conform to the unmap **param clause of the port type declaration of the system port used.** c) If the type of the component referenced in a connection operation is known (either when the component reference is a variable or value returned from a function or the type is defined the runs on, mtc or system clause of the calling function), the referenced port declaration shall be present in this component type.",
+   "canonical": "If an `unmap` operation has a param clause, exactly one of the components referenced by the operation SHALL be the system component reference.",
+   "condition": "a param clause is present",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16288,
+    16296
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.01.02_test_021.ttcn3",
+   "module": "M_21_01_02_test_021",
+   "header": "// @requirement: 21.1.2 -- If in an unmap operation a param clause is present, exactly one of the components referenced by the operation shall be the system component reference, the type of the system component shall be known in the context of the operation either via a system clause or via a runs on clause in a testcase without system clause, the type of the system port to which the operation is applied shall include an unmap param declaration and the actual parameters shall conform to the unmap **param clause of the port type declaration of the system port used.** c) If the type of the component referenced in a connection operation is known (either when the component reference is a variable or value returned from a function or the type is defined the runs on, mtc or system clause of the calling function), the referenced port declaration shall be present in this component type."
+  },
+  {
+   "id": "TTCN3-CORE-21.1.2-019b",
+   "section": "21.1.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "If in an unmap operation a param clause is present, exactly one of the components referenced by the operation shall be the system component reference, the type of the system component shall be known in the context of the operation either via a system clause or via a runs on clause in a testcase without system clause, the type of the system port to which the operation is applied shall include an unmap param declaration and the actual parameters shall conform to the unmap **param clause of the port type declaration of the system port used.** c) If the type of the component referenced in a connection operation is known (either when the component reference is a variable or value returned from a function or the type is defined the runs on, mtc or system clause of the calling function), the referenced port declaration shall be present in this component type.",
+   "canonical": "If an `unmap` operation has a param clause, the type of the system component SHALL be known in the context of the operation, either via a system clause or via the runs on clause of a testcase without system clause.",
+   "condition": "a param clause is present",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16288,
+    16296
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.01.02_test_022.ttcn3",
+   "module": "M_21_01_02_test_022",
+   "header": "// @requirement: 21.1.2 -- If in an unmap operation a param clause is present, exactly one of the components referenced by the operation shall be the system component reference, the type of the system component shall be known in the context of the operation either via a system clause or via a runs on clause in a testcase without system clause, the type of the system port to which the operation is applied shall include an unmap param declaration and the actual parameters shall conform to the unmap **param clause of the port type declaration of the system port used.** c) If the type of the component referenced in a connection operation is known (either when the component reference is a variable or value returned from a function or the type is defined the runs on, mtc or system clause of the calling function), the referenced port declaration shall be present in this component type."
+  },
+  {
+   "id": "TTCN3-CORE-21.1.2-019c",
+   "section": "21.1.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "If in an unmap operation a param clause is present, exactly one of the components referenced by the operation shall be the system component reference, the type of the system component shall be known in the context of the operation either via a system clause or via a runs on clause in a testcase without system clause, the type of the system port to which the operation is applied shall include an unmap param declaration and the actual parameters shall conform to the unmap **param clause of the port type declaration of the system port used.** c) If the type of the component referenced in a connection operation is known (either when the component reference is a variable or value returned from a function or the type is defined the runs on, mtc or system clause of the calling function), the referenced port declaration shall be present in this component type.",
+   "canonical": "If an `unmap` operation has a param clause, the type of the system port to which the operation is applied SHALL include an unmap param declaration.",
+   "condition": "a param clause is present",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16288,
+    16296
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.01.02_test_023.ttcn3",
+   "module": "M_21_01_02_test_023",
+   "header": "// @requirement: 21.1.2 -- If in an unmap operation a param clause is present, exactly one of the components referenced by the operation shall be the system component reference, the type of the system component shall be known in the context of the operation either via a system clause or via a runs on clause in a testcase without system clause, the type of the system port to which the operation is applied shall include an unmap param declaration and the actual parameters shall conform to the unmap **param clause of the port type declaration of the system port used.** c) If the type of the component referenced in a connection operation is known (either when the component reference is a variable or value returned from a function or the type is defined the runs on, mtc or system clause of the calling function), the referenced port declaration shall be present in this component type."
+  },
+  {
+   "id": "TTCN3-CORE-21.1.2-019d",
+   "section": "21.1.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "If in an unmap operation a param clause is present, exactly one of the components referenced by the operation shall be the system component reference, the type of the system component shall be known in the context of the operation either via a system clause or via a runs on clause in a testcase without system clause, the type of the system port to which the operation is applied shall include an unmap param declaration and the actual parameters shall conform to the unmap **param clause of the port type declaration of the system port used.** c) If the type of the component referenced in a connection operation is known (either when the component reference is a variable or value returned from a function or the type is defined the runs on, mtc or system clause of the calling function), the referenced port declaration shall be present in this component type.",
+   "canonical": "If an `unmap` operation has a param clause, its actual parameters SHALL conform to the unmap param clause of the port type declaration of the system port used.",
+   "condition": "a param clause is present",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16288,
+    16296
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.01.02_test_024.ttcn3",
+   "module": "M_21_01_02_test_024",
+   "header": "// @requirement: 21.1.2 -- If in an unmap operation a param clause is present, exactly one of the components referenced by the operation shall be the system component reference, the type of the system component shall be known in the context of the operation either via a system clause or via a runs on clause in a testcase without system clause, the type of the system port to which the operation is applied shall include an unmap param declaration and the actual parameters shall conform to the unmap **param clause of the port type declaration of the system port used.** c) If the type of the component referenced in a connection operation is known (either when the component reference is a variable or value returned from a function or the type is defined the runs on, mtc or system clause of the calling function), the referenced port declaration shall be present in this component type."
+  },
+  {
+   "id": "TTCN3-CORE-21.1.2-019e",
+   "section": "21.1.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "If in an unmap operation a param clause is present, exactly one of the components referenced by the operation shall be the system component reference, the type of the system component shall be known in the context of the operation either via a system clause or via a runs on clause in a testcase without system clause, the type of the system port to which the operation is applied shall include an unmap param declaration and the actual parameters shall conform to the unmap **param clause of the port type declaration of the system port used.** c) If the type of the component referenced in a connection operation is known (either when the component reference is a variable or value returned from a function or the type is defined the runs on, mtc or system clause of the calling function), the referenced port declaration shall be present in this component type.",
+   "canonical": "If the type of a component referenced in a `disconnect` or `unmap` operation is known (the component reference is a variable or a value returned from a function, or the type is defined in the runs on, mtc or system clause of the calling function), the referenced port SHALL be declared in that component type.",
+   "condition": "the component type of the referenced component is known",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "improper_terms": [
+     {
+      "used": "connection operation",
+      "proper": "disconnect or unmap operation",
+      "glossary": false
+     }
+    ],
+    "issue": "'connection operation' is not a defined term; in clause 21.1.2 it refers to disconnect and unmap."
+   },
+   "spec_lines": [
+    16288,
+    16296
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.01.02_test_025.ttcn3",
+   "module": "M_21_01_02_test_025",
+   "header": "// @requirement: 21.1.2 -- If in an unmap operation a param clause is present, exactly one of the components referenced by the operation shall be the system component reference, the type of the system component shall be known in the context of the operation either via a system clause or via a runs on clause in a testcase without system clause, the type of the system port to which the operation is applied shall include an unmap param declaration and the actual parameters shall conform to the unmap **param clause of the port type declaration of the system port used.** c) If the type of the component referenced in a connection operation is known (either when the component reference is a variable or value returned from a function or the type is defined the runs on, mtc or system clause of the calling function), the referenced port declaration shall be present in this component type."
+  },
+  {
+   "id": "TTCN3-CORE-21.1.2-020a",
+   "section": "21.1.2",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "d) The disconnect operation parameters shall not contain a system port reference.",
+   "canonical": "The parameters of a `disconnect` operation SHALL NOT contain a system port reference.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16298,
+    16298
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.01.02_test_026.ttcn3",
+   "module": "M_21_01_02_test_026",
+   "header": "// @requirement: 21.1.2 -- d) The disconnect operation parameters shall not contain a system port reference."
+  },
+  {
+   "id": "TTCN3-CORE-21.2.0-003a",
+   "section": "21.2.0",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "It specifies an immediate stop of the test case behaviour with an error verdict.",
+   "canonical": "The test case stop operation specifies an immediate stop of the test case behaviour with the verdict `error`.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16342,
+    16343
+   ],
+   "examples": [
+    {
+     "lines": [
+      16376,
+      16380
+     ],
+     "text": "testcase.stop(\"Unexpected Termination\");\n  // The test case stops the an error verdict and the string \"Unexpected Termination\"\n  // is written to some log device of the test system"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.02.00_test_001.ttcn3",
+   "module": "M_21_02_00_test_001",
+   "header": "// @requirement: 21.2.0 -- It specifies an immediate stop of the test case behaviour with an error verdict."
+  },
+  {
+   "id": "TTCN3-CORE-21.2.1-001a",
+   "section": "21.2.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The testcase stop operation defines a user defined immediate termination of a test case with the test verdict error and an (optional) associated reason for the termination.",
+   "canonical": "The test case stop operation causes a user-defined immediate termination of a test case with the test verdict `error`.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16352,
+    16355
+   ],
+   "examples": [
+    {
+     "lines": [
+      16376,
+      16380
+     ],
+     "text": "testcase.stop(\"Unexpected Termination\");\n  // The test case stops the an error verdict and the string \"Unexpected Termination\"\n  // is written to some log device of the test system"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.02.01_test_001.ttcn3",
+   "module": "M_21_02_01_test_001",
+   "header": "// @requirement: 21.2.1 -- The testcase stop operation defines a user defined immediate termination of a test case with the test verdict error and an (optional) associated reason for the termination."
+  },
+  {
+   "id": "TTCN3-CORE-21.2.1-001b",
+   "section": "21.2.1",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "The testcase stop operation defines a user defined immediate termination of a test case with the test verdict error and an (optional) associated reason for the termination.",
+   "canonical": "The test case stop operation MAY specify an optional reason for the termination.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16352,
+    16355
+   ],
+   "examples": [
+    {
+     "lines": [
+      16376,
+      16380
+     ],
+     "text": "testcase.stop(\"Unexpected Termination\");\n  // The test case stops the an error verdict and the string \"Unexpected Termination\"\n  // is written to some log device of the test system"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.02.01_test_002.ttcn3",
+   "module": "M_21_02_01_test_002",
+   "header": "// @requirement: 21.2.1 -- The testcase stop operation defines a user defined immediate termination of a test case with the test verdict error and an (optional) associated reason for the termination."
+  },
+  {
+   "id": "TTCN3-CORE-21.2.1-003a",
+   "section": "21.2.1",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "testcase \".\" stop [ \"(\" { ( FreeText | TemplateInstance ) [\",\"] } \")\" ]",
+   "canonical": "The test case stop operation has the syntax testcase . stop optionally followed by a parenthesized comma-separated list of FreeText or TemplateInstance items.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16358,
+    16360
+   ],
+   "examples": [
+    {
+     "lines": [
+      16376,
+      16380
+     ],
+     "text": "testcase.stop(\"Unexpected Termination\");\n  // The test case stops the an error verdict and the string \"Unexpected Termination\"\n  // is written to some log device of the test system"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.02.01_test_003.ttcn3",
+   "module": "M_21_02_01_test_003",
+   "header": "// @requirement: 21.2.1 -- testcase \".\" stop [ \"(\" { ( FreeText | TemplateInstance ) [\",\"] } \")\" ]"
+  },
+  {
+   "id": "TTCN3-CORE-21.2.1-004a",
+   "section": "21.2.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The test case stop operation causes an immediate stop of the entire test case behaviour with the verdict error.",
+   "canonical": "The test case stop operation causes an immediate stop of the entire test case behaviour with the verdict `error`.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16364,
+    16369
+   ],
+   "examples": [
+    {
+     "lines": [
+      16376,
+      16380
+     ],
+     "text": "testcase.stop(\"Unexpected Termination\");\n  // The test case stops the an error verdict and the string \"Unexpected Termination\"\n  // is written to some log device of the test system"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.02.01_test_004.ttcn3",
+   "module": "M_21_02_01_test_004",
+   "header": "// @requirement: 21.2.1 -- The test case stop operation causes an immediate stop of the entire test case behaviour with the verdict error."
+  },
+  {
+   "id": "TTCN3-CORE-21.2.1-006a",
+   "section": "21.2.1",
+   "type": "syntax",
+   "modality": "SHALL",
+   "original": "Items to be logged shall be identified by a comma-separated list in the argument of the test case stop operation.",
+   "canonical": "The items to be logged by a test case stop operation SHALL be given as a comma-separated list in the argument of the operation.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16364,
+    16369
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.02.01_test_005.ttcn3",
+   "module": "M_21_02_01_test_005",
+   "header": "// @requirement: 21.2.1 -- Items to be logged shall be identified by a comma-separated list in the argument of the test case stop operation."
+  },
+  {
+   "id": "TTCN3-CORE-21.2.1-007a",
+   "section": "21.2.1",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "The argument of the test case stop operation shall follow the same restrictions as the argument of the log statement (see clause 19.11).",
+   "canonical": "The argument of the test case stop operation SHALL follow the same restrictions as the argument of the `log` statement.",
+   "condition": null,
+   "cross_refs": [
+    "19.11"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16364,
+    16369
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.02.01_test_006.ttcn3",
+   "module": "M_21_02_01_test_006",
+   "header": "// @requirement: 21.2.1 -- The argument of the test case stop operation shall follow the same restrictions as the argument of the log statement (see clause 19.11)."
+  }
+ ]
+}

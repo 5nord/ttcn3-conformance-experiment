@@ -1,0 +1,26 @@
+// @requirement: 6.2.3.0 -- If the value of the element indicated by the index at the right-hand of an assignment is undefined (uninitialized), this shall cause a semantic or runtime error.
+// @id: TTCN3-CORE-6.2.3.0-023a
+// @verdict: pass accept, ttcn3verdict:error
+module M_06_02_03_00_test_022 {
+
+    type record of integer MyRecordOf;
+
+    type component C {}
+
+    function f_get(MyRecordOf p_ro, integer p_idx) return integer {
+        return p_ro[p_idx];
+    }
+
+    testcase TC() runs on C {
+        var MyRecordOf v_ro;
+        var integer v_int;
+        v_ro[2] := 1;
+        setverdict(pass);
+        v_int := f_get(v_ro, 0); // error: element 0 is uninitialized
+        setverdict(fail);
+    }
+
+    control {
+        execute(TC());
+    }
+}

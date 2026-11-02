@@ -1,0 +1,25 @@
+// @requirement: 8.2.3.2 -- a) The definition to be imported shall be defined in the module from which it is to be imported and shall be visible to the importing module.
+// @id: TTCN3-CORE-8.2.3.2-007b
+// @verdict: pass reject
+module M_08_02_03_02_test_006 {
+
+    import from M_08_02_03_02_test_006_A {
+        function f_private // error: private function is not visible to the importing module
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_03_02_test_006_A {
+    private function f_private() return integer {
+        return 1;
+    }
+}

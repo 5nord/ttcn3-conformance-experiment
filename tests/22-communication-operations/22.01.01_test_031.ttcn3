@@ -1,0 +1,30 @@
+// @requirement: 22.1.1 -- Table 22: Overview of TTCN-3 communication operations: Disable sending and disallow receiving operations to match new messages/calls; Col2: halt; Col3: Yes; Col4: Yes
+// @id: TTCN3-CORE-22.1.1-025a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_01_01_test_031 {
+
+    signature S(in integer p_x) noblock;
+
+    type port P message {
+        inout integer
+    }
+
+    type port PP procedure {
+        inout S
+    }
+
+    type component C {
+        port P pm;
+        port PP pp;
+    }
+
+    testcase TC() runs on C {
+        pm.halt;
+        pp.halt;
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

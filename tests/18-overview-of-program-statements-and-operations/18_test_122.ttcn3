@@ -1,0 +1,34 @@
+// @requirement: 18 -- Statement: Raise exception (to an accepted call); Associated keyword or symbol: raise; Can be invoked by test behaviour: Yes
+// @id: TTCN3-CORE-18-055c
+// @verdict: pass reject
+module M_18_test_122 {
+
+    signature S() exception (integer);
+
+    type port P procedure {
+        inout S;
+    }
+
+    type component C {
+        port P p;
+    }
+
+    function f_guard() runs on C return boolean {
+        p.raise(S, 1); // error: raise in function called from a guard
+        return true;
+    }
+
+    testcase TC() runs on C {
+        timer T := 0.1;
+        T.start;
+        alt {
+            [f_guard()] T.timeout {
+                setverdict(pass);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

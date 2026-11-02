@@ -1,0 +1,25 @@
+// @requirement: B.1.5.2 -- Each expression shall be dereferenced only once, before the insertion (i.e. the expression dereferenced and inserted into the referencing pattern shall not be dereferenced again).
+// @id: TTCN3-CORE-B.1.5.2-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_05_02_test_006 {
+
+    type component C {}
+
+    const charstring c_myConst := "ab";
+    template charstring mw_regExp1 := pattern "{c_myConst}";
+    template charstring mw_regExp4 := pattern "{mw_reg";
+    template charstring mw_regExp5 := pattern "Exp1}";
+    template charstring mw_regExp6 := pattern "{mw_regExp4}{mw_regExp5}";
+
+    testcase TC() runs on C {
+        if (match("{mw_regExp1}", mw_regExp6) and not match("ab", mw_regExp6)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

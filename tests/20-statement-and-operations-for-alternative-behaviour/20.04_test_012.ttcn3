@@ -1,0 +1,28 @@
+// @requirement: 20.4 -- b) In addition, it is not allowed to guard branches of an interleave statement with Boolean expressions (i.e. the '[ ]' shall always be empty).
+// @id: TTCN3-CORE-20.4-021a
+// @verdict: pass reject
+module M_20_04_test_012 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p1, p2;
+    }
+
+    testcase TC() runs on C {
+        var boolean v_enabled := true;
+        connect(self:p1, self:p2);
+        p1.send(integer:1);
+        interleave {
+            [v_enabled] p2.receive(integer:1) { // error: guarded interleave branch
+                setverdict(pass);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

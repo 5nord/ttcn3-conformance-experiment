@@ -1,0 +1,30 @@
+// @requirement: 21.3.3 -- If the stopped test component is the MTC, resources of all existing PTCs shall be released, the PTCs shall be removed from the test system and the test case shall terminate (see clause 26.1).
+// @id: TTCN3-CORE-21.3.3-011a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_03_03_test_010 {
+
+    type port P message { inout integer; }
+
+    type component C {
+        port P p;
+    }
+
+    function f_wait() runs on C {
+        timer T_w := 5.0;
+        T_w.start;
+        T_w.timeout;
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create alive;
+        connect(self:p, v_ptc:p);
+        v_ptc.start(f_wait());
+        setverdict(pass);
+        mtc.stop;
+    }
+
+    control {
+        var verdicttype v_first := execute(TC());
+        var verdicttype v_second := execute(TC());
+    }
+}

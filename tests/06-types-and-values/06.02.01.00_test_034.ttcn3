@@ -1,0 +1,26 @@
+// @requirement: 6.2.1.0 -- A field assignment in a record value or template can be prefixed by the @fuzzy modifier to declare that the right hand side of the assignment shall only be evaluated when used in a matching, receiving or sending operation, as a non-lazy or non-fuzzy operand to an expression, as a non-lazy or non-fuzzy actual parameter or on the right-hand-side of an assignment to a non-lazy or non-fuzzy variable, template variable or template.
+// @id: TTCN3-CORE-6.2.1.0-047a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_01_00_test_034 {
+
+    type component C {}
+
+    type record R {
+        integer num,
+        charstring str
+    }
+
+    template R m_msg := { num := 5, @fuzzy str := "abc" }
+
+    testcase TC() runs on C {
+        if (match({ 5, "abc" }, m_msg)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

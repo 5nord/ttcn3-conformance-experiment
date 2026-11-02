@@ -1,0 +1,30 @@
+// @requirement: 6.2.12 -- If several types at different ports are needed for addressing SUT entities, the type used for addressing via a port instance shall be declared in the corresponding port type definition.
+// @id: TTCN3-CORE-6.2.12-003a
+// @verdict: pass accept, noexecution
+module M_06_02_12_test_002 {
+
+    type port P1 message {
+        address integer;
+        inout integer;
+    }
+
+    type port P2 message {
+        address charstring;
+        inout integer;
+    }
+
+    type component C {
+        port P1 p1;
+        port P2 p2;
+    }
+
+    testcase TC() runs on C system C {
+        var P1.address v_addr1 := 1;
+        var P2.address v_addr2 := "entity";
+        map(mtc:p1, system:p1);
+        map(mtc:p2, system:p2);
+        p1.send(integer:5) to v_addr1;
+        p2.send(integer:5) to v_addr2;
+        setverdict(pass);
+    }
+}

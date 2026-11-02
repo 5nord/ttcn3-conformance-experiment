@@ -1,0 +1,32 @@
+// @requirement: 15.3 -- The actual parameters of a template can include values and templates.
+// @id: TTCN3-CORE-15.3-008a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_03_test_007 {
+
+    type record MyMessageType {
+        integer field1,
+        charstring field2
+    }
+
+    type component C {}
+
+    template MyMessageType mw_myTemplate(integer p_value, template charstring p_template) := {
+        field1 := p_value,
+        field2 := p_template
+    }
+
+    testcase TC() runs on C {
+        var MyMessageType v_msg := { field1 := 1, field2 := "abc" };
+        if (match(v_msg, mw_myTemplate(1, ?)) and
+            match(v_msg, mw_myTemplate(1, pattern "a*")) and
+            not match(v_msg, mw_myTemplate(1, "xyz"))) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

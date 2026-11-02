@@ -1,0 +1,21 @@
+// @requirement: 11.2 -- In addition to values, template variables may also store matching mechanisms (see clause 15.6.6).
+// @id: TTCN3-CORE-11.2-004a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_11_02_test_003 {
+    type component C {}
+
+    testcase TC() runs on C {
+        var template integer v_any := ?;
+        var template integer v_list := (1, 2, 3);
+        var template integer v_compl := complement(5);
+        if (match(7, v_any) and match(2, v_list) and not match(4, v_list)
+            and match(4, v_compl) and not match(5, v_compl)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }}

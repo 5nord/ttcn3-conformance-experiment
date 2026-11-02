@@ -1,0 +1,27 @@
+// @requirement: 26.1 -- The actual local verdict of a test component becomes its final local verdict when the test component terminates itself or is stopped by itself, another test component or by the test system.
+// @id: TTCN3-CORE-26.1-040a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_26_01_test_037 {
+
+    type component C {}
+
+    function f_passThenWait() runs on C {
+        timer T := 5.0;
+        setverdict(pass);
+        T.start;
+        T.timeout;
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        timer T := 0.5;
+        v_ptc.start(f_passThenWait());
+        T.start;
+        T.timeout;
+        v_ptc.stop;
+    }
+
+    control {
+        execute(TC());
+    }
+}

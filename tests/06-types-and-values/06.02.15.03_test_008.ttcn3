@@ -1,0 +1,19 @@
+// @requirement: 6.2.15.3 -- a) ValueRef shall be an initialized variable of map type and SingleExpression shall be a value compatible with the key type of the map type of ValueRef.
+// @id: TTCN3-CORE-6.2.15.3-007b
+// @verdict: pass reject
+module M_06_02_15_03_test_008 {
+
+    type map from charstring to integer MyMap;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyMap v_map := { ["a"] := 1, ["b"] := 2 };
+        unmap(v_map, 1); // error: key expression is not compatible with the key type charstring
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

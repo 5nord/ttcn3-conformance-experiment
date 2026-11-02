@@ -1,0 +1,36 @@
+// @requirement: 5.4.1.0 -- For example, if a fuzzy parameter is passed to a formal parameter declared without a modifier, it loses its fuzzy feature inside the called function.
+// @id: TTCN3-CORE-5.4.1.0-034a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_04_01_00_test_040 {
+
+    type component C {
+        var integer vc_count := 0;
+    }
+
+    function f_next() runs on C return integer {
+        vc_count := vc_count + 1;
+        return vc_count;
+    }
+
+    function f_plain(integer p_v) runs on C {
+        var integer v_first := p_v;
+        var integer v_second := p_v;
+        if (v_first == 1 and v_second == 1 and vc_count == 1) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    function f_fuzzy(in @fuzzy integer p_v) runs on C {
+        f_plain(p_v);
+    }
+
+    testcase TC() runs on C {
+        f_fuzzy(f_next());
+    }
+
+    control {
+        execute(TC());
+    }
+}

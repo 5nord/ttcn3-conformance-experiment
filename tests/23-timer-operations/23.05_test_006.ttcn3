@@ -1,0 +1,23 @@
+// @requirement: 23.5 -- When the any from `TimerArrayRef` notation is used, where TimerArrayRef shall be a timer array identifier, the timers from the referenced array are iterated over and their states are checked individually, from innermost to outermost dimension from lowest to highest index for each dimension.
+// @id: TTCN3-CORE-23.5-006b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_23_05_test_006 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        timer TA[2][2];
+        var integer v_i[2] := { -1, -1 };
+        TA[1][0].start(5.0);
+        TA[0][1].start(5.0);
+        if (any from TA.running -> @index value v_i and v_i == { 0, 1 }) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,27 @@
+// @requirement: 16.1.4 -- NOTE 3: The use of operations map, unmap, connect, disconnect, create will lead to an error, i.e. all configuration operations are to be made explicit, and not as a side effect of a communication operation or the evaluation of a snapshot.
+// @id: TTCN3-CORE-16.1.4-020a
+// @verdict: pass reject
+module M_16_01_04_test_018 {
+
+    type component C {
+        timer T := 0.1;
+    }
+
+    function f_guard() runs on C return boolean {
+        var C v_ptc := C.create; // error: create operation in a function called in a guard
+        return true;
+    }
+
+    testcase TC() runs on C {
+        T.start;
+        alt {
+            [f_guard()] T.timeout {
+                setverdict(pass);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,44 @@
+// @requirement: 22.4 -- The first port which matches all the criteria will cause the operation to be successful even if other ports in the array would also meet the criteria.
+// @id: TTCN3-CORE-22.4-029a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_04_test_032 {
+
+    type port MP message { inout integer; }
+
+    type component C {
+        port MP src[3];
+        port MP pa[3];
+        timer T := 1.0;
+    }
+
+    testcase TC() runs on C {
+        var integer v_idx := -1;
+        var integer i;
+        for (i := 0; i < 3; i := i + 1) {
+            connect(mtc:src[i], mtc:pa[i]);
+        }
+        src[0].send(7);
+        src[1].send(5);
+        src[2].send(5);
+        for (i := 0; i < 3; i := i + 1) {
+            T.start;
+            alt {
+                [] pa[i].check { }
+                [] T.timeout { setverdict(fail); stop; }
+            }
+        }
+        alt {
+            [] any from pa.check(receive(5) -> @index value v_idx) { }
+            [else] { setverdict(fail); stop; }
+        }
+        if (v_idx == 1) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

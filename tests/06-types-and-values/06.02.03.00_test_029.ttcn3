@@ -1,0 +1,29 @@
+// @requirement: 6.2.3.0 -- a) When expanding a value or value field of record of or set of type, the element referenced by the index notation shall be set to present and all elements with a smaller index shall be created with an uninitialized value.
+// @id: TTCN3-CORE-6.2.3.0-028b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_03_00_test_029 {
+
+    type record of integer MyRecordOf;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyRecordOf v_ro;
+        v_ro[2] := 1;
+        if (not isbound(v_ro[0]) and not isbound(v_ro[1])) {
+            v_ro[0] := 5;
+            v_ro[1] := 6;
+            if (v_ro == { 5, 6, 1 }) {
+                setverdict(pass);
+            } else {
+                setverdict(fail);
+            }
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

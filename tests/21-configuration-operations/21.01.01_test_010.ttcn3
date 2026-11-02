@@ -1,0 +1,21 @@
+// @requirement: 21.1.1 -- Both the connect and map operations shall be only invoked from places specified in clause 21.0.
+// @id: TTCN3-CORE-21.1.1-007a
+// @verdict: pass reject
+module M_21_01_01_test_010 {
+
+    type port P message { inout integer; }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        setverdict(pass);
+    }
+
+    control {
+        var C v_c1 := null, v_c2 := null;
+        connect(v_c1:p, v_c2:p); // error: connect in control part
+        execute(TC());
+    }
+}

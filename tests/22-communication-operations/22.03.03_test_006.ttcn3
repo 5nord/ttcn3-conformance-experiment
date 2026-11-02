@@ -1,0 +1,52 @@
+// @requirement: 22.3.3 -- Responses to one or more call operations may be sent to one, several or all peer entities connected to the addressed port.
+// @id: TTCN3-CORE-22.3.3-009a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_03_03_test_006 {
+
+    signature S(out integer p_y);
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    altstep a_guard() runs on C {
+        [] T.timeout { setverdict(fail); stop; }
+    }
+
+    function f_client() runs on C {
+        activate(a_guard());
+        T.start;
+        p.call(S:{-}, nowait);
+        p.call(S:{-}, nowait);
+        p.getreply(S:{?});
+        p.getreply(S:{3});
+        setverdict(pass);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc1 := C.create, v_ptc2 := C.create, v_ptc3 := C.create;
+        connect(mtc:p, v_ptc1:p);
+        connect(mtc:p, v_ptc2:p);
+        connect(mtc:p, v_ptc3:p);
+        v_ptc1.start(f_client());
+        v_ptc2.start(f_client());
+        v_ptc3.start(f_client());
+        activate(a_guard());
+        T.start;
+        for (var integer i := 0; i < 6; i := i + 1) {
+            p.getcall(S:{-});
+        }
+        p.reply(S:{1}) to v_ptc1;
+        p.reply(S:{2}) to (v_ptc2, v_ptc3);
+        p.reply(S:{3}) to all component;
+        all component.done;
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

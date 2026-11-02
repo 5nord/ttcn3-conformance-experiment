@@ -1,0 +1,18 @@
+// @requirement: 22.3.4 -- In case the parameter or referenced field of the return value is not a universal **char string, the** optional parameter shall not be present.
+// @id: TTCN3-CORE-22.3.4-024a
+// @verdict: pass reject
+module M_22_03_04_test_023 {
+
+    signature S(out octetstring p_enc);
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    function f_getreply() runs on C {
+        var integer v_i;
+        p.getreply(S:{?}) -> param(v_i := @decoded("UTF-8") p_enc); // error: encoding format for an octetstring parameter
+    }
+}

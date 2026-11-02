@@ -1,0 +1,21 @@
+// @requirement: 21.1.1 -- d) In all other cases, the operations shall not be allowed.
+// @id: TTCN3-CORE-21.1.1-032a
+// @verdict: pass reject
+module M_21_01_01_test_029 {
+
+    type port P1 message { inout integer; }
+    type port P2 message { inout charstring; }
+
+    type component C { port P1 p1; }
+    type component D { port P2 p2; }
+
+    testcase TC() runs on C {
+        var D v_ptc := D.create;
+        connect(self:p1, v_ptc:p2); // error: out-lists are not contained in the in-lists
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,30 @@
+// @requirement: 16.2.1 -- The invocation of an altstep causes no new snapshot and the evaluation of the top alternatives of an altstep is done by using the actual snapshot of the alt statement from which the altstep was called.
+// @id: TTCN3-CORE-16.2.1-004a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_16_02_01_test_003 {
+
+    type component C {
+        timer T1;
+    }
+
+    altstep a_step() runs on C {
+        [] T1.timeout { // only reachable if a new snapshot were taken on altstep entry
+            setverdict(fail);
+        }
+    }
+
+    testcase TC() runs on C {
+        for (var integer i := 0; i < 100; i := i + 1) {
+            T1.start(0.001);
+            alt {
+                [] T1.timeout {}
+                [] a_step();
+            }
+        }
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

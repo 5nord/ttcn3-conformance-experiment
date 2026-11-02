@@ -1,0 +1,30 @@
+// @requirement: B.1.4.1 -- The units of length are to be interpreted according to table 4 in the main body of the present document in the case of string values.
+// @id: TTCN3-CORE-B.1.4.1-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_04_01_test_004 {
+
+    type component C {}
+
+    template bitstring mw_bits := ? length(4);
+    template hexstring mw_hex := ? length(4);
+    template octetstring mw_oct := ? length(2);
+    template charstring mw_str := ? length(2);
+    template universal charstring mw_ustr := ? length(2);
+
+    testcase TC() runs on C {
+        if (match('1010'B, mw_bits) and not match('10'B, mw_bits) and
+            match('ABCD'H, mw_hex) and not match('AB'H, mw_hex) and
+            match('ABCD'O, mw_oct) and not match('AB'O, mw_oct) and
+            not match('ABCDEF01'O, mw_oct) and
+            match("ab", mw_str) and not match("abcd", mw_str) and
+            match(char(0, 0, 1, 1) & char(0, 0, 1, 2), mw_ustr)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

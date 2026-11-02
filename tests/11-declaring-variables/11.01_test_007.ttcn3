@@ -1,0 +1,17 @@
+// @requirement: 11.1 -- var [ ( @lazy | @fuzzy ) [ @deterministic ] ] [ TypeOrNestedTypeDef ] { VarIdentifier [ ArrayDef ] [ ":=" Expression ] [ "," ] }+ [ ";" ]
+// @id: TTCN3-CORE-11.1-005a
+// @verdict: pass accept, noexecution
+module M_11_01_test_007 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_a;
+        var integer v_b := 1, v_c[2] := { 2, 3 }, v_d;
+        var @lazy integer v_e := v_b + 1;
+        var @fuzzy @deterministic integer v_f := v_b + 2;
+        var record of boolean v_g := { true }
+        var v_h := 4;
+        setverdict(pass);
+    }
+}

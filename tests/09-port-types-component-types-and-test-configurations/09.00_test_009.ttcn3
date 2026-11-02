@@ -1,0 +1,40 @@
+// @requirement: 9.0 -- Communication between test components and between the components and the test system interface is achieved via communication ports (see clause 9.1).
+// @id: TTCN3-CORE-9.0-018a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_09_00_test_009 {
+
+    type port P message { inout integer; }
+
+    type component C {
+        port P p;
+    }
+
+    function f() runs on C {
+        p.send(1);
+    }
+
+    testcase TC() runs on C system C {
+        timer T := 1.0;
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f());
+        T.start;
+        alt {
+            [] p.receive(1) { setverdict(pass); }
+            [] T.timeout { setverdict(fail); }
+        }
+        v_ptc.done;
+        disconnect(mtc:p, v_ptc:p);
+        map(mtc:p, system:p);
+        if (p.checkstate("Mapped")) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+        unmap(mtc:p, system:p);
+    }
+
+    control {
+        execute(TC());
+    }
+}

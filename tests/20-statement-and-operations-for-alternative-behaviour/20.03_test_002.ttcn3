@@ -1,0 +1,41 @@
+// @requirement: 20.3 -- The repeat statement, when used in the statement block of alternatives of alt statements, causes the re-evaluation of the alt statement, i.e. a new snapshot is taken and the alternatives of the alt statement are evaluated in the order of their specification.
+// @id: TTCN3-CORE-20.3-003a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_03_test_002 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p1, p2;
+    }
+
+    testcase TC() runs on C {
+        var integer v_x := 0;
+        timer T := 1.0;
+        connect(self:p1, self:p2);
+        p1.send(integer:1);
+        p1.send(integer:2);
+        T.start;
+        alt {
+            [v_x == 1] p2.receive(integer:2) {
+                setverdict(pass);
+            }
+            [] p2.receive(integer:1) {
+                v_x := 1;
+                repeat;
+            }
+            [] p2.receive(integer:2) {
+                setverdict(fail);
+            }
+            [] T.timeout {
+                setverdict(fail);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

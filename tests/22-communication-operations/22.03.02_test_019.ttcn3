@@ -1,0 +1,37 @@
+// @requirement: 22.3.2 -- Any other value shall cause an error.
+// @id: TTCN3-CORE-22.3.2-021a
+// @verdict: pass accept, ttcn3verdict:error
+module M_22_03_02_test_019 {
+
+    signature S(in universal charstring p_enc) noblock;
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    altstep a_guard() runs on C {
+        [] T.timeout { setverdict(fail); stop; }
+    }
+
+    function f_client() runs on C {
+        p.call(S:{"1"});
+    }
+
+    testcase TC(charstring p_format) runs on C {
+        var C v_ptc := C.create;
+        var integer v_i;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_client());
+        activate(a_guard());
+        T.start;
+        p.getcall(S:{?}) -> param(v_i := @decoded(p_format) p_enc); // error: not an allowed encoding format
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC("UTF-9"));
+    }
+}

@@ -1,0 +1,37 @@
+// @requirement: 20.2 -- NOTE 6: It is allowed to define more than one else branch in an alt statement or in an altstep, however always only the first else branch is executed.
+// @id: TTCN3-CORE-20.2-060b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_02_test_043 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        var integer v_branch := 0;
+        alt {
+            [] p.receive {
+                v_branch := -1;
+            }
+            [else] {
+                v_branch := 1;
+            }
+            [else] {
+                v_branch := 2;
+            }
+        }
+        if (v_branch == 1) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

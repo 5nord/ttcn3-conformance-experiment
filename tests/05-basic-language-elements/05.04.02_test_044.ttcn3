@@ -1,0 +1,20 @@
+// @requirement: 5.4.2 -- d) For in formal parameters, the type of the actual parameter shall be compatible with the type of the formal parameter.
+// @id: TTCN3-CORE-5.4.2-040a
+// @verdict: pass reject
+module M_05_04_02_test_044 {
+
+    type component C {}
+
+    function f(in integer p_i) {
+    }
+
+    testcase TC() runs on C {
+        var charstring v_s := "1";
+        f(v_s); // error: charstring is not compatible with integer
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

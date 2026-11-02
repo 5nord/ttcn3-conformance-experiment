@@ -1,0 +1,17 @@
+// @requirement: C.1.31 -- The invalue parameter shall not include the optional signature (see clause 10 of ISO/IEC 10646 [2], also known as byte order mark).
+// @id: TTCN3-CORE-C.1.31-007a
+// @verdict: pass accept, ttcn3verdict:error
+module M_C_01_31_test_007 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var octetstring v_in := 'EFBBBF4142'O;
+        var universal charstring v_res := oct2unichar(v_in, "UTF-8"); // error: invalue starts with a byte order mark
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

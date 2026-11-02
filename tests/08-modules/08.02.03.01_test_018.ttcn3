@@ -1,0 +1,25 @@
+// @requirement: 8.2.3.1 -- Importable Definition: Data Template; Possible Local Definitions: Parameter names; Possible Referenced Definitions: Template type, parameter types, constants, module parameters, functions
+// @id: TTCN3-CORE-8.2.3.1-052a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_02_03_01_test_018 {
+
+    import from M_08_02_03_01_test_018_A { template m_value }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (match(5, m_value(p_value := 5)) and not match(6, m_value(p_value := 5))) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_03_01_test_018_A {
+    template integer m_value(integer p_value) := p_value;
+}

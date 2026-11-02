@@ -1,0 +1,27 @@
+// @requirement: 5.2.2 -- The identifier of a module (its module name) or of an imported module belongs to the scope unit of the module and cannot be used as identifier for other definitions inside this module.
+// @id: TTCN3-CORE-5.2.2-003a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_02_02_test_003 {
+
+    import from M_05_02_02_test_003_A all;
+
+    const integer c_own := 1;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (M_05_02_02_test_003.c_own == 1 and M_05_02_02_test_003_A.c_imported == 2) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_05_02_02_test_003_A {
+    const integer c_imported := 2;
+}

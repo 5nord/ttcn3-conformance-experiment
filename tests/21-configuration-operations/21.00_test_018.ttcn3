@@ -1,0 +1,45 @@
+// @requirement: 21.0 -- Start Starting test behaviour on a test `c.start(PTCBehaviour());` component, starting behaviour does not affect the status of component variables, timers or ports
+// @id: TTCN3-CORE-21.0-018b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_00_test_018 {
+
+    type port P message { inout integer; }
+
+    type component C {
+        var integer v_x := 0;
+        timer T_ptc := 5.0;
+        port P p;
+    }
+
+    function f_first() runs on C {
+        v_x := 5;
+        T_ptc.start;
+    }
+
+    function f_second() runs on C {
+        timer T := 1.0;
+        if (v_x != 5 or not T_ptc.running) {
+            setverdict(fail);
+            return;
+        }
+        T.start;
+        alt {
+            [] p.receive(7) { setverdict(pass); }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create alive;
+        connect(self:p, v_ptc:p);
+        v_ptc.start(f_first());
+        v_ptc.done;
+        p.send(7);
+        v_ptc.start(f_second());
+        v_ptc.done;
+    }
+
+    control {
+        execute(TC());
+    }
+}

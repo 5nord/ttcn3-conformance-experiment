@@ -1,0 +1,27 @@
+// @requirement: C.5.4 -- The decvalue_unichar function decodes (part of) a universal charstring into a value.
+// @id: TTCN3-CORE-C.5.4-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_05_04_test_002 {
+
+    type component C {}
+
+    type integer I with { variant "32 bit" };
+
+    const I c_a := 1094861636;
+    const I c_b := 1162233672;
+
+    testcase TC() runs on C {
+        var universal charstring v_enc := encvalue_unichar(c_a) & encvalue_unichar(c_b);
+        var I v_dec;
+        var integer v_res := decvalue_unichar(v_enc, v_dec);
+        if (v_res == 0 and isbound(v_dec) and v_dec == c_a) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,27 @@
+// @requirement: 22.5.5 -- Calling the checkstate operation with an invalid argument leads to an error.
+// @id: TTCN3-CORE-22.5.5-006a
+// @verdict: pass accept, ttcn3verdict:error
+module M_22_05_05_test_004 {
+
+    type port P message {
+        inout integer
+    }
+
+    type component C {
+        port P p1;
+    }
+
+    function f_state(charstring p_state) runs on C return boolean {
+        return p1.checkstate(p_state);
+    }
+
+    testcase TC() runs on C {
+        var boolean v_b;
+        setverdict(pass);
+        v_b := f_state("started"); // error: invalid checkstate argument
+    }
+
+    control {
+        execute(TC());
+    }
+}

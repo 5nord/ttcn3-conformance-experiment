@@ -1,0 +1,30 @@
+// @requirement: 5.4.2 -- When actual parameters that are passed to inout and out formal value or template parameters contain a value or template reference, rules for using references on the left hand side of assignments apply.
+// @id: TTCN3-CORE-5.4.2-014a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_04_02_test_018 {
+
+    type union U {
+        integer a,
+        integer b
+    }
+
+    type component C {}
+
+    function f(out integer p_i) {
+        p_i := 2;
+    }
+
+    testcase TC() runs on C {
+        var U v_u := { a := 1 };
+        f(v_u.b);
+        if (ischosen(v_u.b) and v_u.b == 2) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

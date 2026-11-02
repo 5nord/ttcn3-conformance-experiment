@@ -1,0 +1,31 @@
+// @requirement: 10 -- For implicit initialization of the optional fields of a constant or a constant field, an optional attribute with the value "implicit omit" (see clause 27.7) shall be associated with it either directly or via the attribute distribution (scoping) mechanism (see clause 27.1.1).
+// @id: TTCN3-CORE-10-015a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_10_test_013 {
+
+    type component C {}
+
+    type record R {
+        integer a,
+        integer b optional
+    }
+
+    const R c_direct := { a := 1 } with { optional "implicit omit" }
+
+    group g_consts {
+        const R c_scoped := { a := 2 };
+    } with { optional "implicit omit" }
+
+    testcase TC() runs on C {
+        if (isbound(c_direct.b) and not ispresent(c_direct.b)
+            and isbound(c_scoped.b) and not ispresent(c_scoped.b)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

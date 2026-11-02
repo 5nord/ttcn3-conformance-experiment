@@ -1,0 +1,28 @@
+// @requirement: 8.3 -- When not used as an entry point for execution of the test suite, the module control function can be invoked explicitly in a similar way as a standard function, using the control keyword instead of the identifier.
+// @id: TTCN3-CORE-8.3-016a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_03_test_022 {
+
+    import from M_08_03_test_022_A { function f_invokeControl };
+
+    control {
+        f_invokeControl();
+    }
+}
+
+module M_08_03_test_022_A {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        setverdict(pass);
+    }
+
+    function f_invokeControl() {
+        control();
+    }
+
+    control {
+        execute(TC());
+    }
+}

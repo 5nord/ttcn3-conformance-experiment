@@ -1,0 +1,49 @@
+// @requirement: 22.3.5 -- Therefore the exception value may either be derived from a template conforming to the template(value) restriction or be the value resulting from an expression (which of course can be an explicit value).
+// @id: TTCN3-CORE-22.3.5-009a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_03_05_test_005 {
+
+    type record R {
+        integer f1,
+        integer f2
+    }
+
+    signature S() exception(R);
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    template(value) R m_exc := { f1 := 1, f2 := 2 };
+
+    function f_client() runs on C {
+        p.call(S:{}, 1.0) {
+            [] p.catch(S, R:{ 1, 2 }) {}
+            [] p.catch { setverdict(fail); stop; }
+            [] p.catch(timeout) { setverdict(fail); stop; }
+        }
+        p.call(S:{}, 1.0) {
+            [] p.catch(S, R:{ 3, 4 }) { setverdict(pass); }
+            [] p.catch { setverdict(fail); }
+            [] p.catch(timeout) { setverdict(fail); }
+        }
+    }
+
+    testcase TC() runs on C system C {
+        var C v_ptc := C.create;
+        var integer v_x := 3;
+        connect(self:p, v_ptc:p);
+        v_ptc.start(f_client());
+        p.getcall(S:{});
+        p.raise(S, m_exc);
+        p.getcall(S:{});
+        p.raise(S, R:{ f1 := v_x, f2 := v_x + 1 });
+        v_ptc.done;
+    }
+
+    control {
+        execute(TC(), 5.0);
+    }
+}

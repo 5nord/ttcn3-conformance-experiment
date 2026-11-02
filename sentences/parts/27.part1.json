@@ -1,0 +1,1386 @@
+{
+ "part": "27.part1",
+ "chapter": "27",
+ "chapter_file": "27-specifying-attributes",
+ "title": "Specifying attributes",
+ "sections": {
+  "27.0": {
+   "title": "General",
+   "start": 20663
+  },
+  "27.1.0": {
+   "title": "General",
+   "start": 20670
+  },
+  "27.1.1": {
+   "title": "Scope of attributes",
+   "start": 20681
+  },
+  "27.1.2.0": {
+   "title": "General",
+   "start": 20750
+  },
+  "27.1.2.1": {
+   "title": "Additional default overwriting rules for variant attributes",
+   "start": 20942
+  },
+  "27.1.2.2": {
+   "title": "Overwriting rules for multiple encoding",
+   "start": 21002
+  },
+  "27.1.3": {
+   "title": "Changing attributes of imported language elements",
+   "start": 21031
+  },
+  "27.2": {
+   "title": "The With statement",
+   "start": 21070
+  },
+  "27.3": {
+   "title": "Display attributes",
+   "start": 21140
+  },
+  "27.4": {
+   "title": "Encoding attributes",
+   "start": 21183
+  }
+ },
+ "lines": [
+  20665,
+  21253
+ ],
+ "units": [
+  {
+   "id": "27.0-s001",
+   "section": "27.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "TTCN-3 uses attributes to give special characterization/meaning to language elements such as specific presentation format, specific encoding and encoding variants, and user-defined properties.",
+   "lines": [
+    20665,
+    20666
+   ]
+  },
+  {
+   "id": "27.1.0-s001",
+   "section": "27.1.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Attributes can be associated with TTCN-3 language elements by means of the with statement.",
+   "lines": [
+    20672,
+    20674
+   ]
+  },
+  {
+   "id": "27.1.0-s002",
+   "section": "27.1.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The with statement can be applied to modules, global module definitions and to local definitions in control, test cases, functions, altsteps, statement blocks and in component type definitions.",
+   "lines": [
+    20672,
+    20674
+   ]
+  },
+  {
+   "id": "27.1.1-s001",
+   "section": "27.1.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "A with statement may associate attributes to a single language element or to elements or fields of structured types (in a recursive way) or to members of component or port types, the same way as specified in clauses 6.2.1.1 and 6.2.3.2.",
+   "lines": [
+    20683,
+    20687
+   ]
+  },
+  {
+   "id": "27.1.1-s002",
+   "section": "27.1.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "It is also possible to associate attributes to a number of language elements by, e.g. listing fields of a structured type in an attribute statement associated with a single type definition or associating a with statement to the surrounding scope unit or group of language elements.",
+   "lines": [
+    20683,
+    20687
+   ]
+  },
+  {
+   "id": "27.1.1-s003",
+   "section": "27.1.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "A with statement can follow any module, any global definition inside module and group declarations as well as any local definition in component types and statement blocks inside behaviour definitions.",
+   "lines": [
+    20689,
+    20690
+   ]
+  },
+  {
+   "id": "27.1.1-s004",
+   "section": "27.1.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Attributes can be attached to synonym types (clause 6.4).",
+   "lines": [
+    20692,
+    20693
+   ]
+  },
+  {
+   "id": "27.1.1-s005",
+   "section": "27.1.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "If the synonym type is a structured type, attributes in the with statement may reference fields or elements of this structured type.",
+   "lines": [
+    20692,
+    20693
+   ]
+  },
+  {
+   "id": "27.1.1-s006",
+   "section": "27.1.1",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 1: // attributes for single language elements and groups:",
+   "lines": [
+    20697,
+    20697
+   ]
+  },
+  {
+   "id": "27.1.1-s007",
+   "section": "27.1.1",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "// MyPDU1 will be displayed as PDU \n  type record MyPDU1 { … } with { display \"PDU\"} \n  // MyPDU2 will be displayed as PDU with the application specific extension attribute MyRule \n  type record MyPDU2 { … }\n  with \n  {\n     display \"PDU\";\n     extension \"MyRule\"\n  }\n  // The following group definition … \n  group myPDUs {\n     type record MyPDU3 { … }\n     type record MyPDU4 { … }\n  }\n  with {display \"PDU\"} // All types of group MyPDUs will be displayed as PDU\n  // is identical to\n  group myPDUs {\n     type record MyPDU3 { … } with { display \"PDU\"}\n     type record MyPDU4 { … } with { display \"PDU\"}\n  }",
+   "lines": [
+    20698,
+    20719
+   ]
+  },
+  {
+   "id": "27.1.1-s008",
+   "section": "27.1.1",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 2: // attributes for fields and elements:",
+   "lines": [
+    20721,
+    20721
+   ]
+  },
+  {
+   "id": "27.1.1-s009",
+   "section": "27.1.1",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "type record MyRec {\n     integer field1,\n     record {\n       integer eField1,\n       boolean eField2\n     } field2\n  } \n  with { display (field2.eField1) \"colour blue\" } \n  // the embedded field eField1 is displayed blue\n  type record of integer MyRecOfInteger \n  with { display ([-]) \"colour green\"\n  // all integer elements are displayed green\n  type record of integer MyRecOfInteger2 \n  with { display ([-]) \"colour red\" }\n  // integer elements are displayed red\n  const MyRecOfInteger c_MyRecordOfInt := {0, 1, 2, 3}\n  with { display ([0]) \"colour blue\" }\n  // the first element is displayed blue, the other elements are displayed green",
+   "lines": [
+    20722,
+    20741
+   ]
+  },
+  {
+   "id": "27.1.2.0-s001",
+   "section": "27.1.2.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "An attribute definition that is directly attached to a lower scope unit will override a general attribute definition in a higher scope and a type-specific attribute inherited from a type reference.",
+   "lines": [
+    20752,
+    20755
+   ]
+  },
+  {
+   "id": "27.1.2.0-s002",
+   "section": "27.1.2.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Attributes inherited from a type reference will override general attributes from a higher scope unit containing the type reference.",
+   "lines": [
+    20752,
+    20755
+   ]
+  },
+  {
+   "id": "27.1.2.0-s003",
+   "section": "27.1.2.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Additional overwriting rules for variant attributes are defined in clause 27.1.2.1.",
+   "lines": [
+    20752,
+    20755
+   ]
+  },
+  {
+   "id": "27.1.2.0-s004",
+   "section": "27.1.2.0",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 1:",
+   "lines": [
+    20759,
+    20759
+   ]
+  },
+  {
+   "id": "27.1.2.0-s005",
+   "section": "27.1.2.0",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "type record MyRecordA\n  {\n     :\n  } with { encode \"RuleA\" }\n  // In the following, MyRecordA is encoded according to \"RuleA\" and not according to\n  // \"RuleB\" because the attribute from the referenced type MyRecordA overrides \n  // the attribute from higher scope unit (surrounding MyRecordB type).\n  type record MyRecordB\n  {\n     :\n     MyRecordA field\n  } with { encode \"RuleB\" }",
+   "lines": [
+    20760,
+    20773
+   ]
+  },
+  {
+   "id": "27.1.2.0-s006",
+   "section": "27.1.2.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "A with statement that is placed inside the scope of another with statement shall override the outermost with.",
+   "lines": [
+    20775,
+    20777
+   ]
+  },
+  {
+   "id": "27.1.2.0-s007",
+   "section": "27.1.2.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "This shall also apply to the use of the with statement with groups.",
+   "lines": [
+    20775,
+    20777
+   ]
+  },
+  {
+   "id": "27.1.2.0-s008",
+   "section": "27.1.2.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "If multiple attributes of the same type are allowed, all of them are overridden unless specified otherwise.",
+   "lines": [
+    20775,
+    20777
+   ]
+  },
+  {
+   "id": "27.1.2.0-s009",
+   "section": "27.1.2.0",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE 2:",
+   "lines": [
+    20779,
+    20779
+   ]
+  },
+  {
+   "id": "27.1.2.0-s010",
+   "section": "27.1.2.0",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "// Example of the use of the overwriting scheme of the with statement \n  group myPDUs \n  {\n     type record MyPDU1 { … }\n     type record MyPDU2 { … }\n     group mySpecialPDUs \n     {\n       type record MyPDU3 { … }\n       type record MyPDU4 { … }\n     }\n     with {extension \"MySpecialRule\"} // MyPDU3 and MyPDU4 will have the application\n                          // specific extension attribute MySpecialRule \n  }\n  with \n  {\n     display \"PDU\";  // All types of group myPDUs will be displayed as PDU and\n     extension \"MyRule\"; // (if not overwritten) have the extension attribute MyRule \n  }\n  // is identical to …\n  group myPDUs \n  {\n     type record MyPDU1 { … } with {display \"PDU\"; extension \"MyRule\" }\n     type record MyPDU2 { … } with {display \"PDU\"; extension \"MyRule\" }\n     group mySpecialPDUs {\n       type record MyPDU3 { … } with {display \"PDU\"; extension \"MySpecialRule\" }\n       type record MyPDU4 { … } with {display \"PDU\"; extension \"MySpecialRule\" }\n     }\n  }",
+   "lines": [
+    20780,
+    20809
+   ]
+  },
+  {
+   "id": "27.1.2.0-s011",
+   "section": "27.1.2.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Attributes defined for a synonym type do not override existing attributes of fields or elements of this synonym type.",
+   "lines": [
+    20811,
+    20812
+   ]
+  },
+  {
+   "id": "27.1.2.0-s012",
+   "section": "27.1.2.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The attributes are applied to the fields or elements of synonym types only if the fields or elements have no valid attributes.",
+   "lines": [
+    20811,
+    20812
+   ]
+  },
+  {
+   "id": "27.1.2.0-s013",
+   "section": "27.1.2.0",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE 3:",
+   "lines": [
+    20814,
+    20814
+   ]
+  },
+  {
+   "id": "27.1.2.0-s014",
+   "section": "27.1.2.0",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "// Example of the use of attributes in synonym types \n  type record SourceType1 {\n     integer field1,",
+   "lines": [
+    20815,
+    20819
+   ]
+  },
+  {
+   "id": "27.1.2.0-s015",
+   "section": "27.1.2.0",
+   "kind": "code",
+   "context": null,
+   "normative": true,
+   "text": "integer field2\n  } // neither the record nor its fields have a valid attribute\n  type record SourceType2 {\n     integer field1,\n     integer field2\n  } with { encode \"Rule1\" }\n  // the record and its fields have a valid encode attribute \"Rule1\"\n  type SourceType1 SynonymType1 with { encode \"Rule2\" }\n  // SynonymType1 and all its fields will be encoded with Rule2\n  type SourceType2 SynonymType2 with { encode \"Rule3\" }\n  // SynonymType2 will be encoded with Rule3, but field1 and field2 will be encoded with\n  // Rule1 as SourceType2 definition already specifies the encode attribute of these fields",
+   "lines": [
+    20825,
+    20838
+   ]
+  },
+  {
+   "id": "27.1.2.0-s016",
+   "section": "27.1.2.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Attributes with the @local modifier override attributes from higher scope, but they are valid for the associated language element only.",
+   "lines": [
+    20840,
+    20843
+   ]
+  },
+  {
+   "id": "27.1.2.0-s017",
+   "section": "27.1.2.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "They do not affect definitions inside the associated language element as the @local attribute is completely transparent to lower scopes.",
+   "lines": [
+    20840,
+    20843
+   ]
+  },
+  {
+   "id": "27.1.2.0-s018",
+   "section": "27.1.2.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Attributes from higher scope will still affect attributes in lower scopes even if the @local attribute is between them.",
+   "lines": [
+    20840,
+    20843
+   ]
+  },
+  {
+   "id": "27.1.2.0-s019",
+   "section": "27.1.2.0",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "NOTE: Attributes with the @local modifier associated to modules and groups are valid, but do not affect the definitions inside them.",
+   "lines": [
+    20845,
+    20846
+   ]
+  },
+  {
+   "id": "27.1.2.0-s020",
+   "section": "27.1.2.0",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE 4:",
+   "lines": [
+    20848,
+    20848
+   ]
+  },
+  {
+   "id": "27.1.2.0-s021",
+   "section": "27.1.2.0",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "module M {\n     type record MyRec {\n       integer field1,\n       integer field1,\n     } with { encode @local \"CodecB\" } \n     // the record type MyRec will be encoded with CodecB, but its fields with CodecA,\n     // because the local attribute CodecB doesn't affect fields of the MyRec type.\n  } with { encode \"CodecA\" }",
+   "lines": [
+    20849,
+    20858
+   ]
+  },
+  {
+   "id": "27.1.2.0-s022",
+   "section": "27.1.2.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "An attribute definition in a lower scope or those inherited from a referenced type can be overwritten in a higher scope by using the override directive.",
+   "lines": [
+    20860,
+    20861
+   ]
+  },
+  {
+   "id": "27.1.2.0-s023",
+   "section": "27.1.2.0",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE 5:",
+   "lines": [
+    20863,
+    20863
+   ]
+  },
+  {
+   "id": "27.1.2.0-s024",
+   "section": "27.1.2.0",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "type record MyRecordA\n  {\n     :\n  } with { encode \"RuleA\" }\n  // In the following, fieldA of a MyRecordB instance is encoded according to RuleB \n  type record MyRecordB\n  {\n     :\n     MyRecordA fieldA \n  } with { encode override (fieldA) \"RuleB\" }",
+   "lines": [
+    20864,
+    20875
+   ]
+  },
+  {
+   "id": "27.1.2.0-s025",
+   "section": "27.1.2.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The override directive overrides the specified attribute for all declarations at all lower scopes that do not also declare the specified attribute.",
+   "lines": [
+    20877,
+    20879
+   ]
+  },
+  {
+   "id": "27.1.2.0-s026",
+   "section": "27.1.2.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "If the override directive is applied to a type reference, it does not affect the attributes of the original referenced type.",
+   "lines": [
+    20877,
+    20879
+   ]
+  },
+  {
+   "id": "27.1.2.0-s027",
+   "section": "27.1.2.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "An attribute definition directly attached to a field or element of a structured type overrides the corresponding attribute of the structured type, as regards the identified field or element.",
+   "lines": [
+    20881,
+    20884
+   ]
+  },
+  {
+   "id": "27.1.2.0-s028",
+   "section": "27.1.2.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Override attribute applied to a synonym type (clause 6.4) overrides attributes of all fields or elements of the synonym type unless the synonym type definition contains an explicit attribute definition for the field or element.",
+   "lines": [
+    20881,
+    20884
+   ]
+  },
+  {
+   "id": "27.1.2.0-s029",
+   "section": "27.1.2.0",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE 6:",
+   "lines": [
+    20886,
+    20886
+   ]
+  },
+  {
+   "id": "27.1.2.0-s030",
+   "section": "27.1.2.0",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "// An instance of MyRecordA is encoded according to RuleA. \n  type record MyRecordA\n  {\n     :\n  } with { encode override \"RuleA\" }\n  // In the following, fieldA of a MyRecordB instance (and all its sub-fields) is encoded\n  // according to \"RuleB\".\n  type record MyRecordB\n  {\n     :\n     MyRecordA fieldA \n  } with { encode override \"RuleB\" }\n  // The following template will use \"RuleA\" as the override directive for MyRecordB affects only\n  // MyRecordB.fieldA, but not the original MyRecordA.\n  template MyRecordA mw_msg;\n  // In the following, rule \"RuleB\" is overridden by \"RuleC\" for fieldC, but it is \n  // not overridden by \"RuleA\" of the group because the direct attachment to fieldC and\n  // MyRecordC override the encode of the outer scope.\n  group myGroup {\n    type record MyRecordC\n   {\n      :\n   } with { encode override \"RuleB\" }\n    type record MyRecordD\n   {\n      :\n      MyRecordC  fieldC \n   } with { encode override (fieldC) \"RuleC\" }\n  } with { encode override \"RuleA\" }\n  // In the following, the template mw_msg will be encoded with \"RuleB\", because the\n  // override directive doesn't override the encode attribute in references. However, \n  // all fields of the mw_msg template will be encoded with \"RuleA\", because the attributes\n  // from the references have higher precedence than attributes from a higher scope. \n  type record MyRecordE\n  {\n   :\n  } with { encode override \"RuleA\" }\n  template MyRecordE mw_msg :=\n  {\n   :\n  } with { encode \"RuleB\" }\n  // MyRecordG and its \"field1\" member will be encoded with \"RuleB\", but its field2 member\n  // will be encoded with \"RuleA\", because there's an encode attribute explicitly declared\n  // for this field.\n  type record MyRecordF {\n     integer field1,\n     integer field2\n  } with { encode \"RuleA\" }\n  type MyRecordF MyRecordG with { \n     encode override \"RuleB\";\n     encode(field2) \"RuleA\" \n  }",
+   "lines": [
+    20887,
+    20940
+   ]
+  },
+  {
+   "id": "27.1.2.1-s001",
+   "section": "27.1.2.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "A variant attribute is always related to an encode attribute.",
+   "lines": [
+    20944,
+    20945
+   ]
+  },
+  {
+   "id": "27.1.2.1-s002",
+   "section": "27.1.2.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Whereas a variant of an encoding may change, an encoding shall not change without overwriting all current variant attributes.",
+   "lines": [
+    20944,
+    20945
+   ]
+  },
+  {
+   "id": "27.1.2.1-s003",
+   "section": "27.1.2.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The present document defines the default rules for variant attributes.",
+   "lines": [
+    20947,
+    20949
+   ]
+  },
+  {
+   "id": "27.1.2.1-s004",
+   "section": "27.1.2.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Extension packages of TTCN-3, for example specifying language mappings, may define their own overwriting rules for variant attributes.",
+   "lines": [
+    20947,
+    20949
+   ]
+  },
+  {
+   "id": "27.1.2.1-s005",
+   "section": "27.1.2.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "For variant attributes the following default overwriting rules apply:",
+   "lines": [
+    20947,
+    20949
+   ]
+  },
+  {
+   "id": "27.1.2.1-s006",
+   "section": "27.1.2.1",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "a variant attribute overwrites a current variant attribute according to the rules defined in clause 27.1.2;",
+   "lines": [
+    20951,
+    20951
+   ]
+  },
+  {
+   "id": "27.1.2.1-s007",
+   "section": "27.1.2.1",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "an encoding attribute, which overwrites a current encoding attribute according to the rules defined in clause 27.1.2, also overwrites a corresponding current variant attribute, i.e. no new variant attribute is provided, but the current variant attribute becomes inactive;",
+   "lines": [
+    20953,
+    20955
+   ]
+  },
+  {
+   "id": "27.1.2.1-s008",
+   "section": "27.1.2.1",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "an encoding attribute, which changes a current encoding attribute of an imported language element according to the rules defined in clause 27.1.3, also changes a corresponding current variant attribute, i.e. no new variant attribute is provided, but the current variant attribute becomes inactive.",
+   "lines": [
+    20957,
+    20959
+   ]
+  },
+  {
+   "id": "27.1.2.1-s009",
+   "section": "27.1.2.1",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE:",
+   "lines": [
+    20966,
+    20966
+   ]
+  },
+  {
+   "id": "27.1.2.1-s010",
+   "section": "27.1.2.1",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "module MyVariantEncodingModule {\n     :\n     type charstring MyType; // Normally encoded according to \"Encoding 1\"\n     : \n     group myVariantsOne {\n       :\n       type record MyPDUone\n       {\n          integer field1, // field1 will be encoded according to \"Encoding 2\" only.\n                     // \"Encoding 2\" overwrites \"Encoding 1\" and variant \"Variant 1\"\n          MyType  field3 // field3 will be encoded according to \"Encoding 1\" with\n                     // variant \"Variant 1\".\n       }\n       with { encode (field1) \"Encoding 2\" }\n       :\n     }\n     with { variant \"Variant 1\" }\n     group myVariantsTwo \n     { :\n       type record MyPDUtwo\n       {\n          integer field1, // field1 will be encoded according to \"Encoding 3\"\n                     // using encoding variant \"Variant 3\"\n          MyType  field3 // field3 will be encoded according to \"Encoding 1\"\n                     // using encoding variant \"Variant 2\"\n       }\n       with { variant (field1) \"Variant 3\" }\n       :\n     }\n     with { encode \"Encoding 3\"; variant \"Variant 2\"}\n  }\n  with { encode \"Encoding 1\" }",
+   "lines": [
+    20967,
+    21000
+   ]
+  },
+  {
+   "id": "27.1.2.2-s001",
+   "section": "27.1.2.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Explicitly listed encode attributes that occur on the higher scope and are not overwritten will retain all variants related to them.",
+   "lines": [
+    21004,
+    21005
+   ]
+  },
+  {
+   "id": "27.1.2.2-s002",
+   "section": "27.1.2.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "An encoding related variant will overwrite only variants related to the same encoding.",
+   "lines": [
+    21007,
+    21007
+   ]
+  },
+  {
+   "id": "27.1.2.2-s003",
+   "section": "27.1.2.2",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE:",
+   "lines": [
+    21009,
+    21009
+   ]
+  },
+  {
+   "id": "27.1.2.2-s004",
+   "section": "27.1.2.2",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "type integer Int with { \n     encode \"CodecA\"; variant \"CodecA\".\"Rule1\";\n     encode \"CodecB\"; variant \"CodecB\".\"Rule2\";\n  } \n  // Modifying list of allowed encodings\n  type Int Int2 with { \n     encode \"CodecA\"; // variant \"CodecA\".\"Rule1\" is kept\n     encode \"CodecC\"; variant \"CodecC\".\"Rule6\"; // new encoding and related variant\n     // \"CodecB\" encoding together with its variant are discarded as \"CodecB\" is not \n     // explicitly referenced \n  }\n  // Overwriting variant with an encoding reference\n  type Int Int3 with { \n     variant \"CodecB\".\"Rule4\"; // new variant for encoding \"CodecB\" overwrites\n       // the original variant \"CodecB\".\"Rule2\"\n       // Variant \"CodecA\".\"Rule1\" is unchanged as this definition contains no reference \n       // to \"CodecB\"\n  }",
+   "lines": [
+    21010,
+    21029
+   ]
+  },
+  {
+   "id": "27.1.3-s001",
+   "section": "27.1.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "In general, a language element is imported together with its attributes.",
+   "lines": [
+    21033,
+    21035
+   ]
+  },
+  {
+   "id": "27.1.3-s002",
+   "section": "27.1.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "In some cases these attributes may have to be changed when importing the language element, e.g. a type may be displayed in one module as ASP, then it is imported by another module where it should be displayed as PDU.",
+   "lines": [
+    21033,
+    21035
+   ]
+  },
+  {
+   "id": "27.1.3-s003",
+   "section": "27.1.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "For such cases it is allowed to change attributes on the",
+   "lines": [
+    21033,
+    21035
+   ]
+  },
+  {
+   "id": "27.1.3-s004",
+   "section": "27.1.3",
+   "kind": "code",
+   "context": null,
+   "normative": true,
+   "text": "import statement.",
+   "lines": [
+    21036,
+    21038
+   ]
+  },
+  {
+   "id": "27.1.3-s005",
+   "section": "27.1.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "When resolving the attributes, the import statement works as an additional higher scope unit on the top of the imported module.",
+   "lines": [
+    21045,
+    21046
+   ]
+  },
+  {
+   "id": "27.1.3-s006",
+   "section": "27.1.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Attributes set in the import statement are valid only within the importing module.",
+   "lines": [
+    21045,
+    21046
+   ]
+  },
+  {
+   "id": "27.1.3-s007",
+   "section": "27.1.3",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "NOTE 1: The import statement occurs inside an importing module and sometimes inside a group.",
+   "lines": [
+    21048,
+    21049
+   ]
+  },
+  {
+   "id": "27.1.3-s008",
+   "section": "27.1.3",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "Because of the scope rules, attributes of these scope units apply to the imported module too.",
+   "lines": [
+    21048,
+    21049
+   ]
+  },
+  {
+   "id": "27.1.3-s009",
+   "section": "27.1.3",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "NOTE 2: If a with statement is added to an import of a definition where a local definition also has a with statement, the local definition's attributes overwrite the attributes added to the import statement in the normal way.",
+   "lines": [
+    21051,
+    21054
+   ]
+  },
+  {
+   "id": "27.1.3-s010",
+   "section": "27.1.3",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "Thus, if the attributes of a local definition is to be changed via the import statement, the override directive needs to be used.",
+   "lines": [
+    21051,
+    21054
+   ]
+  },
+  {
+   "id": "27.1.3-s011",
+   "section": "27.1.3",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE:",
+   "lines": [
+    21056,
+    21056
+   ]
+  },
+  {
+   "id": "27.1.3-s012",
+   "section": "27.1.3",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "import from MyModule { type MyType } with { display \"ASP\" } // MyType will be displayed as ASP import from MyModule { group myGroup } with { display \"PDU\"; // By default all types will be displayed as PDU extension \"MyRule\" }",
+   "lines": [
+    21058,
+    21068
+   ]
+  },
+  {
+   "id": "27.2-s001",
+   "section": "27.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The with statement is used to associate attributes to TTCN-3 language elements (and sets thereof).",
+   "lines": [
+    21073,
+    21073
+   ]
+  },
+  {
+   "id": "27.2-s002",
+   "section": "27.2",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "with \"{\" \n   { ( encode | variant | display | extension | optional )\n    [ override | @local ]\n    [\"(\" DefinitionRef | FieldReference | AllRef \")\"] \n    [ ( FreeText | (\"{\" FreeText { \",\" FreeText } \"}\") ) \".\" ] FreeText [\";\"] }\n  \"}\"",
+   "lines": [
+    21076,
+    21083
+   ]
+  },
+  {
+   "id": "27.2-s003",
+   "section": "27.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "There are five kinds of attributes that can be associated to language elements:",
+   "lines": [
+    21087,
+    21087
+   ]
+  },
+  {
+   "id": "27.2-s004",
+   "section": "27.2",
+   "kind": "list-item",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "a) `display: allows the specification of display attributes related to specific presentation formats;` b) `encode: allows references to specific encoding rules;` c) `variant: allows references to specific encoding variants;` d) `extension: allows the specification of user-defined attributes;` e) `optional: allows the implicit setting of optional fields in records and sets to omit.`",
+   "lines": [
+    21089,
+    21097
+   ]
+  },
+  {
+   "id": "27.2-s005",
+   "section": "27.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The syntax for the argument of the with statement (i.e. the actual attributes) is defined as a free text string.",
+   "lines": [
+    21099,
+    21099
+   ]
+  },
+  {
+   "id": "27.2-s006",
+   "section": "27.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "_DefinitionRef and FieldReference identify a definition or field respectively which is within the module, group or_ definition to which the with statement is associated.",
+   "lines": [
+    21101,
+    21102
+   ]
+  },
+  {
+   "id": "27.2-s007",
+   "section": "27.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "_AllRef can be used to apply attributes to multiple language elements defined within the scope to which the with_ statement is associated.",
+   "lines": [
+    21104,
+    21107
+   ]
+  },
+  {
+   "id": "27.2-s008",
+   "section": "27.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "AllRef provides a flexible mechanism to select all language elements or all language elements of a certain kind defined in a given scope.",
+   "lines": [
+    21104,
+    21107
+   ]
+  },
+  {
+   "id": "27.2-s009",
+   "section": "27.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Individual language elements that are not affected by an attribute can be excluded from a set of selected language elements in the except clause.",
+   "lines": [
+    21104,
+    21107
+   ]
+  },
+  {
+   "id": "27.2-s010",
+   "section": "27.2",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clause 5, the following restrictions apply:",
+   "lines": [
+    21116,
+    21116
+   ]
+  },
+  {
+   "id": "27.2-s011",
+   "section": "27.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) _DefinitionRef and FieldReference shall refer to a definition or field respectively which is within the module,_ group or definition to which the with statement is associated.",
+   "lines": [
+    21118,
+    21119
+   ]
+  },
+  {
+   "id": "27.2-s012",
+   "section": "27.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "b) In case multiple attributes of the same type are allowed, all of them shall be without an additional modifier (override, @local) or the modifier shall be the same for all attributes.",
+   "lines": [
+    21121,
+    21122
+   ]
+  },
+  {
+   "id": "27.2-s013",
+   "section": "27.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "c) Dot notation in the FreeText part is allowed for variant attributes only.",
+   "lines": [
+    21124,
+    21124
+   ]
+  },
+  {
+   "id": "27.2-s014",
+   "section": "27.2",
+   "kind": "example-text",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "EXAMPLE:",
+   "lines": [
+    21126,
+    21126
+   ]
+  },
+  {
+   "id": "27.2-s015",
+   "section": "27.2",
+   "kind": "example-code",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "type record MyService {\n     integer i,\n     float f\n  } \n  with { display \"ServiceCall\" }  // MyRecord will be displayed as a ServiceCall\n  group G {\n     ...\n  } with { encode(template all except {mw_msg1}) \"Rule1\" }\n  // with the exception of mw_msg1, all templates defined in this group will be encoded\n  // using the \"Rule1\" encoding",
+   "lines": [
+    21127,
+    21138
+   ]
+  },
+  {
+   "id": "27.3-s001",
+   "section": "27.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Display attributes allow the specification of display attributes related to specific presentation formats.",
+   "lines": [
+    21142,
+    21142
+   ]
+  },
+  {
+   "id": "27.3-s002",
+   "section": "27.3",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "display",
+   "lines": [
+    21145,
+    21147
+   ]
+  },
+  {
+   "id": "27.3-s003",
+   "section": "27.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "All TTCN-3 language elements can have display attributes to specify how particular language elements shall be displayed in, for example, a tabular format.",
+   "lines": [
+    21151,
+    21152
+   ]
+  },
+  {
+   "id": "27.3-s004",
+   "section": "27.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Special attribute strings related to the display attributes for the graphical presentation format can be found in ETSI ES 201 873-3 [i.2].",
+   "lines": [
+    21154,
+    21155
+   ]
+  },
+  {
+   "id": "27.3-s005",
+   "section": "27.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Other display attributes may be defined by the user.",
+   "lines": [
+    21157,
+    21157
+   ]
+  },
+  {
+   "id": "27.3-s006",
+   "section": "27.3",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "NOTE: Because user-defined attributes are not standardized, the interpretation of these attributes may differ between tools or even may not be supported.",
+   "lines": [
+    21159,
+    21160
+   ]
+  },
+  {
+   "id": "27.3-s007",
+   "section": "27.3",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clause 5, the following restrictions apply:",
+   "lines": [
+    21164,
+    21164
+   ]
+  },
+  {
+   "id": "27.3-s008",
+   "section": "27.3",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) At most one display attribute shall be applied to each definition, each individual field reference or language element to which a with statement is associated.",
+   "lines": [
+    21166,
+    21167
+   ]
+  },
+  {
+   "id": "27.3-s009",
+   "section": "27.3",
+   "kind": "example-text",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "EXAMPLE:",
+   "lines": [
+    21169,
+    21169
+   ]
+  },
+  {
+   "id": "27.3-s010",
+   "section": "27.3",
+   "kind": "example-code",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "type record MyService {\n     integer i,\n     float f\n  } \n  with { display \"ServiceCall\" }  // MyService will be displayed as a ServiceCall",
+   "lines": [
+    21170,
+    21176
+   ]
+  },
+  {
+   "id": "27.4-s001",
+   "section": "27.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "In TTCN-3, general or particular encoding rules can be specified by using encode and variant attributes.",
+   "lines": [
+    21185,
+    21186
+   ]
+  },
+  {
+   "id": "27.4-s002",
+   "section": "27.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Encoding attributes allow references to specific encoding rules.",
+   "lines": [
+    21185,
+    21186
+   ]
+  },
+  {
+   "id": "27.4-s003",
+   "section": "27.4",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "encode",
+   "lines": [
+    21189,
+    21191
+   ]
+  },
+  {
+   "id": "27.4-s004",
+   "section": "27.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Encoding rules define how a particular value, template, etc. shall be encoded and transmitted over a communication",
+   "lines": [
+    21195,
+    21195
+   ]
+  },
+  {
+   "id": "27.4-s005",
+   "section": "27.4",
+   "kind": "code",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "port and how received signals shall be decoded. TTCN-3 does not have a default encoding mechanism. This means",
+   "lines": [
+    21196,
+    21198
+   ]
+  },
+  {
+   "id": "27.4-s006",
+   "section": "27.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "that encoding rules or encoding directives are defined in some external manner to TTCN-3.",
+   "lines": [
+    21200,
+    21200
+   ]
+  },
+  {
+   "id": "27.4-s007",
+   "section": "27.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The encode attribute allows the association of some referenced encoding rule or encoding directive to be made to a TTCN-3 definition.",
+   "lines": [
+    21202,
+    21203
+   ]
+  },
+  {
+   "id": "27.4-s008",
+   "section": "27.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The manner in which the actual encoding rules are defined (e.g. prose, functions, etc.) is outside the scope of the present document.",
+   "lines": [
+    21205,
+    21206
+   ]
+  },
+  {
+   "id": "27.4-s009",
+   "section": "27.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If no specific rules are referenced then encoding shall be a matter for individual implementation.",
+   "lines": [
+    21205,
+    21206
+   ]
+  },
+  {
+   "id": "27.4-s010",
+   "section": "27.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "In most cases encoding attributes will be used in a hierarchical manner.",
+   "lines": [
+    21208,
+    21209
+   ]
+  },
+  {
+   "id": "27.4-s011",
+   "section": "27.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The top-level is the entire module, the next level is a group and the lowest is an individual type or definition:",
+   "lines": [
+    21208,
+    21209
+   ]
+  },
+  {
+   "id": "27.4-s012",
+   "section": "27.4",
+   "kind": "list-item",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "a) `module: encoding applies to all types defined in the module, including TTCN-3 types (built-in types);` b) `group: encoding applies to a group of user-defined type definitions;` c) `type or definition: encoding applies to a single user-defined type or definition;` d) `field: encoding applies to a field in a record or set type or template.`",
+   "lines": [
+    21211,
+    21217
+   ]
+  },
+  {
+   "id": "27.4-s013",
+   "section": "27.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The with statement may contain more than one encode attribute.",
+   "lines": [
+    21219,
+    21222
+   ]
+  },
+  {
+   "id": "27.4-s014",
+   "section": "27.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "In this case, multiple encodings are supported in the context where the attribute is used.",
+   "lines": [
+    21219,
+    21222
+   ]
+  },
+  {
+   "id": "27.4-s015",
+   "section": "27.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The encoding used in the encoding and decoding operations can be selected dynamically by using the setencode operation (clause C.5), as a parameter of predefined codec functions (clause C.5) or inside the codec implementation.",
+   "lines": [
+    21219,
+    21222
+   ]
+  },
+  {
+   "id": "27.4-s016",
+   "section": "27.4",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "No specific restrictions in addition to the general static rules of TTCN-3 given in clause 5.",
+   "lines": [
+    21226,
+    21226
+   ]
+  },
+  {
+   "id": "27.4-s017",
+   "section": "27.4",
+   "kind": "example-text",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "EXAMPLE:",
+   "lines": [
+    21228,
+    21228
+   ]
+  },
+  {
+   "id": "27.4-s018",
+   "section": "27.4",
+   "kind": "example-code",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "module MyFirstmodule \n  { :\n     import from MySecondModule {\n       type MyRecord\n     }\n     with { encode \"MyRule 1\" } // Instances of MyRecord will be encoded according to MyRule 1\n     : \n     type charstring MyType; // Normally encoded according to the \"Global encoding rule\"\n     : \n     group myRecords \n     { :\n       type record MyPDU1\n       {\n          integer field1,  // field1 will be encoded according to \"Rule 3\"\n          boolean field2,  // field2 will be encoded according to \"Rule 3\"\n          Mytype  field3  // field3 will be encoded according to \"Rule 2\" \n       }\n       with { encode (field1, field2) \"Rule 3\" }\n       :\n     }\n     with { encode \"Rule 2\" }\n  }\n  with { encode \"Global encoding rule\" }",
+   "lines": [
+    21229,
+    21253
+   ]
+  }
+ ]
+}

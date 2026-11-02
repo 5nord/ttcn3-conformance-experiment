@@ -1,0 +1,18 @@
+// @requirement: 6.2.4 -- The identifiers of enumerated values, within the same module, shall only be reused within other structured type definitions and shall not be used for identifiers of local or global visibility at the same or a lower level of the same branch of the scope hierarchy (see scope hierarchy in clause 5.2).
+// @id: TTCN3-CORE-6.2.4-013b
+// @verdict: pass reject
+module M_06_02_04_test_016 {
+
+    type component C {}
+
+    type enumerated E { e_a, e_b };
+
+    testcase TC() runs on C {
+        var integer e_b := 1; // error: enumerated value identifier reused at a lower scope level
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

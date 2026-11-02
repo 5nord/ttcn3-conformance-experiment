@@ -1,0 +1,37 @@
+// @requirement: 21.3.7 -- When the any keyword is used with the done operation, it matches if at least the behaviour of one PTC has been stopped or killed.
+// @id: TTCN3-CORE-21.3.7-017a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_03_07_test_019 {
+
+    type component C {}
+
+    function f_ptc() runs on C {}
+
+    function f_wait() runs on C {
+        timer T := 5.0;
+        T.start;
+        T.timeout;
+    }
+
+    testcase TC() runs on C {
+        timer T := 1.0;
+        var C v_ptc1 := C.create;
+        var C v_ptc2 := C.create;
+        v_ptc1.start(f_ptc());
+        v_ptc2.start(f_wait());
+        T.start;
+        alt {
+            [] any component.done {
+                setverdict(pass);
+            }
+            [] T.timeout {
+                setverdict(fail);
+            }
+        }
+        v_ptc2.kill;
+    }
+
+    control {
+        execute(TC());
+    }
+}

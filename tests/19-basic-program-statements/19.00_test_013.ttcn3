@@ -1,0 +1,20 @@
+// @requirement: 19.0 -- Statement: Clear port queue; Associated keyword or symbol: clear; Can be invoked by test behaviour: Yes
+// @id: TTCN3-CORE-19.0-006a
+// @verdict: pass reject
+module M_19_00_test_013 {
+
+    type port M message { inout integer }
+
+    type component C {
+        port M p;
+    }
+
+    testcase TC() runs on C {
+        setverdict(pass);
+    }
+
+    control {
+        all port.clear; // error: clear in control part
+        execute(TC());
+    }
+}

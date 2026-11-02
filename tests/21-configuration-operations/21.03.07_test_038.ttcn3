@@ -1,0 +1,35 @@
+// @requirement: 21.3.7 -- Later evaluation of the lazy or fuzzy variable does not lead to repeated invocation of the done operation.
+// @id: TTCN3-CORE-21.3.7-034a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_03_07_test_038 {
+
+    type component C {}
+
+    function f_wait(float p_duration) runs on C {
+        timer T := p_duration;
+        T.start;
+        T.timeout;
+    }
+
+    testcase TC() runs on C {
+        var C v_arr[2];
+        var @fuzzy integer v_idx;
+        v_arr[0] := C.create;
+        v_arr[1] := C.create;
+        v_arr[0].start(f_wait(5.0));
+        v_arr[1].start(f_wait(0.0));
+        v_arr[1].done;
+        any from v_arr.done -> @index value v_idx;
+        v_arr[0].kill;
+        if (v_idx == 1) { // a repeated done would now yield index 0
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+        all component.kill;
+    }
+
+    control {
+        execute(TC());
+    }
+}

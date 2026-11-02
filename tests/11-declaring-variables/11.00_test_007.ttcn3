@@ -1,0 +1,36 @@
+// @requirement: 11.0 -- These variables can be used in test cases, altsteps and functions which are running on a given component type.
+// @id: TTCN3-CORE-11.0-008a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_11_00_test_007 {
+
+    type component C {
+        var integer vc_int := 0;
+        timer T := 0.1;
+    }
+
+    function f_inc() runs on C {
+        vc_int := vc_int + 1;
+    }
+
+    altstep a_timeout() runs on C {
+        [] T.timeout {
+            vc_int := vc_int + 1;
+        }
+    }
+
+    testcase TC() runs on C {
+        vc_int := vc_int + 1;
+        f_inc();
+        T.start;
+        a_timeout();
+        if (vc_int == 3) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

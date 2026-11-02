@@ -1,0 +1,36 @@
+// @requirement: 8.2.3.1 -- In contrast to module definitions, which are by default public, import statements are by default private.
+// @id: TTCN3-CORE-8.2.3.1-007a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_02_03_01_test_006 {
+
+    import from M_08_02_03_01_test_006_A {
+        type MyRec;
+        function f_get
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyRec v_rec := f_get();
+        if (v_rec.a == 1) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_03_01_test_006_A {
+
+    type record MyRec {
+        integer a
+    }
+
+    function f_get() return MyRec {
+        return { a := 1 };
+    }
+}

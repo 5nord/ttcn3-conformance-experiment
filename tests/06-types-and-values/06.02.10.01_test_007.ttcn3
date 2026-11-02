@@ -1,0 +1,22 @@
+// @requirement: 6.2.10.1 -- Component type definitions are associated with the component instance and follow the scope rules defined in clause 5.2.
+// @id: TTCN3-CORE-6.2.10.1-016a
+// @verdict: pass reject
+module M_06_02_10_01_test_007 {
+
+    type component C {
+        var integer vc_i := 0;
+    }
+
+    function f_test() runs on C {
+        var integer vc_i := 1; // error: re-uses identifier of a component variable in a lower scope
+    }
+
+    testcase TC() runs on C {
+        f_test();
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

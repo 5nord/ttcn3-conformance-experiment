@@ -1,0 +1,25 @@
+// @requirement: 8.2.3.8 -- If no language specification is given in this module, the language specification of the import statement with which those definitions or import statements are to be imported, is used instead.
+// @id: TTCN3-CORE-8.2.3.8-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_02_03_08_test_004 {
+
+    import from M_08_02_03_08_test_004_A language "TTCN-3:2023" { const c_value }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (c_value == 1) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_03_08_test_004_A {
+    const integer c_value := 1;
+}

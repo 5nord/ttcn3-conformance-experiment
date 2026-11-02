@@ -1,0 +1,24 @@
+// @requirement: 5.4.1.2 -- The default for formal template parameters is in parameterization.
+// @id: TTCN3-CORE-5.4.1.2-007a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_04_01_02_test_006 {
+    type component C {}
+
+    function f_set(template integer p_t) {
+        p_t := 5;
+    }
+
+    testcase TC() runs on C {
+        var template integer vt_x := ?;
+        f_set(vt_x);
+        if (match(7, vt_x)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

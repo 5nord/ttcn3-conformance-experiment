@@ -1,0 +1,39 @@
+// @requirement: 22.2.2 -- In this latter case the receive operation is considered to be shorthand for an alt statement with the receive operation as the only alternative.
+// @id: TTCN3-CORE-22.2.2-054a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_02_02_test_046 {
+
+    type port P message { inout integer }
+
+    type component C {
+        port P p;
+        port P q;
+        var boolean v_defaultCalled := false;
+        timer T := 1.0;
+    }
+
+    altstep a_default() runs on C {
+        [] p.receive(integer:0) {
+            v_defaultCalled := true;
+            repeat;
+        }
+        [] T.timeout {
+            setverdict(fail);
+            stop;
+        }
+    }
+
+    testcase TC() runs on C {
+        connect(mtc:p, mtc:q);
+        activate(a_default());
+        q.send(0);
+        q.send(1);
+        T.start;
+        p.receive(integer:1);
+        if (v_defaultCalled) { setverdict(pass); } else { setverdict(fail); }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,23 @@
+// @requirement: B.1.5.4 -- A notation of the form "\N{typereference}", where "typereference" is a reference to a charstring or universal `charstring` type, matches any character of the character set denoted by the referenced type.
+// @id: TTCN3-CORE-B.1.5.4-003a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_05_04_test_004 {
+
+    type charstring MyCharRange ("a".."z");
+
+    type component C {}
+
+    testcase TC() runs on C {
+        template charstring m_p := pattern "\N{MyCharRange}";
+        if (match("a", m_p) and match("r", m_p) and match("z", m_p) and
+            not match("R", m_p) and not match("1", m_p) and not match("ab", m_p)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

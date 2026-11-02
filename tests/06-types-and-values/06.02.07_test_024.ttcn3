@@ -1,0 +1,17 @@
+// @requirement: 6.2.7 -- The index shall not exceed the limitations given by either the length or the upper bound of the index.
+// @id: TTCN3-CORE-6.2.7-027a
+// @verdict: pass reject
+module M_06_02_07_test_024 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_a[1 .. 5];
+        v_a[6] := 60; // error: index exceeds the upper bound 5
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

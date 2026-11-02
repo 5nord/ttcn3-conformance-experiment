@@ -1,0 +1,24 @@
+// @requirement: 20.5.3 -- Its default value is false.
+// @id: TTCN3-CORE-20.5.3-013a
+// @verdict: pass accept, ttcn3verdict:error
+module M_20_05_03_test_013 {
+
+    type component C {
+        timer T;
+    }
+
+    altstep a_1() runs on C {
+        [] T.timeout {}
+    }
+
+    testcase TC() runs on C {
+        var default v_def := activate(a_1());
+        deactivate(v_def);
+        setverdict(pass);
+        activate(v_def); // error: default was removed, not suspended
+    }
+
+    control {
+        execute(TC());
+    }
+}

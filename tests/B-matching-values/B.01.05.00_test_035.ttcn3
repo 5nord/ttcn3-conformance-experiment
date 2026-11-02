@@ -1,0 +1,26 @@
+// @requirement: B.1.5.0 -- NOTE 3: Consequently the backslash character can be matched by a pair of backslash characters without space between them (\\), e.g. the pattern "\\d" will match the string "\d"; opening or closing square brackets can be matched by "\[" and "\]" respectively, etc.
+// @id: TTCN3-CORE-B.1.5.0-047a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_05_00_test_035 {
+
+    type component C {}
+
+    template charstring mw_backslash := pattern "\\d";
+    template charstring mw_brackets := pattern "\[a\]";
+
+    testcase TC() runs on C {
+        var charstring v_bsd := int2char(92) & "d";
+        if (match(v_bsd, mw_backslash) and
+            not match("5", mw_backslash) and
+            match("[a]", mw_brackets) and
+            not match("a", mw_brackets)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

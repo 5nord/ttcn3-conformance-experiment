@@ -1,0 +1,19 @@
+// @requirement: 16.3 -- In case the runs `on clause` is missing, the MTC created by the test case has no ports, and no component constants and variables;
+// @id: TTCN3-CORE-16.3-014a
+// @verdict: pass reject
+module M_16_03_test_007 {
+
+    type component C {
+        var integer v_x := 1;
+    }
+
+    testcase TC() {
+        if (v_x == 1) { // error: MTC without runs on clause has no component variables
+            setverdict(pass);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

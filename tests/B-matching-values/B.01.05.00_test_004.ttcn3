@@ -1,0 +1,26 @@
+// @requirement: B.1.5.0 -- This template will match any character string that consists of the characters "ab", followed by any two characters, followed by the characters "xyz", followed by any number of any characters (including any number of "0"-s) before the closing character "0".
+// @id: TTCN3-CORE-B.1.5.0-006a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_05_00_test_004 {
+
+    type component C {}
+
+    template charstring mw_myTemplate := pattern "ab??xyz*0";
+
+    testcase TC() runs on C {
+        if (match("ab12xyz0", mw_myTemplate) and
+            match("ab12xyz000", mw_myTemplate) and
+            match("abXYxyzq0r0", mw_myTemplate) and
+            not match("ab1xyz0", mw_myTemplate) and
+            not match("ab12xyz01", mw_myTemplate) and
+            not match("ab12xy0", mw_myTemplate)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

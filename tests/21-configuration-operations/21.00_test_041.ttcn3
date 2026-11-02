@@ -1,0 +1,23 @@
+// @requirement: 21.0 -- Self Gets the reference to the test component that executes this operation
+// @id: TTCN3-CORE-21.0-027b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_00_test_041 {
+
+    type component C {}
+
+    function f_behaviour() runs on C {
+        setverdict(pass);
+        self.stop;
+        setverdict(fail);
+    }
+
+    testcase TC() runs on C {
+        var C c := C.create;
+        c.start(f_behaviour());
+        c.done;
+    }
+
+    control {
+        execute(TC());
+    }
+}

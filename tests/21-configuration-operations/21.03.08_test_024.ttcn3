@@ -1,0 +1,22 @@
+// @requirement: 21.3.8 -- a) The killed operation can be used for PTCs only.
+// @id: TTCN3-CORE-21.3.8-023a
+// @verdict: pass reject
+module M_21_03_08_test_024 {
+
+    type component C {}
+
+    function f() runs on C {
+        mtc.killed; // error: killed applied to the MTC
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        v_ptc.start(f());
+        v_ptc.done;
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

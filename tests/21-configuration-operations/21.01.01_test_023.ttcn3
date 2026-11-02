@@ -1,0 +1,36 @@
+// @requirement: 21.1.1 -- c) The map operation is allowed if and only if:
+// @id: TTCN3-CORE-21.1.1-027a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_01_01_test_023 {
+
+    type port PComp message {
+        out integer;
+        in charstring, boolean;
+    }
+
+    type port PSys message {
+        out integer, boolean;
+        in charstring;
+    }
+
+    type component C {
+        port PComp p;
+    }
+
+    type component S {
+        port PSys p;
+    }
+
+    testcase TC() runs on C system S {
+        map(mtc:p, system:p);
+        if (p.checkstate("Mapped")) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

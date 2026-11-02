@@ -1,0 +1,28 @@
+// @requirement: 21.1.0 -- Operation: System; Explanation: Gets the reference to the test system interface; Syntax Examples: map(c:p, system:sutPort);
+// @id: TTCN3-CORE-21.1.0-019a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_01_00_test_030 {
+
+    type port P message { inout integer; }
+
+    type component C {
+        port P p;
+    }
+
+    type component S {
+        port P sutPort;
+    }
+
+    testcase TC() runs on C system S {
+        map(self:p, system:sutPort);
+        if (p.checkstate("Mapped")) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

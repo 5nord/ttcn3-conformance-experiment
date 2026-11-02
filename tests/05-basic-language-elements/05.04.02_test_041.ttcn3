@@ -1,0 +1,19 @@
+// @requirement: 5.4.2 -- For each assigned actual parameter there shall exist a corresponding formal parameter of the same name.
+// @id: TTCN3-CORE-5.4.2-037a
+// @verdict: pass reject
+module M_05_04_02_test_041 {
+
+    type component C {}
+
+    function f(integer p_a, integer p_b := 2) {
+    }
+
+    testcase TC() runs on C {
+        f(p_a := 1, p_c := 3); // error: no formal parameter named p_c
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

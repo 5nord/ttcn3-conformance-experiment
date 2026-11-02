@@ -1,0 +1,23 @@
+// @requirement: 6.2.15.2 -- Values of the map type can be denoted with the indexed assignment notation where the indices are values of the key type of the map type and the right hand sides are values of the value type.
+// @id: TTCN3-CORE-6.2.15.2-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_15_02_test_002 {
+
+    type map from integer to charstring MyMap;
+
+    const MyMap c_map := { [1] := "one", [2] := "two" };
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (lengthof(c_map) == 2 and c_map[1] == "one" and c_map[2] == "two") {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

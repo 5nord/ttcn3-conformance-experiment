@@ -1,0 +1,1078 @@
+{
+ "part": "22.part7",
+ "chapter": "22",
+ "chapter_file": "22-communication-operations",
+ "title": "Communication operations",
+ "sections": {
+  "22.3.4": {
+   "title": "The Getreply operation",
+   "start": 18756
+  },
+  "22.3.5": {
+   "title": "The Raise operation",
+   "start": 18957
+  }
+ },
+ "lines": [
+  18758,
+  19034
+ ],
+ "units": [
+  {
+   "id": "22.3.4-s001",
+   "section": "22.3.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The getreply operation is used to handle replies from a previously called procedure.",
+   "lines": [
+    18758,
+    18758
+   ]
+  },
+  {
+   "id": "22.3.4-s002",
+   "section": "22.3.4",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "[ @nodefault ] ( ObjectReference | any port | any from PortArrayRef ) \".\" getreply\n  [ \"(\" TemplateInstance [ value TemplateInstance ]\")\" ] \n  [ from Address ]\n  [ \"->\" [ value (ValueRef| \n          ( \"(\" { ValueRef[ \":=\" [ @decoded [ \"(\" Expression \")\" ] ]\n                           FieldOrTypeReference ][\",\"] } \")\" )\n          )] \n     [ param \"(\" { ( ValueRef\":=\" [ @decoded [ \"(\" Expression \")\" ] ]\n                             ParameterIdentifier ) \",\" } |\n           { ( ValueRef| \"-\" ) \",\" } \n         \")\" ]\n     [ sender ValueRef] \n     [ @index value ValueRef] ]",
+   "lines": [
+    18761,
+    18775
+   ]
+  },
+  {
+   "id": "22.3.4-s003",
+   "section": "22.3.4",
+   "kind": "note",
+   "context": "Syntactical Structure",
+   "normative": false,
+   "text": "NOTE 1: _Address may be an AddressRef, a list of AddressRef-s or \"any component\"._",
+   "lines": [
+    18777,
+    18777
+   ]
+  },
+  {
+   "id": "22.3.4-s004",
+   "section": "22.3.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The getreply operation is used to handle replies from a previously called procedure.",
+   "lines": [
+    18781,
+    18781
+   ]
+  },
+  {
+   "id": "22.3.4-s005",
+   "section": "22.3.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The getreply operation shall remove the top reply from the incoming port queue, if, and only if, the matching criteria associated to the getreply operation are fulfilled.",
+   "lines": [
+    18783,
+    18786
+   ]
+  },
+  {
+   "id": "22.3.4-s006",
+   "section": "22.3.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "These matching criteria are related to the signature of the procedure to be processed and the communication partner.",
+   "lines": [
+    18783,
+    18786
+   ]
+  },
+  {
+   "id": "22.3.4-s007",
+   "section": "22.3.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The matching criteria for the signature may either be specified in-line or be derived from a signature template.",
+   "lines": [
+    18783,
+    18786
+   ]
+  },
+  {
+   "id": "22.3.4-s008",
+   "section": "22.3.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Matching against a received return value can be specified by using the value keyword.",
+   "lines": [
+    18788,
+    18788
+   ]
+  },
+  {
+   "id": "22.3.4-s009",
+   "section": "22.3.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "A getreply operation may be restricted to a certain communication partner in case of one-to-many connections.",
+   "lines": [
+    18790,
+    18792
+   ]
+  },
+  {
+   "id": "22.3.4-s010",
+   "section": "22.3.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "This restriction shall be denoted by using the from keyword followed by a specification of an address or component reference, a list of address or component references or any component.",
+   "lines": [
+    18790,
+    18792
+   ]
+  },
+  {
+   "id": "22.3.4-s011",
+   "section": "22.3.4",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "NOTE 2: The one-to-one connection is considered to be a simple case of the one-to-many connections and allows the usage of the from-clause.",
+   "lines": [
+    18794,
+    18795
+   ]
+  },
+  {
+   "id": "22.3.4-s012",
+   "section": "22.3.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The assignment of out and inout parameter values to variables shall be made in the assignment part of the getreply operation.",
+   "lines": [
+    18797,
+    18799
+   ]
+  },
+  {
+   "id": "22.3.4-s013",
+   "section": "22.3.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "This allows the use of signature templates in getreply operations in the same manner as templates are used for types.",
+   "lines": [
+    18797,
+    18799
+   ]
+  },
+  {
+   "id": "22.3.4-s014",
+   "section": "22.3.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The (optional) assignment part of the getreply operation comprises the assignment of out and inout parameter values to variables and the retrieval of the address of the sender of the reply.",
+   "lines": [
+    18801,
+    18804
+   ]
+  },
+  {
+   "id": "22.3.4-s015",
+   "section": "22.3.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The keyword value is used to retrieve return values and the keyword param is used to retrieve the parameter values of a reply.",
+   "lines": [
+    18801,
+    18804
+   ]
+  },
+  {
+   "id": "22.3.4-s016",
+   "section": "22.3.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The keyword sender is used when it is required to retrieve the address of the sender.",
+   "lines": [
+    18801,
+    18804
+   ]
+  },
+  {
+   "id": "22.3.4-s017",
+   "section": "22.3.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "When assigning individual parameters or referenced fields of the return value of a reply, encoded parameters can be decoded prior to assignment using the @decoded modifier.",
+   "lines": [
+    18811,
+    18820
+   ]
+  },
+  {
+   "id": "22.3.4-s018",
+   "section": "22.3.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "In this case, the referenced parameter or field of the return value on the right hand sided of the assignment shall be one of the bitstring, hexstring, octetstring, charstring or universal charstring types.",
+   "lines": [
+    18811,
+    18820
+   ]
+  },
+  {
+   "id": "22.3.4-s019",
+   "section": "22.3.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "It shall be decoded into a value of the same type as the variable on the left hand side of the assignment.",
+   "lines": [
+    18811,
+    18820
+   ]
+  },
+  {
+   "id": "22.3.4-s020",
+   "section": "22.3.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Failure of this decoding shall cause a test case error.",
+   "lines": [
+    18811,
+    18820
+   ]
+  },
+  {
+   "id": "22.3.4-s021",
+   "section": "22.3.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "In case the parameter or referenced field of the return value is of the universal `charstring type, the @decoded clause can contain an` optional parameter defining the encoding format.",
+   "lines": [
+    18811,
+    18820
+   ]
+  },
+  {
+   "id": "22.3.4-s022",
+   "section": "22.3.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The parameter shall be of the charstring type and it shall contain one of the strings allowed for the decvalue_unichar function (specified in clause C.5.4).",
+   "lines": [
+    18811,
+    18820
+   ]
+  },
+  {
+   "id": "22.3.4-s023",
+   "section": "22.3.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Any other value shall cause an error.",
+   "lines": [
+    18811,
+    18820
+   ]
+  },
+  {
+   "id": "22.3.4-s024",
+   "section": "22.3.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "In case the parameter or referenced field of the return value is not a universal **char string, the** optional parameter shall not be present.",
+   "lines": [
+    18811,
+    18820
+   ]
+  },
+  {
+   "id": "22.3.4-s025",
+   "section": "22.3.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "**Get any reply**",
+   "lines": [
+    18822,
+    18822
+   ]
+  },
+  {
+   "id": "22.3.4-s026",
+   "section": "22.3.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "A getreply operation with no argument list for the signature matching criteria shall remove the reply message on the top of the incoming port queue (if any) if all other matching criteria are fulfilled.",
+   "lines": [
+    18824,
+    18825
+   ]
+  },
+  {
+   "id": "22.3.4-s027",
+   "section": "22.3.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If GetAnyReply is used in the response and exception handling part of a call operation, it shall only treat replies from the procedure invoked by the call operation.",
+   "lines": [
+    18827,
+    18828
+   ]
+  },
+  {
+   "id": "22.3.4-s028",
+   "section": "22.3.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "**Get a reply on any port**",
+   "lines": [
+    18830,
+    18830
+   ]
+  },
+  {
+   "id": "22.3.4-s029",
+   "section": "22.3.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "To get a reply on any port, use the any port keywords.",
+   "lines": [
+    18832,
+    18832
+   ]
+  },
+  {
+   "id": "22.3.4-s030",
+   "section": "22.3.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "**Get a reply on any port from a port array**",
+   "lines": [
+    18834,
+    18834
+   ]
+  },
+  {
+   "id": "22.3.4-s031",
+   "section": "22.3.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "To get a reply on any port from a specific port array, use the any from PortArrayRef syntax where PortArrayRef shall be a reference to a port array identifier.",
+   "lines": [
+    18836,
+    18843
+   ]
+  },
+  {
+   "id": "22.3.4-s032",
+   "section": "22.3.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "It is also possible to store the index of a port in a single-dimensional port array at which the operation was successful to a variable of type integer or, in case of multi-dimensional port arrays the index of the successful port to an integer array or record of integer variable.",
+   "lines": [
+    18836,
+    18843
+   ]
+  },
+  {
+   "id": "22.3.4-s033",
+   "section": "22.3.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "When checking the port array for matching replies, the port indices to be checked are iterated from lowest to highest.",
+   "lines": [
+    18836,
+    18843
+   ]
+  },
+  {
+   "id": "22.3.4-s034",
+   "section": "22.3.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If the port array is multi-dimensional, then the ports are iterated over from innermost to outermost array dimension from lowest to highest index for each dimension, e.g. [0][0], [0][1], [1][0], [1][1].",
+   "lines": [
+    18836,
+    18843
+   ]
+  },
+  {
+   "id": "22.3.4-s035",
+   "section": "22.3.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The first port which matches all the criteria will cause the operation to be successful even if other ports in the array would also meet the criteria.",
+   "lines": [
+    18836,
+    18843
+   ]
+  },
+  {
+   "id": "22.3.4-s036",
+   "section": "22.3.4",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clause 5 and shown in table 16, the following restrictions apply:",
+   "lines": [
+    18847,
+    18848
+   ]
+  },
+  {
+   "id": "22.3.4-s037",
+   "section": "22.3.4",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) A getreply operation shall only be used at a procedure-based port.",
+   "lines": [
+    18850,
+    18851
+   ]
+  },
+  {
+   "id": "22.3.4-s038",
+   "section": "22.3.4",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "The type definition of the port shall include the name of the procedure to which the getreply operation belongs.",
+   "lines": [
+    18850,
+    18851
+   ]
+  },
+  {
+   "id": "22.3.4-s039",
+   "section": "22.3.4",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "b) The signature argument of the getreply operation shall not be used to pass in variable names for out and inout parameters.",
+   "lines": [
+    18853,
+    18853
+   ]
+  },
+  {
+   "id": "22.3.4-s040",
+   "section": "22.3.4",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "c) Parameters or return values of responses accepted by get any reply shall not be assigned to a variable, i.e. the **param and value clause shall not be present.** d) All AddressRef items in the from clause and all ValueRef items in the sender clause shall be of type address, component or of the address type bound to the port type (see clause 6.2.9) of the port instance referenced in the getreply operation.",
+   "lines": [
+    18856,
+    18860
+   ]
+  },
+  {
+   "id": "22.3.4-s041",
+   "section": "22.3.4",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "No AddressRef in the from clause shall contain the special value null at the time of the operation.",
+   "lines": [
+    18859,
+    18860
+   ]
+  },
+  {
+   "id": "22.3.4-s042",
+   "section": "22.3.4",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "e) The PortArrayRef shall be a reference to a completely initialized port array.",
+   "lines": [
+    18863,
+    18863
+   ]
+  },
+  {
+   "id": "22.3.4-s043",
+   "section": "22.3.4",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "f) The index redirection shall only be used when the operation is used on an any from port array construct.",
+   "lines": [
+    18865,
+    18865
+   ]
+  },
+  {
+   "id": "22.3.4-s044",
+   "section": "22.3.4",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "g) If the index redirection is used for single-dimensional arrays, the type of the integer variable shall allow storing the highest index of the respective port array.",
+   "lines": [
+    18867,
+    18868
+   ]
+  },
+  {
+   "id": "22.3.4-s045",
+   "section": "22.3.4",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "h) If the index redirection is used for multi-dimensional arrays, the size of the integer array or record of integer type shall exactly be the same as the dimension of the respective port array, and the its type shall allow storing the highest index (from all dimensions) of the port array.",
+   "lines": [
+    18870,
+    18872
+   ]
+  },
+  {
+   "id": "22.3.4-s046",
+   "section": "22.3.4",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "i) If a variable referenced in the value, param, sender or @index clause is a lazy or fuzzy variable, the expression assigned to this variable is equal to the result produced by the getreply operation, i.e. later evaluation of the lazy or fuzzy variable does not lead to repeated invocation of the getreply operation.",
+   "lines": [
+    18879,
+    18881
+   ]
+  },
+  {
+   "id": "22.3.4-s047",
+   "section": "22.3.4",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "j) If the getreply operation contains both from and sender clause, the variable or parameter referenced in the sender clause shall be type compatible with the template in the from clause.",
+   "lines": [
+    18883,
+    18884
+   ]
+  },
+  {
+   "id": "22.3.4-s048",
+   "section": "22.3.4",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "If the operation contains a sender clause but no from clause, the sender shall be type compatible with the variable or parameter referenced in the sender clause.",
+   "lines": [
+    18883,
+    18884
+   ]
+  },
+  {
+   "id": "22.3.4-s049",
+   "section": "22.3.4",
+   "kind": "note",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "NOTE 3: An error due to a type mismatch may happen if the types in the receive part are not compatible to the types in the assignment part or, if the from clause is missing, but the type of the sender can be determined and it is not type compatible with the type in the sender clause.",
+   "lines": [
+    18886,
+    18887
+   ]
+  },
+  {
+   "id": "22.3.4-s050",
+   "section": "22.3.4",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "k) When assigning implicitly decoded parameters or referenced fields of the return value (by using the @decoded modifier) in cases where the value or template to be matched uses the MatchDecodedContent (decmatch) matching for the parameter to be stored, the type of the template in the MatchDecodedContent matching shall be type-compatible to the type of the variable the decoded field is stored into.",
+   "lines": [
+    18889,
+    18889
+   ]
+  },
+  {
+   "id": "22.3.4-s051",
+   "section": "22.3.4",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "l) The ObjectReference shall be of a port type.",
+   "lines": [
+    18891,
+    18891
+   ]
+  },
+  {
+   "id": "22.3.4-s052",
+   "section": "22.3.4",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "m) The @nodefault modifier is allowed only in stand-alone getreply statements.",
+   "lines": [
+    18893,
+    18893
+   ]
+  },
+  {
+   "id": "22.3.4-s053",
+   "section": "22.3.4",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 1: Basic getreply:",
+   "lines": [
+    18897,
+    18897
+   ]
+  },
+  {
+   "id": "22.3.4-s054",
+   "section": "22.3.4",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "myPort.getreply(MyProc:{5, ?} value 20); // Accepts a reply of MyProc with two out or\n                             // inout parameters and a return value of 20\n  myPort.getreply(MyProc2:{ -, 5}) from myPeer; // Accepts a reply of MyProc2 from myPeer",
+   "lines": [
+    18898,
+    18902
+   ]
+  },
+  {
+   "id": "22.3.4-s055",
+   "section": "22.3.4",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 2: Getreply with storing inout/out parameters and return values in variables:",
+   "lines": [
+    18904,
+    18904
+   ]
+  },
+  {
+   "id": "22.3.4-s056",
+   "section": "22.3.4",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "myPort.getreply(MyProc1:{?, ?} value ?) -> value v_myRetValue param(v_myPar1, v_myPar2);\n  // The returned value is assigned to variable v_myRetValue and the value \n  // of the two out or inout parameters are assigned to the variables v_myPar1 and v_myPar2. \n  myPort.getreply(MyProc1:{?, ?} value ?)-> value v_myRetValue param(-,v_myPar2) sender mySender;\n  // The value of the first parameter is not considered for the further test execution and \n  // the address of the sender component is retrieved and stored in the variable mySender.\n  // The following examples describe some possibilities to assign out and inout parameter values \n  // to variables. The following signature is assumed for the procedure which has been called\n  signature MyProc2(in integer A, integer B, integer C, out integer D, inout integer E);\n  myPort.getreply(s_aTemplate) -> param( -, -, -, v_myVarOut1, v_myVarInout1);\n  myPort.getreply(s_aTemplate) -> param(v_myVarOut1:=D, v_myVarOut2:=E);\n  myPort.getreply(MyProc2:{ -, -, -, 3, ?}) -> param(v_myVarInout1:=E);\n  // The following example demonstrates the use of encoded parameters:\n  signature MyProc3(out integer paramType, out octetstring encodedParam);\n  template integer mw_int := ?;\n  …\n  var integer v_myVarX;\n  myPort.getreply(MyProc3:{1, decmatch mw_int}) -> param (v_myVarX := @decoded encodedParam);\n  // The parameters encodedParam is decoded into an integer and assigned to v_myVarX.",
+   "lines": [
+    18905,
+    18925
+   ]
+  },
+  {
+   "id": "22.3.4-s057",
+   "section": "22.3.4",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 3: Get any reply:",
+   "lines": [
+    18927,
+    18927
+   ]
+  },
+  {
+   "id": "22.3.4-s058",
+   "section": "22.3.4",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "myPort.getreply; // Removes the top reply from myPort.\n  myPort.getreply from myPeer; // Removes the top reply received from myPeer from myPort.\n  myPort.getreply -> sender v_mySenderVar; // Removes the top reply from myPort and retrieves \n                             // the address of the sender entity",
+   "lines": [
+    18928,
+    18933
+   ]
+  },
+  {
+   "id": "22.3.4-s059",
+   "section": "22.3.4",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 4: Get a reply on any port:",
+   "lines": [
+    18935,
+    18935
+   ]
+  },
+  {
+   "id": "22.3.4-s060",
+   "section": "22.3.4",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "any port.getreply(Myproc:?)",
+   "lines": [
+    18936,
+    18938
+   ]
+  },
+  {
+   "id": "22.3.4-s061",
+   "section": "22.3.4",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 5: Get a reply on any port from port array:",
+   "lines": [
+    18945,
+    18945
+   ]
+  },
+  {
+   "id": "22.3.4-s062",
+   "section": "22.3.4",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "type port MyPort procedure { inout MyProc }\n  type component MyComponent {\n    port MyPort p[10][10];\n  }\n  var integer v_i[2];\n  any from p.getreply(MyProc:?) -> @index value v_i; \n  // Getting a reply of the type MyProc on any port of the port array p and\n  // storing the index of the port on which the matching was successful first",
+   "lines": [
+    18946,
+    18955
+   ]
+  },
+  {
+   "id": "22.3.5-s001",
+   "section": "22.3.5",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Exceptions are raised with the raise operation.",
+   "lines": [
+    18959,
+    18959
+   ]
+  },
+  {
+   "id": "22.3.5-s002",
+   "section": "22.3.5",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "ObjectReference \".\" raise \"(\" Signature \",\" TemplateInstance \")\" \n  [ to Address ]",
+   "lines": [
+    18962,
+    18965
+   ]
+  },
+  {
+   "id": "22.3.5-s003",
+   "section": "22.3.5",
+   "kind": "note",
+   "context": "Syntactical Structure",
+   "normative": false,
+   "text": "NOTE 1: _Address may be an AddressRef, a list of AddressRef-s or \"all component\"._",
+   "lines": [
+    18967,
+    18967
+   ]
+  },
+  {
+   "id": "22.3.5-s004",
+   "section": "22.3.5",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The raise operation is used to raise an exception.",
+   "lines": [
+    18971,
+    18971
+   ]
+  },
+  {
+   "id": "22.3.5-s005",
+   "section": "22.3.5",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "NOTE 2: The relation between an accepted call and a raise operation cannot always be checked statically.",
+   "lines": [
+    18973,
+    18974
+   ]
+  },
+  {
+   "id": "22.3.5-s006",
+   "section": "22.3.5",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "For testing it is allowed to specify a raise operation without an associated getcall operation.",
+   "lines": [
+    18973,
+    18974
+   ]
+  },
+  {
+   "id": "22.3.5-s007",
+   "section": "22.3.5",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The value part of the raise operation consists of the signature reference followed by the exception value.",
+   "lines": [
+    18976,
+    18976
+   ]
+  },
+  {
+   "id": "22.3.5-s008",
+   "section": "22.3.5",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Exceptions are specified as types.",
+   "lines": [
+    18978,
+    18981
+   ]
+  },
+  {
+   "id": "22.3.5-s009",
+   "section": "22.3.5",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Therefore the exception value may either be derived from a template conforming to the template(value) restriction or be the value resulting from an expression (which of course can be an explicit value).",
+   "lines": [
+    18978,
+    18981
+   ]
+  },
+  {
+   "id": "22.3.5-s010",
+   "section": "22.3.5",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The optional type field in the value specification to the raise operation shall be used in cases where it is necessary to avoid any ambiguity of the type of the value being sent.",
+   "lines": [
+    18978,
+    18981
+   ]
+  },
+  {
+   "id": "22.3.5-s011",
+   "section": "22.3.5",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Exceptions to one or more call operations may be sent to one, several or all peer entities connected to the addressed port.",
+   "lines": [
+    18983,
+    18986
+   ]
+  },
+  {
+   "id": "22.3.5-s012",
+   "section": "22.3.5",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "This can be specified in the same manner as described in clause 22.2.1.",
+   "lines": [
+    18983,
+    18986
+   ]
+  },
+  {
+   "id": "22.3.5-s013",
+   "section": "22.3.5",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "This means, the argument of the to clause of a raise operation is for unicast exceptions the address of one receiving entity, for multicast exceptions a list of addresses of a set of receivers and for broadcast exceptions the all component keywords.",
+   "lines": [
+    18983,
+    18986
+   ]
+  },
+  {
+   "id": "22.3.5-s014",
+   "section": "22.3.5",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "In case of one-to-one connections, the to clause may be omitted, because the receiving entity is uniquely identified by the system structure.",
+   "lines": [
+    18988,
+    18989
+   ]
+  },
+  {
+   "id": "22.3.5-s015",
+   "section": "22.3.5",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clause 5 and shown in table 16, the following restrictions apply:",
+   "lines": [
+    18993,
+    18994
+   ]
+  },
+  {
+   "id": "22.3.5-s016",
+   "section": "22.3.5",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) An exception shall only be raised at a procedure-based port.",
+   "lines": [
+    18996,
+    18997
+   ]
+  },
+  {
+   "id": "22.3.5-s017",
+   "section": "22.3.5",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "An exception is a reaction to an accepted procedure call the result of which leads to an exceptional event.",
+   "lines": [
+    18996,
+    18997
+   ]
+  },
+  {
+   "id": "22.3.5-s018",
+   "section": "22.3.5",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "b) The type of the exception shall be specified in the signature of the called procedure.",
+   "lines": [
+    18999,
+    19000
+   ]
+  },
+  {
+   "id": "22.3.5-s019",
+   "section": "22.3.5",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "The type definition of the port shall include in its in or inout list the name of the procedure to which the exception belongs.",
+   "lines": [
+    18999,
+    19000
+   ]
+  },
+  {
+   "id": "22.3.5-s020",
+   "section": "22.3.5",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "c) A to clause shall be present in case of one-to-many connections.",
+   "lines": [
+    19002,
+    19002
+   ]
+  },
+  {
+   "id": "22.3.5-s021",
+   "section": "22.3.5",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "d) All AddressRef items in the to clause shall be of type address, component or of the address type bound to the port type (see clause 6.2.9) of the port instance referenced in the raise operation.",
+   "lines": [
+    19004,
+    19006
+   ]
+  },
+  {
+   "id": "22.3.5-s022",
+   "section": "22.3.5",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "No AddressRef in the to clause shall contain the special value null at the time of the operation.",
+   "lines": [
+    19004,
+    19006
+   ]
+  },
+  {
+   "id": "22.3.5-s023",
+   "section": "22.3.5",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "e) Applying a raise operation to an unmapped or disconnected port shall cause a test case error.",
+   "lines": [
+    19008,
+    19008
+   ]
+  },
+  {
+   "id": "22.3.5-s024",
+   "section": "22.3.5",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "f) The TemplateInstance shall conform to the template(value) restriction (see clause 15.8).",
+   "lines": [
+    19010,
+    19010
+   ]
+  },
+  {
+   "id": "22.3.5-s025",
+   "section": "22.3.5",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "g) The ObjectReference shall be of a port type.",
+   "lines": [
+    19012,
+    19012
+   ]
+  },
+  {
+   "id": "22.3.5-s026",
+   "section": "22.3.5",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "myPort.raise(MySignature, v_myVariable + v_yourVariable - 2);\n  // Raises an exception with a value which is the result of the arithmetic expression \n  // at myPort\n  myPort.raise(MyProc, integer:5}); // Raises an exception with the integer value 5 for MyProc\n  myPort.raise(MySignature, \"My string\") to myPartner;\n  // Raises an exception with the value \"My string\" at myPort for MySignature and \n  // send it to myPartner\n  myPort.raise(MySignature, \"My string\") to (myPartnerOne, myPartnerTwo);\n  // Raises an exception with the value \"My string\" at myPort and sends it to myPartnerOne and\n  // myPartnerTwo (i.e. multicast communication)\n  myPort.raise(MySignature, \"My string\") to all component;\n  // Raises an exception with the value \"My string\" at myPort for MySignature and sends it\n  // to all entities connected to myPort (i.e. broadcast communication)",
+   "lines": [
+    19020,
+    19034
+   ]
+  }
+ ]
+}

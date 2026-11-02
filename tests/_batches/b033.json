@@ -1,0 +1,1514 @@
+{
+ "batch": "b033",
+ "requirements": [
+  {
+   "id": "TTCN3-CORE-11.2-002a",
+   "section": "11.2",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "They are declared by the `var template` keyword followed by a type identifier and a variable identifier.",
+   "canonical": "A template variable declaration IS the `var template` keywords followed by a type identifier and a variable identifier.",
+   "condition": null,
+   "cross_refs": [
+    "11.2"
+   ],
+   "ambiguity": {
+    "status": "terminology",
+    "improper_terms": [
+     {
+      "used": "`var template` keyword",
+      "proper": "`var` keyword followed by a template modifier (TemplateModifier)",
+      "glossary": false
+     }
+    ],
+    "issue": "The prose speaks of a single 'var template keyword' and only a type identifier, while the syntactical structure uses `var` TemplateModifier (template, possibly with restriction) and TypeOrNestedTypeDef (which also allows a nested type definition or automatic typing)."
+   },
+   "spec_lines": [
+    10125,
+    10126
+   ],
+   "examples": [
+    {
+     "lines": [
+      10210,
+      10220
+     ],
+     "text": "var template integer v_myVarTemp1 := ?;\n  var template MyRecord v_myVarTemp2 := { field1 := true, field2 := * },\n                v_myVarTemp3 := { field1 := ?, field2 := v_myVarTemp1 };\n  var template @fuzzy float v_fuzzTemp1 := rnd(); // evaluated on every usage\n  var template @fuzzy MyRecord v_fuzzTemp2 := { rnd() < 0.5, float2int(rnd()) };\n  var template @lazy float LazyTemp1 := v_fuzzTemp1; // evaluates v_fuzzTemp1\n  var template @lazy MyRecord v_lazyTemp2 := \n     { v_lazyTemp1 < 0.5, float2int(v_fuzzTemp1) }; // evaluates v_lazyTemp1 and v_fuzzTemp1\n  v_lazyTemp2.field1 := true; // evaluates v_lazyTemp2 and overwrites field1 with true"
+    }
+   ],
+   "file": "tests/11-declaring-variables/11.02_test_001.ttcn3",
+   "module": "M_11_02_test_001",
+   "header": "// @requirement: 11.2 -- They are declared by the `var template` keyword followed by a type identifier and a variable identifier."
+  },
+  {
+   "id": "TTCN3-CORE-11.2-003a",
+   "section": "11.2",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "An initial content can be assigned at declaration.",
+   "canonical": "A template variable declaration MAY assign an initial content to the template variable.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "readings": [
+     "A template variable declaration MAY assign an initial content to the template variable (the assignment is optional).",
+     "A template variable declaration SHALL assign an initial content, as the syntactical structure requires \":=\" TemplateBody."
+    ],
+    "issue": "The prose suggests an optional initial content, but the syntax block of 11.2 makes \":=\" TemplateBody mandatory. The prose reading is kept in the canonical text; test authors should follow the syntax block."
+   },
+   "spec_lines": [
+    10125,
+    10126
+   ],
+   "examples": [],
+   "file": "tests/11-declaring-variables/11.02_test_002.ttcn3",
+   "module": "M_11_02_test_002",
+   "header": "// @requirement: 11.2 -- An initial content can be assigned at declaration."
+  },
+  {
+   "id": "TTCN3-CORE-11.2-004a",
+   "section": "11.2",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "In addition to values, template variables may also store matching mechanisms (see clause 15.6.6).",
+   "canonical": "A template variable MAY store matching mechanisms in addition to values.",
+   "condition": null,
+   "cross_refs": [
+    "15.6.6"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10125,
+    10126
+   ],
+   "examples": [
+    {
+     "lines": [
+      10210,
+      10220
+     ],
+     "text": "var template integer v_myVarTemp1 := ?;\n  var template MyRecord v_myVarTemp2 := { field1 := true, field2 := * },\n                v_myVarTemp3 := { field1 := ?, field2 := v_myVarTemp1 };\n  var template @fuzzy float v_fuzzTemp1 := rnd(); // evaluated on every usage\n  var template @fuzzy MyRecord v_fuzzTemp2 := { rnd() < 0.5, float2int(rnd()) };\n  var template @lazy float LazyTemp1 := v_fuzzTemp1; // evaluates v_fuzzTemp1\n  var template @lazy MyRecord v_lazyTemp2 := \n     { v_lazyTemp1 < 0.5, float2int(v_fuzzTemp1) }; // evaluates v_lazyTemp1 and v_fuzzTemp1\n  v_lazyTemp2.field1 := true; // evaluates v_lazyTemp2 and overwrites field1 with true"
+    }
+   ],
+   "file": "tests/11-declaring-variables/11.02_test_003.ttcn3",
+   "module": "M_11_02_test_003",
+   "header": "// @requirement: 11.2 -- In addition to values, template variables may also store matching mechanisms (see clause 15.6.6)."
+  },
+  {
+   "id": "TTCN3-CORE-11.2-005a",
+   "section": "11.2",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Template variables may be used on the right hand side as well as on the left hand side of assignments, following the `return` keyword in bodies of functions defining a template-type return value in their headers and may be passed as actual parameters to template-type formal parameters.",
+   "canonical": "A template variable MAY be used on the right hand side and on the left hand side of assignments.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10128,
+    10129
+   ],
+   "examples": [
+    {
+     "lines": [
+      10210,
+      10220
+     ],
+     "text": "var template integer v_myVarTemp1 := ?;\n  var template MyRecord v_myVarTemp2 := { field1 := true, field2 := * },\n                v_myVarTemp3 := { field1 := ?, field2 := v_myVarTemp1 };\n  var template @fuzzy float v_fuzzTemp1 := rnd(); // evaluated on every usage\n  var template @fuzzy MyRecord v_fuzzTemp2 := { rnd() < 0.5, float2int(rnd()) };\n  var template @lazy float LazyTemp1 := v_fuzzTemp1; // evaluates v_fuzzTemp1\n  var template @lazy MyRecord v_lazyTemp2 := \n     { v_lazyTemp1 < 0.5, float2int(v_fuzzTemp1) }; // evaluates v_lazyTemp1 and v_fuzzTemp1\n  v_lazyTemp2.field1 := true; // evaluates v_lazyTemp2 and overwrites field1 with true"
+    }
+   ],
+   "file": "tests/11-declaring-variables/11.02_test_004.ttcn3",
+   "module": "M_11_02_test_004",
+   "header": "// @requirement: 11.2 -- Template variables may be used on the right hand side as well as on the left hand side of assignments, following the `return` keyword in bodies of functions defining a template-type return value in their headers and may be passed as actual parameters to template-type formal parameters."
+  },
+  {
+   "id": "TTCN3-CORE-11.2-005b",
+   "section": "11.2",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Template variables may be used on the right hand side as well as on the left hand side of assignments, following the `return` keyword in bodies of functions defining a template-type return value in their headers and may be passed as actual parameters to template-type formal parameters.",
+   "canonical": "A template variable MAY be used following the `return` keyword in the body of a function that defines a template-type return value in its header.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10128,
+    10129
+   ],
+   "examples": [],
+   "file": "tests/11-declaring-variables/11.02_test_005.ttcn3",
+   "module": "M_11_02_test_005",
+   "header": "// @requirement: 11.2 -- Template variables may be used on the right hand side as well as on the left hand side of assignments, following the `return` keyword in bodies of functions defining a template-type return value in their headers and may be passed as actual parameters to template-type formal parameters."
+  },
+  {
+   "id": "TTCN3-CORE-11.2-005c",
+   "section": "11.2",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Template variables may be passed as actual parameters to template-type formal parameters.",
+   "canonical": "A template variable MAY be passed as actual parameter to a template-type formal parameter.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10128,
+    10129
+   ],
+   "examples": [],
+   "file": "tests/11-declaring-variables/11.02_test_006.ttcn3",
+   "module": "M_11_02_test_006",
+   "header": "// @requirement: 11.2 -- Template variables may be passed as actual parameters to template-type formal parameters."
+  },
+  {
+   "id": "TTCN3-CORE-11.2-006a",
+   "section": "11.2",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "It is also allowed to assign a template instance to a template variable or a template variable field.",
+   "canonical": "A template instance MAY be assigned to a template variable or to a field of a template variable.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10128,
+    10129
+   ],
+   "examples": [
+    {
+     "lines": [
+      10210,
+      10220
+     ],
+     "text": "var template integer v_myVarTemp1 := ?;\n  var template MyRecord v_myVarTemp2 := { field1 := true, field2 := * },\n                v_myVarTemp3 := { field1 := ?, field2 := v_myVarTemp1 };\n  var template @fuzzy float v_fuzzTemp1 := rnd(); // evaluated on every usage\n  var template @fuzzy MyRecord v_fuzzTemp2 := { rnd() < 0.5, float2int(rnd()) };\n  var template @lazy float LazyTemp1 := v_fuzzTemp1; // evaluates v_fuzzTemp1\n  var template @lazy MyRecord v_lazyTemp2 := \n     { v_lazyTemp1 < 0.5, float2int(v_fuzzTemp1) }; // evaluates v_lazyTemp1 and v_fuzzTemp1\n  v_lazyTemp2.field1 := true; // evaluates v_lazyTemp2 and overwrites field1 with true"
+    }
+   ],
+   "file": "tests/11-declaring-variables/11.02_test_007.ttcn3",
+   "module": "M_11_02_test_007",
+   "header": "// @requirement: 11.2 -- It is also allowed to assign a template instance to a template variable or a template variable field."
+  },
+  {
+   "id": "TTCN3-CORE-11.2-007a",
+   "section": "11.2",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "var TemplateModifier [ (@lazy | @fuzzy) [ @deterministic ] ] [ TypeOrNestedTypeDef ] { VarIdentifier [ ArrayDef ] \":=\" TemplateBody [ \",\" ] }+ [ \";\" ]",
+   "canonical": "A template variable declaration has the syntax `var` TemplateModifier [ ( `@lazy` | `@fuzzy` ) [ `@deterministic` ] ] [ TypeOrNestedTypeDef ] followed by one or more comma-separated VarIdentifier [ ArrayDef ] \":=\" TemplateBody and an optional \";\".",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10137,
+    10140
+   ],
+   "examples": [
+    {
+     "lines": [
+      10210,
+      10220
+     ],
+     "text": "var template integer v_myVarTemp1 := ?;\n  var template MyRecord v_myVarTemp2 := { field1 := true, field2 := * },\n                v_myVarTemp3 := { field1 := ?, field2 := v_myVarTemp1 };\n  var template @fuzzy float v_fuzzTemp1 := rnd(); // evaluated on every usage\n  var template @fuzzy MyRecord v_fuzzTemp2 := { rnd() < 0.5, float2int(rnd()) };\n  var template @lazy float LazyTemp1 := v_fuzzTemp1; // evaluates v_fuzzTemp1\n  var template @lazy MyRecord v_lazyTemp2 := \n     { v_lazyTemp1 < 0.5, float2int(v_fuzzTemp1) }; // evaluates v_lazyTemp1 and v_fuzzTemp1\n  v_lazyTemp2.field1 := true; // evaluates v_lazyTemp2 and overwrites field1 with true"
+    }
+   ],
+   "file": "tests/11-declaring-variables/11.02_test_008.ttcn3",
+   "module": "M_11_02_test_008",
+   "header": "// @requirement: 11.2 -- var TemplateModifier [ (@lazy | @fuzzy) [ @deterministic ] ] [ TypeOrNestedTypeDef ] { VarIdentifier [ ArrayDef ] \":=\" TemplateBody [ \",\" ] }+ [ \";\" ]"
+  },
+  {
+   "id": "TTCN3-CORE-11.2-009a",
+   "section": "11.2",
+   "type": "semantics",
+   "modality": "MAY",
+   "original": "A template variable may change its template during test execution several times.",
+   "canonical": "A template variable MAY change its template several times during test execution.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10144,
+    10146
+   ],
+   "examples": [],
+   "file": "tests/11-declaring-variables/11.02_test_009.ttcn3",
+   "module": "M_11_02_test_009",
+   "header": "// @requirement: 11.2 -- A template variable may change its template during test execution several times."
+  },
+  {
+   "id": "TTCN3-CORE-11.2-010a",
+   "section": "11.2",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "A template or value can be assigned several times to a template variable.",
+   "canonical": "A template or value MAY be assigned several times to a template variable.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10144,
+    10146
+   ],
+   "examples": [],
+   "file": "tests/11-declaring-variables/11.02_test_010.ttcn3",
+   "module": "M_11_02_test_010",
+   "header": "// @requirement: 11.2 -- A template or value can be assigned several times to a template variable."
+  },
+  {
+   "id": "TTCN3-CORE-11.2-011a",
+   "section": "11.2",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "The template variable can be referenced multiple times in a TTCN-3 module.",
+   "canonical": "A template variable MAY be referenced multiple times in a TTCN-3 module.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10144,
+    10146
+   ],
+   "examples": [],
+   "file": "tests/11-declaring-variables/11.02_test_011.ttcn3",
+   "module": "M_11_02_test_011",
+   "header": "// @requirement: 11.2 -- The template variable can be referenced multiple times in a TTCN-3 module."
+  },
+  {
+   "id": "TTCN3-CORE-11.2-012a",
+   "section": "11.2",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "The content of a template variable can be restricted to the matching mechanisms specific value and omit in the same way as formal template parameters, see clause 5.4.1.2.",
+   "canonical": "The content of a template variable MAY be restricted by a template restriction to the matching mechanisms specific value and `omit`, in the same way as formal template parameters.",
+   "condition": null,
+   "cross_refs": [
+    "5.4.1.2",
+    "15.8"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10148,
+    10150
+   ],
+   "examples": [],
+   "file": "tests/11-declaring-variables/11.02_test_012.ttcn3",
+   "module": "M_11_02_test_012",
+   "header": "// @requirement: 11.2 -- The content of a template variable can be restricted to the matching mechanisms specific value and omit in the same way as formal template parameters, see clause 5.4.1.2."
+  },
+  {
+   "id": "TTCN3-CORE-11.2-013a",
+   "section": "11.2",
+   "type": "syntax",
+   "modality": "MAY",
+   "original": "The restriction template (omit) can be replaced by the shorthand notation omit.",
+   "canonical": "The template restriction `template (omit)` MAY be replaced by the shorthand notation `omit`.",
+   "condition": null,
+   "cross_refs": [
+    "15.8"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10148,
+    10150
+   ],
+   "examples": [],
+   "file": "tests/11-declaring-variables/11.02_test_013.ttcn3",
+   "module": "M_11_02_test_013",
+   "header": "// @requirement: 11.2 -- The restriction template (omit) can be replaced by the shorthand notation omit."
+  },
+  {
+   "id": "TTCN3-CORE-11.2-014a",
+   "section": "11.2",
+   "type": "information",
+   "modality": "CAN",
+   "original": "NOTE 1: String and list type templates can be concatenated, see clause 15.11.",
+   "canonical": "A string type template or a list type template CAN be concatenated.",
+   "condition": null,
+   "cross_refs": [
+    "15.11"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10152,
+    10152
+   ],
+   "examples": [],
+   "file": "tests/11-declaring-variables/11.02_test_014.ttcn3",
+   "module": "M_11_02_test_014",
+   "header": "// @requirement: 11.2 -- NOTE 1: String and list type templates can be concatenated, see clause 15.11."
+  },
+  {
+   "id": "TTCN3-CORE-11.2-016a",
+   "section": "11.2",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "a) Template variables shall not be declared or used in a module definitions part (i.e. global variables are not supported in TTCN-3).",
+   "canonical": "A template variable SHALL NOT be declared or used in a module definitions part.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10158,
+    10159
+   ],
+   "examples": [],
+   "file": "tests/11-declaring-variables/11.02_test_015.ttcn3",
+   "module": "M_11_02_test_015",
+   "header": "// @requirement: 11.2 -- a) Template variables shall not be declared or used in a module definitions part (i.e. global variables are not supported in TTCN-3)."
+  },
+  {
+   "id": "TTCN3-CORE-11.2-017a",
+   "section": "11.2",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "b) When used on the right hand side of assignments template variables shall not be operands of TTCN-3 operators (see clause 7.1) and the variable on the left hand side shall be a template variable too.",
+   "canonical": "A template variable used on the right hand side of an assignment SHALL NOT be an operand of a TTCN-3 operator.",
+   "condition": "the template variable is used on the right hand side of an assignment",
+   "cross_refs": [
+    "7.1"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10161,
+    10162
+   ],
+   "examples": [],
+   "file": "tests/11-declaring-variables/11.02_test_016.ttcn3",
+   "module": "M_11_02_test_016",
+   "header": "// @requirement: 11.2 -- b) When used on the right hand side of assignments template variables shall not be operands of TTCN-3 operators (see clause 7.1) and the variable on the left hand side shall be a template variable too."
+  },
+  {
+   "id": "TTCN3-CORE-11.2-017b",
+   "section": "11.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "b) When used on the right hand side of assignments template variables shall not be operands of TTCN-3 operators (see clause 7.1) and the variable on the left hand side shall be a template variable too.",
+   "canonical": "If a template variable is used on the right hand side of an assignment, the variable on the left hand side SHALL be a template variable.",
+   "condition": "the template variable is used on the right hand side of an assignment",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "readings": [
+     "If a template variable is used on the right hand side of an assignment, the variable on the left hand side SHALL be a template variable.",
+     "If a template variable is used on the right hand side of an assignment, the target on the left hand side SHALL be a template variable or a field of a template variable (e.g. accessed via dot or index notation)."
+    ],
+    "issue": "'the variable on the left hand side' does not say whether a field or element of a template variable counts; the second reading is consistent with 11.2-s006, the first is the literal reading and is chosen."
+   },
+   "spec_lines": [
+    10161,
+    10162
+   ],
+   "examples": [],
+   "file": "tests/11-declaring-variables/11.02_test_017.ttcn3",
+   "module": "M_11_02_test_017",
+   "header": "// @requirement: 11.2 -- b) When used on the right hand side of assignments template variables shall not be operands of TTCN-3 operators (see clause 7.1) and the variable on the left hand side shall be a template variable too."
+  },
+  {
+   "id": "TTCN3-CORE-11.2-018a",
+   "section": "11.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "c) When accessing element of template variables either on the left hand side or on the right hand side of assignments, the rules given in clause 15.6 shall apply.",
+   "canonical": "When an element of a template variable is accessed on the left hand side or the right hand side of an assignment, the rules of clause 15.6 SHALL apply.",
+   "condition": "an element of a template variable is accessed in an assignment",
+   "cross_refs": [
+    "15.6"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10164,
+    10165
+   ],
+   "examples": [
+    {
+     "lines": [
+      10210,
+      10220
+     ],
+     "text": "var template integer v_myVarTemp1 := ?;\n  var template MyRecord v_myVarTemp2 := { field1 := true, field2 := * },\n                v_myVarTemp3 := { field1 := ?, field2 := v_myVarTemp1 };\n  var template @fuzzy float v_fuzzTemp1 := rnd(); // evaluated on every usage\n  var template @fuzzy MyRecord v_fuzzTemp2 := { rnd() < 0.5, float2int(rnd()) };\n  var template @lazy float LazyTemp1 := v_fuzzTemp1; // evaluates v_fuzzTemp1\n  var template @lazy MyRecord v_lazyTemp2 := \n     { v_lazyTemp1 < 0.5, float2int(v_fuzzTemp1) }; // evaluates v_lazyTemp1 and v_fuzzTemp1\n  v_lazyTemp2.field1 := true; // evaluates v_lazyTemp2 and overwrites field1 with true"
+    }
+   ],
+   "file": "tests/11-declaring-variables/11.02_test_018.ttcn3",
+   "module": "M_11_02_test_018",
+   "header": "// @requirement: 11.2 -- c) When accessing element of template variables either on the left hand side or on the right hand side of assignments, the rules given in clause 15.6 shall apply."
+  },
+  {
+   "id": "TTCN3-CORE-11.2-019a",
+   "section": "11.2",
+   "type": "information",
+   "modality": "MAY",
+   "original": "NOTE 2: While it is not allowed to directly apply TTCN-3 operations to template variables, it is allowed to use the dot notation and the index notation to inspect and modify template variable fields.",
+   "canonical": "The dot notation and the index notation MAY be used to inspect and modify fields of a template variable, although TTCN-3 operations SHALL NOT be applied directly to template variables.",
+   "condition": null,
+   "cross_refs": [
+    "15.6"
+   ],
+   "ambiguity": {
+    "status": "terminology",
+    "improper_terms": [
+     {
+      "used": "TTCN-3 operations",
+      "proper": "TTCN-3 operators",
+      "glossary": false
+     }
+    ],
+    "issue": "The NOTE says 'TTCN-3 operations' while restriction b) it explains speaks of 'TTCN-3 operators (see clause 7.1)'."
+   },
+   "spec_lines": [
+    10167,
+    10168
+   ],
+   "examples": [
+    {
+     "lines": [
+      10210,
+      10220
+     ],
+     "text": "var template integer v_myVarTemp1 := ?;\n  var template MyRecord v_myVarTemp2 := { field1 := true, field2 := * },\n                v_myVarTemp3 := { field1 := ?, field2 := v_myVarTemp1 };\n  var template @fuzzy float v_fuzzTemp1 := rnd(); // evaluated on every usage\n  var template @fuzzy MyRecord v_fuzzTemp2 := { rnd() < 0.5, float2int(rnd()) };\n  var template @lazy float LazyTemp1 := v_fuzzTemp1; // evaluates v_fuzzTemp1\n  var template @lazy MyRecord v_lazyTemp2 := \n     { v_lazyTemp1 < 0.5, float2int(v_fuzzTemp1) }; // evaluates v_lazyTemp1 and v_fuzzTemp1\n  v_lazyTemp2.field1 := true; // evaluates v_lazyTemp2 and overwrites field1 with true"
+    }
+   ],
+   "file": "tests/11-declaring-variables/11.02_test_019.ttcn3",
+   "module": "M_11_02_test_019",
+   "header": "// @requirement: 11.2 -- NOTE 2: While it is not allowed to directly apply TTCN-3 operations to template variables, it is allowed to use the dot notation and the index notation to inspect and modify template variable fields."
+  },
+  {
+   "id": "TTCN3-CORE-11.2-020a",
+   "section": "11.2",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "d) Use of uninitialized template variables at other places than the left hand side of assignments, in return statements, or as actual parameters passed to formal parameters shall cause an error.",
+   "canonical": "Use of an uninitialized template variable at any place other than the left hand side of an assignment, a return statement, or an actual parameter passed to a formal parameter SHALL cause an error.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "readings": [
+     "Use of an uninitialized template variable in any other place SHALL cause an error (static or dynamic).",
+     "Use of an uninitialized template variable in any other place SHALL cause a dynamic error at runtime only."
+    ],
+    "issue": "The kind of error (compile-time or runtime) is not stated; since template variable declarations require an initial TemplateBody, it is also unclear how a template variable can be uninitialized. The generic reading is chosen."
+   },
+   "spec_lines": [
+    10170,
+    10171
+   ],
+   "examples": [],
+   "file": "tests/11-declaring-variables/11.02_test_020.ttcn3",
+   "module": "M_11_02_test_020",
+   "header": "// @requirement: 11.2 -- d) Use of uninitialized template variables at other places than the left hand side of assignments, in return statements, or as actual parameters passed to formal parameters shall cause an error."
+  },
+  {
+   "id": "TTCN3-CORE-11.2-022a",
+   "section": "11.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "f) If the template variable is restricted, then the template used to initialize it shall contain only the matching mechanisms as described in clause 15.8.",
+   "canonical": "If a template variable is restricted, the template used to initialize it SHALL contain only the matching mechanisms permitted by the restriction as described in clause 15.8.",
+   "condition": "the template variable has a template restriction",
+   "cross_refs": [
+    "15.8"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10175,
+    10176
+   ],
+   "examples": [],
+   "file": "tests/11-declaring-variables/11.02_test_021.ttcn3",
+   "module": "M_11_02_test_021",
+   "header": "// @requirement: 11.2 -- f) If the template variable is restricted, then the template used to initialize it shall contain only the matching mechanisms as described in clause 15.8."
+  },
+  {
+   "id": "TTCN3-CORE-11.2-023a",
+   "section": "11.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "g) Template variables, similarly to global and local templates, shall be fully specified in order to be used in sending and receiving operations.",
+   "canonical": "A template variable SHALL be completely initialized in order to be used in a sending or receiving operation, as global and local templates.",
+   "condition": "the template variable is used in a sending or receiving operation",
+   "cross_refs": [
+    "15.0",
+    "22"
+   ],
+   "ambiguity": {
+    "status": "terminology",
+    "improper_terms": [
+     {
+      "used": "fully specified",
+      "proper": "completely initialized",
+      "glossary": true
+     }
+    ],
+    "issue": "'fully specified' is not a defined term; the glossary term 'completely initialized' is meant. For sending operations the template additionally has to resolve to a value (clause 15.0)."
+   },
+   "spec_lines": [
+    10178,
+    10179
+   ],
+   "examples": [],
+   "file": "tests/11-declaring-variables/11.02_test_022.ttcn3",
+   "module": "M_11_02_test_022",
+   "header": "// @requirement: 11.2 -- g) Template variables, similarly to global and local templates, shall be fully specified in order to be used in sending and receiving operations."
+  },
+  {
+   "id": "TTCN3-CORE-11.2-024a",
+   "section": "11.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "h) Restrictions on templates in clause 15.0 shall apply.",
+   "canonical": "The restrictions on templates given in clause 15.0 SHALL apply to template variables.",
+   "condition": null,
+   "cross_refs": [
+    "15.0"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10181,
+    10181
+   ],
+   "examples": [],
+   "file": "tests/11-declaring-variables/11.02_test_023.ttcn3",
+   "module": "M_11_02_test_023",
+   "header": "// @requirement: 11.2 -- h) Restrictions on templates in clause 15.0 shall apply."
+  },
+  {
+   "id": "TTCN3-CORE-11.2-025a",
+   "section": "11.2",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "i) The initialization or assignment of a fuzzy or lazy variable shall not contain function calls of functions with inout or out parameters.",
+   "canonical": "The initialization or assignment of a lazy or fuzzy template variable SHALL NOT contain a call of a function with `inout` or `out` parameters.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10183,
+    10184
+   ],
+   "examples": [],
+   "file": "tests/11-declaring-variables/11.02_test_024.ttcn3",
+   "module": "M_11_02_test_024",
+   "header": "// @requirement: 11.2 -- i) The initialization or assignment of a fuzzy or lazy variable shall not contain function calls of functions with inout or out parameters."
+  },
+  {
+   "id": "TTCN3-CORE-11.2-026a",
+   "section": "11.2",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "The called functions may use other functions with inout or out parameters internally.",
+   "canonical": "A function called in the initialization or assignment of a lazy or fuzzy template variable MAY internally call other functions with `inout` or `out` parameters.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10183,
+    10184
+   ],
+   "examples": [],
+   "file": "tests/11-declaring-variables/11.02_test_025.ttcn3",
+   "module": "M_11_02_test_025",
+   "header": "// @requirement: 11.2 -- The called functions may use other functions with inout or out parameters internally."
+  },
+  {
+   "id": "TTCN3-CORE-11.2-027a",
+   "section": "11.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "j) If a lazy or fuzzy template variable is used in deterministic contexts (i.e. during the evaluation of a snapshot or initialization of global non-fuzzy templates), it shall be declared @deterministic and the template body assigned to the variable shall fulfill the restrictions imposed on content of functions used in special places given in clause 16.1.4.",
+   "canonical": "If a lazy or fuzzy template variable is used in a deterministic context (i.e. during the evaluation of a snapshot or the initialization of a global non-fuzzy template), the variable SHALL be declared `@deterministic`.",
+   "condition": "a lazy or fuzzy template variable is used in a deterministic context",
+   "cross_refs": [
+    "16.1.4"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10186,
+    10189
+   ],
+   "examples": [],
+   "file": "tests/11-declaring-variables/11.02_test_026.ttcn3",
+   "module": "M_11_02_test_026",
+   "header": "// @requirement: 11.2 -- j) If a lazy or fuzzy template variable is used in deterministic contexts (i.e. during the evaluation of a snapshot or initialization of global non-fuzzy templates), it shall be declared @deterministic and the template body assigned to the variable shall fulfill the restrictions imposed on content of functions used in special places given in clause 16.1.4."
+  },
+  {
+   "id": "TTCN3-CORE-11.2-027b",
+   "section": "11.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "j) If a lazy or fuzzy template variable is used in deterministic contexts (i.e. during the evaluation of a snapshot or initialization of global non-fuzzy templates), it shall be declared @deterministic and the template body assigned to the variable shall fulfill the restrictions imposed on content of functions used in special places given in clause 16.1.4.",
+   "canonical": "If a lazy or fuzzy template variable is used in a deterministic context, the template body assigned to the variable SHALL fulfil the restrictions on the content of functions used in special places given in clause 16.1.4.",
+   "condition": "a lazy or fuzzy template variable is used in a deterministic context",
+   "cross_refs": [
+    "16.1.4"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10186,
+    10189
+   ],
+   "examples": [],
+   "file": "tests/11-declaring-variables/11.02_test_027.ttcn3",
+   "module": "M_11_02_test_027",
+   "header": "// @requirement: 11.2 -- j) If a lazy or fuzzy template variable is used in deterministic contexts (i.e. during the evaluation of a snapshot or initialization of global non-fuzzy templates), it shall be declared @deterministic and the template body assigned to the variable shall fulfill the restrictions imposed on content of functions used in special places given in clause 16.1.4."
+  },
+  {
+   "id": "TTCN3-CORE-11.2-028a",
+   "section": "11.2",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "k) Using the dot notation (see clauses 6.2.1.1, 6.2.2.1 and 6.2.5.1) and index notation (see clause 6.2.7) for referencing a field, alternative or element of an address value, which actual value is null shall cause an error.",
+   "canonical": "Using the dot notation or the index notation to reference a field, alternative or element of an address value whose actual value is `null` SHALL cause an error.",
+   "condition": "the actual value of the address value is `null` (in the context of template variables)",
+   "cross_refs": [
+    "6.2.1.1",
+    "6.2.2.1",
+    "6.2.5.1",
+    "6.2.7",
+    "6.2.12"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10191,
+    10193
+   ],
+   "examples": [],
+   "file": "tests/11-declaring-variables/11.02_test_028.ttcn3",
+   "module": "M_11_02_test_028",
+   "header": "// @requirement: 11.2 -- k) Using the dot notation (see clauses 6.2.1.1, 6.2.2.1 and 6.2.5.1) and index notation (see clause 6.2.7) for referencing a field, alternative or element of an address value, which actual value is null shall cause an error."
+  },
+  {
+   "id": "TTCN3-CORE-11.2-029a",
+   "section": "11.2",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "original": "l) The template body at the right-hand side of the assignment symbol shall evaluate to a value or template, which is type compatible with the variable being declared.",
+   "canonical": "The template body on the right-hand side of the assignment symbol in a template variable declaration SHALL evaluate to a value or template that is type compatible with the declared template variable.",
+   "condition": null,
+   "cross_refs": [
+    "6.3"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10195,
+    10196
+   ],
+   "examples": [],
+   "file": "tests/11-declaring-variables/11.02_test_029.ttcn3",
+   "module": "M_11_02_test_029",
+   "header": "// @requirement: 11.2 -- l) The template body at the right-hand side of the assignment symbol shall evaluate to a value or template, which is type compatible with the variable being declared."
+  },
+  {
+   "id": "TTCN3-CORE-11.2-030a",
+   "section": "11.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "m) The template body at the right-hand side of the assignment symbol shall evaluate to an object that is at least partially initialized.",
+   "canonical": "The template body on the right-hand side of the assignment symbol in a template variable declaration SHALL evaluate to an object that is at least partially initialized.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10198,
+    10199
+   ],
+   "examples": [],
+   "file": "tests/11-declaring-variables/11.02_test_030.ttcn3",
+   "module": "M_11_02_test_030",
+   "header": "// @requirement: 11.2 -- m) The template body at the right-hand side of the assignment symbol shall evaluate to an object that is at least partially initialized."
+  },
+  {
+   "id": "TTCN3-CORE-11.2-031a",
+   "section": "11.2",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "original": "n) If the TypeOrNestedTypeDef part is missing from the declaration, the ArrayDef part shall be missing as well and the assignment part (i.e. \":=\" TemplateBody) shall be present.",
+   "canonical": "If the TypeOrNestedTypeDef part is missing from a template variable declaration, the ArrayDef part SHALL be missing as well.",
+   "condition": "the TypeOrNestedTypeDef part is missing",
+   "cross_refs": [
+    "6.5"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10201,
+    10202
+   ],
+   "examples": [],
+   "file": "tests/11-declaring-variables/11.02_test_031.ttcn3",
+   "module": "M_11_02_test_031",
+   "header": "// @requirement: 11.2 -- n) If the TypeOrNestedTypeDef part is missing from the declaration, the ArrayDef part shall be missing as well and the assignment part (i.e. \":=\" TemplateBody) shall be present."
+  },
+  {
+   "id": "TTCN3-CORE-11.2-031b",
+   "section": "11.2",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "original": "n) If the TypeOrNestedTypeDef part is missing from the declaration, the ArrayDef part shall be missing as well and the assignment part (i.e. \":=\" TemplateBody) shall be present.",
+   "canonical": "If the TypeOrNestedTypeDef part is missing from a template variable declaration, the assignment part (\":=\" TemplateBody) SHALL be present.",
+   "condition": "the TypeOrNestedTypeDef part is missing",
+   "cross_refs": [
+    "6.5"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10201,
+    10202
+   ],
+   "examples": [],
+   "file": "tests/11-declaring-variables/11.02_test_032.ttcn3",
+   "module": "M_11_02_test_032",
+   "header": "// @requirement: 11.2 -- n) If the TypeOrNestedTypeDef part is missing from the declaration, the ArrayDef part shall be missing as well and the assignment part (i.e. \":=\" TemplateBody) shall be present."
+  },
+  {
+   "id": "TTCN3-CORE-11.2-032a",
+   "section": "11.2",
+   "type": "information",
+   "modality": "IS",
+   "original": "var template @fuzzy float v_fuzzTemp1 := rnd(); // evaluated on every usage",
+   "canonical": "A fuzzy template variable IS evaluated on every usage.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10210,
+    10220
+   ],
+   "examples": [
+    {
+     "lines": [
+      10210,
+      10220
+     ],
+     "text": "var template integer v_myVarTemp1 := ?;\n  var template MyRecord v_myVarTemp2 := { field1 := true, field2 := * },\n                v_myVarTemp3 := { field1 := ?, field2 := v_myVarTemp1 };\n  var template @fuzzy float v_fuzzTemp1 := rnd(); // evaluated on every usage\n  var template @fuzzy MyRecord v_fuzzTemp2 := { rnd() < 0.5, float2int(rnd()) };\n  var template @lazy float LazyTemp1 := v_fuzzTemp1; // evaluates v_fuzzTemp1\n  var template @lazy MyRecord v_lazyTemp2 := \n     { v_lazyTemp1 < 0.5, float2int(v_fuzzTemp1) }; // evaluates v_lazyTemp1 and v_fuzzTemp1\n  v_lazyTemp2.field1 := true; // evaluates v_lazyTemp2 and overwrites field1 with true"
+    }
+   ],
+   "file": "tests/11-declaring-variables/11.02_test_033.ttcn3",
+   "module": "M_11_02_test_033",
+   "header": "// @requirement: 11.2 -- var template @fuzzy float v_fuzzTemp1 := rnd(); // evaluated on every usage"
+  },
+  {
+   "id": "TTCN3-CORE-12-002a",
+   "section": "12",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Timers can be declared and used in test cases, functions and altsteps.",
+   "canonical": "A timer MAY be declared and used in a test case, a function or an altstep.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10225,
+    10227
+   ],
+   "examples": [
+    {
+     "lines": [
+      10272,
+      10277
+     ],
+     "text": "timer t_myTimer1 := 5E-3;\n            // declaration of the timer t_myTimer1 with the default value of 5ms \n  timer t_myTimer2; // declaration of t_myTimer2 without a default timer value i.e. a value has \n            // to be assigned when the timer is started"
+    }
+   ],
+   "file": "tests/12-declaring-timers/12_test_001.ttcn3",
+   "module": "M_12_test_001",
+   "header": "// @requirement: 12 -- Timers can be declared and used in test cases, functions and altsteps."
+  },
+  {
+   "id": "TTCN3-CORE-12-003a",
+   "section": "12",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Additionally, timers can be declared in component type definitions.",
+   "canonical": "A timer MAY be declared in a component type definition.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10225,
+    10227
+   ],
+   "examples": [],
+   "file": "tests/12-declaring-timers/12_test_002.ttcn3",
+   "module": "M_12_test_002",
+   "header": "// @requirement: 12 -- Additionally, timers can be declared in component type definitions."
+  },
+  {
+   "id": "TTCN3-CORE-12-004a",
+   "section": "12",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "These timers can be used in test cases, functions and altsteps which are running on the given component type.",
+   "canonical": "A timer declared in a component type definition MAY be used in a test case, function or altstep that runs on that component type.",
+   "condition": "the test case, function or altstep has a runs on clause referencing the component type",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "readings": [
+     "A component timer MAY be used in a test case, function or altstep whose runs on clause references the component type.",
+     "A component timer MAY be used in a test case, function or altstep whose runs on clause references the component type or a type compatible with it (e.g. an extending component type)."
+    ],
+    "issue": "'running on the given component type' does not say whether compatible (extended) component types are included; chose the literal reading."
+   },
+   "spec_lines": [
+    10225,
+    10227
+   ],
+   "examples": [],
+   "file": "tests/12-declaring-timers/12_test_003.ttcn3",
+   "module": "M_12_test_003",
+   "header": "// @requirement: 12 -- These timers can be used in test cases, functions and altsteps which are running on the given component type."
+  },
+  {
+   "id": "TTCN3-CORE-12-005a",
+   "section": "12",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "A timer declaration may have an optional default duration value assigned to it.",
+   "canonical": "A timer declaration MAY assign a default duration value to the timer.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10229,
+    10231
+   ],
+   "examples": [
+    {
+     "lines": [
+      10272,
+      10277
+     ],
+     "text": "timer t_myTimer1 := 5E-3;\n            // declaration of the timer t_myTimer1 with the default value of 5ms \n  timer t_myTimer2; // declaration of t_myTimer2 without a default timer value i.e. a value has \n            // to be assigned when the timer is started"
+    }
+   ],
+   "file": "tests/12-declaring-timers/12_test_004.ttcn3",
+   "module": "M_12_test_004",
+   "header": "// @requirement: 12 -- A timer declaration may have an optional default duration value assigned to it."
+  },
+  {
+   "id": "TTCN3-CORE-12-006a",
+   "section": "12",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "The timer shall be started with this value if no other value is specified.",
+   "canonical": "When a timer is started without a specified timer value, the timer SHALL be started with its default duration value.",
+   "condition": "no other value is specified at start",
+   "cross_refs": [
+    "23.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10229,
+    10231
+   ],
+   "examples": [
+    {
+     "lines": [
+      10272,
+      10277
+     ],
+     "text": "timer t_myTimer1 := 5E-3;\n            // declaration of the timer t_myTimer1 with the default value of 5ms \n  timer t_myTimer2; // declaration of t_myTimer2 without a default timer value i.e. a value has \n            // to be assigned when the timer is started"
+    }
+   ],
+   "file": "tests/12-declaring-timers/12_test_005.ttcn3",
+   "module": "M_12_test_005",
+   "header": "// @requirement: 12 -- The timer shall be started with this value if no other value is specified."
+  },
+  {
+   "id": "TTCN3-CORE-12-007a",
+   "section": "12",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "The timer value shall be a non-negative float value (i.e. greater than or equal to 0.0) where the base unit is seconds.",
+   "canonical": "A timer value SHALL be a non-negative `float` value (greater than or equal to 0.0).",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "readings": [
+     "A default duration value in a timer declaration SHALL be a non-negative float value.",
+     "Any timer value (default duration or value given in a start operation) SHALL be a non-negative float value."
+    ],
+    "issue": "'The timer value' follows the default duration sentences; chose the general reading that covers all timer values."
+   },
+   "spec_lines": [
+    10229,
+    10231
+   ],
+   "examples": [],
+   "file": "tests/12-declaring-timers/12_test_006.ttcn3",
+   "module": "M_12_test_006",
+   "header": "// @requirement: 12 -- The timer value shall be a non-negative float value (i.e. greater than or equal to 0.0) where the base unit is seconds."
+  },
+  {
+   "id": "TTCN3-CORE-12-007b",
+   "section": "12",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The timer value shall be a non-negative float value (i.e. greater than or equal to 0.0) where the base unit is seconds.",
+   "canonical": "The base unit of a timer value IS seconds.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10229,
+    10231
+   ],
+   "examples": [
+    {
+     "lines": [
+      10272,
+      10277
+     ],
+     "text": "timer t_myTimer1 := 5E-3;\n            // declaration of the timer t_myTimer1 with the default value of 5ms \n  timer t_myTimer2; // declaration of t_myTimer2 without a default timer value i.e. a value has \n            // to be assigned when the timer is started"
+    }
+   ],
+   "file": "tests/12-declaring-timers/12_test_007.ttcn3",
+   "module": "M_12_test_007",
+   "header": "// @requirement: 12 -- The timer value shall be a non-negative float value (i.e. greater than or equal to 0.0) where the base unit is seconds."
+  },
+  {
+   "id": "TTCN3-CORE-12-008a",
+   "section": "12",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "In addition to single timer instances, timer arrays can also be declared.",
+   "canonical": "A timer array MAY be declared.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10233,
+    10236
+   ],
+   "examples": [
+    {
+     "lines": [
+      10285,
+      10290
+     ],
+     "text": "timer t_mytimer1[5] := { 1.0, 2.0, 3.0, 4.0, 5.0 }\n            // all elements of the timer array get a default duration.\n  timer t_mytimer2[5] := { 1.0, -, 3.0, 4.0, 5.0 }\n            // the second timer (t_mytimer2[1]) is left without a default duration."
+    }
+   ],
+   "file": "tests/12-declaring-timers/12_test_008.ttcn3",
+   "module": "M_12_test_008",
+   "header": "// @requirement: 12 -- In addition to single timer instances, timer arrays can also be declared."
+  },
+  {
+   "id": "TTCN3-CORE-12-009a",
+   "section": "12",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "Default duration(s) of the elements of a timer array shall be assigned using a value array.",
+   "canonical": "The default durations of the elements of a timer array SHALL be assigned using a value array.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10233,
+    10236
+   ],
+   "examples": [
+    {
+     "lines": [
+      10285,
+      10290
+     ],
+     "text": "timer t_mytimer1[5] := { 1.0, 2.0, 3.0, 4.0, 5.0 }\n            // all elements of the timer array get a default duration.\n  timer t_mytimer2[5] := { 1.0, -, 3.0, 4.0, 5.0 }\n            // the second timer (t_mytimer2[1]) is left without a default duration."
+    }
+   ],
+   "file": "tests/12-declaring-timers/12_test_009.ttcn3",
+   "module": "M_12_test_009",
+   "header": "// @requirement: 12 -- Default duration(s) of the elements of a timer array shall be assigned using a value array."
+  },
+  {
+   "id": "TTCN3-CORE-12-010a",
+   "section": "12",
+   "type": "syntax",
+   "modality": "SHALL",
+   "original": "Default duration(s) assignment shall use the array value notation as specified in clause 15.8.2.",
+   "canonical": "A default duration assignment of a timer array SHALL use the array value notation.",
+   "condition": null,
+   "cross_refs": [
+    "15.8.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10233,
+    10236
+   ],
+   "examples": [
+    {
+     "lines": [
+      10285,
+      10290
+     ],
+     "text": "timer t_mytimer1[5] := { 1.0, 2.0, 3.0, 4.0, 5.0 }\n            // all elements of the timer array get a default duration.\n  timer t_mytimer2[5] := { 1.0, -, 3.0, 4.0, 5.0 }\n            // the second timer (t_mytimer2[1]) is left without a default duration."
+    }
+   ],
+   "file": "tests/12-declaring-timers/12_test_010.ttcn3",
+   "module": "M_12_test_010",
+   "header": "// @requirement: 12 -- Default duration(s) assignment shall use the array value notation as specified in clause 15.8.2."
+  },
+  {
+   "id": "TTCN3-CORE-12-011a",
+   "section": "12",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "If the default duration assignment is wished to be skipped for some element(s) of the timer array, it shall explicitly be declared by using the not used symbol (\"-\").",
+   "canonical": "If the default duration of an element of a timer array is to be skipped, the element SHALL be explicitly marked with the not used symbol (\"-\") in the default duration value array.",
+   "condition": "no default duration is wished for some element(s) of the timer array",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10233,
+    10236
+   ],
+   "examples": [
+    {
+     "lines": [
+      10285,
+      10290
+     ],
+     "text": "timer t_mytimer1[5] := { 1.0, 2.0, 3.0, 4.0, 5.0 }\n            // all elements of the timer array get a default duration.\n  timer t_mytimer2[5] := { 1.0, -, 3.0, 4.0, 5.0 }\n            // the second timer (t_mytimer2[1]) is left without a default duration."
+    }
+   ],
+   "file": "tests/12-declaring-timers/12_test_011.ttcn3",
+   "module": "M_12_test_011",
+   "header": "// @requirement: 12 -- If the default duration assignment is wished to be skipped for some element(s) of the timer array, it shall explicitly be declared by using the not used symbol (\"-\")."
+  },
+  {
+   "id": "TTCN3-CORE-12-012a",
+   "section": "12",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "timer { TimerIdentifier [ ArrayDef ] \":=\" TimerValue [ \",\" ] } [ \";\" ]",
+   "canonical": "A timer declaration has the syntax `timer` followed by one or more TimerIdentifier [ArrayDef] \":=\" TimerValue items separated by optional commas, optionally terminated by \";\".",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "readings": [
+     "The \":=\" TimerValue part of a timer declaration IS mandatory, as written in the syntactical structure.",
+     "The \":=\" TimerValue part of a timer declaration IS optional, as stated in the prose (s005) and shown in EXAMPLE 1 (t_myTimer2)."
+    ],
+    "issue": "The syntactical structure shows the default value assignment as mandatory, contradicting the prose and example; the optional reading is the intended one."
+   },
+   "spec_lines": [
+    10239,
+    10241
+   ],
+   "examples": [
+    {
+     "lines": [
+      10272,
+      10277
+     ],
+     "text": "timer t_myTimer1 := 5E-3;\n            // declaration of the timer t_myTimer1 with the default value of 5ms \n  timer t_myTimer2; // declaration of t_myTimer2 without a default timer value i.e. a value has \n            // to be assigned when the timer is started"
+    },
+    {
+     "lines": [
+      10285,
+      10290
+     ],
+     "text": "timer t_mytimer1[5] := { 1.0, 2.0, 3.0, 4.0, 5.0 }\n            // all elements of the timer array get a default duration.\n  timer t_mytimer2[5] := { 1.0, -, 3.0, 4.0, 5.0 }\n            // the second timer (t_mytimer2[1]) is left without a default duration."
+    }
+   ],
+   "file": "tests/12-declaring-timers/12_test_012.ttcn3",
+   "module": "M_12_test_012",
+   "header": "// @requirement: 12 -- timer { TimerIdentifier [ ArrayDef ] \":=\" TimerValue [ \",\" ] } [ \";\" ]"
+  },
+  {
+   "id": "TTCN3-CORE-12-013a",
+   "section": "12",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Timers are local to components.",
+   "canonical": "A timer IS local to a component.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10245,
+    10247
+   ],
+   "examples": [],
+   "file": "tests/12-declaring-timers/12_test_013.ttcn3",
+   "module": "M_12_test_013",
+   "header": "// @requirement: 12 -- Timers are local to components."
+  },
+  {
+   "id": "TTCN3-CORE-12-014a",
+   "section": "12",
+   "type": "semantics",
+   "modality": "CAN",
+   "original": "A component can start and stop a timer, check if a timer is running, read the elapsed time of a running timer and process timeout events after timer expiration.",
+   "canonical": "A component CAN start a timer, stop a timer, check whether a timer is running, read the elapsed time of a running timer and process timeout events after timer expiration.",
+   "condition": null,
+   "cross_refs": [
+    "23"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10245,
+    10247
+   ],
+   "examples": [],
+   "file": "tests/12-declaring-timers/12_test_014.ttcn3",
+   "module": "M_12_test_014",
+   "header": "// @requirement: 12 -- A component can start and stop a timer, check if a timer is running, read the elapsed time of a running timer and process timeout events after timer expiration."
+  },
+  {
+   "id": "TTCN3-CORE-12-015a",
+   "section": "12",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The timer value is interpreted with a base unit of seconds.",
+   "canonical": "A timer value IS interpreted with a base unit of seconds.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10245,
+    10247
+   ],
+   "examples": [
+    {
+     "lines": [
+      10272,
+      10277
+     ],
+     "text": "timer t_myTimer1 := 5E-3;\n            // declaration of the timer t_myTimer1 with the default value of 5ms \n  timer t_myTimer2; // declaration of t_myTimer2 without a default timer value i.e. a value has \n            // to be assigned when the timer is started"
+    }
+   ],
+   "file": "tests/12-declaring-timers/12_test_015.ttcn3",
+   "module": "M_12_test_015",
+   "header": "// @requirement: 12 -- The timer value is interpreted with a base unit of seconds."
+  },
+  {
+   "id": "TTCN3-CORE-12-016a",
+   "section": "12",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "A timer declared and started in scope units such as functions ceases to exist when the scope unit is left unless there is a constant, variable or parameter defined in the current or higher scope unit or in an activated altstep that contains a reference to it.",
+   "canonical": "A timer declared and started in a scope unit (e.g. a function) ceases to exist when the scope unit is left, unless a constant, variable or parameter of the current or a higher scope unit or of an activated altstep contains a reference to the timer.",
+   "condition": "the scope unit is left",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "improper_terms": [
+     {
+      "used": "parameter",
+      "proper": "formal parameter",
+      "glossary": true
+     }
+    ],
+    "issue": "'parameter' is used where a formal parameter holding a timer reference is meant."
+   },
+   "spec_lines": [
+    10249,
+    10253
+   ],
+   "examples": [],
+   "file": "tests/12-declaring-timers/12_test_016.ttcn3",
+   "module": "M_12_test_016",
+   "header": "// @requirement: 12 -- A timer declared and started in scope units such as functions ceases to exist when the scope unit is left unless there is a constant, variable or parameter defined in the current or higher scope unit or in an activated altstep that contains a reference to it."
+  },
+  {
+   "id": "TTCN3-CORE-12-017a",
+   "section": "12",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "In this case, the timer is kept as long as at least one constant, variable or parameter of the current or higher scope unit or an activated altstep contain a reference to it.",
+   "canonical": "A timer declared in a left scope unit IS kept in existence as long as at least one constant, variable or parameter of the current or a higher scope unit or an activated altstep contains a reference to the timer.",
+   "condition": "a reference to the timer is held by a constant, variable or parameter of the current or higher scope unit or an activated altstep",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10249,
+    10253
+   ],
+   "examples": [],
+   "file": "tests/12-declaring-timers/12_test_017.ttcn3",
+   "module": "M_12_test_017",
+   "header": "// @requirement: 12 -- In this case, the timer is kept as long as at least one constant, variable or parameter of the current or higher scope unit or an activated altstep contain a reference to it."
+  },
+  {
+   "id": "TTCN3-CORE-12-018a",
+   "section": "12",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "If a timer ceases to exist, it stops running, will never timeout and cannot be referenced via the any timer or all timer constructs.",
+   "canonical": "A timer that ceased to exist stops running.",
+   "condition": "the timer ceases to exist",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10249,
+    10253
+   ],
+   "examples": [],
+   "file": "tests/12-declaring-timers/12_test_018.ttcn3",
+   "module": "M_12_test_018",
+   "header": "// @requirement: 12 -- If a timer ceases to exist, it stops running, will never timeout and cannot be referenced via the any timer or all timer constructs."
+  },
+  {
+   "id": "TTCN3-CORE-12-018b",
+   "section": "12",
+   "type": "semantics",
+   "modality": "IS NOT",
+   "original": "If a timer ceases to exist, it stops running, will never timeout and cannot be referenced via the any timer or all timer constructs.",
+   "canonical": "A timer that ceased to exist IS NOT able to time out.",
+   "condition": "the timer ceases to exist",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10249,
+    10253
+   ],
+   "examples": [],
+   "file": "tests/12-declaring-timers/12_test_019.ttcn3",
+   "module": "M_12_test_019",
+   "header": "// @requirement: 12 -- If a timer ceases to exist, it stops running, will never timeout and cannot be referenced via the any timer or all timer constructs."
+  },
+  {
+   "id": "TTCN3-CORE-12-018c",
+   "section": "12",
+   "type": "semantics",
+   "modality": "CANNOT",
+   "original": "If a timer ceases to exist, it stops running, will never timeout and cannot be referenced via the any timer or all timer constructs.",
+   "canonical": "A timer that ceased to exist CANNOT be referenced via the `any timer` or `all timer` constructs.",
+   "condition": "the timer ceases to exist",
+   "cross_refs": [
+    "23.4",
+    "23.6"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10249,
+    10253
+   ],
+   "examples": [],
+   "file": "tests/12-declaring-timers/12_test_020.ttcn3",
+   "module": "M_12_test_020",
+   "header": "// @requirement: 12 -- If a timer ceases to exist, it stops running, will never timeout and cannot be referenced via the any timer or all timer constructs."
+  },
+  {
+   "id": "TTCN3-CORE-12-019a",
+   "section": "12",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "If not stated otherwise, timers have the same semantics as constants of a timer type.",
+   "canonical": "Unless stated otherwise, a timer IS semantically equivalent to a constant of a timer type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10255,
+    10255
+   ],
+   "examples": [],
+   "file": "tests/12-declaring-timers/12_test_021.ttcn3",
+   "module": "M_12_test_021",
+   "header": "// @requirement: 12 -- If not stated otherwise, timers have the same semantics as constants of a timer type."
+  },
+  {
+   "id": "TTCN3-CORE-12-022a",
+   "section": "12",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "a) In case of a single timer, the default duration value shall resolve to a non-negative numerical float value (i.e. the value shall be greater or equal 0.0, infinity and not_a_number are disallowed).",
+   "canonical": "The default duration value of a single timer SHALL resolve to a non-negative numerical `float` value (greater than or equal to 0.0).",
+   "condition": "single timer",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10263,
+    10264
+   ],
+   "examples": [
+    {
+     "lines": [
+      10272,
+      10277
+     ],
+     "text": "timer t_myTimer1 := 5E-3;\n            // declaration of the timer t_myTimer1 with the default value of 5ms \n  timer t_myTimer2; // declaration of t_myTimer2 without a default timer value i.e. a value has \n            // to be assigned when the timer is started"
+    }
+   ],
+   "file": "tests/12-declaring-timers/12_test_022.ttcn3",
+   "module": "M_12_test_022",
+   "header": "// @requirement: 12 -- a) In case of a single timer, the default duration value shall resolve to a non-negative numerical float value (i.e. the value shall be greater or equal 0.0, infinity and not_a_number are disallowed)."
+  },
+  {
+   "id": "TTCN3-CORE-12-022b",
+   "section": "12",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "a) In case of a single timer, the default duration value shall resolve to a non-negative numerical float value (i.e. the value shall be greater or equal 0.0, infinity and not_a_number are disallowed).",
+   "canonical": "The default duration value of a single timer SHALL NOT be `infinity` or `not_a_number`.",
+   "condition": "single timer",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10263,
+    10264
+   ],
+   "examples": [],
+   "file": "tests/12-declaring-timers/12_test_023.ttcn3",
+   "module": "M_12_test_023",
+   "header": "// @requirement: 12 -- a) In case of a single timer, the default duration value shall resolve to a non-negative numerical float value (i.e. the value shall be greater or equal 0.0, infinity and not_a_number are disallowed)."
+  },
+  {
+   "id": "TTCN3-CORE-12-023a",
+   "section": "12",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "b) In case of a timer array, it shall resolve to an array of float values obeying to restriction a) above of the same size as the size of the timer array.",
+   "canonical": "The default duration value of a timer array SHALL resolve to an array of non-negative numerical `float` values (not `infinity` or `not_a_number`).",
+   "condition": "timer array",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "readings": [
+     "Every element of the default duration array of a timer array SHALL be a non-negative numerical float value.",
+     "Every element of the default duration array that is not the not used symbol SHALL be a non-negative numerical float value."
+    ],
+    "issue": "Restriction b) does not mention elements skipped with \"-\" (allowed by s011); chose the reading that excludes skipped elements implicitly."
+   },
+   "spec_lines": [
+    10266,
+    10267
+   ],
+   "examples": [
+    {
+     "lines": [
+      10285,
+      10290
+     ],
+     "text": "timer t_mytimer1[5] := { 1.0, 2.0, 3.0, 4.0, 5.0 }\n            // all elements of the timer array get a default duration.\n  timer t_mytimer2[5] := { 1.0, -, 3.0, 4.0, 5.0 }\n            // the second timer (t_mytimer2[1]) is left without a default duration."
+    }
+   ],
+   "file": "tests/12-declaring-timers/12_test_024.ttcn3",
+   "module": "M_12_test_024",
+   "header": "// @requirement: 12 -- b) In case of a timer array, it shall resolve to an array of float values obeying to restriction a) above of the same size as the size of the timer array."
+  },
+  {
+   "id": "TTCN3-CORE-12-023b",
+   "section": "12",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "b) In case of a timer array, it shall resolve to an array of float values obeying to restriction a) above of the same size as the size of the timer array.",
+   "canonical": "The default duration array of a timer array SHALL have the same size as the timer array.",
+   "condition": "timer array",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10266,
+    10267
+   ],
+   "examples": [
+    {
+     "lines": [
+      10285,
+      10290
+     ],
+     "text": "timer t_mytimer1[5] := { 1.0, 2.0, 3.0, 4.0, 5.0 }\n            // all elements of the timer array get a default duration.\n  timer t_mytimer2[5] := { 1.0, -, 3.0, 4.0, 5.0 }\n            // the second timer (t_mytimer2[1]) is left without a default duration."
+    }
+   ],
+   "file": "tests/12-declaring-timers/12_test_025.ttcn3",
+   "module": "M_12_test_025",
+   "header": "// @requirement: 12 -- b) In case of a timer array, it shall resolve to an array of float values obeying to restriction a) above of the same size as the size of the timer array."
+  }
+ ]
+}

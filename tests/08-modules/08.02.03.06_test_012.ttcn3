@@ -1,0 +1,28 @@
+// @requirement: 8.2.3.6 -- Importing can be done automatically using the all directive, in which case all importable objects shall automatically be selected by the testing tool, or done manually by listing names of elements to be imported.
+// @id: TTCN3-CORE-8.2.3.6-023a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_02_03_06_test_012 language "TTCN-3:2023" {
+
+    import from M_08_02_03_06_test_012_A language "TTCN-3:2005" all;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyInt v_i := c_int;
+        if (v_i == 1) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_03_06_test_012_A language "TTCN-3:2005" {
+    type integer MyInt;
+    const MyInt c_int := 1;
+    const objid c_oid := objid { 0 4 0 };
+}

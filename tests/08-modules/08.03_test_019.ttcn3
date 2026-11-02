@@ -1,0 +1,29 @@
+// @requirement: 8.3 -- Visibility of import: private; Import imported by a non-friend module: no; Import imported by a friend module: no
+// @id: TTCN3-CORE-8.3-011a
+// @verdict: pass reject
+module M_08_03_test_019 {
+
+    import from M_08_03_test_019_B { import all };
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (c_value == 1) { // error: the private import statement of B is not imported
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_03_test_019_B {
+    private import from M_08_03_test_019_A { const c_value };
+}
+
+module M_08_03_test_019_A {
+    const integer c_value := 1;
+}

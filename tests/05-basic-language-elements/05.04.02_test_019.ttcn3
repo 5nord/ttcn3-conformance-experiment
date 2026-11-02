@@ -1,0 +1,26 @@
+// @requirement: 5.4.2 -- The values of out formal parameters are passed to the actual parameters in the same order as is the order of formal parameters in the definition of the parameterized TTCN-3 object.
+// @id: TTCN3-CORE-5.4.2-015a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_04_02_test_019 {
+
+    type component C {}
+
+    function f_initValues(out integer p_par1, out integer p_par2) {
+        p_par1 := 1;
+        p_par2 := 2;
+    }
+
+    testcase TC() runs on C {
+        var integer v_var1;
+        f_initValues(p_par2 := v_var1, p_par1 := v_var1);
+        if (v_var1 == 2) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

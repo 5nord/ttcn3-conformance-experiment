@@ -1,0 +1,19 @@
+// @requirement: 6.3.2.1 -- Enumerated types are only compatible with other enumerated types.
+// @id: TTCN3-CORE-6.3.2.1-001a
+// @verdict: pass reject
+module M_06_03_02_01_test_001 {
+
+    type component C {}
+
+    type enumerated E { e_zero(0), e_one(1) }
+
+    testcase TC() runs on C {
+        var E v_e := e_one;
+        var integer v_i := v_e; // error: enumerated value is not compatible with integer
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

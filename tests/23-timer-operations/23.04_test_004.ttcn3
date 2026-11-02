@@ -1,0 +1,23 @@
+// @requirement: 23.4 -- Applying the read operation on an inactive timer, i.e. on a timer not listed on the running-timer list, will return the float value zero (0.0).
+// @id: TTCN3-CORE-23.4-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_23_04_test_004 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        timer T1 := 5.0;
+        timer T2 := 0.01;
+        T2.start;
+        T2.timeout;
+        if (T1.read == 0.0 and T2.read == 0.0) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

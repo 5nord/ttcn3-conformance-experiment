@@ -1,0 +1,19 @@
+// @requirement: 19.12 -- Used in a log statement: formal parameter identifier; What is logged: see comment column; Comment: Logging of actual parameters shall follow rules specified for the language elements they are substituting. In case of value parameters the actual parameter value, in case of template-type parameters the actual template or field values and matching symbols, in case of component type parameters the actual component reference, etc. shall be logged.
+// @id: TTCN3-CORE-19.12-003a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_12_test_003 {
+    type component C {}
+
+    function f_log(integer p_value, template integer p_tmpl) {
+        log("p_value: ", p_value, ", p_tmpl: ", p_tmpl);
+    }
+
+    testcase TC() runs on C {
+        f_log(5, (1 .. 10));
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,1422 @@
+{
+ "part": "C.part3",
+ "chapter": "C",
+ "chapter_file": "C-predefined-ttcn-3-functions",
+ "title": "Predefined TTCN-3 functions",
+ "sections": {
+  "C.1.30": {
+   "title": "Enumerated to integer",
+   "start": 25388
+  },
+  "C.1.31": {
+   "title": "Octetstring to universal character string",
+   "start": 25429
+  },
+  "C.1.32": {
+   "title": "Universal character string to octetstring",
+   "start": 25475
+  },
+  "C.1.33": {
+   "title": "Value or template to universal charstring",
+   "start": 25517
+  },
+  "C.2.1": {
+   "title": "Length of strings and lists",
+   "start": 25571
+  },
+  "C.2.2": {
+   "title": "Number of elements in a structured value",
+   "start": 25679
+  },
+  "C.3.5": {
+   "title": "Matching mechanism detection",
+   "start": 25743
+  }
+ },
+ "lines": [
+  25389,
+  25867
+ ],
+ "units": [
+  {
+   "id": "C.1.30-s001",
+   "section": "C.1.30",
+   "kind": "code",
+   "context": null,
+   "normative": true,
+   "text": "enum2int(in Enumerated_type inpar) return integer",
+   "lines": [
+    25389,
+    25391
+   ]
+  },
+  {
+   "id": "C.1.30-s002",
+   "section": "C.1.30",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "This function accepts an enumerated value and returns the integer value associated to the enumerated value (see also clause 6.2.4).",
+   "lines": [
+    25393,
+    25395
+   ]
+  },
+  {
+   "id": "C.1.30-s003",
+   "section": "C.1.30",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The actual parameter passed to inpar always shall be a typed object (see clause 6.2.4 and the definition \"type context\" in clause 3.1).",
+   "lines": [
+    25393,
+    25395
+   ]
+  },
+  {
+   "id": "C.1.30-s004",
+   "section": "C.1.30",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The general error causes in clause 16.1.2 apply.",
+   "lines": [
+    25397,
+    25397
+   ]
+  },
+  {
+   "id": "C.1.30-s005",
+   "section": "C.1.30",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE:",
+   "lines": [
+    25399,
+    25399
+   ]
+  },
+  {
+   "id": "C.1.30-s006",
+   "section": "C.1.30",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "type enumerated MyFirstEnumType {\n     Monday, Tuesday, Wednesday, Thursday, Friday, Weekend(5..6)\n  };\n  type enumerated MySecondEnumType {\n     Saturday(-3), Sunday (0), Monday\n  };\n  //within a dynamic language element:\n  var MyFirstEnumType v_firstEnum := Monday;\n  var MySecondEnumType v_secondEnum := Monday;\n  enum2int(v_firstEnum) // returns 0\n  enum2int(v_secondEnum) // returns 1\n  v_firstEnum := Wednesday;\n  v_secondEnum := Saturday;\n  enum2int(v_firstEnum) // returns 2\n  enum2int(v_secondEnum) // returns -3\n  v_firstEnum := Friday;\n  v_secondEnum := Sunday;\n  enum2int(v_firstEnum) // returns 4\n  enum2int(v_secondEnum) // returns 0\n  v_firstEnum := Weekend(6);\n  enum2int(v_firstEnum) // returns 6",
+   "lines": [
+    25400,
+    25422
+   ]
+  },
+  {
+   "id": "C.1.31-s001",
+   "section": "C.1.31",
+   "kind": "code",
+   "context": null,
+   "normative": true,
+   "text": "oct2unichar(in octetstring invalue, in charstring string_encoding := \"UTF-8\")\n   return universal charstring",
+   "lines": [
+    25430,
+    25433
+   ]
+  },
+  {
+   "id": "C.1.31-s002",
+   "section": "C.1.31",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "This function converts an octetstring `invalue to a universal` `charstring by use of the given` string_encoding.",
+   "lines": [
+    25435,
+    25438
+   ]
+  },
+  {
+   "id": "C.1.31-s003",
+   "section": "C.1.31",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The octets are interpreted as mandated by the standardized mapping associated with the given string_encoding and the resulting characters are appended to the returned value.",
+   "lines": [
+    25435,
+    25438
+   ]
+  },
+  {
+   "id": "C.1.31-s004",
+   "section": "C.1.31",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "If the optional string_encoding parameter is omitted, the default value \"UTF-8\".",
+   "lines": [
+    25435,
+    25438
+   ]
+  },
+  {
+   "id": "C.1.31-s005",
+   "section": "C.1.31",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The following values (see ISO/IEC 10646 [2]) are allowed as string_encoding actual parameters (for the description of the codepoints see clause 27.5):",
+   "lines": [
+    25440,
+    25441
+   ]
+  },
+  {
+   "id": "C.1.31-s006",
+   "section": "C.1.31",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "a) \"UTF-8\" b) \"UTF-16\" c) \"UTF-16LE\" d) \"UTF-16BE\" e) \"UTF-32\" f) \"UTF-32LE\" g) \"UTF-32BE\"",
+   "lines": [
+    25443,
+    25455
+   ]
+  },
+  {
+   "id": "C.1.31-s007",
+   "section": "C.1.31",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The invalue parameter shall not include the optional signature (see clause 10 of ISO/IEC 10646 [2], also known as byte order mark).",
+   "lines": [
+    25457,
+    25458
+   ]
+  },
+  {
+   "id": "C.1.31-s008",
+   "section": "C.1.31",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "In case of \"UTF-16\" and \"UTF-32\" big-endian ordering shall be used (as described in clauses 10.4 and 10.7 of ISO/IEC 10646 [2]).",
+   "lines": [
+    25460,
+    25461
+   ]
+  },
+  {
+   "id": "C.1.31-s009",
+   "section": "C.1.31",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The general error causes in clause 16.1.2 apply.",
+   "lines": [
+    25463,
+    25463
+   ]
+  },
+  {
+   "id": "C.1.31-s010",
+   "section": "C.1.31",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE:",
+   "lines": [
+    25465,
+    25465
+   ]
+  },
+  {
+   "id": "C.1.31-s011",
+   "section": "C.1.31",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "oct2unichar('C384C396C39CC3A4C3B6C3BC'O) = \"ÄÖÜäöü\";\n  oct2unichar('00C400D600DC00E400F600FC'O,\"UTF-16BE\") = \"ÄÖÜäöü\";\n  oct2unichar('C400D600DC00E400F600FC00'O,\"UTF-16LE\") = \"ÄÖÜäöü\";",
+   "lines": [
+    25466,
+    25470
+   ]
+  },
+  {
+   "id": "C.1.31-s012",
+   "section": "C.1.31",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "NOTE: The character string returned may contain non-graphical characters, which cannot be presented between the double quotes.",
+   "lines": [
+    25472,
+    25473
+   ]
+  },
+  {
+   "id": "C.1.32-s001",
+   "section": "C.1.32",
+   "kind": "code",
+   "context": null,
+   "normative": true,
+   "text": "unichar2oct(in universal charstring invalue, in charstring string_encoding := \"UTF-8\") \n  return octetstring",
+   "lines": [
+    25476,
+    25479
+   ]
+  },
+  {
+   "id": "C.1.32-s002",
+   "section": "C.1.32",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "This function converts a universal `charstring` `invalue to an octetstring.",
+   "lines": [
+    25481,
+    25484
+   ]
+  },
+  {
+   "id": "C.1.32-s003",
+   "section": "C.1.32",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Each octet of the octetstring` will contain the octets mandated by mapping the characters of invalue using the standardized mapping associated with the given string_encoding in the same order as the characters appear in inpar.",
+   "lines": [
+    25481,
+    25484
+   ]
+  },
+  {
+   "id": "C.1.32-s004",
+   "section": "C.1.32",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "If the optional string_encoding parameter is omitted, the default value \"UTF-8\".",
+   "lines": [
+    25481,
+    25484
+   ]
+  },
+  {
+   "id": "C.1.32-s005",
+   "section": "C.1.32",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The following values (see ISO/IEC 10646 [2]) are allowed as string_encoding actual parameters (for the description of the UCS encoding scheme see clause 27.5):",
+   "lines": [
+    25486,
+    25487
+   ]
+  },
+  {
+   "id": "C.1.32-s006",
+   "section": "C.1.32",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "a) \"UTF-8\" b) \"UTF-16\" c) \"UTF-16LE\" d) \"UTF-16BE\" e) \"UTF-32\" f) \"UTF-32LE\" g) \"UTF-32BE\"",
+   "lines": [
+    25489,
+    25506
+   ]
+  },
+  {
+   "id": "C.1.32-s007",
+   "section": "C.1.32",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The general error causes in clause 16.1.2 apply.",
+   "lines": [
+    25508,
+    25508
+   ]
+  },
+  {
+   "id": "C.1.32-s008",
+   "section": "C.1.32",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE:",
+   "lines": [
+    25510,
+    25510
+   ]
+  },
+  {
+   "id": "C.1.32-s009",
+   "section": "C.1.32",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "unichar2oct(\"ÄÖÜäöü\") = 'C384C396C39CC3A4C3B6C3BC'O;\n  unichar2oct(\"ÄÖÜäöü\",\"UTF-16BE\") = '00C400D600DC00E400F600FC'O;\n  unichar2oct(\"ÄÖÜäöü\",\"UTF-16LE\") = 'C400D600DC00E400F600FC00'O;",
+   "lines": [
+    25511,
+    25515
+   ]
+  },
+  {
+   "id": "C.1.33-s001",
+   "section": "C.1.33",
+   "kind": "code",
+   "context": null,
+   "normative": true,
+   "text": "any2unistr(in template any invalue,\n          in universal charstring format := \"\") return universal charstring",
+   "lines": [
+    25518,
+    25521
+   ]
+  },
+  {
+   "id": "C.1.33-s002",
+   "section": "C.1.33",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "This function converts the content of a value or template to a single universal charstring.",
+   "lines": [
+    25523,
+    25526
+   ]
+  },
+  {
+   "id": "C.1.33-s003",
+   "section": "C.1.33",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The resulting universal charstring is the same as the string produced by the log operation containing the same operand as the one passed to the any2unistr function.",
+   "lines": [
+    25523,
+    25526
+   ]
+  },
+  {
+   "id": "C.1.33-s004",
+   "section": "C.1.33",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The value or template passed as a parameter to the any2unichar function may be uninitialized, partially or completely initialized.",
+   "lines": [
+    25523,
+    25526
+   ]
+  },
+  {
+   "id": "C.1.33-s005",
+   "section": "C.1.33",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The optional format parameter is used for dynamic selection of how the resulting universal charstring should be produced from the provided invalue.",
+   "lines": [
+    25528,
+    25532
+   ]
+  },
+  {
+   "id": "C.1.33-s006",
+   "section": "C.1.33",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "When the optional format parameter is missing or is set to an empty string the resulting universal charstring is the same as the string produced by the log operation for the same operand.",
+   "lines": [
+    25528,
+    25532
+   ]
+  },
+  {
+   "id": "C.1.33-s007",
+   "section": "C.1.33",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "When the optional format parameter takes the value \"canonical\": unbound fields are represented in the output as \"-\", the fields and members of structured types are represented recursively in assignment notation.",
+   "lines": [
+    25528,
+    25532
+   ]
+  },
+  {
+   "id": "C.1.33-s008",
+   "section": "C.1.33",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "If the actual value of the format parameter is different from the empty string and \"canonical\", the format of the result produced by the function is either tool-specific if the tool supports the specified custom format or it is the same as the string produced by the log operation (i.e. the same as if the parameter value was the empty string).",
+   "lines": [
+    25534,
+    25536
+   ]
+  },
+  {
+   "id": "C.1.33-s009",
+   "section": "C.1.33",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The general error causes in clause 16.1.2 apply.",
+   "lines": [
+    25538,
+    25538
+   ]
+  },
+  {
+   "id": "C.1.33-s010",
+   "section": "C.1.33",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE:",
+   "lines": [
+    25540,
+    25540
+   ]
+  },
+  {
+   "id": "C.1.33-s011",
+   "section": "C.1.33",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "var integer v_int1 := 5, v_int2;\n  var template integer mw_int1 := ?;\n  var template integer mw_int2 := -1 ifpresent;\n  var universal charstring v_chr1, v_chr2, v_chr3, v_chr4;\n  v_chr1 := any2unistr(v_int1); // after the assignment v_chr1 will be \"5\"\n  v_chr2 := any2unistr(v_int2); // after the assignment v_chr2 will be \"UNINITIALIZED\"\n  v_chr3 := any2unistr(mw_int1); // after the assignment v_chr3 will be \"?\"\n  v_chr4 := any2unistr(mw_int2); // after the assignment v_chr3 will be \"-1 ifpresent\"\n  type record MyRecord {\n     integer field1,\n     integer field2\n  }\n  var template MyRecord t1;\n  var template MyRecord t2 := {1};\n  v_chr1 := any2unistr(t1); // after the assignment v_chr1 will be \"UNINITIALIZED\"\n  v_chr1 := any2unistr(t2);\n  // after the assignment v_chr1 could be \"{ field1 := 1, field2 := UNINITIALIZED }\"\n  v_chr1 := any2unistr(t1, \"canonical\"); // after the assignment v_chr1 will be \"-\"\n  v_chr1 := any2unistr(t2, \"canonical\");\n  // after the assignment v_chr1 will be \"{ fielfd1 := 1, field2 := - }\"",
+   "lines": [
+    25541,
+    25562
+   ]
+  },
+  {
+   "id": "C.2.1-s001",
+   "section": "C.2.1",
+   "kind": "code",
+   "context": null,
+   "normative": true,
+   "text": "lengthof(in template (present) any inpar) return integer",
+   "lines": [
+    25572,
+    25574
+   ]
+  },
+  {
+   "id": "C.2.1-s002",
+   "section": "C.2.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "This function returns the length of a value or template that is of type bitstring, hexstring, octetstring,",
+   "lines": [
+    25576,
+    25576
+   ]
+  },
+  {
+   "id": "C.2.1-s003",
+   "section": "C.2.1",
+   "kind": "code",
+   "context": null,
+   "normative": true,
+   "text": "charstring, universal charstring, record of, set of, array or map. The units of length for each",
+   "lines": [
+    25577,
+    25579
+   ]
+  },
+  {
+   "id": "C.2.1-s004",
+   "section": "C.2.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "string type are defined in table 4 in the present document.",
+   "lines": [
+    25581,
+    25581
+   ]
+  },
+  {
+   "id": "C.2.1-s005",
+   "section": "C.2.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "For values or templates of record `of or set` `of type, the value to be returned is the maximum of the minimal length` restriction value of the type, or 0 for types with no minimal length restriction, and the index of the last initialized element plus 1.",
+   "lines": [
+    25583,
+    25585
+   ]
+  },
+  {
+   "id": "C.2.1-s006",
+   "section": "C.2.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "For values of the map type, the function returns the number of key value pairs in the map.",
+   "lines": [
+    25587,
+    25587
+   ]
+  },
+  {
+   "id": "C.2.1-s007",
+   "section": "C.2.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The length value returned in case of length restricted string or list type shall be at least the minimum length according to the type definition.",
+   "lines": [
+    25589,
+    25592
+   ]
+  },
+  {
+   "id": "C.2.1-s008",
+   "section": "C.2.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "In particular, the length of a fixed length record of or set of value will always be the fixed length according to the type definition.",
+   "lines": [
+    25589,
+    25592
+   ]
+  },
+  {
+   "id": "C.2.1-s009",
+   "section": "C.2.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "For array values or templates, the value to be returned is the fixed length of the corresponding record `of type.`",
+   "lines": [
+    25589,
+    25592
+   ]
+  },
+  {
+   "id": "C.2.1-s010",
+   "section": "C.2.1",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "NOTE 1: As in formal parameters does not allow passing in uninitialized values or templates, even in these cases inpar will be at least partially initialized.",
+   "lines": [
+    25594,
+    25594
+   ]
+  },
+  {
+   "id": "C.2.1-s011",
+   "section": "C.2.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The length of an universal charstring shall be calculated by counting each combining character and hangul syllable character (including fillers) on its own (see ISO/IEC 10646 [2], clauses 23 and 24).",
+   "lines": [
+    25596,
+    25597
+   ]
+  },
+  {
+   "id": "C.2.1-s012",
+   "section": "C.2.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "When the function lengthof is applied to string-type templates, inpar shall only contain the following matching mechanisms: specific value, value list, complemented value list, pattern, \"?\" (AnyValue instead of value), \"*\" (AnyValueOrNone instead of value), combined template and the length restriction matching attribute.",
+   "lines": [
+    25599,
+    25603
+   ]
+  },
+  {
+   "id": "C.2.1-s013",
+   "section": "C.2.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "In case of stringtype templates inpar shall match values of the same length only with the exception of specific values and patterns.",
+   "lines": [
+    25599,
+    25603
+   ]
+  },
+  {
+   "id": "C.2.1-s014",
+   "section": "C.2.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "In case of these two matching mechanisms, the lengthof function returns the number of indexable items according to the rules specified in clause 15.6.1.",
+   "lines": [
+    25599,
+    25603
+   ]
+  },
+  {
+   "id": "C.2.1-s015",
+   "section": "C.2.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "When the function lengthof is applied to templates of record of or set of types, inpar shall only contain the following matching mechanisms: specific value, value list, complemented value list, \"?\" (AnyValue instead of value), \"*\" (AnyValueOrNone instead of value), SuperSet, SubSet, combined template, permutation and the length restriction matching attribute.",
+   "lines": [
+    25605,
+    25610
+   ]
+  },
+  {
+   "id": "C.2.1-s016",
+   "section": "C.2.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The parameter inpar shall only match values, for which the lengthof function would give the same result.",
+   "lines": [
+    25605,
+    25610
+   ]
+  },
+  {
+   "id": "C.2.1-s017",
+   "section": "C.2.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "If inpar contains uninitialized elements, each of them shall be counted as 1 element, i.e. they shall be matched as if they contained the \"?\" (AnyElement inside value) matching character.",
+   "lines": [
+    25605,
+    25610
+   ]
+  },
+  {
+   "id": "C.2.1-s018",
+   "section": "C.2.1",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "NOTE 2: In case of record ofs and set ofs and arrays only elements of the TTCN-3 object, which is the parameter of the function are calculated; i.e. no elements of nested types are taken into account when determining the return value.",
+   "lines": [
+    25612,
+    25614
+   ]
+  },
+  {
+   "id": "C.2.1-s019",
+   "section": "C.2.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "In addition to the general error causes in clause 16.1.2, error causes are:",
+   "lines": [
+    25616,
+    25616
+   ]
+  },
+  {
+   "id": "C.2.1-s020",
+   "section": "C.2.1",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "`inpar is a string-type template and it can match string values with different length or the length restriction` matching attribute contradicts the number of string elements in the template body;",
+   "lines": [
+    25618,
+    25619
+   ]
+  },
+  {
+   "id": "C.2.1-s021",
+   "section": "C.2.1",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "`inpar is a record of or set of type template and it can match values of different lengths or the length` restriction matching attribute contradicts the number of elements in the template body;",
+   "lines": [
+    25621,
+    25622
+   ]
+  },
+  {
+   "id": "C.2.1-s022",
+   "section": "C.2.1",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "the template passed to the invalue parameter is not of type bitstring, hexstring, octetstring, charstring, universal charstring, record of, set of, or array.",
+   "lines": [
+    25624,
+    25624
+   ]
+  },
+  {
+   "id": "C.2.1-s023",
+   "section": "C.2.1",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "NOTE 3: On real test systems the length calculation of inpar may lead to an overflow problem that causes compile time or runtime error.",
+   "lines": [
+    25626,
+    25627
+   ]
+  },
+  {
+   "id": "C.2.1-s024",
+   "section": "C.2.1",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "However, this is out of the scope of the present document.",
+   "lines": [
+    25626,
+    25627
+   ]
+  },
+  {
+   "id": "C.2.1-s025",
+   "section": "C.2.1",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 1: Using lengthof for values",
+   "lines": [
+    25636,
+    25636
+   ]
+  },
+  {
+   "id": "C.2.1-s026",
+   "section": "C.2.1",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "lengthof('010'B)  // returns 3 \n  lengthof('F3'H)  // returns 2 \n  lengthof('F2'O)  // returns 1 \n  lengthof (universal charstring : \"Length_of_Example\") // returns 17\n  // Given\n  type record length(0..10) of integer MyList;\n  var MyList v_myListVar := { 0, 1, -, 2, - };\n  lengthof(v_myListVar);\n  // returns 4 without respect to the fact, that the element v_myListVar[2] is not initialized",
+   "lines": [
+    25637,
+    25647
+   ]
+  },
+  {
+   "id": "C.2.1-s027",
+   "section": "C.2.1",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 2: Using lengthof for string-type templates",
+   "lines": [
+    25649,
+    25649
+   ]
+  },
+  {
+   "id": "C.2.1-s028",
+   "section": "C.2.1",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "lengthof(charstring : \"HELLO\")  // returns 5 \n  lengthof(octetstring : ('12'O, '34'O)) // returns 1 \n  lengthof('1??1'B)  // returns 4 \n  lengthof(universal charstring : ? length(8)) // returns 8 \n  lengthof('1*F'H)   // shall cause an error \n  lengthof('1*F'H length (8))  // returns 8\n  lengthof(bitstring : ? length(2..infinity)) // shall cause an error \n  lengthof('00*FF'O length(1..2))    // returns 2 \n  lengthof('1*49'H length(1..2))    // shall cause an error \n  lengthof('1'B length(3))  // shall cause an error \n  lengthof('1*1'B length(10..20))    // shall cause an error",
+   "lines": [
+    25650,
+    25662
+   ]
+  },
+  {
+   "id": "C.2.1-s029",
+   "section": "C.2.1",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 3:",
+   "lines": [
+    25664,
+    25664
+   ]
+  },
+  {
+   "id": "C.2.1-s030",
+   "section": "C.2.1",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "type record of integer RoI; \n  template RoI mw_roI1 := { 1, permutation(2, 3), ? } \n  template RoI mw_roI2 := {1, *, (2, 3) } \n  template RoI mw_roI3 := { 1, *, 10 } length(5) \n  template RoI mw_roI4 := { 1, 2, 3, * } length(1..2) \n  template RoI mw_roI5 := { 1, 2, 3, * } length(1..3) \n  lengthof (mw_roI1) // returns 4 \n  lengthof (mw_roI2) // shall cause an error \n  lengthof (mw_roI3) // returns 5 \n  lengthof (mw_roI4) // shall cause an error \n  lengthof (mw_roI5) // returns 3",
+   "lines": [
+    25665,
+    25677
+   ]
+  },
+  {
+   "id": "C.2.2-s001",
+   "section": "C.2.2",
+   "kind": "code",
+   "context": null,
+   "normative": true,
+   "text": "sizeof(in template (present) any inpar) return integer",
+   "lines": [
+    25680,
+    25682
+   ]
+  },
+  {
+   "id": "C.2.2-s002",
+   "section": "C.2.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "This function returns the actual number of elements of a value or template of a record or set type (see note).",
+   "lines": [
+    25684,
+    25684
+   ]
+  },
+  {
+   "id": "C.2.2-s003",
+   "section": "C.2.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The function sizeof is applicable to templates of record and set types.",
+   "lines": [
+    25686,
+    25687
+   ]
+  },
+  {
+   "id": "C.2.2-s004",
+   "section": "C.2.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The function is applicable only if the sizeof function gives the same result on all values that match the template.",
+   "lines": [
+    25686,
+    25687
+   ]
+  },
+  {
+   "id": "C.2.2-s005",
+   "section": "C.2.2",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "NOTE: Only elements of the TTCN-3 object, which is the parameter of the function are calculated; i.e. no elements of nested types/values are taken into account at determining the return value.",
+   "lines": [
+    25689,
+    25690
+   ]
+  },
+  {
+   "id": "C.2.2-s006",
+   "section": "C.2.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "In addition to the general error causes in clause 16.1.2, error causes are:",
+   "lines": [
+    25697,
+    25697
+   ]
+  },
+  {
+   "id": "C.2.2-s007",
+   "section": "C.2.2",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "when inpar is a template and it can match values of different sizes;",
+   "lines": [
+    25699,
+    25699
+   ]
+  },
+  {
+   "id": "C.2.2-s008",
+   "section": "C.2.2",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "the template passed to the inpar parameter is not of a record or set type.",
+   "lines": [
+    25701,
+    25701
+   ]
+  },
+  {
+   "id": "C.2.2-s009",
+   "section": "C.2.2",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE:",
+   "lines": [
+    25703,
+    25703
+   ]
+  },
+  {
+   "id": "C.2.2-s010",
+   "section": "C.2.2",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "// Given \n  type record MyPDU \n     {  boolean field1 optional,\n       integer field2\n     };\n  template MyPDU m_myTemplate :=\n     { field1 := omit,\n      field2 := 5\n     };\n  sizeof(m_myTemplate); // returns 1\n  type set S {\n    integer f1,\n    bitstring f2 optional,\n    charstring f3 optional\n  }\n  template S mw_s1 := { f1 := (0..99), f2 := omit, f3 := ? } \n  template S mw_s2 := { f3 := *, f1 := 1, f2 := '00'B ifpresent } \n  template S mw_s3 := ({ f1 := 1, f2 := omit, f3 := \"ABC\" },\n               { f1 := 2, f3 := omit, f2 := '1'B },\n               { f3 := omit, f1 := 3, f2 := '1?1'B }\n              ) \n  template S mw_s4 := ? \n  sizeof(mw_s1) // returns 2 \n  sizeof(mw_s2) // shall cause an error \n  sizeof(mw_s3) // returns 2 \n  sizeof(mw_s4) // shall cause an error",
+   "lines": [
+    25704,
+    25731
+   ]
+  },
+  {
+   "id": "C.3.5-s001",
+   "section": "C.3.5",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "istemplatekind (in template any_type invalue, in charstring kind) return boolean",
+   "lines": [
+    25744,
+    25744
+   ]
+  },
+  {
+   "id": "C.3.5-s002",
+   "section": "C.3.5",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "This function allows to examine if a template contains a certain kind of the matching mechanisms.",
+   "lines": [
+    25746,
+    25746
+   ]
+  },
+  {
+   "id": "C.3.5-s003",
+   "section": "C.3.5",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "If the matching mechanism kind enquired is matching a specific value (clause B.1.1), a matching mechanism instead of values (clause B.1.2) or matching character pattern (clause B.1.5), the function shall return true if the content of the invalue parameter is of the same kind.",
+   "lines": [
+    25748,
+    25750
+   ]
+  },
+  {
+   "id": "C.3.5-s004",
+   "section": "C.3.5",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "If the matching mechanism kind enquired is a matching mechanism inside values (clause B.1.3), the function shall return true if the template in the invalue parameter contains this kind of matching mechanism on the first level of nesting.",
+   "lines": [
+    25757,
+    25759
+   ]
+  },
+  {
+   "id": "C.3.5-s005",
+   "section": "C.3.5",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "If the matching mechanism kind enquired is a matching attribute (clause B.1.4), the function shall return true if the template in the invalue parameter has this kind of matching attribute attached to it directly (i.e. it doesn't count if the attribute is attached to a field of invalue at any level of nesting).",
+   "lines": [
+    25761,
+    25763
+   ]
+  },
+  {
+   "id": "C.3.5-s006",
+   "section": "C.3.5",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "In all other cases the function returns false.",
+   "lines": [
+    25765,
+    25765
+   ]
+  },
+  {
+   "id": "C.3.5-s007",
+   "section": "C.3.5",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The kind parameter shall be one of the strings listed in table C.1.",
+   "lines": [
+    25767,
+    25767
+   ]
+  },
+  {
+   "id": "C.3.5-s008",
+   "section": "C.3.5",
+   "kind": "caption",
+   "context": null,
+   "normative": false,
+   "text": "Table C.1: Allowed values of kind parameter",
+   "lines": [
+    25769,
+    25769
+   ]
+  },
+  {
+   "id": "C.3.5-s009",
+   "section": "C.3.5",
+   "kind": "table-text",
+   "context": null,
+   "normative": true,
+   "text": "**Value of kind parameter** **Searched matching mechanism** **Name** **Clause reference** \"value\" Specific value B.1.1 \"list\" Template list B.1.2.1 \"complement\" Complemented template list B.1.2.2 \"AnyValue\", \"?\" Any value B.1.2.3 \"AnyValueOrNone\", \"*\" Any value or none B.1.2.4 \"range\" Value range `type map from`",
+   "lines": [
+    25771,
+    25778
+   ]
+  },
+  {
+   "id": "C.3.5-s010",
+   "section": "C.3.5",
+   "kind": "table-text",
+   "context": null,
+   "normative": true,
+   "text": "charstring to charstring MyMap; template MyMap mw_myMessageTemplate4 := { [\"host\"] := \"::1\", [\"port\"] := * }; v_mybooleanVar := match ({ [\"host\"] := \"::1\", [\"port\"] := 80 }, mw_myMessageTemplate4); // matches and returns true v_mybooleanVar := match ({ [\"host\"] := \"::1\" }, mw_myMessageTemplate4); // matches and returns true",
+   "lines": [
+    25779,
+    25799
+   ]
+  },
+  {
+   "id": "C.3.5-s011",
+   "section": "C.3.5",
+   "kind": "table-text",
+   "context": null,
+   "normative": true,
+   "text": "B.1.2.5 \"superset\" SuperSet B.1.2.6 \"subset\" SubSet B.1.2.7 \"omit\" Omit B.1.2.8 \"decmatch\" Matching decoded content B.1.2.9 \"AnyElement\" Any element B.1.3.1 \"AnyElementsOrNone\" Any number of elements or B.1.3.2 none",
+   "lines": [
+    25801,
+    25808
+   ]
+  },
+  {
+   "id": "C.3.5-s012",
+   "section": "C.3.5",
+   "kind": "table-text",
+   "context": null,
+   "normative": true,
+   "text": "\"permutation\" Permutation B.1.3.3 \"length\" Length restriction B.1.4.1 \"ifpresent\" The IfPresent indicator B.1.4.2 \"pattern\" Matching character pattern B.1.5",
+   "lines": [
+    25810,
+    25813
+   ]
+  },
+  {
+   "id": "C.3.5-s013",
+   "section": "C.3.5",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "NOTE: Clause E.2.2.5 includes the type definition TemplateKind and a constant for each of the allowed values of the kind parameter.",
+   "lines": [
+    25815,
+    25817
+   ]
+  },
+  {
+   "id": "C.3.5-s014",
+   "section": "C.3.5",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "It is recommended to use the istemplatekind function in combination with this type and these constants to ease the checking of correct usage and to improve the readability of test specs.",
+   "lines": [
+    25815,
+    25817
+   ]
+  },
+  {
+   "id": "C.3.5-s015",
+   "section": "C.3.5",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to the general error causes given in clause 16.1.2, the following restrictions apply:",
+   "lines": [
+    25821,
+    25821
+   ]
+  },
+  {
+   "id": "C.3.5-s016",
+   "section": "C.3.5",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) Calling the istemplatekind function with a different second parameter than stated in table C.1 shall lead to an error.",
+   "lines": [
+    25823,
+    25824
+   ]
+  },
+  {
+   "id": "C.3.5-s017",
+   "section": "C.3.5",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Table C.1:: Value of kind parameter; Allowed values of kind parameter: Searched matching mechanism",
+   "lines": [
+    25828,
+    25828
+   ]
+  },
+  {
+   "id": "C.3.5-s018",
+   "section": "C.3.5",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Table C.1:: Name; Allowed values of kind parameter: Clause reference",
+   "lines": [
+    25829,
+    25829
+   ]
+  },
+  {
+   "id": "C.3.5-s019",
+   "section": "C.3.5",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Table C.1:: \"value\"; Allowed values of kind parameter: Specific value; Col3: B.1.1",
+   "lines": [
+    25830,
+    25830
+   ]
+  },
+  {
+   "id": "C.3.5-s020",
+   "section": "C.3.5",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Table C.1:: \"list\"; Allowed values of kind parameter: Template list; Col3: B.1.2.1",
+   "lines": [
+    25831,
+    25831
+   ]
+  },
+  {
+   "id": "C.3.5-s021",
+   "section": "C.3.5",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Table C.1:: \"complement\"; Allowed values of kind parameter: Complemented template list; Col3: B.1.2.2",
+   "lines": [
+    25832,
+    25832
+   ]
+  },
+  {
+   "id": "C.3.5-s022",
+   "section": "C.3.5",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Table C.1:: \"AnyValue\", \"?\"; Allowed values of kind parameter: Any value; Col3: B.1.2.3",
+   "lines": [
+    25833,
+    25833
+   ]
+  },
+  {
+   "id": "C.3.5-s023",
+   "section": "C.3.5",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Table C.1:: \"AnyValueOrNone\", \"*\"; Allowed values of kind parameter: Any value or none; Col3: B.1.2.4",
+   "lines": [
+    25834,
+    25834
+   ]
+  },
+  {
+   "id": "C.3.5-s024",
+   "section": "C.3.5",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Table C.1:: \"range\"; Allowed values of kind parameter: Value range; Col3: type map from charstring to charstring MyMap; template MyMap mw_myMessageTemplate4 := { [\"host\"] := \"::1\", [\"port\"] := * }; v_mybooleanVar := match ({ [\"host\"] := \"::1\", [\"port\"] := 80 }, mw_myMessageTemplate4); // matches and returns true v_mybooleanVar := match ({ [\"host\"] := \"::1\" }, mw_myMessageTemplate4); // matches and returns true B.1.2.5",
+   "lines": [
+    25835,
+    25835
+   ]
+  },
+  {
+   "id": "C.3.5-s025",
+   "section": "C.3.5",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Table C.1:: \"superset\"; Allowed values of kind parameter: SuperSet; Col3: B.1.2.6",
+   "lines": [
+    25836,
+    25836
+   ]
+  },
+  {
+   "id": "C.3.5-s026",
+   "section": "C.3.5",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Table C.1:: \"subset\"; Allowed values of kind parameter: SubSet; Col3: B.1.2.7",
+   "lines": [
+    25837,
+    25837
+   ]
+  },
+  {
+   "id": "C.3.5-s027",
+   "section": "C.3.5",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Table C.1:: \"omit\"; Allowed values of kind parameter: Omit; Col3: B.1.2.8",
+   "lines": [
+    25838,
+    25838
+   ]
+  },
+  {
+   "id": "C.3.5-s028",
+   "section": "C.3.5",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Table C.1:: \"decmatch\"; Allowed values of kind parameter: Matching decoded content; Col3: B.1.2.9",
+   "lines": [
+    25839,
+    25839
+   ]
+  },
+  {
+   "id": "C.3.5-s029",
+   "section": "C.3.5",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Table C.1:: \"AnyElement\"; Allowed values of kind parameter: Any element; Col3: B.1.3.1",
+   "lines": [
+    25840,
+    25840
+   ]
+  },
+  {
+   "id": "C.3.5-s030",
+   "section": "C.3.5",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Table C.1:: \"AnyElementsOrNone\"; Allowed values of kind parameter: Any number of elements or none; Col3: B.1.3.2",
+   "lines": [
+    25841,
+    25841
+   ]
+  },
+  {
+   "id": "C.3.5-s031",
+   "section": "C.3.5",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Table C.1:: \"permutation\"; Allowed values of kind parameter: Permutation; Col3: B.1.3.3",
+   "lines": [
+    25842,
+    25842
+   ]
+  },
+  {
+   "id": "C.3.5-s032",
+   "section": "C.3.5",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Table C.1:: \"length\"; Allowed values of kind parameter: Length restriction; Col3: B.1.4.1",
+   "lines": [
+    25843,
+    25843
+   ]
+  },
+  {
+   "id": "C.3.5-s033",
+   "section": "C.3.5",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Table C.1:: \"ifpresent\"; Allowed values of kind parameter: The IfPresent indicator; Col3: B.1.4.2",
+   "lines": [
+    25844,
+    25844
+   ]
+  },
+  {
+   "id": "C.3.5-s034",
+   "section": "C.3.5",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Table C.1:: \"pattern\"; Allowed values of kind parameter: Matching character pattern; Col3: B.1.5",
+   "lines": [
+    25845,
+    25845
+   ]
+  },
+  {
+   "id": "C.3.5-s035",
+   "section": "C.3.5",
+   "kind": "table-header",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Table C.1:; Allowed values of kind parameter; Col3",
+   "lines": [
+    25826,
+    25826
+   ]
+  },
+  {
+   "id": "C.3.5-s036",
+   "section": "C.3.5",
+   "kind": "example-text",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "EXAMPLE:",
+   "lines": [
+    25852,
+    25852
+   ]
+  },
+  {
+   "id": "C.3.5-s037",
+   "section": "C.3.5",
+   "kind": "example-code",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "type record of integer RoI;\n  ...\n  var template integer v_t1 := ?, v_t2 := (0,1,2) ifpresent;\n  var template RoI v_t3:= { permutation(1, 2, 3), ? };\n  var boolean v_res;\n  ...\n  v_res := istemplatekind(v_t1, \"AnyValue\");    // true\n  v_res := istemplatekind(v_t1, \"AnyValueOrNone\"); // false\n  v_res := istemplatekind(v_t2, \"complement\");   // false\n  v_res := istemplatekind(v_t2, \"list\");      // true\n  v_res := istemplatekind(v_t2, \"ifpresent\");   // true\n  v_res := istemplatekind(v_t3, \"permutation\");  // true\n  v_res := istemplatekind(v_t3, \"AnyElement\");   // true",
+   "lines": [
+    25853,
+    25867
+   ]
+  }
+ ]
+}

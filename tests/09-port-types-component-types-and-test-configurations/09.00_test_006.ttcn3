@@ -1,0 +1,36 @@
+// @requirement: 9.0 -- All other PTCs are treated equally i.e. there is no explicit hierarchical relationship among them and the termination of a single PTC terminates neither other components nor the MTC.
+// @id: TTCN3-CORE-9.0-016b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_09_00_test_006 {
+
+    type component C {
+        timer T;
+    }
+
+    function f_short() runs on C {
+        setverdict(pass);
+    }
+
+    function f_long() runs on C {
+        T.start(5.0);
+        T.timeout;
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc1 := C.create;
+        var C v_ptc2 := C.create;
+        v_ptc2.start(f_long());
+        v_ptc1.start(f_short());
+        v_ptc1.done;
+        if (v_ptc2.running) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+        v_ptc2.stop;
+    }
+
+    control {
+        execute(TC());
+    }
+}

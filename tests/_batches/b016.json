@@ -1,0 +1,1456 @@
+{
+ "batch": "b016",
+ "requirements": [
+  {
+   "id": "TTCN3-CORE-6.2.12-002a",
+   "section": "6.2.12",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "The global address type may be used if only one type is needed.",
+   "canonical": "The global `address` type MAY be used for addressing SUT entities if only one address type is needed.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    5435,
+    5437
+   ],
+   "examples": [
+    {
+     "lines": [
+      5483,
+      5498
+     ],
+     "text": "// Associates the type integer to the open type address\n  type integer address;\n   :\n  // new address variable initialized with null\n  var address v_mySUTentity := null;\n   :\n  // receiving an address value and assigning it to variable MySUTentity\n  pCO.receive(address:?) -> value v_mySUTentity;\n   :\n  // usage of the received address for sending template m_myResult\n  pCO.send(m_myResult) to v_mySUTentity;\n   :\n  // usage of the received address for receiving a confirmation template\n  pCO.receive(mw_myConfirmation) from v_mySUTentity;"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.12_test_001.ttcn3",
+   "module": "M_06_02_12_test_001",
+   "header": "// @requirement: 6.2.12 -- The global address type may be used if only one type is needed."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.12-003a",
+   "section": "6.2.12",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "If several types at different ports are needed for addressing SUT entities, the type used for addressing via a port instance shall be declared in the corresponding port type definition.",
+   "canonical": "If several address types are needed at different ports for addressing SUT entities, the address type used for addressing via a port instance SHALL be declared in the corresponding port type definition.",
+   "condition": "several address types at different ports are needed for addressing SUT entities",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    5435,
+    5437
+   ],
+   "examples": [
+    {
+     "lines": [
+      5501,
+      5523
+     ],
+     "text": "type record MyAddressType {  // user-defined type\n     integer field1;\n     boolean field2;\n  }\n  type port MyPortType message {\n     address MyAddressType;  // address declaration\n     inout integer;\n  }\n  type component MyComponentType \n  {\n     port MyPortType pCO;\n  }\n  function f_myFunction () runs on MyComponentType {\n     var MyPortType.address v_sUT_Address := {5, true}; // address value for addressing\n                                      // via ports of MyPortType\n     :\n     pCO.send(integer: 5) to v_sUT_Address;  // use of address value in to\n     :\n     pCO.receive(integer: ?) from v_sUT_Address;  // use of address value in from\n     :\n  }"
+    },
+    {
+     "lines": [
+      5526,
+      5574
+     ],
+     "text": "type AddressType1 address;  // address type definition on module level\n  type port MyPortType1 message {\n     inout MsgType1;\n  }\n  // address types bound to port types\n  type port MyPortType2 message {\n     address AddressType2; // values of type AddressType2 can be\n                          // used to address SUT entities.\n     inout MsgType2;\n  }\n  type port MyMessagePort3 message {\n     address AddressType3; // values of type AddressType3 can be\n                          // used to address SUT entities.\n     inout MsgType3;\n  }\n  // component type definition\n  type component MyComponentType \n  {\n     port MyPortType1 pCO1;\n     port MyPortType2 pCO2;\n     port MyPortType3 pCO3\n  }\n  // The following behaviour is considered to be executed on an instance of MyComponentType.\n  // Furthermore, it is considered that the ports PCO1, PCO2 and PCO3 are mapped ports, i.e.\n  // used for the communication with the SUT.\n   :\n  // new address variable initialized with null\n  var MyPortType1.address v_mySUTentity1 := null; // type of v_mySUTentity1 is AddressType1\n  var MyPortType2.address v_mySUTentity2 := null; // type of v_mySUTentity2 is AddressType2\n  var MyPortType3.address v_mySUTentity3 := null; // type of v_mySUTentity3 is AddressType3\n   :\n  // receiving address values and assigning them to variables\n  pCO1.receive(MsgType1:?) from address:? -> sender v_mySUTentity1;\n                                 // Address type of module scope,\n                                 // no prefi"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.12_test_002.ttcn3",
+   "module": "M_06_02_12_test_002",
+   "header": "// @requirement: 6.2.12 -- If several types at different ports are needed for addressing SUT entities, the type used for addressing via a port instance shall be declared in the corresponding port type definition."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.12-004a",
+   "section": "6.2.12",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "TemplateInstance",
+   "canonical": "An SUT address used for addressing IS syntactically a TemplateInstance.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    5440,
+    5442
+   ],
+   "examples": [
+    {
+     "lines": [
+      5483,
+      5498
+     ],
+     "text": "// Associates the type integer to the open type address\n  type integer address;\n   :\n  // new address variable initialized with null\n  var address v_mySUTentity := null;\n   :\n  // receiving an address value and assigning it to variable MySUTentity\n  pCO.receive(address:?) -> value v_mySUTentity;\n   :\n  // usage of the received address for sending template m_myResult\n  pCO.send(m_myResult) to v_mySUTentity;\n   :\n  // usage of the received address for receiving a confirmation template\n  pCO.receive(mw_myConfirmation) from v_mySUTentity;"
+    },
+    {
+     "lines": [
+      5501,
+      5523
+     ],
+     "text": "type record MyAddressType {  // user-defined type\n     integer field1;\n     boolean field2;\n  }\n  type port MyPortType message {\n     address MyAddressType;  // address declaration\n     inout integer;\n  }\n  type component MyComponentType \n  {\n     port MyPortType pCO;\n  }\n  function f_myFunction () runs on MyComponentType {\n     var MyPortType.address v_sUT_Address := {5, true}; // address value for addressing\n                                      // via ports of MyPortType\n     :\n     pCO.send(integer: 5) to v_sUT_Address;  // use of address value in to\n     :\n     pCO.receive(integer: ?) from v_sUT_Address;  // use of address value in from\n     :\n  }"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.12_test_003.ttcn3",
+   "module": "M_06_02_12_test_003",
+   "header": "// @requirement: 6.2.12 -- TemplateInstance"
+  },
+  {
+   "id": "TTCN3-CORE-6.2.12-005a",
+   "section": "6.2.12",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The actual data representation of the global address type is resolved either by an explicit global address type definition within the test suite, address type definitions within port definitions, or externally by the test system (i.e. the address type is left as an open type within the TTCN-3 specification).",
+   "canonical": "The actual data representation of the address type IS resolved by an explicit global `address` type definition in the test suite, by address type declarations in port type definitions, or externally by the test system when `address` is left as an open type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "The sentence speaks of the representation of the 'global address type' being resolved by 'address type definitions within port definitions'; the chosen reading is that it describes the three ways the address representation in general is determined.",
+    "readings": [
+     "The actual data representation of the address type IS resolved by a global `address` type definition, by address declarations in port type definitions, or externally by the test system.",
+     "The actual data representation of the global `address` type IS resolved by a global definition, or, if missing, by port-type address declarations or externally."
+    ],
+    "improper_terms": [
+     {
+      "used": "port definitions",
+      "proper": "port type definitions",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    5446,
+    5447
+   ],
+   "examples": [
+    {
+     "lines": [
+      5483,
+      5498
+     ],
+     "text": "// Associates the type integer to the open type address\n  type integer address;\n   :\n  // new address variable initialized with null\n  var address v_mySUTentity := null;\n   :\n  // receiving an address value and assigning it to variable MySUTentity\n  pCO.receive(address:?) -> value v_mySUTentity;\n   :\n  // usage of the received address for sending template m_myResult\n  pCO.send(m_myResult) to v_mySUTentity;\n   :\n  // usage of the received address for receiving a confirmation template\n  pCO.receive(mw_myConfirmation) from v_mySUTentity;"
+    },
+    {
+     "lines": [
+      5501,
+      5523
+     ],
+     "text": "type record MyAddressType {  // user-defined type\n     integer field1;\n     boolean field2;\n  }\n  type port MyPortType message {\n     address MyAddressType;  // address declaration\n     inout integer;\n  }\n  type component MyComponentType \n  {\n     port MyPortType pCO;\n  }\n  function f_myFunction () runs on MyComponentType {\n     var MyPortType.address v_sUT_Address := {5, true}; // address value for addressing\n                                      // via ports of MyPortType\n     :\n     pCO.send(integer: 5) to v_sUT_Address;  // use of address value in to\n     :\n     pCO.receive(integer: ?) from v_sUT_Address;  // use of address value in from\n     :\n  }"
+    },
+    {
+     "lines": [
+      5526,
+      5574
+     ],
+     "text": "type AddressType1 address;  // address type definition on module level\n  type port MyPortType1 message {\n     inout MsgType1;\n  }\n  // address types bound to port types\n  type port MyPortType2 message {\n     address AddressType2; // values of type AddressType2 can be\n                          // used to address SUT entities.\n     inout MsgType2;\n  }\n  type port MyMessagePort3 message {\n     address AddressType3; // values of type AddressType3 can be\n                          // used to address SUT entities.\n     inout MsgType3;\n  }\n  // component type definition\n  type component MyComponentType \n  {\n     port MyPortType1 pCO1;\n     port MyPortType2 pCO2;\n     port MyPortType3 pCO3\n  }\n  // The following behaviour is considered to be executed on an instance of MyComponentType.\n  // Furthermore, it is considered that the ports PCO1, PCO2 and PCO3 are mapped ports, i.e.\n  // used for the communication with the SUT.\n   :\n  // new address variable initialized with null\n  var MyPortType1.address v_mySUTentity1 := null; // type of v_mySUTentity1 is AddressType1\n  var MyPortType2.address v_mySUTentity2 := null; // type of v_mySUTentity2 is AddressType2\n  var MyPortType3.address v_mySUTentity3 := null; // type of v_mySUTentity3 is AddressType3\n   :\n  // receiving address values and assigning them to variables\n  pCO1.receive(MsgType1:?) from address:? -> sender v_mySUTentity1;\n                                 // Address type of module scope,\n                                 // no prefi"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.12_test_004.ttcn3",
+   "module": "M_06_02_12_test_004",
+   "header": "// @requirement: 6.2.12 -- The actual data representation of the global address type is resolved either by an explicit global address type definition within the test suite, address type definitions within port definitions, or externally by the test system (i.e. the address type is left as an open type within the TTCN-3 specification)."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.12-007a",
+   "section": "6.2.12",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "If an address type is bound to a port type definition, addressing of SUT instances (i.e. to- and from-directives in communication operations) via instances of that port type shall be restricted to values of the bound address type.",
+   "canonical": "If an address type is bound to a port type definition, addressing of SUT entities in `to` and `from` directives of communication operations via instances of that port type SHALL be restricted to values of the bound address type.",
+   "condition": "an address type is bound to the port type definition",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    5449,
+    5450
+   ],
+   "examples": [
+    {
+     "lines": [
+      5501,
+      5523
+     ],
+     "text": "type record MyAddressType {  // user-defined type\n     integer field1;\n     boolean field2;\n  }\n  type port MyPortType message {\n     address MyAddressType;  // address declaration\n     inout integer;\n  }\n  type component MyComponentType \n  {\n     port MyPortType pCO;\n  }\n  function f_myFunction () runs on MyComponentType {\n     var MyPortType.address v_sUT_Address := {5, true}; // address value for addressing\n                                      // via ports of MyPortType\n     :\n     pCO.send(integer: 5) to v_sUT_Address;  // use of address value in to\n     :\n     pCO.receive(integer: ?) from v_sUT_Address;  // use of address value in from\n     :\n  }"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.12_test_005.ttcn3",
+   "module": "M_06_02_12_test_005",
+   "header": "// @requirement: 6.2.12 -- If an address type is bound to a port type definition, addressing of SUT instances (i.e. to- and from-directives in communication operations) via instances of that port type shall be restricted to values of the bound address type."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.12-008a",
+   "section": "6.2.12",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "If several address types exist within a test suite, ambiguities shall be resolved by means of the dot notation.",
+   "canonical": "If several address types exist within a test suite, ambiguities between them SHALL be resolved by means of the dot notation.",
+   "condition": "several address types exist within a test suite",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    5452,
+    5453
+   ],
+   "examples": [
+    {
+     "lines": [
+      5526,
+      5574
+     ],
+     "text": "type AddressType1 address;  // address type definition on module level\n  type port MyPortType1 message {\n     inout MsgType1;\n  }\n  // address types bound to port types\n  type port MyPortType2 message {\n     address AddressType2; // values of type AddressType2 can be\n                          // used to address SUT entities.\n     inout MsgType2;\n  }\n  type port MyMessagePort3 message {\n     address AddressType3; // values of type AddressType3 can be\n                          // used to address SUT entities.\n     inout MsgType3;\n  }\n  // component type definition\n  type component MyComponentType \n  {\n     port MyPortType1 pCO1;\n     port MyPortType2 pCO2;\n     port MyPortType3 pCO3\n  }\n  // The following behaviour is considered to be executed on an instance of MyComponentType.\n  // Furthermore, it is considered that the ports PCO1, PCO2 and PCO3 are mapped ports, i.e.\n  // used for the communication with the SUT.\n   :\n  // new address variable initialized with null\n  var MyPortType1.address v_mySUTentity1 := null; // type of v_mySUTentity1 is AddressType1\n  var MyPortType2.address v_mySUTentity2 := null; // type of v_mySUTentity2 is AddressType2\n  var MyPortType3.address v_mySUTentity3 := null; // type of v_mySUTentity3 is AddressType3\n   :\n  // receiving address values and assigning them to variables\n  pCO1.receive(MsgType1:?) from address:? -> sender v_mySUTentity1;\n                                 // Address type of module scope,\n                                 // no prefi"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.12_test_006.ttcn3",
+   "module": "M_06_02_12_test_006",
+   "header": "// @requirement: 6.2.12 -- If several address types exist within a test suite, ambiguities shall be resolved by means of the dot notation."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.12-009a",
+   "section": "6.2.12",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "For example, a type reference within a variable definition used to store an SUT address may be prefixed by a port type identifier or a module identifier.",
+   "canonical": "A reference to an address type in a variable definition used to store an SUT address MAY be prefixed by a port type identifier or a module identifier.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    5452,
+    5453
+   ],
+   "examples": [
+    {
+     "lines": [
+      5501,
+      5523
+     ],
+     "text": "type record MyAddressType {  // user-defined type\n     integer field1;\n     boolean field2;\n  }\n  type port MyPortType message {\n     address MyAddressType;  // address declaration\n     inout integer;\n  }\n  type component MyComponentType \n  {\n     port MyPortType pCO;\n  }\n  function f_myFunction () runs on MyComponentType {\n     var MyPortType.address v_sUT_Address := {5, true}; // address value for addressing\n                                      // via ports of MyPortType\n     :\n     pCO.send(integer: 5) to v_sUT_Address;  // use of address value in to\n     :\n     pCO.receive(integer: ?) from v_sUT_Address;  // use of address value in from\n     :\n  }"
+    },
+    {
+     "lines": [
+      5526,
+      5574
+     ],
+     "text": "type AddressType1 address;  // address type definition on module level\n  type port MyPortType1 message {\n     inout MsgType1;\n  }\n  // address types bound to port types\n  type port MyPortType2 message {\n     address AddressType2; // values of type AddressType2 can be\n                          // used to address SUT entities.\n     inout MsgType2;\n  }\n  type port MyMessagePort3 message {\n     address AddressType3; // values of type AddressType3 can be\n                          // used to address SUT entities.\n     inout MsgType3;\n  }\n  // component type definition\n  type component MyComponentType \n  {\n     port MyPortType1 pCO1;\n     port MyPortType2 pCO2;\n     port MyPortType3 pCO3\n  }\n  // The following behaviour is considered to be executed on an instance of MyComponentType.\n  // Furthermore, it is considered that the ports PCO1, PCO2 and PCO3 are mapped ports, i.e.\n  // used for the communication with the SUT.\n   :\n  // new address variable initialized with null\n  var MyPortType1.address v_mySUTentity1 := null; // type of v_mySUTentity1 is AddressType1\n  var MyPortType2.address v_mySUTentity2 := null; // type of v_mySUTentity2 is AddressType2\n  var MyPortType3.address v_mySUTentity3 := null; // type of v_mySUTentity3 is AddressType3\n   :\n  // receiving address values and assigning them to variables\n  pCO1.receive(MsgType1:?) from address:? -> sender v_mySUTentity1;\n                                 // Address type of module scope,\n                                 // no prefi"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.12_test_007.ttcn3",
+   "module": "M_06_02_12_test_007",
+   "header": "// @requirement: 6.2.12 -- For example, a type reference within a variable definition used to store an SUT address may be prefixed by a port type identifier or a module identifier."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.12-010a",
+   "section": "6.2.12",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "If both a global address type definition and port definitions with an address type definition exist in a module, the global address type shall only affect ports without an explicit address type definition.",
+   "canonical": "If both a global `address` type definition and port type definitions with an address declaration exist in a module, the global address type SHALL only apply to ports whose port type has no explicit address declaration.",
+   "condition": "both a global address type definition and port type definitions with an address declaration exist in a module",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "'port definitions' is used where port type definitions are meant.",
+    "improper_terms": [
+     {
+      "used": "port definitions",
+      "proper": "port type definitions",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    5452,
+    5453
+   ],
+   "examples": [
+    {
+     "lines": [
+      5526,
+      5574
+     ],
+     "text": "type AddressType1 address;  // address type definition on module level\n  type port MyPortType1 message {\n     inout MsgType1;\n  }\n  // address types bound to port types\n  type port MyPortType2 message {\n     address AddressType2; // values of type AddressType2 can be\n                          // used to address SUT entities.\n     inout MsgType2;\n  }\n  type port MyMessagePort3 message {\n     address AddressType3; // values of type AddressType3 can be\n                          // used to address SUT entities.\n     inout MsgType3;\n  }\n  // component type definition\n  type component MyComponentType \n  {\n     port MyPortType1 pCO1;\n     port MyPortType2 pCO2;\n     port MyPortType3 pCO3\n  }\n  // The following behaviour is considered to be executed on an instance of MyComponentType.\n  // Furthermore, it is considered that the ports PCO1, PCO2 and PCO3 are mapped ports, i.e.\n  // used for the communication with the SUT.\n   :\n  // new address variable initialized with null\n  var MyPortType1.address v_mySUTentity1 := null; // type of v_mySUTentity1 is AddressType1\n  var MyPortType2.address v_mySUTentity2 := null; // type of v_mySUTentity2 is AddressType2\n  var MyPortType3.address v_mySUTentity3 := null; // type of v_mySUTentity3 is AddressType3\n   :\n  // receiving address values and assigning them to variables\n  pCO1.receive(MsgType1:?) from address:? -> sender v_mySUTentity1;\n                                 // Address type of module scope,\n                                 // no prefi"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.12_test_008.ttcn3",
+   "module": "M_06_02_12_test_008",
+   "header": "// @requirement: 6.2.12 -- If both a global address type definition and port definitions with an address type definition exist in a module, the global address type shall only affect ports without an explicit address type definition."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.12-012a",
+   "section": "6.2.12",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "Explicit SUT addresses for a globally defined address type shall only be generated inside a TTCN-3 module if the type is defined inside the module itself.",
+   "canonical": "An explicit SUT address value of the global `address` type SHALL only be generated inside a TTCN-3 module if the `address` type is defined inside that module.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    5455,
+    5456
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.02.12_test_009.ttcn3",
+   "module": "M_06_02_12_test_009",
+   "header": "// @requirement: 6.2.12 -- Explicit SUT addresses for a globally defined address type shall only be generated inside a TTCN-3 module if the type is defined inside the module itself."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.12-013a",
+   "section": "6.2.12",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "If the type is not defined inside the module, explicit SUT addresses for a global address type shall only be passed in as parameters or be received in message fields or as parameters of remote procedure calls.",
+   "canonical": "If the global `address` type is not defined inside the module, an explicit SUT address SHALL only be passed in as a parameter, received in a message field, or received as a parameter of a remote procedure call.",
+   "condition": "the global address type is not defined inside the module",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    5455,
+    5456
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.02.12_test_010.ttcn3",
+   "module": "M_06_02_12_test_010",
+   "header": "// @requirement: 6.2.12 -- If the type is not defined inside the module, explicit SUT addresses for a global address type shall only be passed in as parameters or be received in message fields or as parameters of remote procedure calls."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.12-014a",
+   "section": "6.2.12",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "In addition, the special value null is available for the address type to indicate an undefined address, e.g. for the initialization of variables of the address type.",
+   "canonical": "The special value `null` MAY be used as a value of the address type to indicate an undefined address, e.g. for initializing variables of the address type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    5458,
+    5458
+   ],
+   "examples": [
+    {
+     "lines": [
+      5483,
+      5498
+     ],
+     "text": "// Associates the type integer to the open type address\n  type integer address;\n   :\n  // new address variable initialized with null\n  var address v_mySUTentity := null;\n   :\n  // receiving an address value and assigning it to variable MySUTentity\n  pCO.receive(address:?) -> value v_mySUTentity;\n   :\n  // usage of the received address for sending template m_myResult\n  pCO.send(m_myResult) to v_mySUTentity;\n   :\n  // usage of the received address for receiving a confirmation template\n  pCO.receive(mw_myConfirmation) from v_mySUTentity;"
+    },
+    {
+     "lines": [
+      5526,
+      5574
+     ],
+     "text": "type AddressType1 address;  // address type definition on module level\n  type port MyPortType1 message {\n     inout MsgType1;\n  }\n  // address types bound to port types\n  type port MyPortType2 message {\n     address AddressType2; // values of type AddressType2 can be\n                          // used to address SUT entities.\n     inout MsgType2;\n  }\n  type port MyMessagePort3 message {\n     address AddressType3; // values of type AddressType3 can be\n                          // used to address SUT entities.\n     inout MsgType3;\n  }\n  // component type definition\n  type component MyComponentType \n  {\n     port MyPortType1 pCO1;\n     port MyPortType2 pCO2;\n     port MyPortType3 pCO3\n  }\n  // The following behaviour is considered to be executed on an instance of MyComponentType.\n  // Furthermore, it is considered that the ports PCO1, PCO2 and PCO3 are mapped ports, i.e.\n  // used for the communication with the SUT.\n   :\n  // new address variable initialized with null\n  var MyPortType1.address v_mySUTentity1 := null; // type of v_mySUTentity1 is AddressType1\n  var MyPortType2.address v_mySUTentity2 := null; // type of v_mySUTentity2 is AddressType2\n  var MyPortType3.address v_mySUTentity3 := null; // type of v_mySUTentity3 is AddressType3\n   :\n  // receiving address values and assigning them to variables\n  pCO1.receive(MsgType1:?) from address:? -> sender v_mySUTentity1;\n                                 // Address type of module scope,\n                                 // no prefi"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.12_test_011.ttcn3",
+   "module": "M_06_02_12_test_011",
+   "header": "// @requirement: 6.2.12 -- In addition, the special value null is available for the address type to indicate an undefined address, e.g. for the initialization of variables of the address type."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.12-015a",
+   "section": "6.2.12",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "If a port type definition includes the declaration of a type that shall be used for addressing SUT entities, only values of that type shall be used in to, from and sender parts of receive and send operations of port instances of that type mapped to the test system interface.",
+   "canonical": "If a port type definition declares an address type, only values of that address type SHALL be used in the `to`, `from` and `sender` parts of `receive` and `send` operations of port instances of that port type mapped to the test system interface.",
+   "condition": "the port type definition declares an address type",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    5460,
+    5460
+   ],
+   "examples": [
+    {
+     "lines": [
+      5501,
+      5523
+     ],
+     "text": "type record MyAddressType {  // user-defined type\n     integer field1;\n     boolean field2;\n  }\n  type port MyPortType message {\n     address MyAddressType;  // address declaration\n     inout integer;\n  }\n  type component MyComponentType \n  {\n     port MyPortType pCO;\n  }\n  function f_myFunction () runs on MyComponentType {\n     var MyPortType.address v_sUT_Address := {5, true}; // address value for addressing\n                                      // via ports of MyPortType\n     :\n     pCO.send(integer: 5) to v_sUT_Address;  // use of address value in to\n     :\n     pCO.receive(integer: ?) from v_sUT_Address;  // use of address value in from\n     :\n  }"
+    },
+    {
+     "lines": [
+      5526,
+      5574
+     ],
+     "text": "type AddressType1 address;  // address type definition on module level\n  type port MyPortType1 message {\n     inout MsgType1;\n  }\n  // address types bound to port types\n  type port MyPortType2 message {\n     address AddressType2; // values of type AddressType2 can be\n                          // used to address SUT entities.\n     inout MsgType2;\n  }\n  type port MyMessagePort3 message {\n     address AddressType3; // values of type AddressType3 can be\n                          // used to address SUT entities.\n     inout MsgType3;\n  }\n  // component type definition\n  type component MyComponentType \n  {\n     port MyPortType1 pCO1;\n     port MyPortType2 pCO2;\n     port MyPortType3 pCO3\n  }\n  // The following behaviour is considered to be executed on an instance of MyComponentType.\n  // Furthermore, it is considered that the ports PCO1, PCO2 and PCO3 are mapped ports, i.e.\n  // used for the communication with the SUT.\n   :\n  // new address variable initialized with null\n  var MyPortType1.address v_mySUTentity1 := null; // type of v_mySUTentity1 is AddressType1\n  var MyPortType2.address v_mySUTentity2 := null; // type of v_mySUTentity2 is AddressType2\n  var MyPortType3.address v_mySUTentity3 := null; // type of v_mySUTentity3 is AddressType3\n   :\n  // receiving address values and assigning them to variables\n  pCO1.receive(MsgType1:?) from address:? -> sender v_mySUTentity1;\n                                 // Address type of module scope,\n                                 // no prefi"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.12_test_012.ttcn3",
+   "module": "M_06_02_12_test_012",
+   "header": "// @requirement: 6.2.12 -- If a port type definition includes the declaration of a type that shall be used for addressing SUT entities, only values of that type shall be used in to, from and sender parts of receive and send operations of port instances of that type mapped to the test system interface."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.12-017a",
+   "section": "6.2.12",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "TemplateInstance shall be of type address or of the type of the address declaration in a port type definition.",
+   "canonical": "A TemplateInstance used for addressing SHALL be of type `address` or of the address type declared in the port type definition.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    5471,
+    5472
+   ],
+   "examples": [
+    {
+     "lines": [
+      5483,
+      5498
+     ],
+     "text": "// Associates the type integer to the open type address\n  type integer address;\n   :\n  // new address variable initialized with null\n  var address v_mySUTentity := null;\n   :\n  // receiving an address value and assigning it to variable MySUTentity\n  pCO.receive(address:?) -> value v_mySUTentity;\n   :\n  // usage of the received address for sending template m_myResult\n  pCO.send(m_myResult) to v_mySUTentity;\n   :\n  // usage of the received address for receiving a confirmation template\n  pCO.receive(mw_myConfirmation) from v_mySUTentity;"
+    },
+    {
+     "lines": [
+      5501,
+      5523
+     ],
+     "text": "type record MyAddressType {  // user-defined type\n     integer field1;\n     boolean field2;\n  }\n  type port MyPortType message {\n     address MyAddressType;  // address declaration\n     inout integer;\n  }\n  type component MyComponentType \n  {\n     port MyPortType pCO;\n  }\n  function f_myFunction () runs on MyComponentType {\n     var MyPortType.address v_sUT_Address := {5, true}; // address value for addressing\n                                      // via ports of MyPortType\n     :\n     pCO.send(integer: 5) to v_sUT_Address;  // use of address value in to\n     :\n     pCO.receive(integer: ?) from v_sUT_Address;  // use of address value in from\n     :\n  }"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.12_test_013.ttcn3",
+   "module": "M_06_02_12_test_013",
+   "header": "// @requirement: 6.2.12 -- TemplateInstance shall be of type address or of the type of the address declaration in a port type definition."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.12-017b",
+   "section": "6.2.12",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "If TemplateInstance is of type address, it may be an address type value, an address type variable, etc.",
+   "canonical": "If a TemplateInstance used for addressing is of type `address`, it MAY be an address type value, an address type variable or another expression of the address type.",
+   "condition": "the TemplateInstance is of type address",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    5471,
+    5472
+   ],
+   "examples": [
+    {
+     "lines": [
+      5483,
+      5498
+     ],
+     "text": "// Associates the type integer to the open type address\n  type integer address;\n   :\n  // new address variable initialized with null\n  var address v_mySUTentity := null;\n   :\n  // receiving an address value and assigning it to variable MySUTentity\n  pCO.receive(address:?) -> value v_mySUTentity;\n   :\n  // usage of the received address for sending template m_myResult\n  pCO.send(m_myResult) to v_mySUTentity;\n   :\n  // usage of the received address for receiving a confirmation template\n  pCO.receive(mw_myConfirmation) from v_mySUTentity;"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.12_test_014.ttcn3",
+   "module": "M_06_02_12_test_014",
+   "header": "// @requirement: 6.2.12 -- If TemplateInstance is of type address, it may be an address type value, an address type variable, etc."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.12-018a",
+   "section": "6.2.12",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "b) For addressing purposes, the address type shall only be used in the to, from and sender parts of receive and send operations of ports mapped to the test system interface.",
+   "canonical": "For addressing purposes, the address type SHALL only be used in the `to`, `from` and `sender` parts of communication operations of ports mapped to the test system interface.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "Only 'receive and send operations' are named; procedure-based operations (call, getcall, reply, raise, ...) also have to/from/sender parts. The chosen reading treats receive and send as representatives of all communication operations.",
+    "readings": [
+     "For addressing purposes, the address type SHALL only be used in the `to`, `from` and `sender` parts of communication operations of ports mapped to the test system interface.",
+     "For addressing purposes, the address type SHALL only be used in the `to`, `from` and `sender` parts of `receive` and `send` operations, and in no other operation, of ports mapped to the test system interface."
+    ]
+   },
+   "spec_lines": [
+    5474,
+    5475
+   ],
+   "examples": [
+    {
+     "lines": [
+      5483,
+      5498
+     ],
+     "text": "// Associates the type integer to the open type address\n  type integer address;\n   :\n  // new address variable initialized with null\n  var address v_mySUTentity := null;\n   :\n  // receiving an address value and assigning it to variable MySUTentity\n  pCO.receive(address:?) -> value v_mySUTentity;\n   :\n  // usage of the received address for sending template m_myResult\n  pCO.send(m_myResult) to v_mySUTentity;\n   :\n  // usage of the received address for receiving a confirmation template\n  pCO.receive(mw_myConfirmation) from v_mySUTentity;"
+    },
+    {
+     "lines": [
+      5526,
+      5574
+     ],
+     "text": "type AddressType1 address;  // address type definition on module level\n  type port MyPortType1 message {\n     inout MsgType1;\n  }\n  // address types bound to port types\n  type port MyPortType2 message {\n     address AddressType2; // values of type AddressType2 can be\n                          // used to address SUT entities.\n     inout MsgType2;\n  }\n  type port MyMessagePort3 message {\n     address AddressType3; // values of type AddressType3 can be\n                          // used to address SUT entities.\n     inout MsgType3;\n  }\n  // component type definition\n  type component MyComponentType \n  {\n     port MyPortType1 pCO1;\n     port MyPortType2 pCO2;\n     port MyPortType3 pCO3\n  }\n  // The following behaviour is considered to be executed on an instance of MyComponentType.\n  // Furthermore, it is considered that the ports PCO1, PCO2 and PCO3 are mapped ports, i.e.\n  // used for the communication with the SUT.\n   :\n  // new address variable initialized with null\n  var MyPortType1.address v_mySUTentity1 := null; // type of v_mySUTentity1 is AddressType1\n  var MyPortType2.address v_mySUTentity2 := null; // type of v_mySUTentity2 is AddressType2\n  var MyPortType3.address v_mySUTentity3 := null; // type of v_mySUTentity3 is AddressType3\n   :\n  // receiving address values and assigning them to variables\n  pCO1.receive(MsgType1:?) from address:? -> sender v_mySUTentity1;\n                                 // Address type of module scope,\n                                 // no prefi"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.12_test_015.ttcn3",
+   "module": "M_06_02_12_test_015",
+   "header": "// @requirement: 6.2.12 -- b) For addressing purposes, the address type shall only be used in the to, from and sender parts of receive and send operations of ports mapped to the test system interface."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.12-019a",
+   "section": "6.2.12",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "c) The address type shall not be used in the to, from and sender parts of receive and send operations of connected ports, i.e. ports used for the communication among test components.",
+   "canonical": "The address type SHALL NOT be used in the `to`, `from` and `sender` parts of `receive` and `send` operations of connected ports, i.e. ports used for communication among test components.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    5477,
+    5478
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.02.12_test_016.ttcn3",
+   "module": "M_06_02_12_test_016",
+   "header": "// @requirement: 6.2.12 -- c) The address type shall not be used in the to, from and sender parts of receive and send operations of connected ports, i.e. ports used for the communication among test components."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.13.0-001a",
+   "section": "6.2.13.0",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "TTCN-3 allows subtyping of structured types as given in table 3.",
+   "canonical": "A structured type MAY be subtyped as given in table 3.",
+   "condition": null,
+   "cross_refs": [
+    "6.2.13.1",
+    "6.2.13.2",
+    "6.2.13.3"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    5580,
+    5581
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.02.13.00_test_001.ttcn3",
+   "module": "M_06_02_13_00_test_001",
+   "header": "// @requirement: 6.2.13.0 -- TTCN-3 allows subtyping of structured types as given in table 3."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.13.0-002a",
+   "section": "6.2.13.0",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "original": "Values of a subtype shall fulfil conditions specified by its constraint and all constraints existing in all its direct and indirect parent types up to the core type.",
+   "canonical": "A value of a subtype SHALL fulfil the constraint of the subtype and all constraints of all its direct and indirect parent types up to the core type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    5580,
+    5581
+   ],
+   "examples": [
+    {
+     "lines": [
+      5611,
+      5622
+     ],
+     "text": "type record of charstring StringArray;\n   // is an unlimited record of, each element shall be a charstring\n    type StringArray StringArray34 length(4 .. 5);\n    // is a record of 4 or 5 elements, each element is a charstring\n    // it is equivalent to\n    // type record length(4 .. 5) of charstring StringArray34a;\n    type StringArray34 StringArray34again length(4 .. 5);\n    // the same as StringArray34\n    type StringArray34 StringArray6 length(6);\n    // causes an error as record ofs with 6 elements are not legal values of StringArray34"
+    },
+    {
+     "lines": [
+      5647,
+      5694
+     ],
+     "text": "type record MyRecord {\n    integer f1 optional,\n    charstring f2,\n    charstring f3\n   }\n   type MyRecord MyRecordSub1 (\n    { f1 := omit, f2 := \"user\", f3 := \"password\" },\n    { f1 := 1, f2 := \"User\", f3 := \"Password\" }\n   ) // a valid subtype of MyRecord containing 2 values\n   type MyRecord MyRecordSub2 (\n    MyRecordSub1,\n\n    { f1 := 2, f2 := \"uname\", f3 := \"pswd\" },\n    { f1 := 3, f2 := \"Uname\", f3 := \"Pswd\" }\n   ) // a valid subtype of MyRecord, containing 4 values; notice that values of\n    // MyRecordSub1 are identified by referencing MyRecordSub1\n   type MyRecordSub1 MyRecordSub3 (\n    { f1 := 1, f2 := \"user\", f3 := \"password\" },\n    { f1 := 1, f2 := \"User\", f3 := \"Password\" }\n   ) // invalid type as { f1 := 1, f2 := \"user\", f3 := \"password\" } is not a legal value of\n    // MyRecordSub1 (notice field f1)\n   type MyRecord MyRecordSub4 (\n    { f2 := \"user\", f3 := \"password\" },\n    { f2 := \"User\", f3 := \"Password\" }\n   ) // any valid value of MyRecord, where the combination of f2 and f3 is\n    // f2 := \"user\" AND f3 := \"password\" or f2 := \"User\" AND f3 := \"Password\"\n    // i.e. field f1 is considered as if it was present and contained AnyValueOrNone\n  type MyRecord MyRecordSub5 (\n    { f2 := \"user\", f3 := pattern \"password|Password\" },\n    { f1 := (1 .. 10), f2 := \"User\" }\n   ) // a valid subtype of MyRecord containing all values which match one of the given \n    // templates \n   // { f1 := *, f2 := \"user\", f3 := pattern \"password|Password\" } or\n   // { f1 := (1 .. 10)"
+    },
+    {
+     "lines": [
+      5874,
+      5910
+     ],
+     "text": "type record of String23Array String23Array45 length(4 .. 5);\n  // is a two-dimensional array, the first dimension is unlimited, \n  // the second dimension is restricted to 4 or 5 elements and each element\n  // is a charstring of 2 or 3 characters. It is equivalent to:\n  // type record of record length(4 .. 5) of charstring String23Array45 length(2 .. 3);\n  const String23Array45 c_str23arr45_a := {\n   { \"aa\", \"bbb\", \"cc\", \"ddd\" },\n   { \"ee\", \"fff\", \"gg\", \"hhh\", \"ii\" }\n  }; // valid, 4 or 5 elements in the inner record of, all containing 2 or 3 characters\n  const String23Array45 c_str23arr45_b := {\n   { \"aa\", \"bbb\", \"cc\" }\n  }; //causes an error as there are only 3 elements in the inner record of\n  const String23Array45 c_str23arr45_c := {\n   { \"aa\", \"bbbb\", \"cc\", \"dd\" }\n  }; //causes an error as \"bbbb\" contains 4 characters\n  type record length(0 .. 1) of String23Array String23Array0145 length(4 .. 5);\n  // is a two-dimensional array, the first dimension is limited to 0 or 1 elements,\n  // the second dimension is restricted to 4 or 5 elements, each element is a \n  // charstring of 2 or 3 characters.\n  const String23Array0145 c_str23arr0145_a := {\n   { \"aa\", \"bbb\", \"cc\", \"ddd\" },\n  }; // a valid 1*4 array of charstrings, each of 2 or 3 characters\n  const String23Array0145 c_str23arr0145_a := {\n   { \"aa\", \"bbb\", \"cc\", \"ddd\" },\n   { \"ee\", \"fff\", \"gg\", \"hhh\", \"ii\" }\n  }; // causes an error as there are two elements in the outer record of\n  const String23Array0145 c_str23arr0145_b "
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.13.00_test_002.ttcn3",
+   "module": "M_06_02_13_00_test_002",
+   "header": "// @requirement: 6.2.13.0 -- Values of a subtype shall fulfil conditions specified by its constraint and all constraints existing in all its direct and indirect parent types up to the core type."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.13.1-001a",
+   "section": "6.2.13.1",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "TTCN-3 permits constraining the number of elements in instances of record of and set of types.",
+   "canonical": "The number of elements of a value of a record of or set of type MAY be constrained.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    5585,
+    5585
+   ],
+   "examples": [
+    {
+     "lines": [
+      5598,
+      5608
+     ],
+     "text": "type record length(10) of integer MyRecordOfType10;\n   // is a record of exactly 10 integers\n    type record length(0..10) of integer MyRecordOfType0_10;\n   // is a record of a maximum of 10 integers\n    type record length(10..infinity) of integer MyRecordOfType10up; \n   // record of at least 10 integers\n    type record length(0..infinity) of integer MyRecordOfType0up; \n\n    // an unrestricted record of integer type"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.13.01_test_001.ttcn3",
+   "module": "M_06_02_13_01_test_001",
+   "header": "// @requirement: 6.2.13.1 -- TTCN-3 permits constraining the number of elements in instances of record of and set of types."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.13.1-002a",
+   "section": "6.2.13.1",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "The length keyword followed by a value or a range (with inclusive boundaries only) within brackets and used between the record or set and the of keywords, restricts the allowed number of elements for the given record of or set of type.",
+   "canonical": "A length restriction of a record of or set of type IS written as the `length` keyword followed by a single value or a range with inclusive boundaries in parentheses, placed between the `record` or `set` keyword and the `of` keyword.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "'brackets' is used for the parentheses enclosing the length value or range.",
+    "improper_terms": [
+     {
+      "used": "brackets",
+      "proper": "parentheses",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    5587,
+    5589
+   ],
+   "examples": [
+    {
+     "lines": [
+      5598,
+      5608
+     ],
+     "text": "type record length(10) of integer MyRecordOfType10;\n   // is a record of exactly 10 integers\n    type record length(0..10) of integer MyRecordOfType0_10;\n   // is a record of a maximum of 10 integers\n    type record length(10..infinity) of integer MyRecordOfType10up; \n   // record of at least 10 integers\n    type record length(0..infinity) of integer MyRecordOfType0up; \n\n    // an unrestricted record of integer type"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.13.01_test_002.ttcn3",
+   "module": "M_06_02_13_01_test_002",
+   "header": "// @requirement: 6.2.13.1 -- The length keyword followed by a value or a range (with inclusive boundaries only) within brackets and used between the record or set and the of keywords, restricts the allowed number of elements for the given record of or set of type."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.13.1-002b",
+   "section": "6.2.13.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The length keyword followed by a value or a range (with inclusive boundaries only) within brackets and used between the record or set and the of keywords, restricts the allowed number of elements for the given record of or set of type.",
+   "canonical": "A length restriction of a record of or set of type IS restricting the allowed number of elements of values of that type to the given value or range.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    5587,
+    5589
+   ],
+   "examples": [
+    {
+     "lines": [
+      5598,
+      5608
+     ],
+     "text": "type record length(10) of integer MyRecordOfType10;\n   // is a record of exactly 10 integers\n    type record length(0..10) of integer MyRecordOfType0_10;\n   // is a record of a maximum of 10 integers\n    type record length(10..infinity) of integer MyRecordOfType10up; \n   // record of at least 10 integers\n    type record length(0..infinity) of integer MyRecordOfType0up; \n\n    // an unrestricted record of integer type"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.13.01_test_003.ttcn3",
+   "module": "M_06_02_13_01_test_003",
+   "header": "// @requirement: 6.2.13.1 -- The length keyword followed by a value or a range (with inclusive boundaries only) within brackets and used between the record or set and the of keywords, restricts the allowed number of elements for the given record of or set of type."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.13.1-003a",
+   "section": "6.2.13.1",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "The value or the bounds within the brackets shall be non-negative integer values, except when the infinity keyword is used at the place of the upper bound, in which case the maximum number of the elements is not constrained.",
+   "canonical": "The value or the bounds of a length restriction of a record of or set of type SHALL be non-negative integer values, except for an upper bound given as `infinity`.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    5587,
+    5589
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.02.13.01_test_004.ttcn3",
+   "module": "M_06_02_13_01_test_004",
+   "header": "// @requirement: 6.2.13.1 -- The value or the bounds within the brackets shall be non-negative integer values, except when the infinity keyword is used at the place of the upper bound, in which case the maximum number of the elements is not constrained."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.13.1-003b",
+   "section": "6.2.13.1",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "The value or the bounds within the brackets shall be non-negative integer values, except when the infinity keyword is used at the place of the upper bound, in which case the maximum number of the elements is not constrained.",
+   "canonical": "The `infinity` keyword MAY be used as the upper bound of a length restriction range of a record of or set of type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    5587,
+    5589
+   ],
+   "examples": [
+    {
+     "lines": [
+      5598,
+      5608
+     ],
+     "text": "type record length(10) of integer MyRecordOfType10;\n   // is a record of exactly 10 integers\n    type record length(0..10) of integer MyRecordOfType0_10;\n   // is a record of a maximum of 10 integers\n    type record length(10..infinity) of integer MyRecordOfType10up; \n   // record of at least 10 integers\n    type record length(0..infinity) of integer MyRecordOfType0up; \n\n    // an unrestricted record of integer type"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.13.01_test_005.ttcn3",
+   "module": "M_06_02_13_01_test_005",
+   "header": "// @requirement: 6.2.13.1 -- The value or the bounds within the brackets shall be non-negative integer values, except when the infinity keyword is used at the place of the upper bound, in which case the maximum number of the elements is not constrained."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.13.1-003c",
+   "section": "6.2.13.1",
+   "type": "semantics",
+   "modality": "IS NOT",
+   "original": "The value or the bounds within the brackets shall be non-negative integer values, except when the infinity keyword is used at the place of the upper bound, in which case the maximum number of the elements is not constrained.",
+   "canonical": "If `infinity` is used as the upper bound of a length restriction, the maximum number of elements IS NOT constrained.",
+   "condition": "the upper bound is infinity",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    5587,
+    5589
+   ],
+   "examples": [
+    {
+     "lines": [
+      5598,
+      5608
+     ],
+     "text": "type record length(10) of integer MyRecordOfType10;\n   // is a record of exactly 10 integers\n    type record length(0..10) of integer MyRecordOfType0_10;\n   // is a record of a maximum of 10 integers\n    type record length(10..infinity) of integer MyRecordOfType10up; \n   // record of at least 10 integers\n    type record length(0..infinity) of integer MyRecordOfType0up; \n\n    // an unrestricted record of integer type"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.13.01_test_006.ttcn3",
+   "module": "M_06_02_13_01_test_006",
+   "header": "// @requirement: 6.2.13.1 -- The value or the bounds within the brackets shall be non-negative integer values, except when the infinity keyword is used at the place of the upper bound, in which case the maximum number of the elements is not constrained."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.13.1-004a",
+   "section": "6.2.13.1",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "In case of the range syntax the upper bound shall not be lesser than the lower bound value.",
+   "canonical": "The upper bound of a length restriction range SHALL NOT be less than the lower bound.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    5587,
+    5589
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.02.13.01_test_007.ttcn3",
+   "module": "M_06_02_13_01_test_007",
+   "header": "// @requirement: 6.2.13.1 -- In case of the range syntax the upper bound shall not be lesser than the lower bound value."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.13.1-005a",
+   "section": "6.2.13.1",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Record of and set of type definitions may be used to define new record of or set of subtypes.",
+   "canonical": "A record of or set of type definition MAY be used as parent type to define a new record of or set of subtype.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    5591,
+    5591
+   ],
+   "examples": [
+    {
+     "lines": [
+      5611,
+      5622
+     ],
+     "text": "type record of charstring StringArray;\n   // is an unlimited record of, each element shall be a charstring\n    type StringArray StringArray34 length(4 .. 5);\n    // is a record of 4 or 5 elements, each element is a charstring\n    // it is equivalent to\n    // type record length(4 .. 5) of charstring StringArray34a;\n    type StringArray34 StringArray34again length(4 .. 5);\n    // the same as StringArray34\n    type StringArray34 StringArray6 length(6);\n    // causes an error as record ofs with 6 elements are not legal values of StringArray34"
+    },
+    {
+     "lines": [
+      5625,
+      5631
+     ],
+     "text": "type record MyCapsule {\n     set of integer mySetOfInt\n    }\n    type MyCapsule.mySetOfInt MySetOfIntSub length(5..10);\n    // unordered list of 5 to 10 integers"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.13.01_test_008.ttcn3",
+   "module": "M_06_02_13_01_test_008",
+   "header": "// @requirement: 6.2.13.1 -- Record of and set of type definitions may be used to define new record of or set of subtypes."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.13.1-006a",
+   "section": "6.2.13.1",
+   "type": "syntax",
+   "modality": "SHALL",
+   "original": "In this case the rules of the previous paragraph apply, except that the length keyword and the value or range defining the allowed number of iterations (within brackets) shall be placed following the identifier of the new type.",
+   "canonical": "When a new record of or set of subtype is defined from a referenced record of or set of type, the `length` keyword and the value or range SHALL be placed following the identifier of the new type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    5591,
+    5591
+   ],
+   "examples": [
+    {
+     "lines": [
+      5611,
+      5622
+     ],
+     "text": "type record of charstring StringArray;\n   // is an unlimited record of, each element shall be a charstring\n    type StringArray StringArray34 length(4 .. 5);\n    // is a record of 4 or 5 elements, each element is a charstring\n    // it is equivalent to\n    // type record length(4 .. 5) of charstring StringArray34a;\n    type StringArray34 StringArray34again length(4 .. 5);\n    // the same as StringArray34\n    type StringArray34 StringArray6 length(6);\n    // causes an error as record ofs with 6 elements are not legal values of StringArray34"
+    },
+    {
+     "lines": [
+      5625,
+      5631
+     ],
+     "text": "type record MyCapsule {\n     set of integer mySetOfInt\n    }\n    type MyCapsule.mySetOfInt MySetOfIntSub length(5..10);\n    // unordered list of 5 to 10 integers"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.13.01_test_009.ttcn3",
+   "module": "M_06_02_13_01_test_009",
+   "header": "// @requirement: 6.2.13.1 -- In this case the rules of the previous paragraph apply, except that the length keyword and the value or range defining the allowed number of iterations (within brackets) shall be placed following the identifier of the new type."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.13.1-006b",
+   "section": "6.2.13.1",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "In this case the rules of the previous paragraph apply, except that the length keyword and the value or range defining the allowed number of iterations (within brackets) shall be placed following the identifier of the new type.",
+   "canonical": "The rules on the value and bounds of a length restriction (non-negative integers, `infinity` upper bound, upper bound not less than lower bound) SHALL also apply to length subtyping of referenced record of and set of types.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    5587,
+    5591
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.02.13.01_test_010.ttcn3",
+   "module": "M_06_02_13_01_test_010",
+   "header": "// @requirement: 6.2.13.1 -- In this case the rules of the previous paragraph apply, except that the length keyword and the value or range defining the allowed number of iterations (within brackets) shall be placed following the identifier of the new type."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.13.1-007a",
+   "section": "6.2.13.1",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "Constants used in the constant expressions of length subtyping shall meet with the restrictions in clause 10.",
+   "canonical": "A constant used in a constant expression of length subtyping SHALL meet the restrictions of clause 10.",
+   "condition": null,
+   "cross_refs": [
+    "10"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    5593,
+    5593
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.02.13.01_test_011.ttcn3",
+   "module": "M_06_02_13_01_test_011",
+   "header": "// @requirement: 6.2.13.1 -- Constants used in the constant expressions of length subtyping shall meet with the restrictions in clause 10."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.13.2-001a",
+   "section": "6.2.13.2",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "List subtyping is possible when defining a new type based on an existing parent type, but not directly at the declaration of the core type (see table 3).",
+   "canonical": "List subtyping MAY be used when defining a new type based on an existing parent type.",
+   "condition": null,
+   "cross_refs": [
+    "6.2.13.0"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    5635,
+    5636
+   ],
+   "examples": [
+    {
+     "lines": [
+      5647,
+      5694
+     ],
+     "text": "type record MyRecord {\n    integer f1 optional,\n    charstring f2,\n    charstring f3\n   }\n   type MyRecord MyRecordSub1 (\n    { f1 := omit, f2 := \"user\", f3 := \"password\" },\n    { f1 := 1, f2 := \"User\", f3 := \"Password\" }\n   ) // a valid subtype of MyRecord containing 2 values\n   type MyRecord MyRecordSub2 (\n    MyRecordSub1,\n\n    { f1 := 2, f2 := \"uname\", f3 := \"pswd\" },\n    { f1 := 3, f2 := \"Uname\", f3 := \"Pswd\" }\n   ) // a valid subtype of MyRecord, containing 4 values; notice that values of\n    // MyRecordSub1 are identified by referencing MyRecordSub1\n   type MyRecordSub1 MyRecordSub3 (\n    { f1 := 1, f2 := \"user\", f3 := \"password\" },\n    { f1 := 1, f2 := \"User\", f3 := \"Password\" }\n   ) // invalid type as { f1 := 1, f2 := \"user\", f3 := \"password\" } is not a legal value of\n    // MyRecordSub1 (notice field f1)\n   type MyRecord MyRecordSub4 (\n    { f2 := \"user\", f3 := \"password\" },\n    { f2 := \"User\", f3 := \"Password\" }\n   ) // any valid value of MyRecord, where the combination of f2 and f3 is\n    // f2 := \"user\" AND f3 := \"password\" or f2 := \"User\" AND f3 := \"Password\"\n    // i.e. field f1 is considered as if it was present and contained AnyValueOrNone\n  type MyRecord MyRecordSub5 (\n    { f2 := \"user\", f3 := pattern \"password|Password\" },\n    { f1 := (1 .. 10), f2 := \"User\" }\n   ) // a valid subtype of MyRecord containing all values which match one of the given \n    // templates \n   // { f1 := *, f2 := \"user\", f3 := pattern \"password|Password\" } or\n   // { f1 := (1 .. 10)"
+    },
+    {
+     "lines": [
+      5697,
+      5717
+     ],
+     "text": "type record of charstring MyRecordOf;\n    type MyRecordOf MyRecordOfSub1(\n     { \"aa\" },\n     { \"bbb\", \"cc\" },\n     { \"ddd\", \"ee\", \"ff\" }\n    ); // valid subtype of MyRecordOf\n    type MyRecordOfSub1 MyRecordOfSub2(\n     { \"aa\" },\n     { \"bbb\", \"cc\" }\n    ); // valid subtype of MyRecordOfSub1\n    type MyRecordOfSub1 MyRecordOfSub3(\n     MyRecordOfSub2,\n     { \"ddd\", \"ee\", \"ff\" }\n    ); // valid, but equivalent to MyRecordOfSub1\n    type MyRecordOfSub1 MyRecordOfSub4(\n     MyRecordOfSub2,\n     { \"ddd\", \"ee\", \"fff\" }\n    ); // invalid type as { \"ddd\", \"ee\", \"fff\" } is not a value of MyRecordOfSub1\n     // (notice the extra character f in the third element)"
+    },
+    {
+     "lines": [
+      5720,
+      5741
+     ],
+     "text": "type union MyUnion {\n    integer c1,\n    charstring c2,\n    charstring c3\n   };\n   type MyUnion MyUnionSub1 (\n    { c1 := 0 },\n    { c1 := 1 }\n\n   ); // a valid subtype of MyUnion containing two values\n   type MyUnion MyUnionSub2 (\n    MyUnionSub1,\n    { c2 := \"mine\" },\n    { c3 := \"yours\" }\n   ); // a valid subtype of MyUnion containing four values; notice that values of\n    // MyUnionSub1 are identified by referencing MyUnionSub1\n   type MyUnionSub1 MyUnionSub3 (\n    { c1 := 0 },\n    { c1 := 2 }\n   ); // an invalid type as { c1 := 2 } is not a value of MyUnionSub1"
+    },
+    {
+     "lines": [
+      5744,
+      5755
+     ],
+     "text": "type enumerated MyEnum { e_first, e_second, e_third, e_fourth, e_fifth };\n   type MyEnum EnumSub1 ( e_first, e_second, e_third );\n    // a valid subtype of MyEnum\n   type EnumSub1 EnumSub2 ( e_first, e_second );\n    // a valid subtype of EnumSub1\n   type EnumSub1 EnumSub3 ( e_first, e_second, e_fourth );\n    // an invalid type as e_fourth is not a value of EnumSub1\n   type MyEnum EnumSub4 ( EnumSub1, e_fourth);\n    // an invalid type as type references are not allowed in the template list \n   // of enumerated types"
+    },
+    {
+     "lines": [
+      5758,
+      5786
+     ],
+     "text": "type anytype MyAnySub1 (\n   { integer := 5 },\n   { boolean := false },\n   { bitstring := '0011'B },\n   { charstring := \"mine\" },\n   { MyEnum := first }\n  ); // a valid subtype of anytype, consisting of 5 values\n  type MyAnySub1 MyAnySub2 (\n   { integer := 5 },\n   { boolean := false },\n   { bitstring := '0011'B }\n  ); // a valid subtype of MyAnySub1, consisting of 3 values\n  type anytype MyAnySub3 (\n   MyAnySub2,\n   { octetstring := 'FF'O }\n  ); // a valid subtype of anytype, consisting of 4 values, 3 of which are defined\n    // by referring to MyAnySub2\n  type MyAnySub1 MyAnySub4 (\n   { integer := 5 },\n   { boolean := false },\n   { MyEnum := second }\n  ); // an invalid type as { MyEnum := second } is not a value of MyAnySub1\n  type MyAnySub1 MyAnySub5 (\n   MyAnySub3,\n   { MyEnum := first }\n  ); // an invalid type as { octetstring := 'FF'O } (defined via referencing MyAnySub3) is\n    // not a value of MyAnySub1"
+    },
+    {
+     "lines": [
+      5789,
+      5808
+     ],
+     "text": "type charstring MyArray[1 .. 2];\n    type MyArray MyArraySub1 (\n     { \"aa\", \"cc\" },\n     { \"bb\", \"cc\" }\n    ); // valid subtype of MyArray\n    type MyArraySub1 MyArraySub2 (\n     { \"aa\", \"cc\" }\n    ); // valid subtype of MyArraySub1\n\n    type MyArrayList1 MyArraySub3 (\n     MyArraySub2,\n     { \"bb\", \"cc\" }\n    ); // valid, also equivalent to MyArraySub1\n    type MyArraySub1 MyArraySub4 (\n     MyArraySub2,\n     { \"dd\", \"cc\" }\n    ); // an invalid type as { \"dd\", \"cc\" } is not a value of MyArraySub1\n     // (notice the dd in the first element)"
+    },
+    {
+     "lines": [
+      5811,
+      5830
+     ],
+     "text": "type map from charstring to charstring MyMap;\n    type MyMap MyMapSub1(\n     { [\"X58IS5\"] := \"John Doe\", [\"L54J2Y\"] := \"Marry Smith\" },\n     { [\"7HF0Q7\"] := \"Emma Jones\", [\"L54J2Y\"] := \"Jack Williams\" },\n     { [\"U459LL\"] := \"Jennifer Willson\", [\"15EJ2F\"] := \"James Walsh\" }\n    ); // valid subtype of MyMap\n    type MyRecordOfSub1 MyMapSub2(\n     { [\"X58IS5\"] := \"John Doe\", [\"L54J2Y\"] := \"Marry Smith\" },\n     { [\"7HF0Q7\"] := \"Emma Jones\", [\"L54J2Y\"] := \"Jack Williams\" }\n    ); // valid subtype of MyMapSub1\n    type MyMapSub1 MyMapSub3(\n     MyMapSub2,\n     { [\"U459LL\"] := \"Jennifer Willson\", [\"15EJ2F\"] := \"James Walsh\" }\n    ); // valid, but equivalent to MyMapSub1\n    type MyMapSub1 MyMapSub4(\n     MyRecordOfSub2,\n     { [\"E4TH20\"] := \"Jacob Murphy\", [\"47IOH1\"] := \" Charlotte Evans\" }\n  ); // causes an error as the map value specified with assignment notation is not a value\n    // of MyMapSub1"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.13.02_test_001.ttcn3",
+   "module": "M_06_02_13_02_test_001",
+   "header": "// @requirement: 6.2.13.2 -- List subtyping is possible when defining a new type based on an existing parent type, but not directly at the declaration of the core type (see table 3)."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.13.2-001b",
+   "section": "6.2.13.2",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "List subtyping is possible when defining a new type based on an existing parent type, but not directly at the declaration of the core type (see table 3).",
+   "canonical": "List subtyping SHALL NOT be applied directly at the declaration of a core type.",
+   "condition": null,
+   "cross_refs": [
+    "6.2.13.0"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    5635,
+    5636
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.02.13.02_test_002.ttcn3",
+   "module": "M_06_02_13_02_test_002",
+   "header": "// @requirement: 6.2.13.2 -- List subtyping is possible when defining a new type based on an existing parent type, but not directly at the declaration of the core type (see table 3)."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.13.2-002a",
+   "section": "6.2.13.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Subtypes defined by a list subtyping restrict the allowed values of the subtype to the values matched by at least one of the constraints in the list.",
+   "canonical": "A subtype defined by list subtyping IS restricting its allowed values to the values matched by at least one of the constraints in the list.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    5638,
+    5638
+   ],
+   "examples": [
+    {
+     "lines": [
+      5647,
+      5694
+     ],
+     "text": "type record MyRecord {\n    integer f1 optional,\n    charstring f2,\n    charstring f3\n   }\n   type MyRecord MyRecordSub1 (\n    { f1 := omit, f2 := \"user\", f3 := \"password\" },\n    { f1 := 1, f2 := \"User\", f3 := \"Password\" }\n   ) // a valid subtype of MyRecord containing 2 values\n   type MyRecord MyRecordSub2 (\n    MyRecordSub1,\n\n    { f1 := 2, f2 := \"uname\", f3 := \"pswd\" },\n    { f1 := 3, f2 := \"Uname\", f3 := \"Pswd\" }\n   ) // a valid subtype of MyRecord, containing 4 values; notice that values of\n    // MyRecordSub1 are identified by referencing MyRecordSub1\n   type MyRecordSub1 MyRecordSub3 (\n    { f1 := 1, f2 := \"user\", f3 := \"password\" },\n    { f1 := 1, f2 := \"User\", f3 := \"Password\" }\n   ) // invalid type as { f1 := 1, f2 := \"user\", f3 := \"password\" } is not a legal value of\n    // MyRecordSub1 (notice field f1)\n   type MyRecord MyRecordSub4 (\n    { f2 := \"user\", f3 := \"password\" },\n    { f2 := \"User\", f3 := \"Password\" }\n   ) // any valid value of MyRecord, where the combination of f2 and f3 is\n    // f2 := \"user\" AND f3 := \"password\" or f2 := \"User\" AND f3 := \"Password\"\n    // i.e. field f1 is considered as if it was present and contained AnyValueOrNone\n  type MyRecord MyRecordSub5 (\n    { f2 := \"user\", f3 := pattern \"password|Password\" },\n    { f1 := (1 .. 10), f2 := \"User\" }\n   ) // a valid subtype of MyRecord containing all values which match one of the given \n    // templates \n   // { f1 := *, f2 := \"user\", f3 := pattern \"password|Password\" } or\n   // { f1 := (1 .. 10)"
+    },
+    {
+     "lines": [
+      5697,
+      5717
+     ],
+     "text": "type record of charstring MyRecordOf;\n    type MyRecordOf MyRecordOfSub1(\n     { \"aa\" },\n     { \"bbb\", \"cc\" },\n     { \"ddd\", \"ee\", \"ff\" }\n    ); // valid subtype of MyRecordOf\n    type MyRecordOfSub1 MyRecordOfSub2(\n     { \"aa\" },\n     { \"bbb\", \"cc\" }\n    ); // valid subtype of MyRecordOfSub1\n    type MyRecordOfSub1 MyRecordOfSub3(\n     MyRecordOfSub2,\n     { \"ddd\", \"ee\", \"ff\" }\n    ); // valid, but equivalent to MyRecordOfSub1\n    type MyRecordOfSub1 MyRecordOfSub4(\n     MyRecordOfSub2,\n     { \"ddd\", \"ee\", \"fff\" }\n    ); // invalid type as { \"ddd\", \"ee\", \"fff\" } is not a value of MyRecordOfSub1\n     // (notice the extra character f in the third element)"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.13.02_test_003.ttcn3",
+   "module": "M_06_02_13_02_test_003",
+   "header": "// @requirement: 6.2.13.2 -- Subtypes defined by a list subtyping restrict the allowed values of the subtype to the values matched by at least one of the constraints in the list."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.13.2-003a",
+   "section": "6.2.13.2",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "In case of list subtyping of `record`, `set`, `record of`, `set of`, `union`, `map` and `anytype` types, and arrays, the list may contain both subtypes and possibly partial templates of the core type.",
+   "canonical": "In list subtyping of record, set, record of, set of, union, map and anytype types and of arrays, the list MAY contain both subtypes and possibly partial templates of the core type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    5638,
+    5638
+   ],
+   "examples": [
+    {
+     "lines": [
+      5647,
+      5694
+     ],
+     "text": "type record MyRecord {\n    integer f1 optional,\n    charstring f2,\n    charstring f3\n   }\n   type MyRecord MyRecordSub1 (\n    { f1 := omit, f2 := \"user\", f3 := \"password\" },\n    { f1 := 1, f2 := \"User\", f3 := \"Password\" }\n   ) // a valid subtype of MyRecord containing 2 values\n   type MyRecord MyRecordSub2 (\n    MyRecordSub1,\n\n    { f1 := 2, f2 := \"uname\", f3 := \"pswd\" },\n    { f1 := 3, f2 := \"Uname\", f3 := \"Pswd\" }\n   ) // a valid subtype of MyRecord, containing 4 values; notice that values of\n    // MyRecordSub1 are identified by referencing MyRecordSub1\n   type MyRecordSub1 MyRecordSub3 (\n    { f1 := 1, f2 := \"user\", f3 := \"password\" },\n    { f1 := 1, f2 := \"User\", f3 := \"Password\" }\n   ) // invalid type as { f1 := 1, f2 := \"user\", f3 := \"password\" } is not a legal value of\n    // MyRecordSub1 (notice field f1)\n   type MyRecord MyRecordSub4 (\n    { f2 := \"user\", f3 := \"password\" },\n    { f2 := \"User\", f3 := \"Password\" }\n   ) // any valid value of MyRecord, where the combination of f2 and f3 is\n    // f2 := \"user\" AND f3 := \"password\" or f2 := \"User\" AND f3 := \"Password\"\n    // i.e. field f1 is considered as if it was present and contained AnyValueOrNone\n  type MyRecord MyRecordSub5 (\n    { f2 := \"user\", f3 := pattern \"password|Password\" },\n    { f1 := (1 .. 10), f2 := \"User\" }\n   ) // a valid subtype of MyRecord containing all values which match one of the given \n    // templates \n   // { f1 := *, f2 := \"user\", f3 := pattern \"password|Password\" } or\n   // { f1 := (1 .. 10)"
+    },
+    {
+     "lines": [
+      5720,
+      5741
+     ],
+     "text": "type union MyUnion {\n    integer c1,\n    charstring c2,\n    charstring c3\n   };\n   type MyUnion MyUnionSub1 (\n    { c1 := 0 },\n    { c1 := 1 }\n\n   ); // a valid subtype of MyUnion containing two values\n   type MyUnion MyUnionSub2 (\n    MyUnionSub1,\n    { c2 := \"mine\" },\n    { c3 := \"yours\" }\n   ); // a valid subtype of MyUnion containing four values; notice that values of\n    // MyUnionSub1 are identified by referencing MyUnionSub1\n   type MyUnionSub1 MyUnionSub3 (\n    { c1 := 0 },\n    { c1 := 2 }\n   ); // an invalid type as { c1 := 2 } is not a value of MyUnionSub1"
+    },
+    {
+     "lines": [
+      5758,
+      5786
+     ],
+     "text": "type anytype MyAnySub1 (\n   { integer := 5 },\n   { boolean := false },\n   { bitstring := '0011'B },\n   { charstring := \"mine\" },\n   { MyEnum := first }\n  ); // a valid subtype of anytype, consisting of 5 values\n  type MyAnySub1 MyAnySub2 (\n   { integer := 5 },\n   { boolean := false },\n   { bitstring := '0011'B }\n  ); // a valid subtype of MyAnySub1, consisting of 3 values\n  type anytype MyAnySub3 (\n   MyAnySub2,\n   { octetstring := 'FF'O }\n  ); // a valid subtype of anytype, consisting of 4 values, 3 of which are defined\n    // by referring to MyAnySub2\n  type MyAnySub1 MyAnySub4 (\n   { integer := 5 },\n   { boolean := false },\n   { MyEnum := second }\n  ); // an invalid type as { MyEnum := second } is not a value of MyAnySub1\n  type MyAnySub1 MyAnySub5 (\n   MyAnySub3,\n   { MyEnum := first }\n  ); // an invalid type as { octetstring := 'FF'O } (defined via referencing MyAnySub3) is\n    // not a value of MyAnySub1"
+    },
+    {
+     "lines": [
+      5789,
+      5808
+     ],
+     "text": "type charstring MyArray[1 .. 2];\n    type MyArray MyArraySub1 (\n     { \"aa\", \"cc\" },\n     { \"bb\", \"cc\" }\n    ); // valid subtype of MyArray\n    type MyArraySub1 MyArraySub2 (\n     { \"aa\", \"cc\" }\n    ); // valid subtype of MyArraySub1\n\n    type MyArrayList1 MyArraySub3 (\n     MyArraySub2,\n     { \"bb\", \"cc\" }\n    ); // valid, also equivalent to MyArraySub1\n    type MyArraySub1 MyArraySub4 (\n     MyArraySub2,\n     { \"dd\", \"cc\" }\n    ); // an invalid type as { \"dd\", \"cc\" } is not a value of MyArraySub1\n     // (notice the dd in the first element)"
+    },
+    {
+     "lines": [
+      5811,
+      5830
+     ],
+     "text": "type map from charstring to charstring MyMap;\n    type MyMap MyMapSub1(\n     { [\"X58IS5\"] := \"John Doe\", [\"L54J2Y\"] := \"Marry Smith\" },\n     { [\"7HF0Q7\"] := \"Emma Jones\", [\"L54J2Y\"] := \"Jack Williams\" },\n     { [\"U459LL\"] := \"Jennifer Willson\", [\"15EJ2F\"] := \"James Walsh\" }\n    ); // valid subtype of MyMap\n    type MyRecordOfSub1 MyMapSub2(\n     { [\"X58IS5\"] := \"John Doe\", [\"L54J2Y\"] := \"Marry Smith\" },\n     { [\"7HF0Q7\"] := \"Emma Jones\", [\"L54J2Y\"] := \"Jack Williams\" }\n    ); // valid subtype of MyMapSub1\n    type MyMapSub1 MyMapSub3(\n     MyMapSub2,\n     { [\"U459LL\"] := \"Jennifer Willson\", [\"15EJ2F\"] := \"James Walsh\" }\n    ); // valid, but equivalent to MyMapSub1\n    type MyMapSub1 MyMapSub4(\n     MyRecordOfSub2,\n     { [\"E4TH20\"] := \"Jacob Murphy\", [\"47IOH1\"] := \" Charlotte Evans\" }\n  ); // causes an error as the map value specified with assignment notation is not a value\n    // of MyMapSub1"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.13.02_test_004.ttcn3",
+   "module": "M_06_02_13_02_test_004",
+   "header": "// @requirement: 6.2.13.2 -- In case of list subtyping of `record`, `set`, `record of`, `set of`, `union`, `map` and `anytype` types, and arrays, the list may contain both subtypes and possibly partial templates of the core type."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.13.2-004a",
+   "section": "6.2.13.2",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "Subtype references shall be resolved in a recursive way: the collection of templates denoted by the subtype(s) referenced in the list become members of the new subtype definition with an expanded list containing only possibly partial templates.",
+   "canonical": "Subtype references in a subtyping list SHALL be resolved recursively, so that the templates denoted by the referenced subtypes become members of an expanded list containing only possibly partial templates.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    5638,
+    5638
+   ],
+   "examples": [
+    {
+     "lines": [
+      5647,
+      5694
+     ],
+     "text": "type record MyRecord {\n    integer f1 optional,\n    charstring f2,\n    charstring f3\n   }\n   type MyRecord MyRecordSub1 (\n    { f1 := omit, f2 := \"user\", f3 := \"password\" },\n    { f1 := 1, f2 := \"User\", f3 := \"Password\" }\n   ) // a valid subtype of MyRecord containing 2 values\n   type MyRecord MyRecordSub2 (\n    MyRecordSub1,\n\n    { f1 := 2, f2 := \"uname\", f3 := \"pswd\" },\n    { f1 := 3, f2 := \"Uname\", f3 := \"Pswd\" }\n   ) // a valid subtype of MyRecord, containing 4 values; notice that values of\n    // MyRecordSub1 are identified by referencing MyRecordSub1\n   type MyRecordSub1 MyRecordSub3 (\n    { f1 := 1, f2 := \"user\", f3 := \"password\" },\n    { f1 := 1, f2 := \"User\", f3 := \"Password\" }\n   ) // invalid type as { f1 := 1, f2 := \"user\", f3 := \"password\" } is not a legal value of\n    // MyRecordSub1 (notice field f1)\n   type MyRecord MyRecordSub4 (\n    { f2 := \"user\", f3 := \"password\" },\n    { f2 := \"User\", f3 := \"Password\" }\n   ) // any valid value of MyRecord, where the combination of f2 and f3 is\n    // f2 := \"user\" AND f3 := \"password\" or f2 := \"User\" AND f3 := \"Password\"\n    // i.e. field f1 is considered as if it was present and contained AnyValueOrNone\n  type MyRecord MyRecordSub5 (\n    { f2 := \"user\", f3 := pattern \"password|Password\" },\n    { f1 := (1 .. 10), f2 := \"User\" }\n   ) // a valid subtype of MyRecord containing all values which match one of the given \n    // templates \n   // { f1 := *, f2 := \"user\", f3 := pattern \"password|Password\" } or\n   // { f1 := (1 .. 10)"
+    },
+    {
+     "lines": [
+      5697,
+      5717
+     ],
+     "text": "type record of charstring MyRecordOf;\n    type MyRecordOf MyRecordOfSub1(\n     { \"aa\" },\n     { \"bbb\", \"cc\" },\n     { \"ddd\", \"ee\", \"ff\" }\n    ); // valid subtype of MyRecordOf\n    type MyRecordOfSub1 MyRecordOfSub2(\n     { \"aa\" },\n     { \"bbb\", \"cc\" }\n    ); // valid subtype of MyRecordOfSub1\n    type MyRecordOfSub1 MyRecordOfSub3(\n     MyRecordOfSub2,\n     { \"ddd\", \"ee\", \"ff\" }\n    ); // valid, but equivalent to MyRecordOfSub1\n    type MyRecordOfSub1 MyRecordOfSub4(\n     MyRecordOfSub2,\n     { \"ddd\", \"ee\", \"fff\" }\n    ); // invalid type as { \"ddd\", \"ee\", \"fff\" } is not a value of MyRecordOfSub1\n     // (notice the extra character f in the third element)"
+    },
+    {
+     "lines": [
+      5720,
+      5741
+     ],
+     "text": "type union MyUnion {\n    integer c1,\n    charstring c2,\n    charstring c3\n   };\n   type MyUnion MyUnionSub1 (\n    { c1 := 0 },\n    { c1 := 1 }\n\n   ); // a valid subtype of MyUnion containing two values\n   type MyUnion MyUnionSub2 (\n    MyUnionSub1,\n    { c2 := \"mine\" },\n    { c3 := \"yours\" }\n   ); // a valid subtype of MyUnion containing four values; notice that values of\n    // MyUnionSub1 are identified by referencing MyUnionSub1\n   type MyUnionSub1 MyUnionSub3 (\n    { c1 := 0 },\n    { c1 := 2 }\n   ); // an invalid type as { c1 := 2 } is not a value of MyUnionSub1"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.13.02_test_005.ttcn3",
+   "module": "M_06_02_13_02_test_005",
+   "header": "// @requirement: 6.2.13.2 -- Subtype references shall be resolved in a recursive way: the collection of templates denoted by the subtype(s) referenced in the list become members of the new subtype definition with an expanded list containing only possibly partial templates."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.13.2-005a",
+   "section": "6.2.13.2",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "original": "All values present in the expanded list shall be valid values of the parent type.",
+   "canonical": "Every value present in the expanded list of a list subtype SHALL be a valid value of the parent type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    5638,
+    5638
+   ],
+   "examples": [
+    {
+     "lines": [
+      5647,
+      5694
+     ],
+     "text": "type record MyRecord {\n    integer f1 optional,\n    charstring f2,\n    charstring f3\n   }\n   type MyRecord MyRecordSub1 (\n    { f1 := omit, f2 := \"user\", f3 := \"password\" },\n    { f1 := 1, f2 := \"User\", f3 := \"Password\" }\n   ) // a valid subtype of MyRecord containing 2 values\n   type MyRecord MyRecordSub2 (\n    MyRecordSub1,\n\n    { f1 := 2, f2 := \"uname\", f3 := \"pswd\" },\n    { f1 := 3, f2 := \"Uname\", f3 := \"Pswd\" }\n   ) // a valid subtype of MyRecord, containing 4 values; notice that values of\n    // MyRecordSub1 are identified by referencing MyRecordSub1\n   type MyRecordSub1 MyRecordSub3 (\n    { f1 := 1, f2 := \"user\", f3 := \"password\" },\n    { f1 := 1, f2 := \"User\", f3 := \"Password\" }\n   ) // invalid type as { f1 := 1, f2 := \"user\", f3 := \"password\" } is not a legal value of\n    // MyRecordSub1 (notice field f1)\n   type MyRecord MyRecordSub4 (\n    { f2 := \"user\", f3 := \"password\" },\n    { f2 := \"User\", f3 := \"Password\" }\n   ) // any valid value of MyRecord, where the combination of f2 and f3 is\n    // f2 := \"user\" AND f3 := \"password\" or f2 := \"User\" AND f3 := \"Password\"\n    // i.e. field f1 is considered as if it was present and contained AnyValueOrNone\n  type MyRecord MyRecordSub5 (\n    { f2 := \"user\", f3 := pattern \"password|Password\" },\n    { f1 := (1 .. 10), f2 := \"User\" }\n   ) // a valid subtype of MyRecord containing all values which match one of the given \n    // templates \n   // { f1 := *, f2 := \"user\", f3 := pattern \"password|Password\" } or\n   // { f1 := (1 .. 10)"
+    },
+    {
+     "lines": [
+      5697,
+      5717
+     ],
+     "text": "type record of charstring MyRecordOf;\n    type MyRecordOf MyRecordOfSub1(\n     { \"aa\" },\n     { \"bbb\", \"cc\" },\n     { \"ddd\", \"ee\", \"ff\" }\n    ); // valid subtype of MyRecordOf\n    type MyRecordOfSub1 MyRecordOfSub2(\n     { \"aa\" },\n     { \"bbb\", \"cc\" }\n    ); // valid subtype of MyRecordOfSub1\n    type MyRecordOfSub1 MyRecordOfSub3(\n     MyRecordOfSub2,\n     { \"ddd\", \"ee\", \"ff\" }\n    ); // valid, but equivalent to MyRecordOfSub1\n    type MyRecordOfSub1 MyRecordOfSub4(\n     MyRecordOfSub2,\n     { \"ddd\", \"ee\", \"fff\" }\n    ); // invalid type as { \"ddd\", \"ee\", \"fff\" } is not a value of MyRecordOfSub1\n     // (notice the extra character f in the third element)"
+    },
+    {
+     "lines": [
+      5720,
+      5741
+     ],
+     "text": "type union MyUnion {\n    integer c1,\n    charstring c2,\n    charstring c3\n   };\n   type MyUnion MyUnionSub1 (\n    { c1 := 0 },\n    { c1 := 1 }\n\n   ); // a valid subtype of MyUnion containing two values\n   type MyUnion MyUnionSub2 (\n    MyUnionSub1,\n    { c2 := \"mine\" },\n    { c3 := \"yours\" }\n   ); // a valid subtype of MyUnion containing four values; notice that values of\n    // MyUnionSub1 are identified by referencing MyUnionSub1\n   type MyUnionSub1 MyUnionSub3 (\n    { c1 := 0 },\n    { c1 := 2 }\n   ); // an invalid type as { c1 := 2 } is not a value of MyUnionSub1"
+    },
+    {
+     "lines": [
+      5744,
+      5755
+     ],
+     "text": "type enumerated MyEnum { e_first, e_second, e_third, e_fourth, e_fifth };\n   type MyEnum EnumSub1 ( e_first, e_second, e_third );\n    // a valid subtype of MyEnum\n   type EnumSub1 EnumSub2 ( e_first, e_second );\n    // a valid subtype of EnumSub1\n   type EnumSub1 EnumSub3 ( e_first, e_second, e_fourth );\n    // an invalid type as e_fourth is not a value of EnumSub1\n   type MyEnum EnumSub4 ( EnumSub1, e_fourth);\n    // an invalid type as type references are not allowed in the template list \n   // of enumerated types"
+    },
+    {
+     "lines": [
+      5758,
+      5786
+     ],
+     "text": "type anytype MyAnySub1 (\n   { integer := 5 },\n   { boolean := false },\n   { bitstring := '0011'B },\n   { charstring := \"mine\" },\n   { MyEnum := first }\n  ); // a valid subtype of anytype, consisting of 5 values\n  type MyAnySub1 MyAnySub2 (\n   { integer := 5 },\n   { boolean := false },\n   { bitstring := '0011'B }\n  ); // a valid subtype of MyAnySub1, consisting of 3 values\n  type anytype MyAnySub3 (\n   MyAnySub2,\n   { octetstring := 'FF'O }\n  ); // a valid subtype of anytype, consisting of 4 values, 3 of which are defined\n    // by referring to MyAnySub2\n  type MyAnySub1 MyAnySub4 (\n   { integer := 5 },\n   { boolean := false },\n   { MyEnum := second }\n  ); // an invalid type as { MyEnum := second } is not a value of MyAnySub1\n  type MyAnySub1 MyAnySub5 (\n   MyAnySub3,\n   { MyEnum := first }\n  ); // an invalid type as { octetstring := 'FF'O } (defined via referencing MyAnySub3) is\n    // not a value of MyAnySub1"
+    },
+    {
+     "lines": [
+      5789,
+      5808
+     ],
+     "text": "type charstring MyArray[1 .. 2];\n    type MyArray MyArraySub1 (\n     { \"aa\", \"cc\" },\n     { \"bb\", \"cc\" }\n    ); // valid subtype of MyArray\n    type MyArraySub1 MyArraySub2 (\n     { \"aa\", \"cc\" }\n    ); // valid subtype of MyArraySub1\n\n    type MyArrayList1 MyArraySub3 (\n     MyArraySub2,\n     { \"bb\", \"cc\" }\n    ); // valid, also equivalent to MyArraySub1\n    type MyArraySub1 MyArraySub4 (\n     MyArraySub2,\n     { \"dd\", \"cc\" }\n    ); // an invalid type as { \"dd\", \"cc\" } is not a value of MyArraySub1\n     // (notice the dd in the first element)"
+    },
+    {
+     "lines": [
+      5811,
+      5830
+     ],
+     "text": "type map from charstring to charstring MyMap;\n    type MyMap MyMapSub1(\n     { [\"X58IS5\"] := \"John Doe\", [\"L54J2Y\"] := \"Marry Smith\" },\n     { [\"7HF0Q7\"] := \"Emma Jones\", [\"L54J2Y\"] := \"Jack Williams\" },\n     { [\"U459LL\"] := \"Jennifer Willson\", [\"15EJ2F\"] := \"James Walsh\" }\n    ); // valid subtype of MyMap\n    type MyRecordOfSub1 MyMapSub2(\n     { [\"X58IS5\"] := \"John Doe\", [\"L54J2Y\"] := \"Marry Smith\" },\n     { [\"7HF0Q7\"] := \"Emma Jones\", [\"L54J2Y\"] := \"Jack Williams\" }\n    ); // valid subtype of MyMapSub1\n    type MyMapSub1 MyMapSub3(\n     MyMapSub2,\n     { [\"U459LL\"] := \"Jennifer Willson\", [\"15EJ2F\"] := \"James Walsh\" }\n    ); // valid, but equivalent to MyMapSub1\n    type MyMapSub1 MyMapSub4(\n     MyRecordOfSub2,\n     { [\"E4TH20\"] := \"Jacob Murphy\", [\"47IOH1\"] := \" Charlotte Evans\" }\n  ); // causes an error as the map value specified with assignment notation is not a value\n    // of MyMapSub1"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.13.02_test_006.ttcn3",
+   "module": "M_06_02_13_02_test_006",
+   "header": "// @requirement: 6.2.13.2 -- All values present in the expanded list shall be valid values of the parent type."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.13.2-006a",
+   "section": "6.2.13.2",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "For partial (i.e. incomplete) values, all following rules on templates apply.",
+   "canonical": "For partial values in the expanded list of a list subtype, the rules on templates given in the following sentences of this clause SHALL apply.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "'all following rules on templates' can refer to the rules stated next in this clause or to the general template rules of clause 15; the first reading is chosen because of the word 'following'.",
+    "readings": [
+     "For partial values in the expanded list of a list subtype, the rules on templates given in the following sentences of this clause SHALL apply.",
+     "For partial values in the expanded list of a list subtype, all rules on templates of the core language (clause 15) SHALL apply."
+    ]
+   },
+   "spec_lines": [
+    5638,
+    5638
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.02.13.02_test_007.ttcn3",
+   "module": "M_06_02_13_02_test_007",
+   "header": "// @requirement: 6.2.13.2 -- For partial (i.e. incomplete) values, all following rules on templates apply."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.13.2-007a",
+   "section": "6.2.13.2",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "original": "When constraining `record of`, `set of`, `union`, `map` and `anytype` types, and arrays, all templates of the expanded list (i.e. after resolving the subtype references) shall be valid (i.e. complete) values and templates of the core type.",
+   "canonical": "When constraining record of, set of, union, map and anytype types and arrays, every template of the expanded list SHALL be a complete value or complete template of the core type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "'valid (i.e. complete) values and templates' leaves open whether matching mechanisms are allowed or only specific values; the reading allowing complete templates is chosen.",
+    "readings": [
+     "When constraining record of, set of, union, map and anytype types and arrays, every template of the expanded list SHALL be a complete value or complete template of the core type.",
+     "When constraining record of, set of, union, map and anytype types and arrays, every element of the expanded list SHALL be a complete specific value of the core type."
+    ]
+   },
+   "spec_lines": [
+    5638,
+    5638
+   ],
+   "examples": [
+    {
+     "lines": [
+      5697,
+      5717
+     ],
+     "text": "type record of charstring MyRecordOf;\n    type MyRecordOf MyRecordOfSub1(\n     { \"aa\" },\n     { \"bbb\", \"cc\" },\n     { \"ddd\", \"ee\", \"ff\" }\n    ); // valid subtype of MyRecordOf\n    type MyRecordOfSub1 MyRecordOfSub2(\n     { \"aa\" },\n     { \"bbb\", \"cc\" }\n    ); // valid subtype of MyRecordOfSub1\n    type MyRecordOfSub1 MyRecordOfSub3(\n     MyRecordOfSub2,\n     { \"ddd\", \"ee\", \"ff\" }\n    ); // valid, but equivalent to MyRecordOfSub1\n    type MyRecordOfSub1 MyRecordOfSub4(\n     MyRecordOfSub2,\n     { \"ddd\", \"ee\", \"fff\" }\n    ); // invalid type as { \"ddd\", \"ee\", \"fff\" } is not a value of MyRecordOfSub1\n     // (notice the extra character f in the third element)"
+    },
+    {
+     "lines": [
+      5720,
+      5741
+     ],
+     "text": "type union MyUnion {\n    integer c1,\n    charstring c2,\n    charstring c3\n   };\n   type MyUnion MyUnionSub1 (\n    { c1 := 0 },\n    { c1 := 1 }\n\n   ); // a valid subtype of MyUnion containing two values\n   type MyUnion MyUnionSub2 (\n    MyUnionSub1,\n    { c2 := \"mine\" },\n    { c3 := \"yours\" }\n   ); // a valid subtype of MyUnion containing four values; notice that values of\n    // MyUnionSub1 are identified by referencing MyUnionSub1\n   type MyUnionSub1 MyUnionSub3 (\n    { c1 := 0 },\n    { c1 := 2 }\n   ); // an invalid type as { c1 := 2 } is not a value of MyUnionSub1"
+    },
+    {
+     "lines": [
+      5758,
+      5786
+     ],
+     "text": "type anytype MyAnySub1 (\n   { integer := 5 },\n   { boolean := false },\n   { bitstring := '0011'B },\n   { charstring := \"mine\" },\n   { MyEnum := first }\n  ); // a valid subtype of anytype, consisting of 5 values\n  type MyAnySub1 MyAnySub2 (\n   { integer := 5 },\n   { boolean := false },\n   { bitstring := '0011'B }\n  ); // a valid subtype of MyAnySub1, consisting of 3 values\n  type anytype MyAnySub3 (\n   MyAnySub2,\n   { octetstring := 'FF'O }\n  ); // a valid subtype of anytype, consisting of 4 values, 3 of which are defined\n    // by referring to MyAnySub2\n  type MyAnySub1 MyAnySub4 (\n   { integer := 5 },\n   { boolean := false },\n   { MyEnum := second }\n  ); // an invalid type as { MyEnum := second } is not a value of MyAnySub1\n  type MyAnySub1 MyAnySub5 (\n   MyAnySub3,\n   { MyEnum := first }\n  ); // an invalid type as { octetstring := 'FF'O } (defined via referencing MyAnySub3) is\n    // not a value of MyAnySub1"
+    },
+    {
+     "lines": [
+      5789,
+      5808
+     ],
+     "text": "type charstring MyArray[1 .. 2];\n    type MyArray MyArraySub1 (\n     { \"aa\", \"cc\" },\n     { \"bb\", \"cc\" }\n    ); // valid subtype of MyArray\n    type MyArraySub1 MyArraySub2 (\n     { \"aa\", \"cc\" }\n    ); // valid subtype of MyArraySub1\n\n    type MyArrayList1 MyArraySub3 (\n     MyArraySub2,\n     { \"bb\", \"cc\" }\n    ); // valid, also equivalent to MyArraySub1\n    type MyArraySub1 MyArraySub4 (\n     MyArraySub2,\n     { \"dd\", \"cc\" }\n    ); // an invalid type as { \"dd\", \"cc\" } is not a value of MyArraySub1\n     // (notice the dd in the first element)"
+    },
+    {
+     "lines": [
+      5811,
+      5830
+     ],
+     "text": "type map from charstring to charstring MyMap;\n    type MyMap MyMapSub1(\n     { [\"X58IS5\"] := \"John Doe\", [\"L54J2Y\"] := \"Marry Smith\" },\n     { [\"7HF0Q7\"] := \"Emma Jones\", [\"L54J2Y\"] := \"Jack Williams\" },\n     { [\"U459LL\"] := \"Jennifer Willson\", [\"15EJ2F\"] := \"James Walsh\" }\n    ); // valid subtype of MyMap\n    type MyRecordOfSub1 MyMapSub2(\n     { [\"X58IS5\"] := \"John Doe\", [\"L54J2Y\"] := \"Marry Smith\" },\n     { [\"7HF0Q7\"] := \"Emma Jones\", [\"L54J2Y\"] := \"Jack Williams\" }\n    ); // valid subtype of MyMapSub1\n    type MyMapSub1 MyMapSub3(\n     MyMapSub2,\n     { [\"U459LL\"] := \"Jennifer Willson\", [\"15EJ2F\"] := \"James Walsh\" }\n    ); // valid, but equivalent to MyMapSub1\n    type MyMapSub1 MyMapSub4(\n     MyRecordOfSub2,\n     { [\"E4TH20\"] := \"Jacob Murphy\", [\"47IOH1\"] := \" Charlotte Evans\" }\n  ); // causes an error as the map value specified with assignment notation is not a value\n    // of MyMapSub1"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.13.02_test_008.ttcn3",
+   "module": "M_06_02_13_02_test_008",
+   "header": "// @requirement: 6.2.13.2 -- When constraining `record of`, `set of`, `union`, `map` and `anytype` types, and arrays, all templates of the expanded list (i.e. after resolving the subtype references) shall be valid (i.e. complete) values and templates of the core type."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.13.2-008a",
+   "section": "6.2.13.2",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "original": "When constraining `record` and `set` types, templates of the expanded list defined using the value list notation shall be valid (i.e. complete) templates of the core type, while templates of the expanded list defined using the field assignment notation may be partial (i.e. incomplete) templates of the core type.",
+   "canonical": "When constraining record and set types, a template of the expanded list defined using value list notation SHALL be a complete template of the core type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    5638,
+    5638
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.02.13.02_test_009.ttcn3",
+   "module": "M_06_02_13_02_test_009",
+   "header": "// @requirement: 6.2.13.2 -- When constraining `record` and `set` types, templates of the expanded list defined using the value list notation shall be valid (i.e. complete) templates of the core type, while templates of the expanded list defined using the field assignment notation may be partial (i.e. incomplete) templates of the core type."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.13.2-008b",
+   "section": "6.2.13.2",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "When constraining `record` and `set` types, templates of the expanded list defined using the value list notation shall be valid (i.e. complete) templates of the core type, while templates of the expanded list defined using the field assignment notation may be partial (i.e. incomplete) templates of the core type.",
+   "canonical": "When constraining record and set types, a template of the expanded list defined using assignment notation MAY be a partial template of the core type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "'field assignment notation' is used instead of the glossary term 'assignment notation'.",
+    "improper_terms": [
+     {
+      "used": "field assignment notation",
+      "proper": "assignment notation",
+      "glossary": true
+     }
+    ]
+   },
+   "spec_lines": [
+    5638,
+    5638
+   ],
+   "examples": [
+    {
+     "lines": [
+      5647,
+      5694
+     ],
+     "text": "type record MyRecord {\n    integer f1 optional,\n    charstring f2,\n    charstring f3\n   }\n   type MyRecord MyRecordSub1 (\n    { f1 := omit, f2 := \"user\", f3 := \"password\" },\n    { f1 := 1, f2 := \"User\", f3 := \"Password\" }\n   ) // a valid subtype of MyRecord containing 2 values\n   type MyRecord MyRecordSub2 (\n    MyRecordSub1,\n\n    { f1 := 2, f2 := \"uname\", f3 := \"pswd\" },\n    { f1 := 3, f2 := \"Uname\", f3 := \"Pswd\" }\n   ) // a valid subtype of MyRecord, containing 4 values; notice that values of\n    // MyRecordSub1 are identified by referencing MyRecordSub1\n   type MyRecordSub1 MyRecordSub3 (\n    { f1 := 1, f2 := \"user\", f3 := \"password\" },\n    { f1 := 1, f2 := \"User\", f3 := \"Password\" }\n   ) // invalid type as { f1 := 1, f2 := \"user\", f3 := \"password\" } is not a legal value of\n    // MyRecordSub1 (notice field f1)\n   type MyRecord MyRecordSub4 (\n    { f2 := \"user\", f3 := \"password\" },\n    { f2 := \"User\", f3 := \"Password\" }\n   ) // any valid value of MyRecord, where the combination of f2 and f3 is\n    // f2 := \"user\" AND f3 := \"password\" or f2 := \"User\" AND f3 := \"Password\"\n    // i.e. field f1 is considered as if it was present and contained AnyValueOrNone\n  type MyRecord MyRecordSub5 (\n    { f2 := \"user\", f3 := pattern \"password|Password\" },\n    { f1 := (1 .. 10), f2 := \"User\" }\n   ) // a valid subtype of MyRecord containing all values which match one of the given \n    // templates \n   // { f1 := *, f2 := \"user\", f3 := pattern \"password|Password\" } or\n   // { f1 := (1 .. 10)"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.13.02_test_010.ttcn3",
+   "module": "M_06_02_13_02_test_010",
+   "header": "// @requirement: 6.2.13.2 -- When constraining `record` and `set` types, templates of the expanded list defined using the value list notation shall be valid (i.e. complete) templates of the core type, while templates of the expanded list defined using the field assignment notation may be partial (i.e. incomplete) templates of the core type."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.13.2-009a",
+   "section": "6.2.13.2",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "In the latter case, the fields that are not explicitly present shall be considered as containing AnyValue for mandatory fields and _AnyValueOrNone_ for optional fields.",
+   "canonical": "In a partial template defined with assignment notation in the expanded list of a record or set list subtype, a field that is not explicitly present SHALL be considered as containing AnyValue if it is mandatory and AnyValueOrNone if it is optional.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    5638,
+    5638
+   ],
+   "examples": [
+    {
+     "lines": [
+      5647,
+      5694
+     ],
+     "text": "type record MyRecord {\n    integer f1 optional,\n    charstring f2,\n    charstring f3\n   }\n   type MyRecord MyRecordSub1 (\n    { f1 := omit, f2 := \"user\", f3 := \"password\" },\n    { f1 := 1, f2 := \"User\", f3 := \"Password\" }\n   ) // a valid subtype of MyRecord containing 2 values\n   type MyRecord MyRecordSub2 (\n    MyRecordSub1,\n\n    { f1 := 2, f2 := \"uname\", f3 := \"pswd\" },\n    { f1 := 3, f2 := \"Uname\", f3 := \"Pswd\" }\n   ) // a valid subtype of MyRecord, containing 4 values; notice that values of\n    // MyRecordSub1 are identified by referencing MyRecordSub1\n   type MyRecordSub1 MyRecordSub3 (\n    { f1 := 1, f2 := \"user\", f3 := \"password\" },\n    { f1 := 1, f2 := \"User\", f3 := \"Password\" }\n   ) // invalid type as { f1 := 1, f2 := \"user\", f3 := \"password\" } is not a legal value of\n    // MyRecordSub1 (notice field f1)\n   type MyRecord MyRecordSub4 (\n    { f2 := \"user\", f3 := \"password\" },\n    { f2 := \"User\", f3 := \"Password\" }\n   ) // any valid value of MyRecord, where the combination of f2 and f3 is\n    // f2 := \"user\" AND f3 := \"password\" or f2 := \"User\" AND f3 := \"Password\"\n    // i.e. field f1 is considered as if it was present and contained AnyValueOrNone\n  type MyRecord MyRecordSub5 (\n    { f2 := \"user\", f3 := pattern \"password|Password\" },\n    { f1 := (1 .. 10), f2 := \"User\" }\n   ) // a valid subtype of MyRecord containing all values which match one of the given \n    // templates \n   // { f1 := *, f2 := \"user\", f3 := pattern \"password|Password\" } or\n   // { f1 := (1 .. 10)"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.13.02_test_011.ttcn3",
+   "module": "M_06_02_13_02_test_011",
+   "header": "// @requirement: 6.2.13.2 -- In the latter case, the fields that are not explicitly present shall be considered as containing AnyValue for mandatory fields and _AnyValueOrNone_ for optional fields."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.13.2-010b",
+   "section": "6.2.13.2",
+   "type": "information",
+   "modality": "CAN",
+   "original": "> NOTE: Users should assign new values to single fields of values/templates based on types using list subtyping cautiously: it may happen that the new field value would be valid with other combination(s) of the rest of the fields but causes an erroneous record/set value, when combining with the actual values of the other fields.",
+   "canonical": "Assigning a new value to a single field of a value of a list-subtyped record or set type CAN cause an erroneous value when the new field value is not allowed in combination with the actual values of the other fields.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    5640,
+    5640
+   ],
+   "examples": [
+    {
+     "lines": [
+      5647,
+      5694
+     ],
+     "text": "type record MyRecord {\n    integer f1 optional,\n    charstring f2,\n    charstring f3\n   }\n   type MyRecord MyRecordSub1 (\n    { f1 := omit, f2 := \"user\", f3 := \"password\" },\n    { f1 := 1, f2 := \"User\", f3 := \"Password\" }\n   ) // a valid subtype of MyRecord containing 2 values\n   type MyRecord MyRecordSub2 (\n    MyRecordSub1,\n\n    { f1 := 2, f2 := \"uname\", f3 := \"pswd\" },\n    { f1 := 3, f2 := \"Uname\", f3 := \"Pswd\" }\n   ) // a valid subtype of MyRecord, containing 4 values; notice that values of\n    // MyRecordSub1 are identified by referencing MyRecordSub1\n   type MyRecordSub1 MyRecordSub3 (\n    { f1 := 1, f2 := \"user\", f3 := \"password\" },\n    { f1 := 1, f2 := \"User\", f3 := \"Password\" }\n   ) // invalid type as { f1 := 1, f2 := \"user\", f3 := \"password\" } is not a legal value of\n    // MyRecordSub1 (notice field f1)\n   type MyRecord MyRecordSub4 (\n    { f2 := \"user\", f3 := \"password\" },\n    { f2 := \"User\", f3 := \"Password\" }\n   ) // any valid value of MyRecord, where the combination of f2 and f3 is\n    // f2 := \"user\" AND f3 := \"password\" or f2 := \"User\" AND f3 := \"Password\"\n    // i.e. field f1 is considered as if it was present and contained AnyValueOrNone\n  type MyRecord MyRecordSub5 (\n    { f2 := \"user\", f3 := pattern \"password|Password\" },\n    { f1 := (1 .. 10), f2 := \"User\" }\n   ) // a valid subtype of MyRecord containing all values which match one of the given \n    // templates \n   // { f1 := *, f2 := \"user\", f3 := pattern \"password|Password\" } or\n   // { f1 := (1 .. 10)"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.13.02_test_012.ttcn3",
+   "module": "M_06_02_13_02_test_012",
+   "header": "// @requirement: 6.2.13.2 -- > NOTE: Users should assign new values to single fields of values/templates based on types using list subtyping cautiously: it may happen that the new field value would be valid with other combination(s) of the rest of the fields but causes an erroneous record/set value, when combining with the actual values of the other fields."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.13.2-012a",
+   "section": "6.2.13.2",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "original": "In case of `enumerated` types, the template list subtyping shall contain only values of the parent type.",
+   "canonical": "A list subtype of an enumerated type SHALL contain only values of the parent type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "'template list subtyping' is used instead of 'list subtyping'.",
+    "improper_terms": [
+     {
+      "used": "template list subtyping",
+      "proper": "list subtyping",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    5642,
+    5642
+   ],
+   "examples": [
+    {
+     "lines": [
+      5744,
+      5755
+     ],
+     "text": "type enumerated MyEnum { e_first, e_second, e_third, e_fourth, e_fifth };\n   type MyEnum EnumSub1 ( e_first, e_second, e_third );\n    // a valid subtype of MyEnum\n   type EnumSub1 EnumSub2 ( e_first, e_second );\n    // a valid subtype of EnumSub1\n   type EnumSub1 EnumSub3 ( e_first, e_second, e_fourth );\n    // an invalid type as e_fourth is not a value of EnumSub1\n   type MyEnum EnumSub4 ( EnumSub1, e_fourth);\n    // an invalid type as type references are not allowed in the template list \n   // of enumerated types"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.13.02_test_013.ttcn3",
+   "module": "M_06_02_13_02_test_013",
+   "header": "// @requirement: 6.2.13.2 -- In case of `enumerated` types, the template list subtyping shall contain only values of the parent type."
+  }
+ ]
+}

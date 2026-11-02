@@ -1,0 +1,22 @@
+// @requirement: 20.5.2 -- The actual parameters of a parameterized altstep (see clause 16.2.1) that should be activated as a default, shall be provided in the corresponding activate statement.
+// @id: TTCN3-CORE-20.5.2-005a
+// @verdict: pass reject
+module M_20_05_02_test_005 {
+
+    type component C {
+        timer T;
+    }
+
+    altstep a_p(integer p_x) runs on C {
+        [] T.timeout {}
+    }
+
+    testcase TC() runs on C {
+        activate(a_p()); // error: actual parameter of the altstep is missing
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

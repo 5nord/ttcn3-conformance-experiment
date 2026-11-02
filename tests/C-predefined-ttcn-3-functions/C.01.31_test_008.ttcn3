@@ -1,0 +1,22 @@
+// @requirement: C.1.31 -- In case of "UTF-16" and "UTF-32" big-endian ordering shall be used (as described in clauses 10.4 and 10.7 of ISO/IEC 10646 [2]).
+// @id: TTCN3-CORE-C.1.31-008a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_01_31_test_008 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var octetstring v_utf16 := '00C420AC'O;
+        var octetstring v_utf32 := '000000C4000020AC'O;
+        var universal charstring v_exp := char(0, 0, 0, 196) & char(0, 0, 32, 172);
+        if (oct2unichar(v_utf16, "UTF-16") == v_exp and oct2unichar(v_utf32, "UTF-32") == v_exp) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

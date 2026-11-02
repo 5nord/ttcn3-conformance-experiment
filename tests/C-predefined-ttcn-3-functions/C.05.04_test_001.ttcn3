@@ -1,0 +1,15 @@
+// @requirement: C.5.4 -- decvalue_unichar(inout universal charstring encoded_value, out any decoded_value, in charstring string_serialization:= "UTF-8", in universal charstring decoding_info := "", in universal charstring dynamic_encoding := "") return integer
+// @id: TTCN3-CORE-C.5.4-001a
+// @verdict: pass accept, noexecution
+module M_C_05_04_test_001 {
+
+    type integer I with { variant "32 bit" };
+
+    function f_decode(inout universal charstring p_enc, out I p_dec) return integer {
+        var integer v_r1 := decvalue_unichar(p_enc, p_dec);
+        var integer v_r2 := decvalue_unichar(p_enc, p_dec, "UTF-16");
+        var integer v_r3 := decvalue_unichar(p_enc, p_dec, "UTF-8", "info");
+        var integer v_r4 := decvalue_unichar(p_enc, p_dec, "UTF-32", "info", "");
+        return v_r1 + v_r2 + v_r3 + v_r4;
+    }
+}

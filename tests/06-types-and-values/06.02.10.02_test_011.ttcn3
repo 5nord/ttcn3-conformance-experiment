@@ -1,0 +1,25 @@
+// @requirement: 6.2.10.2 -- a) When defining component types by extension, there shall be no name clash between the definitions being taken from the supertype and the definitions being added in the extended type, i.e. there shall not be a port, variable, constant or timer identifier that is declared both in the supertype (directly or by means of extension) and the extended type.
+// @id: TTCN3-CORE-6.2.10.2-014a
+// @verdict: pass reject
+module M_06_02_10_02_test_011 {
+
+    type component CBase {
+        timer tc_t;
+    }
+
+    type component CInterim extends CBase {
+        timer tc_other;
+    }
+
+    type component CExt extends CInterim {
+        timer tc_t; // error: already declared in CInterim via extension of CBase
+    }
+
+    testcase TC() runs on CExt {
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

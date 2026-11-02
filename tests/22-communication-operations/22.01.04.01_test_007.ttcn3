@@ -1,0 +1,23 @@
+// @requirement: 22.1.4.1 -- unicast communication is used and one receiving entity shall be explicitly identified;
+// @id: TTCN3-CORE-22.1.4.1-008a
+// @verdict: pass accept, ttcn3verdict:error
+module M_22_01_04_01_test_007 {
+
+    type port P message { inout integer }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc1 := C.create, v_ptc2 := C.create;
+        connect(mtc:p, v_ptc1:p);
+        connect(mtc:p, v_ptc2:p);
+        setverdict(pass);
+        p.send(integer:1); // error: receiving entity not identified in one-to-many connection
+    }
+
+    control {
+        execute(TC());
+    }
+}

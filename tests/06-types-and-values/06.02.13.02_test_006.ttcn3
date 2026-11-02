@@ -1,0 +1,23 @@
+// @requirement: 6.2.13.2 -- All values present in the expanded list shall be valid values of the parent type.
+// @id: TTCN3-CORE-6.2.13.2-005a
+// @verdict: pass reject
+module M_06_02_13_02_test_006 {
+
+    type record R {
+        integer f1 optional,
+        charstring f2
+    }
+
+    type R R_Sub1 ({ f1 := omit, f2 := "user" }, { f1 := 1, f2 := "User" });
+    type R_Sub1 R_Sub2 ({ f1 := 1, f2 := "user" }); // error: not a value of the parent type R_Sub1
+
+    type component C {}
+
+    testcase TC() runs on C {
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

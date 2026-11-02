@@ -1,0 +1,19 @@
+// @requirement: C.6.2 -- Coding scheme: UTF-32BE; initial octet sequence: 00 00 FE FF; comments: no signature meaning
+// @id: TTCN3-CORE-C.6.2-007b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_06_02_test_012 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (oct2unichar('0000FEFF00000068'O, "UTF-32BE") == char(0, 0, 254, 255) & "h") {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

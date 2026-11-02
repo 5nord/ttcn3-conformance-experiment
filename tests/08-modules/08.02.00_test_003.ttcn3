@@ -1,0 +1,31 @@
+// @requirement: 8.2.0 -- Visible module definitions may be imported by other modules.
+// @id: TTCN3-CORE-8.2.0-006a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_02_00_test_003 {
+
+    import from M_08_02_00_test_003_A all;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyInt v_value := f_double(c_value);
+        if (match(v_value, m_value)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_00_test_003_A {
+    public type integer MyInt;
+    public const MyInt c_value := 21;
+    public template MyInt m_value := 42;
+    public function f_double(MyInt p_x) return MyInt {
+        return 2 * p_x;
+    }
+}

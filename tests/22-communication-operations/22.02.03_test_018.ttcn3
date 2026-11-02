@@ -1,0 +1,37 @@
+// @requirement: 22.2.3 -- It is also possible to store the index of a port in a single-dimensional port array at which the operation was successful to a variable of type integer or, in case of multi-dimensional port arrays the index of the successful port to an integer array or record of integer variable.
+// @id: TTCN3-CORE-22.2.3-021a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_02_03_test_018 {
+
+    type port P message { inout integer }
+
+    type component C {
+        port P p[3];
+        port P q[3];
+        timer T := 1.0;
+        timer T_wait := 0.2;
+    }
+
+    function f_connect() runs on C {
+        for (var integer i := 0; i < 3; i := i + 1) {
+            connect(mtc:p[i], mtc:q[i]);
+        }
+    }
+
+    testcase TC() runs on C {
+        var integer v_i;
+        f_connect();
+        q[2].send(1);
+        T.start;
+        alt {
+            [] any from p.trigger(integer:1) -> @index value v_i {
+                if (v_i == 2) { setverdict(pass); } else { setverdict(fail); }
+            }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

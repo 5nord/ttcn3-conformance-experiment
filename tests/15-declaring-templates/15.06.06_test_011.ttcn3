@@ -1,0 +1,24 @@
+// @requirement: 15.6.6 -- e) Ifpresent attribute: referencing an element within a map template or field to which the ifpresent attribute is attached, shall cause an error (irrespective of the value or the matching mechanism to which ifpresent is appended).
+// @id: TTCN3-CORE-15.6.6-019a
+// @verdict: pass accept, ttcn3verdict:error
+module M_15_06_06_test_011 {
+
+    type map from charstring to integer TMap;
+
+    type record R {
+        TMap f optional
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template R v_r := { f := { ["a"] := 1 } ifpresent };
+        var template integer v_int;
+        v_int := v_r.f["a"]; // error: ifpresent is attached to v_r.f
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

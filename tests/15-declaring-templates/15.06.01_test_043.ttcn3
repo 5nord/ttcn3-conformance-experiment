@@ -1,0 +1,17 @@
+// @requirement: 15.6.1 -- If the index is used on the right hand side of an assignment and is greater than or equal to the maximum allowed length.
+// @id: TTCN3-CORE-15.6.1-044a
+// @verdict: pass accept, ttcn3verdict:error
+module M_15_06_01_test_043 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template octetstring v_oct := 'FFFF'O length(1..3), v_e;
+        v_e := v_oct[3]; // error: index not less than the maximum allowed length
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

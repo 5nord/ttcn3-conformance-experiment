@@ -1,0 +1,22 @@
+// @requirement: D.5 -- g) a template name, if the lowest named scope is a template definition (local or global); or h) the type name, if the lowest named scope is a user defined named type definition.
+// @id: TTCN3-CORE-D.5-011a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_D_05_test_010 {
+
+    type component C {}
+
+    template charstring m_global := __SCOPE__;
+
+    testcase TC() runs on C {
+        template charstring m_local := __SCOPE__;
+        if (valueof(m_global) == "m_global" and valueof(m_local) == "m_local") {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

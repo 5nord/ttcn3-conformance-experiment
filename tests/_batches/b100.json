@@ -1,0 +1,1041 @@
+{
+ "batch": "b100",
+ "requirements": [
+  {
+   "id": "TTCN3-CORE-C.4.3-001a",
+   "section": "C.4.3",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "replace( in template (present) any inpar, in integer index, in integer len, in template (present) any repl ) return any_string_or_sequence type",
+   "canonical": "The `replace` predefined function has the syntax replace(in template (present) any inpar, in integer index, in integer len, in template (present) any repl) return any_string_or_sequence type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    26067,
+    26074
+   ],
+   "examples": [
+    {
+     "lines": [
+      26147,
+      26161
+     ],
+     "text": "replace ('00000110'B, 1, 3, '111'B); // returns '01110110'B\n  replace ('ABCDEF'H, 0, 2, '123'H);  // returns '123CDEF'H\n  replace ('01AB23CD'O, 2, 1, 'FF96'O); // returns '01ABFF96CD'O\n  replace (\"My name is JJ\", 11, 1, \"xx\"); // returns \"My name is xxJ\"\n  replace (\"My name is JJ\", 11, 0, \"xx\"); // returns \"My name is xxJJ\"\n  replace (\"My name is JJ\", 2, 2, \"x\"); // returns \"Myxame is JJ\", \n  replace (\"My name is JJ\", 12, 2, \"xx\"); // produces test case error\n  replace (\"My name is JJ\", 13, 2, \"xx\"); // produces test case error\n  replace (\"My name is JJ\", 13, 0, \"xx\"); // returns \"My name is JJxx\"\n  var template charstring v_char1 := pattern \"abc[a-z]+\", v_char2 := ?;\n  replace(v_char1, 2, 2, pattern \"x#(1,2)\"); // returns pattern \"abx#(1,2)\"\n  replace(v_char2, 2, 2, \"ab\"); // returns pattern \"??ab\""
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.03_test_001.ttcn3",
+   "module": "M_C_04_03_test_001",
+   "header": "// @requirement: C.4.3 -- replace( in template (present) any inpar, in integer index, in integer len, in template (present) any repl ) return any_string_or_sequence type"
+  },
+  {
+   "id": "TTCN3-CORE-C.4.3-002a",
+   "section": "C.4.3",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "This function replaces the substring or subsequence of value inpar at index index of length len with the string or sequence value repl and returns the resulting string or sequence.",
+   "canonical": "The `replace` function SHALL replace the substring or subsequence of inpar starting at index index with length len by repl and return the resulting string or sequence.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "improper_terms": [
+     {
+      "used": "value inpar",
+      "proper": "inpar (value or template)",
+      "glossary": false
+     }
+    ],
+    "issue": "\"value inpar\" and \"sequence value repl\" although C.4.3-s011/s013 allow templates for both parameters."
+   },
+   "spec_lines": [
+    26076,
+    26082
+   ],
+   "examples": [
+    {
+     "lines": [
+      26147,
+      26161
+     ],
+     "text": "replace ('00000110'B, 1, 3, '111'B); // returns '01110110'B\n  replace ('ABCDEF'H, 0, 2, '123'H);  // returns '123CDEF'H\n  replace ('01AB23CD'O, 2, 1, 'FF96'O); // returns '01ABFF96CD'O\n  replace (\"My name is JJ\", 11, 1, \"xx\"); // returns \"My name is xxJ\"\n  replace (\"My name is JJ\", 11, 0, \"xx\"); // returns \"My name is xxJJ\"\n  replace (\"My name is JJ\", 2, 2, \"x\"); // returns \"Myxame is JJ\", \n  replace (\"My name is JJ\", 12, 2, \"xx\"); // produces test case error\n  replace (\"My name is JJ\", 13, 2, \"xx\"); // produces test case error\n  replace (\"My name is JJ\", 13, 0, \"xx\"); // returns \"My name is JJxx\"\n  var template charstring v_char1 := pattern \"abc[a-z]+\", v_char2 := ?;\n  replace(v_char1, 2, 2, pattern \"x#(1,2)\"); // returns pattern \"abx#(1,2)\"\n  replace(v_char2, 2, 2, \"ab\"); // returns pattern \"??ab\""
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.03_test_002.ttcn3",
+   "module": "M_C_04_03_test_002",
+   "header": "// @requirement: C.4.3 -- This function replaces the substring or subsequence of value inpar at index index of length len with the string or sequence value repl and returns the resulting string or sequence."
+  },
+  {
+   "id": "TTCN3-CORE-C.4.3-002b",
+   "section": "C.4.3",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "inpar shall not be modified.",
+   "canonical": "The `replace` function SHALL NOT modify the inpar actual parameter.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    26076,
+    26082
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.03_test_003.ttcn3",
+   "module": "M_C_04_03_test_003",
+   "header": "// @requirement: C.4.3 -- inpar shall not be modified."
+  },
+  {
+   "id": "TTCN3-CORE-C.4.3-003a",
+   "section": "C.4.3",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "If len is 0 the string or sequence repl is inserted.",
+   "canonical": "If len is 0, the `replace` function SHALL insert repl into inpar at position index.",
+   "condition": "len is 0",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    26076,
+    26082
+   ],
+   "examples": [
+    {
+     "lines": [
+      26147,
+      26161
+     ],
+     "text": "replace ('00000110'B, 1, 3, '111'B); // returns '01110110'B\n  replace ('ABCDEF'H, 0, 2, '123'H);  // returns '123CDEF'H\n  replace ('01AB23CD'O, 2, 1, 'FF96'O); // returns '01ABFF96CD'O\n  replace (\"My name is JJ\", 11, 1, \"xx\"); // returns \"My name is xxJ\"\n  replace (\"My name is JJ\", 11, 0, \"xx\"); // returns \"My name is xxJJ\"\n  replace (\"My name is JJ\", 2, 2, \"x\"); // returns \"Myxame is JJ\", \n  replace (\"My name is JJ\", 12, 2, \"xx\"); // produces test case error\n  replace (\"My name is JJ\", 13, 2, \"xx\"); // produces test case error\n  replace (\"My name is JJ\", 13, 0, \"xx\"); // returns \"My name is JJxx\"\n  var template charstring v_char1 := pattern \"abc[a-z]+\", v_char2 := ?;\n  replace(v_char1, 2, 2, pattern \"x#(1,2)\"); // returns pattern \"abx#(1,2)\"\n  replace(v_char2, 2, 2, \"ab\"); // returns pattern \"??ab\""
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.03_test_004.ttcn3",
+   "module": "M_C_04_03_test_004",
+   "header": "// @requirement: C.4.3 -- If len is 0 the string or sequence repl is inserted."
+  },
+  {
+   "id": "TTCN3-CORE-C.4.3-004a",
+   "section": "C.4.3",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "If index is 0, repl is inserted at the beginning of inpar.",
+   "canonical": "If index is 0, the `replace` function SHALL insert repl at the beginning of inpar.",
+   "condition": "index is 0",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    26076,
+    26082
+   ],
+   "examples": [
+    {
+     "lines": [
+      26147,
+      26161
+     ],
+     "text": "replace ('00000110'B, 1, 3, '111'B); // returns '01110110'B\n  replace ('ABCDEF'H, 0, 2, '123'H);  // returns '123CDEF'H\n  replace ('01AB23CD'O, 2, 1, 'FF96'O); // returns '01ABFF96CD'O\n  replace (\"My name is JJ\", 11, 1, \"xx\"); // returns \"My name is xxJ\"\n  replace (\"My name is JJ\", 11, 0, \"xx\"); // returns \"My name is xxJJ\"\n  replace (\"My name is JJ\", 2, 2, \"x\"); // returns \"Myxame is JJ\", \n  replace (\"My name is JJ\", 12, 2, \"xx\"); // produces test case error\n  replace (\"My name is JJ\", 13, 2, \"xx\"); // produces test case error\n  replace (\"My name is JJ\", 13, 0, \"xx\"); // returns \"My name is JJxx\"\n  var template charstring v_char1 := pattern \"abc[a-z]+\", v_char2 := ?;\n  replace(v_char1, 2, 2, pattern \"x#(1,2)\"); // returns pattern \"abx#(1,2)\"\n  replace(v_char2, 2, 2, \"ab\"); // returns pattern \"??ab\""
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.03_test_005.ttcn3",
+   "module": "M_C_04_03_test_005",
+   "header": "// @requirement: C.4.3 -- If index is 0, repl is inserted at the beginning of inpar."
+  },
+  {
+   "id": "TTCN3-CORE-C.4.3-005a",
+   "section": "C.4.3",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "If index is lengthof(inpar), repl is inserted at the end of inpar.",
+   "canonical": "If index equals lengthof(inpar), the `replace` function SHALL insert repl at the end of inpar.",
+   "condition": "index is lengthof(inpar)",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    26076,
+    26082
+   ],
+   "examples": [
+    {
+     "lines": [
+      26147,
+      26161
+     ],
+     "text": "replace ('00000110'B, 1, 3, '111'B); // returns '01110110'B\n  replace ('ABCDEF'H, 0, 2, '123'H);  // returns '123CDEF'H\n  replace ('01AB23CD'O, 2, 1, 'FF96'O); // returns '01ABFF96CD'O\n  replace (\"My name is JJ\", 11, 1, \"xx\"); // returns \"My name is xxJ\"\n  replace (\"My name is JJ\", 11, 0, \"xx\"); // returns \"My name is xxJJ\"\n  replace (\"My name is JJ\", 2, 2, \"x\"); // returns \"Myxame is JJ\", \n  replace (\"My name is JJ\", 12, 2, \"xx\"); // produces test case error\n  replace (\"My name is JJ\", 13, 2, \"xx\"); // produces test case error\n  replace (\"My name is JJ\", 13, 0, \"xx\"); // returns \"My name is JJxx\"\n  var template charstring v_char1 := pattern \"abc[a-z]+\", v_char2 := ?;\n  replace(v_char1, 2, 2, pattern \"x#(1,2)\"); // returns pattern \"abx#(1,2)\"\n  replace(v_char2, 2, 2, \"ab\"); // returns pattern \"??ab\""
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.03_test_006.ttcn3",
+   "module": "M_C_04_03_test_006",
+   "header": "// @requirement: C.4.3 -- If index is lengthof(inpar), repl is inserted at the end of inpar."
+  },
+  {
+   "id": "TTCN3-CORE-C.4.3-006a",
+   "section": "C.4.3",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "If inpar is a literal (i.e. type is not explicitly given) the corresponding type shall be retrieved from the value contents.",
+   "canonical": "If the inpar actual parameter of `replace` is a literal whose type is not explicitly given, the type of inpar SHALL be retrieved from the value contents.",
+   "condition": "inpar is a literal without explicitly given type",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    26076,
+    26082
+   ],
+   "examples": [
+    {
+     "lines": [
+      26147,
+      26161
+     ],
+     "text": "replace ('00000110'B, 1, 3, '111'B); // returns '01110110'B\n  replace ('ABCDEF'H, 0, 2, '123'H);  // returns '123CDEF'H\n  replace ('01AB23CD'O, 2, 1, 'FF96'O); // returns '01ABFF96CD'O\n  replace (\"My name is JJ\", 11, 1, \"xx\"); // returns \"My name is xxJ\"\n  replace (\"My name is JJ\", 11, 0, \"xx\"); // returns \"My name is xxJJ\"\n  replace (\"My name is JJ\", 2, 2, \"x\"); // returns \"Myxame is JJ\", \n  replace (\"My name is JJ\", 12, 2, \"xx\"); // produces test case error\n  replace (\"My name is JJ\", 13, 2, \"xx\"); // produces test case error\n  replace (\"My name is JJ\", 13, 0, \"xx\"); // returns \"My name is JJxx\"\n  var template charstring v_char1 := pattern \"abc[a-z]+\", v_char2 := ?;\n  replace(v_char1, 2, 2, pattern \"x#(1,2)\"); // returns pattern \"abx#(1,2)\"\n  replace(v_char2, 2, 2, \"ab\"); // returns pattern \"??ab\""
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.03_test_007.ttcn3",
+   "module": "M_C_04_03_test_007",
+   "header": "// @requirement: C.4.3 -- If inpar is a literal (i.e. type is not explicitly given) the corresponding type shall be retrieved from the value contents."
+  },
+  {
+   "id": "TTCN3-CORE-C.4.3-006b",
+   "section": "C.4.3",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "inpar and repl, and the returned string or sequence shall be of the same root type.",
+   "canonical": "The inpar and repl actual parameters of `replace` and the returned string or sequence SHALL be of the same root type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    26076,
+    26082
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.03_test_008.ttcn3",
+   "module": "M_C_04_03_test_008",
+   "header": "// @requirement: C.4.3 -- inpar and repl, and the returned string or sequence shall be of the same root type."
+  },
+  {
+   "id": "TTCN3-CORE-C.4.3-007a",
+   "section": "C.4.3",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "The function replace can be applied to bitstring, hexstring, octetstring, or any character string, record `of, set` `of, or arrays.",
+   "canonical": "The `replace` function MAY be applied to `bitstring`, `hexstring`, `octetstring`, any character string, `record of`, `set of` and array values.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    26076,
+    26082
+   ],
+   "examples": [
+    {
+     "lines": [
+      26147,
+      26161
+     ],
+     "text": "replace ('00000110'B, 1, 3, '111'B); // returns '01110110'B\n  replace ('ABCDEF'H, 0, 2, '123'H);  // returns '123CDEF'H\n  replace ('01AB23CD'O, 2, 1, 'FF96'O); // returns '01ABFF96CD'O\n  replace (\"My name is JJ\", 11, 1, \"xx\"); // returns \"My name is xxJ\"\n  replace (\"My name is JJ\", 11, 0, \"xx\"); // returns \"My name is xxJJ\"\n  replace (\"My name is JJ\", 2, 2, \"x\"); // returns \"Myxame is JJ\", \n  replace (\"My name is JJ\", 12, 2, \"xx\"); // produces test case error\n  replace (\"My name is JJ\", 13, 2, \"xx\"); // produces test case error\n  replace (\"My name is JJ\", 13, 0, \"xx\"); // returns \"My name is JJxx\"\n  var template charstring v_char1 := pattern \"abc[a-z]+\", v_char2 := ?;\n  replace(v_char1, 2, 2, pattern \"x#(1,2)\"); // returns pattern \"abx#(1,2)\"\n  replace(v_char2, 2, 2, \"ab\"); // returns pattern \"??ab\""
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.03_test_009.ttcn3",
+   "module": "M_C_04_03_test_009",
+   "header": "// @requirement: C.4.3 -- The function replace can be applied to bitstring, hexstring, octetstring, or any character string, record `of, set` `of, or arrays."
+  },
+  {
+   "id": "TTCN3-CORE-C.4.3-008a",
+   "section": "C.4.3",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Note that indexing in strings starts from zero.`",
+   "canonical": "Indexing in strings for `replace` starts from zero.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    26076,
+    26082
+   ],
+   "examples": [
+    {
+     "lines": [
+      26147,
+      26161
+     ],
+     "text": "replace ('00000110'B, 1, 3, '111'B); // returns '01110110'B\n  replace ('ABCDEF'H, 0, 2, '123'H);  // returns '123CDEF'H\n  replace ('01AB23CD'O, 2, 1, 'FF96'O); // returns '01ABFF96CD'O\n  replace (\"My name is JJ\", 11, 1, \"xx\"); // returns \"My name is xxJ\"\n  replace (\"My name is JJ\", 11, 0, \"xx\"); // returns \"My name is xxJJ\"\n  replace (\"My name is JJ\", 2, 2, \"x\"); // returns \"Myxame is JJ\", \n  replace (\"My name is JJ\", 12, 2, \"xx\"); // produces test case error\n  replace (\"My name is JJ\", 13, 2, \"xx\"); // produces test case error\n  replace (\"My name is JJ\", 13, 0, \"xx\"); // returns \"My name is JJxx\"\n  var template charstring v_char1 := pattern \"abc[a-z]+\", v_char2 := ?;\n  replace(v_char1, 2, 2, pattern \"x#(1,2)\"); // returns pattern \"abx#(1,2)\"\n  replace(v_char2, 2, 2, \"ab\"); // returns pattern \"??ab\""
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.03_test_010.ttcn3",
+   "module": "M_C_04_03_test_010",
+   "header": "// @requirement: C.4.3 -- Note that indexing in strings starts from zero.`"
+  },
+  {
+   "id": "TTCN3-CORE-C.4.3-009a",
+   "section": "C.4.3",
+   "type": "information",
+   "modality": "IS",
+   "original": "NOTE 1: The root types of arrays is record of, therefore if inpar or repl or both are an array, the returned type is record of.",
+   "canonical": "If inpar or repl or both of `replace` are an array, the returned type IS `record of`, because the root type of an array is `record of`.",
+   "condition": "inpar or repl is an array",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    26084,
+    26086
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.03_test_011.ttcn3",
+   "module": "M_C_04_03_test_011",
+   "header": "// @requirement: C.4.3 -- NOTE 1: The root types of arrays is record of, therefore if inpar or repl or both are an array, the returned type is record of."
+  },
+  {
+   "id": "TTCN3-CORE-C.4.3-011a",
+   "section": "C.4.3",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "The inpar parameter is allowed to contain a template.",
+   "canonical": "The inpar actual parameter of `replace` MAY contain a template.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    26088,
+    26092
+   ],
+   "examples": [
+    {
+     "lines": [
+      26147,
+      26161
+     ],
+     "text": "replace ('00000110'B, 1, 3, '111'B); // returns '01110110'B\n  replace ('ABCDEF'H, 0, 2, '123'H);  // returns '123CDEF'H\n  replace ('01AB23CD'O, 2, 1, 'FF96'O); // returns '01ABFF96CD'O\n  replace (\"My name is JJ\", 11, 1, \"xx\"); // returns \"My name is xxJ\"\n  replace (\"My name is JJ\", 11, 0, \"xx\"); // returns \"My name is xxJJ\"\n  replace (\"My name is JJ\", 2, 2, \"x\"); // returns \"Myxame is JJ\", \n  replace (\"My name is JJ\", 12, 2, \"xx\"); // produces test case error\n  replace (\"My name is JJ\", 13, 2, \"xx\"); // produces test case error\n  replace (\"My name is JJ\", 13, 0, \"xx\"); // returns \"My name is JJxx\"\n  var template charstring v_char1 := pattern \"abc[a-z]+\", v_char2 := ?;\n  replace(v_char1, 2, 2, pattern \"x#(1,2)\"); // returns pattern \"abx#(1,2)\"\n  replace(v_char2, 2, 2, \"ab\"); // returns pattern \"??ab\""
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.03_test_012.ttcn3",
+   "module": "M_C_04_03_test_012",
+   "header": "// @requirement: C.4.3 -- The inpar parameter is allowed to contain a template."
+  },
+  {
+   "id": "TTCN3-CORE-C.4.3-012a",
+   "section": "C.4.3",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "This template shall fulfil the requirements on the inpar parameter of the substr function specified in clause C.4.2.",
+   "canonical": "A template passed as inpar of `replace` SHALL fulfil the requirements on the inpar parameter of the `substr` function specified in clause C.4.2.",
+   "condition": "inpar is a template",
+   "cross_refs": [
+    "C.4.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    26088,
+    26092
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.03_test_013.ttcn3",
+   "module": "M_C_04_03_test_013",
+   "header": "// @requirement: C.4.3 -- This template shall fulfil the requirements on the inpar parameter of the substr function specified in clause C.4.2."
+  },
+  {
+   "id": "TTCN3-CORE-C.4.3-013a",
+   "section": "C.4.3",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "The repl parameter is allowed to contain a template that shall contain a specific value, pattern or AnyValue without any matching attributes attached to it.",
+   "canonical": "The repl actual parameter of `replace` MAY contain a template.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    26088,
+    26092
+   ],
+   "examples": [
+    {
+     "lines": [
+      26147,
+      26161
+     ],
+     "text": "replace ('00000110'B, 1, 3, '111'B); // returns '01110110'B\n  replace ('ABCDEF'H, 0, 2, '123'H);  // returns '123CDEF'H\n  replace ('01AB23CD'O, 2, 1, 'FF96'O); // returns '01ABFF96CD'O\n  replace (\"My name is JJ\", 11, 1, \"xx\"); // returns \"My name is xxJ\"\n  replace (\"My name is JJ\", 11, 0, \"xx\"); // returns \"My name is xxJJ\"\n  replace (\"My name is JJ\", 2, 2, \"x\"); // returns \"Myxame is JJ\", \n  replace (\"My name is JJ\", 12, 2, \"xx\"); // produces test case error\n  replace (\"My name is JJ\", 13, 2, \"xx\"); // produces test case error\n  replace (\"My name is JJ\", 13, 0, \"xx\"); // returns \"My name is JJxx\"\n  var template charstring v_char1 := pattern \"abc[a-z]+\", v_char2 := ?;\n  replace(v_char1, 2, 2, pattern \"x#(1,2)\"); // returns pattern \"abx#(1,2)\"\n  replace(v_char2, 2, 2, \"ab\"); // returns pattern \"??ab\""
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.03_test_014.ttcn3",
+   "module": "M_C_04_03_test_014",
+   "header": "// @requirement: C.4.3 -- The repl parameter is allowed to contain a template that shall contain a specific value, pattern or AnyValue without any matching attributes attached to it."
+  },
+  {
+   "id": "TTCN3-CORE-C.4.3-013b",
+   "section": "C.4.3",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "The repl parameter is allowed to contain a template that shall contain a specific value, pattern or AnyValue without any matching attributes attached to it.",
+   "canonical": "A template passed as repl of `replace` SHALL contain only a specific value, a pattern or AnyValue, without any matching attributes attached to it.",
+   "condition": "repl is a template",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    26088,
+    26092
+   ],
+   "examples": [
+    {
+     "lines": [
+      26147,
+      26161
+     ],
+     "text": "replace ('00000110'B, 1, 3, '111'B); // returns '01110110'B\n  replace ('ABCDEF'H, 0, 2, '123'H);  // returns '123CDEF'H\n  replace ('01AB23CD'O, 2, 1, 'FF96'O); // returns '01ABFF96CD'O\n  replace (\"My name is JJ\", 11, 1, \"xx\"); // returns \"My name is xxJ\"\n  replace (\"My name is JJ\", 11, 0, \"xx\"); // returns \"My name is xxJJ\"\n  replace (\"My name is JJ\", 2, 2, \"x\"); // returns \"Myxame is JJ\", \n  replace (\"My name is JJ\", 12, 2, \"xx\"); // produces test case error\n  replace (\"My name is JJ\", 13, 2, \"xx\"); // produces test case error\n  replace (\"My name is JJ\", 13, 0, \"xx\"); // returns \"My name is JJxx\"\n  var template charstring v_char1 := pattern \"abc[a-z]+\", v_char2 := ?;\n  replace(v_char1, 2, 2, pattern \"x#(1,2)\"); // returns pattern \"abx#(1,2)\"\n  replace(v_char2, 2, 2, \"ab\"); // returns pattern \"??ab\""
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.03_test_015.ttcn3",
+   "module": "M_C_04_03_test_015",
+   "header": "// @requirement: C.4.3 -- The repl parameter is allowed to contain a template that shall contain a specific value, pattern or AnyValue without any matching attributes attached to it."
+  },
+  {
+   "id": "TTCN3-CORE-C.4.3-014a",
+   "section": "C.4.3",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "If either the inpar or repl parameter contain a template, the replace function returns a template with the present restriction according to the following rules:",
+   "canonical": "If either inpar or repl of `replace` contains a template, the `replace` function SHALL return a template with the present restriction according to the rules of clause C.4.3.",
+   "condition": "inpar or repl contains a template",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "readings": [
+     "If inpar or repl contains a template, the returned template SHALL always have the present restriction.",
+     "If inpar or repl contains a template, the returned template SHALL have the present restriction unless C.4.3-s025 applies (value restriction when inpar refers to a value- or omit-restricted template)."
+    ],
+    "issue": "This sentence states the present restriction unconditionally, while C.4.3-s025 requires the value restriction in some cases; the second reading is chosen as canonical intent but the canonical text keeps the stated rule."
+   },
+   "spec_lines": [
+    26088,
+    26092
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.03_test_016.ttcn3",
+   "module": "M_C_04_03_test_016",
+   "header": "// @requirement: C.4.3 -- If either the inpar or repl parameter contain a template, the replace function returns a template with the present restriction according to the following rules:"
+  },
+  {
+   "id": "TTCN3-CORE-C.4.3-015a",
+   "section": "C.4.3",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "`? length (index..infinity) is returned when both inpar and repl contain AnyValue`",
+   "canonical": "If both inpar and repl of `replace` contain AnyValue, `replace` SHALL return `? length (index..infinity)`.",
+   "condition": "inpar and repl both contain AnyValue",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    26088,
+    26094
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.03_test_017.ttcn3",
+   "module": "M_C_04_03_test_017",
+   "header": "// @requirement: C.4.3 -- `? length (index..infinity) is returned when both inpar and repl contain AnyValue`"
+  },
+  {
+   "id": "TTCN3-CORE-C.4.3-016a",
+   "section": "C.4.3",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "`* length (index..infinity) is returned when inpar contains AnyValueOrNone and repl` contains AnyValue",
+   "canonical": "If inpar of `replace` contains AnyValueOrNone and repl contains AnyValue, `replace` SHALL return `* length (index..infinity)`.",
+   "condition": "inpar contains AnyValueOrNone and repl contains AnyValue",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    26088,
+    26097
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.03_test_018.ttcn3",
+   "module": "M_C_04_03_test_018",
+   "header": "// @requirement: C.4.3 -- `* length (index..infinity) is returned when inpar contains AnyValueOrNone and repl` contains AnyValue"
+  },
+  {
+   "id": "TTCN3-CORE-C.4.3-017a",
+   "section": "C.4.3",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "In all other cases when the AnyValue matching symbol occurs in the repl parameter, it is automatically converted prior to resolving the function evaluation if any of the following conditions is met: To a compatible binary string containing a single AnyElementOrNone if inpar is of a binary string type",
+   "canonical": "In all other cases, when repl of `replace` contains AnyValue and inpar is of a binary string type, the AnyValue SHALL be converted, before the function is evaluated, to a compatible binary string containing a single AnyElementOrNone.",
+   "condition": "repl contains AnyValue, inpar is of a binary string type, and neither of the two preceding rules applies",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "readings": [
+     "AnyValue in repl SHALL be converted to a binary string with a single AnyElementOrNone if inpar is of a binary string type.",
+     "AnyValue in repl SHALL be converted only if some further unstated condition is met, the listed items being the conditions."
+    ],
+    "issue": "The lead-in says \"if any of the following conditions is met\" but the following items are conversion targets with conditions attached; the first reading is chosen."
+   },
+   "spec_lines": [
+    26088,
+    26102
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.03_test_019.ttcn3",
+   "module": "M_C_04_03_test_019",
+   "header": "// @requirement: C.4.3 -- In all other cases when the AnyValue matching symbol occurs in the repl parameter, it is automatically converted prior to resolving the function evaluation if any of the following conditions is met: To a compatible binary string containing a single AnyElementOrNone if inpar is of a binary string type"
+  },
+  {
+   "id": "TTCN3-CORE-C.4.3-017b",
+   "section": "C.4.3",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "In all other cases when the AnyValue matching symbol occurs in the repl parameter, it is automatically converted prior to resolving the function evaluation if any of the following conditions is met: To pattern \"*\" if inpar is of a character string type",
+   "canonical": "In all other cases, when repl of `replace` contains AnyValue and inpar is of a character string type, the AnyValue SHALL be converted, before the function is evaluated, to pattern \"*\".",
+   "condition": "repl contains AnyValue, inpar is of a character string type, and neither of the two preceding rules applies",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    26088,
+    26104
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.03_test_020.ttcn3",
+   "module": "M_C_04_03_test_020",
+   "header": "// @requirement: C.4.3 -- In all other cases when the AnyValue matching symbol occurs in the repl parameter, it is automatically converted prior to resolving the function evaluation if any of the following conditions is met: To pattern \"*\" if inpar is of a character string type"
+  },
+  {
+   "id": "TTCN3-CORE-C.4.3-018a",
+   "section": "C.4.3",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "To a compatible binary string containing a single AnyElementOrNone if inpar is of a binary string type",
+   "canonical": "The AnyValue-to-AnyElementOrNone conversion of repl in `replace` SHALL produce a binary string compatible with the type of inpar.",
+   "condition": "inpar is of a binary string type and repl contains AnyValue",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    26099,
+    26102
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.03_test_021.ttcn3",
+   "module": "M_C_04_03_test_021",
+   "header": "// @requirement: C.4.3 -- To a compatible binary string containing a single AnyElementOrNone if inpar is of a binary string type"
+  },
+  {
+   "id": "TTCN3-CORE-C.4.3-019a",
+   "section": "C.4.3",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "To pattern \"*\" if inpar is of a character string type",
+   "canonical": "When inpar of `replace` is of a character string type, the converted repl SHALL be pattern \"*\".",
+   "condition": "inpar is of a character string type and repl contains AnyValue",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    26099,
+    26104
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.03_test_022.ttcn3",
+   "module": "M_C_04_03_test_022",
+   "header": "// @requirement: C.4.3 -- To pattern \"*\" if inpar is of a character string type"
+  },
+  {
+   "id": "TTCN3-CORE-C.4.3-020a",
+   "section": "C.4.3",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "The replace function then returns a value that is equal to the following expression: **-** **substr(inpar, 0, index) & repl &** **substr(inpar, index + len, lengthof(inpar) - index - len)**",
+   "canonical": "When inpar or repl is a template and neither of the AnyValue rules applies, `replace` SHALL return a value equal to substr(inpar, 0, index) & repl & substr(inpar, index + len, lengthof(inpar) - index - len).",
+   "condition": "inpar or repl contains a template",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    26088,
+    26110
+   ],
+   "examples": [
+    {
+     "lines": [
+      26147,
+      26161
+     ],
+     "text": "replace ('00000110'B, 1, 3, '111'B); // returns '01110110'B\n  replace ('ABCDEF'H, 0, 2, '123'H);  // returns '123CDEF'H\n  replace ('01AB23CD'O, 2, 1, 'FF96'O); // returns '01ABFF96CD'O\n  replace (\"My name is JJ\", 11, 1, \"xx\"); // returns \"My name is xxJ\"\n  replace (\"My name is JJ\", 11, 0, \"xx\"); // returns \"My name is xxJJ\"\n  replace (\"My name is JJ\", 2, 2, \"x\"); // returns \"Myxame is JJ\", \n  replace (\"My name is JJ\", 12, 2, \"xx\"); // produces test case error\n  replace (\"My name is JJ\", 13, 2, \"xx\"); // produces test case error\n  replace (\"My name is JJ\", 13, 0, \"xx\"); // returns \"My name is JJxx\"\n  var template charstring v_char1 := pattern \"abc[a-z]+\", v_char2 := ?;\n  replace(v_char1, 2, 2, pattern \"x#(1,2)\"); // returns pattern \"abx#(1,2)\"\n  replace(v_char2, 2, 2, \"ab\"); // returns pattern \"??ab\""
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.03_test_023.ttcn3",
+   "module": "M_C_04_03_test_023",
+   "header": "// @requirement: C.4.3 -- The replace function then returns a value that is equal to the following expression: **-** **substr(inpar, 0, index) & repl &** **substr(inpar, index + len, lengthof(inpar) - index - len)**"
+  },
+  {
+   "id": "TTCN3-CORE-C.4.3-023a",
+   "section": "C.4.3",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "If any of the substr calls in the previous point would yield a template with the ifpresent matching attribute, this attribute is removed before concatenation and added to the final result of the concatenation.",
+   "canonical": "If any `substr` call of the `replace` concatenation formula yields a template with the `ifpresent` matching attribute, the attribute SHALL be removed before concatenation and added to the final result of the concatenation.",
+   "condition": "a substr call yields a template with ifpresent",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    26112,
+    26113
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.03_test_024.ttcn3",
+   "module": "M_C_04_03_test_024",
+   "header": "// @requirement: C.4.3 -- If any of the substr calls in the previous point would yield a template with the ifpresent matching attribute, this attribute is removed before concatenation and added to the final result of the concatenation."
+  },
+  {
+   "id": "TTCN3-CORE-C.4.3-024a",
+   "section": "C.4.3",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "If inpar contains a reference to a template with the present restriction, a matching symbol that fulfills the requirements of the present restriction or a reference to an unrestricted template field that represents a mandatory field of a record or set or any field of a union, anytype, record `of, set` `of or array, the` returned value shall have the present restriction.",
+   "canonical": "If inpar of `replace` contains a reference to a template with the present restriction, a matching symbol that fulfils the requirements of the present restriction, or a reference to an unrestricted template field that represents a mandatory field of a record or set or any field of a union, anytype, record of, set of or array, the value returned by `replace` SHALL have the present restriction.",
+   "condition": "inpar refers to a present-restricted template or to a mandatory/unrestricted field",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "readings": [
+     "The returned value SHALL have the present restriction if inpar contains (a) a reference to a template with the present restriction, (b) a matching symbol fulfilling the present restriction, or (c) a reference to an unrestricted template field representing a mandatory record/set field or any field of a union, anytype, record of, set of or array.",
+     "The returned value SHALL have the present restriction only if inpar contains a reference to a present-restricted template whose content is such a matching symbol or field reference."
+    ],
+    "issue": "Garbled sentence with unclear scope of \"a reference to\"; the three-alternative reading is chosen."
+   },
+   "spec_lines": [
+    26115,
+    26118
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.03_test_025.ttcn3",
+   "module": "M_C_04_03_test_025",
+   "header": "// @requirement: C.4.3 -- If inpar contains a reference to a template with the present restriction, a matching symbol that fulfills the requirements of the present restriction or a reference to an unrestricted template field that represents a mandatory field of a record or set or any field of a union, anytype, record `of, set` `of or array, the` returned value shall have the present restriction."
+  },
+  {
+   "id": "TTCN3-CORE-C.4.3-025a",
+   "section": "C.4.3",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "If inpar contains a reference to a template with the value or omit restriction, the returned value shall have the value restriction.",
+   "canonical": "If inpar of `replace` contains a reference to a template with the value or omit restriction, the value returned by `replace` SHALL have the value restriction.",
+   "condition": "inpar refers to a template with value or omit restriction",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    26120,
+    26121
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.03_test_026.ttcn3",
+   "module": "M_C_04_03_test_026",
+   "header": "// @requirement: C.4.3 -- If inpar contains a reference to a template with the value or omit restriction, the returned value shall have the value restriction."
+  },
+  {
+   "id": "TTCN3-CORE-C.4.3-026a",
+   "section": "C.4.3",
+   "type": "information",
+   "modality": "IS",
+   "original": "NOTE 2: Since the substr function removes length matching attributes, the template returned using the concatenation formula will be without any length matching attribute.",
+   "canonical": "The template returned by the `replace` concatenation formula IS without any length matching attribute, because `substr` removes length matching attributes.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    26123,
+    26124
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.03_test_027.ttcn3",
+   "module": "M_C_04_03_test_027",
+   "header": "// @requirement: C.4.3 -- NOTE 2: Since the substr function removes length matching attributes, the template returned using the concatenation formula will be without any length matching attribute."
+  },
+  {
+   "id": "TTCN3-CORE-C.4.3-028a",
+   "section": "C.4.3",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "`inpar or repl are not of string, record` `of, set` `of, or array type;`",
+   "canonical": "If inpar or repl of `replace` is not of a string, `record of`, `set of` or array type, an error SHALL occur.",
+   "condition": "inpar or repl is not of a string, record of, set of or array type",
+   "cross_refs": [
+    "16.1.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    26131,
+    26133
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.03_test_028.ttcn3",
+   "module": "M_C_04_03_test_028",
+   "header": "// @requirement: C.4.3 -- `inpar or repl are not of string, record` `of, set` `of, or array type;`"
+  },
+  {
+   "id": "TTCN3-CORE-C.4.3-029a",
+   "section": "C.4.3",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "`inpar and repl are of different root type;`",
+   "canonical": "If inpar and repl of `replace` are of different root types, an error SHALL occur.",
+   "condition": "inpar and repl have different root types",
+   "cross_refs": [
+    "16.1.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    26131,
+    26135
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.03_test_029.ttcn3",
+   "module": "M_C_04_03_test_029",
+   "header": "// @requirement: C.4.3 -- `inpar and repl are of different root type;`"
+  },
+  {
+   "id": "TTCN3-CORE-C.4.3-030a",
+   "section": "C.4.3",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "`index is less than 0 or greater than lengthof(inpar);`",
+   "canonical": "If the index actual parameter of `replace` is less than 0 or greater than lengthof(inpar), an error SHALL occur.",
+   "condition": "index < 0 or index > lengthof(inpar)",
+   "cross_refs": [
+    "16.1.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    26131,
+    26137
+   ],
+   "examples": [
+    {
+     "lines": [
+      26147,
+      26161
+     ],
+     "text": "replace ('00000110'B, 1, 3, '111'B); // returns '01110110'B\n  replace ('ABCDEF'H, 0, 2, '123'H);  // returns '123CDEF'H\n  replace ('01AB23CD'O, 2, 1, 'FF96'O); // returns '01ABFF96CD'O\n  replace (\"My name is JJ\", 11, 1, \"xx\"); // returns \"My name is xxJ\"\n  replace (\"My name is JJ\", 11, 0, \"xx\"); // returns \"My name is xxJJ\"\n  replace (\"My name is JJ\", 2, 2, \"x\"); // returns \"Myxame is JJ\", \n  replace (\"My name is JJ\", 12, 2, \"xx\"); // produces test case error\n  replace (\"My name is JJ\", 13, 2, \"xx\"); // produces test case error\n  replace (\"My name is JJ\", 13, 0, \"xx\"); // returns \"My name is JJxx\"\n  var template charstring v_char1 := pattern \"abc[a-z]+\", v_char2 := ?;\n  replace(v_char1, 2, 2, pattern \"x#(1,2)\"); // returns pattern \"abx#(1,2)\"\n  replace(v_char2, 2, 2, \"ab\"); // returns pattern \"??ab\""
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.03_test_030.ttcn3",
+   "module": "M_C_04_03_test_030",
+   "header": "// @requirement: C.4.3 -- `index is less than 0 or greater than lengthof(inpar);`"
+  },
+  {
+   "id": "TTCN3-CORE-C.4.3-031a",
+   "section": "C.4.3",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "`len is less than 0 or greater than lengthof(inpar);`",
+   "canonical": "If the len actual parameter of `replace` is less than 0 or greater than lengthof(inpar), an error SHALL occur.",
+   "condition": "len < 0 or len > lengthof(inpar)",
+   "cross_refs": [
+    "16.1.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    26131,
+    26139
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.03_test_031.ttcn3",
+   "module": "M_C_04_03_test_031",
+   "header": "// @requirement: C.4.3 -- `len is less than 0 or greater than lengthof(inpar);`"
+  },
+  {
+   "id": "TTCN3-CORE-C.4.3-032a",
+   "section": "C.4.3",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "`inpar contains neither AnyValue nor AnyValueOrNone and index+len is greater than` lengthof(inpar).",
+   "canonical": "If inpar of `replace` contains neither AnyValue nor AnyValueOrNone and index + len is greater than lengthof(inpar), an error SHALL occur.",
+   "condition": "inpar contains neither AnyValue nor AnyValueOrNone and index + len > lengthof(inpar)",
+   "cross_refs": [
+    "16.1.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    26131,
+    26144
+   ],
+   "examples": [
+    {
+     "lines": [
+      26147,
+      26161
+     ],
+     "text": "replace ('00000110'B, 1, 3, '111'B); // returns '01110110'B\n  replace ('ABCDEF'H, 0, 2, '123'H);  // returns '123CDEF'H\n  replace ('01AB23CD'O, 2, 1, 'FF96'O); // returns '01ABFF96CD'O\n  replace (\"My name is JJ\", 11, 1, \"xx\"); // returns \"My name is xxJ\"\n  replace (\"My name is JJ\", 11, 0, \"xx\"); // returns \"My name is xxJJ\"\n  replace (\"My name is JJ\", 2, 2, \"x\"); // returns \"Myxame is JJ\", \n  replace (\"My name is JJ\", 12, 2, \"xx\"); // produces test case error\n  replace (\"My name is JJ\", 13, 2, \"xx\"); // produces test case error\n  replace (\"My name is JJ\", 13, 0, \"xx\"); // returns \"My name is JJxx\"\n  var template charstring v_char1 := pattern \"abc[a-z]+\", v_char2 := ?;\n  replace(v_char1, 2, 2, pattern \"x#(1,2)\"); // returns pattern \"abx#(1,2)\"\n  replace(v_char2, 2, 2, \"ab\"); // returns pattern \"??ab\""
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.03_test_032.ttcn3",
+   "module": "M_C_04_03_test_032",
+   "header": "// @requirement: C.4.3 -- `inpar contains neither AnyValue nor AnyValueOrNone and index+len is greater than` lengthof(inpar)."
+  },
+  {
+   "id": "TTCN3-CORE-C.5.1-001a",
+   "section": "C.5.1",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "encvalue(in template (value) any inpar, in universal charstring encoding_info := \"\", in universal charstring dynamic_encoding := \"\") return bitstring",
+   "canonical": "The `encvalue` predefined function has the signature encvalue(in template (value) any inpar, in universal charstring encoding_info := \"\", in universal charstring dynamic_encoding := \"\") return bitstring.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    26167,
+    26171
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.05.01_test_001.ttcn3",
+   "module": "M_C_05_01_test_001",
+   "header": "// @requirement: C.5.1 -- encvalue(in template (value) any inpar, in universal charstring encoding_info := \"\", in universal charstring dynamic_encoding := \"\") return bitstring"
+  },
+  {
+   "id": "TTCN3-CORE-C.5.1-002a",
+   "section": "C.5.1",
+   "type": "definition",
+   "modality": "IS",
+   "original": "The encvalue function encodes a value or template into a bitstring.",
+   "canonical": "The `encvalue` function IS the predefined function that encodes a value or template into a bitstring.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    26173,
+    26173
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.05.01_test_002.ttcn3",
+   "module": "M_C_05_01_test_002",
+   "header": "// @requirement: C.5.1 -- The encvalue function encodes a value or template into a bitstring."
+  },
+  {
+   "id": "TTCN3-CORE-C.5.1-004a",
+   "section": "C.5.1",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "When the actual parameter that is passed to inpar is a template, it shall resolve to a specific value (the same restrictions apply as for the argument of the send statement). The returned bitstring represents the encoded value of inpar, however, the TTCN-3 test system need not make any check on its correctness. The optional encoding_info parameter is used for passing additional encoding information to the codec and, if it is omitted, no additional information is sent to the codec. The optional dynamic_encoding parameter is used for dynamic selection of encode attribute of the inpar value for this single encvalue call. The rules for dynamic selection of the encode attribute are described in clause 27.9. In addition to the general error causes in clause 16.1.2, error causes are: - Encoding fails due to a runtime system problem (i.e. no encoding function exists for the actual type of inpar).",
+   "canonical": "When the actual parameter passed to the `inpar` formal parameter of `encvalue` is a template, the template SHALL resolve to a specific value.",
+   "condition": "the actual parameter passed to inpar is a template",
+   "cross_refs": [
+    "22.2.1"
+   ],
+   "ambiguity": {
+    "status": "terminology",
+    "improper_terms": [
+     {
+      "used": "send statement",
+      "proper": "send operation",
+      "glossary": false
+     }
+    ],
+    "issue": "The standard calls `send` an operation (clause 22.2.1); 'send statement' deviates from that term."
+   },
+   "spec_lines": [
+    26173,
+    26187
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.05.01_test_003.ttcn3",
+   "module": "M_C_05_01_test_003",
+   "header": "// @requirement: C.5.1 -- When the actual parameter that is passed to inpar is a template, it shall resolve to a specific value (the same restrictions apply as for the argument of the send statement). The returned bitstring represents the encoded value of inpar, however, the TTCN-3 test system need not make any check on its correctness. The optional encoding_info parameter is used for passing additional encoding information to the codec and, if it is omitted, no additional information is sent to the codec. The optional dynamic_encoding parameter is used for dynamic selection of encode attribute of the inpar value for this single encvalue call. The rules for dynamic selection of the encode attribute are described in clause 27.9. In addition to the general error causes in clause 16.1.2, error causes are: - Encoding fails due to a runtime system problem (i.e. no encoding function exists for the actual type of inpar)."
+  },
+  {
+   "id": "TTCN3-CORE-C.5.1-004b",
+   "section": "C.5.1",
+   "type": "restriction",
+   "modality": "IS",
+   "original": "When the actual parameter that is passed to inpar is a template, it shall resolve to a specific value (the same restrictions apply as for the argument of the send statement). The returned bitstring represents the encoded value of inpar, however, the TTCN-3 test system need not make any check on its correctness. The optional encoding_info parameter is used for passing additional encoding information to the codec and, if it is omitted, no additional information is sent to the codec. The optional dynamic_encoding parameter is used for dynamic selection of encode attribute of the inpar value for this single encvalue call. The rules for dynamic selection of the encode attribute are described in clause 27.9. In addition to the general error causes in clause 16.1.2, error causes are: - Encoding fails due to a runtime system problem (i.e. no encoding function exists for the actual type of inpar).",
+   "canonical": "The actual parameter passed to the `inpar` formal parameter of `encvalue` IS subject to the same restrictions as the argument of the `send` operation.",
+   "condition": null,
+   "cross_refs": [
+    "22.2.1"
+   ],
+   "ambiguity": {
+    "status": "terminology",
+    "improper_terms": [
+     {
+      "used": "send statement",
+      "proper": "send operation",
+      "glossary": false
+     }
+    ],
+    "issue": "The standard calls `send` an operation (clause 22.2.1); 'send statement' deviates from that term."
+   },
+   "spec_lines": [
+    26173,
+    26187
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.05.01_test_004.ttcn3",
+   "module": "M_C_05_01_test_004",
+   "header": "// @requirement: C.5.1 -- When the actual parameter that is passed to inpar is a template, it shall resolve to a specific value (the same restrictions apply as for the argument of the send statement). The returned bitstring represents the encoded value of inpar, however, the TTCN-3 test system need not make any check on its correctness. The optional encoding_info parameter is used for passing additional encoding information to the codec and, if it is omitted, no additional information is sent to the codec. The optional dynamic_encoding parameter is used for dynamic selection of encode attribute of the inpar value for this single encvalue call. The rules for dynamic selection of the encode attribute are described in clause 27.9. In addition to the general error causes in clause 16.1.2, error causes are: - Encoding fails due to a runtime system problem (i.e. no encoding function exists for the actual type of inpar)."
+  },
+  {
+   "id": "TTCN3-CORE-C.5.1-004c",
+   "section": "C.5.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "inpar is a template, it shall resolve to a specific value (the same restrictions apply as for the argument of the send statement). The returned bitstring represents the encoded value of inpar, however, the TTCN-3 test system need not make any check on its correctness. The optional encoding_info parameter is used for passing additional encoding information to the codec and, if it is omitted, no additional information is sent to the codec. The optional dynamic_encoding parameter is used for dynamic selection of encode attribute of the inpar value for this single encvalue call. The rules for dynamic selection of the encode attribute are described in clause 27.9. In addition to the general error causes in clause 16.1.2, error causes are: - Encoding fails due to a runtime system problem (i.e. no encoding function exists for the actual type of inpar).",
+   "canonical": "The bitstring returned by `encvalue` IS the encoded value of `inpar`.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    26174,
+    26187
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.05.01_test_005.ttcn3",
+   "module": "M_C_05_01_test_005",
+   "header": "// @requirement: C.5.1 -- inpar is a template, it shall resolve to a specific value (the same restrictions apply as for the argument of the send statement). The returned bitstring represents the encoded value of inpar, however, the TTCN-3 test system need not make any check on its correctness. The optional encoding_info parameter is used for passing additional encoding information to the codec and, if it is omitted, no additional information is sent to the codec. The optional dynamic_encoding parameter is used for dynamic selection of encode attribute of the inpar value for this single encvalue call. The rules for dynamic selection of the encode attribute are described in clause 27.9. In addition to the general error causes in clause 16.1.2, error causes are: - Encoding fails due to a runtime system problem (i.e. no encoding function exists for the actual type of inpar)."
+  },
+  {
+   "id": "TTCN3-CORE-C.5.1-004g",
+   "section": "C.5.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "inpar is a template, it shall resolve to a specific value (the same restrictions apply as for the argument of the send statement). The returned bitstring represents the encoded value of inpar, however, the TTCN-3 test system need not make any check on its correctness. The optional encoding_info parameter is used for passing additional encoding information to the codec and, if it is omitted, no additional information is sent to the codec. The optional dynamic_encoding parameter is used for dynamic selection of encode attribute of the inpar value for this single encvalue call. The rules for dynamic selection of the encode attribute are described in clause 27.9. In addition to the general error causes in clause 16.1.2, error causes are: - Encoding fails due to a runtime system problem (i.e. no encoding function exists for the actual type of inpar).",
+   "canonical": "The optional `dynamic_encoding` parameter of `encvalue` IS used for dynamic selection of the encode attribute of the `inpar` value for this single `encvalue` call.",
+   "condition": null,
+   "cross_refs": [
+    "27.9"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    26174,
+    26187
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.05.01_test_006.ttcn3",
+   "module": "M_C_05_01_test_006",
+   "header": "// @requirement: C.5.1 -- inpar is a template, it shall resolve to a specific value (the same restrictions apply as for the argument of the send statement). The returned bitstring represents the encoded value of inpar, however, the TTCN-3 test system need not make any check on its correctness. The optional encoding_info parameter is used for passing additional encoding information to the codec and, if it is omitted, no additional information is sent to the codec. The optional dynamic_encoding parameter is used for dynamic selection of encode attribute of the inpar value for this single encvalue call. The rules for dynamic selection of the encode attribute are described in clause 27.9. In addition to the general error causes in clause 16.1.2, error causes are: - Encoding fails due to a runtime system problem (i.e. no encoding function exists for the actual type of inpar)."
+  },
+  {
+   "id": "TTCN3-CORE-C.5.1-004h",
+   "section": "C.5.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "inpar is a template, it shall resolve to a specific value (the same restrictions apply as for the argument of the send statement). The returned bitstring represents the encoded value of inpar, however, the TTCN-3 test system need not make any check on its correctness. The optional encoding_info parameter is used for passing additional encoding information to the codec and, if it is omitted, no additional information is sent to the codec. The optional dynamic_encoding parameter is used for dynamic selection of encode attribute of the inpar value for this single encvalue call. The rules for dynamic selection of the encode attribute are described in clause 27.9. In addition to the general error causes in clause 16.1.2, error causes are: - Encoding fails due to a runtime system problem (i.e. no encoding function exists for the actual type of inpar).",
+   "canonical": "The dynamic selection of the encode attribute in a call of `encvalue` IS governed by the rules of clause 27.9.",
+   "condition": null,
+   "cross_refs": [
+    "27.9"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    26174,
+    26187
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.05.01_test_007.ttcn3",
+   "module": "M_C_05_01_test_007",
+   "header": "// @requirement: C.5.1 -- inpar is a template, it shall resolve to a specific value (the same restrictions apply as for the argument of the send statement). The returned bitstring represents the encoded value of inpar, however, the TTCN-3 test system need not make any check on its correctness. The optional encoding_info parameter is used for passing additional encoding information to the codec and, if it is omitted, no additional information is sent to the codec. The optional dynamic_encoding parameter is used for dynamic selection of encode attribute of the inpar value for this single encvalue call. The rules for dynamic selection of the encode attribute are described in clause 27.9. In addition to the general error causes in clause 16.1.2, error causes are: - Encoding fails due to a runtime system problem (i.e. no encoding function exists for the actual type of inpar)."
+  },
+  {
+   "id": "TTCN3-CORE-C.5.1-004i",
+   "section": "C.5.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "inpar is a template, it shall resolve to a specific value (the same restrictions apply as for the argument of the send statement). The returned bitstring represents the encoded value of inpar, however, the TTCN-3 test system need not make any check on its correctness. The optional encoding_info parameter is used for passing additional encoding information to the codec and, if it is omitted, no additional information is sent to the codec. The optional dynamic_encoding parameter is used for dynamic selection of encode attribute of the inpar value for this single encvalue call. The rules for dynamic selection of the encode attribute are described in clause 27.9. In addition to the general error causes in clause 16.1.2, error causes are: - Encoding fails due to a runtime system problem (i.e. no encoding function exists for the actual type of inpar).",
+   "canonical": "Each general error cause of clause 16.1.2 IS applicable to a call of `encvalue`.",
+   "condition": null,
+   "cross_refs": [
+    "16.1.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    26174,
+    26187
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.05.01_test_008.ttcn3",
+   "module": "M_C_05_01_test_008",
+   "header": "// @requirement: C.5.1 -- inpar is a template, it shall resolve to a specific value (the same restrictions apply as for the argument of the send statement). The returned bitstring represents the encoded value of inpar, however, the TTCN-3 test system need not make any check on its correctness. The optional encoding_info parameter is used for passing additional encoding information to the codec and, if it is omitted, no additional information is sent to the codec. The optional dynamic_encoding parameter is used for dynamic selection of encode attribute of the inpar value for this single encvalue call. The rules for dynamic selection of the encode attribute are described in clause 27.9. In addition to the general error causes in clause 16.1.2, error causes are: - Encoding fails due to a runtime system problem (i.e. no encoding function exists for the actual type of inpar)."
+  },
+  {
+   "id": "TTCN3-CORE-C.5.1-004j",
+   "section": "C.5.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "inpar is a template, it shall resolve to a specific value (the same restrictions apply as for the argument of the send statement). The returned bitstring represents the encoded value of inpar, however, the TTCN-3 test system need not make any check on its correctness. The optional encoding_info parameter is used for passing additional encoding information to the codec and, if it is omitted, no additional information is sent to the codec. The optional dynamic_encoding parameter is used for dynamic selection of encode attribute of the inpar value for this single encvalue call. The rules for dynamic selection of the encode attribute are described in clause 27.9. In addition to the general error causes in clause 16.1.2, error causes are: - Encoding fails due to a runtime system problem (i.e. no encoding function exists for the actual type of inpar).",
+   "canonical": "A call of `encvalue` SHALL cause an error when encoding fails due to a runtime system problem, i.e. when no encoding function exists for the actual type of `inpar`.",
+   "condition": "no encoding function exists for the actual type of inpar",
+   "cross_refs": [
+    "16.1.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    26174,
+    26187
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.05.01_test_009.ttcn3",
+   "module": "M_C_05_01_test_009",
+   "header": "// @requirement: C.5.1 -- inpar is a template, it shall resolve to a specific value (the same restrictions apply as for the argument of the send statement). The returned bitstring represents the encoded value of inpar, however, the TTCN-3 test system need not make any check on its correctness. The optional encoding_info parameter is used for passing additional encoding information to the codec and, if it is omitted, no additional information is sent to the codec. The optional dynamic_encoding parameter is used for dynamic selection of encode attribute of the inpar value for this single encvalue call. The rules for dynamic selection of the encode attribute are described in clause 27.9. In addition to the general error causes in clause 16.1.2, error causes are: - Encoding fails due to a runtime system problem (i.e. no encoding function exists for the actual type of inpar)."
+  }
+ ]
+}

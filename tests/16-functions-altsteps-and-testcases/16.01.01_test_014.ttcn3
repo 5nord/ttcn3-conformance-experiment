@@ -1,0 +1,23 @@
+// @requirement: 16.1.1 -- In any other place, invoking a function that returns an uninitialized value shall cause an error (e.g. in an expression, as an actual parameter or on the right hand side of an assignment).
+// @id: TTCN3-CORE-16.1.1-017a
+// @verdict: pass accept, ttcn3verdict:error
+module M_16_01_01_test_014 {
+
+    type component C {}
+
+    function f_uninit() return integer {
+        var integer v_uninit;
+        return v_uninit;
+    }
+
+    testcase TC() runs on C {
+        var integer v_res;
+        setverdict(pass);
+        v_res := f_uninit(); // error: uninitialized return value on right hand side of assignment
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

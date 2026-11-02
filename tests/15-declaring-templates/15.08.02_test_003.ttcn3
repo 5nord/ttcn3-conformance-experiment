@@ -1,0 +1,28 @@
+// @requirement: 15.8.2 -- Restriction of base template: template(omit); Allowed restrictions of modified template: Yes; Col3: No; Col4: No; Col5: Yes
+// @id: TTCN3-CORE-15.8.2-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_08_02_test_003 {
+
+    type record R { integer a, integer b optional }
+
+    const R c_r2 := { a := 2, b := omit };
+    const R c_r5 := { a := 5, b := omit };
+
+    template(omit) R m_base := { a := 1, b := omit };
+    template(omit) R m_modOmit modifies m_base := { a := 2 };
+    template R mw_modAny modifies m_base := { a := ? };
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (match(c_r2, m_modOmit) and match(c_r5, mw_modAny)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

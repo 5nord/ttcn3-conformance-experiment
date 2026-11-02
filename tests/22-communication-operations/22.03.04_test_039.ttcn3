@@ -1,0 +1,40 @@
+// @requirement: 22.3.4 -- No AddressRef in the from clause shall contain the special value null at the time of the operation.
+// @id: TTCN3-CORE-22.3.4-041a
+// @verdict: pass accept, ttcn3verdict:error
+module M_22_03_04_test_039 {
+
+    signature S() return integer;
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    function f_server() runs on C {
+        p.getcall(S:{});
+        p.reply(S:{} value 1);
+    }
+
+    testcase TC() runs on C system C {
+        var C v_ptc := C.create;
+        var C v_ref := null;
+        timer T := 1.0;
+        connect(self:p, v_ptc:p);
+        v_ptc.start(f_server());
+        p.call(S:{}, nowait);
+        T.start;
+        alt {
+            [] p.check(getreply) {}
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        alt {
+            [] p.getreply(S:{} value 1) from v_ref { setverdict(fail); } // error: null in the from clause
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

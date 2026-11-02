@@ -1,0 +1,38 @@
+// @requirement: 5.2.0 -- The scope units: functions (including the module control function), test cases, altsteps and statement blocks may additionally specify some form of behaviour by using the TTCN-3 program statements and operations (see clause 18).
+// @id: TTCN3-CORE-5.2.0-017a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_02_00_test_005 {
+
+    type component C {
+        timer T := 0.1;
+    }
+
+    function f_double(integer p_x) return integer {
+        var integer v_y := p_x;
+        v_y := v_y * 2;
+        return v_y;
+    }
+
+    altstep a_timeout() runs on C {
+        [] T.timeout {
+            setverdict(pass);
+        }
+    }
+
+    testcase TC(integer p_x) runs on C {
+        {
+            if (f_double(p_x) != 4) {
+                setverdict(fail);
+                stop;
+            }
+        }
+        T.start;
+        a_timeout();
+    }
+
+    control {
+        var integer v_x := 1;
+        v_x := v_x + 1;
+        execute(TC(v_x));
+    }
+}

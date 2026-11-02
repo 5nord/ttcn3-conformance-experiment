@@ -1,0 +1,1569 @@
+{
+ "batch": "b035",
+ "requirements": [
+  {
+   "id": "TTCN3-CORE-15.1-001a",
+   "section": "15.1",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Instances of messages with actual values may be specified using templates.",
+   "canonical": "An instance of a message with actual values MAY be specified using a template.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10495,
+    10496
+   ],
+   "examples": [
+    {
+     "lines": [
+      10532,
+      10549
+     ],
+     "text": "// Given the message definition \n  type record MyMessageType\n  { \n     integer field1 optional,\n     charstring field2,\n     boolean field3\n  }\n  // a message template could be \n  template MyMessageType m_myTemplate:= \n  {\n     field1 := omit,\n     field2 := \"My string\",\n     field3 := true\n  }\n  // and a corresponding send operation could be \n  myPCO.send(m_myTemplate);"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.01_test_001.ttcn3",
+   "module": "M_15_01_test_001",
+   "header": "// @requirement: 15.1 -- Instances of messages with actual values may be specified using templates."
+  },
+  {
+   "id": "TTCN3-CORE-15.1-004a",
+   "section": "15.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "A template used in a send operation defines a complete set of field values comprising the message to be transmitted over a port.",
+   "canonical": "A template used in a `send` operation IS the complete set of field values comprising the message to be transmitted over a port.",
+   "condition": "the template is used in a send operation",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10504,
+    10505
+   ],
+   "examples": [
+    {
+     "lines": [
+      10532,
+      10549
+     ],
+     "text": "// Given the message definition \n  type record MyMessageType\n  { \n     integer field1 optional,\n     charstring field2,\n     boolean field3\n  }\n  // a message template could be \n  template MyMessageType m_myTemplate:= \n  {\n     field1 := omit,\n     field2 := \"My string\",\n     field3 := true\n  }\n  // and a corresponding send operation could be \n  myPCO.send(m_myTemplate);"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.01_test_002.ttcn3",
+   "module": "M_15_01_test_002",
+   "header": "// @requirement: 15.1 -- A template used in a send operation defines a complete set of field values comprising the message to be transmitted over a port."
+  },
+  {
+   "id": "TTCN3-CORE-15.1-005a",
+   "section": "15.1",
+   "type": "information",
+   "modality": "IS",
+   "original": "NOTE: For sending templates, omitting an optional field is considered to be a value notation rather than a matching mechanism.",
+   "canonical": "In a template used for sending, an omitted optional field IS a value notation and not a matching mechanism.",
+   "condition": "the template is used for sending",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10507,
+    10508
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.01_test_003.ttcn3",
+   "module": "M_15_01_test_003",
+   "header": "// @requirement: 15.1 -- NOTE: For sending templates, omitting an optional field is considered to be a value notation rather than a matching mechanism."
+  },
+  {
+   "id": "TTCN3-CORE-15.1-006a",
+   "section": "15.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "A template used in a receive, trigger or check operation defines a data template against which an incoming message is to be matched.",
+   "canonical": "A template used in a `receive`, `trigger` or `check` operation IS the data template against which an incoming message is matched.",
+   "condition": "the template is used in a receive, trigger or check operation",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10510,
+    10512
+   ],
+   "examples": [
+    {
+     "lines": [
+      10557,
+      10574
+     ],
+     "text": "// Given the message definition \n  type record MyMessageType\n  {\n     integer field1 optional,\n     charstring field2,\n     boolean  field3\n  }\n  // a message template might be \n  template MyMessageType mw_myTemplate:=\n  {\n     field1 := ?,\n     field2 := pattern \"abc*xyz\",\n     field3 := true\n  }\n  // and a corresponding receive operation could be \n  myPCO.receive(mw_myTemplate);"
+    },
+    {
+     "lines": [
+      10577,
+      10582
+     ],
+     "text": "// When used in a receiving operation this template will match any integer value\n  template integer mw_myTemplate := ?;\n  // This template will match only the integer values 1, 2 or 3\n  template integer mw_myTemplate := (1, 2, 3);"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.01_test_004.ttcn3",
+   "module": "M_15_01_test_004",
+   "header": "// @requirement: 15.1 -- A template used in a receive, trigger or check operation defines a data template against which an incoming message is to be matched."
+  },
+  {
+   "id": "TTCN3-CORE-15.1-007a",
+   "section": "15.1",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Matching mechanisms, as defined in clauses 15.6.6 and 15.8 and in annex B, may be used in receive templates.",
+   "canonical": "A template used for receiving MAY contain the matching mechanisms defined in clauses 15.6.6, 15.8 and annex B.",
+   "condition": null,
+   "cross_refs": [
+    "15.6.6",
+    "15.8",
+    "B"
+   ],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "'receive templates' is used for templates used in receiving operations (receive, trigger, check).",
+    "improper_terms": [
+     {
+      "used": "receive templates",
+      "proper": "templates used in receiving operations",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    10510,
+    10512
+   ],
+   "examples": [
+    {
+     "lines": [
+      10557,
+      10574
+     ],
+     "text": "// Given the message definition \n  type record MyMessageType\n  {\n     integer field1 optional,\n     charstring field2,\n     boolean  field3\n  }\n  // a message template might be \n  template MyMessageType mw_myTemplate:=\n  {\n     field1 := ?,\n     field2 := pattern \"abc*xyz\",\n     field3 := true\n  }\n  // and a corresponding receive operation could be \n  myPCO.receive(mw_myTemplate);"
+    },
+    {
+     "lines": [
+      10577,
+      10582
+     ],
+     "text": "// When used in a receiving operation this template will match any integer value\n  template integer mw_myTemplate := ?;\n  // This template will match only the integer values 1, 2 or 3\n  template integer mw_myTemplate := (1, 2, 3);"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.01_test_005.ttcn3",
+   "module": "M_15_01_test_005",
+   "header": "// @requirement: 15.1 -- Matching mechanisms, as defined in clauses 15.6.6 and 15.8 and in annex B, may be used in receive templates."
+  },
+  {
+   "id": "TTCN3-CORE-15.1-008a",
+   "section": "15.1",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "No binding of the incoming values to the template shall occur.",
+   "canonical": "A template used in a receiving operation SHALL NOT have incoming values bound to it.",
+   "condition": "the template is used in a receive, trigger or check operation",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10510,
+    10512
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.01_test_006.ttcn3",
+   "module": "M_15_01_test_006",
+   "header": "// @requirement: 15.1 -- No binding of the incoming values to the template shall occur."
+  },
+  {
+   "id": "TTCN3-CORE-15.1-010a",
+   "section": "15.1",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "a) At the time of a send operation, the used template shall be completely initialized and all fields shall resolve to actual values or to omit and no other matching mechanisms shall be used in the template fields, neither directly nor indirectly.",
+   "canonical": "At the time of a `send` operation, the used template SHALL be completely initialized.",
+   "condition": "the template is used in a send operation",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10518,
+    10520
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.01_test_007.ttcn3",
+   "module": "M_15_01_test_007",
+   "header": "// @requirement: 15.1 -- a) At the time of a send operation, the used template shall be completely initialized and all fields shall resolve to actual values or to omit and no other matching mechanisms shall be used in the template fields, neither directly nor indirectly."
+  },
+  {
+   "id": "TTCN3-CORE-15.1-010b",
+   "section": "15.1",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "a) At the time of a send operation, the used template shall be completely initialized and all fields shall resolve to actual values or to omit and no other matching mechanisms shall be used in the template fields, neither directly nor indirectly.",
+   "canonical": "At the time of a `send` operation, every field of the used template SHALL resolve to an actual value or to `omit`.",
+   "condition": "the template is used in a send operation",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10518,
+    10520
+   ],
+   "examples": [
+    {
+     "lines": [
+      10532,
+      10549
+     ],
+     "text": "// Given the message definition \n  type record MyMessageType\n  { \n     integer field1 optional,\n     charstring field2,\n     boolean field3\n  }\n  // a message template could be \n  template MyMessageType m_myTemplate:= \n  {\n     field1 := omit,\n     field2 := \"My string\",\n     field3 := true\n  }\n  // and a corresponding send operation could be \n  myPCO.send(m_myTemplate);"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.01_test_008.ttcn3",
+   "module": "M_15_01_test_008",
+   "header": "// @requirement: 15.1 -- a) At the time of a send operation, the used template shall be completely initialized and all fields shall resolve to actual values or to omit and no other matching mechanisms shall be used in the template fields, neither directly nor indirectly."
+  },
+  {
+   "id": "TTCN3-CORE-15.1-010c",
+   "section": "15.1",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "a) At the time of a send operation, the used template shall be completely initialized and all fields shall resolve to actual values or to omit and no other matching mechanisms shall be used in the template fields, neither directly nor indirectly.",
+   "canonical": "At the time of a `send` operation, a field of the used template SHALL NOT contain, directly or indirectly, any matching mechanism other than `omit`.",
+   "condition": "the template is used in a send operation",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10518,
+    10520
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.01_test_009.ttcn3",
+   "module": "M_15_01_test_009",
+   "header": "// @requirement: 15.1 -- a) At the time of a send operation, the used template shall be completely initialized and all fields shall resolve to actual values or to omit and no other matching mechanisms shall be used in the template fields, neither directly nor indirectly."
+  },
+  {
+   "id": "TTCN3-CORE-15.1-011a",
+   "section": "15.1",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "At the time of a receiving operation, the matching template shall be completely initialized.",
+   "canonical": "At the time of a receiving operation, the matching template SHALL be completely initialized.",
+   "condition": "the template is used in a receiving operation",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10522,
+    10522
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.01_test_010.ttcn3",
+   "module": "M_15_01_test_010",
+   "header": "// @requirement: 15.1 -- At the time of a receiving operation, the matching template shall be completely initialized."
+  },
+  {
+   "id": "TTCN3-CORE-15.1-012a",
+   "section": "15.1",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "b) Optional fields of record and set templates or template fields can be initialized explicitly or implicitly.",
+   "canonical": "An optional field of a record or set template or template field MAY be initialized explicitly or implicitly.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10524,
+    10527
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.01_test_011.ttcn3",
+   "module": "M_15_01_test_011",
+   "header": "// @requirement: 15.1 -- b) Optional fields of record and set templates or template fields can be initialized explicitly or implicitly."
+  },
+  {
+   "id": "TTCN3-CORE-15.1-013a",
+   "section": "15.1",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "For implicit initialization of the optional fields of a template or a template field, an optional attribute with the value \"implicit omit\" (see clause 27.7) shall be associated with it either directly or via the attribute distribution (scoping) mechanism (see clause 27.1.1).",
+   "canonical": "For implicit initialization of the optional fields of a template or template field, an optional attribute with the value \"implicit omit\" SHALL be associated with the template or template field, either directly or via the attribute distribution (scoping) mechanism.",
+   "condition": "the optional fields are initialized implicitly",
+   "cross_refs": [
+    "27.7",
+    "27.1.1"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10524,
+    10527
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.01_test_012.ttcn3",
+   "module": "M_15_01_test_012",
+   "header": "// @requirement: 15.1 -- For implicit initialization of the optional fields of a template or a template field, an optional attribute with the value \"implicit omit\" (see clause 27.7) shall be associated with it either directly or via the attribute distribution (scoping) mechanism (see clause 27.1.1)."
+  },
+  {
+   "id": "TTCN3-CORE-15.1-019a",
+   "section": "15.1",
+   "type": "information",
+   "modality": "IS",
+   "original": "// This template will match only the integer values 1, 2 or 3 template integer mw_myTemplate := (1, 2, 3);",
+   "canonical": "A template of type integer with the value list (1, 2, 3) used in a receiving operation matches only the integer values 1, 2 and 3.",
+   "condition": null,
+   "cross_refs": [
+    "B.1.2.1"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10577,
+    10582
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.01_test_013.ttcn3",
+   "module": "M_15_01_test_013",
+   "header": "// @requirement: 15.1 -- // This template will match only the integer values 1, 2 or 3 template integer mw_myTemplate := (1, 2, 3);"
+  },
+  {
+   "id": "TTCN3-CORE-15.2-001a",
+   "section": "15.2",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Instances of procedure parameter lists with actual values may be specified using templates.",
+   "canonical": "An instance of a procedure parameter list with actual values MAY be specified using a template.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10586,
+    10587
+   ],
+   "examples": [
+    {
+     "lines": [
+      10643,
+      10666
+     ],
+     "text": "// signature definition for a remote procedure \n  signature RemoteProc(in integer Par1, out integer Par2, inout integer Par3) return integer;\n  // example templates associated to defined procedure signature \n  template RemoteProc s_template1:=\n  {\n     Par1 := 1,\n     Par2 := 2,\n     Par3 := 3\n  }\n  template RemoteProc s_template2:=\n  {\n     Par1 := 1,\n     Par2 := ?,\n     Par3 := 3\n  }\n  template RemoteProc s_template3:=\n  {\n     Par1 := 1,\n     Par2 := ?,\n     Par3 := ?\n  }\n  template RemoteProc s_template4:=?;"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.02_test_001.ttcn3",
+   "module": "M_15_02_test_001",
+   "header": "// @requirement: 15.2 -- Instances of procedure parameter lists with actual values may be specified using templates."
+  },
+  {
+   "id": "TTCN3-CORE-15.2-002a",
+   "section": "15.2",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Templates may be defined for any procedure by referencing the associated signature definition.",
+   "canonical": "A template MAY be defined for any procedure by referencing the associated signature definition.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10586,
+    10587
+   ],
+   "examples": [
+    {
+     "lines": [
+      10643,
+      10666
+     ],
+     "text": "// signature definition for a remote procedure \n  signature RemoteProc(in integer Par1, out integer Par2, inout integer Par3) return integer;\n  // example templates associated to defined procedure signature \n  template RemoteProc s_template1:=\n  {\n     Par1 := 1,\n     Par2 := 2,\n     Par3 := 3\n  }\n  template RemoteProc s_template2:=\n  {\n     Par1 := 1,\n     Par2 := ?,\n     Par3 := 3\n  }\n  template RemoteProc s_template3:=\n  {\n     Par1 := 1,\n     Par2 := ?,\n     Par3 := ?\n  }\n  template RemoteProc s_template4:=?;"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.02_test_002.ttcn3",
+   "module": "M_15_02_test_002",
+   "header": "// @requirement: 15.2 -- Templates may be defined for any procedure by referencing the associated signature definition."
+  },
+  {
+   "id": "TTCN3-CORE-15.2-004a",
+   "section": "15.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "A signature template defines the values and matching mechanisms of the procedure parameters only, but not the return value.",
+   "canonical": "A signature template IS a definition of the values and matching mechanisms of the procedure parameters only, and IS NOT a definition of the return value.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10595,
+    10597
+   ],
+   "examples": [
+    {
+     "lines": [
+      10643,
+      10666
+     ],
+     "text": "// signature definition for a remote procedure \n  signature RemoteProc(in integer Par1, out integer Par2, inout integer Par3) return integer;\n  // example templates associated to defined procedure signature \n  template RemoteProc s_template1:=\n  {\n     Par1 := 1,\n     Par2 := 2,\n     Par3 := 3\n  }\n  template RemoteProc s_template2:=\n  {\n     Par1 := 1,\n     Par2 := ?,\n     Par3 := 3\n  }\n  template RemoteProc s_template3:=\n  {\n     Par1 := 1,\n     Par2 := ?,\n     Par3 := ?\n  }\n  template RemoteProc s_template4:=?;"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.02_test_003.ttcn3",
+   "module": "M_15_02_test_003",
+   "header": "// @requirement: 15.2 -- A signature template defines the values and matching mechanisms of the procedure parameters only, but not the return value."
+  },
+  {
+   "id": "TTCN3-CORE-15.2-005a",
+   "section": "15.2",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "The values or matching mechanisms for a return have to be defined within the reply (see clause 22.3.3) or getreply operation (see clause 22.3.4).",
+   "canonical": "The value or matching mechanism for the return value of a procedure SHALL be defined within the `reply` or `getreply` operation.",
+   "condition": null,
+   "cross_refs": [
+    "22.3.3",
+    "22.3.4"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10595,
+    10597
+   ],
+   "examples": [
+    {
+     "lines": [
+      10694,
+      10702
+     ],
+     "text": "// Given example 1 in this clause\n  // Valid getreply, in parameters will be ignored, matches if return value is 4\n  myPCO.getreply(RemoteProc:s_template2 value 4);\n  // Valid getreply, accepting any reply for RemoteProc \n  myPCO.getreply(RemoteProc:?);\n  // Valid getreply, also accepting any reply for RemoteProc\n  myPCO.getcall(RemoteProc:s_template4 value ?);"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.02_test_004.ttcn3",
+   "module": "M_15_02_test_004",
+   "header": "// @requirement: 15.2 -- The values or matching mechanisms for a return have to be defined within the reply (see clause 22.3.3) or getreply operation (see clause 22.3.4)."
+  },
+  {
+   "id": "TTCN3-CORE-15.2-006a",
+   "section": "15.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "A template used in a call or reply operation defines a complete set of field values for all in and inout parameters.",
+   "canonical": "A signature template used in a `call` operation IS the complete set of field values for all `in` and `inout` parameters, and a signature template used in a `reply` operation IS the complete set of field values for all `out` and `inout` parameters.",
+   "condition": null,
+   "cross_refs": [
+    "22.3.1",
+    "22.3.3"
+   ],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "The text says 'all in and inout parameters' also for the reply operation, but restriction a) of the same clause requires out/inout parameters to resolve in a reply. Reading 2 is chosen, consistent with restriction a).",
+    "readings": [
+     "A signature template used in a `call` or `reply` operation IS the complete set of field values for all `in` and `inout` parameters.",
+     "A signature template used in a `call` operation IS the complete set of field values for all `in` and `inout` parameters, and in a `reply` operation for all `out` and `inout` parameters."
+    ]
+   },
+   "spec_lines": [
+    10599,
+    10603
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.02_test_005.ttcn3",
+   "module": "M_15_02_test_005",
+   "header": "// @requirement: 15.2 -- A template used in a call or reply operation defines a complete set of field values for all in and inout parameters."
+  },
+  {
+   "id": "TTCN3-CORE-15.2-007a",
+   "section": "15.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "At the time of the call operation, all in and inout parameters in the template shall resolve to actual values, no matching mechanisms shall be used in these fields, either directly or indirectly.",
+   "canonical": "At the time of a `call` operation, every `in` and `inout` parameter in the signature template SHALL resolve to an actual value.",
+   "condition": "the template is used in a call operation",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10599,
+    10603
+   ],
+   "examples": [
+    {
+     "lines": [
+      10669,
+      10680
+     ],
+     "text": "// Given example 1 in this clause\n  // Valid invocation since all in and inout parameters have a distinct value \n  myPCO.call(RemoteProc:s_template1);\n  // Valid invocation since all in and inout parameters have a distinct value \n  myPCO.call(RemoteProc:s_template2);\n  // Invalid invocation causing an error \n  // since the inout parameter Par3 has a matching attribute not a value \n  myPCO.call(RemoteProc:s_template3);\n  // Templates never return values. In the case of Par2 and Par3 the values returned by the \n  // call operation shall be retrieved using an assignment clause at the end of the call statement"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.02_test_006.ttcn3",
+   "module": "M_15_02_test_006",
+   "header": "// @requirement: 15.2 -- At the time of the call operation, all in and inout parameters in the template shall resolve to actual values, no matching mechanisms shall be used in these fields, either directly or indirectly."
+  },
+  {
+   "id": "TTCN3-CORE-15.2-007b",
+   "section": "15.2",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "At the time of the call operation, all in and inout parameters in the template shall resolve to actual values, no matching mechanisms shall be used in these fields, either directly or indirectly.",
+   "canonical": "At the time of a `call` operation, the `in` and `inout` parameter fields of the signature template SHALL NOT contain matching mechanisms, either directly or indirectly.",
+   "condition": "the template is used in a call operation",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10599,
+    10603
+   ],
+   "examples": [
+    {
+     "lines": [
+      10669,
+      10680
+     ],
+     "text": "// Given example 1 in this clause\n  // Valid invocation since all in and inout parameters have a distinct value \n  myPCO.call(RemoteProc:s_template1);\n  // Valid invocation since all in and inout parameters have a distinct value \n  myPCO.call(RemoteProc:s_template2);\n  // Invalid invocation causing an error \n  // since the inout parameter Par3 has a matching attribute not a value \n  myPCO.call(RemoteProc:s_template3);\n  // Templates never return values. In the case of Par2 and Par3 the values returned by the \n  // call operation shall be retrieved using an assignment clause at the end of the call statement"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.02_test_007.ttcn3",
+   "module": "M_15_02_test_007",
+   "header": "// @requirement: 15.2 -- At the time of the call operation, all in and inout parameters in the template shall resolve to actual values, no matching mechanisms shall be used in these fields, either directly or indirectly."
+  },
+  {
+   "id": "TTCN3-CORE-15.2-008a",
+   "section": "15.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Any template specification for out parameters is simply ignored, therefore it is allowed to specify matching mechanisms for these fields, or to omit them (see annex B).",
+   "canonical": "In a signature template used in a `call` operation, the template specification for an `out` parameter IS ignored.",
+   "condition": "the template is used in a call operation",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "The sentence follows the call-operation sentence but does not state the operation explicitly; it could also apply to every outgoing use (call, raise). Reading 1 is chosen.",
+    "readings": [
+     "In a signature template used in a `call` operation, the template specification for an `out` parameter IS ignored.",
+     "In any signature template used in any operation, the template specification for an `out` parameter IS ignored."
+    ]
+   },
+   "spec_lines": [
+    10599,
+    10603
+   ],
+   "examples": [
+    {
+     "lines": [
+      10669,
+      10680
+     ],
+     "text": "// Given example 1 in this clause\n  // Valid invocation since all in and inout parameters have a distinct value \n  myPCO.call(RemoteProc:s_template1);\n  // Valid invocation since all in and inout parameters have a distinct value \n  myPCO.call(RemoteProc:s_template2);\n  // Invalid invocation causing an error \n  // since the inout parameter Par3 has a matching attribute not a value \n  myPCO.call(RemoteProc:s_template3);\n  // Templates never return values. In the case of Par2 and Par3 the values returned by the \n  // call operation shall be retrieved using an assignment clause at the end of the call statement"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.02_test_008.ttcn3",
+   "module": "M_15_02_test_008",
+   "header": "// @requirement: 15.2 -- Any template specification for out parameters is simply ignored, therefore it is allowed to specify matching mechanisms for these fields, or to omit them (see annex B)."
+  },
+  {
+   "id": "TTCN3-CORE-15.2-008b",
+   "section": "15.2",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Any template specification for out parameters is simply ignored, therefore it is allowed to specify matching mechanisms for these fields, or to omit them (see annex B).",
+   "canonical": "In a signature template used in a `call` operation, an `out` parameter field MAY contain a matching mechanism or MAY be omitted.",
+   "condition": "the template is used in a call operation",
+   "cross_refs": [
+    "B"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10599,
+    10603
+   ],
+   "examples": [
+    {
+     "lines": [
+      10643,
+      10666
+     ],
+     "text": "// signature definition for a remote procedure \n  signature RemoteProc(in integer Par1, out integer Par2, inout integer Par3) return integer;\n  // example templates associated to defined procedure signature \n  template RemoteProc s_template1:=\n  {\n     Par1 := 1,\n     Par2 := 2,\n     Par3 := 3\n  }\n  template RemoteProc s_template2:=\n  {\n     Par1 := 1,\n     Par2 := ?,\n     Par3 := 3\n  }\n  template RemoteProc s_template3:=\n  {\n     Par1 := 1,\n     Par2 := ?,\n     Par3 := ?\n  }\n  template RemoteProc s_template4:=?;"
+    },
+    {
+     "lines": [
+      10669,
+      10680
+     ],
+     "text": "// Given example 1 in this clause\n  // Valid invocation since all in and inout parameters have a distinct value \n  myPCO.call(RemoteProc:s_template1);\n  // Valid invocation since all in and inout parameters have a distinct value \n  myPCO.call(RemoteProc:s_template2);\n  // Invalid invocation causing an error \n  // since the inout parameter Par3 has a matching attribute not a value \n  myPCO.call(RemoteProc:s_template3);\n  // Templates never return values. In the case of Par2 and Par3 the values returned by the \n  // call operation shall be retrieved using an assignment clause at the end of the call statement"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.02_test_009.ttcn3",
+   "module": "M_15_02_test_009",
+   "header": "// @requirement: 15.2 -- Any template specification for out parameters is simply ignored, therefore it is allowed to specify matching mechanisms for these fields, or to omit them (see annex B)."
+  },
+  {
+   "id": "TTCN3-CORE-15.2-009a",
+   "section": "15.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "A template used in a getcall operation defines a data template against which the incoming parameter fields are matched.",
+   "canonical": "A signature template used in a `getcall` operation IS the data template against which the incoming parameter fields are matched.",
+   "condition": "the template is used in a getcall operation",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10605,
+    10607
+   ],
+   "examples": [
+    {
+     "lines": [
+      10683,
+      10691
+     ],
+     "text": "// Given example 1 in this clause\n  // Valid getcall, it will match if Par1 == 1 and Par3 == 3 \n  myPCO.getcall(RemoteProc:s_template1);\n  // Valid getcall, it will match if Par1 == 1 and Par3 == 3 \n  myPCO.getcall(RemoteProc:s_template2);\n  // Valid getcall, it will match on Par1 == 1 and Any value of Par3 \n  myPCO.getcall(RemoteProc:s_template3);"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.02_test_010.ttcn3",
+   "module": "M_15_02_test_010",
+   "header": "// @requirement: 15.2 -- A template used in a getcall operation defines a data template against which the incoming parameter fields are matched."
+  },
+  {
+   "id": "TTCN3-CORE-15.2-010a",
+   "section": "15.2",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Matching mechanisms, as defined in annex B, may be used in any templates used by this operation.",
+   "canonical": "A signature template used in a `getcall` operation MAY contain the matching mechanisms defined in annex B.",
+   "condition": "the template is used in a getcall operation",
+   "cross_refs": [
+    "B"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10605,
+    10607
+   ],
+   "examples": [
+    {
+     "lines": [
+      10683,
+      10691
+     ],
+     "text": "// Given example 1 in this clause\n  // Valid getcall, it will match if Par1 == 1 and Par3 == 3 \n  myPCO.getcall(RemoteProc:s_template1);\n  // Valid getcall, it will match if Par1 == 1 and Par3 == 3 \n  myPCO.getcall(RemoteProc:s_template2);\n  // Valid getcall, it will match on Par1 == 1 and Any value of Par3 \n  myPCO.getcall(RemoteProc:s_template3);"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.02_test_011.ttcn3",
+   "module": "M_15_02_test_011",
+   "header": "// @requirement: 15.2 -- Matching mechanisms, as defined in annex B, may be used in any templates used by this operation."
+  },
+  {
+   "id": "TTCN3-CORE-15.2-011a",
+   "section": "15.2",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "No binding of incoming values to the template shall occur.",
+   "canonical": "A signature template used in a `getcall` operation SHALL NOT have incoming values bound to it.",
+   "condition": "the template is used in a getcall operation",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10605,
+    10607
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.02_test_012.ttcn3",
+   "module": "M_15_02_test_012",
+   "header": "// @requirement: 15.2 -- No binding of incoming values to the template shall occur."
+  },
+  {
+   "id": "TTCN3-CORE-15.2-012a",
+   "section": "15.2",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "Any out parameters shall be ignored in the matching process.",
+   "canonical": "In the matching process of a `getcall` operation, every `out` parameter SHALL be ignored.",
+   "condition": "the template is used in a getcall operation",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10605,
+    10607
+   ],
+   "examples": [
+    {
+     "lines": [
+      10683,
+      10691
+     ],
+     "text": "// Given example 1 in this clause\n  // Valid getcall, it will match if Par1 == 1 and Par3 == 3 \n  myPCO.getcall(RemoteProc:s_template1);\n  // Valid getcall, it will match if Par1 == 1 and Par3 == 3 \n  myPCO.getcall(RemoteProc:s_template2);\n  // Valid getcall, it will match on Par1 == 1 and Any value of Par3 \n  myPCO.getcall(RemoteProc:s_template3);"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.02_test_013.ttcn3",
+   "module": "M_15_02_test_013",
+   "header": "// @requirement: 15.2 -- Any out parameters shall be ignored in the matching process."
+  },
+  {
+   "id": "TTCN3-CORE-15.2-014a",
+   "section": "15.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "a) At the time of a call, reply and raise operation, the used template shall be completely initialized and all",
+   "canonical": "At the time of a `call`, `reply` or `raise` operation, the used signature template SHALL be completely initialized.",
+   "condition": "the template is used in a call, reply or raise operation",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10613,
+    10613
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.02_test_014.ttcn3",
+   "module": "M_15_02_test_014",
+   "header": "// @requirement: 15.2 -- a) At the time of a call, reply and raise operation, the used template shall be completely initialized and all"
+  },
+  {
+   "id": "TTCN3-CORE-15.2-015a",
+   "section": "15.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "all in/inout parameters in a call ... shall resolve to specific values or to omit",
+   "canonical": "At the time of a `call` operation, every `in` and `inout` parameter of the used signature template SHALL resolve to a specific value or to `omit`.",
+   "condition": "the template is used in a call operation",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10613,
+    10619
+   ],
+   "examples": [
+    {
+     "lines": [
+      10669,
+      10680
+     ],
+     "text": "// Given example 1 in this clause\n  // Valid invocation since all in and inout parameters have a distinct value \n  myPCO.call(RemoteProc:s_template1);\n  // Valid invocation since all in and inout parameters have a distinct value \n  myPCO.call(RemoteProc:s_template2);\n  // Invalid invocation causing an error \n  // since the inout parameter Par3 has a matching attribute not a value \n  myPCO.call(RemoteProc:s_template3);\n  // Templates never return values. In the case of Par2 and Par3 the values returned by the \n  // call operation shall be retrieved using an assignment clause at the end of the call statement"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.02_test_015.ttcn3",
+   "module": "M_15_02_test_015",
+   "header": "// @requirement: 15.2 -- all in/inout parameters in a call ... shall resolve to specific values or to omit"
+  },
+  {
+   "id": "TTCN3-CORE-15.2-015b",
+   "section": "15.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "all out/inout parameters in a reply or raise operation shall resolve to specific values or to omit",
+   "canonical": "At the time of a `reply` or `raise` operation, every `out` and `inout` parameter of the used signature template SHALL resolve to a specific value or to `omit`.",
+   "condition": "the template is used in a reply or raise operation",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10613,
+    10619
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.02_test_016.ttcn3",
+   "module": "M_15_02_test_016",
+   "header": "// @requirement: 15.2 -- all out/inout parameters in a reply or raise operation shall resolve to specific values or to omit"
+  },
+  {
+   "id": "TTCN3-CORE-15.2-016a",
+   "section": "15.2",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "and no other matching mechanisms shall be used for these parameters, neither directly nor indirectly.",
+   "canonical": "At the time of a `call`, `reply` or `raise` operation, the parameters that have to resolve to specific values (`in`/`inout` in a call, `out`/`inout` in a reply or raise) SHALL NOT contain, directly or indirectly, any matching mechanism other than `omit`.",
+   "condition": "the template is used in a call, reply or raise operation",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10613,
+    10619
+   ],
+   "examples": [
+    {
+     "lines": [
+      10669,
+      10680
+     ],
+     "text": "// Given example 1 in this clause\n  // Valid invocation since all in and inout parameters have a distinct value \n  myPCO.call(RemoteProc:s_template1);\n  // Valid invocation since all in and inout parameters have a distinct value \n  myPCO.call(RemoteProc:s_template2);\n  // Invalid invocation causing an error \n  // since the inout parameter Par3 has a matching attribute not a value \n  myPCO.call(RemoteProc:s_template3);\n  // Templates never return values. In the case of Par2 and Par3 the values returned by the \n  // call operation shall be retrieved using an assignment clause at the end of the call statement"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.02_test_017.ttcn3",
+   "module": "M_15_02_test_017",
+   "header": "// @requirement: 15.2 -- and no other matching mechanisms shall be used for these parameters, neither directly nor indirectly."
+  },
+  {
+   "id": "TTCN3-CORE-15.2-017a",
+   "section": "15.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "b) The NotUsedSymbol shall only be used in signature templates for parameters which are not relevant and in modified template declarations and modified in-line templates to indicate no change for the specified field or element.",
+   "canonical": "The NotUsedSymbol SHALL be used only in signature templates for parameters that are not relevant, and in modified template declarations and modified in-line templates to indicate no change for the specified field or element.",
+   "condition": null,
+   "cross_refs": [
+    "15.5",
+    "15.4"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10621,
+    10623
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.02_test_018.ttcn3",
+   "module": "M_15_02_test_018",
+   "header": "// @requirement: 15.2 -- b) The NotUsedSymbol shall only be used in signature templates for parameters which are not relevant and in modified template declarations and modified in-line templates to indicate no change for the specified field or element."
+  },
+  {
+   "id": "TTCN3-CORE-15.2-018a",
+   "section": "15.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "At the time of a getcall, getreply and catch operation, the matching template shall be completely initialized.",
+   "canonical": "At the time of a `getcall`, `getreply` or `catch` operation, the matching template SHALL be completely initialized.",
+   "condition": "the template is used in a getcall, getreply or catch operation",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10625,
+    10625
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.02_test_019.ttcn3",
+   "module": "M_15_02_test_019",
+   "header": "// @requirement: 15.2 -- At the time of a getcall, getreply and catch operation, the matching template shall be completely initialized."
+  },
+  {
+   "id": "TTCN3-CORE-15.2-019a",
+   "section": "15.2",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "c) Optional fields of record and set parameters or parameter fields can be initialized explicitly or implicitly.",
+   "canonical": "An optional field of a record or set parameter or parameter field of a signature template MAY be initialized explicitly or implicitly.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10632,
+    10633
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.02_test_020.ttcn3",
+   "module": "M_15_02_test_020",
+   "header": "// @requirement: 15.2 -- c) Optional fields of record and set parameters or parameter fields can be initialized explicitly or implicitly."
+  },
+  {
+   "id": "TTCN3-CORE-15.2-020a",
+   "section": "15.2",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "For implicit initialization of a parameter or a parameter field, an optional attribute with the value \"implicit omit\" (see clause 27.7) shall be associated with it either directly or via the attribute distribution (scoping) mechanism (see clause 27.1.1).",
+   "canonical": "For implicit initialization of a parameter or parameter field of a signature template, an optional attribute with the value \"implicit omit\" SHALL be associated with it either directly or via the attribute distribution (scoping) mechanism.",
+   "condition": "the parameter or parameter field is initialized implicitly",
+   "cross_refs": [
+    "27.7",
+    "27.1.1"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10632,
+    10638
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.02_test_021.ttcn3",
+   "module": "M_15_02_test_021",
+   "header": "// @requirement: 15.2 -- For implicit initialization of a parameter or a parameter field, an optional attribute with the value \"implicit omit\" (see clause 27.7) shall be associated with it either directly or via the attribute distribution (scoping) mechanism (see clause 27.1.1)."
+  },
+  {
+   "id": "TTCN3-CORE-15.2-026a",
+   "section": "15.2",
+   "type": "information",
+   "modality": "IS",
+   "original": "// Templates never return values. In the case of Par2 and Par3 the values returned by the // call operation shall be retrieved using an assignment clause at the end of the call statement",
+   "canonical": "The values of `out` and `inout` parameters returned by a `call` operation IS NOT returned by the template and are retrieved using an assignment clause at the end of the call statement.",
+   "condition": null,
+   "cross_refs": [
+    "22.3.1"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10669,
+    10680
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.02_test_022.ttcn3",
+   "module": "M_15_02_test_022",
+   "header": "// @requirement: 15.2 -- // Templates never return values. In the case of Par2 and Par3 the values returned by the // call operation shall be retrieved using an assignment clause at the end of the call statement"
+  },
+  {
+   "id": "TTCN3-CORE-15.2-030a",
+   "section": "15.2",
+   "type": "information",
+   "modality": "IS",
+   "original": "// Valid getreply, in parameters will be ignored, matches if return value is 4",
+   "canonical": "In a `getreply` operation, the `in` parameters of the signature template IS ignored in matching.",
+   "condition": null,
+   "cross_refs": [
+    "22.3.4"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10694,
+    10702
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.02_test_023.ttcn3",
+   "module": "M_15_02_test_023",
+   "header": "// @requirement: 15.2 -- // Valid getreply, in parameters will be ignored, matches if return value is 4"
+  },
+  {
+   "id": "TTCN3-CORE-15.3-001a",
+   "section": "15.3",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "TTCN-3 allows defining global templates and local templates.",
+   "canonical": "A TTCN-3 module MAY define global templates and local templates.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10706,
+    10706
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.03_test_001.ttcn3",
+   "module": "M_15_03_test_001",
+   "header": "// @requirement: 15.3 -- TTCN-3 allows defining global templates and local templates."
+  },
+  {
+   "id": "TTCN3-CORE-15.3-002a",
+   "section": "15.3",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "template [ TemplateRestriction ] [ @fuzzy ] [ @deterministic ] [ @abstract ] Type TemplateIdentifier [\"(\" TemplateFormalParList \")\"] [ modifies TemplateRef ] \":=\" BaseTemplateBody",
+   "canonical": "A global or local template declaration has the syntax `template` [TemplateRestriction] [`@fuzzy`] [`@deterministic`] [`@abstract`] Type TemplateIdentifier [\"(\" TemplateFormalParList \")\"] [`modifies` TemplateRef] \":=\" BaseTemplateBody.",
+   "condition": null,
+   "cross_refs": [
+    "15.5",
+    "15.8"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10709,
+    10713
+   ],
+   "examples": [
+    {
+     "lines": [
+      10770,
+      10780
+     ],
+     "text": "// The template\n  template MyMessageType mw_myTemplate (integer p_myFormalParam):=\n  {\n     field1 := p_myFormalParam,\n     field2 := pattern \"abc*xyz\",\n     field3 := true\n  }\n  // could be used as follows \n  pco1.receive(mw_myTemplate(123));"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.03_test_002.ttcn3",
+   "module": "M_15_03_test_002",
+   "header": "// @requirement: 15.3 -- template [ TemplateRestriction ] [ @fuzzy ] [ @deterministic ] [ @abstract ] Type TemplateIdentifier [\"(\" TemplateFormalParList \")\"] [ modifies TemplateRef ] \":=\" BaseTemplateBody"
+  },
+  {
+   "id": "TTCN3-CORE-15.3-004a",
+   "section": "15.3",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "Global templates shall be defined in the module definitions part.",
+   "canonical": "A global template SHALL be defined in the module definitions part.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10719,
+    10720
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.03_test_003.ttcn3",
+   "module": "M_15_03_test_003",
+   "header": "// @requirement: 15.3 -- Global templates shall be defined in the module definitions part."
+  },
+  {
+   "id": "TTCN3-CORE-15.3-005a",
+   "section": "15.3",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "Local templates shall be defined in testcases, functions, altsteps or statement blocks.",
+   "canonical": "A local template SHALL be defined in a testcase, function, altstep or statement block.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10719,
+    10720
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.03_test_004.ttcn3",
+   "module": "M_15_03_test_004",
+   "header": "// @requirement: 15.3 -- Local templates shall be defined in testcases, functions, altsteps or statement blocks."
+  },
+  {
+   "id": "TTCN3-CORE-15.3-006a",
+   "section": "15.3",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "original": "Both global and local templates shall adhere to the scoping rules specified in clause 5.",
+   "canonical": "A global or local template SHALL adhere to the scoping rules specified in clause 5.",
+   "condition": null,
+   "cross_refs": [
+    "5.3"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10719,
+    10720
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.03_test_005.ttcn3",
+   "module": "M_15_03_test_005",
+   "header": "// @requirement: 15.3 -- Both global and local templates shall adhere to the scoping rules specified in clause 5."
+  },
+  {
+   "id": "TTCN3-CORE-15.3-007a",
+   "section": "15.3",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Both global and local templates can be parameterized.",
+   "canonical": "A global or local template MAY be parameterized.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10722,
+    10723
+   ],
+   "examples": [
+    {
+     "lines": [
+      10770,
+      10780
+     ],
+     "text": "// The template\n  template MyMessageType mw_myTemplate (integer p_myFormalParam):=\n  {\n     field1 := p_myFormalParam,\n     field2 := pattern \"abc*xyz\",\n     field3 := true\n  }\n  // could be used as follows \n  pco1.receive(mw_myTemplate(123));"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.03_test_006.ttcn3",
+   "module": "M_15_03_test_006",
+   "header": "// @requirement: 15.3 -- Both global and local templates can be parameterized."
+  },
+  {
+   "id": "TTCN3-CORE-15.3-008a",
+   "section": "15.3",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "The actual parameters of a template can include values and templates.",
+   "canonical": "An actual parameter of a template MAY be a value or a template.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10722,
+    10723
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.03_test_007.ttcn3",
+   "module": "M_15_03_test_007",
+   "header": "// @requirement: 15.3 -- The actual parameters of a template can include values and templates."
+  },
+  {
+   "id": "TTCN3-CORE-15.3-009a",
+   "section": "15.3",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "original": "The rules for formal and actual parameter lists shall be followed as defined in clause 5.2.",
+   "canonical": "The formal and actual parameter lists of a template SHALL follow the rules defined in clause 5.2.",
+   "condition": null,
+   "cross_refs": [
+    "5.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10722,
+    10723
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.03_test_008.ttcn3",
+   "module": "M_15_03_test_008",
+   "header": "// @requirement: 15.3 -- The rules for formal and actual parameter lists shall be followed as defined in clause 5.2."
+  },
+  {
+   "id": "TTCN3-CORE-15.3-010a",
+   "section": "15.3",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Both global and local templates are initialized at the place of their declaration.",
+   "canonical": "A global or local template IS initialized at the place of its declaration.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10725,
+    10727
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.03_test_009.ttcn3",
+   "module": "M_15_03_test_009",
+   "header": "// @requirement: 15.3 -- Both global and local templates are initialized at the place of their declaration."
+  },
+  {
+   "id": "TTCN3-CORE-15.3-011a",
+   "section": "15.3",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "This means, all template fields which are not affected by parameterization shall receive a value or matching mechanism. Both global and local templates are initialized at the place of their declaration.",
+   "canonical": "At the place of declaration of a template, every template field that is not affected by parameterization SHALL receive a value or matching mechanism.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10725,
+    10727
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.03_test_010.ttcn3",
+   "module": "M_15_03_test_010",
+   "header": "// @requirement: 15.3 -- This means, all template fields which are not affected by parameterization shall receive a value or matching mechanism. Both global and local templates are initialized at the place of their declaration."
+  },
+  {
+   "id": "TTCN3-CORE-15.3-012a",
+   "section": "15.3",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Template fields affected by parameterization are initialized at the time of template use.",
+   "canonical": "A template field affected by parameterization IS initialized at the time of template use.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10725,
+    10727
+   ],
+   "examples": [
+    {
+     "lines": [
+      10770,
+      10780
+     ],
+     "text": "// The template\n  template MyMessageType mw_myTemplate (integer p_myFormalParam):=\n  {\n     field1 := p_myFormalParam,\n     field2 := pattern \"abc*xyz\",\n     field3 := true\n  }\n  // could be used as follows \n  pco1.receive(mw_myTemplate(123));"
+    }
+   ],
+   "file": "tests/15-declaring-templates/15.03_test_011.ttcn3",
+   "module": "M_15_03_test_011",
+   "header": "// @requirement: 15.3 -- Template fields affected by parameterization are initialized at the time of template use."
+  },
+  {
+   "id": "TTCN3-CORE-15.3-015a",
+   "section": "15.3",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "At the time of their use (e.g. in communication operations send, receive, call, getcall, etc.), it is allowed to change template fields by in-line modified templates, to pass in values via value parameters as well as to pass in templates via template parameters.",
+   "canonical": "At the time of use of a template (e.g. in `send`, `receive`, `call`, `getcall`), the template fields MAY be changed by in-line modified templates, values MAY be passed in via value parameters, and templates MAY be passed in via template parameters.",
+   "condition": null,
+   "cross_refs": [
+    "15.4"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10732,
+    10735
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.03_test_012.ttcn3",
+   "module": "M_15_03_test_012",
+   "header": "// @requirement: 15.3 -- At the time of their use (e.g. in communication operations send, receive, call, getcall, etc.), it is allowed to change template fields by in-line modified templates, to pass in values via value parameters as well as to pass in templates via template parameters."
+  },
+  {
+   "id": "TTCN3-CORE-15.3-016a",
+   "section": "15.3",
+   "type": "semantics",
+   "modality": "IS NOT",
+   "original": "The effects of these changes on the values of the template fields do not persist in the template subsequent to the corresponding communication event.",
+   "canonical": "A change of template fields made at the time of use (by in-line modification or parameter passing) IS NOT persistent in the template after the corresponding communication event.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10732,
+    10735
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.03_test_013.ttcn3",
+   "module": "M_15_03_test_013",
+   "header": "// @requirement: 15.3 -- The effects of these changes on the values of the template fields do not persist in the template subsequent to the corresponding communication event."
+  },
+  {
+   "id": "TTCN3-CORE-15.3-018a",
+   "section": "15.3",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "a) The dot notation such as myTemplateId.fieldId shall not be used to set or retrieve values in templates in communication events.",
+   "canonical": "The dot notation (e.g. myTemplateId.fieldId) SHALL NOT be used to set or retrieve values in templates in communication events.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10741,
+    10742
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.03_test_014.ttcn3",
+   "module": "M_15_03_test_014",
+   "header": "// @requirement: 15.3 -- a) The dot notation such as myTemplateId.fieldId shall not be used to set or retrieve values in templates in communication events."
+  },
+  {
+   "id": "TTCN3-CORE-15.3-019a",
+   "section": "15.3",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "The \"->\" symbol shall be used for this purpose (see clause 23).",
+   "canonical": "The \"->\" symbol SHALL be used to retrieve values from templates in communication events.",
+   "condition": null,
+   "cross_refs": [
+    "23"
+   ],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "'for this purpose' refers to both setting and retrieving values; the '->' symbol only redirects (retrieves) received values. Reading 1 is chosen.",
+    "readings": [
+     "The \"->\" symbol SHALL be used to retrieve values from received messages in communication events.",
+     "The \"->\" symbol SHALL be used both to set and to retrieve values in templates in communication events."
+    ]
+   },
+   "spec_lines": [
+    10741,
+    10742
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.03_test_015.ttcn3",
+   "module": "M_15_03_test_015",
+   "header": "// @requirement: 15.3 -- The \"->\" symbol shall be used for this purpose (see clause 23)."
+  },
+  {
+   "id": "TTCN3-CORE-15.3-021a",
+   "section": "15.3",
+   "type": "restriction",
+   "modality": "IS",
+   "original": "c) There exist a number of restrictions on the functions used in expressions when specifying templates or template fields; these are specified in clause 16.1.4.",
+   "canonical": "A function used in expressions specifying templates or template fields IS subject to the restrictions specified in clause 16.1.4.",
+   "condition": null,
+   "cross_refs": [
+    "16.1.4"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10746,
+    10747
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.03_test_016.ttcn3",
+   "module": "M_15_03_test_016",
+   "header": "// @requirement: 15.3 -- c) There exist a number of restrictions on the functions used in expressions when specifying templates or template fields; these are specified in clause 16.1.4."
+  },
+  {
+   "id": "TTCN3-CORE-15.3-022a",
+   "section": "15.3",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "d) After completing initialization, global and local message templates that do not contain the @abstract modifier shall be fully initialized.",
+   "canonical": "After completing initialization, a global or local message template without the `@abstract` modifier SHALL be completely initialized.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "'fully initialized' is used instead of the glossary term 'completely initialized'.",
+    "improper_terms": [
+     {
+      "used": "fully initialized",
+      "proper": "completely initialized",
+      "glossary": true
+     }
+    ]
+   },
+   "spec_lines": [
+    10749,
+    10750
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.03_test_017.ttcn3",
+   "module": "M_15_03_test_017",
+   "header": "// @requirement: 15.3 -- d) After completing initialization, global and local message templates that do not contain the @abstract modifier shall be fully initialized."
+  },
+  {
+   "id": "TTCN3-CORE-15.3-023a",
+   "section": "15.3",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "e) After completing initialization, global and local signature templates that do not contain the @abstract modifier shall fulfil at least one of the following conditions: All procedure parameters are fully initialized. All in and inout procedure parameters are completely initialized and all out procedure parameters are either unitialized or marked as not relevant using the NotUsedSymbol. All out and inout procedure parameters are completely initialized and all in procedure parameters are either unitialized or marked as not relevant using the NotUsedSymbol.",
+   "canonical": "After completing initialization, a global or local signature template without the `@abstract` modifier SHALL fulfil at least one of the following: all procedure parameters are completely initialized; or all `in` and `inout` parameters are completely initialized and all `out` parameters are uninitialized or NotUsedSymbol; or all `out` and `inout` parameters are completely initialized and all `in` parameters are uninitialized or NotUsedSymbol.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "'fully initialized' is used instead of 'completely initialized', and 'unitialized' is a misspelling of 'uninitialized'.",
+    "improper_terms": [
+     {
+      "used": "fully initialized",
+      "proper": "completely initialized",
+      "glossary": true
+     },
+     {
+      "used": "unitialized",
+      "proper": "uninitialized",
+      "glossary": true
+     }
+    ]
+   },
+   "spec_lines": [
+    10752,
+    10759
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.03_test_018.ttcn3",
+   "module": "M_15_03_test_018",
+   "header": "// @requirement: 15.3 -- e) After completing initialization, global and local signature templates that do not contain the @abstract modifier shall fulfil at least one of the following conditions: All procedure parameters are fully initialized. All in and inout procedure parameters are completely initialized and all out procedure parameters are either unitialized or marked as not relevant using the NotUsedSymbol. All out and inout procedure parameters are completely initialized and all in procedure parameters are either unitialized or marked as not relevant using the NotUsedSymbol."
+  },
+  {
+   "id": "TTCN3-CORE-15.3-024a",
+   "section": "15.3",
+   "type": "definition",
+   "modality": "IS",
+   "original": "All procedure parameters are fully initialized.",
+   "canonical": "A signature template whose procedure parameters are all completely initialized IS a valid non-abstract signature template.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "'fully initialized' is used instead of 'completely initialized'.",
+    "improper_terms": [
+     {
+      "used": "fully initialized",
+      "proper": "completely initialized",
+      "glossary": true
+     }
+    ]
+   },
+   "spec_lines": [
+    10755,
+    10755
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.03_test_019.ttcn3",
+   "module": "M_15_03_test_019",
+   "header": "// @requirement: 15.3 -- All procedure parameters are fully initialized."
+  },
+  {
+   "id": "TTCN3-CORE-15.3-025a",
+   "section": "15.3",
+   "type": "definition",
+   "modality": "IS",
+   "original": "All in and inout procedure parameters are completely initialized and all out procedure parameters are either unitialized or marked as not relevant using the NotUsedSymbol.",
+   "canonical": "A signature template in which all `in` and `inout` parameters are completely initialized and all `out` parameters are uninitialized or NotUsedSymbol IS a valid non-abstract signature template.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "'unitialized' is a misspelling of 'uninitialized'.",
+    "improper_terms": [
+     {
+      "used": "unitialized",
+      "proper": "uninitialized",
+      "glossary": true
+     }
+    ]
+   },
+   "spec_lines": [
+    10757,
+    10757
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.03_test_020.ttcn3",
+   "module": "M_15_03_test_020",
+   "header": "// @requirement: 15.3 -- All in and inout procedure parameters are completely initialized and all out procedure parameters are either unitialized or marked as not relevant using the NotUsedSymbol."
+  },
+  {
+   "id": "TTCN3-CORE-15.3-026a",
+   "section": "15.3",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Templates declared this way are safe to be used in call and getcall operations, but they shall not be used in reply and getreply operations. All in and inout procedure parameters are completely initialized and all out procedure parameters are either unitialized or marked as not relevant using the NotUsedSymbol.",
+   "canonical": "A signature template whose `in` and `inout` parameters are completely initialized and whose `out` parameters are uninitialized or NotUsedSymbol MAY be used in `call` and `getcall` operations.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10757,
+    10757
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.03_test_021.ttcn3",
+   "module": "M_15_03_test_021",
+   "header": "// @requirement: 15.3 -- Templates declared this way are safe to be used in call and getcall operations, but they shall not be used in reply and getreply operations. All in and inout procedure parameters are completely initialized and all out procedure parameters are either unitialized or marked as not relevant using the NotUsedSymbol."
+  },
+  {
+   "id": "TTCN3-CORE-15.3-026b",
+   "section": "15.3",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "Templates declared this way are safe to be used in call and getcall operations, but they shall not be used in reply and getreply operations. All in and inout procedure parameters are completely initialized and all out procedure parameters are either unitialized or marked as not relevant using the NotUsedSymbol.",
+   "canonical": "A signature template whose `in` and `inout` parameters are completely initialized and whose `out` parameters are uninitialized or NotUsedSymbol SHALL NOT be used in `reply` and `getreply` operations.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "It is unclear whether the prohibition applies only to templates that satisfy this condition and not the 'all parameters fully initialized' condition, or to any template having this shape. Reading 1 is chosen, since a template with all parameters initialized also satisfies this condition but is not meant to be prohibited.",
+    "readings": [
+     "A signature template that has uninitialized or NotUsedSymbol `out` parameters SHALL NOT be used in `reply` and `getreply` operations.",
+     "Any signature template whose `in` and `inout` parameters are completely initialized SHALL NOT be used in `reply` and `getreply` operations."
+    ]
+   },
+   "spec_lines": [
+    10757,
+    10757
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.03_test_022.ttcn3",
+   "module": "M_15_03_test_022",
+   "header": "// @requirement: 15.3 -- Templates declared this way are safe to be used in call and getcall operations, but they shall not be used in reply and getreply operations. All in and inout procedure parameters are completely initialized and all out procedure parameters are either unitialized or marked as not relevant using the NotUsedSymbol."
+  },
+  {
+   "id": "TTCN3-CORE-15.3-027a",
+   "section": "15.3",
+   "type": "definition",
+   "modality": "IS",
+   "original": "All out and inout procedure parameters are completely initialized and all in procedure parameters are either unitialized or marked as not relevant using the NotUsedSymbol.",
+   "canonical": "A signature template in which all `out` and `inout` parameters are completely initialized and all `in` parameters are uninitialized or NotUsedSymbol IS a valid non-abstract signature template.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "'unitialized' is a misspelling of 'uninitialized'.",
+    "improper_terms": [
+     {
+      "used": "unitialized",
+      "proper": "uninitialized",
+      "glossary": true
+     }
+    ]
+   },
+   "spec_lines": [
+    10759,
+    10759
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.03_test_023.ttcn3",
+   "module": "M_15_03_test_023",
+   "header": "// @requirement: 15.3 -- All out and inout procedure parameters are completely initialized and all in procedure parameters are either unitialized or marked as not relevant using the NotUsedSymbol."
+  },
+  {
+   "id": "TTCN3-CORE-15.3-028a",
+   "section": "15.3",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Templates declared this way are safe to be used in reply and getreply operations, but they shall not be used in call and getcall operations. All out and inout procedure parameters are completely initialized and all in procedure parameters are either unitialized or marked as not relevant using the NotUsedSymbol.",
+   "canonical": "A signature template whose `out` and `inout` parameters are completely initialized and whose `in` parameters are uninitialized or NotUsedSymbol MAY be used in `reply` and `getreply` operations.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    10759,
+    10759
+   ],
+   "examples": [],
+   "file": "tests/15-declaring-templates/15.03_test_024.ttcn3",
+   "module": "M_15_03_test_024",
+   "header": "// @requirement: 15.3 -- Templates declared this way are safe to be used in reply and getreply operations, but they shall not be used in call and getcall operations. All out and inout procedure parameters are completely initialized and all in procedure parameters are either unitialized or marked as not relevant using the NotUsedSymbol."
+  }
+ ]
+}

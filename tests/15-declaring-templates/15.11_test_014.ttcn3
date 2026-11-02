@@ -1,0 +1,25 @@
+// @requirement: 15.11 -- When templates of charstring and universal charstring type are both present in the concatenation, the charstring values are implicitly converted to universal charstring values according to the rules specified in clause 6.3.1 before concatenation and the resulting template is of the universal charstring type.
+// @id: TTCN3-CORE-15.11-009b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_11_test_014 {
+
+    const charstring c_cs := "AB";
+    const universal charstring c_us := char(0, 0, 1, 0);
+    const universal charstring c_value := "AB" & char(0, 0, 1, 1) & char(0, 0, 1, 0);
+
+    template universal charstring mw_t := c_cs & ? & c_us;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (match(c_value, mw_t)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

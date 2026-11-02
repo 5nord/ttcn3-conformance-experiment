@@ -1,0 +1,24 @@
+// @requirement: C.1.33 -- any2unistr(in template any invalue, in universal charstring format := "") return universal charstring
+// @id: TTCN3-CORE-C.1.33-001a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_01_33_test_001 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_int := 5;
+        var template integer mw_int := ?;
+        var universal charstring v_fmt := "";
+        var universal charstring v_res1 := any2unistr(v_int);
+        var universal charstring v_res2 := any2unistr(mw_int, v_fmt);
+        if (v_res1 == "5" and v_res2 == "?") {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

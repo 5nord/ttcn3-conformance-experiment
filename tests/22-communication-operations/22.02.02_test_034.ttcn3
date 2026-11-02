@@ -1,0 +1,32 @@
+// @requirement: 22.2.2 -- This is denoted by the keyword sender.
+// @id: TTCN3-CORE-22.2.2-040a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_02_02_test_034 {
+
+    type port P message { inout integer }
+
+    type component C {
+        port P p;
+    }
+
+    function f_send() runs on C {
+        p.send(1);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        var C v_sender := null;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_send());
+        p.receive -> sender v_sender;
+        if (v_sender == v_ptc) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

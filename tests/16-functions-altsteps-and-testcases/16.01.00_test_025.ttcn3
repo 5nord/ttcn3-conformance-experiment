@@ -1,0 +1,21 @@
+// @requirement: 16.1.0 -- d) The rules for formal parameter lists shall be followed as defined in clause 5.4.
+// @id: TTCN3-CORE-16.1.0-027a
+// @verdict: pass reject
+module M_16_01_00_test_025 {
+
+    type component C {}
+
+    function f_param(out integer p_out := 1) { // error: default value for an out parameter
+        p_out := 2;
+    }
+
+    testcase TC() runs on C {
+        var integer v_res;
+        f_param(v_res);
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

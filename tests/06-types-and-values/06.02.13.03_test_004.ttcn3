@@ -1,0 +1,21 @@
+// @requirement: 6.2.13.3 -- If the innermost type is referencing a structured type or anytype, the rules in clauses 6.2.13.1 and 6.2.13.2 shall apply.
+// @id: TTCN3-CORE-6.2.13.3-004a
+// @verdict: pass reject
+module M_06_02_13_03_test_004 {
+
+    type record of charstring String23Array length(2 .. 3);
+    type record of String23Array String23Array45 length(4 .. 5);
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var String23Array45 v_arr := {
+            { "aa", "bbb", "cc" } // error: inner record of has only 3 elements, length(4 .. 5) required
+        };
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

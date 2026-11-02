@@ -1,0 +1,30 @@
+// @requirement: 7.0 -- TTCN-3 expressions may be template references, value references or literals (i.e. no operation is involved), and may be composed of the operators defined in clause 7.1.
+// @id: TTCN3-CORE-7.0-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_07_00_test_001 {
+
+    type component C {}
+
+    type record R {
+        integer a,
+        boolean b
+    }
+
+    const integer c_x := 5;
+    template R m_r := { a := 1, b := true };
+
+    testcase TC() runs on C {
+        var integer v_lit := 3;
+        var integer v_ref := c_x;
+        var template R v_t := m_r;
+        if (v_lit == 3 and v_ref == 5 and match({ a := 1, b := true }, v_t)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

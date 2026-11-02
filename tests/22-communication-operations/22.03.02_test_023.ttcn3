@@ -1,0 +1,34 @@
+// @requirement: 22.3.2 -- To getcall on any port is denoted by the any keyword.
+// @id: TTCN3-CORE-22.3.2-027a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_03_02_test_023 {
+
+    signature S(in integer p_x) noblock;
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p1;
+        port P p2;
+        timer T := 1.0;
+    }
+
+    function f_client() runs on C {
+        p1.call(S:{1});
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p2, v_ptc:p1);
+        v_ptc.start(f_client());
+        T.start;
+        alt {
+            [] any port.getcall(S:{1}) { setverdict(pass); }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

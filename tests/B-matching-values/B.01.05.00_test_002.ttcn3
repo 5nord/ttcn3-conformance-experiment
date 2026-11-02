@@ -1,0 +1,24 @@
+// @requirement: B.1.5.0 -- Character patterns can be used to match charstring and `universal charstring values.
+// @id: TTCN3-CORE-B.1.5.0-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_05_00_test_002 {
+
+    type component C {}
+
+    template charstring mw_cs := pattern "a?c";
+    template universal charstring mw_ucs := pattern "a?c";
+
+    testcase TC() runs on C {
+        var charstring v_cs := "abc";
+        var universal charstring v_ucs := "a" & char(0, 0, 1, 113) & "c";
+        if (match(v_cs, mw_cs) and match(v_ucs, mw_ucs)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

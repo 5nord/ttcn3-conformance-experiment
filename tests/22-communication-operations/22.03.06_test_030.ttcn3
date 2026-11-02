@@ -1,0 +1,17 @@
+// @requirement: 22.3.6 -- To catch an exception on any port from a specific port array, indices use the any from PortArrayRef syntax where PortArrayRef shall be a reference to a port array identifier.
+// @id: TTCN3-CORE-22.3.6-036b
+// @verdict: pass reject
+module M_22_03_06_test_030 {
+
+    signature S() exception (integer);
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    function f_catch() runs on C {
+        any from p.catch(S, integer:?); // error: p is not a port array
+    }
+}

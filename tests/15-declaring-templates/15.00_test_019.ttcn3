@@ -1,0 +1,31 @@
+// @requirement: 15.0 -- The called functions may use other functions with inout or out parameters internally.
+// @id: TTCN3-CORE-15.0-023a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_00_test_019 {
+
+    type component C {}
+
+    function f_inner(out integer p_x) {
+        p_x := 7;
+    }
+
+    function f_outer() return integer {
+        var integer v_x;
+        f_inner(v_x);
+        return v_x;
+    }
+
+    template @fuzzy integer m_fuzzy := f_outer();
+
+    testcase TC() runs on C {
+        if (match(7, m_fuzzy)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

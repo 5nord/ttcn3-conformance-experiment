@@ -1,0 +1,27 @@
+// @requirement: B.1.3.3 -- NOTE 1: _AnyElementsOrNone used inside permutation has a different effect as AnyElementsOrNone used in_ conjunction with permutation as in the latter AnyElementsOrNone replaces consecutive elements only.
+// @id: TTCN3-CORE-B.1.3.3-007a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_03_03_test_007 {
+
+    type record of integer RoI;
+
+    type component C {}
+
+    template RoI mw_inside := {permutation(1, 2, *)};
+    template RoI mw_outside := {permutation(1, 2), *};
+
+    testcase TC() runs on C {
+        var RoI v_split := {1, 3, 2};
+        var RoI v_tail := {2, 1, 3, 4};
+        if (match(v_split, mw_inside) and not match(v_split, mw_outside) and
+            match(v_tail, mw_inside) and match(v_tail, mw_outside)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

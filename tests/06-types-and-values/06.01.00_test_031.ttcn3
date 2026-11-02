@@ -1,0 +1,19 @@
+// @requirement: 6.1.0 -- NOTE: List subtyping of these types is possible when defining a new constrained type from an already existing parent type but not directly at the declaration of the first parent type.
+// @id: TTCN3-CORE-6.1.0-031a
+// @verdict: pass reject
+module M_06_01_00_test_031 {
+
+    type record MyRecord {
+        integer a
+    } ({ a := 1 }); // error: list subtyping directly at the declaration of the first parent type
+
+    type component C {}
+
+    testcase TC() runs on C {
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

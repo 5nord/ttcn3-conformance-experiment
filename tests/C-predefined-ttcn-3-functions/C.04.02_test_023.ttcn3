@@ -1,0 +1,20 @@
+// @requirement: C.4.2 -- When inpar is a template of sequence type or is an array, only the specific value combined templates whose elements are specific values, and AnyElement matching mechanisms or combined templates are allowed and the substring or subsequence to be returned shall not contain AnyElement or combined template.
+// @id: TTCN3-CORE-C.4.2-025a
+// @verdict: pass reject
+module M_C_04_02_test_023 {
+
+    type record of integer RoI;
+
+    template RoI t_in := { 1, (2, 3), 4 };
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template RoI v_res := substr(t_in, 0, 1); // error: inpar contains a value list element
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

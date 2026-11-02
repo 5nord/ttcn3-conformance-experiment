@@ -1,0 +1,68 @@
+// @requirement: 22.1.1 -- Table 22: Overview of TTCN-3 communication operations: Disable sending and disallow receiving operations to match new messages/calls; Col2: halt; Col3: Yes; Col4: Yes
+// @id: TTCN3-CORE-22.1.1-025b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_01_01_test_032 {
+
+    type port P message {
+        inout integer
+    }
+
+    type component C {
+        port P p;
+        port P p_sync;
+    }
+
+    function f_send() runs on C {
+        timer T := 2.0;
+        p.send(1);
+        T.start;
+        alt {
+            [] p_sync.receive(0) {
+                p.send(2);
+            }
+            [] T.timeout {
+                setverdict(fail);
+            }
+        }
+    }
+
+    testcase TC() runs on C {
+        timer T := 1.0;
+        timer T_wait := 0.5;
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        connect(mtc:p_sync, v_ptc:p_sync);
+        v_ptc.start(f_send());
+        T.start;
+        alt {
+            [] p.check(receive(1)) {}
+            [] T.timeout {
+                setverdict(fail);
+                stop;
+            }
+        }
+        p.halt;
+        p_sync.send(0);
+        v_ptc.done;
+        alt {
+            [] p.receive(1) {}
+            [] T.timeout {
+                setverdict(fail);
+                stop;
+            }
+        }
+        T_wait.start;
+        alt {
+            [] p.receive {
+                setverdict(fail);
+            }
+            [] T_wait.timeout {
+                setverdict(pass);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

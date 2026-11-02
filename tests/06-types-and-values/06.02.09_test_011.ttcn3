@@ -1,0 +1,37 @@
+// @requirement: 6.2.9 -- The out list of the test system interface port contains message or procedure for which the mapped test component port allow the following operations: `send`, `call`, `getreplay` or `catch`.
+// @id: TTCN3-CORE-6.2.9-011a
+// @verdict: pass accept, noexecution
+module M_06_02_09_test_011 {
+
+    signature S(in integer p_x) return integer exception(charstring);
+
+    type port P_msg message {
+        out integer;
+    }
+
+    type port P_proc procedure {
+        out S;
+    }
+
+    type component C {
+        port P_msg pm;
+        port P_proc pp;
+    }
+
+    type component TSI {
+        port P_msg pm;
+        port P_proc pp;
+    }
+
+    testcase TC() runs on C system TSI {
+        map(self:pm, system:pm);
+        map(self:pp, system:pp);
+        pm.send(1);
+        pp.call(S:{1}, 1.0) {
+            [] pp.getreply(S:{-}) {}
+            [] pp.catch(S, charstring:?) {}
+            [] pp.catch(timeout) {}
+        }
+        setverdict(pass);
+    }
+}

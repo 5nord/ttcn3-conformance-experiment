@@ -1,0 +1,26 @@
+// @requirement: 23.0 -- Table 27: Overview of TTCN-3 timer operations: Timeout event; Col2: timeout
+// @id: TTCN3-CORE-23.0-019a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_23_00_test_015 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        timer T := 0.1;
+        timer T_guard := 1.0;
+        T.start;
+        T_guard.start;
+        alt {
+            [] T.timeout {
+                setverdict(pass);
+            }
+            [] T_guard.timeout {
+                setverdict(fail);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

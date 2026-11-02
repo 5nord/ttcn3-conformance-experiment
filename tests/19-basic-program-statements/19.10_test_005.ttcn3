@@ -1,0 +1,25 @@
+// @requirement: 19.10 -- TTCN-3 allows optional statement blocks that may follow altstep calls within alt statements.
+// @id: TTCN3-CORE-19.10-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_10_test_005 {
+    type component C {
+        timer T;
+    }
+
+    altstep a_timeout() runs on C {
+        [] T.timeout {}
+    }
+
+    testcase TC() runs on C {
+        T.start(0.01);
+        alt {
+            [] a_timeout() {
+                setverdict(pass);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,26 @@
+// @requirement: 22.4 -- j) The @nodefault modifier is allowed only in stand-alone check statements.
+// @id: TTCN3-CORE-22.4-042a
+// @verdict: pass reject
+module M_22_04_test_046 {
+
+    type port MP message { inout integer; }
+
+    type component C {
+        port MP p1, p2;
+        timer T := 1.0;
+    }
+
+    testcase TC() runs on C {
+        connect(mtc:p1, mtc:p2);
+        p1.send(5);
+        T.start;
+        alt {
+            [] @nodefault p2.check(receive(5)) { setverdict(pass); } // error: @nodefault in an alt branch
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

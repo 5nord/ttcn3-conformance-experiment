@@ -1,0 +1,26 @@
+// @requirement: B.1.5.2 -- If the backslash character is missing, the referenced character string or pattern shall be inserted into the pattern being constructed and shall be handled as a regular expression.
+// @id: TTCN3-CORE-B.1.5.2-004a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_05_02_test_005 {
+
+    type component C {}
+
+    const charstring c_str := "ab?";
+    template charstring m_pat := pattern "[0-9]#2";
+
+    template charstring mw_str := pattern "{c_str}x";
+    template charstring mw_pat := pattern "x{m_pat}";
+
+    testcase TC() runs on C {
+        if (match("abzx", mw_str) and match("ab?x", mw_str) and not match("abx", mw_str)
+            and match("x42", mw_pat) and not match("x4", mw_pat)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

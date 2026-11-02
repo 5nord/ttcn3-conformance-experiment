@@ -1,0 +1,29 @@
+// @requirement: 27.1.2.0 -- A with statement that is placed inside the scope of another with statement shall override the outermost with.
+// @id: TTCN3-CORE-27.1.2.0-006a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_27_01_02_00_test_004 {
+
+    type component C {}
+
+    type integer MyIntModule;
+
+    type integer MyIntOwn with { display "Type" }
+
+    group myGroup {
+        type integer MyIntGroup;
+        type integer MyIntNested with { display "Nested" }
+    } with { display "Group" }
+
+    testcase TC() runs on C {
+        if (MyIntModule.display == "Module" and MyIntOwn.display == "Type" and
+            MyIntGroup.display == "Group" and MyIntNested.display == "Nested") {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+} with { display "Module" }

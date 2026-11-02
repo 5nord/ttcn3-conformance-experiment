@@ -1,0 +1,31 @@
+// @requirement: 9.2 -- The ports of the test system interface shall automatically be instantiated by the system together with the MTC when the test case execution starts.
+// @id: TTCN3-CORE-9.2-020a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_09_02_test_005 {
+
+    type port P message { inout integer; }
+
+    type component C {
+        port P p1, p2;
+    }
+
+    type component S {
+        port P p_sys1, p_sys2;
+    }
+
+    testcase TC() runs on C system S {
+        map(mtc:p1, system:p_sys1);
+        map(mtc:p2, system:p_sys2);
+        if (p1.checkstate("Mapped") and p2.checkstate("Mapped")) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+        unmap(mtc:p1, system:p_sys1);
+        unmap(mtc:p2, system:p_sys2);
+    }
+
+    control {
+        execute(TC());
+    }
+}

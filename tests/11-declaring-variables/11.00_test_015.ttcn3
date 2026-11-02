@@ -1,0 +1,28 @@
+// @requirement: 11.0 -- Whenever a lazy or fuzzy variable is assigned, the TE is required to save the lexical environment (the set of directly or indirectly referenced values and templates) valid at the time of the assignment, so that it is possible to resolve the expression at the time of evaluation of the lazy or fuzzy value or template.
+// @id: TTCN3-CORE-11.0-015a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_11_00_test_015 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var @fuzzy integer v_fuzzy := 1;
+        var integer v_var;
+        var boolean v_condition := true;
+        if (v_condition) {
+            var integer v_local := 0;
+            v_fuzzy := v_local;
+            v_local := 10;
+        }
+        v_var := v_fuzzy;
+        if (v_var == 10) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,986 @@
+{
+ "part": "15.part2",
+ "chapter": "15",
+ "chapter_file": "15-declaring-templates",
+ "title": "Declaring templates",
+ "sections": {
+  "15.4": {
+   "title": "In-line Templates",
+   "start": 10782
+  },
+  "15.5": {
+   "title": "Modified templates",
+   "start": 10834
+  },
+  "15.6.0": {
+   "title": "General",
+   "start": 11148
+  }
+ },
+ "lines": [
+  10784,
+  11152
+ ],
+ "units": [
+  {
+   "id": "15.4-s001",
+   "section": "15.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Templates can be specified directly at the place they are used.",
+   "lines": [
+    10784,
+    10784
+   ]
+  },
+  {
+   "id": "15.4-s002",
+   "section": "15.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Such templates are called in-line templates.",
+   "lines": [
+    10784,
+    10784
+   ]
+  },
+  {
+   "id": "15.4-s003",
+   "section": "15.4",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "[ Type \":\" ] TemplateBody",
+   "lines": [
+    10787,
+    10789
+   ]
+  },
+  {
+   "id": "15.4-s004",
+   "section": "15.4",
+   "kind": "note",
+   "context": "Syntactical Structure",
+   "normative": false,
+   "text": "NOTE 1: An in-line template is an argument of a communication operation or an actual parameter of a testcase, function or altstep call, i.e. it is always placed within parenthesis and potentially separated with a comma.",
+   "lines": [
+    10791,
+    10792
+   ]
+  },
+  {
+   "id": "15.4-s005",
+   "section": "15.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "In-line templates can be defined directly at the place of its use.",
+   "lines": [
+    10796,
+    10796
+   ]
+  },
+  {
+   "id": "15.4-s006",
+   "section": "15.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "In-line templates do not have names, therefore they cannot be referenced or reused.",
+   "lines": [
+    10798,
+    10800
+   ]
+  },
+  {
+   "id": "15.4-s007",
+   "section": "15.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The lifetime of in-line templates is the TTCN-3 statement (an assignment, a testcase/function/altstep invocation, a return from a function, a communication operation), where they are defined.",
+   "lines": [
+    10798,
+    10800
+   ]
+  },
+  {
+   "id": "15.4-s008",
+   "section": "15.4",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to restrictions in clause 15.0, the following restrictions apply:",
+   "lines": [
+    10804,
+    10804
+   ]
+  },
+  {
+   "id": "15.4-s009",
+   "section": "15.4",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) Void.",
+   "lines": [
+    10806,
+    10806
+   ]
+  },
+  {
+   "id": "15.4-s010",
+   "section": "15.4",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "b) The type field should only be omitted when the type is implicitly unambiguous.",
+   "lines": [
+    10808,
+    10808
+   ]
+  },
+  {
+   "id": "15.4-s011",
+   "section": "15.4",
+   "kind": "note",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "NOTE 2: For literal in-line templates, the following types may be omitted: integer, float, boolean, bitstring, hexstring, octetstring.",
+   "lines": [
+    10810,
+    10810
+   ]
+  },
+  {
+   "id": "15.4-s012",
+   "section": "15.4",
+   "kind": "note",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "NOTE 3: Types of constants, parameters and variables of the actual scope are always unambiguous and can hence always be omitted.",
+   "lines": [
+    10812,
+    10813
+   ]
+  },
+  {
+   "id": "15.4-s013",
+   "section": "15.4",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "c) In-line templates containing instead of values or inside values matching mechanisms (see clause 15.7) can only be defined in arguments of receiving communication operations (i.e. receive, `trigger`, `check`, `getcall`, `getreply` and `catch`), in arguments of the match and select case operations, in actual template parameters, at the right hand side of assignments (when there is a template variable at the left hand side of the assignment) and in return statements of template returning functions.",
+   "lines": [
+    10815,
+    10817
+   ]
+  },
+  {
+   "id": "15.4-s014",
+   "section": "15.4",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In-line templates not containing matching mechanisms can be defined wherever values are allowed.",
+   "lines": [
+    10815,
+    10817
+   ]
+  },
+  {
+   "id": "15.4-s015",
+   "section": "15.4",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "d) When used in communication operations, the type of the in-line template shall be in the port list over which the template is sent or received.",
+   "lines": [
+    10819,
+    10820
+   ]
+  },
+  {
+   "id": "15.4-s016",
+   "section": "15.4",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In the case where there is an ambiguity between the listed type and the type of the value provided (e.g. through subtyping) then the type name of the in-line template shall be included in the communication operation.",
+   "lines": [
+    10819,
+    10820
+   ]
+  },
+  {
+   "id": "15.4-s017",
+   "section": "15.4",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "e) There exist a number of restrictions on the functions used in expressions when specifying templates or template fields; these are specified in clause 16.1.4.",
+   "lines": [
+    10822,
+    10822
+   ]
+  },
+  {
+   "id": "15.4-s018",
+   "section": "15.4",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "myPCO.receive(charstring:\"abcxyz\");",
+   "lines": [
+    10825,
+    10827
+   ]
+  },
+  {
+   "id": "15.5-s001",
+   "section": "15.5",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "In cases where small changes are needed to specify a new template, it is possible to specify a modified template.",
+   "lines": [
+    10836,
+    10838
+   ]
+  },
+  {
+   "id": "15.5-s002",
+   "section": "15.5",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "A modified template specifies modifications to particular fields of the original template, either directly or indirectly.",
+   "lines": [
+    10836,
+    10838
+   ]
+  },
+  {
+   "id": "15.5-s003",
+   "section": "15.5",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "As well as creating explicitly named modified templates, TTCN-3 allows the definition of in-line modified templates.",
+   "lines": [
+    10836,
+    10838
+   ]
+  },
+  {
+   "id": "15.5-s004",
+   "section": "15.5",
+   "kind": "prose",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "Global or local modified template:",
+   "lines": [
+    10842,
+    10842
+   ]
+  },
+  {
+   "id": "15.5-s005",
+   "section": "15.5",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "template [ TemplateRestriction ] [ @fuzzy ] [ @deterministic ] [ @abstract ]\n       Type TemplateIdentifier\n      [\"(\" TemplateFormalParList \")\"] modifies ( TemplateRef | BaseTemplateBody ) \":=\"\n  BaseTemplateBody",
+   "lines": [
+    10843,
+    10848
+   ]
+  },
+  {
+   "id": "15.5-s006",
+   "section": "15.5",
+   "kind": "note",
+   "context": "Syntactical Structure",
+   "normative": false,
+   "text": "NOTE 1: The optional restriction part is covered by clause 15.8.",
+   "lines": [
+    10850,
+    10850
+   ]
+  },
+  {
+   "id": "15.5-s007",
+   "section": "15.5",
+   "kind": "prose",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "In-line modified template:",
+   "lines": [
+    10852,
+    10852
+   ]
+  },
+  {
+   "id": "15.5-s008",
+   "section": "15.5",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "modifies BaseTemplateBody \":=\" BaseTemplateBody",
+   "lines": [
+    10853,
+    10855
+   ]
+  },
+  {
+   "id": "15.5-s009",
+   "section": "15.5",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The modifies keyword denotes the parent template from which the new modified template shall be derived.",
+   "lines": [
+    10859,
+    10860
+   ]
+  },
+  {
+   "id": "15.5-s010",
+   "section": "15.5",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "This parent template may be either an original template or a modified template or also a matching mechanism.",
+   "lines": [
+    10859,
+    10860
+   ]
+  },
+  {
+   "id": "15.5-s011",
+   "section": "15.5",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "In case that the BaseTemplateBody on the right hand side of the modified template contains references to variables, these are evaluated before the modification and any uninitialized fields or elements in these variables are treated as unspecified, i.e. as if specified with the not used symbol \"-\" for the following modification algorithm.",
+   "lines": [
+    10862,
+    10864
+   ]
+  },
+  {
+   "id": "15.5-s012",
+   "section": "15.5",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The modifications occur in a linked fashion, eventually tracing back to the original template:",
+   "lines": [
+    10866,
+    10866
+   ]
+  },
+  {
+   "id": "15.5-s013",
+   "section": "15.5",
+   "kind": "list-item",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "a) In case of templates, template fields or list elements of simple types, union and enumerated types, the matching mechanism specified in the modified template is simply replacing its corresponding content in its parent.",
+   "lines": [
+    10868,
+    10870
+   ]
+  },
+  {
+   "id": "15.5-s014",
+   "section": "15.5",
+   "kind": "list-item",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "b) For templates, template fields and elements of record and set types, if a record or set field and its corresponding matching mechanism is specified in the modified template, then the specified matching mechanism replaces the one specified in the corresponding field of the parent template.",
+   "lines": [
+    10872,
+    10877
+   ]
+  },
+  {
+   "id": "15.5-s015",
+   "section": "15.5",
+   "kind": "list-item",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If a record or set field or its corresponding matching mechanism is – implicitly or explicitly by using the not used symbol \"-\" left unspecified in the modified template, then the matching mechanism in the corresponding field of the parent template shall be used.",
+   "lines": [
+    10872,
+    10877
+   ]
+  },
+  {
+   "id": "15.5-s016",
+   "section": "15.5",
+   "kind": "list-item",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "When the field to be modified is nested within a template field which is a structured field itself, no other field of the structured field is changed apart from the explicitly denoted one(s).",
+   "lines": [
+    10872,
+    10877
+   ]
+  },
+  {
+   "id": "15.5-s017",
+   "section": "15.5",
+   "kind": "list-item",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "c) For templates, template fields and elements of record of and set of types, the above rules specified for records and sets apply with the following deviations:",
+   "lines": [
+    10879,
+    10879
+   ]
+  },
+  {
+   "id": "15.5-s018",
+   "section": "15.5",
+   "kind": "list-item",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "if the value list notation is used, only the number of elements listed in the modified template is inherited from the parent (i.e. the list is truncated at the last element of the list notation in the modified template);",
+   "lines": [
+    10881,
+    10881
+   ]
+  },
+  {
+   "id": "15.5-s019",
+   "section": "15.5",
+   "kind": "list-item",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "when individual values of a modified template or a modified template field of record of or set of type wished to be changed, and only in these cases, the index assignment notation may also be used, where the left hand side of the assignment is the index of the element to be altered.",
+   "lines": [
+    10883,
+    10883
+   ]
+  },
+  {
+   "id": "15.5-s020",
+   "section": "15.5",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "In case of record of and set of types first apply rule (c) to the complete structure (e.g. truncation) than apply further rules for the remaining individual type structure elements (see example 3).",
+   "lines": [
+    10885,
+    10886
+   ]
+  },
+  {
+   "id": "15.5-s021",
+   "section": "15.5",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Formal value or template parameters of modified templates inherit the default value or respectively template of the corresponding parameter of their parent templates only, if this is denoted by the dash (don't change) symbol at the place of the parameters' default value or respectively template.",
+   "lines": [
+    10888,
+    10890
+   ]
+  },
+  {
+   "id": "15.5-s022",
+   "section": "15.5",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Modified templates may also be restricted.",
+   "lines": [
+    10892,
+    10892
+   ]
+  },
+  {
+   "id": "15.5-s023",
+   "section": "15.5",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Template restrictions are specified in clause 15.8.",
+   "lines": [
+    10892,
+    10892
+   ]
+  },
+  {
+   "id": "15.5-s024",
+   "section": "15.5",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "A modified template or fields of a modified record or set template may also be declared fuzzy using the @fuzzy modifier.",
+   "lines": [
+    10899,
+    10903
+   ]
+  },
+  {
+   "id": "15.5-s025",
+   "section": "15.5",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "A modified field with the @fuzzy modifier becomes fuzzy even if it wasn't fuzzy in the base template and will be evaluated for fuzzy fields described in the clause 6.2.1.0.",
+   "lines": [
+    10899,
+    10903
+   ]
+  },
+  {
+   "id": "15.5-s026",
+   "section": "15.5",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "A modified field without the @fuzzy modifier that was marked @fuzzy in the base template loses fuzzy evaluation and the template on the right hand side of and assignment shall be evaluated just once when the assignment is evaluated for the first time.",
+   "lines": [
+    10899,
+    10903
+   ]
+  },
+  {
+   "id": "15.5-s027",
+   "section": "15.5",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "NOTE 2: If a fuzzy modified template modifies a non-fuzzy unparameterized template, the inherited fields before modification will be the same for every evaluation of the fuzzy template.",
+   "lines": [
+    10905,
+    10906
+   ]
+  },
+  {
+   "id": "15.5-s028",
+   "section": "15.5",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clause 5, the following restrictions apply:",
+   "lines": [
+    10910,
+    10910
+   ]
+  },
+  {
+   "id": "15.5-s029",
+   "section": "15.5",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) A modified template shall not refer to itself, either directly or indirectly, i.e. recursive derivation is not allowed.",
+   "lines": [
+    10912,
+    10913
+   ]
+  },
+  {
+   "id": "15.5-s030",
+   "section": "15.5",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "b) If a base template has a formal parameter list, the following rules apply to all modified templates derived from that base template, whether or not they are derived in one or several modification steps:",
+   "lines": [
+    10915,
+    10916
+   ]
+  },
+  {
+   "id": "15.5-s031",
+   "section": "15.5",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "1) the derived template shall not omit parameters and change types or names of parameters defined at any of the modification steps between the base template and the actual modified template;",
+   "lines": [
+    10918,
+    10919
+   ]
+  },
+  {
+   "id": "15.5-s032",
+   "section": "15.5",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "2) a template parameter restriction of a derived template specified at any of the modification steps between the base template and the actual modified template can be changed to a stricter one (see table 13a in clause 15.8);",
+   "lines": [
+    10921,
+    10923
+   ]
+  },
+  {
+   "id": "15.5-s033",
+   "section": "15.5",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "3) a derived template can have additional (appended) parameters if wished;",
+   "lines": [
+    10925,
+    10925
+   ]
+  },
+  {
+   "id": "15.5-s034",
+   "section": "15.5",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "4) if the dash (don't change) symbol is used at the place of a default value or default template, the corresponding parameter of the parent template shall have a valid default value or default template, either assigned directly or inherited.",
+   "lines": [
+    10927,
+    10929
+   ]
+  },
+  {
+   "id": "15.5-s035",
+   "section": "15.5",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "If not, this shall cause an error.",
+   "lines": [
+    10927,
+    10929
+   ]
+  },
+  {
+   "id": "15.5-s036",
+   "section": "15.5",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "c) Restrictions on referencing elements of templates or template fields are described in clause 15.6: for modified templates the rules for the left hand side of assignments apply.",
+   "lines": [
+    10931,
+    10932
+   ]
+  },
+  {
+   "id": "15.5-s037",
+   "section": "15.5",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "d) Limitations on template restrictions described in clause 15.8 shall apply.",
+   "lines": [
+    10934,
+    10934
+   ]
+  },
+  {
+   "id": "15.5-s038",
+   "section": "15.5",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "e) After completing initialization, modified global and local templates that do not contain the @abstract modifier shall be fully initialized.",
+   "lines": [
+    10936,
+    10937
+   ]
+  },
+  {
+   "id": "15.5-s039",
+   "section": "15.5",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "f) If the base template has a restriction, the modified template derived from it shall have the same or less strict template restriction (see table 13b in clause 15.8).",
+   "lines": [
+    10939,
+    10941
+   ]
+  },
+  {
+   "id": "15.5-s040",
+   "section": "15.5",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "If the base template does not have a template restriction, the modified template derived from it shall not have a template restriction.",
+   "lines": [
+    10939,
+    10941
+   ]
+  },
+  {
+   "id": "15.5-s041",
+   "section": "15.5",
+   "kind": "note",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "NOTE 3: Initialization of modified templates without parameters is completed at the place of their declaration.",
+   "lines": [
+    10943,
+    10944
+   ]
+  },
+  {
+   "id": "15.5-s042",
+   "section": "15.5",
+   "kind": "note",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "Initialization of modified parameterized templates is completed at the time of their use.",
+   "lines": [
+    10943,
+    10944
+   ]
+  },
+  {
+   "id": "15.5-s043",
+   "section": "15.5",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 1: Modifying record templates (non-embedded case):",
+   "lines": [
+    10948,
+    10948
+   ]
+  },
+  {
+   "id": "15.5-s044",
+   "section": "15.5",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "// Modifying records\n  type record MyRecordType\n  {\n     integer field1 optional,\n     charstring field2,\n     boolean field3\n  }\n  template MyRecordType m_myRecTemplate1 :=\n  {\n     field1 := 123,\n     field2 := \"A string\",\n     field3 := true\n  }\n  // then writing \n  template MyRecordType m_myRecTemplate2 modifies m_myRecTemplate1 :=\n  {\n     field1 := omit, // field1 is optional but present in m_myTemplate1\n     field2 := \"A modified string\"\n                        // field3 is unchanged\n  }\n  // is the same as writing \n  // template MyRecordType m_myRecTemplate2 :=\n  // {\n  //  field1 := omit,\n  //  field2 := \"A modified string\",\n  //  field3 := true\n  // }\n  template MyRecordType m_myRecTemplate3 modifies m_myRecTemplate1 := {omit, \"A modified string\"}\n  //field3 is implicitly left unchanged;\n  //m_myRecTemplate3 has the same content as m_myRecTemplate2\n  template MyRecordType m_myRecTemplate4 modifies m_myRecTemplate1 := {omit,\"A modified string\",-}\n  //field3 is explicitly left unchanged;\n  //m_myRecTemplate4 has the same content as m_myRecTemplate2 and m_myRecTemplate3",
+   "lines": [
+    10949,
+    10983
+   ]
+  },
+  {
+   "id": "15.5-s045",
+   "section": "15.5",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 2: Modifying record of templates (non-embedded case):",
+   "lines": [
+    10985,
+    10985
+   ]
+  },
+  {
+   "id": "15.5-s046",
+   "section": "15.5",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "type record of integer MyRecordOfType;\n  template MyRecordOfType m_myBaseTemplate := { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };\n  template MyRecordOfType m_myRecOfTemplate1 modifies m_myBaseTemplate := \n                                 { -, -, 3, 2, -, -, -, -, -, - };\n  // m_myRecOfTemplate1 contains { 0, 1, 3, 2, 4, 5, 6, 7, 8, 9 }\n  template MyRecordOfType m_myRecOfTemplate2 modifies m_myBaseTemplate := { -, -, 3, 2 };\n  // m_myRecOfTemplate2 replaces m_myBaseTemplate with: { 0, 1, 3, 2 };\n  // elements 5 to 10 of m_myBaseTemplate are truncated\n  template MyRecordOfType m_myRecOfTemplate3 modifies m_myBaseTemplate := { [2] := 3, [3] := 2 };\n  // m_myRecOfTemplate3 has the same content as m_myMod1Template: { 0, 1, 3, 2, 4, 5, 6, 7, 8, 9 }",
+   "lines": [
+    10986,
+    10997
+   ]
+  },
+  {
+   "id": "15.5-s047",
+   "section": "15.5",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 3: Modifying embedded record and record of templates:",
+   "lines": [
+    10999,
+    10999
+   ]
+  },
+  {
+   "id": "15.5-s048",
+   "section": "15.5",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "//Modifying a record embedded in a record of\n  type record of record {\n   integer a,\n   integer b\n  } MyListType\n  template MyListType mw_myBaseListTemplate := { ?, { a := 1, b := 2 }, ?, { a := 3, b := 4 } }\ntemplate MyListType mw_myListTemplate1 ″` ″ `modifies mw_myBaseListTemplate := { [1] := { a := 42 } }\n  //Content of field a of the second element is modified,\n  //the content of mw_myListTemplate1 is: { ?, { a := 42, b := 2 }, ?, { a := 3, b := 4 } }\ntemplate MyListType mw_myListTemplate2 ″` ″ `modifies mw_myBaseListTemplate := { -, { a := 42 },- }\n  //Content of field a of the second element is modified, and the \n  //record of is truncated after the third element: { ?, { a := 42, b := 2 }, ? }",
+   "lines": [
+    11000,
+    11013
+   ]
+  },
+  {
+   "id": "15.5-s049",
+   "section": "15.5",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 4: Modified in-line template:",
+   "lines": [
+    11015,
+    11015
+   ]
+  },
+  {
+   "id": "15.5-s050",
+   "section": "15.5",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "// Given \n  template MyRecordType m_setup :=\n  {\n     field1 := 75,\n     field2 := \"abc\",\n     field3 := true\n  }\n  // Could be used to define an in-line modified template of Setup\n  // pco1.send (modifies m_setup := {field1:= 76});",
+   "lines": [
+    11016,
+    11026
+   ]
+  },
+  {
+   "id": "15.5-s051",
+   "section": "15.5",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 5: Modified parameterized template:",
+   "lines": [
+    11028,
+    11028
+   ]
+  },
+  {
+   "id": "15.5-s052",
+   "section": "15.5",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "// Given \n  template MyRecordType m_myTemplate1(integer p_myPar):=\n  {\n     field1 := p_myPar,\n     field2 := \"A string\",\n     field3 := true\n  }\n // then a modification could be \n   template MyRecordType m_myTemplate2(integer p_myPar) modifies m_myRecTemplate1 :=\n   // field1 is parameterized in m_myTemplate1 and remains also parameterized in m_myTemplate2\n {\n   field2 := \"A modified string\"\n }",
+   "lines": [
+    11029,
+    11043
+   ]
+  },
+  {
+   "id": "15.5-s053",
+   "section": "15.5",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 6: Default values of modified parameterized templates:",
+   "lines": [
+    11045,
+    11045
+   ]
+  },
+  {
+   "id": "15.5-s054",
+   "section": "15.5",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "// Given \n template MyRecordType m_myTemplate11 (integer p_int := 5 ):=\n  // p_int has the default value 5\n {\n   field1 := p_int,\n   field2 := \"A string\",\n   field3 := true\n }\n // then possible template modifications are \n template MyRecordType m_myTemplate12(integer p_int) modifies m_myTemplate11 :=\n  // p_int had a default value in m_myTemplate11 but has none in this template\n {\n   field2 := \"B string\"\n }\n template MyRecordType m_myTemplate13(integer p_int := 0) modifies m_myTemplate12 := { }\n  // p_int has the default value 0\n  // no change is made to the template's content, but only to the default value of p_int\n template MyRecordType m_myTemplate14(integer p_int := - ) modifies m_myTemplate13 :=\n  // p_int inherits the default value 0 from its parent m_myTemplate13\n {\n  field2 := \"C string\"\n }\n template MyRecordType m_myTemplate15(integer p_int := - ) modifies m_myTemplate14 :=\n  // p_int inherits the default value 0 from m_myTemplate13 via m_myTemplate14\n {\n  field2 := \"D string\"\n }\n template MyRecordType m_myTemplate16(integer p_int) modifies m_myTemplate15 := { }\n  // p_int has no default value; no change in the template's content\n template MyRecordType m_myTemplate17(integer p_int := - ) modifies m_myTemplate16 :=\n  // causes an error as p_int has no default value in the parent template m_myTemplate16\n {\n  field2 := \"E string\"\n }",
+   "lines": [
+    11046,
+    11081
+   ]
+  },
+  {
+   "id": "15.5-s055",
+   "section": "15.5",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 7: Modifies with variables:",
+   "lines": [
+    11083,
+    11083
+   ]
+  },
+  {
+   "id": "15.5-s056",
+   "section": "15.5",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "var template MyRecordType v_modification :=\n {\n  field2 := \"G string\" // field1/field3 are uninitialized\n }\n var template MyRecordType v_myTemplate := modifies m_myTemplate1(5) := v_modification; \n // no modification of field1/field3\n // results in { field1 := 5, field2 := \"G string\", field3 := true }",
+   "lines": [
+    11084,
+    11092
+   ]
+  },
+  {
+   "id": "15.5-s057",
+   "section": "15.5",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 8: Modifies with restricted templates:",
+   "lines": [
+    11094,
+    11094
+   ]
+  },
+  {
+   "id": "15.5-s058",
+   "section": "15.5",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "template MyRecordType m_myUnrestrictedRecTemplate1 :=\n {\n   field1 := 123,\n   field2 := \"A string\",\n   field3 := true\n }\n template(value) MyRecordType m_myValueRecTemplate1 :=\n {\n   field1 := 123,\n   field2 := \"A string\",\n   field3 := true\n }\n template MyRecordType m_myUnrestrictedRecTemplate2 modifies m_myUnrestrictedRecTemplate1 :=\n {\n     field2 := \"A modified string\" // field1, field3 is unchanged\n  }\n  template(value) MyRecordType m_myValueRecTemplate2 modifies m_myUnrestrictedRecTemplate1 :=\n  {\n     field2 := \"A modified string\" // field1, field3 is unchanged\n  } // ERROR the modified template has different restriction from the base template\n  template(value) MyRecordType m_myValueRecTemplate3 modifies m_myValueRecTemplate1 :=\n  {\n     field2 := \"A modified string\" // field1, field3 is unchanged\n  }\n  template MyRecordType m_myUnrestrictedRecTemplate3 modifies m_myValueRecTemplate1 :=\n  {\n     field2 := \"A modified string\" // field1, field3 is unchanged\n  } // Allowed modification as the modified template is less restrictive than the base template",
+   "lines": [
+    11095,
+    11124
+   ]
+  },
+  {
+   "id": "15.5-s059",
+   "section": "15.5",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 9:",
+   "lines": [
+    11126,
+    11126
+   ]
+  },
+  {
+   "id": "15.5-s060",
+   "section": "15.5",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "// Modifying records\n  type record R2\n  {\n     integer num\n     charstring str\n  }\n  template R2 m_base := { num := 0, @fuzzy str := testcasename(); }\n  template R2 m_modifiedR modifies m_base := { num := 5 } // m_modifiedR.str is still fuzzy\n  template R2 m_modifiedR2 modifies m_base := { str := \"foobar\" } // m_modifiedR2.str is not fuzzy\n  template R2 m_modifiedR3 modifies m_base := \n  { str := m_base.str & \"_used\" } // m_base.str is used in an expression in non-fuzzy assignment\n                // so the right hand side of m_base.str is evaluated just once\n  template R2 m_modifiedR4 modifies m_base := \n  { @fuzzy str := m_base.str & \"_used\" } // here, m_base.str would only be evaluated \n                   // whenever m_modifiedR4.str is evaluated \n                   // (fuzzy field assignment overridden by new fuzzy assignment)",
+   "lines": [
+    11127,
+    11144
+   ]
+  },
+  {
+   "id": "15.6.0-s001",
+   "section": "15.6.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "This clause defines rules and restrictions for referencing elements of templates or template fields in case of unrestricted templates or templates with the present restriction.",
+   "lines": [
+    11150,
+    11152
+   ]
+  },
+  {
+   "id": "15.6.0-s002",
+   "section": "15.6.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "When referencing elements of templates or templates fields with the value or omit restriction, the rules for referencing elements of values are used.",
+   "lines": [
+    11150,
+    11152
+   ]
+  }
+ ]
+}

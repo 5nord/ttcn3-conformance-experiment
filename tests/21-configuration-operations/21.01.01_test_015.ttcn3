@@ -1,0 +1,37 @@
+// @requirement: 21.1.1 -- The map operation provides an optional parameter list for configuration purposes.
+// @id: TTCN3-CORE-21.1.1-011a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_01_01_test_015 {
+
+    type record MyConfigType {
+        integer option,
+        boolean lock
+    }
+
+    type port P message {
+        inout integer;
+        map param (MyConfigType p_config);
+    }
+
+    type component C {
+        port P p;
+    }
+
+    type component S {
+        port P p;
+    }
+
+    testcase TC() runs on C system S {
+        var MyConfigType v_myConfig := { option := 1, lock := false };
+        map(mtc:p, system:p) param (v_myConfig);
+        if (p.checkstate("Mapped")) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

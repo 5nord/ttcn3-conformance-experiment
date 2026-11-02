@@ -1,0 +1,26 @@
+// @requirement: 21.3.4 -- If the kill operation is applied on the MTC, e.g. mtc.kill, it terminates the test case.
+// @id: TTCN3-CORE-21.3.4-009a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_03_04_test_011 {
+
+    type component C {}
+
+    function f_killMtc() runs on C {
+        setverdict(pass);
+        mtc.kill;
+    }
+
+    testcase TC() runs on C {
+        timer T := 5.0;
+        var C v_ptc := C.create;
+        setverdict(pass);
+        v_ptc.start(f_killMtc());
+        T.start;
+        T.timeout;
+        setverdict(fail);
+    }
+
+    control {
+        execute(TC());
+    }
+}

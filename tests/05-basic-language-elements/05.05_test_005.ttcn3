@@ -1,0 +1,30 @@
+// @requirement: 5.5 -- NOTE 2: For the detection of cycles only the main identifiers of the definition are used.
+// @id: TTCN3-CORE-5.5-006a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_05_test_005 {
+
+    type record R1 {
+        integer c_second
+    }
+
+    type record R2 {
+        integer c_first
+    }
+
+    const R1 c_first := { c_second := 1 };
+    const R2 c_second := { c_first := c_first.c_second };
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (c_second.c_first == 1) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

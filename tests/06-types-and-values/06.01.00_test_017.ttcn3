@@ -1,0 +1,31 @@
+// @requirement: 6.1.0 -- Class of type: universal charstring; Keyword: range, list, length, pattern
+// @id: TTCN3-CORE-6.1.0-017b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_01_00_test_017 {
+
+    type universal charstring UCharRange ("a" .. "z");
+
+    type universal charstring UCharList ("yes", "no");
+
+    type universal charstring UCharLength length(3);
+
+    type universal charstring UCharPattern (pattern "ab*c");
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var UCharRange v_range := "abc";
+        var UCharList v_list := "no";
+        var UCharLength v_len := "xyz";
+        var UCharPattern v_pat := "abbc";
+        if (v_range == "abc" and v_list == "no" and lengthof(v_len) == 3 and v_pat == "abbc") {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

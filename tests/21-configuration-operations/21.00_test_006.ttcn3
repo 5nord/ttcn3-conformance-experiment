@@ -1,0 +1,23 @@
+// @requirement: 21.0 -- Operation: Connect; Explanation: Connects the port of one test component to the port of another test component; Syntax Examples: connect(ptc1:p1, ptc2:p2);
+// @id: TTCN3-CORE-21.0-012b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_00_test_006 {
+
+    type port P message { inout integer; }
+
+    type component C {
+        port P p1;
+        port P p2;
+    }
+
+    testcase TC() runs on C {
+        var C ptc1 := C.create;
+        var C ptc2 := C.create;
+        connect(ptc1:p1, ptc2:p2);
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

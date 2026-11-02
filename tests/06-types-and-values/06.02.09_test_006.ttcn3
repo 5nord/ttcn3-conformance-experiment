@@ -1,0 +1,68 @@
+// @requirement: 6.2.9 -- Operations allowed on a procedure present in the incoming port list are ` `getcall`, `reply` and `raise`.
+// @id: TTCN3-CORE-6.2.9-007a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_09_test_006 {
+
+    signature S(in integer p_x) return integer exception(charstring);
+
+    type port P_server procedure {
+        in S;
+    }
+
+    type port P_client procedure {
+        out S;
+    }
+
+    type component C_server {
+        port P_server p;
+    }
+
+    type component C_client {
+        port P_client p;
+    }
+
+    function f_server() runs on C_server {
+        timer T_guard := 1.0;
+        T_guard.start;
+        alt {
+            [] p.getcall(S:{1}) {
+                p.reply(S:{-} value 2);
+                repeat;
+            }
+            [] p.getcall(S:{0}) {
+                p.raise(S, "error");
+            }
+            [] T_guard.timeout {}
+        }
+    }
+
+    testcase TC() runs on C_client {
+        var boolean v_replied := false;
+        var C_server v_ptc := C_server.create;
+        connect(self:p, v_ptc:p);
+        v_ptc.start(f_server());
+        p.call(S:{1}, 1.0) {
+            [] p.getreply(S:{-} value 2) {
+                v_replied := true;
+            }
+            [] p.catch(timeout) {}
+        }
+        p.call(S:{0}, 1.0) {
+            [] p.catch(S, charstring:"error") {
+                if (v_replied) {
+                    setverdict(pass);
+                } else {
+                    setverdict(fail);
+                }
+            }
+            [] p.catch(timeout) {
+                setverdict(fail);
+            }
+        }
+        v_ptc.done;
+    }
+
+    control {
+        execute(TC());
+    }
+}

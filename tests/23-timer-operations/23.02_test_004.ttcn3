@@ -1,0 +1,26 @@
+// @requirement: 23.2 -- The optional timer value parameter shall be used if no default duration is given, or if it is desired to override the default value specified in the timer declaration.
+// @id: TTCN3-CORE-23.2-004b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_23_02_test_004 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        timer T := 5.0;
+        timer T_guard := 1.0;
+        T.start(0.1);
+        T_guard.start;
+        alt {
+            [] T.timeout {
+                setverdict(pass);
+            }
+            [] T_guard.timeout {
+                setverdict(fail);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

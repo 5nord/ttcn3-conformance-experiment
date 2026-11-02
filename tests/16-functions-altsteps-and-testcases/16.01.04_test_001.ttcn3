@@ -1,0 +1,38 @@
+// @requirement: 16.1.4 -- If value returning functions are called in receiving communication operations (in templates, template fields, in-line templates as actual parameters or when evaluating the port expression), in timeout operations (when evaluating the timer expression), in test component operations (in guards or events of alt statements or altsteps, see clause 20.2), or in initializations of altstep local definitions (see clause 16.2.1), the following operations shall not be present in functions called in the cases specified above, in order to avoid side effects that cause changing the state of the component or the actual snapshot and to prevent different results of subsequent evaluations on an unchanged snapshot:
+// @id: TTCN3-CORE-16.1.4-001a
+// @verdict: pass reject
+module M_16_01_04_test_001 {
+
+    type port P message {
+        inout integer
+    }
+
+    type component C {
+        port P p[2];
+        var integer v_count := 0;
+        timer T := 0.1;
+    }
+
+    function f_index() runs on C return integer {
+        v_count := v_count + 1; // error: component variable changed in a port expression
+        return 1;
+    }
+
+    testcase TC() runs on C {
+        connect(self:p[0], self:p[1]);
+        p[0].send(1);
+        T.start;
+        alt {
+            [] p[f_index()].receive(integer:1) {
+                setverdict(pass);
+            }
+            [] T.timeout {
+                setverdict(fail);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,1305 @@
+{
+ "batch": "b017",
+ "requirements": [
+  {
+   "id": "TTCN3-CORE-6.2.13.3-001a",
+   "section": "6.2.13.3",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "original": "A type restriction following the identifier of a newly defined record of or set of type (i.e. when the keywords record and of or set and of are used in the definition) shall constrain the innermost type.",
+   "canonical": "A type restriction following the identifier of a newly defined record of or set of type (defined with the `record of` or `set of` keywords) SHALL constrain the innermost type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    5836,
+    5836
+   ],
+   "examples": [
+    {
+     "lines": [
+      5841,
+      5871
+     ],
+     "text": "type record of charstring String23Array length(2 .. 3);\n   // is an unlimited record of, each element shall be a charstring of 2 or 3 characters\n  type record length(0..10) of charstring String12Array10 length(12);\n  // is a record of a maximum of 10 strings each with exactly 12 characters\n  type record of record of charstring String12Array2D length(12);\n  // is a two-dimensional unlimited array of strings each with exactly 12 characters\n  type set length(5) of set length(6) of charstring String23Array2D56 length(2..3);\n  // is an unordered two-dimensional array of the size 5*6 strings, each composed\n  // of 2 or 3 characters\n  const String23Array c_str23arr_a := { \"aa\", \"bbb\", \"cc\", \"ddd\", \"ee\", \"ff\" };\n  // valid, all charstrings are 2 or 3 characters long\n  const String23Array c_str23arr_b := { \"a\", \"bbbb\", \"cc\", \"ddd\", \"ee\", \"ff\" };\n  // causes an error as \"a\" and \"bbbb\" are not 2 or 3 characters long\n  const String23Array2D56 c_str12arr2D56_a := {\n   { \"aa\", \"aaa\", \"bb\", \"bbb\", \"cc\", \"ccc\" },\n   { \"dd\", \"ddd\", \"ee\", \"eee\", \"ff\", \"fff\" },\n   { \"gg\", \"ggg\", \"hh\", \"hhh\", \"ii\", \"iii\" },\n   { \"jj\", \"jjj\", \"kk\", \"kkk\", \"ll\", \"lll\" },\n   { \"mm\", \"mmm\", \"nn\", \"nnn\", \"oo\", \"ooo\" }\n  }; // valid, a 5*6 matrix of charstrings being 2 or 3 characters long\n\n  const String23Array2D56 c_str12arr2D56_b := {\n   { \"a\", \"aaa\", \"bb\", \"bbbb\", \"cc\", \"ccc\" },\n   { \"dd\", \"ddd\", \"ee\", \"eee\", \"ff\", \"fff\" },\n   { \"gg\", \"ggg\", \"hh\", \"hhh\", \"ii\", \"iii\" },\n   { \"jj\", \"jjj\", \"kk\", \"kkk\", \"ll\", \"lll\" },"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.13.03_test_001.ttcn3",
+   "module": "M_06_02_13_03_test_001",
+   "header": "// @requirement: 6.2.13.3 -- A type restriction following the identifier of a newly defined record of or set of type (i.e. when the keywords record and of or set and of are used in the definition) shall constrain the innermost type."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.13.3-002a",
+   "section": "6.2.13.3",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "original": "The newly defined iterated type shall be a subset of the innermost type.",
+   "canonical": "The iterated type of a newly defined record of or set of type with a type restriction SHALL be a subset of the innermost type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    5836,
+    5836
+   ],
+   "examples": [
+    {
+     "lines": [
+      5841,
+      5871
+     ],
+     "text": "type record of charstring String23Array length(2 .. 3);\n   // is an unlimited record of, each element shall be a charstring of 2 or 3 characters\n  type record length(0..10) of charstring String12Array10 length(12);\n  // is a record of a maximum of 10 strings each with exactly 12 characters\n  type record of record of charstring String12Array2D length(12);\n  // is a two-dimensional unlimited array of strings each with exactly 12 characters\n  type set length(5) of set length(6) of charstring String23Array2D56 length(2..3);\n  // is an unordered two-dimensional array of the size 5*6 strings, each composed\n  // of 2 or 3 characters\n  const String23Array c_str23arr_a := { \"aa\", \"bbb\", \"cc\", \"ddd\", \"ee\", \"ff\" };\n  // valid, all charstrings are 2 or 3 characters long\n  const String23Array c_str23arr_b := { \"a\", \"bbbb\", \"cc\", \"ddd\", \"ee\", \"ff\" };\n  // causes an error as \"a\" and \"bbbb\" are not 2 or 3 characters long\n  const String23Array2D56 c_str12arr2D56_a := {\n   { \"aa\", \"aaa\", \"bb\", \"bbb\", \"cc\", \"ccc\" },\n   { \"dd\", \"ddd\", \"ee\", \"eee\", \"ff\", \"fff\" },\n   { \"gg\", \"ggg\", \"hh\", \"hhh\", \"ii\", \"iii\" },\n   { \"jj\", \"jjj\", \"kk\", \"kkk\", \"ll\", \"lll\" },\n   { \"mm\", \"mmm\", \"nn\", \"nnn\", \"oo\", \"ooo\" }\n  }; // valid, a 5*6 matrix of charstrings being 2 or 3 characters long\n\n  const String23Array2D56 c_str12arr2D56_b := {\n   { \"a\", \"aaa\", \"bb\", \"bbbb\", \"cc\", \"ccc\" },\n   { \"dd\", \"ddd\", \"ee\", \"eee\", \"ff\", \"fff\" },\n   { \"gg\", \"ggg\", \"hh\", \"hhh\", \"ii\", \"iii\" },\n   { \"jj\", \"jjj\", \"kk\", \"kkk\", \"ll\", \"lll\" },"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.13.03_test_002.ttcn3",
+   "module": "M_06_02_13_03_test_002",
+   "header": "// @requirement: 6.2.13.3 -- The newly defined iterated type shall be a subset of the innermost type."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.13.3-003a",
+   "section": "6.2.13.3",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "original": "If the innermost type is a basic type, the subtyping rules in clause 6.1.2 shall apply.",
+   "canonical": "If the innermost type of a record of or set of type is a basic type, the subtyping rules of clause 6.1.2 SHALL apply to the type restriction.",
+   "condition": "the innermost type is a basic type",
+   "cross_refs": [
+    "6.1.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    5836,
+    5836
+   ],
+   "examples": [
+    {
+     "lines": [
+      5841,
+      5871
+     ],
+     "text": "type record of charstring String23Array length(2 .. 3);\n   // is an unlimited record of, each element shall be a charstring of 2 or 3 characters\n  type record length(0..10) of charstring String12Array10 length(12);\n  // is a record of a maximum of 10 strings each with exactly 12 characters\n  type record of record of charstring String12Array2D length(12);\n  // is a two-dimensional unlimited array of strings each with exactly 12 characters\n  type set length(5) of set length(6) of charstring String23Array2D56 length(2..3);\n  // is an unordered two-dimensional array of the size 5*6 strings, each composed\n  // of 2 or 3 characters\n  const String23Array c_str23arr_a := { \"aa\", \"bbb\", \"cc\", \"ddd\", \"ee\", \"ff\" };\n  // valid, all charstrings are 2 or 3 characters long\n  const String23Array c_str23arr_b := { \"a\", \"bbbb\", \"cc\", \"ddd\", \"ee\", \"ff\" };\n  // causes an error as \"a\" and \"bbbb\" are not 2 or 3 characters long\n  const String23Array2D56 c_str12arr2D56_a := {\n   { \"aa\", \"aaa\", \"bb\", \"bbb\", \"cc\", \"ccc\" },\n   { \"dd\", \"ddd\", \"ee\", \"eee\", \"ff\", \"fff\" },\n   { \"gg\", \"ggg\", \"hh\", \"hhh\", \"ii\", \"iii\" },\n   { \"jj\", \"jjj\", \"kk\", \"kkk\", \"ll\", \"lll\" },\n   { \"mm\", \"mmm\", \"nn\", \"nnn\", \"oo\", \"ooo\" }\n  }; // valid, a 5*6 matrix of charstrings being 2 or 3 characters long\n\n  const String23Array2D56 c_str12arr2D56_b := {\n   { \"a\", \"aaa\", \"bb\", \"bbbb\", \"cc\", \"ccc\" },\n   { \"dd\", \"ddd\", \"ee\", \"eee\", \"ff\", \"fff\" },\n   { \"gg\", \"ggg\", \"hh\", \"hhh\", \"ii\", \"iii\" },\n   { \"jj\", \"jjj\", \"kk\", \"kkk\", \"ll\", \"lll\" },"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.13.03_test_003.ttcn3",
+   "module": "M_06_02_13_03_test_003",
+   "header": "// @requirement: 6.2.13.3 -- If the innermost type is a basic type, the subtyping rules in clause 6.1.2 shall apply."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.13.3-004a",
+   "section": "6.2.13.3",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "original": "If the innermost type is referencing a structured type or anytype, the rules in clauses 6.2.13.1 and 6.2.13.2 shall apply.",
+   "canonical": "If the innermost type of a record of or set of type references a structured type or anytype, the rules of clauses 6.2.13.1 and 6.2.13.2 SHALL apply to the type restriction.",
+   "condition": "the innermost type references a structured type or anytype",
+   "cross_refs": [
+    "6.2.13.1",
+    "6.2.13.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    5836,
+    5836
+   ],
+   "examples": [
+    {
+     "lines": [
+      5874,
+      5910
+     ],
+     "text": "type record of String23Array String23Array45 length(4 .. 5);\n  // is a two-dimensional array, the first dimension is unlimited, \n  // the second dimension is restricted to 4 or 5 elements and each element\n  // is a charstring of 2 or 3 characters. It is equivalent to:\n  // type record of record length(4 .. 5) of charstring String23Array45 length(2 .. 3);\n  const String23Array45 c_str23arr45_a := {\n   { \"aa\", \"bbb\", \"cc\", \"ddd\" },\n   { \"ee\", \"fff\", \"gg\", \"hhh\", \"ii\" }\n  }; // valid, 4 or 5 elements in the inner record of, all containing 2 or 3 characters\n  const String23Array45 c_str23arr45_b := {\n   { \"aa\", \"bbb\", \"cc\" }\n  }; //causes an error as there are only 3 elements in the inner record of\n  const String23Array45 c_str23arr45_c := {\n   { \"aa\", \"bbbb\", \"cc\", \"dd\" }\n  }; //causes an error as \"bbbb\" contains 4 characters\n  type record length(0 .. 1) of String23Array String23Array0145 length(4 .. 5);\n  // is a two-dimensional array, the first dimension is limited to 0 or 1 elements,\n  // the second dimension is restricted to 4 or 5 elements, each element is a \n  // charstring of 2 or 3 characters.\n  const String23Array0145 c_str23arr0145_a := {\n   { \"aa\", \"bbb\", \"cc\", \"ddd\" },\n  }; // a valid 1*4 array of charstrings, each of 2 or 3 characters\n  const String23Array0145 c_str23arr0145_a := {\n   { \"aa\", \"bbb\", \"cc\", \"ddd\" },\n   { \"ee\", \"fff\", \"gg\", \"hhh\", \"ii\" }\n  }; // causes an error as there are two elements in the outer record of\n  const String23Array0145 c_str23arr0145_b "
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.13.03_test_004.ttcn3",
+   "module": "M_06_02_13_03_test_004",
+   "header": "// @requirement: 6.2.13.3 -- If the innermost type is referencing a structured type or anytype, the rules in clauses 6.2.13.1 and 6.2.13.2 shall apply."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.13.4-001a",
+   "section": "6.2.13.4",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "In the case of structured types and the special type anytype, it is forbidden to mix different subtyping mechanisms (e.g. list and length) in the same definition.",
+   "canonical": "A subtype definition of a structured type or anytype SHALL NOT mix different subtyping mechanisms (e.g. list and length subtyping).",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    5915,
+    5916
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.02.13.04_test_001.ttcn3",
+   "module": "M_06_02_13_04_test_001",
+   "header": "// @requirement: 6.2.13.4 -- In the case of structured types and the special type anytype, it is forbidden to mix different subtyping mechanisms (e.g. list and length) in the same definition."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.14-001a",
+   "section": "6.2.14",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "TTCN-3 allows to define timer constants, variables and parameters.",
+   "canonical": "Constants, variables and formal parameters of timer type MAY be defined.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "'parameters' is used where formal parameters are meant.",
+    "improper_terms": [
+     {
+      "used": "parameters",
+      "proper": "formal parameter",
+      "glossary": true
+     }
+    ]
+   },
+   "spec_lines": [
+    5920,
+    5922
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.02.14_test_001.ttcn3",
+   "module": "M_06_02_14_test_001",
+   "header": "// @requirement: 6.2.14 -- TTCN-3 allows to define timer constants, variables and parameters."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.14-002a",
+   "section": "6.2.14",
+   "type": "semantics",
+   "modality": "CAN",
+   "original": "These constants, variables or parameters can contain a reference to an existing timer or a special value null.",
+   "canonical": "A constant, variable or formal parameter of timer type CAN contain a reference to an existing timer or the special value `null`.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    5920,
+    5922
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.02.14_test_002.ttcn3",
+   "module": "M_06_02_14_test_002",
+   "header": "// @requirement: 6.2.14 -- These constants, variables or parameters can contain a reference to an existing timer or a special value null."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.14-003a",
+   "section": "6.2.14",
+   "type": "definition",
+   "modality": "IS",
+   "original": "The special value null represents an unspecified timer reference, i.e. can be used for variables to explicitly reference no timer.",
+   "canonical": "The special value `null` of timer type IS an unspecified timer reference.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    5920,
+    5922
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.02.14_test_003.ttcn3",
+   "module": "M_06_02_14_test_003",
+   "header": "// @requirement: 6.2.14 -- The special value null represents an unspecified timer reference, i.e. can be used for variables to explicitly reference no timer."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.14-003b",
+   "section": "6.2.14",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "The special value null represents an unspecified timer reference, i.e. can be used for variables to explicitly reference no timer.",
+   "canonical": "The special value `null` MAY be assigned to a timer variable to explicitly reference no timer.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    5920,
+    5922
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.02.14_test_004.ttcn3",
+   "module": "M_06_02_14_test_004",
+   "header": "// @requirement: 6.2.14 -- The special value null represents an unspecified timer reference, i.e. can be used for variables to explicitly reference no timer."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.14-004a",
+   "section": "6.2.14",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Timer references have meaning only within the test component instances where the timer is defined, i.e. a timer reference assigned to a timer variable in a test component instance \"a1\" of type \"A\" has no meaning in a test component instance \"a2\" of type \"A\".",
+   "canonical": "A timer reference IS meaningful only within the test component instance where the timer is defined.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "The consequence of using a timer reference in another test component instance (error, or unspecified behaviour) is not stated.",
+    "readings": [
+     "Using a timer reference in a test component instance other than the one where the timer is defined causes a dynamic error.",
+     "Using a timer reference in a test component instance other than the one where the timer is defined has unspecified behaviour."
+    ]
+   },
+   "spec_lines": [
+    5924,
+    5926
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.02.14_test_005.ttcn3",
+   "module": "M_06_02_14_test_005",
+   "header": "// @requirement: 6.2.14 -- Timer references have meaning only within the test component instances where the timer is defined, i.e. a timer reference assigned to a timer variable in a test component instance \"a1\" of type \"A\" has no meaning in a test component instance \"a2\" of type \"A\"."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.14-005a",
+   "section": "6.2.14",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The values of timer type are object references and follow specific rules for this kind of values.",
+   "canonical": "A value of timer type IS an object reference and follows the rules for object references.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    5928,
+    5928
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.02.14_test_006.ttcn3",
+   "module": "M_06_02_14_test_006",
+   "header": "// @requirement: 6.2.14 -- The values of timer type are object references and follow specific rules for this kind of values."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.15.0-001b",
+   "section": "6.2.15.0",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "TTCN-3 supports the specification of map types that map from a set of unique keys to a set of values in such a way that each value in the set of key is associated with exactly one value in the set of values.",
+   "canonical": "Each key of a map type value IS associated with exactly one value.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    5939,
+    5940
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.02.15.00_test_001.ttcn3",
+   "module": "M_06_02_15_00_test_001",
+   "header": "// @requirement: 6.2.15.0 -- TTCN-3 supports the specification of map types that map from a set of unique keys to a set of values in such a way that each value in the set of key is associated with exactly one value in the set of values."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.15.1-001a",
+   "section": "6.2.15.1",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "**type** **map** **from** _Type_ **to** _Type_ _Identifier_",
+   "canonical": "A map type definition has the syntax `type map from` Type `to` Type Identifier.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    5946,
+    5946
+   ],
+   "examples": [
+    {
+     "lines": [
+      5963,
+      5965
+     ],
+     "text": "type record Connection { charstring iPaddr, integer portNr } type record Client { charstring name } type map from Connection to Client ConnectedClients; // associate each connection with a client"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.15.01_test_001.ttcn3",
+   "module": "M_06_02_15_01_test_001",
+   "header": "// @requirement: 6.2.15.1 -- **type** **map** **from** _Type_ **to** _Type_ _Identifier_"
+  },
+  {
+   "id": "TTCN3-CORE-6.2.15.1-003a",
+   "section": "6.2.15.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The Type following the from keyword is the type of the keys of the map type.",
+   "canonical": "The Type following the `from` keyword in a map type definition IS the key type of the map type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    5950,
+    5951
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.02.15.01_test_002.ttcn3",
+   "module": "M_06_02_15_01_test_002",
+   "header": "// @requirement: 6.2.15.1 -- The Type following the from keyword is the type of the keys of the map type."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.15.1-004a",
+   "section": "6.2.15.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The Type following the to keyword is the type of the values of the map type.",
+   "canonical": "The Type following the `to` keyword in a map type definition IS the value type of the map type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    5950,
+    5951
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.02.15.01_test_003.ttcn3",
+   "module": "M_06_02_15_01_test_003",
+   "header": "// @requirement: 6.2.15.1 -- The Type following the to keyword is the type of the values of the map type."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.15.2-001a",
+   "section": "6.2.15.2",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "\"{\" [\"*\" \",\"] { \"[\" Index \"]\" \":=\" Value \",\" } \"}\"",
+   "canonical": "A map value or template in index assignment notation has the syntax \"{\" [\"*\" \",\"] { \"[\" Index \"]\" \":=\" Value \",\" } \"}\".",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    5972,
+    5972
+   ],
+   "examples": [
+    {
+     "lines": [
+      5995,
+      6026
+     ],
+     "text": "const Connection connection0 := { \"1.1.1.0\", 8080 }\n  const Connection connection1 := { \"1.1.1.1\", 8080 }\n  const Connection connection2 := { \"1.1.1.1\", 80 }\n  const Client client0 := \"Client0\"\n  const Client client1 := \"Client1\"\n  const Client client2 := \"Client2\"\n  const Client client3 := \"Client3\"\n  var ConnectedClients v_myVariable:= {\n     [connection0] := client0,\n     [connection1] := client1,\n     [connection2] := client2\n  }\n  v_myVariable :=\n  {\n     [connection1] := client3,\n  }\n  // after this, v_myVariable contains:\n  // { [connection0] := client0 /* unchanged */, \n     [connection1] := client3, \n     [connection2] := client2 /* unchanged */ }\n  v_myVariable :=\n  {\n     [connection0] := -,\n     [connection1] := client2,\n     [connection2] := - \n  }\n  // after this, v_myVariable contains:\n  // { [connection0] := client0 /* unchanged */, \n     [connection1] := client2, \n     [connection2] := client2 /* unchanged */ }"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.15.02_test_001.ttcn3",
+   "module": "M_06_02_15_02_test_001",
+   "header": "// @requirement: 6.2.15.2 -- \"{\" [\"*\" \",\"] { \"[\" Index \"]\" \":=\" Value \",\" } \"}\""
+  },
+  {
+   "id": "TTCN3-CORE-6.2.15.2-002a",
+   "section": "6.2.15.2",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Values of the map type can be denoted with the indexed assignment notation where the indices are values of the key type of the map type and the right hand sides are values of the value type.",
+   "canonical": "A map value MAY be denoted with the index assignment notation.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "The text says 'indexed assignment notation' while the restriction of the same clause and clause 6.2.15.4 use 'index assignment notation'.",
+    "improper_terms": [
+     {
+      "used": "indexed assignment notation",
+      "proper": "index assignment notation",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    5976,
+    5979
+   ],
+   "examples": [
+    {
+     "lines": [
+      5995,
+      6026
+     ],
+     "text": "const Connection connection0 := { \"1.1.1.0\", 8080 }\n  const Connection connection1 := { \"1.1.1.1\", 8080 }\n  const Connection connection2 := { \"1.1.1.1\", 80 }\n  const Client client0 := \"Client0\"\n  const Client client1 := \"Client1\"\n  const Client client2 := \"Client2\"\n  const Client client3 := \"Client3\"\n  var ConnectedClients v_myVariable:= {\n     [connection0] := client0,\n     [connection1] := client1,\n     [connection2] := client2\n  }\n  v_myVariable :=\n  {\n     [connection1] := client3,\n  }\n  // after this, v_myVariable contains:\n  // { [connection0] := client0 /* unchanged */, \n     [connection1] := client3, \n     [connection2] := client2 /* unchanged */ }\n  v_myVariable :=\n  {\n     [connection0] := -,\n     [connection1] := client2,\n     [connection2] := - \n  }\n  // after this, v_myVariable contains:\n  // { [connection0] := client0 /* unchanged */, \n     [connection1] := client2, \n     [connection2] := client2 /* unchanged */ }"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.15.02_test_002.ttcn3",
+   "module": "M_06_02_15_02_test_002",
+   "header": "// @requirement: 6.2.15.2 -- Values of the map type can be denoted with the indexed assignment notation where the indices are values of the key type of the map type and the right hand sides are values of the value type."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.15.2-002b",
+   "section": "6.2.15.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "Values of the map type can be denoted with the indexed assignment notation where the indices are values of the key type of the map type and the right hand sides are values of the value type.",
+   "canonical": "An index in the index assignment notation of a map value SHALL be a value of the key type of the map type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    5976,
+    5979
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.02.15.02_test_003.ttcn3",
+   "module": "M_06_02_15_02_test_003",
+   "header": "// @requirement: 6.2.15.2 -- Values of the map type can be denoted with the indexed assignment notation where the indices are values of the key type of the map type and the right hand sides are values of the value type."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.15.2-002c",
+   "section": "6.2.15.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "Values of the map type can be denoted with the indexed assignment notation where the indices are values of the key type of the map type and the right hand sides are values of the value type.",
+   "canonical": "The right hand side of an indexed assignment in the index assignment notation of a map value SHALL be a value of the value type of the map type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    5976,
+    5979
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.02.15.02_test_004.ttcn3",
+   "module": "M_06_02_15_02_test_004",
+   "header": "// @requirement: 6.2.15.2 -- Values of the map type can be denoted with the indexed assignment notation where the indices are values of the key type of the map type and the right hand sides are values of the value type."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.15.2-003a",
+   "section": "6.2.15.2",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Templates of the map type can use a specific form of the mixed notation, where the first item is and asterisk representing the AnyElementsOrNone matching symbol, followed by one or more indexed assignments (see clause B.1.3.2 for more details).",
+   "canonical": "A map template MAY use a mixed notation in which the first item is an asterisk representing the AnyElementsOrNone matching symbol, followed by one or more indexed assignments.",
+   "condition": null,
+   "cross_refs": [
+    "B.1.3.2"
+   ],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "The prose requires 'one or more' indexed assignments after the asterisk, but the syntactical structure { ... } allows zero or more. The prose reading is used in the canonical text.",
+    "readings": [
+     "A map template MAY use a mixed notation consisting of an asterisk followed by one or more indexed assignments.",
+     "A map template MAY use a mixed notation consisting of an asterisk followed by zero or more indexed assignments, i.e. { * } alone is valid."
+    ]
+   },
+   "spec_lines": [
+    5976,
+    5979
+   ],
+   "examples": [
+    {
+     "lines": [
+      6050,
+      6061
+     ],
+     "text": "var template ConnectedClients v_myTemplate := {\n     *,\n     [connection0] := client0,\n     [connection1] := client1,\n     [connection2] := client2\n  }\n  ummap(v_myTemplate, connection0); \n  // changes the template to { *, [connection1] := client1, [connection2] := client2 }\n  ummap(v_myTemplate, *); \n  // changes the template to { [connection1] := client1, [connection2] := client2 }"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.15.02_test_005.ttcn3",
+   "module": "M_06_02_15_02_test_005",
+   "header": "// @requirement: 6.2.15.2 -- Templates of the map type can use a specific form of the mixed notation, where the first item is and asterisk representing the AnyElementsOrNone matching symbol, followed by one or more indexed assignments (see clause B.1.3.2 for more details)."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.15.2-003b",
+   "section": "6.2.15.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "Templates of the map type can use a specific form of the mixed notation, where the first item is and asterisk representing the AnyElementsOrNone matching symbol, followed by one or more indexed assignments (see clause B.1.3.2 for more details).",
+   "canonical": "In the mixed notation of a map template, the asterisk representing AnyElementsOrNone SHALL be the first item.",
+   "condition": null,
+   "cross_refs": [
+    "B.1.3.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    5976,
+    5979
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.02.15.02_test_006.ttcn3",
+   "module": "M_06_02_15_02_test_006",
+   "header": "// @requirement: 6.2.15.2 -- Templates of the map type can use a specific form of the mixed notation, where the first item is and asterisk representing the AnyElementsOrNone matching symbol, followed by one or more indexed assignments (see clause B.1.3.2 for more details)."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.15.2-004a",
+   "section": "6.2.15.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "When using the indexed assignment notation on the right hand side of an assignment, elements for keys to be changed are identified explicitly and either a value or the not used symbol \"-\" can be assigned to them.",
+   "canonical": "When the index assignment notation is used on the right hand side of an assignment, each element to be changed IS identified explicitly by its key.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    5981,
+    5985
+   ],
+   "examples": [
+    {
+     "lines": [
+      5995,
+      6026
+     ],
+     "text": "const Connection connection0 := { \"1.1.1.0\", 8080 }\n  const Connection connection1 := { \"1.1.1.1\", 8080 }\n  const Connection connection2 := { \"1.1.1.1\", 80 }\n  const Client client0 := \"Client0\"\n  const Client client1 := \"Client1\"\n  const Client client2 := \"Client2\"\n  const Client client3 := \"Client3\"\n  var ConnectedClients v_myVariable:= {\n     [connection0] := client0,\n     [connection1] := client1,\n     [connection2] := client2\n  }\n  v_myVariable :=\n  {\n     [connection1] := client3,\n  }\n  // after this, v_myVariable contains:\n  // { [connection0] := client0 /* unchanged */, \n     [connection1] := client3, \n     [connection2] := client2 /* unchanged */ }\n  v_myVariable :=\n  {\n     [connection0] := -,\n     [connection1] := client2,\n     [connection2] := - \n  }\n  // after this, v_myVariable contains:\n  // { [connection0] := client0 /* unchanged */, \n     [connection1] := client2, \n     [connection2] := client2 /* unchanged */ }"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.15.02_test_007.ttcn3",
+   "module": "M_06_02_15_02_test_007",
+   "header": "// @requirement: 6.2.15.2 -- When using the indexed assignment notation on the right hand side of an assignment, elements for keys to be changed are identified explicitly and either a value or the not used symbol \"-\" can be assigned to them."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.15.2-004b",
+   "section": "6.2.15.2",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "When using the indexed assignment notation on the right hand side of an assignment, elements for keys to be changed are identified explicitly and either a value or the not used symbol \"-\" can be assigned to them.",
+   "canonical": "In the index assignment notation on the right hand side of an assignment, either a value or the not used symbol \"-\" MAY be assigned to an element identified by a key.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    5981,
+    5985
+   ],
+   "examples": [
+    {
+     "lines": [
+      5995,
+      6026
+     ],
+     "text": "const Connection connection0 := { \"1.1.1.0\", 8080 }\n  const Connection connection1 := { \"1.1.1.1\", 8080 }\n  const Connection connection2 := { \"1.1.1.1\", 80 }\n  const Client client0 := \"Client0\"\n  const Client client1 := \"Client1\"\n  const Client client2 := \"Client2\"\n  const Client client3 := \"Client3\"\n  var ConnectedClients v_myVariable:= {\n     [connection0] := client0,\n     [connection1] := client1,\n     [connection2] := client2\n  }\n  v_myVariable :=\n  {\n     [connection1] := client3,\n  }\n  // after this, v_myVariable contains:\n  // { [connection0] := client0 /* unchanged */, \n     [connection1] := client3, \n     [connection2] := client2 /* unchanged */ }\n  v_myVariable :=\n  {\n     [connection0] := -,\n     [connection1] := client2,\n     [connection2] := - \n  }\n  // after this, v_myVariable contains:\n  // { [connection0] := client0 /* unchanged */, \n     [connection1] := client2, \n     [connection2] := client2 /* unchanged */ }"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.15.02_test_008.ttcn3",
+   "module": "M_06_02_15_02_test_008",
+   "header": "// @requirement: 6.2.15.2 -- When using the indexed assignment notation on the right hand side of an assignment, elements for keys to be changed are identified explicitly and either a value or the not used symbol \"-\" can be assigned to them."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.15.2-005a",
+   "section": "6.2.15.2",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "Other elements, not referred to by keys in the notation, shall remain unchanged.",
+   "canonical": "When the index assignment notation is assigned to a map variable, elements whose keys are not referred to in the notation SHALL remain unchanged.",
+   "condition": "the index assignment notation is used on the right hand side of an assignment",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    5981,
+    5985
+   ],
+   "examples": [
+    {
+     "lines": [
+      5995,
+      6026
+     ],
+     "text": "const Connection connection0 := { \"1.1.1.0\", 8080 }\n  const Connection connection1 := { \"1.1.1.1\", 8080 }\n  const Connection connection2 := { \"1.1.1.1\", 80 }\n  const Client client0 := \"Client0\"\n  const Client client1 := \"Client1\"\n  const Client client2 := \"Client2\"\n  const Client client3 := \"Client3\"\n  var ConnectedClients v_myVariable:= {\n     [connection0] := client0,\n     [connection1] := client1,\n     [connection2] := client2\n  }\n  v_myVariable :=\n  {\n     [connection1] := client3,\n  }\n  // after this, v_myVariable contains:\n  // { [connection0] := client0 /* unchanged */, \n     [connection1] := client3, \n     [connection2] := client2 /* unchanged */ }\n  v_myVariable :=\n  {\n     [connection0] := -,\n     [connection1] := client2,\n     [connection2] := - \n  }\n  // after this, v_myVariable contains:\n  // { [connection0] := client0 /* unchanged */, \n     [connection1] := client2, \n     [connection2] := client2 /* unchanged */ }"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.15.02_test_009.ttcn3",
+   "module": "M_06_02_15_02_test_009",
+   "header": "// @requirement: 6.2.15.2 -- Other elements, not referred to by keys in the notation, shall remain unchanged."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.15.2-006a",
+   "section": "6.2.15.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Re-assigning a previously initialized value, using the not used symbol or just skipping a field or element in an assignment notation, will cause that field or element to remain unchanged.",
+   "canonical": "Re-assigning a previously initialized element using the not used symbol or by skipping it in an assignment notation leaves that element unchanged.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    5981,
+    5985
+   ],
+   "examples": [
+    {
+     "lines": [
+      5995,
+      6026
+     ],
+     "text": "const Connection connection0 := { \"1.1.1.0\", 8080 }\n  const Connection connection1 := { \"1.1.1.1\", 8080 }\n  const Connection connection2 := { \"1.1.1.1\", 80 }\n  const Client client0 := \"Client0\"\n  const Client client1 := \"Client1\"\n  const Client client2 := \"Client2\"\n  const Client client3 := \"Client3\"\n  var ConnectedClients v_myVariable:= {\n     [connection0] := client0,\n     [connection1] := client1,\n     [connection2] := client2\n  }\n  v_myVariable :=\n  {\n     [connection1] := client3,\n  }\n  // after this, v_myVariable contains:\n  // { [connection0] := client0 /* unchanged */, \n     [connection1] := client3, \n     [connection2] := client2 /* unchanged */ }\n  v_myVariable :=\n  {\n     [connection0] := -,\n     [connection1] := client2,\n     [connection2] := - \n  }\n  // after this, v_myVariable contains:\n  // { [connection0] := client0 /* unchanged */, \n     [connection1] := client2, \n     [connection2] := client2 /* unchanged */ }"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.15.02_test_010.ttcn3",
+   "module": "M_06_02_15_02_test_010",
+   "header": "// @requirement: 6.2.15.2 -- Re-assigning a previously initialized value, using the not used symbol or just skipping a field or element in an assignment notation, will cause that field or element to remain unchanged."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.15.2-007a",
+   "section": "6.2.15.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "a) In the index assignment notation, every index expression shall evaluate to a different value than all the other ones.",
+   "canonical": "In the index assignment notation, every index expression SHALL evaluate to a value different from all other index expressions of the same notation.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    5989,
+    5990
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.02.15.02_test_011.ttcn3",
+   "module": "M_06_02_15_02_test_011",
+   "header": "// @requirement: 6.2.15.2 -- a) In the index assignment notation, every index expression shall evaluate to a different value than all the other ones."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.15.3-001a",
+   "section": "6.2.15.3",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "**unmap \"(\" ValueRef \",\" [ SingleExpression | \"*\"] \")\"**",
+   "canonical": "The unmap statement has the syntax `unmap` \"(\" ValueRef \",\" [SingleExpression | \"*\"] \")\".",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6033,
+    6033
+   ],
+   "examples": [
+    {
+     "lines": [
+      6050,
+      6061
+     ],
+     "text": "var template ConnectedClients v_myTemplate := {\n     *,\n     [connection0] := client0,\n     [connection1] := client1,\n     [connection2] := client2\n  }\n  ummap(v_myTemplate, connection0); \n  // changes the template to { *, [connection1] := client1, [connection2] := client2 }\n  ummap(v_myTemplate, *); \n  // changes the template to { [connection1] := client1, [connection2] := client2 }"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.15.03_test_001.ttcn3",
+   "module": "M_06_02_15_03_test_001",
+   "header": "// @requirement: 6.2.15.3 -- **unmap \"(\" ValueRef \",\" [ SingleExpression | \"*\"] \")\"**"
+  },
+  {
+   "id": "TTCN3-CORE-6.2.15.3-002a",
+   "section": "6.2.15.3",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "To remove a mapping from a key to its associated value in a variable of a map type, the unmap statement may be used.",
+   "canonical": "The `unmap` statement MAY be used to remove the mapping of a key to its associated value from a variable of a map type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "Clause 6.2.15.3 calls it 'unmap statement' while the next sentences and the NOTE in 6.2.15.9 call it 'unmap operation'; 'unmap operation' also names the port unmap operation.",
+    "improper_terms": [
+     {
+      "used": "unmap statement / operation",
+      "proper": "unmap statement",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    6037,
+    6038
+   ],
+   "examples": [
+    {
+     "lines": [
+      6050,
+      6061
+     ],
+     "text": "var template ConnectedClients v_myTemplate := {\n     *,\n     [connection0] := client0,\n     [connection1] := client1,\n     [connection2] := client2\n  }\n  ummap(v_myTemplate, connection0); \n  // changes the template to { *, [connection1] := client1, [connection2] := client2 }\n  ummap(v_myTemplate, *); \n  // changes the template to { [connection1] := client1, [connection2] := client2 }"
+    },
+    {
+     "lines": [
+      6105,
+      6116
+     ],
+     "text": "if (not isbound(v_myVariable[connection0])) {\n     v_myVariable[connection0] := newClient; // adds mapping for connection0 to the map\n  }\n  if (isbound(v_myVariable[connection0])) { \n     unmap(v_myVariable, connection0); // deletes mapping for connection0 from the map\n     f(v_myVariable[connection0]); // results in a testcase error\n  }\n  if (not (v_myTemplate[*])) {\n     v_myTemplate[*] := true; // adds AnyElementsOrNone to the template\n  }"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.15.03_test_002.ttcn3",
+   "module": "M_06_02_15_03_test_002",
+   "header": "// @requirement: 6.2.15.3 -- To remove a mapping from a key to its associated value in a variable of a map type, the unmap statement may be used."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.15.3-003a",
+   "section": "6.2.15.3",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "If the map variable did not associate the given key with a value, the operation has no effect.",
+   "canonical": "If the map variable does not associate the given key with a value, the `unmap` statement has no effect.",
+   "condition": "the map variable did not associate the given key with a value",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6037,
+    6038
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.02.15.03_test_003.ttcn3",
+   "module": "M_06_02_15_03_test_003",
+   "header": "// @requirement: 6.2.15.3 -- If the map variable did not associate the given key with a value, the operation has no effect."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.15.3-004a",
+   "section": "6.2.15.3",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "The unmap statement may be also used to remove the AnyElementsOrNone matching symbol from a map template variable.",
+   "canonical": "The `unmap` statement MAY be used to remove the AnyElementsOrNone matching symbol from a map template variable.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6040,
+    6042
+   ],
+   "examples": [
+    {
+     "lines": [
+      6050,
+      6061
+     ],
+     "text": "var template ConnectedClients v_myTemplate := {\n     *,\n     [connection0] := client0,\n     [connection1] := client1,\n     [connection2] := client2\n  }\n  ummap(v_myTemplate, connection0); \n  // changes the template to { *, [connection1] := client1, [connection2] := client2 }\n  ummap(v_myTemplate, *); \n  // changes the template to { [connection1] := client1, [connection2] := client2 }"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.15.03_test_004.ttcn3",
+   "module": "M_06_02_15_03_test_004",
+   "header": "// @requirement: 6.2.15.3 -- The unmap statement may be also used to remove the AnyElementsOrNone matching symbol from a map template variable."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.15.3-005a",
+   "section": "6.2.15.3",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "In this case, the second parameter of the statement shall be an asterisk literal.",
+   "canonical": "When the `unmap` statement is used to remove AnyElementsOrNone from a map template variable, its second parameter SHALL be an asterisk literal.",
+   "condition": "unmap is used to remove AnyElementsOrNone from a map template variable",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6040,
+    6042
+   ],
+   "examples": [
+    {
+     "lines": [
+      6050,
+      6061
+     ],
+     "text": "var template ConnectedClients v_myTemplate := {\n     *,\n     [connection0] := client0,\n     [connection1] := client1,\n     [connection2] := client2\n  }\n  ummap(v_myTemplate, connection0); \n  // changes the template to { *, [connection1] := client1, [connection2] := client2 }\n  ummap(v_myTemplate, *); \n  // changes the template to { [connection1] := client1, [connection2] := client2 }"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.15.03_test_005.ttcn3",
+   "module": "M_06_02_15_03_test_005",
+   "header": "// @requirement: 6.2.15.3 -- In this case, the second parameter of the statement shall be an asterisk literal."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.15.3-006a",
+   "section": "6.2.15.3",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "If the template variable does not contain the AnyElementsOrNone matching symbol, the operation has no effect.",
+   "canonical": "If the map template variable does not contain the AnyElementsOrNone matching symbol, `unmap` with an asterisk as second parameter has no effect.",
+   "condition": "the template variable does not contain AnyElementsOrNone",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6040,
+    6042
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.02.15.03_test_006.ttcn3",
+   "module": "M_06_02_15_03_test_006",
+   "header": "// @requirement: 6.2.15.3 -- If the template variable does not contain the AnyElementsOrNone matching symbol, the operation has no effect."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.15.3-007a",
+   "section": "6.2.15.3",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "a) ValueRef shall be an initialized variable of map type and SingleExpression shall be a value compatible with the key type of the map type of ValueRef.",
+   "canonical": "The ValueRef of an `unmap` statement SHALL be an initialized variable (or template variable) of a map type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "The restriction says 'variable of map type', but the semantic description also allows map template variables; it is unclear whether a template variable satisfies the restriction. The reading that includes template variables is used.",
+    "readings": [
+     "The ValueRef of an unmap statement SHALL be an initialized variable or template variable of a map type.",
+     "The ValueRef of an unmap statement SHALL be an initialized (value) variable of a map type; template variables are only allowed with the asterisk form."
+    ]
+   },
+   "spec_lines": [
+    6046,
+    6047
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.02.15.03_test_007.ttcn3",
+   "module": "M_06_02_15_03_test_007",
+   "header": "// @requirement: 6.2.15.3 -- a) ValueRef shall be an initialized variable of map type and SingleExpression shall be a value compatible with the key type of the map type of ValueRef."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.15.3-007b",
+   "section": "6.2.15.3",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "a) ValueRef shall be an initialized variable of map type and SingleExpression shall be a value compatible with the key type of the map type of ValueRef.",
+   "canonical": "The SingleExpression of an `unmap` statement SHALL be a value compatible with the key type of the map type of the ValueRef.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6046,
+    6047
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.02.15.03_test_008.ttcn3",
+   "module": "M_06_02_15_03_test_008",
+   "header": "// @requirement: 6.2.15.3 -- a) ValueRef shall be an initialized variable of map type and SingleExpression shall be a value compatible with the key type of the map type of ValueRef."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.15.4-001a",
+   "section": "6.2.15.4",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "_ValueRef_ \"[\" Index | \"*\" \"]\"",
+   "canonical": "The index notation on a map value or template has the syntax ValueRef \"[\" (Index | \"*\") \"]\".",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6068,
+    6068
+   ],
+   "examples": [
+    {
+     "lines": [
+      6105,
+      6116
+     ],
+     "text": "if (not isbound(v_myVariable[connection0])) {\n     v_myVariable[connection0] := newClient; // adds mapping for connection0 to the map\n  }\n  if (isbound(v_myVariable[connection0])) { \n     unmap(v_myVariable, connection0); // deletes mapping for connection0 from the map\n     f(v_myVariable[connection0]); // results in a testcase error\n  }\n  if (not (v_myTemplate[*])) {\n     v_myTemplate[*] := true; // adds AnyElementsOrNone to the template\n  }"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.15.04_test_001.ttcn3",
+   "module": "M_06_02_15_04_test_001",
+   "header": "// @requirement: 6.2.15.4 -- _ValueRef_ \"[\" Index | \"*\" \"]\""
+  },
+  {
+   "id": "TTCN3-CORE-6.2.15.4-002a",
+   "section": "6.2.15.4",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Index notation can be used on both the right-hand side and left-hand side of assignments.",
+   "canonical": "The index notation on a map MAY be used on both the right hand side and the left hand side of an assignment.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6072,
+    6072
+   ],
+   "examples": [
+    {
+     "lines": [
+      6105,
+      6116
+     ],
+     "text": "if (not isbound(v_myVariable[connection0])) {\n     v_myVariable[connection0] := newClient; // adds mapping for connection0 to the map\n  }\n  if (isbound(v_myVariable[connection0])) { \n     unmap(v_myVariable, connection0); // deletes mapping for connection0 from the map\n     f(v_myVariable[connection0]); // results in a testcase error\n  }\n  if (not (v_myTemplate[*])) {\n     v_myTemplate[*] := true; // adds AnyElementsOrNone to the template\n  }"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.15.04_test_002.ttcn3",
+   "module": "M_06_02_15_04_test_002",
+   "header": "// @requirement: 6.2.15.4 -- Index notation can be used on both the right-hand side and left-hand side of assignments."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.15.4-003a",
+   "section": "6.2.15.4",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The index notation, when used on the right-hand side, refers to the value element that the map value or template associates with the key given as the index or with the presence of the AnyElementsOrNone matching symbol if asterisk is used instead of the index.",
+   "canonical": "The index notation with a key used on the right hand side refers to the value element that the map value or template associates with that key.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6079,
+    6079
+   ],
+   "examples": [
+    {
+     "lines": [
+      6105,
+      6116
+     ],
+     "text": "if (not isbound(v_myVariable[connection0])) {\n     v_myVariable[connection0] := newClient; // adds mapping for connection0 to the map\n  }\n  if (isbound(v_myVariable[connection0])) { \n     unmap(v_myVariable, connection0); // deletes mapping for connection0 from the map\n     f(v_myVariable[connection0]); // results in a testcase error\n  }\n  if (not (v_myTemplate[*])) {\n     v_myTemplate[*] := true; // adds AnyElementsOrNone to the template\n  }"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.15.04_test_003.ttcn3",
+   "module": "M_06_02_15_04_test_003",
+   "header": "// @requirement: 6.2.15.4 -- The index notation, when used on the right-hand side, refers to the value element that the map value or template associates with the key given as the index or with the presence of the AnyElementsOrNone matching symbol if asterisk is used instead of the index."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.15.4-003b",
+   "section": "6.2.15.4",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The index notation, when used on the right-hand side, refers to the value element that the map value or template associates with the key given as the index or with the presence of the AnyElementsOrNone matching symbol if asterisk is used instead of the index.",
+   "canonical": "The index notation with an asterisk instead of an index used on the right hand side refers to the presence of the AnyElementsOrNone matching symbol in the map template.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6079,
+    6079
+   ],
+   "examples": [
+    {
+     "lines": [
+      6105,
+      6116
+     ],
+     "text": "if (not isbound(v_myVariable[connection0])) {\n     v_myVariable[connection0] := newClient; // adds mapping for connection0 to the map\n  }\n  if (isbound(v_myVariable[connection0])) { \n     unmap(v_myVariable, connection0); // deletes mapping for connection0 from the map\n     f(v_myVariable[connection0]); // results in a testcase error\n  }\n  if (not (v_myTemplate[*])) {\n     v_myTemplate[*] := true; // adds AnyElementsOrNone to the template\n  }"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.15.04_test_004.ttcn3",
+   "module": "M_06_02_15_04_test_004",
+   "header": "// @requirement: 6.2.15.4 -- The index notation, when used on the right-hand side, refers to the value element that the map value or template associates with the key given as the index or with the presence of the AnyElementsOrNone matching symbol if asterisk is used instead of the index."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.15.4-005a",
+   "section": "6.2.15.4",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "When the index notation is used at the left-hand side, only the value associated with the index key is changed, values with other keys remain unchanged.",
+   "canonical": "When the index notation with a key is used on the left hand side of an assignment, only the value associated with that key is changed and values with other keys remain unchanged.",
+   "condition": "a key is used as index",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6081,
+    6081
+   ],
+   "examples": [
+    {
+     "lines": [
+      6105,
+      6116
+     ],
+     "text": "if (not isbound(v_myVariable[connection0])) {\n     v_myVariable[connection0] := newClient; // adds mapping for connection0 to the map\n  }\n  if (isbound(v_myVariable[connection0])) { \n     unmap(v_myVariable, connection0); // deletes mapping for connection0 from the map\n     f(v_myVariable[connection0]); // results in a testcase error\n  }\n  if (not (v_myTemplate[*])) {\n     v_myTemplate[*] := true; // adds AnyElementsOrNone to the template\n  }"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.15.04_test_005.ttcn3",
+   "module": "M_06_02_15_04_test_005",
+   "header": "// @requirement: 6.2.15.4 -- When the index notation is used at the left-hand side, only the value associated with the index key is changed, values with other keys remain unchanged."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.15.4-006a",
+   "section": "6.2.15.4",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Using the index notation on the left hand side of an assignment with a key that already has a value associated with it causes the key to be mapped to the newly assigned value.",
+   "canonical": "Assigning to the index notation with a key that already has an associated value causes the key to be mapped to the newly assigned value.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6081,
+    6081
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.02.15.04_test_006.ttcn3",
+   "module": "M_06_02_15_04_test_006",
+   "header": "// @requirement: 6.2.15.4 -- Using the index notation on the left hand side of an assignment with a key that already has a value associated with it causes the key to be mapped to the newly assigned value."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.15.4-007a",
+   "section": "6.2.15.4",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Presence of a mapping for a key can be checked by using the isbound, isvalue or ispresent operation with an index notation as its argument.",
+   "canonical": "The presence of a mapping for a key MAY be checked by using the `isbound`, `isvalue` or `ispresent` operation with an index notation as its argument.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6083,
+    6083
+   ],
+   "examples": [
+    {
+     "lines": [
+      6105,
+      6116
+     ],
+     "text": "if (not isbound(v_myVariable[connection0])) {\n     v_myVariable[connection0] := newClient; // adds mapping for connection0 to the map\n  }\n  if (isbound(v_myVariable[connection0])) { \n     unmap(v_myVariable, connection0); // deletes mapping for connection0 from the map\n     f(v_myVariable[connection0]); // results in a testcase error\n  }\n  if (not (v_myTemplate[*])) {\n     v_myTemplate[*] := true; // adds AnyElementsOrNone to the template\n  }"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.15.04_test_007.ttcn3",
+   "module": "M_06_02_15_04_test_007",
+   "header": "// @requirement: 6.2.15.4 -- Presence of a mapping for a key can be checked by using the isbound, isvalue or ispresent operation with an index notation as its argument."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.15.4-009a",
+   "section": "6.2.15.4",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "When the asterisk symbol is used at the left-hand side of an assignment, only the presence of the AnyElementsOrNone within the template is changed, values and keys remain unchanged.",
+   "canonical": "When the index notation with an asterisk is used on the left hand side of an assignment, only the presence of AnyElementsOrNone in the map template is changed and values and keys remain unchanged.",
+   "condition": "the asterisk is used instead of an index",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6085,
+    6087
+   ],
+   "examples": [
+    {
+     "lines": [
+      6105,
+      6116
+     ],
+     "text": "if (not isbound(v_myVariable[connection0])) {\n     v_myVariable[connection0] := newClient; // adds mapping for connection0 to the map\n  }\n  if (isbound(v_myVariable[connection0])) { \n     unmap(v_myVariable, connection0); // deletes mapping for connection0 from the map\n     f(v_myVariable[connection0]); // results in a testcase error\n  }\n  if (not (v_myTemplate[*])) {\n     v_myTemplate[*] := true; // adds AnyElementsOrNone to the template\n  }"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.15.04_test_008.ttcn3",
+   "module": "M_06_02_15_04_test_008",
+   "header": "// @requirement: 6.2.15.4 -- When the asterisk symbol is used at the left-hand side of an assignment, only the presence of the AnyElementsOrNone within the template is changed, values and keys remain unchanged."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.15.4-010a",
+   "section": "6.2.15.4",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "The right-hand side of the assignment shall resolve into a boolean value in this case.",
+   "canonical": "When the index notation with an asterisk is used on the left hand side of an assignment, the right hand side of the assignment SHALL resolve into a boolean value.",
+   "condition": "the asterisk index notation is on the left hand side",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6085,
+    6087
+   ],
+   "examples": [
+    {
+     "lines": [
+      6105,
+      6116
+     ],
+     "text": "if (not isbound(v_myVariable[connection0])) {\n     v_myVariable[connection0] := newClient; // adds mapping for connection0 to the map\n  }\n  if (isbound(v_myVariable[connection0])) { \n     unmap(v_myVariable, connection0); // deletes mapping for connection0 from the map\n     f(v_myVariable[connection0]); // results in a testcase error\n  }\n  if (not (v_myTemplate[*])) {\n     v_myTemplate[*] := true; // adds AnyElementsOrNone to the template\n  }"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.15.04_test_009.ttcn3",
+   "module": "M_06_02_15_04_test_009",
+   "header": "// @requirement: 6.2.15.4 -- The right-hand side of the assignment shall resolve into a boolean value in this case."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.15.4-011a",
+   "section": "6.2.15.4",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "When used at the right-hand side of an assignment, the notation returns a boolean value indicating if the _AnyElementsOrNone_ is present within the map template.",
+   "canonical": "When the index notation with an asterisk is used on the right hand side of an assignment, it returns a boolean value indicating whether AnyElementsOrNone is present in the map template.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6085,
+    6087
+   ],
+   "examples": [
+    {
+     "lines": [
+      6105,
+      6116
+     ],
+     "text": "if (not isbound(v_myVariable[connection0])) {\n     v_myVariable[connection0] := newClient; // adds mapping for connection0 to the map\n  }\n  if (isbound(v_myVariable[connection0])) { \n     unmap(v_myVariable, connection0); // deletes mapping for connection0 from the map\n     f(v_myVariable[connection0]); // results in a testcase error\n  }\n  if (not (v_myTemplate[*])) {\n     v_myTemplate[*] := true; // adds AnyElementsOrNone to the template\n  }"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.15.04_test_010.ttcn3",
+   "module": "M_06_02_15_04_test_010",
+   "header": "// @requirement: 6.2.15.4 -- When used at the right-hand side of an assignment, the notation returns a boolean value indicating if the _AnyElementsOrNone_ is present within the map template."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.15.4-012a",
+   "section": "6.2.15.4",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Presence of the AnyElementsOrNone in a map template can be checked by using the isbound or ispresent operation with an index notation containing the asterisk symbol as its argument.",
+   "canonical": "The presence of AnyElementsOrNone in a map template MAY be checked by using the `isbound` or `ispresent` operation with an index notation containing the asterisk as its argument.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6089,
+    6090
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.02.15.04_test_011.ttcn3",
+   "module": "M_06_02_15_04_test_011",
+   "header": "// @requirement: 6.2.15.4 -- Presence of the AnyElementsOrNone in a map template can be checked by using the isbound or ispresent operation with an index notation containing the asterisk symbol as its argument."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.15.4-013a",
+   "section": "6.2.15.4",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "a) The index expression used for index notation and index assignment notation shall be completely initialized and compatible with the from type of the map type.",
+   "canonical": "The index expression used in the index notation and in the index assignment notation of a map SHALL be completely initialized.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6094,
+    6095
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.02.15.04_test_012.ttcn3",
+   "module": "M_06_02_15_04_test_012",
+   "header": "// @requirement: 6.2.15.4 -- a) The index expression used for index notation and index assignment notation shall be completely initialized and compatible with the from type of the map type."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.15.4-013b",
+   "section": "6.2.15.4",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "a) The index expression used for index notation and index assignment notation shall be completely initialized and compatible with the from type of the map type.",
+   "canonical": "The index expression used in the index notation and in the index assignment notation of a map SHALL be compatible with the key (`from`) type of the map type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6094,
+    6095
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.02.15.04_test_013.ttcn3",
+   "module": "M_06_02_15_04_test_013",
+   "header": "// @requirement: 6.2.15.4 -- a) The index expression used for index notation and index assignment notation shall be completely initialized and compatible with the from type of the map type."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.15.4-014a",
+   "section": "6.2.15.4",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "b) When an index operation of a map value with a key as an index is used as the left-hand side of an assignment, the assigned value shall be compatible with the to type of the map type.",
+   "canonical": "When the index notation of a map value with a key is used as the left hand side of an assignment, the assigned value SHALL be compatible with the value (`to`) type of the map type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6097,
+    6098
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.02.15.04_test_014.ttcn3",
+   "module": "M_06_02_15_04_test_014",
+   "header": "// @requirement: 6.2.15.4 -- b) When an index operation of a map value with a key as an index is used as the left-hand side of an assignment, the assigned value shall be compatible with the to type of the map type."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.15.4-015a",
+   "section": "6.2.15.4",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "c) An index notation used on the right hand side with a key that has no associated value shall result in an error.",
+   "canonical": "The index notation used on the right hand side with a key that has no associated value SHALL result in a test case error.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "The restriction says 'an error'; the example clarifies that a test case error (runtime) is meant.",
+    "improper_terms": [
+     {
+      "used": "error",
+      "proper": "test case error",
+      "glossary": true
+     }
+    ]
+   },
+   "spec_lines": [
+    6100,
+    6100
+   ],
+   "examples": [
+    {
+     "lines": [
+      6105,
+      6116
+     ],
+     "text": "if (not isbound(v_myVariable[connection0])) {\n     v_myVariable[connection0] := newClient; // adds mapping for connection0 to the map\n  }\n  if (isbound(v_myVariable[connection0])) { \n     unmap(v_myVariable, connection0); // deletes mapping for connection0 from the map\n     f(v_myVariable[connection0]); // results in a testcase error\n  }\n  if (not (v_myTemplate[*])) {\n     v_myTemplate[*] := true; // adds AnyElementsOrNone to the template\n  }"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.15.04_test_015.ttcn3",
+   "module": "M_06_02_15_04_test_015",
+   "header": "// @requirement: 6.2.15.4 -- c) An index notation used on the right hand side with a key that has no associated value shall result in an error."
+  }
+ ]
+}

@@ -1,0 +1,17 @@
+// @requirement: 6.2.7 -- Indexes of array slices shall correspond to the dimensions of the array definition from left to right (i.e. the first index of the slice corresponds to the first dimension of the definition).
+// @id: TTCN3-CORE-6.2.7-035a
+// @verdict: pass reject
+module M_06_02_07_test_033 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_a[2][3];
+        v_a[2] := { 1, 2, 3 }; // error: the slice index refers to the first dimension (0 .. 1)
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

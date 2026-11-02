@@ -1,0 +1,24 @@
+// @requirement: 22.3.1 -- A non-blocking procedure has no out and inout parameters, no return value and the non-blocking property is indicated in the corresponding signature definition by means of a noblock keyword.
+// @id: TTCN3-CORE-22.3.1-034a
+// @verdict: pass reject
+module M_22_03_01_test_021 {
+
+    signature S(in integer p_x, out integer p_y) noblock; // error: non-blocking procedure with out parameter
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        p.call(S:{1, -});
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,22 @@
+// @requirement: 11.2 -- Template variables may be passed as actual parameters to template-type formal parameters.
+// @id: TTCN3-CORE-11.2-005c
+// @verdict: pass accept, ttcn3verdict:pass
+module M_11_02_test_006 {
+    type component C {}
+
+    function f_check(template integer p_t) return boolean {
+        return match(1, p_t) and not match(0, p_t);
+    }
+
+    testcase TC() runs on C {
+        var template integer v_t := (1 .. 9);
+        if (f_check(v_t)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }}

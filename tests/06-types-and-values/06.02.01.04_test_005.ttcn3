@@ -1,0 +1,26 @@
+// @requirement: 6.2.1.4 -- except that they shall not be used as field names for assignment notations.
+// @id: TTCN3-CORE-6.2.1.4-004b
+// @verdict: pass reject
+module M_06_02_01_04_test_005 {
+
+    type component C {}
+
+    type record Point {
+        integer x,
+        integer y
+    }
+
+    type record Pixel {
+        Point,
+        charstring color
+    }
+
+    testcase TC() runs on C {
+        var Pixel v_p := { x := 4, y := 8, color := "red" }; // error: promoted fields used in assignment notation
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

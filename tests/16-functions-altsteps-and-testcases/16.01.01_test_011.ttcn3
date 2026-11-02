@@ -1,0 +1,24 @@
+// @requirement: 16.1.1 -- d) When invoking a function, the compatibility to the test component type of the invoking test component as described in clause 6.3.2.7 need to be fulfilled.
+// @id: TTCN3-CORE-16.1.1-013a
+// @verdict: pass reject
+module M_16_01_01_test_011 {
+
+    type component C {}
+
+    type component D {
+        var integer v_dVar := 0;
+    }
+
+    function f_onD() runs on D {
+        v_dVar := 1;
+    }
+
+    testcase TC() runs on C {
+        f_onD(); // error: C is not compatible with runs on type D
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

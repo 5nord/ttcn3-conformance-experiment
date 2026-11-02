@@ -1,0 +1,29 @@
+// @requirement: 19.1.1 -- Table 17: Overview of TTCN-3 basic program statements: Returning control; Col2: return
+// @id: TTCN3-CORE-19.1.1-026a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_01_01_test_025 {
+
+    type component C {}
+
+    function f_double(integer p_value) return integer {
+        return 2 * p_value;
+    }
+
+    function f_early() {
+        return;
+        setverdict(fail);
+    }
+
+    testcase TC() runs on C {
+        f_early();
+        if (f_double(4) == 8) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

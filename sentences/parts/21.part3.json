@@ -1,0 +1,1426 @@
+{
+ "part": "21.part3",
+ "chapter": "21",
+ "chapter_file": "21-configuration-operations",
+ "title": "Configuration Operations",
+ "sections": {
+  "21.3.1": {
+   "title": "The Create operation",
+   "start": 16389
+  },
+  "21.3.2": {
+   "title": "The Start test component operation",
+   "start": 16471
+  },
+  "21.3.3": {
+   "title": "The Stop test behaviour operation",
+   "start": 16569
+  },
+  "21.3.4": {
+   "title": "The Kill test component operation",
+   "start": 16645
+  },
+  "21.3.5": {
+   "title": "The Alive operation",
+   "start": 16696
+  }
+ },
+ "lines": [
+  16391,
+  16762
+ ],
+ "units": [
+  {
+   "id": "21.3.1-s001",
+   "section": "21.3.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The create operation is used to create test components.",
+   "lines": [
+    16391,
+    16391
+   ]
+  },
+  {
+   "id": "21.3.1-s002",
+   "section": "21.3.1",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "ComponentType \".\" create [ \"(\" Expression [\",\" Expression] \")\" ] [ alive ]",
+   "lines": [
+    16394,
+    16396
+   ]
+  },
+  {
+   "id": "21.3.1-s003",
+   "section": "21.3.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The MTC is the only test component, which is automatically created when a test case starts.",
+   "lines": [
+    16400,
+    16403
+   ]
+  },
+  {
+   "id": "21.3.1-s004",
+   "section": "21.3.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "All other test components (the PTCs) shall be created explicitly during test execution by create operations.",
+   "lines": [
+    16400,
+    16403
+   ]
+  },
+  {
+   "id": "21.3.1-s005",
+   "section": "21.3.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "A component is created with its full set of ports of which the input queues are empty and with its full set of constants, variables and timers.",
+   "lines": [
+    16400,
+    16403
+   ]
+  },
+  {
+   "id": "21.3.1-s006",
+   "section": "21.3.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Furthermore, if a port is defined to be of the type in or inout it shall be in a listening state ready to receive traffic over the connection.",
+   "lines": [
+    16400,
+    16403
+   ]
+  },
+  {
+   "id": "21.3.1-s007",
+   "section": "21.3.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "All component variables and timers are reset to their initial value (if any) and all component constants are reset to their assigned values when the component is explicitly or implicitly created.",
+   "lines": [
+    16405,
+    16406
+   ]
+  },
+  {
+   "id": "21.3.1-s008",
+   "section": "21.3.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Two types of PTCs are distinguished: a PTC that can execute a behaviour only once and a PTC that is kept alive after termination of a behaviour and can be therefore reused to execute another behaviour.",
+   "lines": [
+    16408,
+    16412
+   ]
+  },
+  {
+   "id": "21.3.1-s009",
+   "section": "21.3.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The latter is created using the additional alive keyword.",
+   "lines": [
+    16408,
+    16412
+   ]
+  },
+  {
+   "id": "21.3.1-s010",
+   "section": "21.3.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "An alive-type PTC shall be destroyed explicitly using the kill operation (see clause 21.3.4), whereas a non-alive PTC is destroyed implicitly after its behaviour terminates.",
+   "lines": [
+    16408,
+    16412
+   ]
+  },
+  {
+   "id": "21.3.1-s011",
+   "section": "21.3.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Termination of a test case, i.e. the MTC, terminates all PTCs that still exist, if any.",
+   "lines": [
+    16408,
+    16412
+   ]
+  },
+  {
+   "id": "21.3.1-s012",
+   "section": "21.3.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Since all test components and ports are implicitly destroyed at the termination of each test case, each test case shall completely create its required configuration of components and connections when it is invoked.",
+   "lines": [
+    16414,
+    16415
+   ]
+  },
+  {
+   "id": "21.3.1-s013",
+   "section": "21.3.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The create operation shall return the unique component reference of the newly created instance.",
+   "lines": [
+    16422,
+    16424
+   ]
+  },
+  {
+   "id": "21.3.1-s014",
+   "section": "21.3.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The unique reference to the component will typically be stored in a variable (see clause 6.2.10.1) and can be used for connecting instances and for communication purposes such as sending and receiving.",
+   "lines": [
+    16422,
+    16424
+   ]
+  },
+  {
+   "id": "21.3.1-s015",
+   "section": "21.3.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Optionally, a name can be associated with the newly created component instance.",
+   "lines": [
+    16426,
+    16428
+   ]
+  },
+  {
+   "id": "21.3.1-s016",
+   "section": "21.3.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The test system shall associate the names 'MTC' to the MTC and 'SYSTEM' to the test system interface automatically at creation.",
+   "lines": [
+    16426,
+    16428
+   ]
+  },
+  {
+   "id": "21.3.1-s017",
+   "section": "21.3.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Associated component names are not required to be unique.",
+   "lines": [
+    16426,
+    16428
+   ]
+  },
+  {
+   "id": "21.3.1-s018",
+   "section": "21.3.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The component instance name is used for logging purposes (see clause 19.11) only and shall not be used to refer to the component instance (the component reference shall be used for this purpose) and has no effect on matching.",
+   "lines": [
+    16430,
+    16431
+   ]
+  },
+  {
+   "id": "21.3.1-s019",
+   "section": "21.3.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Also optionally, a host id can be associated with the newly created component instance.",
+   "lines": [
+    16433,
+    16438
+   ]
+  },
+  {
+   "id": "21.3.1-s020",
+   "section": "21.3.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If a host id is provided, the create operation shall cause a test case error, if the component cannot be deployed on the specified host.",
+   "lines": [
+    16433,
+    16438
+   ]
+  },
+  {
+   "id": "21.3.1-s021",
+   "section": "21.3.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Components can be created at any point in a behaviour definition providing full flexibility with regard to dynamic configurations (i.e. any component can create any other PTC).",
+   "lines": [
+    16433,
+    16438
+   ]
+  },
+  {
+   "id": "21.3.1-s022",
+   "section": "21.3.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The visibility of component references shall follow the same scope rules as that of variables and in order to reference components outside their scope of creation the component reference shall be passed as a parameter or as a field in a message.",
+   "lines": [
+    16433,
+    16438
+   ]
+  },
+  {
+   "id": "21.3.1-s023",
+   "section": "21.3.1",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clauses 5 and 21 and shown in table 16, the following restrictions apply:",
+   "lines": [
+    16442,
+    16443
+   ]
+  },
+  {
+   "id": "21.3.1-s024",
+   "section": "21.3.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) The name given by the first Expression shall be a charstring value and when assigned it shall appear as the first argument of the create function.",
+   "lines": [
+    16445,
+    16446
+   ]
+  },
+  {
+   "id": "21.3.1-s025",
+   "section": "21.3.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "b) The host id given by the second Expression shall be a charstring value and, when assigned, it shall appear as the second argument of the create function.",
+   "lines": [
+    16448,
+    16449
+   ]
+  },
+  {
+   "id": "21.3.1-s026",
+   "section": "21.3.1",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "// This example declares variables of type MyComponentType, which is used to store the \n  // references of newly created component instances of type MyComponentType which is the\n  // result of the create operations. An associated name is allocated to some of the created\n  // component instances.\n   :\n  var MyComponentType v_myNewComponent;\n  var MyComponentType v_myNewestComponent;\n  var MyComponentType v_myAliveComponent;\n  var MyComponentType v_myAnotherAliveComponent;\n  var MyComponentType v_myDeployedComponent;\n   :\n  v_myNewComponent := MyComponentType.create;\n  v_myNewestComponent := MyComponentType.create(\"Newest\");\n  v_myAliveComponent := MyComponentType.create alive;\n  v_myAnotherAliveComponent := MyComponentType.create(\"Another Alive\") alive;\n  v_myDeployedComponent := MyComponentType.create(-, \"Host4\");",
+   "lines": [
+    16452,
+    16469
+   ]
+  },
+  {
+   "id": "21.3.2-s001",
+   "section": "21.3.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The start operation is used to associate a test behaviour to a test component, which is then being executed by that test component.",
+   "lines": [
+    16473,
+    16474
+   ]
+  },
+  {
+   "id": "21.3.2-s002",
+   "section": "21.3.2",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "ObjectReference \".\" start \"(\" ( FunctionInstance | AltstepInstance ) \")\"",
+   "lines": [
+    16477,
+    16479
+   ]
+  },
+  {
+   "id": "21.3.2-s003",
+   "section": "21.3.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Once a PTC has been created and connected, behaviour has to be bound to this PTC and the execution of its behaviour has to be started.",
+   "lines": [
+    16483,
+    16486
+   ]
+  },
+  {
+   "id": "21.3.2-s004",
+   "section": "21.3.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "This is done by using the start operation (as PTC creation does not start execution of the component behaviour).",
+   "lines": [
+    16483,
+    16486
+   ]
+  },
+  {
+   "id": "21.3.2-s005",
+   "section": "21.3.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The reason for the distinction between create and start is to allow connection operations to be done before actually running the test component.",
+   "lines": [
+    16483,
+    16486
+   ]
+  },
+  {
+   "id": "21.3.2-s006",
+   "section": "21.3.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The start operation shall bind the required behaviour to the test component.",
+   "lines": [
+    16488,
+    16489
+   ]
+  },
+  {
+   "id": "21.3.2-s007",
+   "section": "21.3.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "This behaviour is defined by reference to an already defined function or altstep.",
+   "lines": [
+    16488,
+    16489
+   ]
+  },
+  {
+   "id": "21.3.2-s008",
+   "section": "21.3.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "An alive-type PTC may perform several behaviours in sequential order.",
+   "lines": [
+    16496,
+    16502
+   ]
+  },
+  {
+   "id": "21.3.2-s009",
+   "section": "21.3.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Starting a second behaviour on a non-alive PTC or starting a behaviour on a PTC that is still running results in a test case error.",
+   "lines": [
+    16496,
+    16502
+   ]
+  },
+  {
+   "id": "21.3.2-s010",
+   "section": "21.3.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If a behaviour is started on an alive-type PTC after termination of a previous behaviour, it uses variable values, timers, ports, and the local verdict as they were left after termination of the previous behaviour.",
+   "lines": [
+    16496,
+    16502
+   ]
+  },
+  {
+   "id": "21.3.2-s011",
+   "section": "21.3.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "In particular, if a timer was started in the previous behaviour, the subsequent behaviour should be enabled to handle a possible timeout event.",
+   "lines": [
+    16496,
+    16502
+   ]
+  },
+  {
+   "id": "21.3.2-s012",
+   "section": "21.3.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "In contrast to that, all active defaults are deactivated when the behaviour of an alive-type PTC is stopped.",
+   "lines": [
+    16496,
+    16502
+   ]
+  },
+  {
+   "id": "21.3.2-s013",
+   "section": "21.3.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "This means no default is activated when a new behaviour is started on an alive-type PTC.",
+   "lines": [
+    16496,
+    16502
+   ]
+  },
+  {
+   "id": "21.3.2-s014",
+   "section": "21.3.2",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "NOTE 1: The lifetime of variables and timers is bound to the scope in which they are declared.",
+   "lines": [
+    16504,
+    16507
+   ]
+  },
+  {
+   "id": "21.3.2-s015",
+   "section": "21.3.2",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "When an alive-type component is stopped, only the component scope is left.",
+   "lines": [
+    16504,
+    16507
+   ]
+  },
+  {
+   "id": "21.3.2-s016",
+   "section": "21.3.2",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "This means only variable values and timers declared in the component type definition of an alive-type PTC can be accessed by a behaviour with a corresponding runs on-clause that is started on an alive-type PTC.",
+   "lines": [
+    16504,
+    16507
+   ]
+  },
+  {
+   "id": "21.3.2-s017",
+   "section": "21.3.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Actual inout parameters will be passed to the function by value, i.e. like in-parameters.",
+   "lines": [
+    16509,
+    16509
+   ]
+  },
+  {
+   "id": "21.3.2-s018",
+   "section": "21.3.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If the function's formal parameter list includes any out parameter the actual parameter list may omit actual out parameters using the dash symbol (\"-\") or be omitted in the same manner as for actual in parameters with default values (see clause 5.4.2), i.e. they can be omitted in the list notation if all following actual parameters are also omitted and their assignment can be omitted altogether in assignment notation.",
+   "lines": [
+    16511,
+    16516
+   ]
+  },
+  {
+   "id": "21.3.2-s019",
+   "section": "21.3.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If a variable is given as an actual out parameter, it will remain unchanged by the started behaviour, even if the behaviour changes the formal parameter during its execution.",
+   "lines": [
+    16511,
+    16516
+   ]
+  },
+  {
+   "id": "21.3.2-s020",
+   "section": "21.3.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Possible return values of a function invoked in a start test component operation, i.e. templates denoted by return keyword or inout and out parameters, have no effect when the started test component terminates.",
+   "lines": [
+    16518,
+    16519
+   ]
+  },
+  {
+   "id": "21.3.2-s021",
+   "section": "21.3.2",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clauses 5 and 21 and shown in table 16, the following restrictions apply:",
+   "lines": [
+    16523,
+    16524
+   ]
+  },
+  {
+   "id": "21.3.2-s022",
+   "section": "21.3.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) The ObjectReference shall be of component type and shall not resolve to a template.",
+   "lines": [
+    16526,
+    16526
+   ]
+  },
+  {
+   "id": "21.3.2-s023",
+   "section": "21.3.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "b) The function or altstep invoked in a start test component operation shall have a runs `on definition` referencing a component type that is compatible with the newly created component (see clause 6.3.2.7).",
+   "lines": [
+    16528,
+    16529
+   ]
+  },
+  {
+   "id": "21.3.2-s024",
+   "section": "21.3.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "c) All formal parameters of the function or altstep invoked in a start test component operation shall be of a component data type.",
+   "lines": [
+    16531,
+    16532
+   ]
+  },
+  {
+   "id": "21.3.2-s025",
+   "section": "21.3.2",
+   "kind": "note",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "NOTE 2: As in and inout ports starts listening when the component is created, at the moment, when it starts execution there may be messages in the incoming queues of such ports already waiting to be processed.",
+   "lines": [
+    16534,
+    16535
+   ]
+  },
+  {
+   "id": "21.3.2-s026",
+   "section": "21.3.2",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "function f_myFirstBehaviour() runs on MyComponentType { … }\n   function f_mySecondBehaviour() runs on MyComponentType { … }\n   function f_myThirdBehaviour(out integer p_p1, inout integer p_p2) runs on MyComponentType { … }\n   altstep a_myFourthBehaviour() runs on MyComponentType { ... }\n  :\n  var MyComponentType v_myNewPTC;\n  var MyComponentType v_myAlivePTC;\n  var integer v_int := 0;\n  :\n  v_myNewPTC := MyComponentType.create; // Creation of a new non-alive test component.\n  v_myAlivePTC := MyComponentType.create alive; // Creation of a new alive-type test component\n  :\n  v_myNewPTC.start(f_myFirstBehaviour());  // Start of the non-alive component.\n  v_myNewPTC.done; // Wait for termination\n  v_myNewPTC.start(f_mySecondBehaviour()); // Test case error\n  :\n  v_myAlivePTC.start(f_myFirstBehaviour()); // Start of the alive-type component\n  v_myAlivePTC.done;  // Wait for termination\n  v_myAlivePTC.start(f_mySecondBehaviour()); // Start of the next function on the same component\n  :\n  v_myAlivePTC.start(f_myThirdBehaviour(-,v_int)); // v_int will not be changed by the function\n  v_myAlivePTC.done;\n  v_myAlivePTC.start(a_myFourthBehaviour());  // Direct start of an altstep behaviour<>",
+   "lines": [
+    16538,
+    16562
+   ]
+  },
+  {
+   "id": "21.3.3-s001",
+   "section": "21.3.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The stop test behaviour operation is used to stop the execution of a test component by itself or by another test component.",
+   "lines": [
+    16571,
+    16572
+   ]
+  },
+  {
+   "id": "21.3.3-s002",
+   "section": "21.3.3",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "stop | \n  ( ( ObjectReference | mtc | self ) \".\" stop ) |\n  ( all component \".\" stop )",
+   "lines": [
+    16575,
+    16579
+   ]
+  },
+  {
+   "id": "21.3.3-s003",
+   "section": "21.3.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "By using the `stop` test component statement a test component can stop the execution of its own currently running test behaviour or the execution of the test behaviour running on another test component.",
+   "lines": [
+    16583,
+    16584
+   ]
+  },
+  {
+   "id": "21.3.3-s004",
+   "section": "21.3.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If a component does not stop its own behaviour, but the behaviour running on another test component in the test system, the component to be stopped has to be identified by using its component reference.",
+   "lines": [
+    16583,
+    16584
+   ]
+  },
+  {
+   "id": "21.3.3-s005",
+   "section": "21.3.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "A component can stop its own behaviour by using a simple `stop` execution statement (see clause 19.9) or by addressing itself in the `stop` operation, e.g. by using the `self` operation.",
+   "lines": [
+    16583,
+    16584
+   ]
+  },
+  {
+   "id": "21.3.3-s006",
+   "section": "21.3.3",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "NOTE 1: While the `create`, `start`, `running`, `done` and `killed` operations can be used for PTC(s) only, the `stop` operation can also be applied to the MTC.",
+   "lines": [
+    16586,
+    16586
+   ]
+  },
+  {
+   "id": "21.3.3-s007",
+   "section": "21.3.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Stopping a test component is the explicit form of terminating the execution of the currently running behaviour.",
+   "lines": [
+    16588,
+    16588
+   ]
+  },
+  {
+   "id": "21.3.3-s008",
+   "section": "21.3.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "A test component behaviour terminates also by completing its execution upon reaching the end of the test behaviour that is started on this component or by an explicit `return` statement.",
+   "lines": [
+    16588,
+    16588
+   ]
+  },
+  {
+   "id": "21.3.3-s009",
+   "section": "21.3.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "This termination is also called implicit stop.",
+   "lines": [
+    16588,
+    16588
+   ]
+  },
+  {
+   "id": "21.3.3-s010",
+   "section": "21.3.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The implicit stop has the same effects as an explicit stop, i.e. the global verdict is updated with the local verdict of the stopped test component (see clause 24).",
+   "lines": [
+    16588,
+    16588
+   ]
+  },
+  {
+   "id": "21.3.3-s011",
+   "section": "21.3.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If the stopped test component is the MTC, resources of all existing PTCs shall be released, the PTCs shall be removed from the test system and the test case shall terminate (see clause 26.1).",
+   "lines": [
+    16590,
+    16591
+   ]
+  },
+  {
+   "id": "21.3.3-s012",
+   "section": "21.3.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Stopping a non-alive-type test component (implicitly or explicitly) shall destroy it and all resources associated with the test component shall be released.",
+   "lines": [
+    16593,
+    16594
+   ]
+  },
+  {
+   "id": "21.3.3-s013",
+   "section": "21.3.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Stopping an alive-type component shall stop the currently running behaviour only but the component continues to exist and can execute new behaviour (started on it using the start operation).",
+   "lines": [
+    16596,
+    16601
+   ]
+  },
+  {
+   "id": "21.3.3-s014",
+   "section": "21.3.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Stopping an alive-type component means that all variables, timers and ports declared in the component type definition of the alive-type component keep their value, contents or state.",
+   "lines": [
+    16596,
+    16601
+   ]
+  },
+  {
+   "id": "21.3.3-s015",
+   "section": "21.3.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Furthermore, the local verdict of the component keeps its value.",
+   "lines": [
+    16596,
+    16601
+   ]
+  },
+  {
+   "id": "21.3.3-s016",
+   "section": "21.3.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "In contrast to that, all active defaults are automatically deactivated when the alive-type component is stopped.",
+   "lines": [
+    16596,
+    16601
+   ]
+  },
+  {
+   "id": "21.3.3-s017",
+   "section": "21.3.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The component shall be left in a consistent state after stopping its behaviour.",
+   "lines": [
+    16596,
+    16601
+   ]
+  },
+  {
+   "id": "21.3.3-s018",
+   "section": "21.3.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "For example, if the behaviour of an alive-type component is stopped during assigning a new value to an already bound variable, the variable shall remain bound after the component is stopped (with the old or the new value).",
+   "lines": [
+    16603,
+    16606
+   ]
+  },
+  {
+   "id": "21.3.3-s019",
+   "section": "21.3.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Similarly, if the component is stopped during re-starting an already running timer, the timer shall be left in the running state after termination of the behaviour.",
+   "lines": [
+    16603,
+    16606
+   ]
+  },
+  {
+   "id": "21.3.3-s020",
+   "section": "21.3.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The all keyword can be used by the MTC only in order to stop all running PTCs but the MTC itself.",
+   "lines": [
+    16608,
+    16608
+   ]
+  },
+  {
+   "id": "21.3.3-s021",
+   "section": "21.3.3",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "NOTE 2: A PTC can stop the test case execution by stopping the MTC.",
+   "lines": [
+    16610,
+    16610
+   ]
+  },
+  {
+   "id": "21.3.3-s022",
+   "section": "21.3.3",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "NOTE 3: The concrete mechanism for stopping PTCs is outside the scope of the present document.",
+   "lines": [
+    16612,
+    16612
+   ]
+  },
+  {
+   "id": "21.3.3-s023",
+   "section": "21.3.3",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clauses 5 and 21 and shown in table 16, the following restrictions apply:",
+   "lines": [
+    16616,
+    16617
+   ]
+  },
+  {
+   "id": "21.3.3-s024",
+   "section": "21.3.3",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) The ObjectReference shall be of component type and shall not resolve to a template.",
+   "lines": [
+    16619,
+    16619
+   ]
+  },
+  {
+   "id": "21.3.3-s025",
+   "section": "21.3.3",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 1: Stopping another test component and a test component by itself",
+   "lines": [
+    16623,
+    16623
+   ]
+  },
+  {
+   "id": "21.3.3-s026",
+   "section": "21.3.3",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "var MyComponentType v_myComp := MyComponentType.create; // A new test component is created\n  v_myComp.start(f_compBehaviour());  // The new component is started\n  :\n  if (v_date == \"1.1.2005\") {\n     v_myComp.stop; // The component \"v_myComp\" is stopped\n  }\n  :\n  if (v_a < v_b ) {\n     :\n     self.stop; // The test component that is currently executing stops its own behaviour\n  }\n  :\n  stop // The test component stops its own behaviour",
+   "lines": [
+    16624,
+    16638
+   ]
+  },
+  {
+   "id": "21.3.3-s027",
+   "section": "21.3.3",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 2: Stopping all PTCs by the MTC.",
+   "lines": [
+    16640,
+    16640
+   ]
+  },
+  {
+   "id": "21.3.3-s028",
+   "section": "21.3.3",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "all component.stop // The MTC stops all PTCs of the test case but not itself.",
+   "lines": [
+    16641,
+    16643
+   ]
+  },
+  {
+   "id": "21.3.4-s001",
+   "section": "21.3.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The kill test component operation is used to destroy a component by itself or by another test component.",
+   "lines": [
+    16647,
+    16650
+   ]
+  },
+  {
+   "id": "21.3.4-s002",
+   "section": "21.3.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Kill and stop on a non-alive component have the same results, while they differ for alive components: stopping an alive components stops the test behaviour only, the test component continues to exist.",
+   "lines": [
+    16647,
+    16650
+   ]
+  },
+  {
+   "id": "21.3.4-s003",
+   "section": "21.3.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Killing a test component destroys the test component.",
+   "lines": [
+    16647,
+    16650
+   ]
+  },
+  {
+   "id": "21.3.4-s004",
+   "section": "21.3.4",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "kill | \n  ( ( ObjectReference | mtc | self ) \".\" kill ) |\n  ( all component \".\" kill )",
+   "lines": [
+    16653,
+    16657
+   ]
+  },
+  {
+   "id": "21.3.4-s005",
+   "section": "21.3.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The kill operation applied on a test component stops the execution of the currently running behaviour - if any - of that component and frees all resources associated to it (including all port connections of the killed component) and removes the component from the test system.",
+   "lines": [
+    16661,
+    16667
+   ]
+  },
+  {
+   "id": "21.3.4-s006",
+   "section": "21.3.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The kill operation can be applied on the current test component itself by a simple kill statement or by addressing itself using the self operation in conjunction with the kill operation.",
+   "lines": [
+    16661,
+    16667
+   ]
+  },
+  {
+   "id": "21.3.4-s007",
+   "section": "21.3.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The kill operation can also be applied to another test component.",
+   "lines": [
+    16661,
+    16667
+   ]
+  },
+  {
+   "id": "21.3.4-s008",
+   "section": "21.3.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "In this case the component to be killed shall be addressed using its component reference.",
+   "lines": [
+    16661,
+    16667
+   ]
+  },
+  {
+   "id": "21.3.4-s009",
+   "section": "21.3.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If the kill operation is applied on the MTC, e.g. mtc.kill, it terminates the test case.",
+   "lines": [
+    16661,
+    16667
+   ]
+  },
+  {
+   "id": "21.3.4-s010",
+   "section": "21.3.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The all keyword can be used by the MTC only in order to stop and kill all running PTCs but the MTC itself.",
+   "lines": [
+    16669,
+    16669
+   ]
+  },
+  {
+   "id": "21.3.4-s011",
+   "section": "21.3.4",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clause 5 and 21 and shown in table 16, the following restrictions apply:",
+   "lines": [
+    16673,
+    16674
+   ]
+  },
+  {
+   "id": "21.3.4-s012",
+   "section": "21.3.4",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) The ObjectReference shall be of component type and shall not resolve to a template.",
+   "lines": [
+    16676,
+    16676
+   ]
+  },
+  {
+   "id": "21.3.4-s013",
+   "section": "21.3.4",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 1: Killing another test component and a test component by itself",
+   "lines": [
+    16680,
+    16680
+   ]
+  },
+  {
+   "id": "21.3.4-s014",
+   "section": "21.3.4",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "var PTCType v_myAliveComp := PTCType.create alive; // Create an alive-type test component\n  v_myAliveComp.start(f_myFirstBehaviour());  // The new component is started\n  v_myAliveComp.done;  // Wait for termination\n  v_myAliveComp.start(f_mySecondBehavior());  // Start the component a 2[nd] time\n  v_myAliveComp.done;  // Wait for termination\n  v_myAliveComp.kill;  // Free its resources",
+   "lines": [
+    16681,
+    16688
+   ]
+  },
+  {
+   "id": "21.3.4-s015",
+   "section": "21.3.4",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 2: Killing all PTCs by the MTC",
+   "lines": [
+    16690,
+    16690
+   ]
+  },
+  {
+   "id": "21.3.4-s016",
+   "section": "21.3.4",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "all component.kill;  // The MTC stops all (alive-type and normal) PTCs of the test case first\n  // and frees their resources.",
+   "lines": [
+    16691,
+    16694
+   ]
+  },
+  {
+   "id": "21.3.5-s001",
+   "section": "21.3.5",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The alive operation is a Boolean operation that checks whether a test component has been created and is ready to execute or is executing already a behaviour.",
+   "lines": [
+    16698,
+    16699
+   ]
+  },
+  {
+   "id": "21.3.5-s002",
+   "section": "21.3.5",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "( ObjectReference | \n   any component | \n   all component |\n   any from ComponentArrayRef ) \".\" alive\n  [ \"->\" @index value ValueRef ]",
+   "lines": [
+    16707,
+    16713
+   ]
+  },
+  {
+   "id": "21.3.5-s003",
+   "section": "21.3.5",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Applied on a normal parallel test component, the alive operation returns true if the component is inactive or running a behaviour and false otherwise.",
+   "lines": [
+    16717,
+    16720
+   ]
+  },
+  {
+   "id": "21.3.5-s004",
+   "section": "21.3.5",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Applied on an alive-type parallel component, the operation returns true if the component is inactive, running or stopped.",
+   "lines": [
+    16717,
+    16720
+   ]
+  },
+  {
+   "id": "21.3.5-s005",
+   "section": "21.3.5",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "It returns false if the component has been killed.",
+   "lines": [
+    16717,
+    16720
+   ]
+  },
+  {
+   "id": "21.3.5-s006",
+   "section": "21.3.5",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Applied on the mtc the operation returns true.",
+   "lines": [
+    16717,
+    16720
+   ]
+  },
+  {
+   "id": "21.3.5-s007",
+   "section": "21.3.5",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The alive operation can be used similar to the running operation (see clause 21.3.6).",
+   "lines": [
+    16722,
+    16723
+   ]
+  },
+  {
+   "id": "21.3.5-s008",
+   "section": "21.3.5",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "In particular, in combination with the all keyword it returns true if all (alive-type or normal) PTCs are alive.",
+   "lines": [
+    16722,
+    16723
+   ]
+  },
+  {
+   "id": "21.3.5-s009",
+   "section": "21.3.5",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The alive operation used in combination with the any keyword returns true if at least one PTC is alive.",
+   "lines": [
+    16725,
+    16725
+   ]
+  },
+  {
+   "id": "21.3.5-s010",
+   "section": "21.3.5",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "When the any from component array notation is used, the components from the referenced array are iterated over and individually checked for being inactive or running a function from innermost to outermost dimension from lowest to highest index for each dimension.",
+   "lines": [
+    16727,
+    16732
+   ]
+  },
+  {
+   "id": "21.3.5-s011",
+   "section": "21.3.5",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The first component to be found being inactive or running a behaviour causes the alive operation to return the true value.",
+   "lines": [
+    16727,
+    16732
+   ]
+  },
+  {
+   "id": "21.3.5-s012",
+   "section": "21.3.5",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The index of the first component found alive can optionally be assigned to an integer variable for single-dimensional component arrays or to an integer array or record of integer variable for multi-dimensional component arrays.",
+   "lines": [
+    16727,
+    16732
+   ]
+  },
+  {
+   "id": "21.3.5-s013",
+   "section": "21.3.5",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clauses 5 and 21 and shown in table 16, the following restrictions apply:",
+   "lines": [
+    16736,
+    16737
+   ]
+  },
+  {
+   "id": "21.3.5-s014",
+   "section": "21.3.5",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) The ObjectReference shall be of component type and shall not resolve to a template.",
+   "lines": [
+    16739,
+    16739
+   ]
+  },
+  {
+   "id": "21.3.5-s015",
+   "section": "21.3.5",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "b) The ComponentArrayRef shall be a reference to a completely initialized component array.",
+   "lines": [
+    16741,
+    16741
+   ]
+  },
+  {
+   "id": "21.3.5-s016",
+   "section": "21.3.5",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "c) The index redirection shall only be used when the operation is used on an any from component array construct.",
+   "lines": [
+    16743,
+    16744
+   ]
+  },
+  {
+   "id": "21.3.5-s017",
+   "section": "21.3.5",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "d) If the index redirection is used for single-dimensional component arrays, the type of the integer variable shall allow storing the highest index of the respective array.",
+   "lines": [
+    16746,
+    16747
+   ]
+  },
+  {
+   "id": "21.3.5-s018",
+   "section": "21.3.5",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "e) If the index redirection is used for multi-dimensional component arrays, the size of the integer array or record of integer type shall exactly be the same as the dimension of the respective array, and its type shall allow storing the highest index (from all dimensions) of the array.",
+   "lines": [
+    16749,
+    16751
+   ]
+  },
+  {
+   "id": "21.3.5-s019",
+   "section": "21.3.5",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "f) If a variable referenced in the @index clause is a lazy or fuzzy variable, the expression assigned to this variable is equal to the result produced by the alive operation, i.e. later evaluation of the lazy or fuzzy variable does not lead to repeated invocation of the alive operation.",
+   "lines": [
+    16753,
+    16755
+   ]
+  },
+  {
+   "id": "21.3.5-s020",
+   "section": "21.3.5",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "pTC1.done;  // Waits for termination of the component\n  if (pTC1.alive) { // If the component is still alive …\n     pTC1.start(f_anotherFunction()); // … execute another function on it.",
+   "lines": [
+    16758,
+    16762
+   ]
+  }
+ ]
+}

@@ -1,0 +1,28 @@
+// @requirement: 27.9 -- c) If present, the SingleExpression preceding the setencode keyword shall be of a port type.
+// @id: TTCN3-CORE-27.9-017a
+// @verdict: pass reject
+module M_27_09_test_017 {
+
+    type record PDU {
+        charstring source,
+        integer data
+    } with { encode "PduCodec1"; encode "PduCodec2" }
+
+    type port P message {
+        inout PDU;
+    }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        var integer v_int := 1;
+        v_int.setencode(PDU, "PduCodec1"); // error: v_int is not of a port type
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

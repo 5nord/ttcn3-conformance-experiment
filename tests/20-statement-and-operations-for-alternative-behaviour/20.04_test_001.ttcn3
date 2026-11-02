@@ -1,0 +1,50 @@
+// @requirement: 20.4 -- interleave [ @nodefault ] "{" { "[]" ( TimeoutStatement | ReceiveStatement | TriggerStatement | GetCallStatement | CatchStatement | CheckStatement | GetReplyStatement | DoneStatement | KilledStatement ) StatementBlock } "}"
+// @id: TTCN3-CORE-20.4-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_04_test_001 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p1, p2;
+    }
+
+    function f_ptc() runs on C {}
+
+    testcase TC() runs on C system C {
+        var integer v_count := 0;
+        timer T := 0.2;
+        var C v_ptc := C.create;
+        connect(self:p1, self:p2);
+        v_ptc.start(f_ptc());
+        p1.send(integer:1);
+        T.start;
+        interleave {
+            [] p2.receive(integer:1) {
+                v_count := v_count + 1;
+            }
+            [] T.timeout {
+                v_count := v_count + 1;
+            }
+            [] v_ptc.done {
+                v_count := v_count + 1;
+            }
+        }
+        interleave @nodefault {
+            [] v_ptc.killed {
+                v_count := v_count + 1;
+            }
+        }
+        if (v_count == 4) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,22 @@
+// @requirement: 8.2.1 -- a) During test execution module parameters shall not be used as target of assignments or as actual out or inout parameters.
+// @id: TTCN3-CORE-8.2.1-020b
+// @verdict: pass reject
+module M_08_02_01_test_018 {
+
+    modulepar integer mp_value := 1;
+
+    type component C {}
+
+    function f_set(out integer p_x) {
+        p_x := 2;
+    }
+
+    testcase TC() runs on C {
+        f_set(mp_value); // error: module parameter used as actual out parameter
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

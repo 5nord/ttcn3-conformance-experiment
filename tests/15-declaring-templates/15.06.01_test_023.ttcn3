@@ -1,0 +1,17 @@
+// @requirement: 15.6.1 -- Both string value and specific value shall contain exactly one indexable item (either a bit, hex, octet, character or matching mechanism inside a value).
+// @id: TTCN3-CORE-15.6.1-023a
+// @verdict: pass reject
+module M_15_06_01_test_023 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template charstring v_char := "abc";
+        v_char[2] := "test"; // error: more than one indexable item
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

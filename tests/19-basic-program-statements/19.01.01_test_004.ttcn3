@@ -1,0 +1,19 @@
+// @requirement: 19.1.1 -- During execution of an assignment, the right-hand side of the assignment shall evaluate to a value or template that is at least partially initialized.
+// @id: TTCN3-CORE-19.1.1-004a
+// @verdict: pass accept, ttcn3verdict:error
+module M_19_01_01_test_004 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template integer v_src;
+        var template integer v_dst;
+        setverdict(pass);
+        v_dst := v_src; // error: right-hand side is uninitialized
+        setverdict(fail);
+    }
+
+    control {
+        execute(TC());
+    }
+}

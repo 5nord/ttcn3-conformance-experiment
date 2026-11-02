@@ -1,0 +1,37 @@
+// @requirement: A.1.5.0 -- Begin/end block symbols: Communication operation assignment; { }: ->
+// @id: TTCN3-CORE-A.1.5.0-019a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_A_01_05_00_test_015 {
+
+    type port P message {
+        inout integer
+    }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        var integer v_x := 0;
+        timer T := 1.0;
+        connect(self:p, self:p);
+        p.send(42);
+        T.start;
+        alt {
+            [] p.receive(integer:?) -> value v_x {
+                if (v_x == 42) {
+                    setverdict(pass);
+                } else {
+                    setverdict(fail);
+                }
+            }
+            [] T.timeout {
+                setverdict(fail);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

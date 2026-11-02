@@ -1,0 +1,1580 @@
+{
+ "batch": "b072",
+ "requirements": [
+  {
+   "id": "TTCN3-CORE-22.3.2-047b",
+   "section": "22.3.2",
+   "type": "semantics",
+   "modality": "IS NOT",
+   "original": "k) If a variable referenced in the param, sender or @index clause is a lazy or fuzzy variable, the expression assigned to this variable is equal to the result produced by the getcall operation, i.e. later evaluation of the lazy or fuzzy variable does not lead to repeated invocation of the getcall operation.",
+   "canonical": "Later evaluation of a lazy or fuzzy variable referenced in the `param`, `sender` or `@index` clause of a `getcall` operation does NOT lead to repeated invocation of the `getcall` operation.",
+   "condition": "the redirect variable is a lazy or fuzzy variable",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18585,
+    18587
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.02_test_046.ttcn3",
+   "module": "M_22_03_02_test_046",
+   "header": "// @requirement: 22.3.2 -- k) If a variable referenced in the param, sender or @index clause is a lazy or fuzzy variable, the expression assigned to this variable is equal to the result produced by the getcall operation, i.e. later evaluation of the lazy or fuzzy variable does not lead to repeated invocation of the getcall operation."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.2-048a",
+   "section": "22.3.2",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "original": "l) If the getcall operation contains both from and sender clause, the variable or parameter referenced in the sender clause shall be type compatible with the template in the from clause.",
+   "canonical": "If the `getcall` operation contains both a `from` and a `sender` clause, the variable or parameter referenced in the `sender` clause SHALL be type compatible with the template in the `from` clause.",
+   "condition": "both from and sender clause are present",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18589,
+    18591
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.02_test_047.ttcn3",
+   "module": "M_22_03_02_test_047",
+   "header": "// @requirement: 22.3.2 -- l) If the getcall operation contains both from and sender clause, the variable or parameter referenced in the sender clause shall be type compatible with the template in the from clause."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.2-049a",
+   "section": "22.3.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "If the operation contains a sender clause but no from clause, the sender shall be type compatible with the type of the variable or parameter referenced in the sender clause.",
+   "canonical": "If the `getcall` operation contains a `sender` clause but no `from` clause, the sender SHALL be type compatible with the type of the variable or parameter referenced in the `sender` clause.",
+   "condition": "sender clause present, from clause absent",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "'the sender' could denote the statically known address type of the port/connection or the actual runtime sender; NOTE 3 suggests a check where the sender type can be determined.",
+    "readings": [
+     "If no `from` clause is present, the type of the sender, where it can be determined statically, SHALL be type compatible with the type of the `sender` clause variable (compile-time check).",
+     "If no `from` clause is present, the actual sender address at runtime SHALL be type compatible with the type of the `sender` clause variable, otherwise an error occurs."
+    ]
+   },
+   "spec_lines": [
+    18589,
+    18591
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.02_test_048.ttcn3",
+   "module": "M_22_03_02_test_048",
+   "header": "// @requirement: 22.3.2 -- If the operation contains a sender clause but no from clause, the sender shall be type compatible with the type of the variable or parameter referenced in the sender clause."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.2-050a",
+   "section": "22.3.2",
+   "type": "information",
+   "modality": "CAN",
+   "original": "NOTE 3: An error due to a type mismatch may happen if the types in the receive part are not compatible to the types in the assignment part or, if the from clause is missing, but the type of the sender can be determined and it is not type compatible with the type in the sender clause.",
+   "canonical": "An error due to a type mismatch CAN occur if the types in the signature matching part of a `getcall` operation are not compatible to the types in the assignment part, or if the `from` clause is missing and the type of the sender can be determined and is not type compatible with the type in the `sender` clause.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "NOTE 3 uses 'receive part' in the getcall clause, where the signature matching part (TemplateInstance) is meant.",
+    "improper_terms": [
+     {
+      "used": "receive part",
+      "proper": "signature matching part (TemplateInstance)",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    18593,
+    18595
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.02_test_049.ttcn3",
+   "module": "M_22_03_02_test_049",
+   "header": "// @requirement: 22.3.2 -- NOTE 3: An error due to a type mismatch may happen if the types in the receive part are not compatible to the types in the assignment part or, if the from clause is missing, but the type of the sender can be determined and it is not type compatible with the type in the sender clause."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.2-051a",
+   "section": "22.3.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "m) When assigning implicitly decoded parameters (by using the @decoded modifier) in cases where the value or template to be matched uses the MatchDecodedContent (decmatch) matching for the parameter to be stored, the type of the template in the MatchDecodedContent matching shall be type-compatible to the type of the variable the decoded field is stored into.",
+   "canonical": "When assigning a parameter decoded with `@decoded` whose matching template uses MatchDecodedContent (`decmatch`) matching, the type of the template in the `decmatch` matching SHALL be type-compatible to the type of the variable the decoded parameter is stored into.",
+   "condition": "@decoded used together with decmatch matching for the parameter",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18597,
+    18600
+   ],
+   "examples": [
+    {
+     "lines": [
+      18621,
+      18651
+     ],
+     "text": "myPort.getcall(MyProc:{?, ?}) from myPartner -> param (v_myPar1Var, v_myPar2Var);\n  // The in or inout parameter values of MyProc are assigned to v_myPar1Var and v_myPar2Var.\n  myPort.getcall(MyProc:{5, v_myVar}) -> sender v_mySenderVar;\n  // Accepts a call of MyProc at myPort with the in or inout parameters 5 and v_myVar.\n  // The address of the calling party is retrieved and stored in v_mySenderVar.\n  // The following getcall examples show the possibilities to use matching attributes\n  // and omit optional parts, which may be of no importance for the test specification.\n  myPort.getcall(MyProc:{5, v_myVar}) -> param(v_myVar1, v_myVar2) sender v_mySenderVar;\n  myPort.getcall(MyProc:{5, ?}) -> param(v_myVar1, v_myVar2);\n  myPort.getcall(MyProc:{?, v_myVar}) -> param( -, v_myVar2);\n  // The value of the first inout parameter is not important or not used \n  // The following examples shall explain the possibilities to assign in and inout parameter\n  // values to variables. The following signature is assumed for the procedure to be called:\n  signature MyProc2(in integer A, integer B, integer C, out integer D, inout integer E);\n  myPort.getcall(MyProc2:{?, ?, 3, -, ?}) -> param (v_myVarA, v_myVarB, -, -, v_myVarE);\n  // The parameters A, B, and E are assigned to the variables v_myVarA, v_myVarB, and\n  // v_myVarE. The out parameter D needs not to be considered.\n  myPort.getcall(MyProc2:{?, ?, 3, -, ?}) -> param (v_myVarA:= A, v_myVarB:= B, v_myVarE:= E);\n  // Alternative notation "
+    }
+   ],
+   "file": "tests/22-communication-operations/22.03.02_test_050.ttcn3",
+   "module": "M_22_03_02_test_050",
+   "header": "// @requirement: 22.3.2 -- m) When assigning implicitly decoded parameters (by using the @decoded modifier) in cases where the value or template to be matched uses the MatchDecodedContent (decmatch) matching for the parameter to be stored, the type of the template in the MatchDecodedContent matching shall be type-compatible to the type of the variable the decoded field is stored into."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.2-052a",
+   "section": "22.3.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "n) The ObjectReference shall be of a port type.",
+   "canonical": "The ObjectReference of a `getcall` operation SHALL be of a port type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18602,
+    18602
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.02_test_051.ttcn3",
+   "module": "M_22_03_02_test_051",
+   "header": "// @requirement: 22.3.2 -- n) The ObjectReference shall be of a port type."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.2-053a",
+   "section": "22.3.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "o) The @nodefault modifier is allowed only in stand-alone getcall statements.",
+   "canonical": "The `@nodefault` modifier SHALL only be used in stand-alone `getcall` statements.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18609,
+    18609
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.02_test_052.ttcn3",
+   "module": "M_22_03_02_test_052",
+   "header": "// @requirement: 22.3.2 -- o) The @nodefault modifier is allowed only in stand-alone getcall statements."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.3-002a",
+   "section": "22.3.3",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "ObjectReference \".\" reply \"(\" TemplateInstance [ value TemplateBody ] \")\" [ to Address ]",
+   "canonical": "The `reply` operation has the syntax ObjectReference \".\" `reply` \"(\" TemplateInstance [`value` TemplateBody] \")\" [`to` Address].",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18683,
+    18686
+   ],
+   "examples": [
+    {
+     "lines": [
+      18747,
+      18754
+     ],
+     "text": "myPort.reply(MyProc2:{ -,5});  // Replies to an accepted call of MyProc2.\n  myPort.reply(MyProc2:{ -,5}) to myPeer; // Replies to an accepted call of MyProc2 from myPeer\n  myPort.reply(MyProc2:{ -,5}) to (myPeer1, myPeer2); // Multicast reply to myPeer1 and myPeer2\n  myPort.reply(MyProc2:{ -,5}) to all component; // Broadcast reply to all entities connected\n                               // to myPort\n  myPort.reply(MyProc3:{5, v_myVar} value 20); // Replies to an accepted call of MyProc3."
+    }
+   ],
+   "file": "tests/22-communication-operations/22.03.03_test_001.ttcn3",
+   "module": "M_22_03_03_test_001",
+   "header": "// @requirement: 22.3.3 -- ObjectReference \".\" reply \"(\" TemplateInstance [ value TemplateBody ] \")\" [ to Address ]"
+  },
+  {
+   "id": "TTCN3-CORE-22.3.3-003a",
+   "section": "22.3.3",
+   "type": "information",
+   "modality": "CAN",
+   "original": "NOTE 1: _Address may be an AddressRef, a list of AddressRef-s or \"all component\"._",
+   "canonical": "The Address in the `to` clause of a `reply` operation CAN be an AddressRef, a list of AddressRefs or `all component`.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18688,
+    18688
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.03_test_002.ttcn3",
+   "module": "M_22_03_03_test_002",
+   "header": "// @requirement: 22.3.3 -- NOTE 1: _Address may be an AddressRef, a list of AddressRef-s or \"all component\"._"
+  },
+  {
+   "id": "TTCN3-CORE-22.3.3-004a",
+   "section": "22.3.3",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The reply operation is used to reply to a previously accepted call according to the procedure signature.",
+   "canonical": "The `reply` operation replies to a previously accepted call according to the procedure signature.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18692,
+    18692
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.03_test_003.ttcn3",
+   "module": "M_22_03_03_test_003",
+   "header": "// @requirement: 22.3.3 -- The reply operation is used to reply to a previously accepted call according to the procedure signature."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.3-006a",
+   "section": "22.3.3",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "For testing it is allowed to specify a reply operation without an associated getcall operation.",
+   "canonical": "A `reply` operation MAY be specified without an associated `getcall` operation.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18694,
+    18695
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.03_test_004.ttcn3",
+   "module": "M_22_03_03_test_004",
+   "header": "// @requirement: 22.3.3 -- For testing it is allowed to specify a reply operation without an associated getcall operation."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.3-008a",
+   "section": "22.3.3",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "The signature may either be defined in the form of a signature template or it may be defined in-line.",
+   "canonical": "The signature in a `reply` operation MAY be defined in the form of a signature template or in-line.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18697,
+    18699
+   ],
+   "examples": [
+    {
+     "lines": [
+      18747,
+      18754
+     ],
+     "text": "myPort.reply(MyProc2:{ -,5});  // Replies to an accepted call of MyProc2.\n  myPort.reply(MyProc2:{ -,5}) to myPeer; // Replies to an accepted call of MyProc2 from myPeer\n  myPort.reply(MyProc2:{ -,5}) to (myPeer1, myPeer2); // Multicast reply to myPeer1 and myPeer2\n  myPort.reply(MyProc2:{ -,5}) to all component; // Broadcast reply to all entities connected\n                               // to myPort\n  myPort.reply(MyProc3:{5, v_myVar} value 20); // Replies to an accepted call of MyProc3."
+    }
+   ],
+   "file": "tests/22-communication-operations/22.03.03_test_005.ttcn3",
+   "module": "M_22_03_03_test_005",
+   "header": "// @requirement: 22.3.3 -- The signature may either be defined in the form of a signature template or it may be defined in-line."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.3-009a",
+   "section": "22.3.3",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Responses to one or more call operations may be sent to one, several or all peer entities connected to the addressed port.",
+   "canonical": "Responses to one or more call operations MAY be sent to one, several or all peer entities connected to the addressed port.",
+   "condition": null,
+   "cross_refs": [
+    "22.2.1"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18701,
+    18704
+   ],
+   "examples": [
+    {
+     "lines": [
+      18747,
+      18754
+     ],
+     "text": "myPort.reply(MyProc2:{ -,5});  // Replies to an accepted call of MyProc2.\n  myPort.reply(MyProc2:{ -,5}) to myPeer; // Replies to an accepted call of MyProc2 from myPeer\n  myPort.reply(MyProc2:{ -,5}) to (myPeer1, myPeer2); // Multicast reply to myPeer1 and myPeer2\n  myPort.reply(MyProc2:{ -,5}) to all component; // Broadcast reply to all entities connected\n                               // to myPort\n  myPort.reply(MyProc3:{5, v_myVar} value 20); // Replies to an accepted call of MyProc3."
+    }
+   ],
+   "file": "tests/22-communication-operations/22.03.03_test_006.ttcn3",
+   "module": "M_22_03_03_test_006",
+   "header": "// @requirement: 22.3.3 -- Responses to one or more call operations may be sent to one, several or all peer entities connected to the addressed port."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.3-011a",
+   "section": "22.3.3",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "This means, the argument of the to clause of a reply operation is for unicast responses the address of one receiving entity, for multicast responses a list of addresses of a set of receivers and for broadcast responses the all component keywords.",
+   "canonical": "For a unicast response, the argument of the `to` clause of a `reply` operation IS the address of one receiving entity.",
+   "condition": null,
+   "cross_refs": [
+    "22.2.1"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18701,
+    18704
+   ],
+   "examples": [
+    {
+     "lines": [
+      18747,
+      18754
+     ],
+     "text": "myPort.reply(MyProc2:{ -,5});  // Replies to an accepted call of MyProc2.\n  myPort.reply(MyProc2:{ -,5}) to myPeer; // Replies to an accepted call of MyProc2 from myPeer\n  myPort.reply(MyProc2:{ -,5}) to (myPeer1, myPeer2); // Multicast reply to myPeer1 and myPeer2\n  myPort.reply(MyProc2:{ -,5}) to all component; // Broadcast reply to all entities connected\n                               // to myPort\n  myPort.reply(MyProc3:{5, v_myVar} value 20); // Replies to an accepted call of MyProc3."
+    }
+   ],
+   "file": "tests/22-communication-operations/22.03.03_test_007.ttcn3",
+   "module": "M_22_03_03_test_007",
+   "header": "// @requirement: 22.3.3 -- This means, the argument of the to clause of a reply operation is for unicast responses the address of one receiving entity, for multicast responses a list of addresses of a set of receivers and for broadcast responses the all component keywords."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.3-011b",
+   "section": "22.3.3",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "This means, the argument of the to clause of a reply operation is for unicast responses the address of one receiving entity, for multicast responses a list of addresses of a set of receivers and for broadcast responses the all component keywords.",
+   "canonical": "For a multicast response, the argument of the `to` clause of a `reply` operation IS a list of addresses of a set of receivers.",
+   "condition": null,
+   "cross_refs": [
+    "22.2.1"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18701,
+    18704
+   ],
+   "examples": [
+    {
+     "lines": [
+      18747,
+      18754
+     ],
+     "text": "myPort.reply(MyProc2:{ -,5});  // Replies to an accepted call of MyProc2.\n  myPort.reply(MyProc2:{ -,5}) to myPeer; // Replies to an accepted call of MyProc2 from myPeer\n  myPort.reply(MyProc2:{ -,5}) to (myPeer1, myPeer2); // Multicast reply to myPeer1 and myPeer2\n  myPort.reply(MyProc2:{ -,5}) to all component; // Broadcast reply to all entities connected\n                               // to myPort\n  myPort.reply(MyProc3:{5, v_myVar} value 20); // Replies to an accepted call of MyProc3."
+    }
+   ],
+   "file": "tests/22-communication-operations/22.03.03_test_008.ttcn3",
+   "module": "M_22_03_03_test_008",
+   "header": "// @requirement: 22.3.3 -- This means, the argument of the to clause of a reply operation is for unicast responses the address of one receiving entity, for multicast responses a list of addresses of a set of receivers and for broadcast responses the all component keywords."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.3-011c",
+   "section": "22.3.3",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "This means, the argument of the to clause of a reply operation is for unicast responses the address of one receiving entity, for multicast responses a list of addresses of a set of receivers and for broadcast responses the all component keywords.",
+   "canonical": "For a broadcast response, the argument of the `to` clause of a `reply` operation IS the `all component` keywords.",
+   "condition": null,
+   "cross_refs": [
+    "22.2.1"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18701,
+    18704
+   ],
+   "examples": [
+    {
+     "lines": [
+      18747,
+      18754
+     ],
+     "text": "myPort.reply(MyProc2:{ -,5});  // Replies to an accepted call of MyProc2.\n  myPort.reply(MyProc2:{ -,5}) to myPeer; // Replies to an accepted call of MyProc2 from myPeer\n  myPort.reply(MyProc2:{ -,5}) to (myPeer1, myPeer2); // Multicast reply to myPeer1 and myPeer2\n  myPort.reply(MyProc2:{ -,5}) to all component; // Broadcast reply to all entities connected\n                               // to myPort\n  myPort.reply(MyProc3:{5, v_myVar} value 20); // Replies to an accepted call of MyProc3."
+    }
+   ],
+   "file": "tests/22-communication-operations/22.03.03_test_009.ttcn3",
+   "module": "M_22_03_03_test_009",
+   "header": "// @requirement: 22.3.3 -- This means, the argument of the to clause of a reply operation is for unicast responses the address of one receiving entity, for multicast responses a list of addresses of a set of receivers and for broadcast responses the all component keywords."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.3-012a",
+   "section": "22.3.3",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "In case of one-to-one connections, the to clause may be omitted, because the receiving entity is uniquely identified by the system structure.",
+   "canonical": "In case of one-to-one connections, the `to` clause of a `reply` operation MAY be omitted.",
+   "condition": "one-to-one connection",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18706,
+    18707
+   ],
+   "examples": [
+    {
+     "lines": [
+      18747,
+      18754
+     ],
+     "text": "myPort.reply(MyProc2:{ -,5});  // Replies to an accepted call of MyProc2.\n  myPort.reply(MyProc2:{ -,5}) to myPeer; // Replies to an accepted call of MyProc2 from myPeer\n  myPort.reply(MyProc2:{ -,5}) to (myPeer1, myPeer2); // Multicast reply to myPeer1 and myPeer2\n  myPort.reply(MyProc2:{ -,5}) to all component; // Broadcast reply to all entities connected\n                               // to myPort\n  myPort.reply(MyProc3:{5, v_myVar} value 20); // Replies to an accepted call of MyProc3."
+    }
+   ],
+   "file": "tests/22-communication-operations/22.03.03_test_010.ttcn3",
+   "module": "M_22_03_03_test_010",
+   "header": "// @requirement: 22.3.3 -- In case of one-to-one connections, the to clause may be omitted, because the receiving entity is uniquely identified by the system structure."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.3-013a",
+   "section": "22.3.3",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "A return value or template shall be explicitly stated with the value keyword and is first evaluated before returning.",
+   "canonical": "A return value or template of a `reply` operation SHALL be explicitly stated with the `value` keyword.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18709,
+    18709
+   ],
+   "examples": [
+    {
+     "lines": [
+      18747,
+      18754
+     ],
+     "text": "myPort.reply(MyProc2:{ -,5});  // Replies to an accepted call of MyProc2.\n  myPort.reply(MyProc2:{ -,5}) to myPeer; // Replies to an accepted call of MyProc2 from myPeer\n  myPort.reply(MyProc2:{ -,5}) to (myPeer1, myPeer2); // Multicast reply to myPeer1 and myPeer2\n  myPort.reply(MyProc2:{ -,5}) to all component; // Broadcast reply to all entities connected\n                               // to myPort\n  myPort.reply(MyProc3:{5, v_myVar} value 20); // Replies to an accepted call of MyProc3."
+    }
+   ],
+   "file": "tests/22-communication-operations/22.03.03_test_011.ttcn3",
+   "module": "M_22_03_03_test_011",
+   "header": "// @requirement: 22.3.3 -- A return value or template shall be explicitly stated with the value keyword and is first evaluated before returning."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.3-013b",
+   "section": "22.3.3",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "A return value or template shall be explicitly stated with the value keyword and is first evaluated before returning.",
+   "canonical": "A return value or template of a `reply` operation IS evaluated before returning.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18709,
+    18709
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.03_test_012.ttcn3",
+   "module": "M_22_03_03_test_012",
+   "header": "// @requirement: 22.3.3 -- A return value or template shall be explicitly stated with the value keyword and is first evaluated before returning."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.3-015a",
+   "section": "22.3.3",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "a) A reply operation shall only be used at a procedure-based port.",
+   "canonical": "A `reply` operation SHALL only be used at a procedure-based port.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18716,
+    18717
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.03_test_013.ttcn3",
+   "module": "M_22_03_03_test_013",
+   "header": "// @requirement: 22.3.3 -- a) A reply operation shall only be used at a procedure-based port."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.3-016a",
+   "section": "22.3.3",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "The type definition of the port shall include the name of the procedure to which the reply operation belongs in its in or inout list.",
+   "canonical": "The type definition of the port used in a `reply` operation SHALL include the signature to which the `reply` operation belongs in its `in` or `inout` list.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "'procedure' is used where the signature (procedure signature) is meant.",
+    "improper_terms": [
+     {
+      "used": "procedure",
+      "proper": "signature",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    18716,
+    18717
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.03_test_014.ttcn3",
+   "module": "M_22_03_03_test_014",
+   "header": "// @requirement: 22.3.3 -- The type definition of the port shall include the name of the procedure to which the reply operation belongs in its in or inout list."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.3-017a",
+   "section": "22.3.3",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "b) The TemplateInstance in the reply operation shall identify the signature definition and all signature parameters of the procedure to which the reply operation belongs.",
+   "canonical": "The TemplateInstance in the `reply` operation SHALL identify the signature definition and all signature parameters of the signature to which the `reply` operation belongs.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18719,
+    18720
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.03_test_015.ttcn3",
+   "module": "M_22_03_03_test_015",
+   "header": "// @requirement: 22.3.3 -- b) The TemplateInstance in the reply operation shall identify the signature definition and all signature parameters of the procedure to which the reply operation belongs."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.3-018a",
+   "section": "22.3.3",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "c) All out and inout parameters of the signature shall have a specific value i.e. the use of matching mechanisms such as AnyValue is not allowed.",
+   "canonical": "All `out` and `inout` parameters of the signature in a `reply` operation SHALL have a specific value, i.e. matching mechanisms such as AnyValue SHALL NOT be used for them.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18722,
+    18723
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.03_test_016.ttcn3",
+   "module": "M_22_03_03_test_016",
+   "header": "// @requirement: 22.3.3 -- c) All out and inout parameters of the signature shall have a specific value i.e. the use of matching mechanisms such as AnyValue is not allowed."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.3-019a",
+   "section": "22.3.3",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "d) A to clause shall be present in case of one-to-many connections.",
+   "canonical": "A `to` clause SHALL be present in a `reply` operation in case of one-to-many connections.",
+   "condition": "one-to-many connection",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18725,
+    18725
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.03_test_017.ttcn3",
+   "module": "M_22_03_03_test_017",
+   "header": "// @requirement: 22.3.3 -- d) A to clause shall be present in case of one-to-many connections."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.3-020a",
+   "section": "22.3.3",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "e) All AddressRef items in the to clause shall be of type address, component or of the address type bound to the port type (see clause 6.2.9) of the port instance referenced in the reply operation.",
+   "canonical": "Every AddressRef item in the `to` clause of a `reply` operation SHALL be of type `address`, of a component type, or of the address type bound to the port type of the port instance referenced in the `reply` operation.",
+   "condition": null,
+   "cross_refs": [
+    "6.2.9"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18727,
+    18728
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.03_test_018.ttcn3",
+   "module": "M_22_03_03_test_018",
+   "header": "// @requirement: 22.3.3 -- e) All AddressRef items in the to clause shall be of type address, component or of the address type bound to the port type (see clause 6.2.9) of the port instance referenced in the reply operation."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.3-021a",
+   "section": "22.3.3",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "No AddressRef in the to clause shall contain the special value null at the time of the operation.",
+   "canonical": "An AddressRef in the `to` clause of a `reply` operation SHALL NOT contain the special value `null` at the time of the operation.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18727,
+    18728
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.03_test_019.ttcn3",
+   "module": "M_22_03_03_test_019",
+   "header": "// @requirement: 22.3.3 -- No AddressRef in the to clause shall contain the special value null at the time of the operation."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.3-022a",
+   "section": "22.3.3",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "f) The optional value clause for a return value shall only be present if the signature definition of the procedure to which the reply operation belongs defines a return type.",
+   "canonical": "The optional `value` clause of a `reply` operation SHALL only be present if the signature definition to which the `reply` operation belongs defines a return type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18730,
+    18731
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.03_test_020.ttcn3",
+   "module": "M_22_03_03_test_020",
+   "header": "// @requirement: 22.3.3 -- f) The optional value clause for a return value shall only be present if the signature definition of the procedure to which the reply operation belongs defines a return type."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.3-023a",
+   "section": "22.3.3",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "g) The TemplateBody in the value clause shall conform to the template(value) restriction and it shall be type-compatible with the return type specified in the signature of the procedure to which the reply operation belongs.",
+   "canonical": "The TemplateBody in the `value` clause of a `reply` operation SHALL conform to the template(value) restriction.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18733,
+    18735
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.03_test_021.ttcn3",
+   "module": "M_22_03_03_test_021",
+   "header": "// @requirement: 22.3.3 -- g) The TemplateBody in the value clause shall conform to the template(value) restriction and it shall be type-compatible with the return type specified in the signature of the procedure to which the reply operation belongs."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.3-023b",
+   "section": "22.3.3",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "g) The TemplateBody in the value clause shall conform to the template(value) restriction and it shall be type-compatible with the return type specified in the signature of the procedure to which the reply operation belongs.",
+   "canonical": "The TemplateBody in the `value` clause of a `reply` operation SHALL be type-compatible with the return type specified in the signature to which the `reply` operation belongs.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18733,
+    18735
+   ],
+   "examples": [
+    {
+     "lines": [
+      18747,
+      18754
+     ],
+     "text": "myPort.reply(MyProc2:{ -,5});  // Replies to an accepted call of MyProc2.\n  myPort.reply(MyProc2:{ -,5}) to myPeer; // Replies to an accepted call of MyProc2 from myPeer\n  myPort.reply(MyProc2:{ -,5}) to (myPeer1, myPeer2); // Multicast reply to myPeer1 and myPeer2\n  myPort.reply(MyProc2:{ -,5}) to all component; // Broadcast reply to all entities connected\n                               // to myPort\n  myPort.reply(MyProc3:{5, v_myVar} value 20); // Replies to an accepted call of MyProc3."
+    }
+   ],
+   "file": "tests/22-communication-operations/22.03.03_test_022.ttcn3",
+   "module": "M_22_03_03_test_022",
+   "header": "// @requirement: 22.3.3 -- g) The TemplateBody in the value clause shall conform to the template(value) restriction and it shall be type-compatible with the return type specified in the signature of the procedure to which the reply operation belongs."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.3-024a",
+   "section": "22.3.3",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "h) Applying a reply operation to an unmapped or disconnected port shall cause a test case error.",
+   "canonical": "Applying a `reply` operation to an unmapped or disconnected port SHALL cause a test case error.",
+   "condition": "the port is unmapped or disconnected",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18737,
+    18737
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.03_test_023.ttcn3",
+   "module": "M_22_03_03_test_023",
+   "header": "// @requirement: 22.3.3 -- h) Applying a reply operation to an unmapped or disconnected port shall cause a test case error."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.3-025a",
+   "section": "22.3.3",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "i) The ObjectReference shall be of a port type.",
+   "canonical": "The ObjectReference of a `reply` operation SHALL be of a port type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18739,
+    18739
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.03_test_024.ttcn3",
+   "module": "M_22_03_03_test_024",
+   "header": "// @requirement: 22.3.3 -- i) The ObjectReference shall be of a port type."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.4-002a",
+   "section": "22.3.4",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "[ @nodefault ] ( ObjectReference | any port | any from PortArrayRef ) \".\" getreply [ \"(\" TemplateInstance [ value TemplateInstance ]\")\" ] [ from Address ] [ \"->\" [ value ... ] [ param ... ] [ sender ValueRef] [ @index value ValueRef] ]",
+   "canonical": "The `getreply` operation has the syntax [`@nodefault`] (ObjectReference | `any port` | `any from` PortArrayRef) \".\" `getreply` [\"(\" TemplateInstance [`value` TemplateInstance] \")\"] [`from` Address] [\"->\" [`value` (ValueRef | \"(\" {ValueRef [\":=\" [`@decoded` [\"(\" Expression \")\"]] FieldOrTypeReference] [\",\"]} \")\")] [`param` \"(\" ({ValueRef \":=\" [`@decoded` [\"(\" Expression \")\"]] ParameterIdentifier \",\"} | {(ValueRef | \"-\") \",\"}) \")\"] [`sender` ValueRef] [`@index` `value` ValueRef]].",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18761,
+    18775
+   ],
+   "examples": [
+    {
+     "lines": [
+      18898,
+      18902
+     ],
+     "text": "myPort.getreply(MyProc:{5, ?} value 20); // Accepts a reply of MyProc with two out or\n                             // inout parameters and a return value of 20\n  myPort.getreply(MyProc2:{ -, 5}) from myPeer; // Accepts a reply of MyProc2 from myPeer"
+    },
+    {
+     "lines": [
+      18905,
+      18925
+     ],
+     "text": "myPort.getreply(MyProc1:{?, ?} value ?) -> value v_myRetValue param(v_myPar1, v_myPar2);\n  // The returned value is assigned to variable v_myRetValue and the value \n  // of the two out or inout parameters are assigned to the variables v_myPar1 and v_myPar2. \n  myPort.getreply(MyProc1:{?, ?} value ?)-> value v_myRetValue param(-,v_myPar2) sender mySender;\n  // The value of the first parameter is not considered for the further test execution and \n  // the address of the sender component is retrieved and stored in the variable mySender.\n  // The following examples describe some possibilities to assign out and inout parameter values \n  // to variables. The following signature is assumed for the procedure which has been called\n  signature MyProc2(in integer A, integer B, integer C, out integer D, inout integer E);\n  myPort.getreply(s_aTemplate) -> param( -, -, -, v_myVarOut1, v_myVarInout1);\n  myPort.getreply(s_aTemplate) -> param(v_myVarOut1:=D, v_myVarOut2:=E);\n  myPort.getreply(MyProc2:{ -, -, -, 3, ?}) -> param(v_myVarInout1:=E);\n  // The following example demonstrates the use of encoded parameters:\n  signature MyProc3(out integer paramType, out octetstring encodedParam);\n  template integer mw_int := ?;\n  …\n  var integer v_myVarX;\n  myPort.getreply(MyProc3:{1, decmatch mw_int}) -> param (v_myVarX := @decoded encodedParam);\n  // The parameters encodedParam is decoded into an integer and assigned to v_myVarX."
+    }
+   ],
+   "file": "tests/22-communication-operations/22.03.04_test_001.ttcn3",
+   "module": "M_22_03_04_test_001",
+   "header": "// @requirement: 22.3.4 -- [ @nodefault ] ( ObjectReference | any port | any from PortArrayRef ) \".\" getreply [ \"(\" TemplateInstance [ value TemplateInstance ]\")\" ] [ from Address ] [ \"->\" [ value ... ] [ param ... ] [ sender ValueRef] [ @index value ValueRef] ]"
+  },
+  {
+   "id": "TTCN3-CORE-22.3.4-003a",
+   "section": "22.3.4",
+   "type": "information",
+   "modality": "MAY",
+   "original": "NOTE 1: _Address may be an AddressRef, a list of AddressRef-s or \"any component\"._",
+   "canonical": "The Address in the `from` clause of a `getreply` operation MAY be an AddressRef, a list of AddressRefs or `any component`.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18777,
+    18777
+   ],
+   "examples": [
+    {
+     "lines": [
+      18928,
+      18933
+     ],
+     "text": "myPort.getreply; // Removes the top reply from myPort.\n  myPort.getreply from myPeer; // Removes the top reply received from myPeer from myPort.\n  myPort.getreply -> sender v_mySenderVar; // Removes the top reply from myPort and retrieves \n                             // the address of the sender entity"
+    }
+   ],
+   "file": "tests/22-communication-operations/22.03.04_test_002.ttcn3",
+   "module": "M_22_03_04_test_002",
+   "header": "// @requirement: 22.3.4 -- NOTE 1: _Address may be an AddressRef, a list of AddressRef-s or \"any component\"._"
+  },
+  {
+   "id": "TTCN3-CORE-22.3.4-005a",
+   "section": "22.3.4",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "The getreply operation shall remove the top reply from the incoming port queue, if, and only if, the matching criteria associated to the getreply operation are fulfilled.",
+   "canonical": "The `getreply` operation SHALL remove the top reply from the incoming port queue if, and only if, the matching criteria associated with the `getreply` operation are fulfilled.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18783,
+    18786
+   ],
+   "examples": [
+    {
+     "lines": [
+      18898,
+      18902
+     ],
+     "text": "myPort.getreply(MyProc:{5, ?} value 20); // Accepts a reply of MyProc with two out or\n                             // inout parameters and a return value of 20\n  myPort.getreply(MyProc2:{ -, 5}) from myPeer; // Accepts a reply of MyProc2 from myPeer"
+    }
+   ],
+   "file": "tests/22-communication-operations/22.03.04_test_003.ttcn3",
+   "module": "M_22_03_04_test_003",
+   "header": "// @requirement: 22.3.4 -- The getreply operation shall remove the top reply from the incoming port queue, if, and only if, the matching criteria associated to the getreply operation are fulfilled."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.4-006a",
+   "section": "22.3.4",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "These matching criteria are related to the signature of the procedure to be processed and the communication partner.",
+   "canonical": "The matching criteria of a `getreply` operation ARE related to the signature of the procedure to be processed and to the communication partner.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18783,
+    18786
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.04_test_004.ttcn3",
+   "module": "M_22_03_04_test_004",
+   "header": "// @requirement: 22.3.4 -- These matching criteria are related to the signature of the procedure to be processed and the communication partner."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.4-007a",
+   "section": "22.3.4",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "The matching criteria for the signature may either be specified in-line or be derived from a signature template.",
+   "canonical": "The signature matching criteria of a `getreply` operation MAY be specified in-line or be derived from a signature template.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18783,
+    18786
+   ],
+   "examples": [
+    {
+     "lines": [
+      18898,
+      18902
+     ],
+     "text": "myPort.getreply(MyProc:{5, ?} value 20); // Accepts a reply of MyProc with two out or\n                             // inout parameters and a return value of 20\n  myPort.getreply(MyProc2:{ -, 5}) from myPeer; // Accepts a reply of MyProc2 from myPeer"
+    },
+    {
+     "lines": [
+      18905,
+      18925
+     ],
+     "text": "myPort.getreply(MyProc1:{?, ?} value ?) -> value v_myRetValue param(v_myPar1, v_myPar2);\n  // The returned value is assigned to variable v_myRetValue and the value \n  // of the two out or inout parameters are assigned to the variables v_myPar1 and v_myPar2. \n  myPort.getreply(MyProc1:{?, ?} value ?)-> value v_myRetValue param(-,v_myPar2) sender mySender;\n  // The value of the first parameter is not considered for the further test execution and \n  // the address of the sender component is retrieved and stored in the variable mySender.\n  // The following examples describe some possibilities to assign out and inout parameter values \n  // to variables. The following signature is assumed for the procedure which has been called\n  signature MyProc2(in integer A, integer B, integer C, out integer D, inout integer E);\n  myPort.getreply(s_aTemplate) -> param( -, -, -, v_myVarOut1, v_myVarInout1);\n  myPort.getreply(s_aTemplate) -> param(v_myVarOut1:=D, v_myVarOut2:=E);\n  myPort.getreply(MyProc2:{ -, -, -, 3, ?}) -> param(v_myVarInout1:=E);\n  // The following example demonstrates the use of encoded parameters:\n  signature MyProc3(out integer paramType, out octetstring encodedParam);\n  template integer mw_int := ?;\n  …\n  var integer v_myVarX;\n  myPort.getreply(MyProc3:{1, decmatch mw_int}) -> param (v_myVarX := @decoded encodedParam);\n  // The parameters encodedParam is decoded into an integer and assigned to v_myVarX."
+    }
+   ],
+   "file": "tests/22-communication-operations/22.03.04_test_005.ttcn3",
+   "module": "M_22_03_04_test_005",
+   "header": "// @requirement: 22.3.4 -- The matching criteria for the signature may either be specified in-line or be derived from a signature template."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.4-008a",
+   "section": "22.3.4",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Matching against a received return value can be specified by using the value keyword.",
+   "canonical": "Matching against a received return value in a `getreply` operation MAY be specified by using the `value` keyword.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18788,
+    18788
+   ],
+   "examples": [
+    {
+     "lines": [
+      18898,
+      18902
+     ],
+     "text": "myPort.getreply(MyProc:{5, ?} value 20); // Accepts a reply of MyProc with two out or\n                             // inout parameters and a return value of 20\n  myPort.getreply(MyProc2:{ -, 5}) from myPeer; // Accepts a reply of MyProc2 from myPeer"
+    }
+   ],
+   "file": "tests/22-communication-operations/22.03.04_test_006.ttcn3",
+   "module": "M_22_03_04_test_006",
+   "header": "// @requirement: 22.3.4 -- Matching against a received return value can be specified by using the value keyword."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.4-009a",
+   "section": "22.3.4",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "A getreply operation may be restricted to a certain communication partner in case of one-to-many connections.",
+   "canonical": "In case of one-to-many connections, a `getreply` operation MAY be restricted to a certain communication partner.",
+   "condition": "one-to-many connections",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18790,
+    18792
+   ],
+   "examples": [
+    {
+     "lines": [
+      18898,
+      18902
+     ],
+     "text": "myPort.getreply(MyProc:{5, ?} value 20); // Accepts a reply of MyProc with two out or\n                             // inout parameters and a return value of 20\n  myPort.getreply(MyProc2:{ -, 5}) from myPeer; // Accepts a reply of MyProc2 from myPeer"
+    },
+    {
+     "lines": [
+      18928,
+      18933
+     ],
+     "text": "myPort.getreply; // Removes the top reply from myPort.\n  myPort.getreply from myPeer; // Removes the top reply received from myPeer from myPort.\n  myPort.getreply -> sender v_mySenderVar; // Removes the top reply from myPort and retrieves \n                             // the address of the sender entity"
+    }
+   ],
+   "file": "tests/22-communication-operations/22.03.04_test_007.ttcn3",
+   "module": "M_22_03_04_test_007",
+   "header": "// @requirement: 22.3.4 -- A getreply operation may be restricted to a certain communication partner in case of one-to-many connections."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.4-010a",
+   "section": "22.3.4",
+   "type": "syntax",
+   "modality": "SHALL",
+   "original": "This restriction shall be denoted by using the from keyword followed by a specification of an address or component reference, a list of address or component references or any component.",
+   "canonical": "A restriction of a `getreply` operation to a communication partner SHALL be denoted by the `from` keyword followed by an address or component reference, a list of address or component references, or `any component`.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18790,
+    18792
+   ],
+   "examples": [
+    {
+     "lines": [
+      18898,
+      18902
+     ],
+     "text": "myPort.getreply(MyProc:{5, ?} value 20); // Accepts a reply of MyProc with two out or\n                             // inout parameters and a return value of 20\n  myPort.getreply(MyProc2:{ -, 5}) from myPeer; // Accepts a reply of MyProc2 from myPeer"
+    },
+    {
+     "lines": [
+      18928,
+      18933
+     ],
+     "text": "myPort.getreply; // Removes the top reply from myPort.\n  myPort.getreply from myPeer; // Removes the top reply received from myPeer from myPort.\n  myPort.getreply -> sender v_mySenderVar; // Removes the top reply from myPort and retrieves \n                             // the address of the sender entity"
+    }
+   ],
+   "file": "tests/22-communication-operations/22.03.04_test_008.ttcn3",
+   "module": "M_22_03_04_test_008",
+   "header": "// @requirement: 22.3.4 -- This restriction shall be denoted by using the from keyword followed by a specification of an address or component reference, a list of address or component references or any component."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.4-011a",
+   "section": "22.3.4",
+   "type": "information",
+   "modality": "MAY",
+   "original": "NOTE 2: The one-to-one connection is considered to be a simple case of the one-to-many connections and allows the usage of the from-clause.",
+   "canonical": "For one-to-one connections, which are a simple case of one-to-many connections, the `from` clause MAY be used in a `getreply` operation.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18794,
+    18795
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.04_test_009.ttcn3",
+   "module": "M_22_03_04_test_009",
+   "header": "// @requirement: 22.3.4 -- NOTE 2: The one-to-one connection is considered to be a simple case of the one-to-many connections and allows the usage of the from-clause."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.4-012a",
+   "section": "22.3.4",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "The assignment of out and inout parameter values to variables shall be made in the assignment part of the getreply operation.",
+   "canonical": "The assignment of out and inout parameter values to variables SHALL be made in the assignment part of the `getreply` operation.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18797,
+    18799
+   ],
+   "examples": [
+    {
+     "lines": [
+      18905,
+      18925
+     ],
+     "text": "myPort.getreply(MyProc1:{?, ?} value ?) -> value v_myRetValue param(v_myPar1, v_myPar2);\n  // The returned value is assigned to variable v_myRetValue and the value \n  // of the two out or inout parameters are assigned to the variables v_myPar1 and v_myPar2. \n  myPort.getreply(MyProc1:{?, ?} value ?)-> value v_myRetValue param(-,v_myPar2) sender mySender;\n  // The value of the first parameter is not considered for the further test execution and \n  // the address of the sender component is retrieved and stored in the variable mySender.\n  // The following examples describe some possibilities to assign out and inout parameter values \n  // to variables. The following signature is assumed for the procedure which has been called\n  signature MyProc2(in integer A, integer B, integer C, out integer D, inout integer E);\n  myPort.getreply(s_aTemplate) -> param( -, -, -, v_myVarOut1, v_myVarInout1);\n  myPort.getreply(s_aTemplate) -> param(v_myVarOut1:=D, v_myVarOut2:=E);\n  myPort.getreply(MyProc2:{ -, -, -, 3, ?}) -> param(v_myVarInout1:=E);\n  // The following example demonstrates the use of encoded parameters:\n  signature MyProc3(out integer paramType, out octetstring encodedParam);\n  template integer mw_int := ?;\n  …\n  var integer v_myVarX;\n  myPort.getreply(MyProc3:{1, decmatch mw_int}) -> param (v_myVarX := @decoded encodedParam);\n  // The parameters encodedParam is decoded into an integer and assigned to v_myVarX."
+    }
+   ],
+   "file": "tests/22-communication-operations/22.03.04_test_010.ttcn3",
+   "module": "M_22_03_04_test_010",
+   "header": "// @requirement: 22.3.4 -- The assignment of out and inout parameter values to variables shall be made in the assignment part of the getreply operation."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.4-014a",
+   "section": "22.3.4",
+   "type": "definition",
+   "modality": "IS",
+   "original": "The (optional) assignment part of the getreply operation comprises the assignment of out and inout parameter values to variables and the retrieval of the address of the sender of the reply.",
+   "canonical": "The optional assignment part of the `getreply` operation IS composed of the assignment of out and inout parameter values to variables and the retrieval of the address of the sender of the reply.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18801,
+    18804
+   ],
+   "examples": [
+    {
+     "lines": [
+      18905,
+      18925
+     ],
+     "text": "myPort.getreply(MyProc1:{?, ?} value ?) -> value v_myRetValue param(v_myPar1, v_myPar2);\n  // The returned value is assigned to variable v_myRetValue and the value \n  // of the two out or inout parameters are assigned to the variables v_myPar1 and v_myPar2. \n  myPort.getreply(MyProc1:{?, ?} value ?)-> value v_myRetValue param(-,v_myPar2) sender mySender;\n  // The value of the first parameter is not considered for the further test execution and \n  // the address of the sender component is retrieved and stored in the variable mySender.\n  // The following examples describe some possibilities to assign out and inout parameter values \n  // to variables. The following signature is assumed for the procedure which has been called\n  signature MyProc2(in integer A, integer B, integer C, out integer D, inout integer E);\n  myPort.getreply(s_aTemplate) -> param( -, -, -, v_myVarOut1, v_myVarInout1);\n  myPort.getreply(s_aTemplate) -> param(v_myVarOut1:=D, v_myVarOut2:=E);\n  myPort.getreply(MyProc2:{ -, -, -, 3, ?}) -> param(v_myVarInout1:=E);\n  // The following example demonstrates the use of encoded parameters:\n  signature MyProc3(out integer paramType, out octetstring encodedParam);\n  template integer mw_int := ?;\n  …\n  var integer v_myVarX;\n  myPort.getreply(MyProc3:{1, decmatch mw_int}) -> param (v_myVarX := @decoded encodedParam);\n  // The parameters encodedParam is decoded into an integer and assigned to v_myVarX."
+    }
+   ],
+   "file": "tests/22-communication-operations/22.03.04_test_011.ttcn3",
+   "module": "M_22_03_04_test_011",
+   "header": "// @requirement: 22.3.4 -- The (optional) assignment part of the getreply operation comprises the assignment of out and inout parameter values to variables and the retrieval of the address of the sender of the reply."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.4-015a",
+   "section": "22.3.4",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The keyword value is used to retrieve return values and the keyword param is used to retrieve the parameter values of a reply.",
+   "canonical": "The `value` keyword in the assignment part of a `getreply` operation IS used to retrieve the return value of a reply.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18801,
+    18804
+   ],
+   "examples": [
+    {
+     "lines": [
+      18905,
+      18925
+     ],
+     "text": "myPort.getreply(MyProc1:{?, ?} value ?) -> value v_myRetValue param(v_myPar1, v_myPar2);\n  // The returned value is assigned to variable v_myRetValue and the value \n  // of the two out or inout parameters are assigned to the variables v_myPar1 and v_myPar2. \n  myPort.getreply(MyProc1:{?, ?} value ?)-> value v_myRetValue param(-,v_myPar2) sender mySender;\n  // The value of the first parameter is not considered for the further test execution and \n  // the address of the sender component is retrieved and stored in the variable mySender.\n  // The following examples describe some possibilities to assign out and inout parameter values \n  // to variables. The following signature is assumed for the procedure which has been called\n  signature MyProc2(in integer A, integer B, integer C, out integer D, inout integer E);\n  myPort.getreply(s_aTemplate) -> param( -, -, -, v_myVarOut1, v_myVarInout1);\n  myPort.getreply(s_aTemplate) -> param(v_myVarOut1:=D, v_myVarOut2:=E);\n  myPort.getreply(MyProc2:{ -, -, -, 3, ?}) -> param(v_myVarInout1:=E);\n  // The following example demonstrates the use of encoded parameters:\n  signature MyProc3(out integer paramType, out octetstring encodedParam);\n  template integer mw_int := ?;\n  …\n  var integer v_myVarX;\n  myPort.getreply(MyProc3:{1, decmatch mw_int}) -> param (v_myVarX := @decoded encodedParam);\n  // The parameters encodedParam is decoded into an integer and assigned to v_myVarX."
+    }
+   ],
+   "file": "tests/22-communication-operations/22.03.04_test_012.ttcn3",
+   "module": "M_22_03_04_test_012",
+   "header": "// @requirement: 22.3.4 -- The keyword value is used to retrieve return values and the keyword param is used to retrieve the parameter values of a reply."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.4-015b",
+   "section": "22.3.4",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The keyword value is used to retrieve return values and the keyword param is used to retrieve the parameter values of a reply.",
+   "canonical": "The `param` keyword in the assignment part of a `getreply` operation IS used to retrieve the parameter values of a reply.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18801,
+    18804
+   ],
+   "examples": [
+    {
+     "lines": [
+      18905,
+      18925
+     ],
+     "text": "myPort.getreply(MyProc1:{?, ?} value ?) -> value v_myRetValue param(v_myPar1, v_myPar2);\n  // The returned value is assigned to variable v_myRetValue and the value \n  // of the two out or inout parameters are assigned to the variables v_myPar1 and v_myPar2. \n  myPort.getreply(MyProc1:{?, ?} value ?)-> value v_myRetValue param(-,v_myPar2) sender mySender;\n  // The value of the first parameter is not considered for the further test execution and \n  // the address of the sender component is retrieved and stored in the variable mySender.\n  // The following examples describe some possibilities to assign out and inout parameter values \n  // to variables. The following signature is assumed for the procedure which has been called\n  signature MyProc2(in integer A, integer B, integer C, out integer D, inout integer E);\n  myPort.getreply(s_aTemplate) -> param( -, -, -, v_myVarOut1, v_myVarInout1);\n  myPort.getreply(s_aTemplate) -> param(v_myVarOut1:=D, v_myVarOut2:=E);\n  myPort.getreply(MyProc2:{ -, -, -, 3, ?}) -> param(v_myVarInout1:=E);\n  // The following example demonstrates the use of encoded parameters:\n  signature MyProc3(out integer paramType, out octetstring encodedParam);\n  template integer mw_int := ?;\n  …\n  var integer v_myVarX;\n  myPort.getreply(MyProc3:{1, decmatch mw_int}) -> param (v_myVarX := @decoded encodedParam);\n  // The parameters encodedParam is decoded into an integer and assigned to v_myVarX."
+    }
+   ],
+   "file": "tests/22-communication-operations/22.03.04_test_013.ttcn3",
+   "module": "M_22_03_04_test_013",
+   "header": "// @requirement: 22.3.4 -- The keyword value is used to retrieve return values and the keyword param is used to retrieve the parameter values of a reply."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.4-016a",
+   "section": "22.3.4",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The keyword sender is used when it is required to retrieve the address of the sender.",
+   "canonical": "The `sender` keyword in the assignment part of a `getreply` operation IS used to retrieve the address of the sender of the reply.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18801,
+    18804
+   ],
+   "examples": [
+    {
+     "lines": [
+      18905,
+      18925
+     ],
+     "text": "myPort.getreply(MyProc1:{?, ?} value ?) -> value v_myRetValue param(v_myPar1, v_myPar2);\n  // The returned value is assigned to variable v_myRetValue and the value \n  // of the two out or inout parameters are assigned to the variables v_myPar1 and v_myPar2. \n  myPort.getreply(MyProc1:{?, ?} value ?)-> value v_myRetValue param(-,v_myPar2) sender mySender;\n  // The value of the first parameter is not considered for the further test execution and \n  // the address of the sender component is retrieved and stored in the variable mySender.\n  // The following examples describe some possibilities to assign out and inout parameter values \n  // to variables. The following signature is assumed for the procedure which has been called\n  signature MyProc2(in integer A, integer B, integer C, out integer D, inout integer E);\n  myPort.getreply(s_aTemplate) -> param( -, -, -, v_myVarOut1, v_myVarInout1);\n  myPort.getreply(s_aTemplate) -> param(v_myVarOut1:=D, v_myVarOut2:=E);\n  myPort.getreply(MyProc2:{ -, -, -, 3, ?}) -> param(v_myVarInout1:=E);\n  // The following example demonstrates the use of encoded parameters:\n  signature MyProc3(out integer paramType, out octetstring encodedParam);\n  template integer mw_int := ?;\n  …\n  var integer v_myVarX;\n  myPort.getreply(MyProc3:{1, decmatch mw_int}) -> param (v_myVarX := @decoded encodedParam);\n  // The parameters encodedParam is decoded into an integer and assigned to v_myVarX."
+    },
+    {
+     "lines": [
+      18928,
+      18933
+     ],
+     "text": "myPort.getreply; // Removes the top reply from myPort.\n  myPort.getreply from myPeer; // Removes the top reply received from myPeer from myPort.\n  myPort.getreply -> sender v_mySenderVar; // Removes the top reply from myPort and retrieves \n                             // the address of the sender entity"
+    }
+   ],
+   "file": "tests/22-communication-operations/22.03.04_test_014.ttcn3",
+   "module": "M_22_03_04_test_014",
+   "header": "// @requirement: 22.3.4 -- The keyword sender is used when it is required to retrieve the address of the sender."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.4-017a",
+   "section": "22.3.4",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "When assigning individual parameters or referenced fields of the return value of a reply, encoded parameters can be decoded prior to assignment using the @decoded modifier.",
+   "canonical": "When individual parameters or referenced fields of the return value of a reply are assigned, encoded parameters MAY be decoded prior to assignment by using the `@decoded` modifier.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18811,
+    18820
+   ],
+   "examples": [
+    {
+     "lines": [
+      18905,
+      18925
+     ],
+     "text": "myPort.getreply(MyProc1:{?, ?} value ?) -> value v_myRetValue param(v_myPar1, v_myPar2);\n  // The returned value is assigned to variable v_myRetValue and the value \n  // of the two out or inout parameters are assigned to the variables v_myPar1 and v_myPar2. \n  myPort.getreply(MyProc1:{?, ?} value ?)-> value v_myRetValue param(-,v_myPar2) sender mySender;\n  // The value of the first parameter is not considered for the further test execution and \n  // the address of the sender component is retrieved and stored in the variable mySender.\n  // The following examples describe some possibilities to assign out and inout parameter values \n  // to variables. The following signature is assumed for the procedure which has been called\n  signature MyProc2(in integer A, integer B, integer C, out integer D, inout integer E);\n  myPort.getreply(s_aTemplate) -> param( -, -, -, v_myVarOut1, v_myVarInout1);\n  myPort.getreply(s_aTemplate) -> param(v_myVarOut1:=D, v_myVarOut2:=E);\n  myPort.getreply(MyProc2:{ -, -, -, 3, ?}) -> param(v_myVarInout1:=E);\n  // The following example demonstrates the use of encoded parameters:\n  signature MyProc3(out integer paramType, out octetstring encodedParam);\n  template integer mw_int := ?;\n  …\n  var integer v_myVarX;\n  myPort.getreply(MyProc3:{1, decmatch mw_int}) -> param (v_myVarX := @decoded encodedParam);\n  // The parameters encodedParam is decoded into an integer and assigned to v_myVarX."
+    }
+   ],
+   "file": "tests/22-communication-operations/22.03.04_test_015.ttcn3",
+   "module": "M_22_03_04_test_015",
+   "header": "// @requirement: 22.3.4 -- When assigning individual parameters or referenced fields of the return value of a reply, encoded parameters can be decoded prior to assignment using the @decoded modifier."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.4-018a",
+   "section": "22.3.4",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "In this case, the referenced parameter or field of the return value on the right hand sided of the assignment shall be one of the bitstring, hexstring, octetstring, charstring or universal charstring types.",
+   "canonical": "If the `@decoded` modifier is used, the referenced parameter or field of the return value on the right hand side of the assignment SHALL be of a bitstring, hexstring, octetstring, charstring or universal charstring type.",
+   "condition": "the @decoded modifier is used",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18811,
+    18820
+   ],
+   "examples": [
+    {
+     "lines": [
+      18905,
+      18925
+     ],
+     "text": "myPort.getreply(MyProc1:{?, ?} value ?) -> value v_myRetValue param(v_myPar1, v_myPar2);\n  // The returned value is assigned to variable v_myRetValue and the value \n  // of the two out or inout parameters are assigned to the variables v_myPar1 and v_myPar2. \n  myPort.getreply(MyProc1:{?, ?} value ?)-> value v_myRetValue param(-,v_myPar2) sender mySender;\n  // The value of the first parameter is not considered for the further test execution and \n  // the address of the sender component is retrieved and stored in the variable mySender.\n  // The following examples describe some possibilities to assign out and inout parameter values \n  // to variables. The following signature is assumed for the procedure which has been called\n  signature MyProc2(in integer A, integer B, integer C, out integer D, inout integer E);\n  myPort.getreply(s_aTemplate) -> param( -, -, -, v_myVarOut1, v_myVarInout1);\n  myPort.getreply(s_aTemplate) -> param(v_myVarOut1:=D, v_myVarOut2:=E);\n  myPort.getreply(MyProc2:{ -, -, -, 3, ?}) -> param(v_myVarInout1:=E);\n  // The following example demonstrates the use of encoded parameters:\n  signature MyProc3(out integer paramType, out octetstring encodedParam);\n  template integer mw_int := ?;\n  …\n  var integer v_myVarX;\n  myPort.getreply(MyProc3:{1, decmatch mw_int}) -> param (v_myVarX := @decoded encodedParam);\n  // The parameters encodedParam is decoded into an integer and assigned to v_myVarX."
+    }
+   ],
+   "file": "tests/22-communication-operations/22.03.04_test_016.ttcn3",
+   "module": "M_22_03_04_test_016",
+   "header": "// @requirement: 22.3.4 -- In this case, the referenced parameter or field of the return value on the right hand sided of the assignment shall be one of the bitstring, hexstring, octetstring, charstring or universal charstring types."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.4-019a",
+   "section": "22.3.4",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "It shall be decoded into a value of the same type as the variable on the left hand side of the assignment.",
+   "canonical": "If the `@decoded` modifier is used, the referenced parameter or field SHALL be decoded into a value of the same type as the variable on the left hand side of the assignment.",
+   "condition": "the @decoded modifier is used",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18811,
+    18820
+   ],
+   "examples": [
+    {
+     "lines": [
+      18905,
+      18925
+     ],
+     "text": "myPort.getreply(MyProc1:{?, ?} value ?) -> value v_myRetValue param(v_myPar1, v_myPar2);\n  // The returned value is assigned to variable v_myRetValue and the value \n  // of the two out or inout parameters are assigned to the variables v_myPar1 and v_myPar2. \n  myPort.getreply(MyProc1:{?, ?} value ?)-> value v_myRetValue param(-,v_myPar2) sender mySender;\n  // The value of the first parameter is not considered for the further test execution and \n  // the address of the sender component is retrieved and stored in the variable mySender.\n  // The following examples describe some possibilities to assign out and inout parameter values \n  // to variables. The following signature is assumed for the procedure which has been called\n  signature MyProc2(in integer A, integer B, integer C, out integer D, inout integer E);\n  myPort.getreply(s_aTemplate) -> param( -, -, -, v_myVarOut1, v_myVarInout1);\n  myPort.getreply(s_aTemplate) -> param(v_myVarOut1:=D, v_myVarOut2:=E);\n  myPort.getreply(MyProc2:{ -, -, -, 3, ?}) -> param(v_myVarInout1:=E);\n  // The following example demonstrates the use of encoded parameters:\n  signature MyProc3(out integer paramType, out octetstring encodedParam);\n  template integer mw_int := ?;\n  …\n  var integer v_myVarX;\n  myPort.getreply(MyProc3:{1, decmatch mw_int}) -> param (v_myVarX := @decoded encodedParam);\n  // The parameters encodedParam is decoded into an integer and assigned to v_myVarX."
+    }
+   ],
+   "file": "tests/22-communication-operations/22.03.04_test_017.ttcn3",
+   "module": "M_22_03_04_test_017",
+   "header": "// @requirement: 22.3.4 -- It shall be decoded into a value of the same type as the variable on the left hand side of the assignment."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.4-020a",
+   "section": "22.3.4",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "Failure of this decoding shall cause a test case error.",
+   "canonical": "A failure of the decoding of a parameter or field with the `@decoded` modifier in a `getreply` operation SHALL cause a test case error.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18811,
+    18820
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.04_test_018.ttcn3",
+   "module": "M_22_03_04_test_018",
+   "header": "// @requirement: 22.3.4 -- Failure of this decoding shall cause a test case error."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.4-021a",
+   "section": "22.3.4",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "In case the parameter or referenced field of the return value is of the universal `charstring type, the @decoded clause can contain an` optional parameter defining the encoding format.",
+   "canonical": "If the parameter or referenced field of the return value is of the universal charstring type, the `@decoded` clause MAY contain an optional parameter defining the encoding format.",
+   "condition": "the parameter or field is of universal charstring type",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18811,
+    18820
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.04_test_019.ttcn3",
+   "module": "M_22_03_04_test_019",
+   "header": "// @requirement: 22.3.4 -- In case the parameter or referenced field of the return value is of the universal `charstring type, the @decoded clause can contain an` optional parameter defining the encoding format."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.4-022a",
+   "section": "22.3.4",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "The parameter shall be of the charstring type and it shall contain one of the strings allowed for the decvalue_unichar function (specified in clause C.5.4).",
+   "canonical": "The encoding format parameter of the `@decoded` clause SHALL be of the charstring type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18811,
+    18820
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.04_test_020.ttcn3",
+   "module": "M_22_03_04_test_020",
+   "header": "// @requirement: 22.3.4 -- The parameter shall be of the charstring type and it shall contain one of the strings allowed for the decvalue_unichar function (specified in clause C.5.4)."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.4-022b",
+   "section": "22.3.4",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "The parameter shall be of the charstring type and it shall contain one of the strings allowed for the decvalue_unichar function (specified in clause C.5.4).",
+   "canonical": "The encoding format parameter of the `@decoded` clause SHALL contain one of the strings allowed for the `decvalue_unichar` function.",
+   "condition": null,
+   "cross_refs": [
+    "C.5.4"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18811,
+    18820
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.04_test_021.ttcn3",
+   "module": "M_22_03_04_test_021",
+   "header": "// @requirement: 22.3.4 -- The parameter shall be of the charstring type and it shall contain one of the strings allowed for the decvalue_unichar function (specified in clause C.5.4)."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.4-023a",
+   "section": "22.3.4",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "Any other value shall cause an error.",
+   "canonical": "An encoding format parameter value of the `@decoded` clause other than the strings allowed for `decvalue_unichar` SHALL cause an error.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "readings": [
+     "An invalid encoding format parameter value of the `@decoded` clause SHALL cause a test case error at runtime.",
+     "An invalid encoding format parameter value of the `@decoded` clause SHALL cause a compile-time error when it is statically known."
+    ],
+    "issue": "The kind of error (compile-time or test case error) is not stated; the canonical keeps the generic 'error'."
+   },
+   "spec_lines": [
+    18811,
+    18820
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.04_test_022.ttcn3",
+   "module": "M_22_03_04_test_022",
+   "header": "// @requirement: 22.3.4 -- Any other value shall cause an error."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.4-024a",
+   "section": "22.3.4",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "In case the parameter or referenced field of the return value is not a universal **char string, the** optional parameter shall not be present.",
+   "canonical": "If the parameter or referenced field of the return value is not of the universal charstring type, the optional encoding format parameter of the `@decoded` clause SHALL NOT be present.",
+   "condition": "the parameter or field is not of universal charstring type",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "improper_terms": [
+     {
+      "used": "universal char string",
+      "proper": "universal charstring",
+      "glossary": false
+     }
+    ],
+    "issue": "The text writes 'universal char string' (PDF formatting artefact) where the type 'universal charstring' is meant."
+   },
+   "spec_lines": [
+    18811,
+    18820
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.04_test_023.ttcn3",
+   "module": "M_22_03_04_test_023",
+   "header": "// @requirement: 22.3.4 -- In case the parameter or referenced field of the return value is not a universal **char string, the** optional parameter shall not be present."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.4-026a",
+   "section": "22.3.4",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "A getreply operation with no argument list for the signature matching criteria shall remove the reply message on the top of the incoming port queue (if any) if all other matching criteria are fulfilled.",
+   "canonical": "A `getreply` operation with no argument list for the signature matching criteria SHALL remove the reply on the top of the incoming port queue, if any, if all other matching criteria are fulfilled.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18824,
+    18825
+   ],
+   "examples": [
+    {
+     "lines": [
+      18928,
+      18933
+     ],
+     "text": "myPort.getreply; // Removes the top reply from myPort.\n  myPort.getreply from myPeer; // Removes the top reply received from myPeer from myPort.\n  myPort.getreply -> sender v_mySenderVar; // Removes the top reply from myPort and retrieves \n                             // the address of the sender entity"
+    }
+   ],
+   "file": "tests/22-communication-operations/22.03.04_test_024.ttcn3",
+   "module": "M_22_03_04_test_024",
+   "header": "// @requirement: 22.3.4 -- A getreply operation with no argument list for the signature matching criteria shall remove the reply message on the top of the incoming port queue (if any) if all other matching criteria are fulfilled."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.4-027a",
+   "section": "22.3.4",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "If GetAnyReply is used in the response and exception handling part of a call operation, it shall only treat replies from the procedure invoked by the call operation.",
+   "canonical": "If a get any reply operation is used in the response and exception handling part of a `call` operation, it SHALL only treat replies from the procedure invoked by that `call` operation.",
+   "condition": "used in the response and exception handling part of a call operation",
+   "cross_refs": [
+    "22.3.1"
+   ],
+   "ambiguity": {
+    "status": "terminology",
+    "improper_terms": [
+     {
+      "used": "GetAnyReply",
+      "proper": "get any reply (getreply operation without signature argument)",
+      "glossary": false
+     }
+    ],
+    "issue": "'GetAnyReply' is a BNF-style name that is not defined in this clause; the 'get any reply' form of the getreply operation is meant."
+   },
+   "spec_lines": [
+    18827,
+    18828
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.04_test_025.ttcn3",
+   "module": "M_22_03_04_test_025",
+   "header": "// @requirement: 22.3.4 -- If GetAnyReply is used in the response and exception handling part of a call operation, it shall only treat replies from the procedure invoked by the call operation."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.4-029a",
+   "section": "22.3.4",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "To get a reply on any port, use the any port keywords.",
+   "canonical": "A `getreply` operation on any port IS specified by using the `any port` keywords.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18832,
+    18832
+   ],
+   "examples": [
+    {
+     "lines": [
+      18936,
+      18938
+     ],
+     "text": "any port.getreply(Myproc:?)"
+    }
+   ],
+   "file": "tests/22-communication-operations/22.03.04_test_026.ttcn3",
+   "module": "M_22_03_04_test_026",
+   "header": "// @requirement: 22.3.4 -- To get a reply on any port, use the any port keywords."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.4-031a",
+   "section": "22.3.4",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "To get a reply on any port from a specific port array, use the any from PortArrayRef syntax where PortArrayRef shall be a reference to a port array identifier.",
+   "canonical": "A `getreply` operation on any port of a specific port array IS specified by using the `any from` PortArrayRef syntax.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18836,
+    18843
+   ],
+   "examples": [
+    {
+     "lines": [
+      18946,
+      18955
+     ],
+     "text": "type port MyPort procedure { inout MyProc }\n  type component MyComponent {\n    port MyPort p[10][10];\n  }\n  var integer v_i[2];\n  any from p.getreply(MyProc:?) -> @index value v_i; \n  // Getting a reply of the type MyProc on any port of the port array p and\n  // storing the index of the port on which the matching was successful first"
+    }
+   ],
+   "file": "tests/22-communication-operations/22.03.04_test_027.ttcn3",
+   "module": "M_22_03_04_test_027",
+   "header": "// @requirement: 22.3.4 -- To get a reply on any port from a specific port array, use the any from PortArrayRef syntax where PortArrayRef shall be a reference to a port array identifier."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.4-031b",
+   "section": "22.3.4",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "To get a reply on any port from a specific port array, use the any from PortArrayRef syntax where PortArrayRef shall be a reference to a port array identifier.",
+   "canonical": "The PortArrayRef in an `any from` PortArrayRef construct of a `getreply` operation SHALL be a reference to a port array identifier.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18836,
+    18843
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.04_test_028.ttcn3",
+   "module": "M_22_03_04_test_028",
+   "header": "// @requirement: 22.3.4 -- To get a reply on any port from a specific port array, use the any from PortArrayRef syntax where PortArrayRef shall be a reference to a port array identifier."
+  },
+  {
+   "id": "TTCN3-CORE-22.3.4-032a",
+   "section": "22.3.4",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "It is also possible to store the index of a port in a single-dimensional port array at which the operation was successful to a variable of type integer or, in case of multi-dimensional port arrays the index of the successful port to an integer array or record of integer variable.",
+   "canonical": "The index of the port of a single-dimensional port array at which the `getreply` operation was successful MAY be stored in a variable of type integer.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18836,
+    18843
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.03.04_test_029.ttcn3",
+   "module": "M_22_03_04_test_029",
+   "header": "// @requirement: 22.3.4 -- It is also possible to store the index of a port in a single-dimensional port array at which the operation was successful to a variable of type integer or, in case of multi-dimensional port arrays the index of the successful port to an integer array or record of integer variable."
+  }
+ ]
+}

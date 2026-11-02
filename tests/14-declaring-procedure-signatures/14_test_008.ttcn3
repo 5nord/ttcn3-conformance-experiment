@@ -1,0 +1,38 @@
+// @requirement: 14 -- By default, signature definitions without the noblock keyword are assumed to be used for blocking procedure-based communication.
+// @id: TTCN3-CORE-14-007a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_14_test_008 {
+
+    signature S();
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    function f_server() runs on C {
+        p.getcall(S:{});
+        p.reply(S:{});
+    }
+
+    testcase TC() runs on C {
+        var boolean v_replied := false;
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_server());
+        p.call(S:{}, 1.0) {
+            [] p.getreply(S:{}) { v_replied := true; }
+            [] p.catch(timeout) {}
+        }
+        if (v_replied) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

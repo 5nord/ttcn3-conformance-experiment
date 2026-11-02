@@ -1,0 +1,48 @@
+// @requirement: 22.3.1 -- A further possibility is to use the nowait directive and to handle all responses and exceptions in subsequent alt or interleave statements.
+// @id: TTCN3-CORE-22.3.1-046a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_03_01_test_034 {
+
+    signature S(in integer p_x) return integer exception (integer);
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+        timer T := 2.0;
+    }
+
+    altstep a_guard() runs on C {
+        [] T.timeout { setverdict(fail); stop; }
+    }
+
+    function f_reply() runs on C {
+        p.getcall(S:{?});
+        p.reply(S:{-} value 1);
+    }
+
+    function f_raise() runs on C {
+        p.getcall(S:{?});
+        p.raise(S, 2);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc1 := C.create, v_ptc2 := C.create;
+        connect(mtc:p, v_ptc1:p);
+        connect(mtc:p, v_ptc2:p);
+        v_ptc1.start(f_reply());
+        v_ptc2.start(f_raise());
+        activate(a_guard());
+        T.start;
+        p.call(S:{0}, nowait) to all component;
+        interleave {
+            [] p.getreply(S:{-} value 1) from v_ptc1 {}
+            [] p.catch(S, integer:2) from v_ptc2 {}
+        }
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

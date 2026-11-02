@@ -1,0 +1,28 @@
+// @requirement: 7.0 -- TTCN-3 expressions may be template references, value references or literals (i.e. no operation is involved), and may be composed of the operators defined in clause 7.1.
+// @id: TTCN3-CORE-7.0-002b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_07_00_test_002 {
+
+    type component C {}
+
+    const integer c_x := 1;
+    const integer c_y := 2;
+    const integer c_z := 3;
+
+    function f_increment(integer p_i) return integer {
+        return p_i + 1;
+    }
+
+    testcase TC() runs on C {
+        var integer v_i := (c_x + c_y - f_increment(c_z)) * 3;
+        if (v_i == -3) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

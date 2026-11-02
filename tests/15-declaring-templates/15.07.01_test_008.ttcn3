@@ -1,0 +1,52 @@
+// @requirement: 15.7.1 -- Col1: octetstring; Col2: Yes; Table 11: TTCN-3 Matching Mechanisms: Yes1; Col4: Yes; Col5: Yes; Col6: Yes; Col7: Yes1; Col12: Yes; Col13: Yes; Col14: Yes; Col16: Yes; Col17: Yes1
+// @id: TTCN3-CORE-15.7.1-014a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_07_01_test_008 {
+
+    type component C {}
+
+    type record R {
+        octetstring f optional
+    }
+
+    type integer Payload with { encode "RAW" }
+
+    template octetstring m_spec := 'AB'O;
+    template octetstring m_omit := omit;
+    template octetstring m_compl := complement('AB'O);
+    template octetstring m_list := ('AB'O, 'CD'O);
+    template octetstring m_any := ?;
+    template octetstring m_anyOrNone := *;
+    template octetstring m_decmatch := decmatch Payload:?;
+    template octetstring m_anyElem := 'AB?CD'O;
+    template octetstring m_anyElems := 'AB*'O;
+    template octetstring m_length := ? length(2);
+    template R m_rOmit := { f := omit };
+    template R m_rAnyOrNone := { f := * };
+    template R m_rIfPresent := { f := 'AB'O ifpresent };
+
+    testcase TC() runs on C {
+        var R v_absent := { f := omit };
+        var R v_present := { f := 'AB'O };
+        var R v_other := { f := 'CD'O };
+        if (match('AB'O, m_spec) and not match('AC'O, m_spec) and
+            match('AC'O, m_compl) and not match('AB'O, m_compl) and
+            match('CD'O, m_list) and not match('EF'O, m_list) and
+            match('00'O, m_any) and
+            match('AB00CD'O, m_anyElem) and not match('ABCD'O, m_anyElem) and
+            match('AB'O, m_anyElems) and match('AB0102'O, m_anyElems) and not match('CDAB'O, m_anyElems) and
+            match('0102'O, m_length) and not match('01'O, m_length) and
+            match(v_absent, m_rOmit) and not match(v_present, m_rOmit) and
+            match(v_absent, m_rAnyOrNone) and match(v_present, m_rAnyOrNone) and
+            match(v_absent, m_rIfPresent) and match(v_present, m_rIfPresent) and
+            not match(v_other, m_rIfPresent)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

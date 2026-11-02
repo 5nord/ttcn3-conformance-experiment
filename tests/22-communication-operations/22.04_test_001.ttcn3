@@ -1,0 +1,45 @@
+// @requirement: 22.4 -- The check operation allows reading the top element of a message-based or procedure-based incoming port queue.
+// @id: TTCN3-CORE-22.4-001a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_04_test_001 {
+
+    type port MP message { inout integer; }
+
+    signature S(inout integer p_x) return integer exception (charstring);
+
+    type port PP procedure { inout S; }
+
+    type component C {
+        port MP p1, p2;
+        port PP q1, q2;
+        timer T := 1.0;
+    }
+
+    testcase TC() runs on C {
+        var integer v_msg := 0;
+        var integer v_par := 0;
+        connect(mtc:p1, mtc:p2);
+        connect(mtc:q1, mtc:q2);
+        p1.send(5);
+        q1.call(S:{1}, nowait);
+        T.start;
+        alt {
+            [] p2.check(receive(integer:?) -> value v_msg) { }
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        T.start;
+        alt {
+            [] q2.check(getcall(S:{?}) -> param(v_par)) { }
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        if (v_msg == 5 and v_par == 1) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

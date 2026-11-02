@@ -1,0 +1,30 @@
+// @requirement: C.1.33 -- The value or template passed as a parameter to the any2unichar function may be uninitialized, partially or completely initialized.
+// @id: TTCN3-CORE-C.1.33-004a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_01_33_test_004 {
+
+    type record R {
+        integer field1,
+        integer field2
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_uninit;
+        var template R mw_partial := { field1 := 1, field2 := - };
+        var template R mw_complete := { field1 := 1, field2 := 2 };
+        var universal charstring v_res1 := any2unistr(v_uninit);
+        var universal charstring v_res2 := any2unistr(mw_partial);
+        var universal charstring v_res3 := any2unistr(mw_complete);
+        if (lengthof(v_res1) > 0 and lengthof(v_res2) > 0 and lengthof(v_res3) > 0) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

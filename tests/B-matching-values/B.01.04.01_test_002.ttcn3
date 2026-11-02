@@ -1,0 +1,28 @@
+// @requirement: B.1.4.1 -- It can also be used in conjunction with the ifpresent matching attribute.
+// @id: TTCN3-CORE-B.1.4.1-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_04_01_test_002 {
+
+    type record R {
+        charstring f optional
+    }
+
+    type component C {}
+
+    template R mw_r := { f := ? length(2) ifpresent };
+
+    testcase TC() runs on C {
+        var R v_omit := { f := omit };
+        var R v_ok := { f := "ab" };
+        var R v_long := { f := "abc" };
+        if (match(v_omit, mw_r) and match(v_ok, mw_r) and not match(v_long, mw_r)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

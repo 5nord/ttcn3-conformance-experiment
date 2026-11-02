@@ -1,0 +1,22 @@
+// @requirement: 21.1.2 -- a) In an unmap operation, a param clause shall only be present if the system port to which the param clause belongs to is explicitly referenced.
+// @id: TTCN3-CORE-21.1.2-017a
+// @verdict: pass reject
+module M_21_01_02_test_019 {
+
+    type port P message {
+        inout integer;
+        unmap param (integer p_x);
+    }
+
+    type component C { port P p; }
+
+    testcase TC() runs on C system C {
+        map(self:p, system:p);
+        unmap(self:p) param (1); // error: system port not explicitly referenced
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

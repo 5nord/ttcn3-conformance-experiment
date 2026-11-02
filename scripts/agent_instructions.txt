@@ -1,0 +1,194 @@
+TTCN-3 REQUIREMENTS EXTRACTION - INSTRUCTIONS FOR ONE PART
+
+Working directory: /home/mef/Projects/core-language-4.17.1
+Spec (markdown):   "TTCN-3 Core Language, ETSI ES 201 873-1.md"  (ETSI ES 201 873-1 V4.17.1)
+Glossary:          ttcn3-terms-3.1.json  (clause 3.1 terms with definitions)
+Your input:        sentences/parts/<PART>.json   (the units you must process)
+Your output:       parts/<PART>.json             (or, for large parts, batches parts/<PART>.b01.json, parts/<PART>.b02.json, ...)
+Validator:         python3 scripts/validate.py part <PART>
+
+GOAL
+Every unit (sentence, list item, table row, note, example text, code block, syntax block, static-semantics rule)
+in your input file must be processed. From each one, extract the entities, used terms, relationships and all
+requirements, restrictions, permissions, definitions and semantic rules. A unit that carries no requirement
+must be listed explicitly in "non_requirement". The validator fails if any unit is not covered.
+
+PROCEDURE
+1. Read sentences/parts/<PART>.json. Each unit has id, section, kind, context, normative, text, lines.
+   Read the corresponding line range of the spec markdown as well, to understand the context: tables,
+   examples, and what pronouns and "this"/"the above" refer to. The markdown is a PDF conversion, so some
+   tables appear twice, once garbled ("table-text" units) and once as a pipe table ("table-row" units).
+   Extract the content from the cleanest rendering, and mark the other rendering as category "duplicate".
+2. Read ttcn3-terms-3.1.json once, and use its term names when naming entities and subjects.
+3. Work through the units in order, writing the output JSON. For parts with more than about 60 units,
+   write batches (b01, b02, ...) of about 40 units each, so that no single write gets too large. Every batch
+   is a JSON object with the same five top-level lists (any of them may be empty). Write the files with
+   the Write tool, or with a small python script; the JSON must be valid.
+4. Run the validator. Fix all ERRORs and re-run until there are 0 errors. Review the WARNs (wrong
+   in_glossary flags, normative units marked non-requirement) and fix them where they are real.
+5. Final answer to the caller (short): the part id, number of units, requirements, entities and
+   ambiguous/terminology requirements, the validator result line, and any problems you could not resolve.
+
+OUTPUT FORMAT (top-level object, all five keys required)
+{
+ "entities": [
+   {"id": "ent:formal-parameter", "name": "formal parameter", "category": "<entity category>",
+    "term_ref": "formal parameter" | null, "sentence_ids": ["5.4.1.0-s003"]}
+ ],
+ "terms_used": [
+   {"term": "formal parameter", "in_glossary": true, "sentence_ids": ["..."]}
+ ],
+ "relationships": [
+   {"subject": "ent:formal-parameter", "predicate": "is-defined-in", "object": "ent:formal-parameter-list",
+    "sentence_ids": ["5.4.1.0-s004"]}
+ ],
+ "requirements": [
+   {"id": "TTCN3-CORE-5.4.1.0-012a",
+    "section": "5.4.1.0",
+    "type": "<requirement type>",
+    "modality": "<modality>",
+    "subject": "ent:actual-parameter",
+    "condition": "the parameter is passed by reference" | null,
+    "canonical": "An actual parameter passed by reference SHALL be of the same type as the formal parameter.",
+    "original": "Both the actual and formal parameter shall be of the same type.",
+    "normative": true,
+    "testable": true,
+    "cross_refs": ["6.3"],
+    "sentence_ids": ["5.4.1.0-s012", "5.4.1.0-s011"],
+    "examples": ["5.4.1.1-s020"],
+    "ambiguity": {"status": "clear"}
+   }
+ ],
+ "non_requirement": [
+   {"sentence_id": "5.4.0-s003", "category": "<non-requirement category>",
+    "reason": "pointer to table 2, content extracted from table rows 5.4.1.0-s025..s029"}
+ ]
+}
+
+ALLOWED VALUES
+ entity category:  language-element | type | value | operation | statement | keyword | modifier | operator |
+                   attribute | matching-mechanism | predefined-function | concept | error | entity
+ requirement type: requirement (positive obligation) | restriction (limits where/how something may be used) |
+                   prohibition (SHALL NOT) | permission (MAY) | recommendation (SHOULD) |
+                   definition (defines/names a concept) | semantics (dynamic/runtime behaviour) |
+                   static-semantics (compile-time rule) | syntax (syntax rule stated in prose/syntax block) |
+                   information (descriptive statement that is still a checkable fact, e.g. from NOTEs)
+ modality:         SHALL | SHALL NOT | SHOULD | SHOULD NOT | MAY | NEED NOT | CAN | CANNOT | IS | IS NOT
+ non-req category: informative | example | cross-reference | heading | duplicate | editorial | syntax |
+                   table-structure | covered-elsewhere
+ ambiguity.status: clear | ambiguous | terminology
+
+REQUIREMENT IDs (used to measure conformance-test coverage; must be stable)
+ - id = "TTCN3-CORE-" + <section of first source unit> + "-" + <3-digit number of that unit> + <letter>
+   The first source unit is sentence_ids[0]. Example: first unit "5.4.1.0-s012" gives "TTCN3-CORE-5.4.1.0-012a".
+   The letters a, b, c, ... number the atomic requirements that start at the same unit (after z, use aa, ab, ...).
+ - sentence_ids[0] MUST be the unit the requirement is primarily derived from. Additional units (context, e.g. the
+   sentence that supplies the condition) come after it.
+ - Never invent numbers. Never reuse an id.
+
+WHAT TO EXTRACT FROM EACH UNIT
+ - Split compound sentences into ATOMIC requirements: one modal verb, one constraint each.
+   "X shall be A and shall not be B" gives two requirements (...a, ...b).
+   A list of alternatives that forms a single constraint ("shall be in, inout or out parameters") stays one requirement.
+ - Restrictions lists (context "Restrictions", items a), b), ...) are normative. Each item usually gives one or more
+   restriction/prohibition/static-semantics requirements.
+ - "Semantic Description" prose usually gives semantics/definition requirements.
+ - Syntax blocks: add one requirement of type "syntax", modality "IS", whose canonical text describes the syntactic
+   structure in words (e.g. "The send operation has the syntax Port.send(TemplateInstance) [to Recipient]."),
+   or list the block as non_requirement with category "syntax" if a requirement in the same section already
+   covers it. Prefer the requirement.
+ - Table rows (normative tables): every row normally gives at least one requirement. Example: a row stating which
+   parameter types a testcase allows gives "A testcase formal parameter list MAY contain ... ".
+ - Static semantics rules (Annex A): type "static-semantics", one requirement per rule.
+ - Definitions ("These objects are called parameterized objects.") are type "definition", modality "IS".
+ - Descriptive statements without modal verbs ("TTCN-3 identifiers are case sensitive.") are still requirements
+   when they constrain the language or the behaviour of a tool. Use modality IS / IS NOT. They are
+   normative when they come from normative text.
+ - Pure pointers ("See examples in clause 5.4.1.1.", "is given in table 2") are non_requirement / cross-reference.
+   Record the referenced clause in cross_refs of related requirements where useful.
+ - NOTEs: process every sentence. If a NOTE states a fact, a consequence or a recommendation, add a requirement
+   with normative=false (type information/recommendation). Otherwise use non_requirement / informative.
+ - EXAMPLEs: example captions and code are non_requirement / example, unless the example text states a rule.
+   Link each example code unit to the requirements it illustrates through their "examples" field. Code comments
+   such as "// Is NOT allowed: ..." show which requirement is tested. Put the code unit id in that
+   requirement's "examples". A unit referenced in "examples" counts as covered. If no requirement fits, add
+   the unit to non_requirement with category example and a short reason.
+ - normative: false for anything derived only from note / example-text / example-code / caption units;
+   true otherwise. (merge.py recomputes this flag from the unit labels.) If you believe a unit is mislabeled
+   (e.g. normative text labeled example-text because of PDF conversion), do not add unrelated context units to
+   work around it; mention the unit ids in your final answer instead.
+ - If a table in your part exists only in garbled form, look for its clean pipe-table rendering at the start of
+   the next part's inventory (sentences/parts/*.json; grep for a distinctive row text) before guessing columns.
+   If it is there, mark your garbled units as category "duplicate" naming the clean unit ids, and do not
+   extract requirements from them.
+ - Pipe tables are sometimes placed after the next heading by the PDF conversion, so their units carry the next
+   section number. That is acceptable: keep the unit's section in the requirement id and put the real clause in
+   cross_refs.
+ - testable: true if a conformance test (positive or negative TTCN-3 test, compile-time or runtime) could
+   check it; false for definitions without observable effect, informative statements, or tool-internal
+   behaviour that cannot be observed.
+
+CANONICALIZATION (make the requirements comparable)
+ - Write in active voice, subject first, modal verb in UPPER CASE, present tense, one sentence, ending with ".".
+   Pattern: "<Subject> <MODAL> <predicate> [<object>]." The condition goes into the "condition" field and may
+   additionally be stated as a leading "If/When ..., " clause in the canonical text.
+ - Normalize: "is not allowed", "shall not be used", "is forbidden", "cannot be used" (when a rule is meant)
+   become SHALL NOT. "is allowed", "may be used", "can be used" (when a permission is meant) become MAY.
+   "is required", "has to", "must" become SHALL. "it is recommended" becomes SHOULD.
+   "can" describing a capability (not a permission) stays CAN.
+ - Resolve every pronoun, "this", "such", "the above", "the former", etc. to the concrete entity.
+ - Use glossary terms (ttcn3-terms-3.1.json) for subjects and objects where one applies, otherwise a lowercase
+   singular noun phrase. Quote TTCN-3 keywords and operations in backticks: `omit`, `send`, `@lazy`.
+ - Use singular: "A formal parameter SHALL ..." instead of "Formal parameters shall ...".
+ - "original" holds the verbatim source text (the relevant sentence or table row).
+
+ENTITIES, TERMS, RELATIONSHIPS
+ - Entities: every language concept that is a subject or object of a requirement, plus every other significant
+   concept named in the unit. id = "ent:" + kebab-case of the singular name (e.g. ent:record-of-type,
+   ent:send-operation, ent:lazy-modifier). Use the same id for the same concept everywhere (check the
+   glossary names first). term_ref = the exact glossary term if one exists, else null.
+ - Preferred ids for frequent concepts (use exactly these; keyword-style spelling for keywords):
+   ent:module, ent:module-parameter, ent:import-statement, ent:group, ent:type, ent:basic-type, ent:structured-type,
+   ent:record-type, ent:set-type, ent:record-of-type, ent:set-of-type, ent:union-type, ent:enumerated-type,
+   ent:anytype, ent:array, ent:map-type, ent:open-type, ent:component-type, ent:port-type, ent:address-type,
+   ent:default-type, ent:timer-type, ent:value, ent:template, ent:template-instance, ent:template-restriction,
+   ent:constant, ent:variable, ent:template-variable, ent:timer, ent:port, ent:test-component, ent:mtc,
+   ent:ptc, ent:system-component, ent:function, ent:external-function, ent:altstep, ent:testcase,
+   ent:module-control-function (V4.17.1 uses "module control function"; "control part" is the outdated
+   term, so do NOT flag "control function" as improper), ent:control-behaviour, ent:formal-parameter, ent:actual-parameter, ent:formal-parameter-list, ent:identifier,
+   ent:keyword, ent:scope-unit, ent:expression, ent:statement-block, ent:matching-mechanism, ent:verdict,
+   ent:attribute, ent:with-statement, ent:message, ent:signature, ent:exception, ent:error (runtime/compile
+   error), ent:ttcn3-tool (the tool/implementation), ent:ttcn3-language (the language itself).
+   Operations and statements: ent:<keyword>-operation or ent:<keyword>-statement (e.g. ent:send-operation,
+   ent:alt-statement, ent:start-timer-operation, ent:start-component-operation). Modifiers: ent:<name>-modifier
+   (ent:lazy-modifier). Predefined functions: ent:fn-<name> (ent:fn-lengthof).
+ - Every requirement.subject MUST be the id of an entity declared in your output (the validator checks this).
+   Relationship subject and object must be declared entities too.
+ - terms_used: every technical term used in the part, with in_glossary = true exactly when the term (case-
+   insensitive) is a "term" in ttcn3-terms-3.1.json.
+ - relationships: structural facts between entities, with predicates in kebab-case, e.g. is-a, has-part,
+   has-field, is-defined-in, may-contain, shall-not-contain, applies-to, is-parameter-of, references,
+   is-compatible-with, invokes, returns, has-scope, is-alias-of, overrides.
+
+AMBIGUITY AND TERMINOLOGY (required on every requirement)
+ - "clear": one reasonable reading, and the proper terms are used.
+ - "ambiguous": more than one reasonable reading. Give at least two entries in "readings" (each a full
+   canonical sentence). Use the most likely reading in "canonical", and say in "issue" which reading you chose
+   and why. Typical causes: unclear pronoun reference, scope of "and/or", unclear quantifier ("all"/"any"),
+   missing condition, and "may" used where it is unclear whether a permission or a possibility is meant.
+ - "terminology": the sentence uses a term that deviates from the glossary or from the terms used elsewhere in the
+   standard (e.g. "parameter" where "formal parameter" or "actual parameter" is meant, "template" where
+   "template instance" is meant, "enumeration value" instead of "enumerated value", "test case" vs "testcase").
+   List each one in "improper_terms": {"used": "...", "proper": "...", "glossary": true|false}, and also give
+   an "issue" text.
+ - If a requirement is both ambiguous and uses improper terms, set status "ambiguous" and fill both
+   "readings" and "improper_terms".
+ - Do not hide ambiguity in the canonical text. Always keep "original" verbatim.
+ - Be honest but not pedantic. Mark a requirement ambiguous only when a conformance test author could
+   reasonably implement it differently.
+
+QUALITY RULES
+ - Do not skip any unit. Do not merge distinct rules into one requirement.
+ - Do not invent requirements that are not stated or directly implied by the unit.
+ - A requirement may cite units of your own part only.
+ - Do not modify any files other than parts/<PART>*.json.

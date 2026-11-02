@@ -1,0 +1,33 @@
+// @requirement: 8.2.3.4 -- Similarly the all keyword used with the function keyword identifies all visible functions, all visible external functions defined and the visible module control function in the module the import statement denotes.
+// @id: TTCN3-CORE-8.2.3.4-003a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_02_03_04_test_003 {
+
+    import from M_08_02_03_04_test_003_A {
+        function all
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (f_a() == 1 and f_b(1) == 2) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_03_04_test_003_A {
+    function f_a() return integer {
+        return 1;
+    }
+    function f_b(integer p_i) return integer {
+        return p_i + 1;
+    }
+    external function xf_c() return integer;
+}

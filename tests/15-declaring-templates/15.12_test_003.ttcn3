@@ -1,0 +1,25 @@
+// @requirement: 15.12 -- Any other situation shall cause an error.
+// @id: TTCN3-CORE-15.12-005a
+// @verdict: pass accept, ttcn3verdict:error
+module M_15_12_test_003 {
+
+    type record R {
+        integer a,
+        boolean b optional
+    }
+
+    type component C {}
+
+    function f_omit(template R p_t) return template(omit) R {
+        return omit(p_t); // error: operand is AnyValue
+    }
+
+    testcase TC() runs on C {
+        var template(omit) R v_res := f_omit(?);
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

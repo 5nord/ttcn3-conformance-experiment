@@ -1,0 +1,33 @@
+// @requirement: 20.2 -- To avoid side effects that cause an inconsistency between the actual snapshot and the state of the component, the same restrictions as the restrictions for the initialization of local definitions within altsteps (clause 16.1.5) and the restrictions imposed on the contents of functions called from special places (clause 16.1.4) shall apply.
+// @id: TTCN3-CORE-20.2-074a
+// @verdict: pass reject
+module M_20_02_test_054 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p;
+    }
+
+    function f_guard() runs on C return boolean {
+        setverdict(pass);
+        return true;
+    }
+
+    testcase TC() runs on C {
+        alt {
+            [f_guard()] p.receive { // error: guard calls function using setverdict
+                setverdict(pass);
+            }
+            [else] {
+                setverdict(pass);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

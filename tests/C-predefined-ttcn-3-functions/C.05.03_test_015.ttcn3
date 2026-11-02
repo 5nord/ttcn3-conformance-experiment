@@ -1,0 +1,24 @@
+// @requirement: C.5.3 -- The bitstring is then converted to an octetstring by the bit2oct function and subsequently to a universal charstring using the oct2unichar function.
+// @id: TTCN3-CORE-C.5.3-016b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_05_03_test_015 {
+
+    type component C {}
+
+    type integer I with { variant "32 bit" };
+
+    const I c_val := 1094861636;
+
+    testcase TC() runs on C {
+        var octetstring v_oct := bit2oct(encvalue(c_val));
+        if (encvalue_unichar(c_val, "UTF-16BE") == oct2unichar(v_oct, "UTF-16BE")) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

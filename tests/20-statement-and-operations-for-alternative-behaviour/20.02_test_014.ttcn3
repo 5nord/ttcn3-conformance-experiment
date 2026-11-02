@@ -1,0 +1,39 @@
+// @requirement: 20.2 -- The selection of an altstep-branch causes the invocation of the referenced altstep, i.e. the altstep is invoked and the evaluation of the snapshot continues within the altstep.
+// @id: TTCN3-CORE-20.2-022a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_02_test_014 {
+    type component C {
+        timer T_step;
+        var boolean vc_inAltstep := false;
+    }
+
+    altstep a_step() runs on C {
+        [] T_step.timeout {
+            vc_inAltstep := true;
+        }
+    }
+
+    testcase TC() runs on C {
+        timer T_other := 0.1;
+        timer T_wait := 0.3;
+        T_step.start(0.1);
+        T_other.start;
+        T_wait.start;
+        T_wait.timeout;
+        alt {
+            [] a_step() {}
+            [] T_other.timeout {
+                setverdict(fail);
+            }
+        }
+        if (vc_inAltstep) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

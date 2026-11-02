@@ -1,0 +1,52 @@
+// @requirement: 15.7.1 -- Col1: bitstring; Col2: Yes; Table 11: TTCN-3 Matching Mechanisms: Yes1; Col4: Yes; Col5: Yes; Col6: Yes; Col7: Yes1; Col12: Yes; Col13: Yes; Col14: Yes; Col16: Yes; Col17: Yes1
+// @id: TTCN3-CORE-15.7.1-013a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_07_01_test_007 {
+
+    type component C {}
+
+    type record R {
+        bitstring f optional
+    }
+
+    type integer Payload with { encode "RAW" }
+
+    template bitstring m_spec := '101'B;
+    template bitstring m_omit := omit;
+    template bitstring m_compl := complement('101'B);
+    template bitstring m_list := ('101'B, '11'B);
+    template bitstring m_any := ?;
+    template bitstring m_anyOrNone := *;
+    template bitstring m_decmatch := decmatch Payload:?;
+    template bitstring m_anyElem := '1?1'B;
+    template bitstring m_anyElems := '1*'B;
+    template bitstring m_length := ? length(3);
+    template R m_rOmit := { f := omit };
+    template R m_rAnyOrNone := { f := * };
+    template R m_rIfPresent := { f := '101'B ifpresent };
+
+    testcase TC() runs on C {
+        var R v_absent := { f := omit };
+        var R v_present := { f := '101'B };
+        var R v_other := { f := '11'B };
+        if (match('101'B, m_spec) and not match('100'B, m_spec) and
+            match('100'B, m_compl) and not match('101'B, m_compl) and
+            match('11'B, m_list) and not match('1'B, m_list) and
+            match('0'B, m_any) and
+            match('111'B, m_anyElem) and not match('110'B, m_anyElem) and
+            match('1'B, m_anyElems) and match('1001'B, m_anyElems) and not match('01'B, m_anyElems) and
+            match('000'B, m_length) and not match('00'B, m_length) and
+            match(v_absent, m_rOmit) and not match(v_present, m_rOmit) and
+            match(v_absent, m_rAnyOrNone) and match(v_present, m_rAnyOrNone) and
+            match(v_absent, m_rIfPresent) and match(v_present, m_rIfPresent) and
+            not match(v_other, m_rIfPresent)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

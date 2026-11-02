@@ -1,0 +1,27 @@
+// @requirement: 6.5 -- The names of record fields are equal to the field names from the notation and record field types are automatic types of the field values in the notation.
+// @id: TTCN3-CORE-6.5-017b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_05_test_021 {
+    type component C {}
+
+    function f_checkStr(inout charstring p_str) return boolean {
+        return p_str == "abc";
+    }
+
+    function f_checkInt(inout integer p_int) return boolean {
+        return p_int == 1;
+    }
+
+    testcase TC() runs on C {
+        var v_auto := { a := "abc", b := 1 };
+        if (f_checkStr(v_auto.a) and f_checkInt(v_auto.b)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

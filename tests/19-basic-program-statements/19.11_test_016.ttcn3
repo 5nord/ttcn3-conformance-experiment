@@ -1,0 +1,22 @@
+// @requirement: 19.11 -- Used in a log statement: activate operation; What is logged: activate operation; Comment: The actual state is always set to activated.
+// @id: TTCN3-CORE-19.11-016a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_11_test_016 {
+    type component C {
+        timer T;
+    }
+
+    altstep a_def() runs on C {
+        [] T.timeout {}
+    }
+
+    testcase TC() runs on C {
+        log(activate(a_def()));
+        deactivate;
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

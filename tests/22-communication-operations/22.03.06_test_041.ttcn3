@@ -1,0 +1,43 @@
+// @requirement: 22.3.6 -- The assignment of the exception values to variables shall be made in the assignment part of the catch operation.
+// @id: TTCN3-CORE-22.3.6-047a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_03_06_test_041 {
+
+    signature S() exception (integer);
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    altstep a_guard() runs on C {
+        [] T.timeout { setverdict(fail); stop; }
+    }
+
+    function f_server() runs on C {
+        p.getcall(S:{});
+        p.raise(S, integer:5);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        var integer v_x := 0;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_server());
+        activate(a_guard());
+        T.start;
+        p.call(S:{}, nowait);
+        p.catch(S, integer:?) -> value v_x;
+        if (v_x == 5) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

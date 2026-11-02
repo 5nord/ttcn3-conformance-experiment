@@ -1,0 +1,31 @@
+// @requirement: 6.2.0 -- Where applicable TTCN-3 type definitions may be recursive.
+// @id: TTCN3-CORE-6.2.0-017a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_00_test_012 {
+
+    type record MyRecord1 {
+        integer field1,
+        MyRecord1 field2 optional
+    }
+
+    type union MyUnion1 {
+        MyUnion1 choice1,
+        charstring choice2
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyRecord1 v_r := { field1 := 1, field2 := { field1 := 2, field2 := omit } };
+        var MyUnion1 v_u := { choice1 := { choice2 := "leaf" } };
+        if (v_r.field2.field1 == 2 and v_u.choice1.choice2 == "leaf") {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

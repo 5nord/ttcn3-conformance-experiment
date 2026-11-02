@@ -1,0 +1,22 @@
+// @requirement: 6.1.1.1 -- Individual elements in a string type may be accessed using an array-like syntax.
+// @id: TTCN3-CORE-6.1.1.1-001a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_01_01_01_test_001 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var bitstring v_bs := '11110111'B;
+        var charstring v_cs := "abc";
+        v_bs[4] := '1'B;
+        if (v_bs == '11111111'B and v_cs[1] == "b") {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

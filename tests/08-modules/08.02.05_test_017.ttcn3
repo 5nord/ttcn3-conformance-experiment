@@ -1,0 +1,26 @@
+// @requirement: 8.2.5 -- The visibility of imported definitions is by default private.
+// @id: TTCN3-CORE-8.2.5-015a
+// @verdict: pass reject
+module M_08_02_05_test_017 {
+
+    import from M_08_02_05_test_017_B { import all };
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyInteger v_value := 1; // error: MyInteger is imported into B with default private visibility
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_05_test_017_B {
+    import from M_08_02_05_test_017_A { type MyInteger };
+}
+
+module M_08_02_05_test_017_A {
+    public type integer MyInteger;
+}

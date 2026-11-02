@@ -1,0 +1,21 @@
+// @requirement: 6.2.5.0 -- The value list notation shall not be used for setting values of union types.
+// @id: TTCN3-CORE-6.2.5.0-010a
+// @verdict: pass reject
+module M_06_02_05_00_test_008 {
+
+    type component C {}
+
+    type union U {
+        integer number,
+        charstring string
+    };
+
+    testcase TC() runs on C {
+        var U v_u := { 34 }; // error: value list notation for a union value
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

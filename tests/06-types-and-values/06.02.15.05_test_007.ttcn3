@@ -1,0 +1,31 @@
+// @requirement: 6.2.15.5 -- The values in the set of keys are always unique, so comparing two values from the set of keys that have a different index using the equality operator will always yield false.
+// @id: TTCN3-CORE-6.2.15.5-007a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_15_05_test_007 {
+
+    type map from charstring to integer MapType;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MapType v_map := { ["a"] := 1, ["b"] := 2 };
+        v_map["a"] := 3;
+        v_map["a"] := 4;
+        var MapType.from v_keys := v_map.from;
+        var integer v_count := 0;
+        for (var integer i := 0; i < lengthof(v_keys); i := i + 1) {
+            if (v_keys[i] == "a") {
+                v_count := v_count + 1;
+            }
+        }
+        if (v_count == 1) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

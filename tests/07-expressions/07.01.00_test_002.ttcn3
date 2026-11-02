@@ -1,0 +1,26 @@
+// @requirement: 7.1.0 -- a) When an expression is evaluated, the evaluated values used as the operands of operators shall be completely initialized, except for those operands for which it is explicitly allowed to be partially initialized (see clause 11.1).
+// @id: TTCN3-CORE-7.1.0-012a
+// @verdict: pass accept, ttcn3verdict:error
+module M_07_01_00_test_002 {
+
+    type component C {}
+
+    type record R {
+        integer a,
+        integer b
+    }
+
+    testcase TC() runs on C {
+        var R v_r1;
+        var R v_r2 := { a := 1, b := 2 };
+        v_r1.a := 1;
+        if (v_r1 == v_r2) { // operand partially initialized: error
+            setverdict(fail);
+        }
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

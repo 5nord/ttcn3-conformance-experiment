@@ -1,0 +1,32 @@
+// @requirement: 22.1.1 -- Table 22: Overview of TTCN-3 communication operations: Accept procedure call from remote entity; Col2: getcall; Col4: Yes
+// @id: TTCN3-CORE-22.1.1-014b
+// @verdict: pass reject
+module M_22_01_01_test_014 {
+
+    signature S(in integer p_x) return integer exception (charstring);
+
+    type port P message {
+        inout integer
+    }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        timer T := 1.0;
+        T.start;
+        alt {
+            [] p.getcall(S:{p_x := ?}) { // error: getcall used at a message-based port
+                setverdict(pass);
+            }
+            [] T.timeout {
+                setverdict(pass);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

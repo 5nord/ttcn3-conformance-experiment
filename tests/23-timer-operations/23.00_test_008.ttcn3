@@ -1,0 +1,20 @@
+// @requirement: 23.0 -- Table 26: Any and: start, stop, clear, halt; Col3: yes; Col4: all port.start
+// @id: TTCN3-CORE-23.0-010b
+// @verdict: pass reject
+module M_23_00_test_008 {
+
+    type port P message { inout integer }
+
+    type component C {
+        port P p1;
+    }
+
+    testcase TC() runs on C {
+        any port.stop; // error: any port not allowed with stop
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

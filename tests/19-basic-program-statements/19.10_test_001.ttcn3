@@ -1,0 +1,47 @@
+// @requirement: 19.10 -- The return statement terminates execution of functions or altsteps.
+// @id: TTCN3-CORE-19.10-001a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_10_test_001 {
+    type component C {
+        var integer v_x := 0;
+        timer T;
+    }
+
+    function f_ret() runs on C {
+        var boolean v_ret := true;
+        v_x := 1;
+        if (v_ret) {
+            return;
+        }
+        v_x := 2;
+    }
+
+    altstep a_ret() runs on C {
+        var boolean v_ret := true;
+        [] T.timeout {
+            v_x := 3;
+            if (v_ret) {
+                return;
+            }
+            v_x := 4;
+        }
+    }
+
+    testcase TC() runs on C {
+        f_ret();
+        if (v_x != 1) {
+            setverdict(fail);
+        }
+        T.start(0.01);
+        a_ret();
+        if (v_x == 3) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

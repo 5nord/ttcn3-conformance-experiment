@@ -1,0 +1,18 @@
+// @requirement: 7.0 -- The operands of the operators used in an expression shall be values and their root types shall be the types specified for the appropriate operator in the subsequent clauses.
+// @id: TTCN3-CORE-7.0-007a
+// @verdict: pass reject
+module M_07_00_test_007 {
+
+    type component C {}
+
+    template integer m_t := 5;
+
+    testcase TC() runs on C {
+        var integer v_i := m_t + 1; // error: template used as operand
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

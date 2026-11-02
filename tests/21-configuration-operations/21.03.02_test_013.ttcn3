@@ -1,0 +1,30 @@
+// @requirement: 21.3.2 -- Actual inout parameters will be passed to the function by value, i.e. like in-parameters.
+// @id: TTCN3-CORE-21.3.2-017a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_03_02_test_013 {
+
+    type component C {}
+
+    function f_ptc(inout integer p_x) runs on C {
+        if (p_x == 1) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+        p_x := 10;
+    }
+
+    testcase TC() runs on C {
+        var integer v_int := 1;
+        var C v_ptc := C.create;
+        v_ptc.start(f_ptc(v_int));
+        v_ptc.done;
+        if (v_int != 1) {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

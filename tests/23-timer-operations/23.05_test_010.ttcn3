@@ -1,0 +1,21 @@
+// @requirement: 23.5 -- a) TimerArrayRef shall be a reference to a completely initialized timer array.
+// @id: TTCN3-CORE-23.5-011a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_23_05_test_010 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        timer TA[3] := { 5.0, 5.0, 5.0 };
+        TA[0].start;
+        if (any from TA.running) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,21 @@
+// @requirement: 21.3.7 -- d) The variable used in the (optional) value clause for storing the final local verdict of a PTC shall be of the type verdicttype.
+// @id: TTCN3-CORE-21.3.7-028a
+// @verdict: pass reject
+module M_21_03_07_test_031 {
+
+    type component C {}
+
+    function f_ptc() runs on C {}
+
+    testcase TC() runs on C {
+        var integer v_int;
+        var C v_ptc := C.create;
+        v_ptc.start(f_ptc());
+        v_ptc.done -> value v_int; // error: variable is not of type verdicttype
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

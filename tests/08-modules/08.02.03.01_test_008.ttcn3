@@ -1,0 +1,32 @@
+// @requirement: 8.2.3.1 -- Importable Definition: Module parameter; Possible Referenced Definitions: Module parameter type
+// @id: TTCN3-CORE-8.2.3.1-044a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_02_03_01_test_008 {
+
+    import from M_08_02_03_01_test_008_B { modulepar mp_rec }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (mp_rec.a == 5) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_03_01_test_008_B {
+    import from M_08_02_03_01_test_008_A all;
+    modulepar MyRec mp_rec := { a := 5 };
+}
+
+module M_08_02_03_01_test_008_A {
+    type record MyRec {
+        integer a
+    }
+}

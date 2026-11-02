@@ -1,0 +1,23 @@
+// @requirement: 15.6.5 -- d) Special value null: referencing an alternative of an address type, which actual value is null shall cause an error.
+// @id: TTCN3-CORE-15.6.5-018a
+// @verdict: pass accept, ttcn3verdict:error
+module M_15_06_05_test_013 {
+
+    type union address {
+        integer a1,
+        charstring a2
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var address v_addr := null;
+        var integer v_int;
+        v_int := v_addr.a1; // error: the actual value of v_addr is null
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

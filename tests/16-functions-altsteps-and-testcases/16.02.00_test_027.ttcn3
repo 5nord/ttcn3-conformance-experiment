@@ -1,0 +1,45 @@
+// @requirement: 16.2.0 -- An altstep that is only invoked as an alternative in an `alt` statement or as stand-alone statement in a TTCN-3 behaviour description may have `in`, `out` and `inout` parameters.
+// @id: TTCN3-CORE-16.2.0-029a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_16_02_00_test_027 {
+
+    type port P message {
+        inout integer
+    }
+
+    type component C {
+        port P p1, p2;
+        timer T_guard := 1.0;
+    }
+
+    altstep a_step(in integer p_in, out integer p_out, inout integer p_io) runs on C {
+        [] p2.receive(integer:?) -> value p_out {
+            p_io := p_io + p_in;
+        }
+    }
+
+    testcase TC() runs on C {
+        var integer v_out1, v_out2;
+        var integer v_io := 10;
+        connect(self:p1, self:p2);
+        T_guard.start;
+        p1.send(5);
+        a_step(1, v_out1, v_io);
+        p1.send(6);
+        alt {
+            [] a_step(2, v_out2, v_io);
+            [] T_guard.timeout {
+                setverdict(fail);
+            }
+        }
+        if (v_out1 == 5 and v_out2 == 6 and v_io == 13) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

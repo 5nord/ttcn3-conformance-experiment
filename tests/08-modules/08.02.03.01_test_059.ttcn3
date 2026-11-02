@@ -1,0 +1,30 @@
+// @requirement: 8.2.3.1 -- f) When importing a function, altstep or test case the corresponding behaviour specifications and all definitions used inside the behaviour specifications remain invisible for the importing module.
+// @id: TTCN3-CORE-8.2.3.1-095a
+// @verdict: pass reject
+module M_08_02_03_01_test_059 {
+
+    import from M_08_02_03_01_test_059_A {
+        function f_get
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (f_get() == c_value) { // error: c_value used inside f_get is not visible
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_03_01_test_059_A {
+    const integer c_value := 42;
+    function f_get() return integer {
+        return c_value;
+    }
+}

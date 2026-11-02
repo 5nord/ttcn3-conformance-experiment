@@ -1,0 +1,21 @@
+// @requirement: 6.0 -- In any specific module context, only the known types can be accessed in a value or template of type anytype.
+// @id: TTCN3-CORE-6.0-005a
+// @verdict: pass reject
+module M_06_00_test_003 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var anytype v_any;
+        v_any.MyOtherInt := 1; // error: MyOtherInt is not a known type in this module
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_06_00_test_003_A {
+    type integer MyOtherInt;
+}

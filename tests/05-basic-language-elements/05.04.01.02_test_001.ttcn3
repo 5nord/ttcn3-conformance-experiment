@@ -1,0 +1,21 @@
+// @requirement: 5.4.1.2 -- [ in | inout | out ] TemplateModifier [ ( @lazy | @fuzzy ) [@deterministic] ] TypeOrNestedTypeDef ValueParIdentifier [ArrayDef] [ ":=" ( TemplateInstance | "-" ) ]
+// @id: TTCN3-CORE-5.4.1.2-002a
+// @verdict: pass accept, noexecution
+module M_05_04_01_02_test_001 {
+    function f_params(in template integer p_in,
+                      inout template integer p_inout,
+                      out template integer p_out,
+                      template integer p_noKind,
+                      omit integer p_omit,
+                      template (present) integer p_present,
+                      in template @lazy integer p_lazy,
+                      template @fuzzy @deterministic integer p_fuzzy,
+                      template record of integer p_nested,
+                      template integer p_array[2],
+                      template integer p_default := ?) {
+        p_out := p_in;
+    }
+
+    template integer m_base(template integer p_x := ?) := p_x;
+    template integer m_mod(template integer p_x := -) modifies m_base := p_x;
+}

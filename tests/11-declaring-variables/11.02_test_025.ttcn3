@@ -1,0 +1,28 @@
+// @requirement: 11.2 -- The called functions may use other functions with inout or out parameters internally.
+// @id: TTCN3-CORE-11.2-026a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_11_02_test_025 {
+    type component C {}
+
+    function f_set(out integer p_i) {
+        p_i := 1;
+    }
+
+    function f_get() return integer {
+        var integer v_i;
+        f_set(v_i);
+        return v_i;
+    }
+
+    testcase TC() runs on C {
+        var template @lazy integer v_t := f_get();
+        if (match(1, v_t) and not match(2, v_t)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }}

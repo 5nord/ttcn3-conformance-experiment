@@ -1,0 +1,26 @@
+// @requirement: 24.1 -- The local verdict is an object which is created for each test component at the time of its creation.
+// @id: TTCN3-CORE-24.1-002b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_24_01_test_002 {
+
+    type component C {}
+
+    function f_ptc() runs on C {
+        if (getverdict == none) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    testcase TC() runs on C {
+        setverdict(pass);
+        var C v_ptc := C.create;
+        v_ptc.start(f_ptc());
+        v_ptc.done;
+    }
+
+    control {
+        execute(TC());
+    }
+}

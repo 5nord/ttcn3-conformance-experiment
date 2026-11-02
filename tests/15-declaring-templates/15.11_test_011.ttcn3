@@ -1,0 +1,17 @@
+// @requirement: 15.11 -- Single templates of charstring and universal charstring types shall evaluate only to specific values, AnyValue with or without a length modifier, AnyValueOrNone with a length modifier or pattern.
+// @id: TTCN3-CORE-15.11-007a
+// @verdict: pass reject
+module M_15_11_test_011 {
+
+    template charstring mw_t := "A" & ("B", "C") & "D"; // error: value list not allowed as operand
+
+    type component C {}
+
+    testcase TC() runs on C {
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

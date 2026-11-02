@@ -1,0 +1,21 @@
+// @requirement: B.1.5.0 -- Metacharacter: *; Description: Match any character zero or more times; shall match the longest possible number of characters (see example 1 above) (see notes 1 and 2)
+// @id: TTCN3-CORE-B.1.5.0-015b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_05_00_test_010 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template charstring v_expr := pattern "(*)c(*)";
+        var charstring v_group0 := regexp("abcbcd", v_expr, 0);
+        if (v_group0 == "abcb") {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

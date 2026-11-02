@@ -1,0 +1,26 @@
+// @requirement: 19.4.2 -- If the iteration variable is declared outside the for statement, after execution its value will be that of the last iteration.
+// @id: TTCN3-CORE-19.4.2-008a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_04_02_test_010 {
+
+    type record of integer RoI;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var RoI v_range := {4, 5, 6};
+        var integer v_e := 0;
+        for (v_e in v_range) {
+            log(v_e);
+        }
+        if (v_e == 6) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

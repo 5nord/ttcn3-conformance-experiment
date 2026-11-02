@@ -1,0 +1,21 @@
+// @requirement: 6.2.5.2 -- Optional fields are not allowed for the union type, which means that the optional keyword shall not be used with union types.
+// @id: TTCN3-CORE-6.2.5.2-001a
+// @verdict: pass reject
+module M_06_02_05_02_test_001 {
+
+    type union U {
+        integer choice1 optional, // error: optional is not allowed for union alternatives
+        charstring choice2
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var U v_u := { choice2 := "a" };
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

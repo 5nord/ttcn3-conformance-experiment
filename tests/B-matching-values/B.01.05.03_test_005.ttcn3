@@ -1,0 +1,22 @@
+// @requirement: B.1.5.3 -- Metacharacters (postfixes) "#(n)" and "#n" specify that the preceding expression shall be matched exactly n times (they are equivalent to "#(n, n)").
+// @id: TTCN3-CORE-B.1.5.3-004a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_05_03_test_005 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        template charstring m_p1 := pattern "[a-z]#(3)";
+        template charstring m_p2 := pattern "[a-z]#3";
+        if (not match("ab", m_p1) and match("abc", m_p1) and not match("abcd", m_p1) and
+            not match("ab", m_p2) and match("abc", m_p2) and not match("abcd", m_p2)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

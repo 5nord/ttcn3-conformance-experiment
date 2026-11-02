@@ -1,0 +1,22 @@
+// @requirement: 26.1 -- Statement: Timeout event; Associated keyword or symbol: timeout
+// @id: TTCN3-CORE-26.1-033a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_26_01_test_033 {
+
+    type component C {}
+
+    testcase TC(boolean p_ok) runs on C {
+        if (p_ok) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        timer T := 0.1;
+        T.start;
+        T.timeout;
+        execute(TC(not T.running));
+    }
+}

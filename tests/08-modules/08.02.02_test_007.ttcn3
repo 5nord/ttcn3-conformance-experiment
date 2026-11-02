@@ -1,0 +1,31 @@
+// @requirement: 8.2.2 -- However, attributes given to a group by an associated with statement apply to all elements of a group (see clause 27).
+// @id: TTCN3-CORE-8.2.2-009a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_02_02_test_007 {
+
+    type record R {
+        integer a,
+        integer b optional
+    }
+
+    group g_implicit {
+        const R c_r1 := { a := 1 };
+        group g_sub {
+            const R c_r2 := { a := 2 };
+        }
+    } with { optional "implicit omit" }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (not ispresent(c_r1.b) and not ispresent(c_r2.b)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

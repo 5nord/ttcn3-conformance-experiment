@@ -1,0 +1,25 @@
+// @requirement: 19.5 -- If the loop condition does not hold, then the loop is exited and execution shall continue with the statement, which immediately follows the while loop.
+// @id: TTCN3-CORE-19.5-006a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_05_test_007 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_i := 0;
+        var integer v_body := 0;
+        while (v_i > 0) {
+            v_body := v_body + 1;
+        }
+        v_i := v_i + 10;
+        if (v_body == 0 and v_i == 10) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

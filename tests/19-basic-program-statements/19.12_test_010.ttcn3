@@ -1,0 +1,33 @@
+// @requirement: 19.12 -- A return statement has to be used, if such an optional statement block has to be executed (see clause 19.10).
+// @id: TTCN3-CORE-19.12-022a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_12_test_010 {
+    type component C {
+        timer T_step := 0.1;
+    }
+
+    altstep a_step() runs on C {
+        [] T_step.timeout {
+            return;
+        }
+    }
+
+    testcase TC() runs on C {
+        var boolean v_blockExecuted := false;
+        T_step.start;
+        alt {
+            [] a_step() {
+                v_blockExecuted := true;
+            }
+        }
+        if (v_blockExecuted) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

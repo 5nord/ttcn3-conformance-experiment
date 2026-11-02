@@ -1,0 +1,40 @@
+// @requirement: 15.3 -- Local templates shall be defined in testcases, functions, altsteps or statement blocks.
+// @id: TTCN3-CORE-15.3-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_03_test_004 {
+
+    type component C {
+        timer T := 0.1;
+    }
+
+    function f_check() runs on C return boolean {
+        template integer m_inFunction := 1;
+        return match(1, m_inFunction);
+    }
+
+    altstep a_check() runs on C {
+        template integer m_inAltstep := 2;
+        [] T.timeout {
+            if (not match(2, m_inAltstep)) { setverdict(fail); }
+        }
+    }
+
+    testcase TC() runs on C {
+        template integer m_inTestcase := 3;
+        if (true) {
+            template integer m_inBlock := 4;
+            if (not match(4, m_inBlock)) { setverdict(fail); }
+        }
+        T.start;
+        a_check();
+        if (f_check() and match(3, m_inTestcase)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

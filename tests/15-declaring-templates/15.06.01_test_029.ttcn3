@@ -1,0 +1,21 @@
+// @requirement: 15.6.1 -- Then the rules for referencing an item of a pattern on the left hand side of an assignment shall be applied to assign the right hand side of the assignment to this pattern.
+// @id: TTCN3-CORE-15.6.1-030a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_06_01_test_029 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template charstring v_char := "ab";
+        v_char[1] := pattern "[0-9]";
+        if (match("a5", v_char) and not match("ab", v_char)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,23 @@
+// @requirement: 6.5 -- The automatic type is equal to the type of the bounds.
+// @id: TTCN3-CORE-6.5-026a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_05_test_031 {
+    type component C {}
+
+    function f_check(inout template float p_t) return boolean {
+        return match(1.5, p_t);
+    }
+
+    testcase TC() runs on C {
+        var template v_auto := (1.0 .. 2.0);
+        if (f_check(v_auto)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

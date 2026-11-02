@@ -1,0 +1,28 @@
+// @requirement: 21.3.7 -- j) The @nodefault modifier is allowed only in stand-alone done statements.
+// @id: TTCN3-CORE-21.3.7-035a
+// @verdict: pass reject
+module M_21_03_07_test_039 {
+
+    type component C {}
+
+    function f_ptc() runs on C {}
+
+    testcase TC() runs on C {
+        timer T := 1.0;
+        var C v_ptc := C.create;
+        v_ptc.start(f_ptc());
+        T.start;
+        alt {
+            [] @nodefault v_ptc.done { // error: @nodefault inside an alt branch
+                setverdict(pass);
+            }
+            [] T.timeout {
+                setverdict(fail);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

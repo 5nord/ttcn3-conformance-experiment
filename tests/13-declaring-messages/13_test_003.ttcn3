@@ -1,0 +1,45 @@
+// @requirement: 13 -- Any type can be declared as type of a message in a message port type definition, i.e. values of any basic or structured type (see clauses 6.1 and 6.2) can be sent or received.
+// @id: TTCN3-CORE-13-004b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_13_test_003 {
+
+    type record R { integer i, float f }
+    type record of integer RoI;
+    type enumerated E { e_a, e_b }
+    type union U { integer i, charstring c }
+
+    type port P message { inout integer, charstring, R, RoI, E, U }
+
+    type component C {
+        port P p1;
+        port P p2;
+        timer T := 1.0;
+    }
+
+    altstep a_guard() runs on C {
+        [] T.timeout { setverdict(fail); stop; }
+    }
+
+    testcase TC() runs on C {
+        connect(self:p1, self:p2);
+        activate(a_guard());
+        T.start;
+        p1.send(integer:1);
+        p1.send(charstring:"abc");
+        p1.send(R:{ i := 1, f := 1.0 });
+        p1.send(RoI:{ 1, 2 });
+        p1.send(E:e_b);
+        p1.send(U:{ c := "x" });
+        p2.receive(integer:1);
+        p2.receive(charstring:"abc");
+        p2.receive(R:{ i := 1, f := 1.0 });
+        p2.receive(RoI:{ 1, 2 });
+        p2.receive(E:e_b);
+        p2.receive(U:{ c := "x" });
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

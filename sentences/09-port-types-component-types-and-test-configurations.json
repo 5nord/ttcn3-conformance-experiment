@@ -1,0 +1,1158 @@
+{
+ "document": "ETSI ES 201 873-1 V4.17.1 (2025-09)",
+ "chapter": "9",
+ "title": "Port types, component types and test configurations",
+ "file": "09-port-types-component-types-and-test-configurations",
+ "lines": [
+  9623,
+  9930
+ ],
+ "sections": {
+  "9": {
+   "title": "Port types, component types and test configurations",
+   "start": 9623
+  },
+  "9.0": {
+   "title": "General",
+   "start": 9625
+  },
+  "9.1": {
+   "title": "Communication ports",
+   "start": 9672
+  },
+  "9.2": {
+   "title": "Test system interface",
+   "start": 9829
+  }
+ },
+ "units": [
+  {
+   "id": "9.0-s001",
+   "section": "9.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "TTCN-3 allows the (dynamic) specification of concurrent test configurations (or configuration for short).",
+   "lines": [
+    9627,
+    9629
+   ]
+  },
+  {
+   "id": "9.0-s002",
+   "section": "9.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "A configuration consists of a set of inter-connected test components with well-defined communication ports and an explicit test system interface which defines the borders of the test system (see figure 4).",
+   "lines": [
+    9627,
+    9629
+   ]
+  },
+  {
+   "id": "9.0-s003",
+   "section": "9.0",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "NOTE: Additional configuration and deployment support for TTCN-3 is defined in the optional package [i.11].",
+   "lines": [
+    9631,
+    9631
+   ]
+  },
+  {
+   "id": "9.0-s004",
+   "section": "9.0",
+   "kind": "code",
+   "context": null,
+   "normative": true,
+   "text": "TTCN Test system",
+   "lines": [
+    9637,
+    9639
+   ]
+  },
+  {
+   "id": "9.0-s005",
+   "section": "9.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "**MTC** **PTC1**",
+   "lines": [
+    9641,
+    9641
+   ]
+  },
+  {
+   "id": "9.0-s006",
+   "section": "9.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "**PTC2**",
+   "lines": [
+    9643,
+    9643
+   ]
+  },
+  {
+   "id": "9.0-s007",
+   "section": "9.0",
+   "kind": "code",
+   "context": null,
+   "normative": true,
+   "text": "Abstract Test System Interface\n                               Real Test System Interface",
+   "lines": [
+    9644,
+    9647
+   ]
+  },
+  {
+   "id": "9.0-s008",
+   "section": "9.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "**SUT**",
+   "lines": [
+    9649,
+    9649
+   ]
+  },
+  {
+   "id": "9.0-s009",
+   "section": "9.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "**Figure 4: Conceptual view of a typical TTCN-3 test configuration**",
+   "lines": [
+    9651,
+    9651
+   ]
+  },
+  {
+   "id": "9.0-s010",
+   "section": "9.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Within every configuration there shall be one (and only one) Main Test Component (MTC).",
+   "lines": [
+    9653,
+    9657
+   ]
+  },
+  {
+   "id": "9.0-s011",
+   "section": "9.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Test components that are not MTCs are called parallel test components or PTCs.",
+   "lines": [
+    9653,
+    9657
+   ]
+  },
+  {
+   "id": "9.0-s012",
+   "section": "9.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The MTC shall be created by the system automatically at the start of each test case execution.",
+   "lines": [
+    9653,
+    9657
+   ]
+  },
+  {
+   "id": "9.0-s013",
+   "section": "9.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The behaviour defined in the body of the test case shall execute on this component.",
+   "lines": [
+    9653,
+    9657
+   ]
+  },
+  {
+   "id": "9.0-s014",
+   "section": "9.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "During execution of a test case, other components can be created dynamically by the explicit use of the create operation.",
+   "lines": [
+    9653,
+    9657
+   ]
+  },
+  {
+   "id": "9.0-s015",
+   "section": "9.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Test case execution shall end when the MTC terminates.",
+   "lines": [
+    9659,
+    9662
+   ]
+  },
+  {
+   "id": "9.0-s016",
+   "section": "9.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "All other PTCs are treated equally i.e. there is no explicit hierarchical relationship among them and the termination of a single PTC terminates neither other components nor the MTC.",
+   "lines": [
+    9659,
+    9662
+   ]
+  },
+  {
+   "id": "9.0-s017",
+   "section": "9.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "When the MTC terminates, the test system has to stop all PTCs not terminated by the moment when the test case execution is ended.",
+   "lines": [
+    9659,
+    9662
+   ]
+  },
+  {
+   "id": "9.0-s018",
+   "section": "9.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Communication between test components and between the components and the test system interface is achieved via communication ports (see clause 9.1).",
+   "lines": [
+    9664,
+    9665
+   ]
+  },
+  {
+   "id": "9.0-s019",
+   "section": "9.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Test component types and port types, denoted by the keywords component and port, shall be defined in the module definitions part.",
+   "lines": [
+    9667,
+    9670
+   ]
+  },
+  {
+   "id": "9.0-s020",
+   "section": "9.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The actual configuration of components and the connections between them is achieved by performing create and connect operations within the test case behaviour.",
+   "lines": [
+    9667,
+    9670
+   ]
+  },
+  {
+   "id": "9.0-s021",
+   "section": "9.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The component ports are connected to the ports of the test system interface by means of the map operation (see clause 21.1.1).",
+   "lines": [
+    9667,
+    9670
+   ]
+  },
+  {
+   "id": "9.1-s001",
+   "section": "9.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Test components are connected via their ports, i.e. connections among components and between a component and the test system interface are port-oriented.",
+   "lines": [
+    9674,
+    9676
+   ]
+  },
+  {
+   "id": "9.1-s002",
+   "section": "9.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Each port is modelled as an infinite FIFO queue which stores the incoming messages or procedure calls until they are processed by the component owning that port (see figure 5).",
+   "lines": [
+    9674,
+    9676
+   ]
+  },
+  {
+   "id": "9.1-s003",
+   "section": "9.1",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "NOTE: While TTCN-3 ports are infinite in principle in a real test system they may overflow.",
+   "lines": [
+    9678,
+    9679
+   ]
+  },
+  {
+   "id": "9.1-s004",
+   "section": "9.1",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "This is to be treated as a test case error (see clause 24.1).",
+   "lines": [
+    9678,
+    9679
+   ]
+  },
+  {
+   "id": "9.1-s005",
+   "section": "9.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "**MTC** **PTC**",
+   "lines": [
+    9681,
+    9681
+   ]
+  },
+  {
+   "id": "9.1-s006",
+   "section": "9.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "**Figure 5: The TTCN-3 communication port model**",
+   "lines": [
+    9683,
+    9683
+   ]
+  },
+  {
+   "id": "9.1-s007",
+   "section": "9.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "TTCN-3 connections are port-to-port and port-to-test system interface connections (see figure 6).",
+   "lines": [
+    9685,
+    9687
+   ]
+  },
+  {
+   "id": "9.1-s008",
+   "section": "9.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "There are no restrictions on the number of connections a component may maintain.",
+   "lines": [
+    9685,
+    9687
+   ]
+  },
+  {
+   "id": "9.1-s009",
+   "section": "9.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "One-to-many connections are also allowed (e.g. figure 6 (g) or (h)).",
+   "lines": [
+    9685,
+    9687
+   ]
+  },
+  {
+   "id": "9.1-s010",
+   "section": "9.1",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clause 5, the following restrictions apply:",
+   "lines": [
+    9691,
+    9691
+   ]
+  },
+  {
+   "id": "9.1-s011",
+   "section": "9.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) The following connections are not allowed (see figure 7):",
+   "lines": [
+    9693,
+    9693
+   ]
+  },
+  {
+   "id": "9.1-s012",
+   "section": "9.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "A port owned by a component A shall not be connected with two or more ports owned by the same component (figure 7 (a) and (e)).",
+   "lines": [
+    9695,
+    9696
+   ]
+  },
+  {
+   "id": "9.1-s013",
+   "section": "9.1",
+   "kind": "table-header",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "MTC; Col2; PTC",
+   "lines": [
+    9698,
+    9698
+   ]
+  },
+  {
+   "id": "9.1-s014",
+   "section": "9.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "A port of a test system interface cannot have connection with more than one port owned by a component A. This means, connections as shown in figure 7 (b) are not allowed.",
+   "lines": [
+    9706,
+    9706
+   ]
+  },
+  {
+   "id": "9.1-s015",
+   "section": "9.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "A port owned by a component A shall not be connected with two or more ports owned by a component B (see figure 7 (c)).",
+   "lines": [
+    9708,
+    9708
+   ]
+  },
+  {
+   "id": "9.1-s016",
+   "section": "9.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "A port owned by a component A can only have a one-to-one connection with the test system interface.",
+   "lines": [
+    9710,
+    9710
+   ]
+  },
+  {
+   "id": "9.1-s017",
+   "section": "9.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "This means, connections as shown in figure 7 (d) are not allowed.",
+   "lines": [
+    9710,
+    9710
+   ]
+  },
+  {
+   "id": "9.1-s018",
+   "section": "9.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Connections within the test system interface are not allowed (see figure 7 (f)).",
+   "lines": [
+    9712,
+    9712
+   ]
+  },
+  {
+   "id": "9.1-s019",
+   "section": "9.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "A port that is connected shall not be mapped and a port that is mapped shall not be connected (see figure 7 (g)).",
+   "lines": [
+    9714,
+    9714
+   ]
+  },
+  {
+   "id": "9.1-s020",
+   "section": "9.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "b) Since TTCN-3 allows dynamic configurations and addresses, the restrictions on connections cannot always be checked at compile-time.",
+   "lines": [
+    9716,
+    9717
+   ]
+  },
+  {
+   "id": "9.1-s021",
+   "section": "9.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "The checks shall be made at runtime and shall lead to a test case error when failing.",
+   "lines": [
+    9716,
+    9717
+   ]
+  },
+  {
+   "id": "9.1-s022",
+   "section": "9.1",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "test system test component **A** test component test component **A** **B** test system interface",
+   "lines": [
+    9719,
+    9726
+   ]
+  },
+  {
+   "id": "9.1-s023",
+   "section": "9.1",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "**(a)** **(b)** test system test component test component test component **A** **B** **A** test system interface",
+   "lines": [
+    9728,
+    9735
+   ]
+  },
+  {
+   "id": "9.1-s024",
+   "section": "9.1",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "**(c)** **(d)** test component test component **A** **A**",
+   "lines": [
+    9737,
+    9742
+   ]
+  },
+  {
+   "id": "9.1-s025",
+   "section": "9.1",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "**(e)** **(f)** test system test component test component test component test component **B** **A** **B** **A** test component **C** test system interface",
+   "lines": [
+    9744,
+    9754
+   ]
+  },
+  {
+   "id": "9.1-s026",
+   "section": "9.1",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "**(g)** **(h)**",
+   "lines": [
+    9756,
+    9756
+   ]
+  },
+  {
+   "id": "9.1-s027",
+   "section": "9.1",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "**Figure 6: Allowed connections**",
+   "lines": [
+    9758,
+    9758
+   ]
+  },
+  {
+   "id": "9.1-s028",
+   "section": "9.1",
+   "kind": "table-header",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "test component A; Col2; Col3; Col4; Col5; test component B; Col7",
+   "lines": [
+    9760,
+    9760
+   ]
+  },
+  {
+   "id": "9.1-s029",
+   "section": "9.1",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "test system test component A: test system interface",
+   "lines": [
+    9766,
+    9766
+   ]
+  },
+  {
+   "id": "9.1-s030",
+   "section": "9.1",
+   "kind": "table-header",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "test system test component A; Col2",
+   "lines": [
+    9764,
+    9764
+   ]
+  },
+  {
+   "id": "9.1-s031",
+   "section": "9.1",
+   "kind": "table-header",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "test component A; Col2; test component B",
+   "lines": [
+    9769,
+    9769
+   ]
+  },
+  {
+   "id": "9.1-s032",
+   "section": "9.1",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "test system test component A: test system interface",
+   "lines": [
+    9775,
+    9775
+   ]
+  },
+  {
+   "id": "9.1-s033",
+   "section": "9.1",
+   "kind": "table-header",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "test system test component A; Col2; Col3",
+   "lines": [
+    9772,
+    9772
+   ]
+  },
+  {
+   "id": "9.1-s034",
+   "section": "9.1",
+   "kind": "table-header",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "test component A; Col2",
+   "lines": [
+    9778,
+    9778
+   ]
+  },
+  {
+   "id": "9.1-s035",
+   "section": "9.1",
+   "kind": "table-header",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Col1; test component A",
+   "lines": [
+    9781,
+    9781
+   ]
+  },
+  {
+   "id": "9.1-s036",
+   "section": "9.1",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "test system test component test component **A** **A** test system interface",
+   "lines": [
+    9789,
+    9795
+   ]
+  },
+  {
+   "id": "9.1-s037",
+   "section": "9.1",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "**(a)** **(b)** test system test component test component test component **B** **A** **A** test system interface",
+   "lines": [
+    9797,
+    9807
+   ]
+  },
+  {
+   "id": "9.1-s038",
+   "section": "9.1",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "**(c)** **(d)** test component test system **A** test system interface",
+   "lines": [
+    9809,
+    9814
+   ]
+  },
+  {
+   "id": "9.1-s039",
+   "section": "9.1",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "**(e)** **(f)** test system test component test component",
+   "lines": [
+    9816,
+    9819
+   ]
+  },
+  {
+   "id": "9.1-s040",
+   "section": "9.1",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "**A** **B** test system interface",
+   "lines": [
+    9821,
+    9823
+   ]
+  },
+  {
+   "id": "9.1-s041",
+   "section": "9.1",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "**(g)**",
+   "lines": [
+    9825,
+    9825
+   ]
+  },
+  {
+   "id": "9.1-s042",
+   "section": "9.1",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "**Figure 7: NOT allowed connections**",
+   "lines": [
+    9827,
+    9827
+   ]
+  },
+  {
+   "id": "9.2-s001",
+   "section": "9.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "TTCN-3 is used to test implementations.",
+   "lines": [
+    9831,
+    9834
+   ]
+  },
+  {
+   "id": "9.2-s002",
+   "section": "9.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The object being tested is known as the Implementation Under Test or IUT.",
+   "lines": [
+    9831,
+    9834
+   ]
+  },
+  {
+   "id": "9.2-s003",
+   "section": "9.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The IUT may offer direct interfaces for testing or it may be part of system in which case the tested object is known as a System Under Test or SUT.",
+   "lines": [
+    9831,
+    9834
+   ]
+  },
+  {
+   "id": "9.2-s004",
+   "section": "9.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "In the minimal case the IUT and the SUT are equivalent.",
+   "lines": [
+    9831,
+    9834
+   ]
+  },
+  {
+   "id": "9.2-s005",
+   "section": "9.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "In the present document the term SUT is used in a general way to mean either SUT or IUT.",
+   "lines": [
+    9831,
+    9834
+   ]
+  },
+  {
+   "id": "9.2-s006",
+   "section": "9.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "In a real test environment test cases need to communicate with the SUT.",
+   "lines": [
+    9836,
+    9839
+   ]
+  },
+  {
+   "id": "9.2-s007",
+   "section": "9.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "However, the specification of the real physical connection is outside the scope of TTCN-3.",
+   "lines": [
+    9836,
+    9839
+   ]
+  },
+  {
+   "id": "9.2-s008",
+   "section": "9.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Instead, a well defined (but abstract) test system interface shall be associated with each test case.",
+   "lines": [
+    9836,
+    9839
+   ]
+  },
+  {
+   "id": "9.2-s009",
+   "section": "9.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "A test system interface definition is identical to a component definition, i.e. it is a list of all possible communication ports through which the test case is connected to the SUT.",
+   "lines": [
+    9836,
+    9839
+   ]
+  },
+  {
+   "id": "9.2-s010",
+   "section": "9.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The test system interface statically defines the number and type of the port connections to the SUT during a test run.",
+   "lines": [
+    9841,
+    9843
+   ]
+  },
+  {
+   "id": "9.2-s011",
+   "section": "9.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "However, the connections between the test system interface and the TTCN-3 test components are dynamic in nature and may be modified during a test run by using map and unmap operations (see clause 21.1).",
+   "lines": [
+    9841,
+    9843
+   ]
+  },
+  {
+   "id": "9.2-s012",
+   "section": "9.2",
+   "kind": "table-header",
+   "context": null,
+   "normative": true,
+   "text": "test component A; test component B",
+   "lines": [
+    9845,
+    9845
+   ]
+  },
+  {
+   "id": "9.2-s013",
+   "section": "9.2",
+   "kind": "table-header",
+   "context": null,
+   "normative": true,
+   "text": "test component A; Col2",
+   "lines": [
+    9848,
+    9848
+   ]
+  },
+  {
+   "id": "9.2-s014",
+   "section": "9.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "test system: test system interface",
+   "lines": [
+    9853,
+    9853
+   ]
+  },
+  {
+   "id": "9.2-s015",
+   "section": "9.2",
+   "kind": "table-header",
+   "context": null,
+   "normative": true,
+   "text": "test system; Col2; Col3",
+   "lines": [
+    9851,
+    9851
+   ]
+  },
+  {
+   "id": "9.2-s016",
+   "section": "9.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "A component type definition is used to define the test system interface because, conceptually, component type definitions and test system interface definitions have the same form (both are collections of ports defining possible connection points).",
+   "lines": [
+    9861,
+    9864
+   ]
+  },
+  {
+   "id": "9.2-s017",
+   "section": "9.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "When used as test system interfaces, components cannot make use of any constants, variables and timers declared in the component type.",
+   "lines": [
+    9861,
+    9864
+   ]
+  },
+  {
+   "id": "9.2-s018",
+   "section": "9.2",
+   "kind": "prose",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "The same as a component type definition (see clause 6.2.10.1).",
+   "lines": [
+    9868,
+    9868
+   ]
+  },
+  {
+   "id": "9.2-s019",
+   "section": "9.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Generally, a component type reference defining the test system interface shall be associated with every test case using more than one test component.",
+   "lines": [
+    9872,
+    9874
+   ]
+  },
+  {
+   "id": "9.2-s020",
+   "section": "9.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The ports of the test system interface shall automatically be instantiated by the system together with the MTC when the test case execution starts.",
+   "lines": [
+    9872,
+    9874
+   ]
+  },
+  {
+   "id": "9.2-s021",
+   "section": "9.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The operation returning the component reference of the test system interface is system.",
+   "lines": [
+    9876,
+    9877
+   ]
+  },
+  {
+   "id": "9.2-s022",
+   "section": "9.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "This shall be used to address the ports of the test system.",
+   "lines": [
+    9876,
+    9877
+   ]
+  },
+  {
+   "id": "9.2-s023",
+   "section": "9.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "In the case where the MTC is the only component that is instantiated during test execution, a test system interface need not be associated to the test case.",
+   "lines": [
+    9879,
+    9881
+   ]
+  },
+  {
+   "id": "9.2-s024",
+   "section": "9.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "In this case, the component type definition associated with the MTC implicitly defines the corresponding test system interface.",
+   "lines": [
+    9879,
+    9881
+   ]
+  },
+  {
+   "id": "9.2-s025",
+   "section": "9.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Variables, timers and constants declared in component types, which are used as test system interfaces will have no effect.",
+   "lines": [
+    9883,
+    9884
+   ]
+  },
+  {
+   "id": "9.2-s026",
+   "section": "9.2",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clause 5, the following restrictions apply:",
+   "lines": [
+    9888,
+    9888
+   ]
+  },
+  {
+   "id": "9.2-s027",
+   "section": "9.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) The same as for component type definitions (see clause 6.2.10.1).",
+   "lines": [
+    9890,
+    9890
+   ]
+  },
+  {
+   "id": "9.2-s028",
+   "section": "9.2",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 1: Explicit definition of a test system interface:",
+   "lines": [
+    9894,
+    9894
+   ]
+  },
+  {
+   "id": "9.2-s029",
+   "section": "9.2",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "type component MyMTCType \n  {\n   var integer vc_myLocalInteger;\n    timer tc_myLocalTimer;\n    port MyMessagePortType pCO1\n  }\n  type component MyTestSystemInterface \n  {\n     port MyMessagePortType  pCO1, pCO2;\n     port MyProcedurePortType pCO3\n  }\n  // MyTestSystemInterface is the test system interface\n  testcase TC_MyTestcase1 () runs on MyMTCType system MyTestSystemInterface {\n     // establishing the port connections\n     map(mtc:pCO1, system:pCO2);\n     // the testcase behaviour\n     // …\n  }",
+   "lines": [
+    9895,
+    9914
+   ]
+  },
+  {
+   "id": "9.2-s030",
+   "section": "9.2",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 2: Implicit definition of a test system interface:",
+   "lines": [
+    9916,
+    9916
+   ]
+  },
+  {
+   "id": "9.2-s031",
+   "section": "9.2",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "// MyMTCType is the test system interface\n  testcase TC_MyTestcase2 () runs on MyMTCType {\n     // map statements are not needed\n     // the testcase behaviour\n     // …\n  }",
+   "lines": [
+    9917,
+    9924
+   ]
+  }
+ ]
+}

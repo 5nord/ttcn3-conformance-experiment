@@ -1,0 +1,21 @@
+// @requirement: 19.8 -- b) It is not allowed to jump into a sequence of statements defined in a compound statement (i.e. alt statement, while loop, for loop, if-else statement, do-while loop and the interleave statement).
+// @id: TTCN3-CORE-19.8-007a
+// @verdict: pass reject
+module M_19_08_test_009 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_i := 0;
+        goto L_In; // error: jump into the body of a while loop
+        while (v_i < 3) {
+            label L_In;
+            v_i := v_i + 1;
+        }
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

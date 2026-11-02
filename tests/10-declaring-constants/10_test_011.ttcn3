@@ -1,0 +1,17 @@
+// @requirement: 10 -- When automatic typing is used, the TypeOrNestedParDef part is missing and the type is equal to the type of the expression on the right-hand side of the assignment.
+// @id: TTCN3-CORE-10-011b
+// @verdict: pass reject
+module M_10_test_011 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        const c_x := "abc";
+        var integer v_x := c_x; // error: c_x is of type charstring, not integer
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

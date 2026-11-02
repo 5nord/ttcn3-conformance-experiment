@@ -1,0 +1,23 @@
+// @requirement: 6.3.2.5 -- NOTE: Only anytype types that are constrained to a fixed set of types via list subtyping can be a potential cause for anytype incompatibility, i.e. if the set of types contained in type "A" does not contain the type selected in "b".
+// @id: TTCN3-CORE-6.3.2.5-003a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_03_02_05_test_003 {
+
+    type component C {}
+
+    type anytype BType ({ boolean := ? }, { integer := ? });
+
+    testcase TC() runs on C {
+        var BType v_b := { boolean := true };
+        var anytype v_a := v_b;
+        if (ischosen(v_a.boolean) and v_a.boolean == true) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

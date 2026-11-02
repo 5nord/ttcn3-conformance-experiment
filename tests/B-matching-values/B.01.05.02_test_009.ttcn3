@@ -1,0 +1,21 @@
+// @requirement: B.1.5.2 -- If the reference cannot be resolved or if the referenced symbol does not fulfil the requirements set by this clause, an error shall be generated.
+// @id: TTCN3-CORE-B.1.5.2-008a
+// @verdict: pass reject
+module M_B_01_05_02_test_009 {
+
+    type component C {}
+
+    template charstring mw_ref := pattern "x{c_undefined}y"; // error: reference cannot be resolved
+
+    testcase TC() runs on C {
+        if (match("xy", mw_ref)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

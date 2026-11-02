@@ -1,0 +1,23 @@
+// @requirement: 15.6.1 -- k) If the referenced template contains a length matching attribute and the index is greater or equal to the maximum allowed length, the maximum allowed length shall be changed to the value of the index + 1.
+// @id: TTCN3-CORE-15.6.1-039a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_06_01_test_038 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template octetstring v_oct := 'AB'O length(1..2);
+        var template charstring v_char := "abc" length(3);
+        v_oct[3] := 'CD'O;
+        v_char[3] := "d";
+        if (match('AB0102CD'O, v_oct) and match("abcd", v_char)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

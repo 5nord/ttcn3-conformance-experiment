@@ -1,0 +1,22 @@
+// @requirement: 6.5 -- p) Superset and subset where all items have a common type shall provide an automatic type set of _{common_ _type}.
+// @id: TTCN3-CORE-6.5-030a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_05_test_036 {
+    type component C {}
+
+    testcase TC() runs on C {
+        var template v_super := superset(1, 2);
+        var template v_sub := subset(1, 2, 3);
+        var set of integer v_soi := { 3, 2, 1 };
+        if (match(v_soi, v_super) and match(v_soi, v_sub)
+            and not match({ 1, 4 }, v_super)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

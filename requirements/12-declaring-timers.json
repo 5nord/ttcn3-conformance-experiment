@@ -1,0 +1,1563 @@
+{
+ "document": "ETSI ES 201 873-1 V4.17.1 (2025-09)",
+ "chapter": "12",
+ "title": "Declaring timers",
+ "file": "12-declaring-timers",
+ "source_lines": [
+  10223,
+  10291
+ ],
+ "sentences": [
+  {
+   "id": "12-s001",
+   "section": "12",
+   "kind": "prose",
+   "normative": true,
+   "text": "TTCN-3 provides a timer mechanism.",
+   "lines": [
+    10225,
+    10227
+   ]
+  },
+  {
+   "id": "12-s002",
+   "section": "12",
+   "kind": "prose",
+   "normative": true,
+   "text": "Timers can be declared and used in test cases, functions and altsteps.",
+   "lines": [
+    10225,
+    10227
+   ]
+  },
+  {
+   "id": "12-s003",
+   "section": "12",
+   "kind": "prose",
+   "normative": true,
+   "text": "Additionally, timers can be declared in component type definitions.",
+   "lines": [
+    10225,
+    10227
+   ]
+  },
+  {
+   "id": "12-s004",
+   "section": "12",
+   "kind": "prose",
+   "normative": true,
+   "text": "These timers can be used in test cases, functions and altsteps which are running on the given component type.",
+   "lines": [
+    10225,
+    10227
+   ]
+  },
+  {
+   "id": "12-s005",
+   "section": "12",
+   "kind": "prose",
+   "normative": true,
+   "text": "A timer declaration may have an optional default duration value assigned to it.",
+   "lines": [
+    10229,
+    10231
+   ]
+  },
+  {
+   "id": "12-s006",
+   "section": "12",
+   "kind": "prose",
+   "normative": true,
+   "text": "The timer shall be started with this value if no other value is specified.",
+   "lines": [
+    10229,
+    10231
+   ]
+  },
+  {
+   "id": "12-s007",
+   "section": "12",
+   "kind": "prose",
+   "normative": true,
+   "text": "The timer value shall be a non-negative float value (i.e. greater than or equal to 0.0) where the base unit is seconds.",
+   "lines": [
+    10229,
+    10231
+   ]
+  },
+  {
+   "id": "12-s008",
+   "section": "12",
+   "kind": "prose",
+   "normative": true,
+   "text": "In addition to single timer instances, timer arrays can also be declared.",
+   "lines": [
+    10233,
+    10236
+   ]
+  },
+  {
+   "id": "12-s009",
+   "section": "12",
+   "kind": "prose",
+   "normative": true,
+   "text": "Default duration(s) of the elements of a timer array shall be assigned using a value array.",
+   "lines": [
+    10233,
+    10236
+   ]
+  },
+  {
+   "id": "12-s010",
+   "section": "12",
+   "kind": "prose",
+   "normative": true,
+   "text": "Default duration(s) assignment shall use the array value notation as specified in clause 15.8.2.",
+   "lines": [
+    10233,
+    10236
+   ]
+  },
+  {
+   "id": "12-s011",
+   "section": "12",
+   "kind": "prose",
+   "normative": true,
+   "text": "If the default duration assignment is wished to be skipped for some element(s) of the timer array, it shall explicitly be declared by using the not used symbol (\"-\").",
+   "lines": [
+    10233,
+    10236
+   ]
+  },
+  {
+   "id": "12-s012",
+   "section": "12",
+   "kind": "syntax",
+   "normative": true,
+   "text": "timer { TimerIdentifier [ ArrayDef ] \":=\" TimerValue [ \",\" ] } [ \";\" ]",
+   "lines": [
+    10239,
+    10241
+   ]
+  },
+  {
+   "id": "12-s013",
+   "section": "12",
+   "kind": "prose",
+   "normative": true,
+   "text": "Timers are local to components.",
+   "lines": [
+    10245,
+    10247
+   ]
+  },
+  {
+   "id": "12-s014",
+   "section": "12",
+   "kind": "prose",
+   "normative": true,
+   "text": "A component can start and stop a timer, check if a timer is running, read the elapsed time of a running timer and process timeout events after timer expiration.",
+   "lines": [
+    10245,
+    10247
+   ]
+  },
+  {
+   "id": "12-s015",
+   "section": "12",
+   "kind": "prose",
+   "normative": true,
+   "text": "The timer value is interpreted with a base unit of seconds.",
+   "lines": [
+    10245,
+    10247
+   ]
+  },
+  {
+   "id": "12-s016",
+   "section": "12",
+   "kind": "prose",
+   "normative": true,
+   "text": "A timer declared and started in scope units such as functions ceases to exist when the scope unit is left unless there is a constant, variable or parameter defined in the current or higher scope unit or in an activated altstep that contains a reference to it.",
+   "lines": [
+    10249,
+    10253
+   ]
+  },
+  {
+   "id": "12-s017",
+   "section": "12",
+   "kind": "prose",
+   "normative": true,
+   "text": "In this case, the timer is kept as long as at least one constant, variable or parameter of the current or higher scope unit or an activated altstep contain a reference to it.",
+   "lines": [
+    10249,
+    10253
+   ]
+  },
+  {
+   "id": "12-s018",
+   "section": "12",
+   "kind": "prose",
+   "normative": true,
+   "text": "If a timer ceases to exist, it stops running, will never timeout and cannot be referenced via the any timer or all timer constructs.",
+   "lines": [
+    10249,
+    10253
+   ]
+  },
+  {
+   "id": "12-s019",
+   "section": "12",
+   "kind": "prose",
+   "normative": true,
+   "text": "If not stated otherwise, timers have the same semantics as constants of a timer type.",
+   "lines": [
+    10255,
+    10255
+   ]
+  },
+  {
+   "id": "12-s020",
+   "section": "12",
+   "kind": "note",
+   "normative": false,
+   "text": "NOTE: Timers that ceased to exist do not contribute to the test behaviour.",
+   "lines": [
+    10257,
+    10257
+   ]
+  },
+  {
+   "id": "12-s021",
+   "section": "12",
+   "kind": "prose",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clause 5, the following restrictions apply:",
+   "lines": [
+    10261,
+    10261
+   ]
+  },
+  {
+   "id": "12-s022",
+   "section": "12",
+   "kind": "list-item",
+   "normative": true,
+   "text": "a) In case of a single timer, the default duration value shall resolve to a non-negative numerical float value (i.e. the value shall be greater or equal 0.0, infinity and not_a_number are disallowed).",
+   "lines": [
+    10263,
+    10264
+   ]
+  },
+  {
+   "id": "12-s023",
+   "section": "12",
+   "kind": "list-item",
+   "normative": true,
+   "text": "b) In case of a timer array, it shall resolve to an array of float values obeying to restriction a) above of the same size as the size of the timer array.",
+   "lines": [
+    10266,
+    10267
+   ]
+  },
+  {
+   "id": "12-s024",
+   "section": "12",
+   "kind": "example-text",
+   "normative": false,
+   "text": "EXAMPLE 1: Single timer",
+   "lines": [
+    10271,
+    10271
+   ]
+  },
+  {
+   "id": "12-s025",
+   "section": "12",
+   "kind": "example-code",
+   "normative": false,
+   "text": "timer t_myTimer1 := 5E-3;\n            // declaration of the timer t_myTimer1 with the default value of 5ms \n  timer t_myTimer2; // declaration of t_myTimer2 without a default timer value i.e. a value has \n            // to be assigned when the timer is started",
+   "lines": [
+    10272,
+    10277
+   ]
+  },
+  {
+   "id": "12-s026",
+   "section": "12",
+   "kind": "example-text",
+   "normative": false,
+   "text": "EXAMPLE 2: Timer array",
+   "lines": [
+    10284,
+    10284
+   ]
+  },
+  {
+   "id": "12-s027",
+   "section": "12",
+   "kind": "example-code",
+   "normative": false,
+   "text": "timer t_mytimer1[5] := { 1.0, 2.0, 3.0, 4.0, 5.0 }\n            // all elements of the timer array get a default duration.\n  timer t_mytimer2[5] := { 1.0, -, 3.0, 4.0, 5.0 }\n            // the second timer (t_mytimer2[1]) is left without a default duration.",
+   "lines": [
+    10285,
+    10290
+   ]
+  }
+ ],
+ "entities": [
+  {
+   "id": "ent:activated-altstep",
+   "term_ref": null,
+   "sentence_ids": [
+    "12-s016",
+    "12-s017"
+   ],
+   "name": "activated altstep",
+   "category": "concept"
+  },
+  {
+   "id": "ent:all-timer",
+   "term_ref": null,
+   "sentence_ids": [
+    "12-s018"
+   ],
+   "name": "all timer",
+   "category": "language-element"
+  },
+  {
+   "id": "ent:altstep",
+   "term_ref": null,
+   "sentence_ids": [
+    "12-s002",
+    "12-s004",
+    "12-s016"
+   ],
+   "name": "altstep",
+   "category": "language-element"
+  },
+  {
+   "id": "ent:any-timer",
+   "term_ref": null,
+   "sentence_ids": [
+    "12-s018"
+   ],
+   "name": "any timer",
+   "category": "language-element"
+  },
+  {
+   "id": "ent:array-value-notation",
+   "term_ref": null,
+   "sentence_ids": [
+    "12-s010"
+   ],
+   "name": "array value notation",
+   "category": "concept"
+  },
+  {
+   "id": "ent:component",
+   "term_ref": null,
+   "sentence_ids": [
+    "12-s013",
+    "12-s014"
+   ],
+   "name": "component",
+   "category": "concept"
+  },
+  {
+   "id": "ent:component-timer",
+   "term_ref": "component timer",
+   "sentence_ids": [
+    "12-s003",
+    "12-s004"
+   ],
+   "name": "component timer",
+   "category": "language-element"
+  },
+  {
+   "id": "ent:component-type-definition",
+   "term_ref": null,
+   "sentence_ids": [
+    "12-s003",
+    "12-s004"
+   ],
+   "name": "component type definition",
+   "category": "language-element"
+  },
+  {
+   "id": "ent:constant",
+   "term_ref": null,
+   "sentence_ids": [
+    "12-s019",
+    "12-s016"
+   ],
+   "name": "constant",
+   "category": "language-element"
+  },
+  {
+   "id": "ent:default-duration",
+   "term_ref": null,
+   "sentence_ids": [
+    "12-s005",
+    "12-s006",
+    "12-s009",
+    "12-s022",
+    "12-s023"
+   ],
+   "name": "default duration",
+   "category": "value"
+  },
+  {
+   "id": "ent:float-type",
+   "term_ref": null,
+   "sentence_ids": [
+    "12-s007",
+    "12-s022"
+   ],
+   "name": "float type",
+   "category": "type"
+  },
+  {
+   "id": "ent:function",
+   "term_ref": null,
+   "sentence_ids": [
+    "12-s002",
+    "12-s004",
+    "12-s016"
+   ],
+   "name": "function",
+   "category": "language-element"
+  },
+  {
+   "id": "ent:not-used-symbol",
+   "term_ref": null,
+   "sentence_ids": [
+    "12-s011",
+    "12-s027"
+   ],
+   "name": "not used symbol",
+   "category": "language-element"
+  },
+  {
+   "id": "ent:reference",
+   "term_ref": null,
+   "sentence_ids": [
+    "12-s016",
+    "12-s017"
+   ],
+   "name": "reference",
+   "category": "concept"
+  },
+  {
+   "id": "ent:scope-unit",
+   "term_ref": null,
+   "sentence_ids": [
+    "12-s016",
+    "12-s017"
+   ],
+   "name": "scope unit",
+   "category": "concept"
+  },
+  {
+   "id": "ent:test-behaviour",
+   "term_ref": "test behaviour",
+   "sentence_ids": [
+    "12-s020"
+   ],
+   "name": "test behaviour",
+   "category": "concept"
+  },
+  {
+   "id": "ent:testcase",
+   "term_ref": "test case",
+   "sentence_ids": [
+    "12-s002",
+    "12-s004"
+   ],
+   "name": "test case",
+   "category": "language-element"
+  },
+  {
+   "id": "ent:timeout-event",
+   "term_ref": null,
+   "sentence_ids": [
+    "12-s014",
+    "12-s018"
+   ],
+   "name": "timeout event",
+   "category": "concept"
+  },
+  {
+   "id": "ent:timer",
+   "term_ref": null,
+   "sentence_ids": [
+    "12-s001",
+    "12-s002",
+    "12-s003",
+    "12-s004",
+    "12-s005",
+    "12-s008",
+    "12-s013",
+    "12-s014",
+    "12-s016",
+    "12-s018",
+    "12-s019"
+   ],
+   "name": "timer",
+   "category": "language-element"
+  },
+  {
+   "id": "ent:timer-array",
+   "term_ref": null,
+   "sentence_ids": [
+    "12-s008",
+    "12-s009",
+    "12-s011",
+    "12-s023"
+   ],
+   "name": "timer array",
+   "category": "language-element"
+  },
+  {
+   "id": "ent:timer-declaration",
+   "term_ref": null,
+   "sentence_ids": [
+    "12-s005",
+    "12-s012"
+   ],
+   "name": "timer declaration",
+   "category": "language-element"
+  },
+  {
+   "id": "ent:timer-mechanism",
+   "term_ref": null,
+   "sentence_ids": [
+    "12-s001"
+   ],
+   "name": "timer mechanism",
+   "category": "concept"
+  },
+  {
+   "id": "ent:timer-type",
+   "term_ref": null,
+   "sentence_ids": [
+    "12-s019"
+   ],
+   "name": "timer type",
+   "category": "type"
+  },
+  {
+   "id": "ent:timer-value",
+   "term_ref": null,
+   "sentence_ids": [
+    "12-s007",
+    "12-s015"
+   ],
+   "name": "timer value",
+   "category": "value"
+  },
+  {
+   "id": "ent:value-array",
+   "term_ref": null,
+   "sentence_ids": [
+    "12-s009"
+   ],
+   "name": "value array",
+   "category": "value"
+  }
+ ],
+ "terms_used": [
+  {
+   "term": "activated altstep",
+   "in_glossary": false,
+   "sentence_ids": [
+    "12-s016"
+   ]
+  },
+  {
+   "term": "all timer",
+   "in_glossary": false,
+   "sentence_ids": [
+    "12-s018"
+   ]
+  },
+  {
+   "term": "altstep",
+   "in_glossary": false,
+   "sentence_ids": [
+    "12-s002"
+   ]
+  },
+  {
+   "term": "any timer",
+   "in_glossary": false,
+   "sentence_ids": [
+    "12-s018"
+   ]
+  },
+  {
+   "term": "array value notation",
+   "in_glossary": false,
+   "sentence_ids": [
+    "12-s010"
+   ]
+  },
+  {
+   "term": "component",
+   "in_glossary": false,
+   "sentence_ids": [
+    "12-s013"
+   ]
+  },
+  {
+   "term": "component timer",
+   "in_glossary": true,
+   "sentence_ids": [
+    "12-s003"
+   ]
+  },
+  {
+   "term": "component type definition",
+   "in_glossary": false,
+   "sentence_ids": [
+    "12-s003"
+   ]
+  },
+  {
+   "term": "constant",
+   "in_glossary": false,
+   "sentence_ids": [
+    "12-s016"
+   ]
+  },
+  {
+   "term": "default duration",
+   "in_glossary": false,
+   "sentence_ids": [
+    "12-s005"
+   ]
+  },
+  {
+   "term": "float",
+   "in_glossary": false,
+   "sentence_ids": [
+    "12-s007"
+   ]
+  },
+  {
+   "term": "formal parameter",
+   "in_glossary": true,
+   "sentence_ids": [
+    "12-s016"
+   ]
+  },
+  {
+   "term": "function",
+   "in_glossary": false,
+   "sentence_ids": [
+    "12-s002"
+   ]
+  },
+  {
+   "term": "infinity",
+   "in_glossary": false,
+   "sentence_ids": [
+    "12-s022"
+   ]
+  },
+  {
+   "term": "not used symbol",
+   "in_glossary": false,
+   "sentence_ids": [
+    "12-s011"
+   ]
+  },
+  {
+   "term": "not_a_number",
+   "in_glossary": false,
+   "sentence_ids": [
+    "12-s022"
+   ]
+  },
+  {
+   "term": "parameter",
+   "in_glossary": false,
+   "sentence_ids": [
+    "12-s016"
+   ]
+  },
+  {
+   "term": "reference",
+   "in_glossary": false,
+   "sentence_ids": [
+    "12-s016"
+   ]
+  },
+  {
+   "term": "scope unit",
+   "in_glossary": false,
+   "sentence_ids": [
+    "12-s016"
+   ]
+  },
+  {
+   "term": "test behaviour",
+   "in_glossary": true,
+   "sentence_ids": [
+    "12-s020"
+   ]
+  },
+  {
+   "term": "test case",
+   "in_glossary": true,
+   "sentence_ids": [
+    "12-s002"
+   ]
+  },
+  {
+   "term": "timeout",
+   "in_glossary": false,
+   "sentence_ids": [
+    "12-s014"
+   ]
+  },
+  {
+   "term": "timer",
+   "in_glossary": false,
+   "sentence_ids": [
+    "12-s001"
+   ]
+  },
+  {
+   "term": "timer array",
+   "in_glossary": false,
+   "sentence_ids": [
+    "12-s008"
+   ]
+  },
+  {
+   "term": "timer declaration",
+   "in_glossary": false,
+   "sentence_ids": [
+    "12-s005"
+   ]
+  },
+  {
+   "term": "timer mechanism",
+   "in_glossary": false,
+   "sentence_ids": [
+    "12-s001"
+   ]
+  },
+  {
+   "term": "timer type",
+   "in_glossary": false,
+   "sentence_ids": [
+    "12-s019"
+   ]
+  },
+  {
+   "term": "timer value",
+   "in_glossary": false,
+   "sentence_ids": [
+    "12-s007"
+   ]
+  },
+  {
+   "term": "value array",
+   "in_glossary": false,
+   "sentence_ids": [
+    "12-s009"
+   ]
+  },
+  {
+   "term": "variable",
+   "in_glossary": false,
+   "sentence_ids": [
+    "12-s016"
+   ]
+  }
+ ],
+ "relationships": [
+  {
+   "subject": "ent:timer",
+   "predicate": "is-defined-in",
+   "object": "ent:testcase",
+   "sentence_ids": [
+    "12-s002"
+   ]
+  },
+  {
+   "subject": "ent:timer",
+   "predicate": "is-defined-in",
+   "object": "ent:function",
+   "sentence_ids": [
+    "12-s002"
+   ]
+  },
+  {
+   "subject": "ent:timer",
+   "predicate": "is-defined-in",
+   "object": "ent:altstep",
+   "sentence_ids": [
+    "12-s002"
+   ]
+  },
+  {
+   "subject": "ent:component-timer",
+   "predicate": "is-defined-in",
+   "object": "ent:component-type-definition",
+   "sentence_ids": [
+    "12-s003"
+   ]
+  },
+  {
+   "subject": "ent:component-timer",
+   "predicate": "is-a",
+   "object": "ent:timer",
+   "sentence_ids": [
+    "12-s003"
+   ]
+  },
+  {
+   "subject": "ent:timer-declaration",
+   "predicate": "may-contain",
+   "object": "ent:default-duration",
+   "sentence_ids": [
+    "12-s005"
+   ]
+  },
+  {
+   "subject": "ent:default-duration",
+   "predicate": "is-a",
+   "object": "ent:timer-value",
+   "sentence_ids": [
+    "12-s005",
+    "12-s007"
+   ]
+  },
+  {
+   "subject": "ent:timer-value",
+   "predicate": "is-a",
+   "object": "ent:float-type",
+   "sentence_ids": [
+    "12-s007"
+   ]
+  },
+  {
+   "subject": "ent:timer-array",
+   "predicate": "is-a",
+   "object": "ent:timer",
+   "sentence_ids": [
+    "12-s008"
+   ]
+  },
+  {
+   "subject": "ent:default-duration",
+   "predicate": "uses",
+   "object": "ent:value-array",
+   "sentence_ids": [
+    "12-s009"
+   ]
+  },
+  {
+   "subject": "ent:value-array",
+   "predicate": "uses",
+   "object": "ent:array-value-notation",
+   "sentence_ids": [
+    "12-s010"
+   ]
+  },
+  {
+   "subject": "ent:value-array",
+   "predicate": "may-contain",
+   "object": "ent:not-used-symbol",
+   "sentence_ids": [
+    "12-s011"
+   ]
+  },
+  {
+   "subject": "ent:timer",
+   "predicate": "has-scope",
+   "object": "ent:component",
+   "sentence_ids": [
+    "12-s013"
+   ]
+  },
+  {
+   "subject": "ent:timer",
+   "predicate": "has-scope",
+   "object": "ent:scope-unit",
+   "sentence_ids": [
+    "12-s016"
+   ]
+  },
+  {
+   "subject": "ent:reference",
+   "predicate": "references",
+   "object": "ent:timer",
+   "sentence_ids": [
+    "12-s016"
+   ]
+  },
+  {
+   "subject": "ent:any-timer",
+   "predicate": "references",
+   "object": "ent:timer",
+   "sentence_ids": [
+    "12-s018"
+   ]
+  },
+  {
+   "subject": "ent:all-timer",
+   "predicate": "references",
+   "object": "ent:timer",
+   "sentence_ids": [
+    "12-s018"
+   ]
+  },
+  {
+   "subject": "ent:timer",
+   "predicate": "is-compatible-with",
+   "object": "ent:constant",
+   "sentence_ids": [
+    "12-s019"
+   ]
+  },
+  {
+   "subject": "ent:constant",
+   "predicate": "is-a",
+   "object": "ent:timer-type",
+   "sentence_ids": [
+    "12-s019"
+   ]
+  }
+ ],
+ "requirements": [
+  {
+   "id": "TTCN3-CORE-12-001a",
+   "section": "12",
+   "type": "information",
+   "modality": "IS",
+   "subject": "ent:timer-mechanism",
+   "condition": null,
+   "canonical": "The TTCN-3 language IS a language that provides a timer mechanism.",
+   "original": "TTCN-3 provides a timer mechanism.",
+   "normative": true,
+   "testable": false,
+   "cross_refs": [],
+   "sentence_ids": [
+    "12-s001"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-12-002a",
+   "section": "12",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:timer",
+   "condition": null,
+   "canonical": "A timer MAY be declared and used in a test case, a function or an altstep.",
+   "original": "Timers can be declared and used in test cases, functions and altsteps.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "12-s002"
+   ],
+   "examples": [
+    "12-s025"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-12-003a",
+   "section": "12",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:component-timer",
+   "condition": null,
+   "canonical": "A timer MAY be declared in a component type definition.",
+   "original": "Additionally, timers can be declared in component type definitions.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "12-s003"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-12-004a",
+   "section": "12",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:component-timer",
+   "condition": "the test case, function or altstep has a runs on clause referencing the component type",
+   "canonical": "A timer declared in a component type definition MAY be used in a test case, function or altstep that runs on that component type.",
+   "original": "These timers can be used in test cases, functions and altsteps which are running on the given component type.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "12-s004",
+    "12-s003"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "readings": [
+     "A component timer MAY be used in a test case, function or altstep whose runs on clause references the component type.",
+     "A component timer MAY be used in a test case, function or altstep whose runs on clause references the component type or a type compatible with it (e.g. an extending component type)."
+    ],
+    "issue": "'running on the given component type' does not say whether compatible (extended) component types are included; chose the literal reading."
+   }
+  },
+  {
+   "id": "TTCN3-CORE-12-005a",
+   "section": "12",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:timer-declaration",
+   "condition": null,
+   "canonical": "A timer declaration MAY assign a default duration value to the timer.",
+   "original": "A timer declaration may have an optional default duration value assigned to it.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "12-s005"
+   ],
+   "examples": [
+    "12-s025"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-12-006a",
+   "section": "12",
+   "type": "semantics",
+   "modality": "SHALL",
+   "subject": "ent:timer",
+   "condition": "no other value is specified at start",
+   "canonical": "When a timer is started without a specified timer value, the timer SHALL be started with its default duration value.",
+   "original": "The timer shall be started with this value if no other value is specified.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "23.2"
+   ],
+   "sentence_ids": [
+    "12-s006",
+    "12-s005"
+   ],
+   "examples": [
+    "12-s025"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-12-007a",
+   "section": "12",
+   "type": "restriction",
+   "modality": "SHALL",
+   "subject": "ent:timer-value",
+   "condition": null,
+   "canonical": "A timer value SHALL be a non-negative `float` value (greater than or equal to 0.0).",
+   "original": "The timer value shall be a non-negative float value (i.e. greater than or equal to 0.0) where the base unit is seconds.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "12-s007"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "readings": [
+     "A default duration value in a timer declaration SHALL be a non-negative float value.",
+     "Any timer value (default duration or value given in a start operation) SHALL be a non-negative float value."
+    ],
+    "issue": "'The timer value' follows the default duration sentences; chose the general reading that covers all timer values."
+   }
+  },
+  {
+   "id": "TTCN3-CORE-12-007b",
+   "section": "12",
+   "type": "semantics",
+   "modality": "IS",
+   "subject": "ent:timer-value",
+   "condition": null,
+   "canonical": "The base unit of a timer value IS seconds.",
+   "original": "The timer value shall be a non-negative float value (i.e. greater than or equal to 0.0) where the base unit is seconds.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "12-s007"
+   ],
+   "examples": [
+    "12-s025"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-12-008a",
+   "section": "12",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:timer-array",
+   "condition": null,
+   "canonical": "A timer array MAY be declared.",
+   "original": "In addition to single timer instances, timer arrays can also be declared.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "12-s008"
+   ],
+   "examples": [
+    "12-s027"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-12-009a",
+   "section": "12",
+   "type": "requirement",
+   "modality": "SHALL",
+   "subject": "ent:default-duration",
+   "condition": null,
+   "canonical": "The default durations of the elements of a timer array SHALL be assigned using a value array.",
+   "original": "Default duration(s) of the elements of a timer array shall be assigned using a value array.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "12-s009"
+   ],
+   "examples": [
+    "12-s027"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-12-010a",
+   "section": "12",
+   "type": "syntax",
+   "modality": "SHALL",
+   "subject": "ent:default-duration",
+   "condition": null,
+   "canonical": "A default duration assignment of a timer array SHALL use the array value notation.",
+   "original": "Default duration(s) assignment shall use the array value notation as specified in clause 15.8.2.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "15.8.2"
+   ],
+   "sentence_ids": [
+    "12-s010"
+   ],
+   "examples": [
+    "12-s027"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-12-011a",
+   "section": "12",
+   "type": "requirement",
+   "modality": "SHALL",
+   "subject": "ent:not-used-symbol",
+   "condition": "no default duration is wished for some element(s) of the timer array",
+   "canonical": "If the default duration of an element of a timer array is to be skipped, the element SHALL be explicitly marked with the not used symbol (\"-\") in the default duration value array.",
+   "original": "If the default duration assignment is wished to be skipped for some element(s) of the timer array, it shall explicitly be declared by using the not used symbol (\"-\").",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "12-s011"
+   ],
+   "examples": [
+    "12-s027"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-12-012a",
+   "section": "12",
+   "type": "syntax",
+   "modality": "IS",
+   "subject": "ent:timer-declaration",
+   "condition": null,
+   "canonical": "A timer declaration has the syntax `timer` followed by one or more TimerIdentifier [ArrayDef] \":=\" TimerValue items separated by optional commas, optionally terminated by \";\".",
+   "original": "timer { TimerIdentifier [ ArrayDef ] \":=\" TimerValue [ \",\" ] } [ \";\" ]",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "12-s012"
+   ],
+   "examples": [
+    "12-s025",
+    "12-s027"
+   ],
+   "ambiguity": {
+    "status": "ambiguous",
+    "readings": [
+     "The \":=\" TimerValue part of a timer declaration IS mandatory, as written in the syntactical structure.",
+     "The \":=\" TimerValue part of a timer declaration IS optional, as stated in the prose (s005) and shown in EXAMPLE 1 (t_myTimer2)."
+    ],
+    "issue": "The syntactical structure shows the default value assignment as mandatory, contradicting the prose and example; the optional reading is the intended one."
+   }
+  },
+  {
+   "id": "TTCN3-CORE-12-013a",
+   "section": "12",
+   "type": "semantics",
+   "modality": "IS",
+   "subject": "ent:timer",
+   "condition": null,
+   "canonical": "A timer IS local to a component.",
+   "original": "Timers are local to components.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "12-s013"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-12-014a",
+   "section": "12",
+   "type": "semantics",
+   "modality": "CAN",
+   "subject": "ent:component",
+   "condition": null,
+   "canonical": "A component CAN start a timer, stop a timer, check whether a timer is running, read the elapsed time of a running timer and process timeout events after timer expiration.",
+   "original": "A component can start and stop a timer, check if a timer is running, read the elapsed time of a running timer and process timeout events after timer expiration.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "23"
+   ],
+   "sentence_ids": [
+    "12-s014"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-12-015a",
+   "section": "12",
+   "type": "semantics",
+   "modality": "IS",
+   "subject": "ent:timer-value",
+   "condition": null,
+   "canonical": "A timer value IS interpreted with a base unit of seconds.",
+   "original": "The timer value is interpreted with a base unit of seconds.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "12-s015"
+   ],
+   "examples": [
+    "12-s025"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-12-016a",
+   "section": "12",
+   "type": "semantics",
+   "modality": "IS",
+   "subject": "ent:timer",
+   "condition": "the scope unit is left",
+   "canonical": "A timer declared and started in a scope unit (e.g. a function) ceases to exist when the scope unit is left, unless a constant, variable or parameter of the current or a higher scope unit or of an activated altstep contains a reference to the timer.",
+   "original": "A timer declared and started in scope units such as functions ceases to exist when the scope unit is left unless there is a constant, variable or parameter defined in the current or higher scope unit or in an activated altstep that contains a reference to it.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "12-s016"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "terminology",
+    "improper_terms": [
+     {
+      "used": "parameter",
+      "proper": "formal parameter",
+      "glossary": true
+     }
+    ],
+    "issue": "'parameter' is used where a formal parameter holding a timer reference is meant."
+   }
+  },
+  {
+   "id": "TTCN3-CORE-12-017a",
+   "section": "12",
+   "type": "semantics",
+   "modality": "IS",
+   "subject": "ent:timer",
+   "condition": "a reference to the timer is held by a constant, variable or parameter of the current or higher scope unit or an activated altstep",
+   "canonical": "A timer declared in a left scope unit IS kept in existence as long as at least one constant, variable or parameter of the current or a higher scope unit or an activated altstep contains a reference to the timer.",
+   "original": "In this case, the timer is kept as long as at least one constant, variable or parameter of the current or higher scope unit or an activated altstep contain a reference to it.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "12-s017",
+    "12-s016"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-12-018a",
+   "section": "12",
+   "type": "semantics",
+   "modality": "IS",
+   "subject": "ent:timer",
+   "condition": "the timer ceases to exist",
+   "canonical": "A timer that ceased to exist stops running.",
+   "original": "If a timer ceases to exist, it stops running, will never timeout and cannot be referenced via the any timer or all timer constructs.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "12-s018"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-12-018b",
+   "section": "12",
+   "type": "semantics",
+   "modality": "IS NOT",
+   "subject": "ent:timer",
+   "condition": "the timer ceases to exist",
+   "canonical": "A timer that ceased to exist IS NOT able to time out.",
+   "original": "If a timer ceases to exist, it stops running, will never timeout and cannot be referenced via the any timer or all timer constructs.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "12-s018"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-12-018c",
+   "section": "12",
+   "type": "semantics",
+   "modality": "CANNOT",
+   "subject": "ent:timer",
+   "condition": "the timer ceases to exist",
+   "canonical": "A timer that ceased to exist CANNOT be referenced via the `any timer` or `all timer` constructs.",
+   "original": "If a timer ceases to exist, it stops running, will never timeout and cannot be referenced via the any timer or all timer constructs.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "23.4",
+    "23.6"
+   ],
+   "sentence_ids": [
+    "12-s018"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-12-019a",
+   "section": "12",
+   "type": "semantics",
+   "modality": "IS",
+   "subject": "ent:timer",
+   "condition": null,
+   "canonical": "Unless stated otherwise, a timer IS semantically equivalent to a constant of a timer type.",
+   "original": "If not stated otherwise, timers have the same semantics as constants of a timer type.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "12-s019"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-12-020a",
+   "section": "12",
+   "type": "information",
+   "modality": "IS NOT",
+   "subject": "ent:timer",
+   "condition": null,
+   "canonical": "A timer that ceased to exist IS NOT a contributor to the test behaviour.",
+   "original": "NOTE: Timers that ceased to exist do not contribute to the test behaviour.",
+   "normative": false,
+   "testable": false,
+   "cross_refs": [],
+   "sentence_ids": [
+    "12-s020"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-12-022a",
+   "section": "12",
+   "type": "restriction",
+   "modality": "SHALL",
+   "subject": "ent:default-duration",
+   "condition": "single timer",
+   "canonical": "The default duration value of a single timer SHALL resolve to a non-negative numerical `float` value (greater than or equal to 0.0).",
+   "original": "a) In case of a single timer, the default duration value shall resolve to a non-negative numerical float value (i.e. the value shall be greater or equal 0.0, infinity and not_a_number are disallowed).",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "12-s022"
+   ],
+   "examples": [
+    "12-s025"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-12-022b",
+   "section": "12",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "subject": "ent:default-duration",
+   "condition": "single timer",
+   "canonical": "The default duration value of a single timer SHALL NOT be `infinity` or `not_a_number`.",
+   "original": "a) In case of a single timer, the default duration value shall resolve to a non-negative numerical float value (i.e. the value shall be greater or equal 0.0, infinity and not_a_number are disallowed).",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "12-s022"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-12-023a",
+   "section": "12",
+   "type": "restriction",
+   "modality": "SHALL",
+   "subject": "ent:default-duration",
+   "condition": "timer array",
+   "canonical": "The default duration value of a timer array SHALL resolve to an array of non-negative numerical `float` values (not `infinity` or `not_a_number`).",
+   "original": "b) In case of a timer array, it shall resolve to an array of float values obeying to restriction a) above of the same size as the size of the timer array.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "12-s023"
+   ],
+   "examples": [
+    "12-s027"
+   ],
+   "ambiguity": {
+    "status": "ambiguous",
+    "readings": [
+     "Every element of the default duration array of a timer array SHALL be a non-negative numerical float value.",
+     "Every element of the default duration array that is not the not used symbol SHALL be a non-negative numerical float value."
+    ],
+    "issue": "Restriction b) does not mention elements skipped with \"-\" (allowed by s011); chose the reading that excludes skipped elements implicitly."
+   }
+  },
+  {
+   "id": "TTCN3-CORE-12-023b",
+   "section": "12",
+   "type": "restriction",
+   "modality": "SHALL",
+   "subject": "ent:default-duration",
+   "condition": "timer array",
+   "canonical": "The default duration array of a timer array SHALL have the same size as the timer array.",
+   "original": "b) In case of a timer array, it shall resolve to an array of float values obeying to restriction a) above of the same size as the size of the timer array.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "12-s023"
+   ],
+   "examples": [
+    "12-s027"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   }
+  }
+ ],
+ "non_requirement": [
+  {
+   "sentence_id": "12-s021",
+   "category": "editorial",
+   "reason": "introduction to restrictions list; refers to general static rules of clause 5"
+  },
+  {
+   "sentence_id": "12-s024",
+   "category": "example",
+   "reason": "example caption"
+  },
+  {
+   "sentence_id": "12-s026",
+   "category": "example",
+   "reason": "example caption"
+  }
+ ]
+}

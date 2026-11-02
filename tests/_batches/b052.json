@@ -1,0 +1,1214 @@
+{
+ "batch": "b052",
+ "requirements": [
+  {
+   "id": "TTCN3-CORE-19.3.1-002a",
+   "section": "19.3.1",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "select \"(\" [(VarInstance|Assignment) \";\"] SingleExpression \")\" \"{\" { case \"(\" { TemplateInstance[\",\"] } \")\" StatementBlock }+ [ case else StatementBlock ] \"}\"",
+   "canonical": "The select case statement has the syntax `select` \"(\" [(VarInstance | Assignment) \";\"] SingleExpression \")\" \"{\" followed by one or more list branches `case` \"(\" {TemplateInstance [\",\"]} \")\" StatementBlock, an optional else branch `case else` StatementBlock, and a closing \"}\".",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14236,
+    14241
+   ],
+   "examples": [
+    {
+     "lines": [
+      14293,
+      14327
+     ],
+     "text": "select (PX_MyModulePar) // where PX_MyModulePar is of charstring type\n  {\n     case (charstring:\"firstValue\")\n       {\n        log (\"The first branch is selected\");\n       }\n     case (v_myCharVar, c_myCharConst)\n       {\n        log (\"The second branch is selected\");\n       }\n     case else\n       {\n        log (\"The value of the module parameter PX_MyModulePar is selected\");\n       }\n  }\n  // the above select statement is equivalent to the following nested if-else statement.\n  // Note: the following textual replacement of the select-case statement is described in\n  // the operational semantics of TTCN-3.\n  {\n     var charstring v_myLocalVar := PX_MyModulePar;\n     if (match(v_myLocalVar, charstring:\"firstValue\")\n       {\n        log (\"The first branch is selected\");\n       }\n     else if (match(v_myLocalVar, v_myCharVar) or match(v_myLocalVar, c_myCharConst))\n       {\n        log (\"The second branch is selected\");\n       }\n     else\n       {\n        log (\"The value of the module parameter PX_MyModulePar is selected\");\n       }\n  }"
+    }
+   ],
+   "file": "tests/19-basic-program-statements/19.03.01_test_001.ttcn3",
+   "module": "M_19_03_01_test_001",
+   "header": "// @requirement: 19.3.1 -- select \"(\" [(VarInstance|Assignment) \";\"] SingleExpression \")\" \"{\" { case \"(\" { TemplateInstance[\",\"] } \")\" StatementBlock }+ [ case else StatementBlock ] \"}\""
+  },
+  {
+   "id": "TTCN3-CORE-19.3.1-004a",
+   "section": "19.3.1",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "The statement contains a header part and one or more branches.",
+   "canonical": "A select case statement IS composed of a header part and one or more branches.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14245,
+    14247
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.03.01_test_002.ttcn3",
+   "module": "M_19_03_01_test_002",
+   "header": "// @requirement: 19.3.1 -- The statement contains a header part and one or more branches."
+  },
+  {
+   "id": "TTCN3-CORE-19.3.1-005a",
+   "section": "19.3.1",
+   "type": "semantics",
+   "modality": "SHALL NOT",
+   "original": "Never more than one of the branches is executed.",
+   "canonical": "An execution of a select case statement SHALL NOT execute more than one of its branches.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14245,
+    14247
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.03.01_test_003.ttcn3",
+   "module": "M_19_03_01_test_003",
+   "header": "// @requirement: 19.3.1 -- Never more than one of the branches is executed."
+  },
+  {
+   "id": "TTCN3-CORE-19.3.1-006a",
+   "section": "19.3.1",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "In the header part of the select case statement an expression shall be given.",
+   "canonical": "The header part of a select case statement SHALL contain an expression.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14249,
+    14251
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.03.01_test_004.ttcn3",
+   "module": "M_19_03_01_test_004",
+   "header": "// @requirement: 19.3.1 -- In the header part of the select case statement an expression shall be given."
+  },
+  {
+   "id": "TTCN3-CORE-19.3.1-007a",
+   "section": "19.3.1",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "The expression may be preceded by an _init statement (variable declaration or assignment), which executes before the expression is evaluated.",
+   "canonical": "The expression in the header part of a select case statement MAY be preceded by an init statement (variable declaration or assignment).",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14249,
+    14251
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.03.01_test_005.ttcn3",
+   "module": "M_19_03_01_test_005",
+   "header": "// @requirement: 19.3.1 -- The expression may be preceded by an _init statement (variable declaration or assignment), which executes before the expression is evaluated."
+  },
+  {
+   "id": "TTCN3-CORE-19.3.1-007b",
+   "section": "19.3.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The expression may be preceded by an _init statement (variable declaration or assignment), which executes before the expression is evaluated.",
+   "canonical": "The init statement of a select case statement IS executed before the header expression is evaluated.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14249,
+    14251
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.03.01_test_006.ttcn3",
+   "module": "M_19_03_01_test_006",
+   "header": "// @requirement: 19.3.1 -- The expression may be preceded by an _init statement (variable declaration or assignment), which executes before the expression is evaluated."
+  },
+  {
+   "id": "TTCN3-CORE-19.3.1-008a",
+   "section": "19.3.1",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "The scope of_ variables declared within an init statement shall be limited to the select case statement.",
+   "canonical": "The scope of a variable declared within the init statement of a select case statement SHALL be limited to the select case statement.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14249,
+    14251
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.03.01_test_007.ttcn3",
+   "module": "M_19_03_01_test_007",
+   "header": "// @requirement: 19.3.1 -- The scope of_ variables declared within an init statement shall be limited to the select case statement."
+  },
+  {
+   "id": "TTCN3-CORE-19.3.1-009a",
+   "section": "19.3.1",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "Each branch starts with the case keyword followed by a list of templateInstance (a list branch, which may also contain a single element) or in the last branch the case keyword may be followed by the else keyword (an else branch) and a statement block.",
+   "canonical": "A list branch of a select case statement IS the `case` keyword followed by a list of one or more template instances and a statement block.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "The text uses the BNF name 'templateInstance' instead of the term 'template instance'.",
+    "improper_terms": [
+     {
+      "used": "templateInstance",
+      "proper": "template instance",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    14253,
+    14255
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.03.01_test_008.ttcn3",
+   "module": "M_19_03_01_test_008",
+   "header": "// @requirement: 19.3.1 -- Each branch starts with the case keyword followed by a list of templateInstance (a list branch, which may also contain a single element) or in the last branch the case keyword may be followed by the else keyword (an else branch) and a statement block."
+  },
+  {
+   "id": "TTCN3-CORE-19.3.1-009b",
+   "section": "19.3.1",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Each branch starts with the case keyword followed by a list of templateInstance (a list branch, which may also contain a single element) or in the last branch the case keyword may be followed by the else keyword (an else branch) and a statement block.",
+   "canonical": "The last branch of a select case statement MAY be an else branch consisting of the `case` keyword followed by the `else` keyword and a statement block.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14253,
+    14255
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.03.01_test_009.ttcn3",
+   "module": "M_19_03_01_test_009",
+   "header": "// @requirement: 19.3.1 -- Each branch starts with the case keyword followed by a list of templateInstance (a list branch, which may also contain a single element) or in the last branch the case keyword may be followed by the else keyword (an else branch) and a statement block."
+  },
+  {
+   "id": "TTCN3-CORE-19.3.1-009c",
+   "section": "19.3.1",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "Each branch starts with the case keyword followed by a list of templateInstance (a list branch, which may also contain a single element) or in the last branch the case keyword may be followed by the else keyword (an else branch) and a statement block.",
+   "canonical": "An else branch SHALL only appear as the last branch of a select case statement.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14253,
+    14255
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.03.01_test_010.ttcn3",
+   "module": "M_19_03_01_test_010",
+   "header": "// @requirement: 19.3.1 -- Each branch starts with the case keyword followed by a list of templateInstance (a list branch, which may also contain a single element) or in the last branch the case keyword may be followed by the else keyword (an else branch) and a statement block."
+  },
+  {
+   "id": "TTCN3-CORE-19.3.1-010a",
+   "section": "19.3.1",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "original": "All templateInstance in all list branches shall be of a type compatible with the type of the expression in the header.",
+   "canonical": "Every template instance in a list branch of a select case statement SHALL be of a type compatible with the type of the header expression.",
+   "condition": null,
+   "cross_refs": [
+    "6.3"
+   ],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "The text uses the BNF name 'templateInstance' instead of the term 'template instance'.",
+    "improper_terms": [
+     {
+      "used": "templateInstance",
+      "proper": "template instance",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    14257,
+    14261
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.03.01_test_011.ttcn3",
+   "module": "M_19_03_01_test_011",
+   "header": "// @requirement: 19.3.1 -- All templateInstance in all list branches shall be of a type compatible with the type of the expression in the header."
+  },
+  {
+   "id": "TTCN3-CORE-19.3.1-011a",
+   "section": "19.3.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "A list branch is selected and the statement block of the selected branch is executed only, if any of the templateInstance matches the value of the expression in the header of the statement.",
+   "canonical": "A list branch of a select case statement IS selected, and its statement block executed, only if at least one of its template instances matches the value of the header expression.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14257,
+    14261
+   ],
+   "examples": [
+    {
+     "lines": [
+      14293,
+      14327
+     ],
+     "text": "select (PX_MyModulePar) // where PX_MyModulePar is of charstring type\n  {\n     case (charstring:\"firstValue\")\n       {\n        log (\"The first branch is selected\");\n       }\n     case (v_myCharVar, c_myCharConst)\n       {\n        log (\"The second branch is selected\");\n       }\n     case else\n       {\n        log (\"The value of the module parameter PX_MyModulePar is selected\");\n       }\n  }\n  // the above select statement is equivalent to the following nested if-else statement.\n  // Note: the following textual replacement of the select-case statement is described in\n  // the operational semantics of TTCN-3.\n  {\n     var charstring v_myLocalVar := PX_MyModulePar;\n     if (match(v_myLocalVar, charstring:\"firstValue\")\n       {\n        log (\"The first branch is selected\");\n       }\n     else if (match(v_myLocalVar, v_myCharVar) or match(v_myLocalVar, c_myCharConst))\n       {\n        log (\"The second branch is selected\");\n       }\n     else\n       {\n        log (\"The value of the module parameter PX_MyModulePar is selected\");\n       }\n  }"
+    }
+   ],
+   "file": "tests/19-basic-program-statements/19.03.01_test_012.ttcn3",
+   "module": "M_19_03_01_test_012",
+   "header": "// @requirement: 19.3.1 -- A list branch is selected and the statement block of the selected branch is executed only, if any of the templateInstance matches the value of the expression in the header of the statement."
+  },
+  {
+   "id": "TTCN3-CORE-19.3.1-012a",
+   "section": "19.3.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "On executing the statement block of the selected branch (i.e. not jumping out by a goto statement), execution continues with the statement following the select case statement.",
+   "canonical": "When the statement block of the selected branch has been executed without jumping out by a goto statement, execution SHALL continue with the statement following the select case statement.",
+   "condition": "the statement block of the selected branch is executed without jumping out by a goto statement",
+   "cross_refs": [
+    "19.8"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14257,
+    14261
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.03.01_test_013.ttcn3",
+   "module": "M_19_03_01_test_013",
+   "header": "// @requirement: 19.3.1 -- On executing the statement block of the selected branch (i.e. not jumping out by a goto statement), execution continues with the statement following the select case statement."
+  },
+  {
+   "id": "TTCN3-CORE-19.3.1-013a",
+   "section": "19.3.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The statement block of an else branch is always executed if no other branch textually preceding the else branch has been selected.",
+   "canonical": "The statement block of an else branch IS executed if no branch textually preceding the else branch has been selected.",
+   "condition": "no textually preceding branch has been selected",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14263,
+    14264
+   ],
+   "examples": [
+    {
+     "lines": [
+      14293,
+      14327
+     ],
+     "text": "select (PX_MyModulePar) // where PX_MyModulePar is of charstring type\n  {\n     case (charstring:\"firstValue\")\n       {\n        log (\"The first branch is selected\");\n       }\n     case (v_myCharVar, c_myCharConst)\n       {\n        log (\"The second branch is selected\");\n       }\n     case else\n       {\n        log (\"The value of the module parameter PX_MyModulePar is selected\");\n       }\n  }\n  // the above select statement is equivalent to the following nested if-else statement.\n  // Note: the following textual replacement of the select-case statement is described in\n  // the operational semantics of TTCN-3.\n  {\n     var charstring v_myLocalVar := PX_MyModulePar;\n     if (match(v_myLocalVar, charstring:\"firstValue\")\n       {\n        log (\"The first branch is selected\");\n       }\n     else if (match(v_myLocalVar, v_myCharVar) or match(v_myLocalVar, c_myCharConst))\n       {\n        log (\"The second branch is selected\");\n       }\n     else\n       {\n        log (\"The value of the module parameter PX_MyModulePar is selected\");\n       }\n  }"
+    }
+   ],
+   "file": "tests/19-basic-program-statements/19.03.01_test_014.ttcn3",
+   "module": "M_19_03_01_test_014",
+   "header": "// @requirement: 19.3.1 -- The statement block of an else branch is always executed if no other branch textually preceding the else branch has been selected."
+  },
+  {
+   "id": "TTCN3-CORE-19.3.1-014a",
+   "section": "19.3.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Branches are evaluated in their textual order.",
+   "canonical": "The branches of a select case statement ARE evaluated in their textual order.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14266,
+    14268
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.03.01_test_015.ttcn3",
+   "module": "M_19_03_01_test_015",
+   "header": "// @requirement: 19.3.1 -- Branches are evaluated in their textual order."
+  },
+  {
+   "id": "TTCN3-CORE-19.3.1-015a",
+   "section": "19.3.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "If none of the templateInstance-s matches the value of the expression in the header and the statement contains no else branch, execution continues without executing any of the select case branches.",
+   "canonical": "If none of the template instances matches the value of the header expression and the select case statement contains no else branch, execution continues after the select case statement without executing any branch.",
+   "condition": "no template instance matches and there is no else branch",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14266,
+    14268
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.03.01_test_016.ttcn3",
+   "module": "M_19_03_01_test_016",
+   "header": "// @requirement: 19.3.1 -- If none of the templateInstance-s matches the value of the expression in the header and the statement contains no else branch, execution continues without executing any of the select case branches."
+  },
+  {
+   "id": "TTCN3-CORE-19.3.1-020a",
+   "section": "19.3.1",
+   "type": "information",
+   "modality": "IS",
+   "original": "NOTE 2: When more than one branch could be selected (the templateInstances overlap) the textually first will be selected.",
+   "canonical": "When more than one branch of a select case statement could be selected because the template instances overlap, the textually first branch IS selected.",
+   "condition": "the template instances of more than one branch match",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14274,
+    14275
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.03.01_test_017.ttcn3",
+   "module": "M_19_03_01_test_017",
+   "header": "// @requirement: 19.3.1 -- NOTE 2: When more than one branch could be selected (the templateInstances overlap) the textually first will be selected."
+  },
+  {
+   "id": "TTCN3-CORE-19.3.1-023a",
+   "section": "19.3.1",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "original": "a) The select _SingleExpression and the case TemplateInstance-s shall be type compatible._",
+   "canonical": "The SingleExpression in the header of a select case statement and every case template instance SHALL be type compatible.",
+   "condition": null,
+   "cross_refs": [
+    "6.3"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14282,
+    14285
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.03.01_test_018.ttcn3",
+   "module": "M_19_03_01_test_018",
+   "header": "// @requirement: 19.3.1 -- a) The select _SingleExpression and the case TemplateInstance-s shall be type compatible._"
+  },
+  {
+   "id": "TTCN3-CORE-19.3.1-023b",
+   "section": "19.3.1",
+   "type": "static-semantics",
+   "modality": "SHALL NOT",
+   "original": "b) When all templateInstances of all branches can be statically evaluated in compile time to specific values or value ranges no two branches shall match the same value.",
+   "canonical": "If all template instances of all branches of a select case statement can be statically evaluated at compile time to specific values or value ranges, two branches SHALL NOT match the same value.",
+   "condition": "all template instances can be evaluated at compile time to specific values or value ranges",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14282,
+    14285
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.03.01_test_019.ttcn3",
+   "module": "M_19_03_01_test_019",
+   "header": "// @requirement: 19.3.1 -- b) When all templateInstances of all branches can be statically evaluated in compile time to specific values or value ranges no two branches shall match the same value."
+  },
+  {
+   "id": "TTCN3-CORE-19.3.2-002a",
+   "section": "19.3.2",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "select union \"(\" [(VarInstance|Assignment) \";\"] SingleExpression \")\" \"{\" { case \"(\" ({ Identifier [\",\"] } | { TypeIdentifier [\",\"] }) \")\" StatementBlock }+ [ case else StatementBlock ] \"}\"",
+   "canonical": "The select union statement has the syntax `select union` \"(\" [(VarInstance | Assignment) \";\"] SingleExpression \")\" \"{\" followed by one or more branches `case` \"(\" ({Identifier [\",\"]} | {TypeIdentifier [\",\"]}) \")\" StatementBlock, an optional `case else` StatementBlock, and a closing \"}\".",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14335,
+    14340
+   ],
+   "examples": [
+    {
+     "lines": [
+      14380,
+      14402
+     ],
+     "text": "type union Messages { \n     MyMessageType1 msg1,\n     MyMessageType2 msg2,\n     MyMessageType3 msg3,\n     MyMessageType4 msg4,\n     MyMessageType5 msg5\n  }\n  function f_f(in Messages p_msg) {\n     select union (p_msg) {\n      case (msg1) { log(p_msg.msg1); }\n      case (msg2) { log(p_msg.msg2); }\n      case (msg3, msg4) { log(\"either msg3 or msg4\"); }\n      case else { log(\"unhandled variant\"); }\n  }\n  function f_g(in anytype p_msg) {\n     select union (p_msg) {\n      case (integer) { log(p_msg.integer); }\n      case (Messages) { f_f(p_msg.Messages); }\n      case else { log(\"unhandled anytype variant\"); }\n     }\n  }"
+    }
+   ],
+   "file": "tests/19-basic-program-statements/19.03.02_test_001.ttcn3",
+   "module": "M_19_03_02_test_001",
+   "header": "// @requirement: 19.3.2 -- select union \"(\" [(VarInstance|Assignment) \";\"] SingleExpression \")\" \"{\" { case \"(\" ({ Identifier [\",\"] } | { TypeIdentifier [\",\"] }) \")\" StatementBlock }+ [ case else StatementBlock ] \"}\""
+  },
+  {
+   "id": "TTCN3-CORE-19.3.2-003a",
+   "section": "19.3.2",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "The statement contains a header part and one or more branches.",
+   "canonical": "A select union statement IS composed of a header part and one or more branches.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14344,
+    14344
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.03.02_test_002.ttcn3",
+   "module": "M_19_03_02_test_002",
+   "header": "// @requirement: 19.3.2 -- The statement contains a header part and one or more branches."
+  },
+  {
+   "id": "TTCN3-CORE-19.3.2-004a",
+   "section": "19.3.2",
+   "type": "semantics",
+   "modality": "SHALL NOT",
+   "original": "Never more than one of the branches is executed.",
+   "canonical": "An execution of a select union statement SHALL NOT execute more than one of its branches.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14344,
+    14344
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.03.02_test_003.ttcn3",
+   "module": "M_19_03_02_test_003",
+   "header": "// @requirement: 19.3.2 -- Never more than one of the branches is executed."
+  },
+  {
+   "id": "TTCN3-CORE-19.3.2-005a",
+   "section": "19.3.2",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "original": "In the header part of the select union statement a template instance of union type or anytype shall be given.",
+   "canonical": "The header part of a select union statement SHALL contain a template instance of a union type or of anytype.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14346,
+    14348
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.03.02_test_004.ttcn3",
+   "module": "M_19_03_02_test_004",
+   "header": "// @requirement: 19.3.2 -- In the header part of the select union statement a template instance of union type or anytype shall be given."
+  },
+  {
+   "id": "TTCN3-CORE-19.3.2-006a",
+   "section": "19.3.2",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "The expression in the header may be preceded by an init statement (variable declaration or assignment), which executes before the expression is evaluated.",
+   "canonical": "The expression in the header of a select union statement MAY be preceded by an init statement (variable declaration or assignment).",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14346,
+    14348
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.03.02_test_005.ttcn3",
+   "module": "M_19_03_02_test_005",
+   "header": "// @requirement: 19.3.2 -- The expression in the header may be preceded by an init statement (variable declaration or assignment), which executes before the expression is evaluated."
+  },
+  {
+   "id": "TTCN3-CORE-19.3.2-006b",
+   "section": "19.3.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The expression in the header may be preceded by an init statement (variable declaration or assignment), which executes before the expression is evaluated.",
+   "canonical": "The init statement of a select union statement IS executed before the header expression is evaluated.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14346,
+    14348
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.03.02_test_006.ttcn3",
+   "module": "M_19_03_02_test_006",
+   "header": "// @requirement: 19.3.2 -- The expression in the header may be preceded by an init statement (variable declaration or assignment), which executes before the expression is evaluated."
+  },
+  {
+   "id": "TTCN3-CORE-19.3.2-007a",
+   "section": "19.3.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "The scope of variables declared within an init statement shall be limited to the select union statement.",
+   "canonical": "The scope of a variable declared within the init statement of a select union statement SHALL be limited to the select union statement.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14346,
+    14351
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.03.02_test_007.ttcn3",
+   "module": "M_19_03_02_test_007",
+   "header": "// @requirement: 19.3.2 -- The scope of variables declared within an init statement shall be limited to the select union statement."
+  },
+  {
+   "id": "TTCN3-CORE-19.3.2-009a",
+   "section": "19.3.2",
+   "type": "syntax",
+   "modality": "SHALL",
+   "original": "If the template instance has a union type, each branch shall start with the case keyword followed by one or more identifiers of the alternatives (fields) of the union type (a list branch) or in the last branch the case keyword may be followed by the else keyword (an else branch) and a statement block.",
+   "canonical": "If the header template instance of a select union statement has a union type, each list branch SHALL start with the `case` keyword followed by one or more identifiers of alternatives (fields) of the union type.",
+   "condition": "the header template instance has a union type",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14353,
+    14360
+   ],
+   "examples": [
+    {
+     "lines": [
+      14380,
+      14402
+     ],
+     "text": "type union Messages { \n     MyMessageType1 msg1,\n     MyMessageType2 msg2,\n     MyMessageType3 msg3,\n     MyMessageType4 msg4,\n     MyMessageType5 msg5\n  }\n  function f_f(in Messages p_msg) {\n     select union (p_msg) {\n      case (msg1) { log(p_msg.msg1); }\n      case (msg2) { log(p_msg.msg2); }\n      case (msg3, msg4) { log(\"either msg3 or msg4\"); }\n      case else { log(\"unhandled variant\"); }\n  }\n  function f_g(in anytype p_msg) {\n     select union (p_msg) {\n      case (integer) { log(p_msg.integer); }\n      case (Messages) { f_f(p_msg.Messages); }\n      case else { log(\"unhandled anytype variant\"); }\n     }\n  }"
+    }
+   ],
+   "file": "tests/19-basic-program-statements/19.03.02_test_008.ttcn3",
+   "module": "M_19_03_02_test_008",
+   "header": "// @requirement: 19.3.2 -- If the template instance has a union type, each branch shall start with the case keyword followed by one or more identifiers of the alternatives (fields) of the union type (a list branch) or in the last branch the case keyword may be followed by the else keyword (an else branch) and a statement block."
+  },
+  {
+   "id": "TTCN3-CORE-19.3.2-009b",
+   "section": "19.3.2",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "If the template instance has a union type, each branch shall start with the case keyword followed by one or more identifiers of the alternatives (fields) of the union type (a list branch) or in the last branch the case keyword may be followed by the else keyword (an else branch) and a statement block.",
+   "canonical": "If the header template instance of a select union statement has a union type, the last branch MAY be an else branch consisting of `case else` and a statement block.",
+   "condition": "the header template instance has a union type",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14353,
+    14360
+   ],
+   "examples": [
+    {
+     "lines": [
+      14380,
+      14402
+     ],
+     "text": "type union Messages { \n     MyMessageType1 msg1,\n     MyMessageType2 msg2,\n     MyMessageType3 msg3,\n     MyMessageType4 msg4,\n     MyMessageType5 msg5\n  }\n  function f_f(in Messages p_msg) {\n     select union (p_msg) {\n      case (msg1) { log(p_msg.msg1); }\n      case (msg2) { log(p_msg.msg2); }\n      case (msg3, msg4) { log(\"either msg3 or msg4\"); }\n      case else { log(\"unhandled variant\"); }\n  }\n  function f_g(in anytype p_msg) {\n     select union (p_msg) {\n      case (integer) { log(p_msg.integer); }\n      case (Messages) { f_f(p_msg.Messages); }\n      case else { log(\"unhandled anytype variant\"); }\n     }\n  }"
+    }
+   ],
+   "file": "tests/19-basic-program-statements/19.03.02_test_009.ttcn3",
+   "module": "M_19_03_02_test_009",
+   "header": "// @requirement: 19.3.2 -- If the template instance has a union type, each branch shall start with the case keyword followed by one or more identifiers of the alternatives (fields) of the union type (a list branch) or in the last branch the case keyword may be followed by the else keyword (an else branch) and a statement block."
+  },
+  {
+   "id": "TTCN3-CORE-19.3.2-010a",
+   "section": "19.3.2",
+   "type": "syntax",
+   "modality": "SHALL",
+   "original": "If the template instance has type anytype, each branch shall start with the case keyword followed by one or more type names (a list branch) or in the last branch the case keyword may be followed by the else keyword (an else branch) and a statement block.",
+   "canonical": "If the header template instance of a select union statement has type anytype, each list branch SHALL start with the `case` keyword followed by one or more type names.",
+   "condition": "the header template instance has type anytype",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14353,
+    14360
+   ],
+   "examples": [
+    {
+     "lines": [
+      14380,
+      14402
+     ],
+     "text": "type union Messages { \n     MyMessageType1 msg1,\n     MyMessageType2 msg2,\n     MyMessageType3 msg3,\n     MyMessageType4 msg4,\n     MyMessageType5 msg5\n  }\n  function f_f(in Messages p_msg) {\n     select union (p_msg) {\n      case (msg1) { log(p_msg.msg1); }\n      case (msg2) { log(p_msg.msg2); }\n      case (msg3, msg4) { log(\"either msg3 or msg4\"); }\n      case else { log(\"unhandled variant\"); }\n  }\n  function f_g(in anytype p_msg) {\n     select union (p_msg) {\n      case (integer) { log(p_msg.integer); }\n      case (Messages) { f_f(p_msg.Messages); }\n      case else { log(\"unhandled anytype variant\"); }\n     }\n  }"
+    }
+   ],
+   "file": "tests/19-basic-program-statements/19.03.02_test_010.ttcn3",
+   "module": "M_19_03_02_test_010",
+   "header": "// @requirement: 19.3.2 -- If the template instance has type anytype, each branch shall start with the case keyword followed by one or more type names (a list branch) or in the last branch the case keyword may be followed by the else keyword (an else branch) and a statement block."
+  },
+  {
+   "id": "TTCN3-CORE-19.3.2-010b",
+   "section": "19.3.2",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "If the template instance has type anytype, each branch shall start with the case keyword followed by one or more type names (a list branch) or in the last branch the case keyword may be followed by the else keyword (an else branch) and a statement block.",
+   "canonical": "If the header template instance of a select union statement has type anytype, the last branch MAY be an else branch consisting of `case else` and a statement block.",
+   "condition": "the header template instance has type anytype",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14353,
+    14360
+   ],
+   "examples": [
+    {
+     "lines": [
+      14380,
+      14402
+     ],
+     "text": "type union Messages { \n     MyMessageType1 msg1,\n     MyMessageType2 msg2,\n     MyMessageType3 msg3,\n     MyMessageType4 msg4,\n     MyMessageType5 msg5\n  }\n  function f_f(in Messages p_msg) {\n     select union (p_msg) {\n      case (msg1) { log(p_msg.msg1); }\n      case (msg2) { log(p_msg.msg2); }\n      case (msg3, msg4) { log(\"either msg3 or msg4\"); }\n      case else { log(\"unhandled variant\"); }\n  }\n  function f_g(in anytype p_msg) {\n     select union (p_msg) {\n      case (integer) { log(p_msg.integer); }\n      case (Messages) { f_f(p_msg.Messages); }\n      case else { log(\"unhandled anytype variant\"); }\n     }\n  }"
+    }
+   ],
+   "file": "tests/19-basic-program-statements/19.03.02_test_011.ttcn3",
+   "module": "M_19_03_02_test_011",
+   "header": "// @requirement: 19.3.2 -- If the template instance has type anytype, each branch shall start with the case keyword followed by one or more type names (a list branch) or in the last branch the case keyword may be followed by the else keyword (an else branch) and a statement block."
+  },
+  {
+   "id": "TTCN3-CORE-19.3.2-011a",
+   "section": "19.3.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The StatementBlock of the list branch containing the identifier or type identifier of the chosen alternative is executed.",
+   "canonical": "The statement block of the list branch containing the identifier or type identifier of the chosen alternative IS executed.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14353,
+    14360
+   ],
+   "examples": [
+    {
+     "lines": [
+      14380,
+      14402
+     ],
+     "text": "type union Messages { \n     MyMessageType1 msg1,\n     MyMessageType2 msg2,\n     MyMessageType3 msg3,\n     MyMessageType4 msg4,\n     MyMessageType5 msg5\n  }\n  function f_f(in Messages p_msg) {\n     select union (p_msg) {\n      case (msg1) { log(p_msg.msg1); }\n      case (msg2) { log(p_msg.msg2); }\n      case (msg3, msg4) { log(\"either msg3 or msg4\"); }\n      case else { log(\"unhandled variant\"); }\n  }\n  function f_g(in anytype p_msg) {\n     select union (p_msg) {\n      case (integer) { log(p_msg.integer); }\n      case (Messages) { f_f(p_msg.Messages); }\n      case else { log(\"unhandled anytype variant\"); }\n     }\n  }"
+    }
+   ],
+   "file": "tests/19-basic-program-statements/19.03.02_test_012.ttcn3",
+   "module": "M_19_03_02_test_012",
+   "header": "// @requirement: 19.3.2 -- The StatementBlock of the list branch containing the identifier or type identifier of the chosen alternative is executed."
+  },
+  {
+   "id": "TTCN3-CORE-19.3.2-012a",
+   "section": "19.3.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "If no case exists for the chosen alternative, the StatementBlock of the else branch, if it is present, is executed.",
+   "canonical": "If no case exists for the chosen alternative and an else branch is present, the statement block of the else branch IS executed.",
+   "condition": "no case exists for the chosen alternative and an else branch is present",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14353,
+    14360
+   ],
+   "examples": [
+    {
+     "lines": [
+      14380,
+      14402
+     ],
+     "text": "type union Messages { \n     MyMessageType1 msg1,\n     MyMessageType2 msg2,\n     MyMessageType3 msg3,\n     MyMessageType4 msg4,\n     MyMessageType5 msg5\n  }\n  function f_f(in Messages p_msg) {\n     select union (p_msg) {\n      case (msg1) { log(p_msg.msg1); }\n      case (msg2) { log(p_msg.msg2); }\n      case (msg3, msg4) { log(\"either msg3 or msg4\"); }\n      case else { log(\"unhandled variant\"); }\n  }\n  function f_g(in anytype p_msg) {\n     select union (p_msg) {\n      case (integer) { log(p_msg.integer); }\n      case (Messages) { f_f(p_msg.Messages); }\n      case else { log(\"unhandled anytype variant\"); }\n     }\n  }"
+    }
+   ],
+   "file": "tests/19-basic-program-statements/19.03.02_test_013.ttcn3",
+   "module": "M_19_03_02_test_013",
+   "header": "// @requirement: 19.3.2 -- If no case exists for the chosen alternative, the StatementBlock of the else branch, if it is present, is executed."
+  },
+  {
+   "id": "TTCN3-CORE-19.3.2-013a",
+   "section": "19.3.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Otherwise, the select union statement has no effect.",
+   "canonical": "If no case exists for the chosen alternative and no else branch is present, the select union statement HAS no effect.",
+   "condition": "no case exists for the chosen alternative and no else branch is present",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14353,
+    14360
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.03.02_test_014.ttcn3",
+   "module": "M_19_03_02_test_014",
+   "header": "// @requirement: 19.3.2 -- Otherwise, the select union statement has no effect."
+  },
+  {
+   "id": "TTCN3-CORE-19.3.2-014a",
+   "section": "19.3.2",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "original": "a) The SingleExpression in the header of the select union statement shall be of a union type.",
+   "canonical": "The SingleExpression in the header of a select union statement SHALL be of a union type or anytype.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "Restriction a) only mentions union types, while the semantic description and the example also allow anytype; chosen reading: anytype is included.",
+    "readings": [
+     "The SingleExpression in the header of a select union statement SHALL be of a union type or anytype.",
+     "The SingleExpression in the header of a select union statement SHALL be of a union type only."
+    ]
+   },
+   "spec_lines": [
+    14364,
+    14365
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.03.02_test_015.ttcn3",
+   "module": "M_19_03_02_test_015",
+   "header": "// @requirement: 19.3.2 -- a) The SingleExpression in the header of the select union statement shall be of a union type."
+  },
+  {
+   "id": "TTCN3-CORE-19.3.2-015a",
+   "section": "19.3.2",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "It shall be at least partially initialized.",
+   "canonical": "The SingleExpression in the header of a select union statement SHALL be at least partially initialized.",
+   "condition": null,
+   "cross_refs": [
+    "3.1"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14364,
+    14365
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.03.02_test_016.ttcn3",
+   "module": "M_19_03_02_test_016",
+   "header": "// @requirement: 19.3.2 -- It shall be at least partially initialized."
+  },
+  {
+   "id": "TTCN3-CORE-19.3.2-016a",
+   "section": "19.3.2",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "original": "b) Every Identifier in a case of the select union statement shall be an identifier of an alternative of the union type of the template instance given to the statement's header.",
+   "canonical": "Every Identifier in a case of a select union statement SHALL be the identifier of an alternative of the union type of the header template instance.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14372,
+    14375
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.03.02_test_017.ttcn3",
+   "module": "M_19_03_02_test_017",
+   "header": "// @requirement: 19.3.2 -- b) Every Identifier in a case of the select union statement shall be an identifier of an alternative of the union type of the template instance given to the statement's header."
+  },
+  {
+   "id": "TTCN3-CORE-19.3.2-018a",
+   "section": "19.3.2",
+   "type": "static-semantics",
+   "modality": "SHALL NOT",
+   "original": "c) No two cases in a select union statement shall have the same case Identifier or TypeIdentifier.",
+   "canonical": "Two cases of a select union statement SHALL NOT have the same case Identifier or TypeIdentifier.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14377,
+    14377
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.03.02_test_018.ttcn3",
+   "module": "M_19_03_02_test_018",
+   "header": "// @requirement: 19.3.2 -- c) No two cases in a select union statement shall have the same case Identifier or TypeIdentifier."
+  },
+  {
+   "id": "TTCN3-CORE-19.4.1-002a",
+   "section": "19.4.1",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "for \"(\" ( VarInstance | Assignment ) \";\" BooleanExpression \";\" Assignment \")\" StatementBlock",
+   "canonical": "The counter loop for statement has the syntax `for` \"(\" (VarInstance | Assignment) \";\" BooleanExpression \";\" Assignment \")\" StatementBlock.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14411,
+    14414
+   ],
+   "examples": [
+    {
+     "lines": [
+      14445,
+      14452
+     ],
+     "text": "var integer v_j; // Declaration of integer variable v_j\n  for (v_j:=1; v_j<=10; v_j:= v_j+1) { … } // Usage of variable v_j as index variable of the\n                            // for loop\n  for (var float v_i:=1.0; v_i<7.9; v_i:= v_i*1.35) { … } // Index variable v_i is declared and\n                               // initialized in the for loop header. Variable \n                               // v_i only is visible in the loop body."
+    }
+   ],
+   "file": "tests/19-basic-program-statements/19.04.01_test_001.ttcn3",
+   "module": "M_19_04_01_test_001",
+   "header": "// @requirement: 19.4.1 -- for \"(\" ( VarInstance | Assignment ) \";\" BooleanExpression \";\" Assignment \")\" StatementBlock"
+  },
+  {
+   "id": "TTCN3-CORE-19.4.1-003a",
+   "section": "19.4.1",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "The for statement contains two assignments and a boolean expression.",
+   "canonical": "A counter loop for statement IS composed of two assignments and a boolean expression.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "The syntax also allows a variable declaration (VarInstance) instead of the first assignment; chosen reading: 'assignment' includes a variable declaration with initialization.",
+    "readings": [
+     "The first part of a for statement header IS an assignment or a variable declaration with initialization.",
+     "The first part of a for statement header IS always an assignment."
+    ]
+   },
+   "spec_lines": [
+    14418,
+    14420
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.04.01_test_002.ttcn3",
+   "module": "M_19_04_01_test_002",
+   "header": "// @requirement: 19.4.1 -- The for statement contains two assignments and a boolean expression."
+  },
+  {
+   "id": "TTCN3-CORE-19.4.1-004a",
+   "section": "19.4.1",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "The first assignment is necessary to initialize the index (or counter) variable of the loop.",
+   "canonical": "The first assignment of a counter loop for statement SHALL initialize the index variable of the loop.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14418,
+    14420
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.04.01_test_003.ttcn3",
+   "module": "M_19_04_01_test_003",
+   "header": "// @requirement: 19.4.1 -- The first assignment is necessary to initialize the index (or counter) variable of the loop."
+  },
+  {
+   "id": "TTCN3-CORE-19.4.1-005a",
+   "section": "19.4.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The boolean expression terminates the loop and the second assignment is used to manipulate the index variable.",
+   "canonical": "The boolean expression of a counter loop for statement IS the termination condition of the loop.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14418,
+    14420
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.04.01_test_004.ttcn3",
+   "module": "M_19_04_01_test_004",
+   "header": "// @requirement: 19.4.1 -- The boolean expression terminates the loop and the second assignment is used to manipulate the index variable."
+  },
+  {
+   "id": "TTCN3-CORE-19.4.1-005b",
+   "section": "19.4.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The boolean expression terminates the loop and the second assignment is used to manipulate the index variable.",
+   "canonical": "The second assignment of a counter loop for statement IS used to manipulate the index variable.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14418,
+    14420
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.04.01_test_005.ttcn3",
+   "module": "M_19_04_01_test_005",
+   "header": "// @requirement: 19.4.1 -- The boolean expression terminates the loop and the second assignment is used to manipulate the index variable."
+  },
+  {
+   "id": "TTCN3-CORE-19.4.1-007a",
+   "section": "19.4.1",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "original": "The termination criterion of the loop shall be expressed by a boolean expression.",
+   "canonical": "The termination criterion of a counter loop for statement SHALL be expressed by a boolean expression.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14425,
+    14429
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.04.01_test_006.ttcn3",
+   "module": "M_19_04_01_test_006",
+   "header": "// @requirement: 19.4.1 -- The termination criterion of the loop shall be expressed by a boolean expression."
+  },
+  {
+   "id": "TTCN3-CORE-19.4.1-008a",
+   "section": "19.4.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "It is checked at the beginning of each new loop iteration.",
+   "canonical": "The termination criterion of a counter loop for statement IS checked at the beginning of each new loop iteration.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14425,
+    14429
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.04.01_test_007.ttcn3",
+   "module": "M_19_04_01_test_007",
+   "header": "// @requirement: 19.4.1 -- It is checked at the beginning of each new loop iteration."
+  },
+  {
+   "id": "TTCN3-CORE-19.4.1-009a",
+   "section": "19.4.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "If it evaluates to true, the execution continues with the statement block in the for statement, if it evaluates to false, the execution continues with the statement which immediately follows the for loop.",
+   "canonical": "If the termination criterion of a counter loop for statement evaluates to true, execution continues with the statement block of the for statement.",
+   "condition": "the boolean expression evaluates to true",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14425,
+    14429
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.04.01_test_008.ttcn3",
+   "module": "M_19_04_01_test_008",
+   "header": "// @requirement: 19.4.1 -- If it evaluates to true, the execution continues with the statement block in the for statement, if it evaluates to false, the execution continues with the statement which immediately follows the for loop."
+  },
+  {
+   "id": "TTCN3-CORE-19.4.1-009b",
+   "section": "19.4.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "If it evaluates to true, the execution continues with the statement block in the for statement, if it evaluates to false, the execution continues with the statement which immediately follows the for loop.",
+   "canonical": "If the termination criterion of a counter loop for statement evaluates to false, execution continues with the statement immediately following the for loop.",
+   "condition": "the boolean expression evaluates to false",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14425,
+    14429
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.04.01_test_009.ttcn3",
+   "module": "M_19_04_01_test_009",
+   "header": "// @requirement: 19.4.1 -- If it evaluates to true, the execution continues with the statement block in the for statement, if it evaluates to false, the execution continues with the statement which immediately follows the for loop."
+  },
+  {
+   "id": "TTCN3-CORE-19.4.1-010a",
+   "section": "19.4.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "If a break statement is executed that is not within the body of an enclosed loop, alt, alststep or interleave, then the loop is terminated, too.",
+   "canonical": "If a break statement is executed that is not within the body of an enclosed loop, alt statement, altstep or interleave statement, the for loop IS terminated.",
+   "condition": "the break statement is not within an enclosed loop, alt, altstep or interleave",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "The text uses the misspelling 'alststep' instead of 'altstep'.",
+    "improper_terms": [
+     {
+      "used": "alststep",
+      "proper": "altstep",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    14425,
+    14429
+   ],
+   "examples": [],
+   "file": "tests/19-basic-program-statements/19.04.01_test_010.ttcn3",
+   "module": "M_19_04_01_test_010",
+   "header": "// @requirement: 19.4.1 -- If a break statement is executed that is not within the body of an enclosed loop, alt, alststep or interleave, then the loop is terminated, too."
+  },
+  {
+   "id": "TTCN3-CORE-19.4.1-011a",
+   "section": "19.4.1",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "The index variable of a for loop can be declared before being used in the for statement or can be declared and initialized in the for statement header.",
+   "canonical": "The index variable of a counter loop MAY be declared before being used in the for statement.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14431,
+    14433
+   ],
+   "examples": [
+    {
+     "lines": [
+      14445,
+      14452
+     ],
+     "text": "var integer v_j; // Declaration of integer variable v_j\n  for (v_j:=1; v_j<=10; v_j:= v_j+1) { … } // Usage of variable v_j as index variable of the\n                            // for loop\n  for (var float v_i:=1.0; v_i<7.9; v_i:= v_i*1.35) { … } // Index variable v_i is declared and\n                               // initialized in the for loop header. Variable \n                               // v_i only is visible in the loop body."
+    }
+   ],
+   "file": "tests/19-basic-program-statements/19.04.01_test_011.ttcn3",
+   "module": "M_19_04_01_test_011",
+   "header": "// @requirement: 19.4.1 -- The index variable of a for loop can be declared before being used in the for statement or can be declared and initialized in the for statement header."
+  },
+  {
+   "id": "TTCN3-CORE-19.4.1-011b",
+   "section": "19.4.1",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "The index variable of a for loop can be declared before being used in the for statement or can be declared and initialized in the for statement header.",
+   "canonical": "The index variable of a counter loop MAY be declared and initialized in the for statement header.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    14431,
+    14433
+   ],
+   "examples": [
+    {
+     "lines": [
+      14445,
+      14452
+     ],
+     "text": "var integer v_j; // Declaration of integer variable v_j\n  for (v_j:=1; v_j<=10; v_j:= v_j+1) { … } // Usage of variable v_j as index variable of the\n                            // for loop\n  for (var float v_i:=1.0; v_i<7.9; v_i:= v_i*1.35) { … } // Index variable v_i is declared and\n                               // initialized in the for loop header. Variable \n                               // v_i only is visible in the loop body."
+    }
+   ],
+   "file": "tests/19-basic-program-statements/19.04.01_test_012.ttcn3",
+   "module": "M_19_04_01_test_012",
+   "header": "// @requirement: 19.4.1 -- The index variable of a for loop can be declared before being used in the for statement or can be declared and initialized in the for statement header."
+  },
+  {
+   "id": "TTCN3-CORE-19.4.1-012a",
+   "section": "19.4.1",
+   "type": "static-semantics",
+   "modality": "IS",
+   "original": "If the index variable is declared and initialized in the for statement header, the scope of the index variable is limited to the loop body, i.e. it is only visible inside the loop body.",
+   "canonical": "If the index variable is declared and initialized in the for statement header, the scope of the index variable IS limited to the loop body.",
+   "condition": "the index variable is declared and initialized in the for statement header",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "The header's boolean expression and second assignment also reference the index variable; chosen reading: the scope covers the for statement header and the loop body but nothing outside the for statement.",
+    "readings": [
+     "The index variable IS visible in the for statement header and the loop body only.",
+     "The index variable IS visible only inside the loop body (statement block)."
+    ]
+   },
+   "spec_lines": [
+    14431,
+    14433
+   ],
+   "examples": [
+    {
+     "lines": [
+      14445,
+      14452
+     ],
+     "text": "var integer v_j; // Declaration of integer variable v_j\n  for (v_j:=1; v_j<=10; v_j:= v_j+1) { … } // Usage of variable v_j as index variable of the\n                            // for loop\n  for (var float v_i:=1.0; v_i<7.9; v_i:= v_i*1.35) { … } // Index variable v_i is declared and\n                               // initialized in the for loop header. Variable \n                               // v_i only is visible in the loop body."
+    }
+   ],
+   "file": "tests/19-basic-program-statements/19.04.01_test_013.ttcn3",
+   "module": "M_19_04_01_test_013",
+   "header": "// @requirement: 19.4.1 -- If the index variable is declared and initialized in the for statement header, the scope of the index variable is limited to the loop body, i.e. it is only visible inside the loop body."
+  }
+ ]
+}

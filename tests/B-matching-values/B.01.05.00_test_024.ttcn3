@@ -1,0 +1,27 @@
+// @requirement: B.1.5.0 -- Metacharacter: \n; Description: Match any of the following control characters: LINE FEED (000A), LINE TABULATION (000B), FORM FEED (000C), CARRIAGE RETURN (000D) (see ISO/IEC 10646 [2]) (jointly called newline characters
+// @id: TTCN3-CORE-B.1.5.0-027a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_05_00_test_024 {
+
+    type component C {}
+
+    template charstring mw_newline := pattern "\n";
+
+    testcase TC() runs on C {
+        if (match(int2char(10), mw_newline) and
+            match(int2char(11), mw_newline) and
+            match(int2char(12), mw_newline) and
+            match(int2char(13), mw_newline) and
+            not match(int2char(9), mw_newline) and
+            not match(" ", mw_newline) and
+            not match("n", mw_newline)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

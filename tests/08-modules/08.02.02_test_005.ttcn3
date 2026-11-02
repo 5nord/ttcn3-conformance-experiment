@@ -1,0 +1,29 @@
+// @requirement: 8.2.2 -- Groups may be nested, i.e. groups may contain other groups.
+// @id: TTCN3-CORE-8.2.2-006a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_02_02_test_005 {
+
+    group g_outer {
+        const integer c_outer := 1;
+        group g_inner {
+            const integer c_inner := 2;
+            group g_innermost {
+                const integer c_innermost := 3;
+            }
+        }
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (c_outer + c_inner + c_innermost == 6) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

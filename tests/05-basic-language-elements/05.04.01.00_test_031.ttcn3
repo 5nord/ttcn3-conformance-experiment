@@ -1,0 +1,28 @@
+// @requirement: 5.4.1.0 -- Keyword: altstep; Allowed kind of Parameterization: Value and template parameterization; Allowed form of Parameterization: Dynamic at runtime; Allowed types in formal parameter lists: all basic types, all user-defined types, address type, component type, port type, default, template and timer.
+// @id: TTCN3-CORE-5.4.1.0-028a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_04_01_00_test_031 {
+
+    type component C {
+        timer T;
+    }
+
+    altstep a_check(integer p_v, template integer p_t) runs on C {
+        [] T.timeout {
+            if (match(p_v, p_t)) {
+                setverdict(pass);
+            } else {
+                setverdict(fail);
+            }
+        }
+    }
+
+    testcase TC() runs on C {
+        T.start(0.01);
+        a_check(1, (0 .. 2));
+    }
+
+    control {
+        execute(TC());
+    }
+}

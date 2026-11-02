@@ -1,0 +1,368 @@
+{
+ "batch": "b104",
+ "requirements": [
+  {
+   "id": "TTCN3-CORE-D.5-001a",
+   "section": "D.5",
+   "type": "definition",
+   "modality": "IS",
+   "original": "The __SCOPE__ preprocessing macro denotes the unqualified name of the lowest named basic scope unit in which the macro is used.",
+   "canonical": "The `__SCOPE__` preprocessing macro denotes the unqualified name of the lowest named basic scope unit in which the macro is used.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    26707,
+    26711
+   ],
+   "examples": [
+    {
+     "lines": [
+      26737,
+      26761
+     ],
+     "text": "module MyModule\n  {\n     const charstring c_myConst := __SCOPE__;   // c_myConst contains \"MyModule\"\n     template charstring m_myTemplate := __SCOPE__; // m_myTemplate contains \"m_myTemplate\"\n  type record MyRecord1 \n  {\n     charstring field11,\n     charstring field12\n  }\n  template MyRecord1 m_myTemplate1 (charstring p_p := __SCOPE__) := \n  {\n     field11 := p_p,\n     field12 := __SCOPE__ // field12 contains \"m_myTemplate1\"\n  }\n  function f_myFunction() {\n    var template MyRecord1 v_myvar1 := m_myTemplate1;\n    // field11 of m_myTemplate1 will contain the default value of parameter p_p,\n    // i.e. \"m_myTemplate1\"\n  };\n  control {\n     const charstring c_myLocalConst := __SCOPE__;   // c_myLocalConst contains \"control\"\n  }\n  }"
+    },
+    {
+     "lines": [
+      26790,
+      26816
+     ],
+     "text": "type record MyRecord3 {\n   charstring field31,\n   record {\n     charstring field321 (\"a\", \"b\", __SCOPE__)\n     // list constrained field: a legal value shall be \"a\", \"b\" or \"MyRecord3\"\n   } field32\n }\n template MyRecord3 m_myTemplate4 := \n {\n   field31 := \"a\",\n   field32 :=\n   {\n     field321 := \"MyRecord3\"  // a valid specific value matching\n   }\n }\n template MyRecord3 m_myTemplate5 := \n {\n   field31 := \"a\",\n   field32 :=\n   {\n     field321 := __SCOPE__\n     // Causes and error as __SCOPE__ is replaced with \"m_myTemplate5\", \n     // which is violating the list constraint of field321\n   }\n }"
+    }
+   ],
+   "file": "tests/D-preprocessing-macros/D.05_test_001.ttcn3",
+   "module": "M_D_05_test_001",
+   "header": "// @requirement: D.5 -- The __SCOPE__ preprocessing macro denotes the unqualified name of the lowest named basic scope unit in which the macro is used."
+  },
+  {
+   "id": "TTCN3-CORE-D.5-003b",
+   "section": "D.5",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Statement blocks have no name and therefore, a __SCOPE__ preprocessing macro used in a statement block refers to the next higher named basic scope unit.",
+   "canonical": "A `__SCOPE__` preprocessing macro used in a statement block refers to the next higher named basic scope unit.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    26707,
+    26711
+   ],
+   "examples": [],
+   "file": "tests/D-preprocessing-macros/D.05_test_002.ttcn3",
+   "module": "M_D_05_test_002",
+   "header": "// @requirement: D.5 -- Statement blocks have no name and therefore, a __SCOPE__ preprocessing macro used in a statement block refers to the next higher named basic scope unit."
+  },
+  {
+   "id": "TTCN3-CORE-D.5-004a",
+   "section": "D.5",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "A preprocessor or compiler shall replace all occurrences of __SCOPE__ with a charstring value which includes:",
+   "canonical": "A preprocessor or compiler SHALL replace every occurrence of `__SCOPE__` with a charstring value determined by the kind of the lowest named scope unit.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "\"a charstring value which includes\" could mean the value consists exactly of the listed name or merely contains it. The examples (D.5-s014) show the value equals the name, so the canonical requirements in items a) to h) use \"equal to\".",
+    "readings": [
+     "The replacement charstring value SHALL be exactly the listed name.",
+     "The replacement charstring value SHALL contain the listed name, possibly with additional text."
+    ]
+   },
+   "spec_lines": [
+    26713,
+    26713
+   ],
+   "examples": [],
+   "file": "tests/D-preprocessing-macros/D.05_test_003.ttcn3",
+   "module": "M_D_05_test_003",
+   "header": "// @requirement: D.5 -- A preprocessor or compiler shall replace all occurrences of __SCOPE__ with a charstring value which includes:"
+  },
+  {
+   "id": "TTCN3-CORE-D.5-005a",
+   "section": "D.5",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "a) the module name, if the lowest named scope unit is the module definitions part;",
+   "canonical": "If the lowest named scope unit is the module definitions part, a preprocessor or compiler SHALL replace `__SCOPE__` with the module name as a charstring value.",
+   "condition": "the lowest named scope unit is the module definitions part",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    26713,
+    26715
+   ],
+   "examples": [
+    {
+     "lines": [
+      26737,
+      26761
+     ],
+     "text": "module MyModule\n  {\n     const charstring c_myConst := __SCOPE__;   // c_myConst contains \"MyModule\"\n     template charstring m_myTemplate := __SCOPE__; // m_myTemplate contains \"m_myTemplate\"\n  type record MyRecord1 \n  {\n     charstring field11,\n     charstring field12\n  }\n  template MyRecord1 m_myTemplate1 (charstring p_p := __SCOPE__) := \n  {\n     field11 := p_p,\n     field12 := __SCOPE__ // field12 contains \"m_myTemplate1\"\n  }\n  function f_myFunction() {\n    var template MyRecord1 v_myvar1 := m_myTemplate1;\n    // field11 of m_myTemplate1 will contain the default value of parameter p_p,\n    // i.e. \"m_myTemplate1\"\n  };\n  control {\n     const charstring c_myLocalConst := __SCOPE__;   // c_myLocalConst contains \"control\"\n  }\n  }"
+    }
+   ],
+   "file": "tests/D-preprocessing-macros/D.05_test_004.ttcn3",
+   "module": "M_D_05_test_004",
+   "header": "// @requirement: D.5 -- a) the module name, if the lowest named scope unit is the module definitions part;"
+  },
+  {
+   "id": "TTCN3-CORE-D.5-006a",
+   "section": "D.5",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "b) \"control\", if the lowest named scope unit is the module control function;",
+   "canonical": "If the lowest named scope unit is the module control function, a preprocessor or compiler SHALL replace `__SCOPE__` with the charstring value \"control\".",
+   "condition": "the lowest named scope unit is the module control function",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    26713,
+    26717
+   ],
+   "examples": [
+    {
+     "lines": [
+      26737,
+      26761
+     ],
+     "text": "module MyModule\n  {\n     const charstring c_myConst := __SCOPE__;   // c_myConst contains \"MyModule\"\n     template charstring m_myTemplate := __SCOPE__; // m_myTemplate contains \"m_myTemplate\"\n  type record MyRecord1 \n  {\n     charstring field11,\n     charstring field12\n  }\n  template MyRecord1 m_myTemplate1 (charstring p_p := __SCOPE__) := \n  {\n     field11 := p_p,\n     field12 := __SCOPE__ // field12 contains \"m_myTemplate1\"\n  }\n  function f_myFunction() {\n    var template MyRecord1 v_myvar1 := m_myTemplate1;\n    // field11 of m_myTemplate1 will contain the default value of parameter p_p,\n    // i.e. \"m_myTemplate1\"\n  };\n  control {\n     const charstring c_myLocalConst := __SCOPE__;   // c_myLocalConst contains \"control\"\n  }\n  }"
+    }
+   ],
+   "file": "tests/D-preprocessing-macros/D.05_test_005.ttcn3",
+   "module": "M_D_05_test_005",
+   "header": "// @requirement: D.5 -- b) \"control\", if the lowest named scope unit is the module control function;"
+  },
+  {
+   "id": "TTCN3-CORE-D.5-007a",
+   "section": "D.5",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "c) a component type name, if the lowest named scope unit is a component type definition;",
+   "canonical": "If the lowest named scope unit is a component type definition, a preprocessor or compiler SHALL replace `__SCOPE__` with the component type name as a charstring value.",
+   "condition": "the lowest named scope unit is a component type definition",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    26713,
+    26719
+   ],
+   "examples": [],
+   "file": "tests/D-preprocessing-macros/D.05_test_006.ttcn3",
+   "module": "M_D_05_test_006",
+   "header": "// @requirement: D.5 -- c) a component type name, if the lowest named scope unit is a component type definition;"
+  },
+  {
+   "id": "TTCN3-CORE-D.5-008a",
+   "section": "D.5",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "d) a test case name, if the lowest named scope unit is a test case definition;",
+   "canonical": "If the lowest named scope unit is a testcase definition, a preprocessor or compiler SHALL replace `__SCOPE__` with the testcase name as a charstring value.",
+   "condition": "the lowest named scope unit is a testcase definition",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    26713,
+    26721
+   ],
+   "examples": [],
+   "file": "tests/D-preprocessing-macros/D.05_test_007.ttcn3",
+   "module": "M_D_05_test_007",
+   "header": "// @requirement: D.5 -- d) a test case name, if the lowest named scope unit is a test case definition;"
+  },
+  {
+   "id": "TTCN3-CORE-D.5-009a",
+   "section": "D.5",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "e) an altstep name, if the lowest named scope is an altstep definition;",
+   "canonical": "If the lowest named scope unit is an altstep definition, a preprocessor or compiler SHALL replace `__SCOPE__` with the altstep name as a charstring value.",
+   "condition": "the lowest named scope unit is an altstep definition",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "Uses \"lowest named scope\" instead of \"lowest named scope unit\" as in items a) to d).",
+    "improper_terms": [
+     {
+      "used": "lowest named scope",
+      "proper": "lowest named scope unit",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    26713,
+    26723
+   ],
+   "examples": [],
+   "file": "tests/D-preprocessing-macros/D.05_test_008.ttcn3",
+   "module": "M_D_05_test_008",
+   "header": "// @requirement: D.5 -- e) an altstep name, if the lowest named scope is an altstep definition;"
+  },
+  {
+   "id": "TTCN3-CORE-D.5-010a",
+   "section": "D.5",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "f) a function name, if the lowest named scope is a function definition;",
+   "canonical": "If the lowest named scope unit is a function definition, a preprocessor or compiler SHALL replace `__SCOPE__` with the function name as a charstring value.",
+   "condition": "the lowest named scope unit is a function definition",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "Uses \"lowest named scope\" instead of \"lowest named scope unit\".",
+    "improper_terms": [
+     {
+      "used": "lowest named scope",
+      "proper": "lowest named scope unit",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    26713,
+    26725
+   ],
+   "examples": [],
+   "file": "tests/D-preprocessing-macros/D.05_test_009.ttcn3",
+   "module": "M_D_05_test_009",
+   "header": "// @requirement: D.5 -- f) a function name, if the lowest named scope is a function definition;"
+  },
+  {
+   "id": "TTCN3-CORE-D.5-011a",
+   "section": "D.5",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "g) a template name, if the lowest named scope is a template definition (local or global); or h) the type name, if the lowest named scope is a user defined named type definition.",
+   "canonical": "If the lowest named scope unit is a local or global template definition, a preprocessor or compiler SHALL replace `__SCOPE__` with the template name as a charstring value.",
+   "condition": "the lowest named scope unit is a template definition",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "Uses \"lowest named scope\" instead of \"lowest named scope unit\".",
+    "improper_terms": [
+     {
+      "used": "lowest named scope",
+      "proper": "lowest named scope unit",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    26713,
+    26729
+   ],
+   "examples": [
+    {
+     "lines": [
+      26737,
+      26761
+     ],
+     "text": "module MyModule\n  {\n     const charstring c_myConst := __SCOPE__;   // c_myConst contains \"MyModule\"\n     template charstring m_myTemplate := __SCOPE__; // m_myTemplate contains \"m_myTemplate\"\n  type record MyRecord1 \n  {\n     charstring field11,\n     charstring field12\n  }\n  template MyRecord1 m_myTemplate1 (charstring p_p := __SCOPE__) := \n  {\n     field11 := p_p,\n     field12 := __SCOPE__ // field12 contains \"m_myTemplate1\"\n  }\n  function f_myFunction() {\n    var template MyRecord1 v_myvar1 := m_myTemplate1;\n    // field11 of m_myTemplate1 will contain the default value of parameter p_p,\n    // i.e. \"m_myTemplate1\"\n  };\n  control {\n     const charstring c_myLocalConst := __SCOPE__;   // c_myLocalConst contains \"control\"\n  }\n  }"
+    },
+    {
+     "lines": [
+      26776,
+      26787
+     ],
+     "text": "template MyRecord2 m_myTemplate2 := {\n   field21 := \"a\",\n   field22 := \"MyRecord2\"  // a valid specific value matching\n }\n template MyRecord2 m_myTemplate3 := {\n   field21 := \"a\",\n   field22 := __SCOPE__\n   // Causes an error as __SCOPE__ is replaced with \"m_myTemplate3\",\n   // which is violating the list constraint of field22\n }"
+    }
+   ],
+   "file": "tests/D-preprocessing-macros/D.05_test_010.ttcn3",
+   "module": "M_D_05_test_010",
+   "header": "// @requirement: D.5 -- g) a template name, if the lowest named scope is a template definition (local or global); or h) the type name, if the lowest named scope is a user defined named type definition."
+  },
+  {
+   "id": "TTCN3-CORE-D.5-011b",
+   "section": "D.5",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "g) a template name, if the lowest named scope is a template definition (local or global); or h) the type name, if the lowest named scope is a user defined named type definition.",
+   "canonical": "If the lowest named scope unit is a user-defined named type definition, a preprocessor or compiler SHALL replace `__SCOPE__` with the type name as a charstring value.",
+   "condition": "the lowest named scope unit is a user-defined named type definition",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "Uses \"lowest named scope\" instead of \"lowest named scope unit\" and \"user defined named type\" instead of the glossary term \"user-defined type\".",
+    "improper_terms": [
+     {
+      "used": "lowest named scope",
+      "proper": "lowest named scope unit",
+      "glossary": false
+     },
+     {
+      "used": "user defined named type",
+      "proper": "user-defined type",
+      "glossary": true
+     }
+    ]
+   },
+   "spec_lines": [
+    26713,
+    26729
+   ],
+   "examples": [
+    {
+     "lines": [
+      26764,
+      26770
+     ],
+     "text": "type record MyRecord2 {\n     charstring field21,\n     charstring field22 (\"a\", \"b\", __SCOPE__)\n    // list constrained field: a legal values are \"a\", \"b\" or \"MyRecord2\"\n  }"
+    },
+    {
+     "lines": [
+      26790,
+      26816
+     ],
+     "text": "type record MyRecord3 {\n   charstring field31,\n   record {\n     charstring field321 (\"a\", \"b\", __SCOPE__)\n     // list constrained field: a legal value shall be \"a\", \"b\" or \"MyRecord3\"\n   } field32\n }\n template MyRecord3 m_myTemplate4 := \n {\n   field31 := \"a\",\n   field32 :=\n   {\n     field321 := \"MyRecord3\"  // a valid specific value matching\n   }\n }\n template MyRecord3 m_myTemplate5 := \n {\n   field31 := \"a\",\n   field32 :=\n   {\n     field321 := __SCOPE__\n     // Causes and error as __SCOPE__ is replaced with \"m_myTemplate5\", \n     // which is violating the list constraint of field321\n   }\n }"
+    }
+   ],
+   "file": "tests/D-preprocessing-macros/D.05_test_011.ttcn3",
+   "module": "M_D_05_test_011",
+   "header": "// @requirement: D.5 -- g) a template name, if the lowest named scope is a template definition (local or global); or h) the type name, if the lowest named scope is a user defined named type definition."
+  },
+  {
+   "id": "TTCN3-CORE-D.5-012a",
+   "section": "D.5",
+   "type": "information",
+   "modality": "CANNOT",
+   "original": "NOTE: The __SCOPE__ preprocessing macro cannot be used to retrieve the names of other kinds of definitions, like for example names of groups of definitions or names of global constants.",
+   "canonical": "The `__SCOPE__` preprocessing macro CANNOT retrieve the names of other kinds of definitions, such as groups or global constants.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    26731,
+    26732
+   ],
+   "examples": [
+    {
+     "lines": [
+      26737,
+      26761
+     ],
+     "text": "module MyModule\n  {\n     const charstring c_myConst := __SCOPE__;   // c_myConst contains \"MyModule\"\n     template charstring m_myTemplate := __SCOPE__; // m_myTemplate contains \"m_myTemplate\"\n  type record MyRecord1 \n  {\n     charstring field11,\n     charstring field12\n  }\n  template MyRecord1 m_myTemplate1 (charstring p_p := __SCOPE__) := \n  {\n     field11 := p_p,\n     field12 := __SCOPE__ // field12 contains \"m_myTemplate1\"\n  }\n  function f_myFunction() {\n    var template MyRecord1 v_myvar1 := m_myTemplate1;\n    // field11 of m_myTemplate1 will contain the default value of parameter p_p,\n    // i.e. \"m_myTemplate1\"\n  };\n  control {\n     const charstring c_myLocalConst := __SCOPE__;   // c_myLocalConst contains \"control\"\n  }\n  }"
+    }
+   ],
+   "file": "tests/D-preprocessing-macros/D.05_test_012.ttcn3",
+   "module": "M_D_05_test_012",
+   "header": "// @requirement: D.5 -- NOTE: The __SCOPE__ preprocessing macro cannot be used to retrieve the names of other kinds of definitions, like for example names of groups of definitions or names of global constants."
+  }
+ ]
+}

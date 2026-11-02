@@ -1,0 +1,29 @@
+// @requirement: 8.2.3.5 -- NOTE 2: Importing all definitions of a module imports only definitions declared directly in that module including the address type and module control function (if they are specified), but does not import the import statements of that module (see also clause 8.2.3.7).
+// @id: TTCN3-CORE-8.2.3.5-006a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_02_03_05_test_007 {
+
+    import from M_08_02_03_05_test_007_A all;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var address v_addr := c_addr;
+        if (v_addr == 5) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_03_05_test_007_A {
+    type integer address;
+    const address c_addr := 5;
+
+    control {}
+}

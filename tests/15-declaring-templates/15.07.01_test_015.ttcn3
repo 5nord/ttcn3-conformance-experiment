@@ -1,0 +1,62 @@
+// @requirement: 15.7.1 -- Col1: set of; Col2: Yes; Table 11: TTCN-3 Matching Mechanisms: Yes1; Col4: Yes; Col5: Yes; Col6: Yes; Col7: Yes; Col9: Yes; Col10: Yes; Col13: Yes; Col14: Yes; Col16: Yes; Col17: Yes1
+// @id: TTCN3-CORE-15.7.1-021a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_07_01_test_015 {
+
+    type component C {}
+
+    type set of integer SoI;
+
+    type record R {
+        SoI f optional
+    }
+
+    template SoI m_spec := { 1, 2 };
+    template SoI m_omit := omit;
+    template SoI m_compl := complement({ 1, 2 });
+    template SoI m_list := ({ 1, 2 }, { 3 });
+    template SoI m_any := ?;
+    template SoI m_anyOrNone := *;
+    template SoI m_superset := superset(1, 2);
+    template SoI m_subset := subset(1, 2, 3);
+    template SoI m_anyElem := { 1, ? };
+    template SoI m_anyElems := { 1, * };
+    template SoI m_length := ? length(2);
+    template R m_rOmit := { f := omit };
+    template R m_rAnyOrNone := { f := * };
+    template R m_rIfPresent := { f := { 1, 2 } ifpresent };
+
+    testcase TC() runs on C {
+        var SoI v_12 := { 1, 2 };
+        var SoI v_21 := { 2, 1 };
+        var SoI v_3 := { 3 };
+        var SoI v_4 := { 4 };
+        var SoI v_312 := { 3, 1, 2 };
+        var SoI v_31 := { 3, 1 };
+        var SoI v_14 := { 1, 4 };
+        var R v_absent := { f := omit };
+        var R v_present := { f := v_12 };
+        var R v_other := { f := v_3 };
+        if (match(v_21, m_spec) and not match(v_3, m_spec) and
+            match(v_3, m_compl) and not match(v_21, m_compl) and
+            match(v_3, m_list) and not match(v_4, m_list) and
+            match(v_4, m_any) and
+            match(v_312, m_superset) and not match(v_31, m_superset) and
+            match(v_31, m_subset) and not match(v_14, m_subset) and
+            match(v_31, m_anyElem) and not match(v_312, m_anyElem) and
+            match(v_312, m_anyElems) and not match(v_3, m_anyElems) and
+            match(v_14, m_length) and not match(v_312, m_length) and
+            match(v_absent, m_rOmit) and not match(v_present, m_rOmit) and
+            match(v_absent, m_rAnyOrNone) and match(v_present, m_rAnyOrNone) and
+            match(v_absent, m_rIfPresent) and match(v_present, m_rIfPresent) and
+            not match(v_other, m_rIfPresent)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,27 @@
+// @requirement: 10 -- The constant is defined only once, but can be referenced multiple times in a TTCN-3 module.
+// @id: TTCN3-CORE-10-009b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_10_test_008 {
+
+    type component C {}
+
+    const integer c_x := 3;
+    const integer c_y := c_x * 2;
+
+    function f_get() return integer {
+        return c_x;
+    }
+
+    testcase TC() runs on C {
+        var integer v_sum := c_x + c_x + f_get();
+        if (v_sum == 9 and c_y == 6) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

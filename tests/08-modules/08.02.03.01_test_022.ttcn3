@@ -1,0 +1,58 @@
+// @requirement: 8.2.3.1 -- Importable Definition: Function; Possible Local Definitions: Parameter names; Possible Referenced Definitions: Parameter types, return type, component type (runs on clause)
+// @id: TTCN3-CORE-8.2.3.1-054b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_02_03_01_test_022 {
+
+    import from M_08_02_03_01_test_022_B {
+        function f_inc, f_create, f_behaviour
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_result := f_inc({ x := 1 }).y;
+        f_create().start(f_behaviour());
+        all component.done;
+        if (v_result == 2 and getverdict == pass) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_03_01_test_022_B {
+    import from M_08_02_03_01_test_022_A all;
+
+    function f_inc(MyPar p_par) return MyResult {
+        return { y := p_par.x + 1 };
+    }
+
+    function f_create() return MyComp {
+        return MyComp.create;
+    }
+
+    function f_behaviour() runs on MyComp {
+        if (v_value == 7) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+}
+
+module M_08_02_03_01_test_022_A {
+    type record MyPar {
+        integer x
+    }
+    type record MyResult {
+        integer y
+    }
+    type component MyComp {
+        var integer v_value := 7;
+    }
+}

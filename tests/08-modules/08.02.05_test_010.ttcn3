@@ -1,0 +1,24 @@
+// @requirement: 8.2.5 -- The visibility controls whether a top-level definition or an import statement is importable by another module.
+// @id: TTCN3-CORE-8.2.5-007a
+// @verdict: pass reject
+module M_08_02_05_test_010 {
+
+    import from M_08_02_05_test_010_A { type MyPublic, MyPrivate };
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyPublic v_public := 1;
+        var MyPrivate v_private := 2; // error: MyPrivate is private and not importable
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_05_test_010_A {
+    public type integer MyPublic;
+    private type integer MyPrivate;
+}

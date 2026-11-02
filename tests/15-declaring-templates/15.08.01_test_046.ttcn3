@@ -1,0 +1,14 @@
+// @requirement: 15.8.1 -- Parameter restriction in base template: template(value); Allowed parameter restrictions in modified template: No; Col3: Yes; Col4: No; Col5: No
+// @id: TTCN3-CORE-15.8.1-053b
+// @verdict: pass reject
+module M_15_08_01_test_046 {
+    type record R {
+        integer a,
+        boolean b optional
+    }
+
+    template R m_base(template(value) integer p_a) := {a := p_a, b := omit};
+    template R m_mod(template(omit) integer p_a) modifies m_base := {b := true}; // error: omit not allowed for value base parameter
+
+    type component C {}
+}

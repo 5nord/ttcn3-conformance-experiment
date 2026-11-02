@@ -1,0 +1,36 @@
+// @requirement: 22.5.4 -- It also virtually puts the marker at the top of the queue.
+// @id: TTCN3-CORE-22.5.4-014a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_05_04_test_012 {
+
+    type port P message {
+        inout integer
+    }
+
+    type component C {
+        port P p1, p2;
+        timer T := 1.0;
+    }
+
+    testcase TC() runs on C {
+        connect(self:p1, self:p2);
+        p1.send(1);
+        T.start;
+        alt {
+            [] p2.check(receive) { T.stop; }
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        p2.halt;
+        p2.clear;
+        p1.send(2);
+        T.start(0.5);
+        alt {
+            [] p2.receive { setverdict(fail); }
+            [] T.timeout { setverdict(pass); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

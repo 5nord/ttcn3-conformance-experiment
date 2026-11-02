@@ -1,0 +1,26 @@
+// @requirement: 18 -- Statement: Select case; Associated keyword or symbol: select case (…) { case (…) {…} case else {…}}; Can be invoked by control behaviour: Yes; Can be invoked by test behaviour: Yes; Can be directly or indirectly invoked from specific places (see note 1): Yes
+// @id: TTCN3-CORE-18-018b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_18_test_016 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_x := 2;
+        select (v_x) {
+            case (1) {
+                setverdict(fail);
+            }
+            case (2) {
+                setverdict(pass);
+            }
+            case else {
+                setverdict(fail);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

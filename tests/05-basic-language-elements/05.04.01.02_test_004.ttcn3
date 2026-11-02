@@ -1,0 +1,30 @@
+// @requirement: 5.4.1.2 -- Formal template parameters can be used within the parameterized object the same way as templates and template variables.
+// @id: TTCN3-CORE-5.4.1.2-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_04_01_02_test_004 {
+    type record R {
+        integer f1,
+        integer f2
+    }
+    type component C {}
+
+    function f_use(template integer p_t) return boolean {
+        var template integer vt_copy := p_t;
+        var template R vt_rec := { f1 := p_t, f2 := ? };
+        var boolean v_ok := match(5, vt_copy) and match({ f1 := 5, f2 := 0 }, vt_rec);
+        p_t := 7;
+        return v_ok and match(7, p_t) and valueof(p_t) == 7;
+    }
+
+    testcase TC() runs on C {
+        if (f_use((1 .. 10))) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

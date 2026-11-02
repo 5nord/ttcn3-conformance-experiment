@@ -1,0 +1,31 @@
+// @requirement: 27.9 -- a) If the setencode operation is applied to a single port, the referenced type shall be either listed in the in or out type list of the related port type or it shall be a reference to a field or element on any level of nesting of a type listed in the in or out type list of the related port type.
+// @id: TTCN3-CORE-27.9-015a
+// @verdict: pass reject
+module M_27_09_test_015 {
+
+    type record PDU {
+        charstring source,
+        integer data
+    } with { encode "PduCodec1"; encode "PduCodec2" }
+
+    type record Other {
+        integer data
+    } with { encode "PduCodec1"; encode "PduCodec2" }
+
+    type port P message {
+        inout PDU;
+    }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        p.setencode(Other, "PduCodec1"); // error: Other is not in the type lists of P
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

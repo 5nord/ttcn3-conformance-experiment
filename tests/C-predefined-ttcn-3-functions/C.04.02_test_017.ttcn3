@@ -1,0 +1,21 @@
+// @requirement: C.4.2 -- A pattern containing as many ? metacharacters as is the count parameter is returned if the referenced template if of a character string type and contains the AnyValue or AnyValueOrNone matching symbol.
+// @id: TTCN3-CORE-C.4.2-019a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_04_02_test_017 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template charstring v_in := ?;
+        var template charstring v_res := substr(v_in, 0, 3);
+        if (match("abc", v_res) and not match("ab", v_res) and not match("abcd", v_res)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

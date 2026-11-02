@@ -1,0 +1,22 @@
+// @requirement: 23.5 -- c) If the index redirection is used for single-dimensional timer arrays, the type of the integer variable shall allow storing the highest index of the respective timer array.
+// @id: TTCN3-CORE-23.5-012a
+// @verdict: pass reject
+module M_23_05_test_012 {
+
+    type component C {}
+
+    type integer SmallIndex (0..2);
+
+    testcase TC() runs on C {
+        timer TA[5];
+        var SmallIndex v_i;
+        TA[0].start(5.0);
+        if (any from TA.running -> @index value v_i) { // error: highest index 4 not in 0..2
+            setverdict(pass);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

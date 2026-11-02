@@ -1,0 +1,37 @@
+// @requirement: 8.2.3.0 -- It is possible to re-use visible definitions specified in different modules using the import statement.
+// @id: TTCN3-CORE-8.2.3.0-001a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_02_03_00_test_001 {
+
+    import from M_08_02_03_00_test_001_A {
+        type MyRec;
+        function f_sum
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyRec v_rec := { a := 1, b := 2 };
+        if (f_sum(v_rec) == 3) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_03_00_test_001_A {
+
+    type record MyRec {
+        integer a,
+        integer b
+    }
+
+    function f_sum(MyRec p_rec) return integer {
+        return p_rec.a + p_rec.b;
+    }
+}

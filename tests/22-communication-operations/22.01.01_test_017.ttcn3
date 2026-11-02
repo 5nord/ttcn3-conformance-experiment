@@ -1,0 +1,47 @@
+// @requirement: 22.1.1 -- Table 22: Overview of TTCN-3 communication operations: Raise exception (to an accepted call); Col2: raise; Col4: Yes
+// @id: TTCN3-CORE-22.1.1-016a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_01_01_test_017 {
+
+    signature S(in integer p_x) return integer exception (charstring);
+
+    type port PP procedure {
+        inout S
+    }
+
+    type component C {
+        port PP p;
+    }
+
+    function f_server() runs on C {
+        timer T := 1.0;
+        T.start;
+        alt {
+            [] p.getcall(S:{p_x := ?}) {
+                p.raise(S, "err");
+            }
+            [] T.timeout {
+                setverdict(fail);
+            }
+        }
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_server());
+        p.call(S:{p_x := 1}, 1.0) {
+            [] p.catch(S, charstring:"err") {
+                setverdict(pass);
+            }
+            [] p.catch(timeout) {
+                setverdict(fail);
+            }
+        }
+        v_ptc.done;
+    }
+
+    control {
+        execute(TC());
+    }
+}

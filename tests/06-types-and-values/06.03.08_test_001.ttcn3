@@ -1,0 +1,18 @@
+// @requirement: 6.3.8 -- map types are only compatible with other map types.
+// @id: TTCN3-CORE-6.3.8-001a
+// @verdict: pass reject
+module M_06_03_08_test_001 {
+    type map from integer to integer IntMap;
+    type record of integer RoI;
+    type component C {}
+
+    testcase TC() runs on C {
+        var IntMap v_m := { [0] := 1 };
+        var RoI v_r := v_m; // error: map type is only compatible with map types
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

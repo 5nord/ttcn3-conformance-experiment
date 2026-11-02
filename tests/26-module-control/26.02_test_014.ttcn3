@@ -1,0 +1,31 @@
+// @requirement: 26.2 -- The use of the TTCN-3 verdicttype is another way to select test cases.
+// @id: TTCN3-CORE-26.2-022a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_26_02_test_014 {
+
+    type component C {}
+
+    testcase TC_First() runs on C {
+        setverdict(pass);
+    }
+
+    testcase TC_Selected() runs on C {
+        setverdict(pass);
+    }
+
+    testcase TC_Deselected() runs on C {
+        setverdict(fail);
+    }
+
+    control {
+        var verdicttype v_result := execute(TC_First());
+        select (v_result) {
+            case (pass) {
+                execute(TC_Selected());
+            }
+            case else {
+                execute(TC_Deselected());
+            }
+        }
+    }
+}

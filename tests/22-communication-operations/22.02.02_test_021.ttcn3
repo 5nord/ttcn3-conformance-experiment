@@ -1,0 +1,29 @@
+// @requirement: 22.2.2 -- The type of the variable or formal parameter shall be compatible with the type of the message.
+// @id: TTCN3-CORE-22.2.2-024a
+// @verdict: pass reject
+module M_22_02_02_test_021 {
+
+    type record R {
+        integer a,
+        charstring b
+    }
+
+    type port P message { inout R }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        var integer v_a;
+        var charstring v_cs;
+        connect(mtc:p, v_ptc:p);
+        p.receive(R:?) -> value (v_cs, v_a := a); // error: charstring variable for message of type R
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

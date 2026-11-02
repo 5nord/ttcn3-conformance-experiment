@@ -1,0 +1,28 @@
+// @requirement: 15.14 -- _AnyValue if the referenced template contained AnyValueOrNone._
+// @id: TTCN3-CORE-15.14-004a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_14_test_004 {
+
+    type record R {
+        integer a,
+        boolean b optional
+    }
+
+    type component C {}
+
+    template R m_example := { 1, * };
+
+    testcase TC() runs on C {
+        var template R v_check := { 1, m_example.b.present };
+        if (match({ 1, true }, v_check) and match({ 1, false }, v_check) and
+            not match({ 1, omit }, v_check)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

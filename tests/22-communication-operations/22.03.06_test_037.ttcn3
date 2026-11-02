@@ -1,0 +1,15 @@
+// @requirement: 22.3.6 -- a) The catch operation shall only be used at procedure-based ports.
+// @id: TTCN3-CORE-22.3.6-043a
+// @verdict: pass reject
+module M_22_03_06_test_037 {
+
+    type port M message { inout integer }
+
+    type component C {
+        port M m;
+    }
+
+    function f_catch() runs on C {
+        m.catch; // error: catch on a message-based port
+    }
+}

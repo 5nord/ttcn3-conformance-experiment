@@ -1,0 +1,22 @@
+// @requirement: 21.3.10 -- Operation: kill; Col3: Yes but from MTC only; Example: all component.kill;; Comment: Kill all PTCs, i.e. they cease to exist.
+// @id: TTCN3-CORE-21.3.10-020b
+// @verdict: pass reject
+module M_21_03_10_test_034 {
+
+    type component C {}
+
+    function f() runs on C {
+        all component.kill; // error: all component.kill used in a PTC
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        v_ptc.start(f());
+        v_ptc.done;
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

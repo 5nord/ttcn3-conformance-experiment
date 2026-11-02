@@ -1,0 +1,33 @@
+// @requirement: 27.1.2.0 -- If the override directive is applied to a type reference, it does not affect the attributes of the original referenced type.
+// @id: TTCN3-CORE-27.1.2.0-026a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_27_01_02_00_test_017 {
+
+    type component C {}
+
+    type record of universal charstring RUC;
+
+    type record MyRecordA {
+        integer field1
+    } with { encode "RuleA" }
+
+    type record MyRecordB {
+        MyRecordA fieldA
+    } with { encode override "RuleB" }
+
+    testcase TC() runs on C {
+        var MyRecordA v_a;
+        var MyRecordB v_b;
+        var RUC v_inB := v_b.fieldA.encode;
+        var RUC v_orig := v_a.encode;
+        if (v_inB == { "RuleB" } and v_orig == { "RuleA" }) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

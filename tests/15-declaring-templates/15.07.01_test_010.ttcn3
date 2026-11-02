@@ -1,0 +1,56 @@
+// @requirement: 15.7.1 -- Col1: character strings; Col2: Yes; Table 11: TTCN-3 Matching Mechanisms: Yes1; Col4: Yes; Col5: Yes; Col6: Yes; Col7: Yes1; Col8: Yes; Col11: Yes; Col12: Yes; Col13: Yes2; Col14: Yes2; Col16: Yes; Col17: Yes1
+// @id: TTCN3-CORE-15.7.1-016a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_07_01_test_010 {
+
+    type component C {}
+
+    type record R {
+        charstring f optional
+    }
+
+    type integer Payload with { encode "RAW" }
+
+    template charstring m_spec := "abc";
+    template charstring m_omit := omit;
+    template charstring m_compl := complement("abc");
+    template charstring m_list := ("abc", "de");
+    template charstring m_any := ?;
+    template charstring m_anyOrNone := *;
+    template charstring m_range := ("a" .. "f");
+    template charstring m_pattern := pattern "ab[0-9]";
+    template universal charstring m_decmatch := decmatch Payload:?;
+    template charstring m_anyElem := pattern "a?c";
+    template charstring m_anyElems := pattern "a*";
+    template charstring m_length := ? length(2);
+    template R m_rOmit := { f := omit };
+    template R m_rAnyOrNone := { f := * };
+    template R m_rIfPresent := { f := "abc" ifpresent };
+
+    testcase TC() runs on C {
+        var R v_absent := { f := omit };
+        var R v_present := { f := "abc" };
+        var R v_other := { f := "de" };
+        if (match("abc", m_spec) and not match("abd", m_spec) and
+            match("abd", m_compl) and not match("abc", m_compl) and
+            match("de", m_list) and not match("d", m_list) and
+            match("", m_any) and
+            match("face", m_range) and not match("fag", m_range) and
+            match("ab7", m_pattern) and not match("abx", m_pattern) and
+            match("axc", m_anyElem) and not match("ac", m_anyElem) and
+            match("a", m_anyElems) and match("axyz", m_anyElems) and not match("ba", m_anyElems) and
+            match("xy", m_length) and not match("xyz", m_length) and
+            match(v_absent, m_rOmit) and not match(v_present, m_rOmit) and
+            match(v_absent, m_rAnyOrNone) and match(v_present, m_rAnyOrNone) and
+            match(v_absent, m_rIfPresent) and match(v_present, m_rIfPresent) and
+            not match(v_other, m_rIfPresent)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,31 @@
+// @requirement: 22.2.2 -- g) The PortArrayRef shall be a reference to a completely initialized port array.
+// @id: TTCN3-CORE-22.2.2-064a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_02_02_test_058 {
+
+    type port P message { inout integer }
+
+    type component C {
+        port P p[2];
+        port P q[2];
+        timer T := 1.0;
+    }
+
+    testcase TC() runs on C {
+        var integer v_i;
+        connect(mtc:p[0], mtc:q[0]);
+        connect(mtc:p[1], mtc:q[1]);
+        q[1].send(1);
+        T.start;
+        alt {
+            [] any from p.receive(integer:1) -> @index value v_i {
+                if (v_i == 1) { setverdict(pass); } else { setverdict(fail); }
+            }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

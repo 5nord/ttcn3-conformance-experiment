@@ -1,0 +1,24 @@
+// @requirement: 23.5 -- If no running timer is found in the array, the operation returns with the false value.
+// @id: TTCN3-CORE-23.5-008a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_23_05_test_008 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        timer TA[3] := { 5.0, 5.0, 5.0 };
+        timer T := 5.0;
+        T.start;
+        TA[1].start;
+        TA[1].stop;
+        if (any from TA.running == false) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

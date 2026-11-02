@@ -1,0 +1,23 @@
+// @requirement: B.1.5.6 -- When referencing a pattern from inside another pattern (see clause 27.9), the case sensitivity property of the referenced pattern is not inherited.
+// @id: TTCN3-CORE-B.1.5.6-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_05_06_test_006 {
+
+    const charstring c_string := "ab?";
+    template charstring m_nocase := pattern @nocase "{c_string}";
+
+    type component C {}
+
+    testcase TC() runs on C {
+        template charstring m_p := pattern "{m_nocase}";
+        if (match("abx", m_p) and not match("ABx", m_p) and not match("aBx", m_p)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

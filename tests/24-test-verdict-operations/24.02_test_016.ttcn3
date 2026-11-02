@@ -1,0 +1,17 @@
+// @requirement: 24.2 -- c) For FreeText and TemplateInstance, the same rules and restrictions apply as for the parameters of the log statement.
+// @id: TTCN3-CORE-24.2-019b
+// @verdict: pass reject
+module M_24_02_test_016 {
+
+    type component C {}
+
+    external function xf_noReturn(integer p_i);
+
+    testcase TC() runs on C {
+        setverdict(pass, "Result: ", xf_noReturn(1)); // error: external function without return clause cannot be logged
+    }
+
+    control {
+        execute(TC());
+    }
+}

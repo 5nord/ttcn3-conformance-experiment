@@ -1,0 +1,21 @@
+// @requirement: 6.2.5.1 -- Alternatives of union type definitions shall not reference themselves.
+// @id: TTCN3-CORE-6.2.5.1-003a
+// @verdict: pass reject
+module M_06_02_05_01_test_005 {
+
+    type union U {
+        integer choice1,
+        U choice2 // error: alternative references its own union type
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var U v_u := { choice1 := 1 };
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,1083 @@
+{
+ "batch": "b008",
+ "requirements": [
+  {
+   "id": "TTCN3-CORE-6.1.1.1-001a",
+   "section": "6.1.1.1",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Individual elements in a string type may be accessed using an array-like syntax.",
+   "canonical": "An individual element of a string value MAY be accessed using the index notation (array-like syntax).",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "'elements in a string type' is used where elements of a string value are meant.",
+    "improper_terms": [
+     {
+      "used": "string type",
+      "proper": "string value",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    3299,
+    3299
+   ],
+   "examples": [
+    {
+     "lines": [
+      3328,
+      3334
+     ],
+     "text": "// Given\n  v_myBitString := '11110111'B;\n  // Then doing \n  v_myBitString[4] := '1'B;\n  // Results in the bitstring '11111111'B"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.01.01.01_test_001.ttcn3",
+   "module": "M_06_01_01_01_test_001",
+   "header": "// @requirement: 6.1.1.1 -- Individual elements in a string type may be accessed using an array-like syntax."
+  },
+  {
+   "id": "TTCN3-CORE-6.1.1.1-004a",
+   "section": "6.1.1.1",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "Only single elements of the string may be accessed.",
+   "canonical": "The index notation applied to a string value SHALL access only a single element of the string.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3305,
+    3306
+   ],
+   "examples": [
+    {
+     "lines": [
+      3337,
+      3354
+     ],
+     "text": "var bitstring v_myBitStringA, v_myBitStringB, v_myBitStringC, v_myBitStringD;\n  v_myBitStringA := '010'B;\n  v_myBitStringA[1] := '11'B; //causes an error as only individual elements can be accessed\n  v_myBitStringB := '1'B;\n  v_myBitStringB[4] := '1'B; //causes an error index is larger than the length of v_myBitStringB\n  v_myBitStringC := ''B;\n  v_myBitStringC[0] := '1'B; // value of v_myBitStringC is '1'B\n  v_myBitStringC[1] := '0'B; // value of v_myBitStringC is '10'B\n  // v_myBitStringD is not initialized\n  v_myBitStringD[0] := '0'B; // value of v_myBitStringD is '0'B\n  v_myBitStringD[1] := '1'B; // value of v_myBitStringD is '01'B\n  var charstring v_myCharString;\n  v_myCharString[0] := \"a\" //initializing v_myCharString with a single character\n  v_myCharString[1] := \"\" //causes an error as the length of the to-be-assigned string is 0\n  v_myCharString[1] := \"bc\" //causes an error as the length of the to-be-assigned string is\n                 //more than 1"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.01.01.01_test_002.ttcn3",
+   "module": "M_06_01_01_01_test_002",
+   "header": "// @requirement: 6.1.1.1 -- Only single elements of the string may be accessed."
+  },
+  {
+   "id": "TTCN3-CORE-6.1.1.1-005a",
+   "section": "6.1.1.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "Trying to assign strings with length 0 or more than 1 to a string element using the array-like syntax shall cause an error.",
+   "canonical": "Assigning a string of length 0 or of length greater than 1 to a string element using the index notation SHALL cause an error.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3305,
+    3306
+   ],
+   "examples": [
+    {
+     "lines": [
+      3337,
+      3354
+     ],
+     "text": "var bitstring v_myBitStringA, v_myBitStringB, v_myBitStringC, v_myBitStringD;\n  v_myBitStringA := '010'B;\n  v_myBitStringA[1] := '11'B; //causes an error as only individual elements can be accessed\n  v_myBitStringB := '1'B;\n  v_myBitStringB[4] := '1'B; //causes an error index is larger than the length of v_myBitStringB\n  v_myBitStringC := ''B;\n  v_myBitStringC[0] := '1'B; // value of v_myBitStringC is '1'B\n  v_myBitStringC[1] := '0'B; // value of v_myBitStringC is '10'B\n  // v_myBitStringD is not initialized\n  v_myBitStringD[0] := '0'B; // value of v_myBitStringD is '0'B\n  v_myBitStringD[1] := '1'B; // value of v_myBitStringD is '01'B\n  var charstring v_myCharString;\n  v_myCharString[0] := \"a\" //initializing v_myCharString with a single character\n  v_myCharString[1] := \"\" //causes an error as the length of the to-be-assigned string is 0\n  v_myCharString[1] := \"bc\" //causes an error as the length of the to-be-assigned string is\n                 //more than 1"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.01.01.01_test_003.ttcn3",
+   "module": "M_06_01_01_01_test_003",
+   "header": "// @requirement: 6.1.1.1 -- Trying to assign strings with length 0 or more than 1 to a string element using the array-like syntax shall cause an error."
+  },
+  {
+   "id": "TTCN3-CORE-6.1.1.1-006a",
+   "section": "6.1.1.1",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "Indexing shall begin with the value zero (0).",
+   "canonical": "The indexing of string elements SHALL begin with the value zero (0).",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3308,
+    3308
+   ],
+   "examples": [
+    {
+     "lines": [
+      3328,
+      3334
+     ],
+     "text": "// Given\n  v_myBitString := '11110111'B;\n  // Then doing \n  v_myBitString[4] := '1'B;\n  // Results in the bitstring '11111111'B"
+    },
+    {
+     "lines": [
+      3337,
+      3354
+     ],
+     "text": "var bitstring v_myBitStringA, v_myBitStringB, v_myBitStringC, v_myBitStringD;\n  v_myBitStringA := '010'B;\n  v_myBitStringA[1] := '11'B; //causes an error as only individual elements can be accessed\n  v_myBitStringB := '1'B;\n  v_myBitStringB[4] := '1'B; //causes an error index is larger than the length of v_myBitStringB\n  v_myBitStringC := ''B;\n  v_myBitStringC[0] := '1'B; // value of v_myBitStringC is '1'B\n  v_myBitStringC[1] := '0'B; // value of v_myBitStringC is '10'B\n  // v_myBitStringD is not initialized\n  v_myBitStringD[0] := '0'B; // value of v_myBitStringD is '0'B\n  v_myBitStringD[1] := '1'B; // value of v_myBitStringD is '01'B\n  var charstring v_myCharString;\n  v_myCharString[0] := \"a\" //initializing v_myCharString with a single character\n  v_myCharString[1] := \"\" //causes an error as the length of the to-be-assigned string is 0\n  v_myCharString[1] := \"bc\" //causes an error as the length of the to-be-assigned string is\n                 //more than 1"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.01.01.01_test_004.ttcn3",
+   "module": "M_06_01_01_01_test_004",
+   "header": "// @requirement: 6.1.1.1 -- Indexing shall begin with the value zero (0)."
+  },
+  {
+   "id": "TTCN3-CORE-6.1.1.1-007a",
+   "section": "6.1.1.1",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "The index shall be between zero and the length of the string minus one for retrieving an element from a string.",
+   "canonical": "When retrieving an element from a string, the index SHALL be between zero and the length of the string minus one.",
+   "condition": "an element is retrieved from a string",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3310,
+    3311
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.01.01.01_test_005.ttcn3",
+   "module": "M_06_01_01_01_test_005",
+   "header": "// @requirement: 6.1.1.1 -- The index shall be between zero and the length of the string minus one for retrieving an element from a string."
+  },
+  {
+   "id": "TTCN3-CORE-6.1.1.1-008a",
+   "section": "6.1.1.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "Trying to retrieve an element from a string with an index outside this range shall cause an error.",
+   "canonical": "Retrieving an element from a string with an index outside the range zero to the length of the string minus one SHALL cause an error.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3310,
+    3311
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.01.01.01_test_006.ttcn3",
+   "module": "M_06_01_01_01_test_006",
+   "header": "// @requirement: 6.1.1.1 -- Trying to retrieve an element from a string with an index outside this range shall cause an error."
+  },
+  {
+   "id": "TTCN3-CORE-6.1.1.1-009a",
+   "section": "6.1.1.1",
+   "type": "recommendation",
+   "modality": "SHOULD",
+   "original": "For assigning an element to the end of a string, the length of the string should be used as index.",
+   "canonical": "When assigning an element to the end of a string, the length of the string SHOULD be used as index.",
+   "condition": "an element is assigned to the end of a string",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "'should' reads as a recommendation, but no other index can append an element (smaller indexes overwrite, larger ones cause an error); the recommendation wording was kept.",
+    "readings": [
+     "When assigning an element to the end of a string, the length of the string SHOULD be used as index.",
+     "An element IS appended to the end of a string exactly when the length of the string is used as index."
+    ]
+   },
+   "spec_lines": [
+    3313,
+    3314
+   ],
+   "examples": [
+    {
+     "lines": [
+      3337,
+      3354
+     ],
+     "text": "var bitstring v_myBitStringA, v_myBitStringB, v_myBitStringC, v_myBitStringD;\n  v_myBitStringA := '010'B;\n  v_myBitStringA[1] := '11'B; //causes an error as only individual elements can be accessed\n  v_myBitStringB := '1'B;\n  v_myBitStringB[4] := '1'B; //causes an error index is larger than the length of v_myBitStringB\n  v_myBitStringC := ''B;\n  v_myBitStringC[0] := '1'B; // value of v_myBitStringC is '1'B\n  v_myBitStringC[1] := '0'B; // value of v_myBitStringC is '10'B\n  // v_myBitStringD is not initialized\n  v_myBitStringD[0] := '0'B; // value of v_myBitStringD is '0'B\n  v_myBitStringD[1] := '1'B; // value of v_myBitStringD is '01'B\n  var charstring v_myCharString;\n  v_myCharString[0] := \"a\" //initializing v_myCharString with a single character\n  v_myCharString[1] := \"\" //causes an error as the length of the to-be-assigned string is 0\n  v_myCharString[1] := \"bc\" //causes an error as the length of the to-be-assigned string is\n                 //more than 1"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.01.01.01_test_007.ttcn3",
+   "module": "M_06_01_01_01_test_007",
+   "header": "// @requirement: 6.1.1.1 -- For assigning an element to the end of a string, the length of the string should be used as index."
+  },
+  {
+   "id": "TTCN3-CORE-6.1.1.1-010a",
+   "section": "6.1.1.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "Trying to assign an element to the end of a string with an index larger than the length of the string shall cause an error.",
+   "canonical": "Assigning an element to a string with an index larger than the length of the string SHALL cause an error.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3313,
+    3314
+   ],
+   "examples": [
+    {
+     "lines": [
+      3337,
+      3354
+     ],
+     "text": "var bitstring v_myBitStringA, v_myBitStringB, v_myBitStringC, v_myBitStringD;\n  v_myBitStringA := '010'B;\n  v_myBitStringA[1] := '11'B; //causes an error as only individual elements can be accessed\n  v_myBitStringB := '1'B;\n  v_myBitStringB[4] := '1'B; //causes an error index is larger than the length of v_myBitStringB\n  v_myBitStringC := ''B;\n  v_myBitStringC[0] := '1'B; // value of v_myBitStringC is '1'B\n  v_myBitStringC[1] := '0'B; // value of v_myBitStringC is '10'B\n  // v_myBitStringD is not initialized\n  v_myBitStringD[0] := '0'B; // value of v_myBitStringD is '0'B\n  v_myBitStringD[1] := '1'B; // value of v_myBitStringD is '01'B\n  var charstring v_myCharString;\n  v_myCharString[0] := \"a\" //initializing v_myCharString with a single character\n  v_myCharString[1] := \"\" //causes an error as the length of the to-be-assigned string is 0\n  v_myCharString[1] := \"bc\" //causes an error as the length of the to-be-assigned string is\n                 //more than 1"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.01.01.01_test_008.ttcn3",
+   "module": "M_06_01_01_01_test_008",
+   "header": "// @requirement: 6.1.1.1 -- Trying to assign an element to the end of a string with an index larger than the length of the string shall cause an error."
+  },
+  {
+   "id": "TTCN3-CORE-6.1.1.1-011a",
+   "section": "6.1.1.1",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "For initializing an uninitialized string with a single element, the index value zero (0) can be used as index.",
+   "canonical": "An uninitialized string MAY be initialized with a single element by using the index value zero (0).",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3321,
+    3323
+   ],
+   "examples": [
+    {
+     "lines": [
+      3337,
+      3354
+     ],
+     "text": "var bitstring v_myBitStringA, v_myBitStringB, v_myBitStringC, v_myBitStringD;\n  v_myBitStringA := '010'B;\n  v_myBitStringA[1] := '11'B; //causes an error as only individual elements can be accessed\n  v_myBitStringB := '1'B;\n  v_myBitStringB[4] := '1'B; //causes an error index is larger than the length of v_myBitStringB\n  v_myBitStringC := ''B;\n  v_myBitStringC[0] := '1'B; // value of v_myBitStringC is '1'B\n  v_myBitStringC[1] := '0'B; // value of v_myBitStringC is '10'B\n  // v_myBitStringD is not initialized\n  v_myBitStringD[0] := '0'B; // value of v_myBitStringD is '0'B\n  v_myBitStringD[1] := '1'B; // value of v_myBitStringD is '01'B\n  var charstring v_myCharString;\n  v_myCharString[0] := \"a\" //initializing v_myCharString with a single character\n  v_myCharString[1] := \"\" //causes an error as the length of the to-be-assigned string is 0\n  v_myCharString[1] := \"bc\" //causes an error as the length of the to-be-assigned string is\n                 //more than 1"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.01.01.01_test_009.ttcn3",
+   "module": "M_06_01_01_01_test_009",
+   "header": "// @requirement: 6.1.1.1 -- For initializing an uninitialized string with a single element, the index value zero (0) can be used as index."
+  },
+  {
+   "id": "TTCN3-CORE-6.1.1.1-012a",
+   "section": "6.1.1.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "Trying to assign a single element to an uninitialized string with an index which is not zero (0) shall cause an error.",
+   "canonical": "Assigning a single element to an uninitialized string with an index other than zero (0) SHALL cause an error.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3321,
+    3323
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.01.01.01_test_010.ttcn3",
+   "module": "M_06_01_01_01_test_010",
+   "header": "// @requirement: 6.1.1.1 -- Trying to assign a single element to an uninitialized string with an index which is not zero (0) shall cause an error."
+  },
+  {
+   "id": "TTCN3-CORE-6.1.2.0-001a",
+   "section": "6.1.2.0",
+   "type": "syntax",
+   "modality": "SHALL",
+   "original": "User-defined types shall be denoted by the keyword type.",
+   "canonical": "A user-defined type SHALL be denoted by the keyword `type`.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3360,
+    3363
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.01.02.00_test_001.ttcn3",
+   "module": "M_06_01_02_00_test_001",
+   "header": "// @requirement: 6.1.2.0 -- User-defined types shall be denoted by the keyword type."
+  },
+  {
+   "id": "TTCN3-CORE-6.1.2.0-002a",
+   "section": "6.1.2.0",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "With user-defined types it is possible to create subtypes (such as lists, ranges and length restrictions) on basic types, structured types and anytype according to table 3.",
+   "canonical": "A user-defined type MAY define a subtype (such as a list, range or length restriction) of a basic type, a structured type or the `anytype` according to table 3.",
+   "condition": null,
+   "cross_refs": [
+    "6.1.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3360,
+    3363
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.01.02.00_test_002.ttcn3",
+   "module": "M_06_01_02_00_test_002",
+   "header": "// @requirement: 6.1.2.0 -- With user-defined types it is possible to create subtypes (such as lists, ranges and length restrictions) on basic types, structured types and anytype according to table 3."
+  },
+  {
+   "id": "TTCN3-CORE-6.1.2.0-003a",
+   "section": "6.1.2.0",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "Values of a subtype shall fulfil conditions specified by its constraint and all constraints existing in all its direct and indirect parent types up to the core type.",
+   "canonical": "A value of a subtype SHALL fulfil the conditions specified by the constraint of the subtype.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3360,
+    3363
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.01.02.00_test_003.ttcn3",
+   "module": "M_06_01_02_00_test_003",
+   "header": "// @requirement: 6.1.2.0 -- Values of a subtype shall fulfil conditions specified by its constraint and all constraints existing in all its direct and indirect parent types up to the core type."
+  },
+  {
+   "id": "TTCN3-CORE-6.1.2.0-003b",
+   "section": "6.1.2.0",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "Values of a subtype shall fulfil conditions specified by its constraint and all constraints existing in all its direct and indirect parent types up to the core type.",
+   "canonical": "A value of a subtype SHALL fulfil all constraints of all direct and indirect parent types of the subtype up to the core type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3360,
+    3363
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.01.02.00_test_004.ttcn3",
+   "module": "M_06_01_02_00_test_004",
+   "header": "// @requirement: 6.1.2.0 -- Values of a subtype shall fulfil conditions specified by its constraint and all constraints existing in all its direct and indirect parent types up to the core type."
+  },
+  {
+   "id": "TTCN3-CORE-6.1.2.1-001a",
+   "section": "6.1.2.1",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "TTCN-3 permits the specification of a list of distinguished templates as listed in table 3.",
+   "canonical": "A subtype definition MAY specify a list of distinguished templates as subtype constraint, as listed in table 3.",
+   "condition": null,
+   "cross_refs": [
+    "6.1.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3367,
+    3372
+   ],
+   "examples": [
+    {
+     "lines": [
+      3375,
+      3381
+     ],
+     "text": "type bitstring MyListOfBitStrings ('01'B, '10'B, '11'B);\n  type float PI (3.1415926);\n  type charstring MyStringList (\"abcd\", \"rgy\", \"xyz\");\n  type universal charstring SpecialLetters \n                 (char(0, 0, 1, 111), char(0, 0, 1, 112), char(0, 0, 1, 113));"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.01.02.01_test_001.ttcn3",
+   "module": "M_06_01_02_01_test_001",
+   "header": "// @requirement: 6.1.2.1 -- TTCN-3 permits the specification of a list of distinguished templates as listed in table 3."
+  },
+  {
+   "id": "TTCN3-CORE-6.1.2.1-002a",
+   "section": "6.1.2.1",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "original": "The templates in the list shall be instances of the type being constrained and the set of values matching at least one of these templates shall be a subset of the values defined by the type being constrained.",
+   "canonical": "Each template in a template list constraint SHALL be an instance of the type being constrained.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3367,
+    3372
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.01.02.01_test_002.ttcn3",
+   "module": "M_06_01_02_01_test_002",
+   "header": "// @requirement: 6.1.2.1 -- The templates in the list shall be instances of the type being constrained and the set of values matching at least one of these templates shall be a subset of the values defined by the type being constrained."
+  },
+  {
+   "id": "TTCN3-CORE-6.1.2.1-002b",
+   "section": "6.1.2.1",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "original": "The templates in the list shall be instances of the type being constrained and the set of values matching at least one of these templates shall be a subset of the values defined by the type being constrained.",
+   "canonical": "The set of values matching at least one template of a template list constraint SHALL be a subset of the values defined by the type being constrained.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3367,
+    3372
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.01.02.01_test_003.ttcn3",
+   "module": "M_06_01_02_01_test_003",
+   "header": "// @requirement: 6.1.2.1 -- The templates in the list shall be instances of the type being constrained and the set of values matching at least one of these templates shall be a subset of the values defined by the type being constrained."
+  },
+  {
+   "id": "TTCN3-CORE-6.1.2.1-003a",
+   "section": "6.1.2.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The subtype defined by this list restricts the allowed values of the subtype to those values matching at least one of the templates in the list.",
+   "canonical": "A subtype defined by a template list constraint restricts its allowed values to the values matching at least one of the templates in the list.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3367,
+    3372
+   ],
+   "examples": [
+    {
+     "lines": [
+      3375,
+      3381
+     ],
+     "text": "type bitstring MyListOfBitStrings ('01'B, '10'B, '11'B);\n  type float PI (3.1415926);\n  type charstring MyStringList (\"abcd\", \"rgy\", \"xyz\");\n  type universal charstring SpecialLetters \n                 (char(0, 0, 1, 111), char(0, 0, 1, 112), char(0, 0, 1, 113));"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.01.02.01_test_004.ttcn3",
+   "module": "M_06_01_02_01_test_004",
+   "header": "// @requirement: 6.1.2.1 -- The subtype defined by this list restricts the allowed values of the subtype to those values matching at least one of the templates in the list."
+  },
+  {
+   "id": "TTCN3-CORE-6.1.2.1-004a",
+   "section": "6.1.2.1",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "The templates in the list shall only (directly or indirectly) reference other templates or constant expressions.",
+   "canonical": "A template in a template list constraint SHALL only reference (directly or indirectly) other templates or constant expressions.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3367,
+    3372
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.01.02.01_test_005.ttcn3",
+   "module": "M_06_01_02_01_test_005",
+   "header": "// @requirement: 6.1.2.1 -- The templates in the list shall only (directly or indirectly) reference other templates or constant expressions."
+  },
+  {
+   "id": "TTCN3-CORE-6.1.2.1-005a",
+   "section": "6.1.2.1",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "Constant expressions used (directly or indirectly) in the template expressions shall meet with the restrictions in clause 10 for constant expressions used in type definitions.",
+   "canonical": "A constant expression used (directly or indirectly) in a template of a template list constraint SHALL meet the restrictions of clause 10 for constant expressions used in type definitions.",
+   "condition": null,
+   "cross_refs": [
+    "10"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3367,
+    3372
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.01.02.01_test_006.ttcn3",
+   "module": "M_06_01_02_01_test_006",
+   "header": "// @requirement: 6.1.2.1 -- Constant expressions used (directly or indirectly) in the template expressions shall meet with the restrictions in clause 10 for constant expressions used in type definitions."
+  },
+  {
+   "id": "TTCN3-CORE-6.1.2.2-001a",
+   "section": "6.1.2.2",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "TTCN-3 permits the specification of a list of subtypes as listed in table 3 for value lists.",
+   "canonical": "A subtype definition MAY specify a list of subtypes as subtype constraint, as listed in table 3.",
+   "condition": null,
+   "cross_refs": [
+    "6.1.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3391,
+    3393
+   ],
+   "examples": [
+    {
+     "lines": [
+      3396,
+      3400
+     ],
+     "text": "type bitstring BitStrings1 ('0'B, '1'B );\n  type bitstring BitStrings2 ('00'B, '01'B, '10'B, '10'B);\n  type bitstring BitStrings_1_2 (Bitstrings1, Bitstrings2);"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.01.02.02_test_001.ttcn3",
+   "module": "M_06_01_02_02_test_001",
+   "header": "// @requirement: 6.1.2.2 -- TTCN-3 permits the specification of a list of subtypes as listed in table 3 for value lists."
+  },
+  {
+   "id": "TTCN3-CORE-6.1.2.2-002a",
+   "section": "6.1.2.2",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "original": "The types in the list shall be subtypes of the root type.",
+   "canonical": "Each type in a type list constraint SHALL be a subtype of the root type of the type being defined.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3391,
+    3393
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.01.02.02_test_002.ttcn3",
+   "module": "M_06_01_02_02_test_002",
+   "header": "// @requirement: 6.1.2.2 -- The types in the list shall be subtypes of the root type."
+  },
+  {
+   "id": "TTCN3-CORE-6.1.2.2-003a",
+   "section": "6.1.2.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The subtype defined by this list restricts the allowed values of the subtype to the union of the values of the referenced subtypes.",
+   "canonical": "A subtype defined by a type list constraint restricts its allowed values to the union of the values of the referenced subtypes.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3391,
+    3393
+   ],
+   "examples": [
+    {
+     "lines": [
+      3396,
+      3400
+     ],
+     "text": "type bitstring BitStrings1 ('0'B, '1'B );\n  type bitstring BitStrings2 ('00'B, '01'B, '10'B, '10'B);\n  type bitstring BitStrings_1_2 (Bitstrings1, Bitstrings2);"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.01.02.02_test_003.ttcn3",
+   "module": "M_06_01_02_02_test_003",
+   "header": "// @requirement: 6.1.2.2 -- The subtype defined by this list restricts the allowed values of the subtype to the union of the values of the referenced subtypes."
+  },
+  {
+   "id": "TTCN3-CORE-6.1.2.3-001a",
+   "section": "6.1.2.3",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "TTCN-3 permits the specification of range constraints for the types integer, charstring, `universal` charstring and float (or derivations of these types).",
+   "canonical": "A range constraint MAY be specified for the types `integer`, `charstring`, `universal charstring` and `float` and for types derived from them.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3405,
+    3408
+   ],
+   "examples": [
+    {
+     "lines": [
+      3434,
+      3449
+     ],
+     "text": "type integer MyIntegerRange (0 .. 255);  // range from 0..255 \n                                 // (with inclusive boundaries)\n  type integer MyIntegerRange (0 .. !256);  // the same range as above (with left \n                                 // inclusive and right exclusive boundary)\n  type integer MyIntegerRange (!-1 .. 255);  // the same range as above(with left \n                                 // exclusive and right inclusive boundary)\n  type integer MyIntegerRange (!-1 .. !256);  // the same range as above\n                                 // (with exclusive boundaries)\n  type integer MyIntegerRange (-infinity .. -1); // all negative integer numbers\n  type float PiRange (3.14 .. 3142E-3);\n  type float LessThanPi (-infinity .. 3142E-3);\n  type float Numbers (-infinity .. infinity);  //includes all float values but not_a_number\n  type float Wrong (-infinity .. not_a_number); // causes an error as not_a_number is not \n                               // allowed in range subtyping"
+    },
+    {
+     "lines": [
+      3452,
+      3462
+     ],
+     "text": "type charstring MyCharString (\"a\" .. \"z\");\n  // Defines a string type of any length with each character within the specified range\n  type universal charstring MyUCharString1 (\"a\" .. !\"z\");\n  // Defines a string type of any length with each character within the range from a to y \n  // (character codes from 97 to 121), like \"abxy\"; \n  // strings containing any other character (including control characters), like\n  // \"abc2\" are disallowed.\n  type universal charstring MyUCharString2 (char(0, 0, 1, 111) .. char(0, 0, 1, 113)); \n  // Defines a string type of any length with each character within the range specified using"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.01.02.03_test_001.ttcn3",
+   "module": "M_06_01_02_03_test_001",
+   "header": "// @requirement: 6.1.2.3 -- TTCN-3 permits the specification of range constraints for the types integer, charstring, `universal` charstring and float (or derivations of these types)."
+  },
+  {
+   "id": "TTCN3-CORE-6.1.2.3-002a",
+   "section": "6.1.2.3",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "For integer and float, the subtype defined by the range restricts the allowed values of the subtype to the values in the range including or excluding the lower boundary and/or the upper boundary.",
+   "canonical": "For `integer` and `float`, a subtype defined by a range constraint restricts its allowed values to the values in the range, including or excluding the lower boundary and/or the upper boundary.",
+   "condition": "the range constraint is applied to integer or float",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3405,
+    3408
+   ],
+   "examples": [
+    {
+     "lines": [
+      3434,
+      3449
+     ],
+     "text": "type integer MyIntegerRange (0 .. 255);  // range from 0..255 \n                                 // (with inclusive boundaries)\n  type integer MyIntegerRange (0 .. !256);  // the same range as above (with left \n                                 // inclusive and right exclusive boundary)\n  type integer MyIntegerRange (!-1 .. 255);  // the same range as above(with left \n                                 // exclusive and right inclusive boundary)\n  type integer MyIntegerRange (!-1 .. !256);  // the same range as above\n                                 // (with exclusive boundaries)\n  type integer MyIntegerRange (-infinity .. -1); // all negative integer numbers\n  type float PiRange (3.14 .. 3142E-3);\n  type float LessThanPi (-infinity .. 3142E-3);\n  type float Numbers (-infinity .. infinity);  //includes all float values but not_a_number\n  type float Wrong (-infinity .. not_a_number); // causes an error as not_a_number is not \n                               // allowed in range subtyping"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.01.02.03_test_002.ttcn3",
+   "module": "M_06_01_02_03_test_002",
+   "header": "// @requirement: 6.1.2.3 -- For integer and float, the subtype defined by the range restricts the allowed values of the subtype to the values in the range including or excluding the lower boundary and/or the upper boundary."
+  },
+  {
+   "id": "TTCN3-CORE-6.1.2.3-002b",
+   "section": "6.1.2.3",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "For integer and float, the subtype defined by the range restricts the allowed values of the subtype to the values in the range including or excluding the lower boundary and/or the upper boundary.",
+   "canonical": "For `integer` and `float` range constraints, each range boundary MAY be inclusive or exclusive.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3405,
+    3408
+   ],
+   "examples": [
+    {
+     "lines": [
+      3434,
+      3449
+     ],
+     "text": "type integer MyIntegerRange (0 .. 255);  // range from 0..255 \n                                 // (with inclusive boundaries)\n  type integer MyIntegerRange (0 .. !256);  // the same range as above (with left \n                                 // inclusive and right exclusive boundary)\n  type integer MyIntegerRange (!-1 .. 255);  // the same range as above(with left \n                                 // exclusive and right inclusive boundary)\n  type integer MyIntegerRange (!-1 .. !256);  // the same range as above\n                                 // (with exclusive boundaries)\n  type integer MyIntegerRange (-infinity .. -1); // all negative integer numbers\n  type float PiRange (3.14 .. 3142E-3);\n  type float LessThanPi (-infinity .. 3142E-3);\n  type float Numbers (-infinity .. infinity);  //includes all float values but not_a_number\n  type float Wrong (-infinity .. not_a_number); // causes an error as not_a_number is not \n                               // allowed in range subtyping"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.01.02.03_test_003.ttcn3",
+   "module": "M_06_01_02_03_test_003",
+   "header": "// @requirement: 6.1.2.3 -- For integer and float, the subtype defined by the range restricts the allowed values of the subtype to the values in the range including or excluding the lower boundary and/or the upper boundary."
+  },
+  {
+   "id": "TTCN3-CORE-6.1.2.3-003a",
+   "section": "6.1.2.3",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "original": "The upper boundary shall be greater than or equal to the lower boundary.",
+   "canonical": "The upper boundary of a range constraint SHALL be greater than or equal to the lower boundary.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3405,
+    3408
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.01.02.03_test_004.ttcn3",
+   "module": "M_06_01_02_03_test_004",
+   "header": "// @requirement: 6.1.2.3 -- The upper boundary shall be greater than or equal to the lower boundary."
+  },
+  {
+   "id": "TTCN3-CORE-6.1.2.3-004a",
+   "section": "6.1.2.3",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "In order to specify an infinite integer range, the keyword -infinity or infinity can be used instead of a value indicating that there is no lower or upper boundary; -infinity shall not be used as the upper bound and infinity shall not be used as the lower bound for integer ranges.",
+   "canonical": "In an integer range constraint, `-infinity` MAY be used instead of a lower boundary value and `infinity` instead of an upper boundary value to indicate that there is no lower or upper boundary.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "'-infinity' is called a keyword although only 'infinity' is a keyword; '-infinity' is the negated keyword.",
+    "improper_terms": [
+     {
+      "used": "keyword -infinity",
+      "proper": "special value -infinity",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    3410,
+    3412
+   ],
+   "examples": [
+    {
+     "lines": [
+      3434,
+      3449
+     ],
+     "text": "type integer MyIntegerRange (0 .. 255);  // range from 0..255 \n                                 // (with inclusive boundaries)\n  type integer MyIntegerRange (0 .. !256);  // the same range as above (with left \n                                 // inclusive and right exclusive boundary)\n  type integer MyIntegerRange (!-1 .. 255);  // the same range as above(with left \n                                 // exclusive and right inclusive boundary)\n  type integer MyIntegerRange (!-1 .. !256);  // the same range as above\n                                 // (with exclusive boundaries)\n  type integer MyIntegerRange (-infinity .. -1); // all negative integer numbers\n  type float PiRange (3.14 .. 3142E-3);\n  type float LessThanPi (-infinity .. 3142E-3);\n  type float Numbers (-infinity .. infinity);  //includes all float values but not_a_number\n  type float Wrong (-infinity .. not_a_number); // causes an error as not_a_number is not \n                               // allowed in range subtyping"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.01.02.03_test_005.ttcn3",
+   "module": "M_06_01_02_03_test_005",
+   "header": "// @requirement: 6.1.2.3 -- In order to specify an infinite integer range, the keyword -infinity or infinity can be used instead of a value indicating that there is no lower or upper boundary; -infinity shall not be used as the upper bound and infinity shall not be used as the lower bound for integer ranges."
+  },
+  {
+   "id": "TTCN3-CORE-6.1.2.3-004b",
+   "section": "6.1.2.3",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "In order to specify an infinite integer range, the keyword -infinity or infinity can be used instead of a value indicating that there is no lower or upper boundary; -infinity shall not be used as the upper bound and infinity shall not be used as the lower bound for integer ranges.",
+   "canonical": "`-infinity` SHALL NOT be used as the upper boundary of an integer range constraint.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3410,
+    3412
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.01.02.03_test_006.ttcn3",
+   "module": "M_06_01_02_03_test_006",
+   "header": "// @requirement: 6.1.2.3 -- In order to specify an infinite integer range, the keyword -infinity or infinity can be used instead of a value indicating that there is no lower or upper boundary; -infinity shall not be used as the upper bound and infinity shall not be used as the lower bound for integer ranges."
+  },
+  {
+   "id": "TTCN3-CORE-6.1.2.3-004c",
+   "section": "6.1.2.3",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "In order to specify an infinite integer range, the keyword -infinity or infinity can be used instead of a value indicating that there is no lower or upper boundary; -infinity shall not be used as the upper bound and infinity shall not be used as the lower bound for integer ranges.",
+   "canonical": "`infinity` SHALL NOT be used as the lower boundary of an integer range constraint.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3410,
+    3412
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.01.02.03_test_007.ttcn3",
+   "module": "M_06_01_02_03_test_007",
+   "header": "// @requirement: 6.1.2.3 -- In order to specify an infinite integer range, the keyword -infinity or infinity can be used instead of a value indicating that there is no lower or upper boundary; -infinity shall not be used as the upper bound and infinity shall not be used as the lower bound for integer ranges."
+  },
+  {
+   "id": "TTCN3-CORE-6.1.2.3-005a",
+   "section": "6.1.2.3",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Also for float, -infinity or infinity can be used as the bounds in range restrictions.",
+   "canonical": "In a `float` range constraint, `-infinity` or `infinity` MAY be used as the boundaries.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3414,
+    3422
+   ],
+   "examples": [
+    {
+     "lines": [
+      3434,
+      3449
+     ],
+     "text": "type integer MyIntegerRange (0 .. 255);  // range from 0..255 \n                                 // (with inclusive boundaries)\n  type integer MyIntegerRange (0 .. !256);  // the same range as above (with left \n                                 // inclusive and right exclusive boundary)\n  type integer MyIntegerRange (!-1 .. 255);  // the same range as above(with left \n                                 // exclusive and right inclusive boundary)\n  type integer MyIntegerRange (!-1 .. !256);  // the same range as above\n                                 // (with exclusive boundaries)\n  type integer MyIntegerRange (-infinity .. -1); // all negative integer numbers\n  type float PiRange (3.14 .. 3142E-3);\n  type float LessThanPi (-infinity .. 3142E-3);\n  type float Numbers (-infinity .. infinity);  //includes all float values but not_a_number\n  type float Wrong (-infinity .. not_a_number); // causes an error as not_a_number is not \n                               // allowed in range subtyping"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.01.02.03_test_008.ttcn3",
+   "module": "M_06_01_02_03_test_008",
+   "header": "// @requirement: 6.1.2.3 -- Also for float, -infinity or infinity can be used as the bounds in range restrictions."
+  },
+  {
+   "id": "TTCN3-CORE-6.1.2.3-006a",
+   "section": "6.1.2.3",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Using the special value -infinity as the lower bound shall indicate that the allowed numerical values are not restricted downward and the special value -infinity is also included.",
+   "canonical": "A `float` range constraint with `-infinity` as lower boundary does not restrict the allowed numerical values downward and includes the special value `-infinity`.",
+   "condition": "the lower bound is -infinity",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3414,
+    3422
+   ],
+   "examples": [
+    {
+     "lines": [
+      3434,
+      3449
+     ],
+     "text": "type integer MyIntegerRange (0 .. 255);  // range from 0..255 \n                                 // (with inclusive boundaries)\n  type integer MyIntegerRange (0 .. !256);  // the same range as above (with left \n                                 // inclusive and right exclusive boundary)\n  type integer MyIntegerRange (!-1 .. 255);  // the same range as above(with left \n                                 // exclusive and right inclusive boundary)\n  type integer MyIntegerRange (!-1 .. !256);  // the same range as above\n                                 // (with exclusive boundaries)\n  type integer MyIntegerRange (-infinity .. -1); // all negative integer numbers\n  type float PiRange (3.14 .. 3142E-3);\n  type float LessThanPi (-infinity .. 3142E-3);\n  type float Numbers (-infinity .. infinity);  //includes all float values but not_a_number\n  type float Wrong (-infinity .. not_a_number); // causes an error as not_a_number is not \n                               // allowed in range subtyping"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.01.02.03_test_009.ttcn3",
+   "module": "M_06_01_02_03_test_009",
+   "header": "// @requirement: 6.1.2.3 -- Using the special value -infinity as the lower bound shall indicate that the allowed numerical values are not restricted downward and the special value -infinity is also included."
+  },
+  {
+   "id": "TTCN3-CORE-6.1.2.3-007a",
+   "section": "6.1.2.3",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "If both the lower and upper bounds denote -infinity, no numerical values are included, only the special value -infinity.",
+   "canonical": "A `float` range constraint whose lower and upper boundaries both denote `-infinity` includes no numerical values and only the special value `-infinity`.",
+   "condition": "both bounds denote -infinity",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3414,
+    3422
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.01.02.03_test_010.ttcn3",
+   "module": "M_06_01_02_03_test_010",
+   "header": "// @requirement: 6.1.2.3 -- If both the lower and upper bounds denote -infinity, no numerical values are included, only the special value -infinity."
+  },
+  {
+   "id": "TTCN3-CORE-6.1.2.3-008a",
+   "section": "6.1.2.3",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Using the special value infinity as the upper bound shall indicate that the allowed numerical values are not restricted upward and the special value infinity is also included.",
+   "canonical": "A `float` range constraint with `infinity` as upper boundary does not restrict the allowed numerical values upward and includes the special value `infinity`.",
+   "condition": "the upper bound is infinity",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3414,
+    3422
+   ],
+   "examples": [
+    {
+     "lines": [
+      3434,
+      3449
+     ],
+     "text": "type integer MyIntegerRange (0 .. 255);  // range from 0..255 \n                                 // (with inclusive boundaries)\n  type integer MyIntegerRange (0 .. !256);  // the same range as above (with left \n                                 // inclusive and right exclusive boundary)\n  type integer MyIntegerRange (!-1 .. 255);  // the same range as above(with left \n                                 // exclusive and right inclusive boundary)\n  type integer MyIntegerRange (!-1 .. !256);  // the same range as above\n                                 // (with exclusive boundaries)\n  type integer MyIntegerRange (-infinity .. -1); // all negative integer numbers\n  type float PiRange (3.14 .. 3142E-3);\n  type float LessThanPi (-infinity .. 3142E-3);\n  type float Numbers (-infinity .. infinity);  //includes all float values but not_a_number\n  type float Wrong (-infinity .. not_a_number); // causes an error as not_a_number is not \n                               // allowed in range subtyping"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.01.02.03_test_011.ttcn3",
+   "module": "M_06_01_02_03_test_011",
+   "header": "// @requirement: 6.1.2.3 -- Using the special value infinity as the upper bound shall indicate that the allowed numerical values are not restricted upward and the special value infinity is also included."
+  },
+  {
+   "id": "TTCN3-CORE-6.1.2.3-009a",
+   "section": "6.1.2.3",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "If both the lower and upper bounds denote infinity, no numerical values are included, only the special value infinity.",
+   "canonical": "A `float` range constraint whose lower and upper boundaries both denote `infinity` includes no numerical values and only the special value `infinity`.",
+   "condition": "both bounds denote infinity",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3414,
+    3422
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.01.02.03_test_012.ttcn3",
+   "module": "M_06_01_02_03_test_012",
+   "header": "// @requirement: 6.1.2.3 -- If both the lower and upper bounds denote infinity, no numerical values are included, only the special value infinity."
+  },
+  {
+   "id": "TTCN3-CORE-6.1.2.3-010a",
+   "section": "6.1.2.3",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "If exclusive bounds (!infinity or !-infinity) is used instead, only the respective numerical float values are included in the range.",
+   "canonical": "A `float` range constraint with an exclusive boundary `!-infinity` or `!infinity` includes the respective unrestricted numerical float values but not the special value `-infinity` or `infinity`.",
+   "condition": "an exclusive infinity bound is used",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "It is unclear whether 'instead' refers to the general case of an infinity bound or only to the preceding case where both bounds denote the same infinity; the general reading was chosen.",
+    "readings": [
+     "A float range constraint with an exclusive boundary !-infinity or !infinity includes the unrestricted numerical float values but not the special value -infinity or infinity.",
+     "A float range constraint whose both boundaries are exclusive (!-infinity .. !-infinity or !infinity .. !infinity) includes only numerical float values, i.e. it is empty."
+    ]
+   },
+   "spec_lines": [
+    3414,
+    3422
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.01.02.03_test_013.ttcn3",
+   "module": "M_06_01_02_03_test_013",
+   "header": "// @requirement: 6.1.2.3 -- If exclusive bounds (!infinity or !-infinity) is used instead, only the respective numerical float values are included in the range."
+  },
+  {
+   "id": "TTCN3-CORE-6.1.2.3-011a",
+   "section": "6.1.2.3",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "In case of float, the special value not_a_number is not allowed in a range constraint.",
+   "canonical": "The special value `not_a_number` SHALL NOT be used in a `float` range constraint.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3414,
+    3422
+   ],
+   "examples": [
+    {
+     "lines": [
+      3434,
+      3449
+     ],
+     "text": "type integer MyIntegerRange (0 .. 255);  // range from 0..255 \n                                 // (with inclusive boundaries)\n  type integer MyIntegerRange (0 .. !256);  // the same range as above (with left \n                                 // inclusive and right exclusive boundary)\n  type integer MyIntegerRange (!-1 .. 255);  // the same range as above(with left \n                                 // exclusive and right inclusive boundary)\n  type integer MyIntegerRange (!-1 .. !256);  // the same range as above\n                                 // (with exclusive boundaries)\n  type integer MyIntegerRange (-infinity .. -1); // all negative integer numbers\n  type float PiRange (3.14 .. 3142E-3);\n  type float LessThanPi (-infinity .. 3142E-3);\n  type float Numbers (-infinity .. infinity);  //includes all float values but not_a_number\n  type float Wrong (-infinity .. not_a_number); // causes an error as not_a_number is not \n                               // allowed in range subtyping"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.01.02.03_test_014.ttcn3",
+   "module": "M_06_01_02_03_test_014",
+   "header": "// @requirement: 6.1.2.3 -- In case of float, the special value not_a_number is not allowed in a range constraint."
+  },
+  {
+   "id": "TTCN3-CORE-6.1.2.3-012a",
+   "section": "6.1.2.3",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "In the case of charstring and universal charstring types, the range restricts the allowed values for each separate character in the strings.",
+   "canonical": "For `charstring` and `universal charstring` types, a range constraint restricts the allowed values of each separate character in the strings.",
+   "condition": "the range constraint is applied to charstring or universal charstring",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3424,
+    3427
+   ],
+   "examples": [
+    {
+     "lines": [
+      3452,
+      3462
+     ],
+     "text": "type charstring MyCharString (\"a\" .. \"z\");\n  // Defines a string type of any length with each character within the specified range\n  type universal charstring MyUCharString1 (\"a\" .. !\"z\");\n  // Defines a string type of any length with each character within the range from a to y \n  // (character codes from 97 to 121), like \"abxy\"; \n  // strings containing any other character (including control characters), like\n  // \"abc2\" are disallowed.\n  type universal charstring MyUCharString2 (char(0, 0, 1, 111) .. char(0, 0, 1, 113)); \n  // Defines a string type of any length with each character within the range specified using"
+    },
+    {
+     "lines": [
+      3468,
+      3470
+     ],
+     "text": "// the quadruple notation"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.01.02.03_test_015.ttcn3",
+   "module": "M_06_01_02_03_test_015",
+   "header": "// @requirement: 6.1.2.3 -- In the case of charstring and universal charstring types, the range restricts the allowed values for each separate character in the strings."
+  },
+  {
+   "id": "TTCN3-CORE-6.1.2.3-013a",
+   "section": "6.1.2.3",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "original": "The boundaries shall evaluate to valid character positions according to the coded character set table(s) of the type (e.g. the given position shall not be empty).",
+   "canonical": "The boundaries of a character string range constraint SHALL evaluate to valid (non-empty) character positions according to the coded character set table(s) of the type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3424,
+    3427
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.01.02.03_test_016.ttcn3",
+   "module": "M_06_01_02_03_test_016",
+   "header": "// @requirement: 6.1.2.3 -- The boundaries shall evaluate to valid character positions according to the coded character set table(s) of the type (e.g. the given position shall not be empty)."
+  },
+  {
+   "id": "TTCN3-CORE-6.1.2.3-014a",
+   "section": "6.1.2.3",
+   "type": "semantics",
+   "modality": "IS NOT",
+   "original": "Empty positions between the lower and the upper boundaries are not considered to be valid values of the specified range.",
+   "canonical": "An empty position of the coded character set table between the lower and the upper boundaries of a character string range constraint is not a valid value of the range.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3424,
+    3427
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.01.02.03_test_017.ttcn3",
+   "module": "M_06_01_02_03_test_017",
+   "header": "// @requirement: 6.1.2.3 -- Empty positions between the lower and the upper boundaries are not considered to be valid values of the specified range."
+  },
+  {
+   "id": "TTCN3-CORE-6.1.2.3-015a",
+   "section": "6.1.2.3",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "Constants used in the constant expressions defining the values shall meet with the restrictions in clause 10.",
+   "canonical": "A constant used in a constant expression defining a range boundary SHALL meet the restrictions of clause 10.",
+   "condition": null,
+   "cross_refs": [
+    "10"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3429,
+    3429
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.01.02.03_test_018.ttcn3",
+   "module": "M_06_01_02_03_test_018",
+   "header": "// @requirement: 6.1.2.3 -- Constants used in the constant expressions defining the values shall meet with the restrictions in clause 10."
+  }
+ ]
+}

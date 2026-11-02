@@ -1,0 +1,27 @@
+// @requirement: 15.8.1 -- Parameter restriction in base template: template(value); Allowed parameter restrictions in modified template: No; Col3: Yes; Col4: No; Col5: No
+// @id: TTCN3-CORE-15.8.1-053a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_08_01_test_045 {
+    type record R {
+        integer a,
+        boolean b optional
+    }
+
+    template R m_base(template(value) integer p_a) := {a := p_a, b := omit};
+    template R m_mod1(template(value) integer p_a) modifies m_base := {b := true};
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var R v_r := {a := 1, b := true};
+        if (match(v_r, m_mod1(1))) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

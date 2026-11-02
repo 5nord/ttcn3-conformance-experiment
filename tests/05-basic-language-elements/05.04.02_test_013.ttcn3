@@ -1,0 +1,22 @@
+// @requirement: 5.4.2 -- Actual parameters that are passed to out formal template parameters shall be template variables, formal template parameters or references to elements of template variables or formal template parameters of structured types.
+// @id: TTCN3-CORE-5.4.2-010a
+// @verdict: pass reject
+module M_05_04_02_test_013 {
+
+    type component C {}
+
+    template integer m_t := ?;
+
+    function f(out template integer p_t) {
+        p_t := (1..5);
+    }
+
+    testcase TC() runs on C {
+        f(m_t); // error: global template passed to out formal template parameter
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

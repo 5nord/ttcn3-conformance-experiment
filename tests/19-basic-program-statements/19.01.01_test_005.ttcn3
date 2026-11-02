@@ -1,0 +1,23 @@
+// @requirement: 19.1.1 -- The effect of an assignment is to bind the variable to the value of the expression or to a template.
+// @id: TTCN3-CORE-19.1.1-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_01_01_test_005 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_int;
+        var template integer v_tmpl;
+        v_int := 2 * 21;
+        v_tmpl := (40 .. 50);
+        if (isbound(v_int) and v_int == 42 and match(v_int, v_tmpl) and not match(39, v_tmpl)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

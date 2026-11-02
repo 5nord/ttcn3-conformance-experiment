@@ -1,0 +1,3634 @@
+{
+ "document": "ETSI ES 201 873-1 V4.17.1 (2025-09)",
+ "chapter": "16",
+ "title": "Functions, altsteps and testcases",
+ "file": "16-functions-altsteps-and-testcases",
+ "lines": [
+  12831,
+  13820
+ ],
+ "sections": {
+  "16": {
+   "title": "Functions, altsteps and testcases",
+   "start": 12831
+  },
+  "16.0": {
+   "title": "General",
+   "start": 12833
+  },
+  "16.1": {
+   "title": "Functions",
+   "start": 12838
+  },
+  "16.1.0": {
+   "title": "General",
+   "start": 12840
+  },
+  "16.1.1": {
+   "title": "Invoking functions",
+   "start": 13020
+  },
+  "16.1.2": {
+   "title": "Predefined functions",
+   "start": 13077
+  },
+  "16.1.3": {
+   "title": "External functions",
+   "start": 13298
+  },
+  "16.1.4": {
+   "title": "Invoking functions from specific places",
+   "start": 13339
+  },
+  "16.1.5": {
+   "title": "Explicit control functions",
+   "start": 13434
+  },
+  "16.1.6": {
+   "title": "The not-implemented function",
+   "start": 13461
+  },
+  "16.2": {
+   "title": "Altsteps",
+   "start": 13500
+  },
+  "16.2.0": {
+   "title": "General",
+   "start": 13502
+  },
+  "16.2.1": {
+   "title": "Invoking altsteps",
+   "start": 13650
+  },
+  "16.3": {
+   "title": "Test cases",
+   "start": 13746
+  }
+ },
+ "units": [
+  {
+   "id": "16.0-s001",
+   "section": "16.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "In TTCN-3, functions, altsteps and testcases are used to specify and structure test behaviour, define default behaviour and to structure computation in a module, etc. as described in the following clauses.",
+   "lines": [
+    12835,
+    12836
+   ]
+  },
+  {
+   "id": "16.1.0-s001",
+   "section": "16.1.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Functions are used in TTCN-3 to express test behaviour, to organize test execution or to structure computation in a module, for example, to calculate a single value, to initialize a set of variables or to check some condition.",
+   "lines": [
+    12842,
+    12843
+   ]
+  },
+  {
+   "id": "16.1.0-s002",
+   "section": "16.1.0",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "function [ @deterministic | @control ] ( FunctionIdentifier | control )\n  \"(\" [ { ( FormalValuePar | FormalTemplatePar ) [\",\"] } ] \")\"\n  [ runs on ComponentType ] \n  [ mtc ComponentType ]\n  [ system ComponentType ]\n  [ return [ TemplateModifier ] TypeOrNestedTypeDef [ArrayDef] ]\n  StatementBlock",
+   "lines": [
+    12846,
+    12854
+   ]
+  },
+  {
+   "id": "16.1.0-s003",
+   "section": "16.1.0",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Functions are portions of TTCN-3 behaviour, which perform a specific task and are relatively independent of the remaining behaviour.",
+   "lines": [
+    12858,
+    12859
+   ]
+  },
+  {
+   "id": "16.1.0-s004",
+   "section": "16.1.0",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Functions may return a value or a template.",
+   "lines": [
+    12861,
+    12864
+   ]
+  },
+  {
+   "id": "16.1.0-s005",
+   "section": "16.1.0",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Value return is denoted by the return keyword followed by a type expression.",
+   "lines": [
+    12861,
+    12864
+   ]
+  },
+  {
+   "id": "16.1.0-s006",
+   "section": "16.1.0",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Template return is denoted by the return keywords followed by a TemplateModifier and a type expression.",
+   "lines": [
+    12861,
+    12864
+   ]
+  },
+  {
+   "id": "16.1.0-s007",
+   "section": "16.1.0",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Execution of a return statement in the body of the function causes evaluation of the return value or template, the function to terminate and to return the result to the location of the call of the function.",
+   "lines": [
+    12861,
+    12864
+   ]
+  },
+  {
+   "id": "16.1.0-s008",
+   "section": "16.1.0",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The behaviour of a function can be defined by using statements and operations described in clauses 18 to 26.",
+   "lines": [
+    12866,
+    12866
+   ]
+  },
+  {
+   "id": "16.1.0-s009",
+   "section": "16.1.0",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Functions may be parameterized.",
+   "lines": [
+    12868,
+    12868
+   ]
+  },
+  {
+   "id": "16.1.0-s010",
+   "section": "16.1.0",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Functions may have an mtc clause.",
+   "lines": [
+    12870,
+    12871
+   ]
+  },
+  {
+   "id": "16.1.0-s011",
+   "section": "16.1.0",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If a function has an mtc clause, the type referenced by this clause shall be mtccompatible (see clause 6.3.2.7) with the type of the mtc component reference.",
+   "lines": [
+    12870,
+    12871
+   ]
+  },
+  {
+   "id": "16.1.0-s012",
+   "section": "16.1.0",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If the mtc clause is not present, the type of the mtc component reference is unknown in the scope of this function.",
+   "lines": [
+    12870,
+    12871
+   ]
+  },
+  {
+   "id": "16.1.0-s013",
+   "section": "16.1.0",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Functions may have a system clause.",
+   "lines": [
+    12873,
+    12875
+   ]
+  },
+  {
+   "id": "16.1.0-s014",
+   "section": "16.1.0",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If a function has a system clause, the type referenced by this clause shall be system-compatible (see clause 6.3.2.7) with the type of the system component reference.",
+   "lines": [
+    12873,
+    12875
+   ]
+  },
+  {
+   "id": "16.1.0-s015",
+   "section": "16.1.0",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If the system clause is not present, the type of the system component reference is unknown in the scope of this function.",
+   "lines": [
+    12873,
+    12875
+   ]
+  },
+  {
+   "id": "16.1.0-s016",
+   "section": "16.1.0",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Using the @deterministic modifier, a function can be declared to be deterministic.",
+   "lines": [
+    12877,
+    12879
+   ]
+  },
+  {
+   "id": "16.1.0-s017",
+   "section": "16.1.0",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Deterministic functions are safe to be used when called from specific places where non-determinism could lead to unexpected side effects (see clause 16.1.4).",
+   "lines": [
+    12877,
+    12879
+   ]
+  },
+  {
+   "id": "16.1.0-s018",
+   "section": "16.1.0",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "NOTE 0: The determination of determinism of a function is a semi-decidable problem and as such can and will not be exhaustively checked.",
+   "lines": [
+    12881,
+    12885
+   ]
+  },
+  {
+   "id": "16.1.0-s019",
+   "section": "16.1.0",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "As such, the annotation deterministic is mainly used for informational purposes and for allowing certain functions to be used during snapshot evaluation.",
+   "lines": [
+    12881,
+    12885
+   ]
+  },
+  {
+   "id": "16.1.0-s020",
+   "section": "16.1.0",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "Principally, a function can be seen as deterministic if it does not violate any of the restrictions from clause 16.1.4 which does not mean that violation of these restriction automatically leads to non-determinism.",
+   "lines": [
+    12881,
+    12885
+   ]
+  },
+  {
+   "id": "16.1.0-s021",
+   "section": "16.1.0",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clause 5, the following restrictions apply:",
+   "lines": [
+    12889,
+    12889
+   ]
+  },
+  {
+   "id": "16.1.0-s022",
+   "section": "16.1.0",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) A function without runs `on clause shall never invoke a function or altstep or activate an altstep as default` with a runs `on clause locally.` b) Functions started by using the start test component operation shall always have a runs `on clause` (see clause 22.5) and are considered to be invoked in the component to be started, i.e. not locally.",
+   "lines": [
+    12891,
+    12901
+   ]
+  },
+  {
+   "id": "16.1.0-s023",
+   "section": "16.1.0",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "However, the start test component operation may be invoked within behaviour without a runs `on clause.`",
+   "lines": [
+    12899,
+    12901
+   ]
+  },
+  {
+   "id": "16.1.0-s024",
+   "section": "16.1.0",
+   "kind": "note",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "NOTE 1: The restrictions concerning the runs `on clause are only related to functions and altsteps and not to test` cases.",
+   "lines": [
+    12903,
+    12904
+   ]
+  },
+  {
+   "id": "16.1.0-s025",
+   "section": "16.1.0",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "c) Functions called directly or indirectly from a module control function shall have no mtc or system clause.",
+   "lines": [
+    12906,
+    12906
+   ]
+  },
+  {
+   "id": "16.1.0-s026",
+   "section": "16.1.0",
+   "kind": "note",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "NOTE 2: Nevertheless, functions called directly or indirectly from the module control function are allowed to execute test cases.",
+   "lines": [
+    12908,
+    12909
+   ]
+  },
+  {
+   "id": "16.1.0-s027",
+   "section": "16.1.0",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "d) The rules for formal parameter lists shall be followed as defined in clause 5.4.",
+   "lines": [
+    12911,
+    12911
+   ]
+  },
+  {
+   "id": "16.1.0-s028",
+   "section": "16.1.0",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "e) For return TemplateModifier statements the restrictions specified in clause 15.0 shall apply.",
+   "lines": [
+    12913,
+    12913
+   ]
+  },
+  {
+   "id": "16.1.0-s029",
+   "section": "16.1.0",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "f) Template return can be restricted to the matching mechanisms specific value and omit, see clause 5.4.1.2.",
+   "lines": [
+    12915,
+    12915
+   ]
+  },
+  {
+   "id": "16.1.0-s030",
+   "section": "16.1.0",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "g) A return statement in a value returning function shall always have a value expression compatible to the type specified in the function header return clause.",
+   "lines": [
+    12917,
+    12918
+   ]
+  },
+  {
+   "id": "16.1.0-s031",
+   "section": "16.1.0",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "h) A return statement in a template returning function shall always have a template reference (including calling a value or template returning function)or template instance compatible to the type specified in the function header return clause.",
+   "lines": [
+    12920,
+    12923
+   ]
+  },
+  {
+   "id": "16.1.0-s032",
+   "section": "16.1.0",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "If the return clause has a template restriction, this restriction shall be adhered to by the returned template.",
+   "lines": [
+    12920,
+    12923
+   ]
+  },
+  {
+   "id": "16.1.0-s033",
+   "section": "16.1.0",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "i) If the function header includes a return clause, the function, when terminating, shall do so by executing a",
+   "lines": [
+    12925,
+    12925
+   ]
+  },
+  {
+   "id": "16.1.0-s034",
+   "section": "16.1.0",
+   "kind": "code",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "return statement. The function will cause a test case error if it terminates (i.e. reaches the end of the",
+   "lines": [
+    12926,
+    12928
+   ]
+  },
+  {
+   "id": "16.1.0-s035",
+   "section": "16.1.0",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "function body) without executing a return statement.",
+   "lines": [
+    12930,
+    12930
+   ]
+  },
+  {
+   "id": "16.1.0-s036",
+   "section": "16.1.0",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "j) If a function references the names of definitions that are defined inside a component type definition, the component type shall be referenced using the runs `on keywords in the function header.",
+   "lines": [
+    12932,
+    12934
+   ]
+  },
+  {
+   "id": "16.1.0-s037",
+   "section": "16.1.0",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "The one exception to` this rule is if all the necessary component-wide information is passed in the function as parameters.",
+   "lines": [
+    12932,
+    12934
+   ]
+  },
+  {
+   "id": "16.1.0-s038",
+   "section": "16.1.0",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "k) The additional restrictions in clause 16.1.5 shall apply to all explicit control functions.The list of statements and operations that are allowed to be used by control functions is provided by table 15.",
+   "lines": [
+    12936,
+    12937
+   ]
+  },
+  {
+   "id": "16.1.0-s039",
+   "section": "16.1.0",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 1: Function with return:",
+   "lines": [
+    12941,
+    12941
+   ]
+  },
+  {
+   "id": "16.1.0-s040",
+   "section": "16.1.0",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "// Definition of f_myFunction which has no parameters\n  function f_myFunction() return integer\n  {\n     return 7; // returns the integer value 7 when the function terminates\n  }",
+   "lines": [
+    12942,
+    12948
+   ]
+  },
+  {
+   "id": "16.1.0-s041",
+   "section": "16.1.0",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 2: Function with template return:",
+   "lines": [
+    12950,
+    12950
+   ]
+  },
+  {
+   "id": "16.1.0-s042",
+   "section": "16.1.0",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "// Definition of functions which may return matching symbols or templates\n  function f_myFunction2() return template integer\n  {\n  :\n     return ?; // returns the matching mechanism AnyValue\n  }\n  function f_myFunction3() return template octetstring\n  {\n  :\n     return 'FF??FF'O; // returns an octetstring with AnyValue inside it\n  }",
+   "lines": [
+    12951,
+    12963
+   ]
+  },
+  {
+   "id": "16.1.0-s043",
+   "section": "16.1.0",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 3: Function with runs on clause:",
+   "lines": [
+    12970,
+    12970
+   ]
+  },
+  {
+   "id": "16.1.0-s044",
+   "section": "16.1.0",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "function f_myFunction3() runs on MyPTCType {\n                     // f_myFunction3 does not return a value, but\n     var integer v_myVar := 5; // does make use of the port operation\n     pCO1.send(v_myVar);  // send and therefore requires a runs on\n                     // clause to resolve the port identifiers\n  } // by referencing a component type",
+   "lines": [
+    12971,
+    12978
+   ]
+  },
+  {
+   "id": "16.1.0-s045",
+   "section": "16.1.0",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 4: Parameterized function:",
+   "lines": [
+    12980,
+    12980
+   ]
+  },
+  {
+   "id": "16.1.0-s046",
+   "section": "16.1.0",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "function f_myFunction2(inout integer p_myPar1) {\n                     // f_myFunction2 does not return a value\n     p_myPar1 := 10 * p_myPar1; // but changes the value of p_myPar1 which\n  } // is passed in by reference",
+   "lines": [
+    12981,
+    12986
+   ]
+  },
+  {
+   "id": "16.1.0-s047",
+   "section": "16.1.0",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 5: Function without return statement:",
+   "lines": [
+    12988,
+    12988
+   ]
+  },
+  {
+   "id": "16.1.0-s048",
+   "section": "16.1.0",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "function f_myFunction5(inout integer p_myPar1) return integer {\n     if (p_myPar1 > 5) { \n     p_myPar1 := 5; \n      return p_myPar1; \n    } \n    // in case of p_myPar1 <= 5, f_myFunction5 does not terminate in a return statement\n    // and will cause a test case error\n  }",
+   "lines": [
+    12989,
+    12998
+   ]
+  },
+  {
+   "id": "16.1.0-s049",
+   "section": "16.1.0",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 6: Function with system and mtc:",
+   "lines": [
+    13000,
+    13000
+   ]
+  },
+  {
+   "id": "16.1.0-s050",
+   "section": "16.1.0",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "type component MtcType { ... }\n  type component SystemType { ... }\n  function f_myFunction6() runs on MyPtcType mtc MtcType system SystemType {\n     var MtcType v_mtc := mtc;\n     var SystemType v_system := system;\n     f_myFunction3(); // allowed, f_myFunction3() has no mtc and system clause\n     f_myFunction6(); // allowed, f_myFunction6() has compatible mtc and system clause\n  }\n  function f_myFunction7() runs on MyPtcType system SystemType {\n     var MtcType v_mtc := mtc; // not allowed, mtc type unknown\n     f_myFunction6(); // possible runtime error, no mtc clause of f_myFunction7\n  }\n  function MyFunction8() runs on MyPtcType mtc MtcType {\n     var SystemType v_system := system; // not allowed, system type unknown\n     f_myFunction6(); // possible runtime error, no system clause of f_myFunction8\n  }",
+   "lines": [
+    13001,
+    13018
+   ]
+  },
+  {
+   "id": "16.1.1-s001",
+   "section": "16.1.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "A function is invoked by referring to its name and providing the actual list of parameters.",
+   "lines": [
+    13022,
+    13022
+   ]
+  },
+  {
+   "id": "16.1.1-s002",
+   "section": "16.1.1",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "FunctionRef \"(\" [ { ActualPar [\",\"] } ] \")\"",
+   "lines": [
+    13025,
+    13027
+   ]
+  },
+  {
+   "id": "16.1.1-s003",
+   "section": "16.1.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "A function invocation results in the execution of the statement block of the invoked function.",
+   "lines": [
+    13031,
+    13034
+   ]
+  },
+  {
+   "id": "16.1.1-s004",
+   "section": "16.1.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The invoked function is performed by the test component invoking it.",
+   "lines": [
+    13031,
+    13034
+   ]
+  },
+  {
+   "id": "16.1.1-s005",
+   "section": "16.1.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Actual parameters are passed into the statement block.",
+   "lines": [
+    13031,
+    13034
+   ]
+  },
+  {
+   "id": "16.1.1-s006",
+   "section": "16.1.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If the function returns (upon termination and potentially with a return value), the test components continues its behaviour right after the function invocation.",
+   "lines": [
+    13031,
+    13034
+   ]
+  },
+  {
+   "id": "16.1.1-s007",
+   "section": "16.1.1",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clause 5, the following restrictions apply:",
+   "lines": [
+    13038,
+    13038
+   ]
+  },
+  {
+   "id": "16.1.1-s008",
+   "section": "16.1.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) Functions that do not return values shall be invoked directly.",
+   "lines": [
+    13040,
+    13041
+   ]
+  },
+  {
+   "id": "16.1.1-s009",
+   "section": "16.1.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Functions that return values may be invoked directly or inside expressions.",
+   "lines": [
+    13040,
+    13041
+   ]
+  },
+  {
+   "id": "16.1.1-s010",
+   "section": "16.1.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "b) The rules for actual parameter lists shall be followed as defined in clause 5.4.",
+   "lines": [
+    13043,
+    13043
+   ]
+  },
+  {
+   "id": "16.1.1-s011",
+   "section": "16.1.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "c) Special restrictions apply to functions bound to test components using the start test component operation.",
+   "lines": [
+    13050,
+    13051
+   ]
+  },
+  {
+   "id": "16.1.1-s012",
+   "section": "16.1.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "These restrictions are described in clause 21.3.2.",
+   "lines": [
+    13050,
+    13051
+   ]
+  },
+  {
+   "id": "16.1.1-s013",
+   "section": "16.1.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "d) When invoking a function, the compatibility to the test component type of the invoking test component as described in clause 6.3.2.7 need to be fulfilled.",
+   "lines": [
+    13053,
+    13054
+   ]
+  },
+  {
+   "id": "16.1.1-s014",
+   "section": "16.1.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "e) Restrictions on invoking functions from specific places are described in clause 16.1.4.",
+   "lines": [
+    13056,
+    13056
+   ]
+  },
+  {
+   "id": "16.1.1-s015",
+   "section": "16.1.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "f) When invoking a function, the mtc and system compatibility of the mtc and system components of the invoked function with the actual mtc and system types of the running test case as described in clause 6.3.2.7 need to be fulfilled.",
+   "lines": [
+    13058,
+    13060
+   ]
+  },
+  {
+   "id": "16.1.1-s016",
+   "section": "16.1.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "g) Invoking a function that returns an uninitialized value is allowed only if the function is invoked directly as a statement of a statement block or as the return value of a return statement.",
+   "lines": [
+    13062,
+    13065
+   ]
+  },
+  {
+   "id": "16.1.1-s017",
+   "section": "16.1.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In any other place, invoking a function that returns an uninitialized value shall cause an error (e.g. in an expression, as an actual parameter or on the right hand side of an assignment).",
+   "lines": [
+    13062,
+    13065
+   ]
+  },
+  {
+   "id": "16.1.1-s018",
+   "section": "16.1.1",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "v_myVar := f_myFunction4(); // The value returned by f_myFunction4 is assigned to v_myVar. \n                   // The types of the returned value and v_myVar have to be compatible\n  f_myFunction2(v_myVar2); // f_myFunction2 does not return a value and is called with the\n                   // actual parameter v_myVar2, which may be passed in by reference \n  v_myVar3 := f_myFunction6(4) + f_myFunction7(v_myVar3); // Functions used in expressions \n  f_myFunction7(); // Any return value is omitted in case of direct invocation.",
+   "lines": [
+    13068,
+    13075
+   ]
+  },
+  {
+   "id": "16.1.2-s001",
+   "section": "16.1.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "TTCN-3 contains a number of predefined (built-in) functions that need not be declared before use.",
+   "lines": [
+    13079,
+    13080
+   ]
+  },
+  {
+   "id": "16.1.2-s002",
+   "section": "16.1.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "These are summarized in table 15.",
+   "lines": [
+    13079,
+    13080
+   ]
+  },
+  {
+   "id": "16.1.2-s003",
+   "section": "16.1.2",
+   "kind": "caption",
+   "context": null,
+   "normative": false,
+   "text": "Table 15: List of TTCN-3 predefined functions",
+   "lines": [
+    13087,
+    13087
+   ]
+  },
+  {
+   "id": "16.1.2-s004",
+   "section": "16.1.2",
+   "kind": "table-text",
+   "context": null,
+   "normative": true,
+   "text": "**Category** **Function** **Keyword** **Conversion functions** Convert integer value to charstring value `int2char` Convert integer value to universal **charstring value** `int2unichar` Convert integer value to bitstring value `int2bit` Convert integer value to enumerated value `int2enum` Convert integer value to hexstring value `int2hex` Convert integer value to octetstring value `int2oct` Convert integer value to charstring value `int2str` Convert integer value to float value `int2float` Convert float value to integer value `float2int` Convert charstring value to integer value `char2int` Convert charstring value to octetstring value `char2oct` Convert universal charstring value to octetstring value `unichar2oct` Convert universal **charstring value to integer value** `unichar2int` Convert bitstring value to integer value `bit2int` Convert bitstring value to hexstring value `bit2hex` Convert bitstring value to octetstring value `bit2oct` Convert bitstring value to charstring value `bit2str` Convert hexstring value to integer value `hex2int` Convert hexstring value to bitstring value `hex2bit` Convert hexstring value to octetstring value `hex2oct` Convert hexstring value to charstring value `hex2str` Convert octetstring value to integer value `oct2int` Convert octetstring value to bitstring value `oct2bit` Convert octetstring value to hexstring value `oct2hex` Convert octetstring value to charstring value `oct2str` Convert octetstring value to charstring value, version II `oct2char` Convert octetstring value to universal charstring value `oct2unichar` Convert charstring value to integer value `str2int` Convert charstring value to hexstring value `str2hex` Convert charstring value to octetstring value `str2oct` Convert charstring value to float value `str2float` Convert enumerated value to integer value `enum2int` Convert value or template to universal charstring value `any2unistr` **Length/size functions** Return the length of a value or template of any string type, record `lengthof` **of, set of, array or map**",
+   "lines": [
+    13089,
+    13124
+   ]
+  },
+  {
+   "id": "16.1.2-s005",
+   "section": "16.1.2",
+   "kind": "table-text",
+   "context": null,
+   "normative": true,
+   "text": "Return the number of elements in a value or a template of a record `sizeof` or set",
+   "lines": [
+    13126,
+    13127
+   ]
+  },
+  {
+   "id": "16.1.2-s006",
+   "section": "16.1.2",
+   "kind": "table-text",
+   "context": null,
+   "normative": true,
+   "text": "**Presence checking** Determine if a template contains certain matching mechanism `istemplatekind` **functions**",
+   "lines": [
+    13129,
+    13130
+   ]
+  },
+  {
+   "id": "16.1.2-s007",
+   "section": "16.1.2",
+   "kind": "table-text",
+   "context": null,
+   "normative": true,
+   "text": "**String/list handling** Returns part of the input string matching the specified pattern group `regexp` **functions** within a character pattern",
+   "lines": [
+    13132,
+    13133
+   ]
+  },
+  {
+   "id": "16.1.2-s008",
+   "section": "16.1.2",
+   "kind": "table-text",
+   "context": null,
+   "normative": true,
+   "text": "Returns the specified portion of the input string/list value or template `[substr]` Replaces a substring of a string with or inserts the input string into a `replace` string, and similarly for lists",
+   "lines": [
+    13135,
+    13137
+   ]
+  },
+  {
+   "id": "16.1.2-s009",
+   "section": "16.1.2",
+   "kind": "table-text",
+   "context": null,
+   "normative": true,
+   "text": "**Codec functions** Encode a value into a bitstring `encvalue` Decode a bitstring into a value `decvalue` Encode a value into a universal charstring `encvalue_unichar` Decode a universal charstring into a value `decvalue_unichar` Encode a value into a octetstring `encvalue` Decode a octetstring into a value `decvalue` Retrieve the type of string encoding `get_stringencoding` Remove BOMs of UCS encoding schemes `remove_bom` **Other functions** Generate a random float number `rnd` Returns the name of the currently executing test case `testcasename` Returns the host id of the test component or module `hostid`",
+   "lines": [
+    13139,
+    13149
+   ]
+  },
+  {
+   "id": "16.1.2-s010",
+   "section": "16.1.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Col1: Category; Table 15: List of TTCN-3 predefined functions: Function; Col3: Keyword",
+   "lines": [
+    13153,
+    13153
+   ]
+  },
+  {
+   "id": "16.1.2-s011",
+   "section": "16.1.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Col1: Conversion functions; Table 15: List of TTCN-3 predefined functions: Convert integer value to charstring value; Col3: int2char",
+   "lines": [
+    13154,
+    13154
+   ]
+  },
+  {
+   "id": "16.1.2-s012",
+   "section": "16.1.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Col1: Convert integer value to universal charstring value; Table 15: List of TTCN-3 predefined functions: int2unichar",
+   "lines": [
+    13155,
+    13155
+   ]
+  },
+  {
+   "id": "16.1.2-s013",
+   "section": "16.1.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Col1: Convert integer value to bitstring value; Table 15: List of TTCN-3 predefined functions: int2bit",
+   "lines": [
+    13156,
+    13156
+   ]
+  },
+  {
+   "id": "16.1.2-s014",
+   "section": "16.1.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Col1: Convert integer value to enumerated value; Table 15: List of TTCN-3 predefined functions: int2enum",
+   "lines": [
+    13157,
+    13157
+   ]
+  },
+  {
+   "id": "16.1.2-s015",
+   "section": "16.1.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Col1: Convert integer value to hexstring value; Table 15: List of TTCN-3 predefined functions: int2hex",
+   "lines": [
+    13158,
+    13158
+   ]
+  },
+  {
+   "id": "16.1.2-s016",
+   "section": "16.1.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Col1: Convert integer value to octetstring value; Table 15: List of TTCN-3 predefined functions: int2oct",
+   "lines": [
+    13159,
+    13159
+   ]
+  },
+  {
+   "id": "16.1.2-s017",
+   "section": "16.1.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Col1: Convert integer value to charstring value; Table 15: List of TTCN-3 predefined functions: int2str",
+   "lines": [
+    13160,
+    13160
+   ]
+  },
+  {
+   "id": "16.1.2-s018",
+   "section": "16.1.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Col1: Convert integer value to float value; Table 15: List of TTCN-3 predefined functions: int2float",
+   "lines": [
+    13161,
+    13161
+   ]
+  },
+  {
+   "id": "16.1.2-s019",
+   "section": "16.1.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Col1: Convert float value to integer value; Table 15: List of TTCN-3 predefined functions: float2int",
+   "lines": [
+    13162,
+    13162
+   ]
+  },
+  {
+   "id": "16.1.2-s020",
+   "section": "16.1.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Col1: Convert charstring value to integer value; Table 15: List of TTCN-3 predefined functions: char2int",
+   "lines": [
+    13163,
+    13163
+   ]
+  },
+  {
+   "id": "16.1.2-s021",
+   "section": "16.1.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Col1: Convert charstring value to octetstring value; Table 15: List of TTCN-3 predefined functions: char2oct",
+   "lines": [
+    13164,
+    13164
+   ]
+  },
+  {
+   "id": "16.1.2-s022",
+   "section": "16.1.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Col1: Convert universal charstring value to octetstring value; Table 15: List of TTCN-3 predefined functions: unichar2oct",
+   "lines": [
+    13165,
+    13165
+   ]
+  },
+  {
+   "id": "16.1.2-s023",
+   "section": "16.1.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Col1: Convert universal charstring value to integer value; Table 15: List of TTCN-3 predefined functions: unichar2int",
+   "lines": [
+    13166,
+    13166
+   ]
+  },
+  {
+   "id": "16.1.2-s024",
+   "section": "16.1.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Col1: Convert bitstring value to integer value; Table 15: List of TTCN-3 predefined functions: bit2int",
+   "lines": [
+    13167,
+    13167
+   ]
+  },
+  {
+   "id": "16.1.2-s025",
+   "section": "16.1.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Col1: Convert bitstring value to hexstring value; Table 15: List of TTCN-3 predefined functions: bit2hex",
+   "lines": [
+    13168,
+    13168
+   ]
+  },
+  {
+   "id": "16.1.2-s026",
+   "section": "16.1.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Col1: Convert bitstring value to octetstring value; Table 15: List of TTCN-3 predefined functions: bit2oct",
+   "lines": [
+    13169,
+    13169
+   ]
+  },
+  {
+   "id": "16.1.2-s027",
+   "section": "16.1.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Col1: Convert bitstring value to charstring value; Table 15: List of TTCN-3 predefined functions: bit2str",
+   "lines": [
+    13170,
+    13170
+   ]
+  },
+  {
+   "id": "16.1.2-s028",
+   "section": "16.1.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Col1: Convert hexstring value to integer value; Table 15: List of TTCN-3 predefined functions: hex2int",
+   "lines": [
+    13171,
+    13171
+   ]
+  },
+  {
+   "id": "16.1.2-s029",
+   "section": "16.1.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Col1: Convert hexstring value to bitstring value; Table 15: List of TTCN-3 predefined functions: hex2bit",
+   "lines": [
+    13172,
+    13172
+   ]
+  },
+  {
+   "id": "16.1.2-s030",
+   "section": "16.1.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Col1: Convert hexstring value to octetstring value; Table 15: List of TTCN-3 predefined functions: hex2oct",
+   "lines": [
+    13173,
+    13173
+   ]
+  },
+  {
+   "id": "16.1.2-s031",
+   "section": "16.1.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Col1: Convert hexstring value to charstring value; Table 15: List of TTCN-3 predefined functions: hex2str",
+   "lines": [
+    13174,
+    13174
+   ]
+  },
+  {
+   "id": "16.1.2-s032",
+   "section": "16.1.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Col1: Convert octetstring value to integer value; Table 15: List of TTCN-3 predefined functions: oct2int",
+   "lines": [
+    13175,
+    13175
+   ]
+  },
+  {
+   "id": "16.1.2-s033",
+   "section": "16.1.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Col1: Convert octetstring value to bitstring value; Table 15: List of TTCN-3 predefined functions: oct2bit",
+   "lines": [
+    13176,
+    13176
+   ]
+  },
+  {
+   "id": "16.1.2-s034",
+   "section": "16.1.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Col1: Convert octetstring value to hexstring value; Table 15: List of TTCN-3 predefined functions: oct2hex",
+   "lines": [
+    13177,
+    13177
+   ]
+  },
+  {
+   "id": "16.1.2-s035",
+   "section": "16.1.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Col1: Convert octetstring value to charstring value; Table 15: List of TTCN-3 predefined functions: oct2str",
+   "lines": [
+    13178,
+    13178
+   ]
+  },
+  {
+   "id": "16.1.2-s036",
+   "section": "16.1.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Col1: Convert octetstring value to charstring value, version II; Table 15: List of TTCN-3 predefined functions: oct2char",
+   "lines": [
+    13179,
+    13179
+   ]
+  },
+  {
+   "id": "16.1.2-s037",
+   "section": "16.1.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Col1: Convert octetstring value to universal charstring value; Table 15: List of TTCN-3 predefined functions: oct2unichar",
+   "lines": [
+    13180,
+    13180
+   ]
+  },
+  {
+   "id": "16.1.2-s038",
+   "section": "16.1.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Col1: Convert charstring value to integer value; Table 15: List of TTCN-3 predefined functions: str2int",
+   "lines": [
+    13181,
+    13181
+   ]
+  },
+  {
+   "id": "16.1.2-s039",
+   "section": "16.1.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Col1: Convert charstring value to hexstring value; Table 15: List of TTCN-3 predefined functions: str2hex",
+   "lines": [
+    13182,
+    13182
+   ]
+  },
+  {
+   "id": "16.1.2-s040",
+   "section": "16.1.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Col1: Convert charstring value to octetstring value; Table 15: List of TTCN-3 predefined functions: str2oct",
+   "lines": [
+    13183,
+    13183
+   ]
+  },
+  {
+   "id": "16.1.2-s041",
+   "section": "16.1.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Col1: Convert charstring value to float value; Table 15: List of TTCN-3 predefined functions: str2float",
+   "lines": [
+    13184,
+    13184
+   ]
+  },
+  {
+   "id": "16.1.2-s042",
+   "section": "16.1.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Col1: Convert enumerated value to integer value; Table 15: List of TTCN-3 predefined functions: enum2int",
+   "lines": [
+    13185,
+    13185
+   ]
+  },
+  {
+   "id": "16.1.2-s043",
+   "section": "16.1.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Col1: Convert value or template to universal charstring value; Table 15: List of TTCN-3 predefined functions: any2unistr",
+   "lines": [
+    13186,
+    13186
+   ]
+  },
+  {
+   "id": "16.1.2-s044",
+   "section": "16.1.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Col1: Length/size functions; Table 15: List of TTCN-3 predefined functions: Return the length of a value or template of any string type, record of, set of, array or map; Col3: lengthof",
+   "lines": [
+    13187,
+    13187
+   ]
+  },
+  {
+   "id": "16.1.2-s045",
+   "section": "16.1.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Col1: Return the number of elements in a value or a template of a record or set; Table 15: List of TTCN-3 predefined functions: sizeof",
+   "lines": [
+    13188,
+    13188
+   ]
+  },
+  {
+   "id": "16.1.2-s046",
+   "section": "16.1.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Col1: Presence checking functions; Table 15: List of TTCN-3 predefined functions: Determine if a template contains certain matching mechanism; Col3: istemplatekind",
+   "lines": [
+    13189,
+    13189
+   ]
+  },
+  {
+   "id": "16.1.2-s047",
+   "section": "16.1.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Col1: String/list handling functions; Table 15: List of TTCN-3 predefined functions: Returns part of the input string matching the specified pattern group within a character pattern; Col3: regexp",
+   "lines": [
+    13190,
+    13190
+   ]
+  },
+  {
+   "id": "16.1.2-s048",
+   "section": "16.1.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Col1: Returns the specified portion of the input string/list value or template; Table 15: List of TTCN-3 predefined functions: substr",
+   "lines": [
+    13191,
+    13191
+   ]
+  },
+  {
+   "id": "16.1.2-s049",
+   "section": "16.1.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Col1: Replaces a substring of a string with or inserts the input string into a string, and similarly for lists; Table 15: List of TTCN-3 predefined functions: replace",
+   "lines": [
+    13192,
+    13192
+   ]
+  },
+  {
+   "id": "16.1.2-s050",
+   "section": "16.1.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Col1: Codec functions; Table 15: List of TTCN-3 predefined functions: Encode a value into a bitstring; Col3: encvalue",
+   "lines": [
+    13193,
+    13193
+   ]
+  },
+  {
+   "id": "16.1.2-s051",
+   "section": "16.1.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Col1: Decode a bitstring into a value; Table 15: List of TTCN-3 predefined functions: decvalue",
+   "lines": [
+    13194,
+    13194
+   ]
+  },
+  {
+   "id": "16.1.2-s052",
+   "section": "16.1.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Col1: Encode a value into a universal charstring; Table 15: List of TTCN-3 predefined functions: encvalue_unichar",
+   "lines": [
+    13195,
+    13195
+   ]
+  },
+  {
+   "id": "16.1.2-s053",
+   "section": "16.1.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Col1: Decode a universal charstring into a value; Table 15: List of TTCN-3 predefined functions: decvalue_unichar",
+   "lines": [
+    13196,
+    13196
+   ]
+  },
+  {
+   "id": "16.1.2-s054",
+   "section": "16.1.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Col1: Encode a value into a octetstring; Table 15: List of TTCN-3 predefined functions: encvalue",
+   "lines": [
+    13197,
+    13197
+   ]
+  },
+  {
+   "id": "16.1.2-s055",
+   "section": "16.1.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Col1: Decode a octetstring into a value; Table 15: List of TTCN-3 predefined functions: decvalue",
+   "lines": [
+    13198,
+    13198
+   ]
+  },
+  {
+   "id": "16.1.2-s056",
+   "section": "16.1.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Col1: Retrieve the type of string encoding; Table 15: List of TTCN-3 predefined functions: get_stringencoding",
+   "lines": [
+    13199,
+    13199
+   ]
+  },
+  {
+   "id": "16.1.2-s057",
+   "section": "16.1.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Col1: Remove BOMs of UCS encoding schemes; Table 15: List of TTCN-3 predefined functions: remove_bom",
+   "lines": [
+    13200,
+    13200
+   ]
+  },
+  {
+   "id": "16.1.2-s058",
+   "section": "16.1.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Col1: Other functions; Table 15: List of TTCN-3 predefined functions: Generate a random float number; Col3: rnd",
+   "lines": [
+    13201,
+    13201
+   ]
+  },
+  {
+   "id": "16.1.2-s059",
+   "section": "16.1.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Col1: Returns the name of the currently executing test case; Table 15: List of TTCN-3 predefined functions: testcasename",
+   "lines": [
+    13202,
+    13202
+   ]
+  },
+  {
+   "id": "16.1.2-s060",
+   "section": "16.1.2",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Col1: Returns the host id of the test component or module; Table 15: List of TTCN-3 predefined functions: hostid",
+   "lines": [
+    13203,
+    13203
+   ]
+  },
+  {
+   "id": "16.1.2-s061",
+   "section": "16.1.2",
+   "kind": "table-header",
+   "context": null,
+   "normative": true,
+   "text": "Col1; Table 15: List of TTCN-3 predefined functions; Col3",
+   "lines": [
+    13151,
+    13151
+   ]
+  },
+  {
+   "id": "16.1.2-s062",
+   "section": "16.1.2",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "int2char \"(\" SingleExpression \")\" |\n  int2unichar \"(\" SingleExpression \")\" |\n  int2bit \"(\" SingleExpression \",\" SingleExpression \")\" |\n  int2enum \"(\" SingleExpression \",\" SingleExpression \")\" |\n  int2hex \"(\" SingleExpression \",\" SingleExpression \")\" |\n  int2oct \"(\" SingleExpression \",\" SingleExpression \")\" |\n  int2str \"(\" SingleExpression \")\" |\n  int2float \"(\" SingleExpression \")\" |\n  float2int \"(\" SingleExpression \")\" |\n  char2int \"(\" SingleExpression \")\" |\n  char2oct \"(\" SingleExpression \")\" |\n  unichar2int \"(\" SingleExpression \")\" |\n  unichar2oct \"(\" SingleExpression [\",\" SingleExpression] \")\" |\n  bit2int \"(\" SingleExpression \")\" |\n  bit2hex \"(\" SingleExpression \")\" |\n  bit2oct \"(\" SingleExpression \")\" |\n  bit2str \"(\" SingleExpression \")\" |\n  hex2int \"(\" SingleExpression \")\" |\n  hex2bit \"(\" SingleExpression \")\" |\n  hex2oct \"(\" SingleExpression \")\" |\n  hex2str \"(\" SingleExpression \")\" |\n  oct2int \"(\" SingleExpression \")\" |\n  oct2bit \"(\" SingleExpression \")\" |\n  oct2hex \"(\" SingleExpression \")\" |\n  oct2str \"(\" SingleExpression \")\" |\n  oct2char \"(\" SingleExpression \")\" |\n  oct2unichar \"(\" SingleExpression [\",\" SingleExpression] \")\" |\n  str2int \"(\" SingleExpression \")\" |\n  str2hex \"(\" SingleExpression \")\" |\n  str2oct \"(\" SingleExpression \")\" |\n  str2float \"(\" SingleExpression \")\" |\n  enum2int \"(\" SingleExpression \")\" |\n  any2unistr \"(\" SingleExpression [\",\" SingleExpression] \")\" |\n  lengthof \"(\" TemplateInstance \")\" |\n  sizeof \"(\" TemplateInstance \")\" |\n  istemplatekind \"(\" TemplateInstance \",\" TemplateInstance \")\" |\n  regexp [@nocase] \"(\" TemplateInstance\",\" TemplateInstance\",\" SingleExpression \")\" |\n  substr \"(\" TemplateInstance \",\" SingleExpression \",\" SingleExpression \")\" |\n  replace \"(\" SingleExpression \",\" SingleExpression \",\" SingleExpression \",\" SingleExpression \")\" |\n  encvalue \"(\" TemplateInstance [\",\" SingleExpression] [\",\" SingleExpression] \")\" |\n  decvalue \"(\" SingleExpression \",\" SingleExpression\n          [\",\" SingleExpression] [\",\" SingleExpression] [\",\" SingleExpression] \")\" |\n  encvalue_unichar \"(\" TemplateInstance [\",\" SingleExpression] \n              [\",\" SingleExpression] [\",\" SingleExpression] \")\" |\n  decvalue_unichar \"(\" SingleExpression \",\" SingleExpression\n              [\",\" SingleExpression] [\",\" SingleExpression] [\",\" SingleExpression] \")\" |\n  encvalue_o \"(\" TemplateInstance [\",\" SingleExpression] [\",\" SingleExpression] \")\" |\n  decvalue_o \"(\" SingleExpression \",\" SingleExpression [\",\" SingleExpression] \n                                 [\",\" SingleExpression] \")\" |\n  get_stringencoding \"(\" SingleExpression \")\" |\n  remove_bom(\" SingleExpression \") |\n  rnd \"(\" [ SingleExpression ] \")\" |\n  testcasename \"()\" |\n  hostid \"(\" [ SingleExpression ] \")\"",
+   "lines": [
+    13211,
+    13266
+   ]
+  },
+  {
+   "id": "16.1.2-s063",
+   "section": "16.1.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The description of predefined functions is given in annex C.",
+   "lines": [
+    13270,
+    13270
+   ]
+  },
+  {
+   "id": "16.1.2-s064",
+   "section": "16.1.2",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clause 5, the following restrictions apply:",
+   "lines": [
+    13274,
+    13274
+   ]
+  },
+  {
+   "id": "16.1.2-s065",
+   "section": "16.1.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) When a predefined function is invoked:",
+   "lines": [
+    13276,
+    13276
+   ]
+  },
+  {
+   "id": "16.1.2-s066",
+   "section": "16.1.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "1) the number of the actual parameters shall be the same as the number of the formal parameters; and",
+   "lines": [
+    13278,
+    13278
+   ]
+  },
+  {
+   "id": "16.1.2-s067",
+   "section": "16.1.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "2) each actual parameter shall evaluate to an element of its corresponding formal parameter's type; and",
+   "lines": [
+    13280,
+    13280
+   ]
+  },
+  {
+   "id": "16.1.2-s068",
+   "section": "16.1.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "3) all actual in and inout parameters shall be initialized with the following exceptions:",
+   "lines": [
+    13282,
+    13282
+   ]
+  },
+  {
+   "id": "16.1.2-s069",
+   "section": "16.1.2",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "any parameters of the functions lengthof, substr and replace may be partially initialized;",
+   "lines": [
+    13284,
+    13284
+   ]
+  },
+  {
+   "id": "16.1.2-s070",
+   "section": "16.1.2",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "the invalue parameter of the any2unistr function may be uninitialized or partially initialized;",
+   "lines": [
+    13286,
+    13286
+   ]
+  },
+  {
+   "id": "16.1.2-s071",
+   "section": "16.1.2",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "the encoded_value parameter of the decvalue and decvalue_unichar function may be uninitialized.",
+   "lines": [
+    13288,
+    13288
+   ]
+  },
+  {
+   "id": "16.1.2-s072",
+   "section": "16.1.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "b) Restrictions on invoking functions from specific places are described in clause 16.1.4.",
+   "lines": [
+    13290,
+    13290
+   ]
+  },
+  {
+   "id": "16.1.2-s073",
+   "section": "16.1.2",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "var hexstring v_h:= bit2hex ('111010111'B);\n  var octetstring v_o:= substr ('01AB23CD'O, 1, 2);",
+   "lines": [
+    13293,
+    13296
+   ]
+  },
+  {
+   "id": "16.1.3-s001",
+   "section": "16.1.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "A function may be defined within a module or be declared as being defined externally (i.e. external).",
+   "lines": [
+    13300,
+    13300
+   ]
+  },
+  {
+   "id": "16.1.3-s002",
+   "section": "16.1.3",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "external function [ @deterministic | @control ] ExtFunctionIdentifier\n  \"(\" [ { ( FormalValuePar | FormalTemplatePar ) [\",\"] } ] \")\"\n  [ return [ TemplateModifier ] Type ]",
+   "lines": [
+    13303,
+    13307
+   ]
+  },
+  {
+   "id": "16.1.3-s003",
+   "section": "16.1.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "For an external function only the function interface has to be provided in the TTCN-3 module.",
+   "lines": [
+    13311,
+    13312
+   ]
+  },
+  {
+   "id": "16.1.3-s004",
+   "section": "16.1.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The realization of the external function is outside the scope of the present document.",
+   "lines": [
+    13311,
+    13312
+   ]
+  },
+  {
+   "id": "16.1.3-s005",
+   "section": "16.1.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Using the @deterministic modifier, an external function can be declared to be deterministic.",
+   "lines": [
+    13314,
+    13316
+   ]
+  },
+  {
+   "id": "16.1.3-s006",
+   "section": "16.1.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Deterministic functions are safe to be used when called from specific places where non-determinism could lead to unexpected side effects (see clause 16.1.4).",
+   "lines": [
+    13314,
+    13316
+   ]
+  },
+  {
+   "id": "16.1.3-s007",
+   "section": "16.1.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The @control modifier is used in the same way as described in clause 16.1.5.",
+   "lines": [
+    13318,
+    13318
+   ]
+  },
+  {
+   "id": "16.1.3-s008",
+   "section": "16.1.3",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clause 5, the following restrictions apply:",
+   "lines": [
+    13322,
+    13322
+   ]
+  },
+  {
+   "id": "16.1.3-s009",
+   "section": "16.1.3",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) Restrictions on invoking functions from specific places are described in clause 16.1.4.",
+   "lines": [
+    13324,
+    13324
+   ]
+  },
+  {
+   "id": "16.1.3-s010",
+   "section": "16.1.3",
+   "kind": "note",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "NOTE: External functions should only exchange information with the test system via return values and parameter passing.",
+   "lines": [
+    13326,
+    13329
+   ]
+  },
+  {
+   "id": "16.1.3-s011",
+   "section": "16.1.3",
+   "kind": "note",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "Side-effects that change the status of the test system and may influence the test outcome should be avoided.",
+   "lines": [
+    13326,
+    13329
+   ]
+  },
+  {
+   "id": "16.1.3-s012",
+   "section": "16.1.3",
+   "kind": "note",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "Such side-effects can occur if an external function contains default handling, configuration, communication or timer operations.",
+   "lines": [
+    13326,
+    13329
+   ]
+  },
+  {
+   "id": "16.1.3-s013",
+   "section": "16.1.3",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "external function fx_myFunction4() return integer; // External function without parameters\n                                 // which returns an integer value\n  external function fx_initTestDevices(); // An external function which only has an\n                          // effect outside the TTCN-3 module",
+   "lines": [
+    13332,
+    13337
+   ]
+  },
+  {
+   "id": "16.1.4-s001",
+   "section": "16.1.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "If value returning functions are called in receiving communication operations (in templates, template fields, in-line templates as actual parameters or when evaluating the port expression), in timeout operations (when evaluating the timer expression), in test component operations (in guards or events of alt statements or altsteps, see clause 20.2), or in initializations of altstep local definitions (see clause 16.2.1), the following operations shall not be present in functions called in the cases specified above, in order to avoid side effects that cause changing the state of the component or the actual snapshot and to prevent different results of subsequent evaluations on an unchanged snapshot:",
+   "lines": [
+    13341,
+    13346
+   ]
+  },
+  {
+   "id": "16.1.4-s002",
+   "section": "16.1.4",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "a) All component operations, i.e. create, `start (component),` `stop (component),` `kill,`",
+   "lines": [
+    13348,
+    13348
+   ]
+  },
+  {
+   "id": "16.1.4-s003",
+   "section": "16.1.4",
+   "kind": "code",
+   "context": null,
+   "normative": true,
+   "text": "running (component), alive, done and killed (see notes 1, 3, 4 and 6).",
+   "lines": [
+    13349,
+    13351
+   ]
+  },
+  {
+   "id": "16.1.4-s004",
+   "section": "16.1.4",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "b) All port operations, i.e. start (port), stop (port), halt, clear, checkstate, send, receive,",
+   "lines": [
+    13358,
+    13358
+   ]
+  },
+  {
+   "id": "16.1.4-s005",
+   "section": "16.1.4",
+   "kind": "code",
+   "context": null,
+   "normative": true,
+   "text": "trigger, call, getcall, reply, getreply, raise, catch, check, connect, disconnect,\n  map and unmap (see notes 1, 2, 3, 4 and 6).",
+   "lines": [
+    13359,
+    13362
+   ]
+  },
+  {
+   "id": "16.1.4-s006",
+   "section": "16.1.4",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "c) The action operation (see notes 2 and 6).",
+   "lines": [
+    13364,
+    13364
+   ]
+  },
+  {
+   "id": "16.1.4-s007",
+   "section": "16.1.4",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "d) All timer operations, i.e. start (timer), stop (timer), running (timer), read, timeout (see notes 4 and 6).",
+   "lines": [
+    13366,
+    13367
+   ]
+  },
+  {
+   "id": "16.1.4-s008",
+   "section": "16.1.4",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "e) Calling non-deterministic external functions, i.e. external functions where the resulting values for actual inout or out parameters or the return value may differ for different invocations with the same actual in and inout parameters (see notes 4 and 6).",
+   "lines": [
+    13369,
+    13371
+   ]
+  },
+  {
+   "id": "16.1.4-s009",
+   "section": "16.1.4",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "f) Calling the rnd predefined function (see notes 4 and 6).",
+   "lines": [
+    13373,
+    13373
+   ]
+  },
+  {
+   "id": "16.1.4-s010",
+   "section": "16.1.4",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "g) Changing of component variables, i.e. using component variables on the left-hand side of assignments, and in the instantiation of out and inout parameters (see notes 4 and 6).",
+   "lines": [
+    13375,
+    13376
+   ]
+  },
+  {
+   "id": "16.1.4-s011",
+   "section": "16.1.4",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "h) Calling the setverdict operation (see notes 4 and 6).",
+   "lines": [
+    13378,
+    13378
+   ]
+  },
+  {
+   "id": "16.1.4-s012",
+   "section": "16.1.4",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "i) Activation and deactivation of defaults, i.e. the activate and deactivate statements (see notes 5 and 6).",
+   "lines": [
+    13380,
+    13380
+   ]
+  },
+  {
+   "id": "16.1.4-s013",
+   "section": "16.1.4",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "j) Calling functions and deterministic external functions with out or inout parameters (see notes 7 and 8).",
+   "lines": [
+    13382,
+    13382
+   ]
+  },
+  {
+   "id": "16.1.4-s014",
+   "section": "16.1.4",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "k) Calling functions and external functions with @fuzzy formal parameters and variables (see notes 4 and 9).",
+   "lines": [
+    13384,
+    13384
+   ]
+  },
+  {
+   "id": "16.1.4-s015",
+   "section": "16.1.4",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "l) The setencode operation (see note 8 and clause 27.9).",
+   "lines": [
+    13386,
+    13386
+   ]
+  },
+  {
+   "id": "16.1.4-s016",
+   "section": "16.1.4",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "m) Referencing lazy or fuzzy variables, parameters or templates that have not been declared deterministic.",
+   "lines": [
+    13388,
+    13388
+   ]
+  },
+  {
+   "id": "16.1.4-s017",
+   "section": "16.1.4",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "NOTE 1: The execution of the operations start, stop, done, killed, halt, clear, receive, trigger,",
+   "lines": [
+    13390,
+    13390
+   ]
+  },
+  {
+   "id": "16.1.4-s018",
+   "section": "16.1.4",
+   "kind": "code",
+   "context": null,
+   "normative": true,
+   "text": "getcall, getreply, catch and check can cause changes to the current snapshot.",
+   "lines": [
+    13391,
+    13393
+   ]
+  },
+  {
+   "id": "16.1.4-s019",
+   "section": "16.1.4",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "NOTE 2: The use of operations send, call, reply, raise, and action causes an error, i.e. all communication are to be made explicit and not as a side effect of another communication operation or the evaluation of a snapshot.",
+   "lines": [
+    13395,
+    13397
+   ]
+  },
+  {
+   "id": "16.1.4-s020",
+   "section": "16.1.4",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "NOTE 3: The use of operations map, unmap, connect, disconnect, create will lead to an error, i.e. all configuration operations are to be made explicit, and not as a side effect of a communication operation or the evaluation of a snapshot.",
+   "lines": [
+    13399,
+    13401
+   ]
+  },
+  {
+   "id": "16.1.4-s021",
+   "section": "16.1.4",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "NOTE 4: Calling of non-deterministic external functions, rnd, running, alive, read, checkstate,",
+   "lines": [
+    13403,
+    13403
+   ]
+  },
+  {
+   "id": "16.1.4-s022",
+   "section": "16.1.4",
+   "kind": "code",
+   "context": null,
+   "normative": true,
+   "text": "setverdict, referencing fuzzy objects and writing to component variables causes an error because this",
+   "lines": [
+    13404,
+    13406
+   ]
+  },
+  {
+   "id": "16.1.4-s023",
+   "section": "16.1.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "may lead to different results of subsequent evaluations of the same snapshot, thus, e.g. rendering deadlock detection impossible.",
+   "lines": [
+    13408,
+    13409
+   ]
+  },
+  {
+   "id": "16.1.4-s024",
+   "section": "16.1.4",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "NOTE 5: The use of operations activate and deactivate causes an error because they modify the set of defaults that is considered during the evaluation of the current snapshot.",
+   "lines": [
+    13411,
+    13412
+   ]
+  },
+  {
+   "id": "16.1.4-s025",
+   "section": "16.1.4",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "NOTE 6: Restrictions except the limitation on the use of out or inout parameterization in restriction j) apply recursively, i.e. it is disallowed to use them directly, or via an arbitrary long chain of function invocations.",
+   "lines": [
+    13414,
+    13416
+   ]
+  },
+  {
+   "id": "16.1.4-s026",
+   "section": "16.1.4",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "NOTE 7: The restriction of calling functions and deterministic external functions with out or inout parameters does not apply recursively, i.e. calling functions that themselves call functions with out or inout parameters is legal.",
+   "lines": [
+    13418,
+    13420
+   ]
+  },
+  {
+   "id": "16.1.4-s027",
+   "section": "16.1.4",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "NOTE 8: Using out or inout parameters and the setencode operation causes an error because this may lead to different results of subsequent evaluations of the same snapshot.",
+   "lines": [
+    13422,
+    13423
+   ]
+  },
+  {
+   "id": "16.1.4-s028",
+   "section": "16.1.4",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "NOTE 9: Calling functions and external functions with @fuzzy parameters causes an error, because fuzzy objects are re-evaluated each time referenced and this may lead to different results of subsequent evaluations of the same snapshot.",
+   "lines": [
+    13425,
+    13427
+   ]
+  },
+  {
+   "id": "16.1.5-s001",
+   "section": "16.1.5",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Explicit control functions are declared either by use of the name control or by use of the @control modifier.",
+   "lines": [
+    13436,
+    13436
+   ]
+  },
+  {
+   "id": "16.1.5-s002",
+   "section": "16.1.5",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clause 5 and the general restrictions on functions given in clause 16.1, the following restrictions apply to explicit control functions:",
+   "lines": [
+    13440,
+    13441
+   ]
+  },
+  {
+   "id": "16.1.5-s003",
+   "section": "16.1.5",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) No system and no mtc clause shall be declared.",
+   "lines": [
+    13443,
+    13443
+   ]
+  },
+  {
+   "id": "16.1.5-s004",
+   "section": "16.1.5",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "b) The component type referenced in the runs on clause shall not contain any port definitions.",
+   "lines": [
+    13445,
+    13445
+   ]
+  },
+  {
+   "id": "16.1.5-s005",
+   "section": "16.1.5",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "c) Parameters and the return type shall not be of a port type and shall not be of a structured type that contains fields of a port type on any level of nesting.",
+   "lines": [
+    13447,
+    13448
+   ]
+  },
+  {
+   "id": "16.1.5-s006",
+   "section": "16.1.5",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "d) Parameters and the return type of module control functions shall not be of a default type and shall not be of a structured type that contains fields of a default type on any level of nesting.",
+   "lines": [
+    13450,
+    13451
+   ]
+  },
+  {
+   "id": "16.1.5-s007",
+   "section": "16.1.5",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "e) The restrictions on the use of statements and operations usable in control functions given in table 15 shall be followed.",
+   "lines": [
+    13453,
+    13454
+   ]
+  },
+  {
+   "id": "16.1.5-s008",
+   "section": "16.1.5",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "f) Module control functions used as an execution entry point shall have public visibility.",
+   "lines": [
+    13456,
+    13456
+   ]
+  },
+  {
+   "id": "16.1.5-s009",
+   "section": "16.1.5",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "g) When invoking a module control function explicitly, the compatibility to the test component type of the invoking control component as described in clause 6.3.2.7 need to be fulfilled.",
+   "lines": [
+    13458,
+    13459
+   ]
+  },
+  {
+   "id": "16.1.6-s001",
+   "section": "16.1.6",
+   "kind": "code",
+   "context": null,
+   "normative": true,
+   "text": "??? [\"(\" Expression \")\"] [return any]",
+   "lines": [
+    13462,
+    13464
+   ]
+  },
+  {
+   "id": "16.1.6-s002",
+   "section": "16.1.6",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The not-implemented function ??? is a temporary place-holder for TTCN-3 source code that remains to be implemented.",
+   "lines": [
+    13466,
+    13467
+   ]
+  },
+  {
+   "id": "16.1.6-s003",
+   "section": "16.1.6",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "It can be used as value in any expression or as stand-alone statement (direct use).",
+   "lines": [
+    13466,
+    13467
+   ]
+  },
+  {
+   "id": "16.1.6-s004",
+   "section": "16.1.6",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The optional parameter can be used to provide contextual information.",
+   "lines": [
+    13469,
+    13473
+   ]
+  },
+  {
+   "id": "16.1.6-s005",
+   "section": "16.1.6",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The parameter shall be of the universal charstring type.",
+   "lines": [
+    13469,
+    13473
+   ]
+  },
+  {
+   "id": "16.1.6-s006",
+   "section": "16.1.6",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "When ??? is invoked the test environment may provide an actual implementation and continue execution.",
+   "lines": [
+    13469,
+    13473
+   ]
+  },
+  {
+   "id": "16.1.6-s007",
+   "section": "16.1.6",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "For example the user may be prompted to enter a required expression.",
+   "lines": [
+    13469,
+    13473
+   ]
+  },
+  {
+   "id": "16.1.6-s008",
+   "section": "16.1.6",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The submitted implementation does not change during test execution (similar to module parameters).",
+   "lines": [
+    13469,
+    13473
+   ]
+  },
+  {
+   "id": "16.1.6-s009",
+   "section": "16.1.6",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "If the test environment cannot provide an actual implementation, an invocation of ??? shall cause a runtime error to indicate not yet implemented code.",
+   "lines": [
+    13475,
+    13476
+   ]
+  },
+  {
+   "id": "16.1.6-s010",
+   "section": "16.1.6",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "This function is intended as helper for prototyping and interactive test development.",
+   "lines": [
+    13478,
+    13479
+   ]
+  },
+  {
+   "id": "16.1.6-s011",
+   "section": "16.1.6",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "It is therefore recommended that TTCN-3 tools provide an option to warn about ??? usage in production code.",
+   "lines": [
+    13478,
+    13479
+   ]
+  },
+  {
+   "id": "16.1.6-s012",
+   "section": "16.1.6",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE:",
+   "lines": [
+    13481,
+    13481
+   ]
+  },
+  {
+   "id": "16.1.6-s013",
+   "section": "16.1.6",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "// direct use of ??? as stand-alone statement\n  function setupDB() {\n     ???(\"TODO: start up database server\");\n  }\n  // use of ??? in expression\n  function double(integer p := ???) return integer { return p*2 }\n  control {\n     log(double(8)); // Is okay, because default value for p has not been evaluated.\n     log(double()); // Runtime error to indicate execution of not implemented code.\n  }",
+   "lines": [
+    13482,
+    13493
+   ]
+  },
+  {
+   "id": "16.2.0-s001",
+   "section": "16.2.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "TTCN-3 uses altsteps to specify default behaviour or to structure the alternatives of an alt statement.",
+   "lines": [
+    13504,
+    13504
+   ]
+  },
+  {
+   "id": "16.2.0-s002",
+   "section": "16.2.0",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "altstep [ @control ] [ interleave ] AltstepIdentifier\n  \"(\" [ { ( FormalValuePar | FormalTemplatePar ) [\",\"] } ] \")\"\n  [ runs on ComponentType ] \n  [ mtc ComponentType ]\n  [ system ComponentType ]\n  \"{\" \n     { ( VarInstance | TimerInstance | ConstDef | TemplateDef ) [\";\"] }\n     AltGuardList\n  \"}\"",
+   "lines": [
+    13507,
+    13517
+   ]
+  },
+  {
+   "id": "16.2.0-s003",
+   "section": "16.2.0",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Altsteps are scope units similar to functions.",
+   "lines": [
+    13521,
+    13523
+   ]
+  },
+  {
+   "id": "16.2.0-s004",
+   "section": "16.2.0",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The altstep body defines an optional set of local definitions and a set of alternatives, the so-called top alternatives, that form the altstep body.",
+   "lines": [
+    13521,
+    13523
+   ]
+  },
+  {
+   "id": "16.2.0-s005",
+   "section": "16.2.0",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The syntax rules of the top alternatives are identical to the syntax rules of the alternatives of alt statements.",
+   "lines": [
+    13521,
+    13523
+   ]
+  },
+  {
+   "id": "16.2.0-s006",
+   "section": "16.2.0",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "An altstep can also be used to define a named interleave statement by usage of the interleave keyword.",
+   "lines": [
+    13525,
+    13526
+   ]
+  },
+  {
+   "id": "16.2.0-s007",
+   "section": "16.2.0",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "In this case, the syntax rules of the top alternatives are identical to the syntax rules of the alternatives of the interleave statements.",
+   "lines": [
+    13525,
+    13526
+   ]
+  },
+  {
+   "id": "16.2.0-s008",
+   "section": "16.2.0",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "NOTE: As an interleave statement is semantically equivalent with the expanded alt statement, there are no further restrictions on usages of interleave altsteps than on usages of normal altsteps.",
+   "lines": [
+    13528,
+    13532
+   ]
+  },
+  {
+   "id": "16.2.0-s009",
+   "section": "16.2.0",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "They can both be used as activated default alternatives and as top-level alternatives in other alt statement blocks.",
+   "lines": [
+    13528,
+    13532
+   ]
+  },
+  {
+   "id": "16.2.0-s010",
+   "section": "16.2.0",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "The behaviour of an altstep can be defined by using the program statements and operations summarized in clause 18.",
+   "lines": [
+    13528,
+    13532
+   ]
+  },
+  {
+   "id": "16.2.0-s011",
+   "section": "16.2.0",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "Altsteps may invoke functions and altsteps or activate altsteps as defaults.",
+   "lines": [
+    13528,
+    13532
+   ]
+  },
+  {
+   "id": "16.2.0-s012",
+   "section": "16.2.0",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Altsteps may be parameterized as defined in clause 5.4.",
+   "lines": [
+    13534,
+    13534
+   ]
+  },
+  {
+   "id": "16.2.0-s013",
+   "section": "16.2.0",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Altsteps may have an mtc clause.",
+   "lines": [
+    13536,
+    13537
+   ]
+  },
+  {
+   "id": "16.2.0-s014",
+   "section": "16.2.0",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If an altstep has an mtc clause, the type referenced by this clause shall be mtccompatible (see clause 6.3.2.7) with the type of the mtc component reference.",
+   "lines": [
+    13536,
+    13537
+   ]
+  },
+  {
+   "id": "16.2.0-s015",
+   "section": "16.2.0",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If the mtc clause is not present, the type of the mtc component reference is unknown in the scope of this altstep.",
+   "lines": [
+    13536,
+    13537
+   ]
+  },
+  {
+   "id": "16.2.0-s016",
+   "section": "16.2.0",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Altsteps may have a system clause.",
+   "lines": [
+    13539,
+    13541
+   ]
+  },
+  {
+   "id": "16.2.0-s017",
+   "section": "16.2.0",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If an altstep has a system clause, the type referenced by this clause shall by system-compatible (see clause 6.3.2.7) with the type of the system component reference.",
+   "lines": [
+    13539,
+    13541
+   ]
+  },
+  {
+   "id": "16.2.0-s018",
+   "section": "16.2.0",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If the system clause is not present, the type of the system component reference is unknown in the scope of this altstep.",
+   "lines": [
+    13539,
+    13541
+   ]
+  },
+  {
+   "id": "16.2.0-s019",
+   "section": "16.2.0",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Altsteps with the @control modifier are allowed to be executed only on the control component (see clause 26).",
+   "lines": [
+    13543,
+    13544
+   ]
+  },
+  {
+   "id": "16.2.0-s020",
+   "section": "16.2.0",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The restrictions specified for functions with the @control modifier (see clause 16.1.5) are valid for these altsteps as well.",
+   "lines": [
+    13543,
+    13544
+   ]
+  },
+  {
+   "id": "16.2.0-s021",
+   "section": "16.2.0",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clause 5, the following restrictions apply:",
+   "lines": [
+    13548,
+    13548
+   ]
+  },
+  {
+   "id": "16.2.0-s022",
+   "section": "16.2.0",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) The local definitions of an altstep shall be defined before the set of alternatives.",
+   "lines": [
+    13550,
+    13550
+   ]
+  },
+  {
+   "id": "16.2.0-s023",
+   "section": "16.2.0",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "b) The evaluation of formal parameters' default values and initialization of local definitions by calling value returning functions may have side effects.",
+   "lines": [
+    13552,
+    13556
+   ]
+  },
+  {
+   "id": "16.2.0-s024",
+   "section": "16.2.0",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "To avoid side effects that cause an inconsistency between the actual snapshot and the state of the component, and to prevent different results of subsequent evaluations on an unchanged snapshot, restrictions given in clause 16.1.4 shall apply to the formal parameters' default values and the initialization of local definitions.",
+   "lines": [
+    13552,
+    13556
+   ]
+  },
+  {
+   "id": "16.2.0-s025",
+   "section": "16.2.0",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "c) If an altstep includes port operations or uses component variables, constants or timers the associated component type shall be referenced using the `runs on` keywords in the altstep header.",
+   "lines": [
+    13558,
+    13558
+   ]
+  },
+  {
+   "id": "16.2.0-s026",
+   "section": "16.2.0",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "The one exception to this rule is if all ports, variables, constants and timers used within the altstep are passed in as parameters.",
+   "lines": [
+    13558,
+    13558
+   ]
+  },
+  {
+   "id": "16.2.0-s027",
+   "section": "16.2.0",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "d) An altstep without a `runs on` clause shall never invoke a function or altstep or activate an altstep as default with a `runs on` clause locally.",
+   "lines": [
+    13560,
+    13561
+   ]
+  },
+  {
+   "id": "16.2.0-s028",
+   "section": "16.2.0",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "e) An altstep that is activated as a default shall only have `in` value or template parameters.",
+   "lines": [
+    13568,
+    13571
+   ]
+  },
+  {
+   "id": "16.2.0-s029",
+   "section": "16.2.0",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "An altstep that is only invoked as an alternative in an `alt` statement or as stand-alone statement in a TTCN-3 behaviour description may have `in`, `out` and `inout` parameters.",
+   "lines": [
+    13568,
+    13571
+   ]
+  },
+  {
+   "id": "16.2.0-s030",
+   "section": "16.2.0",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "The rules for formal parameter lists shall be followed as defined in clause 5.4.",
+   "lines": [
+    13568,
+    13571
+   ]
+  },
+  {
+   "id": "16.2.0-s031",
+   "section": "16.2.0",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "f) Altsteps started by using the start test component operation shall always have a runs on clause (see clause 22.5) and are considered to be invoked in the component to be started, i.e. not locally.",
+   "lines": [
+    13573,
+    13575
+   ]
+  },
+  {
+   "id": "16.2.0-s032",
+   "section": "16.2.0",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "However, the start test component operation may be invoked within behaviour without a runs on clause.",
+   "lines": [
+    13573,
+    13575
+   ]
+  },
+  {
+   "id": "16.2.0-s033",
+   "section": "16.2.0",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "g) If the altstep is an interleave altstep, all restrictions of the interleave statement (see clause 20.4) apply to the top alternatives of the altstep as well.",
+   "lines": [
+    13577,
+    13578
+   ]
+  },
+  {
+   "id": "16.2.0-s034",
+   "section": "16.2.0",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 1: Parameterized altstep with runs on clause:",
+   "lines": [
+    13582,
+    13582
+   ]
+  },
+  {
+   "id": "16.2.0-s035",
+   "section": "16.2.0",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "// Given\n  type component MyComponentType {\n     var integer vc_myIntVar := 0;\n     timer tc_myTimer;\n     port myPortTypeOne pCO1, pCO2;\n     port myPortTypeTwo pCO3;\n  }\n  // Altstep definition using pCO1, pCO2, vc_myIntVar and tc_myTimer of MyComponentType\n  altstep a_altSet_A(in integer p_myPar1) runs on MyComponentType {\n     [] pCO1.receive(mw_myTemplate(p_myPar1, vc_myIntVar)) {\n          setverdict(inconc);\n      }\n     [] pCO2.receive {\n          if (p_myPar1 != 0) {\n            repeat\n          }\n          else {\n            break\n          }\n      }\n     [] tc_myTimer.timeout {\n       setverdict(fail);\n          stop\n      }\n  }",
+   "lines": [
+    13583,
+    13609
+   ]
+  },
+  {
+   "id": "16.2.0-s036",
+   "section": "16.2.0",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 2: Altstep with local definitions:",
+   "lines": [
+    13611,
+    13611
+   ]
+  },
+  {
+   "id": "16.2.0-s037",
+   "section": "16.2.0",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "altstep a_anotherAltStep(in integer p_myPar1) runs on MyComponentType {\n     var integer v_myLocalVar := f_myFunction();  // local variable\n     const float c_myFloat := 3.41;  // local constant\n     [] pCO1.receive(MyTemplate(p_myPar1, v_myLocalVar)) {\n       setverdict(inconc);\n      }\n     [] pCO2.receive {\n          repeat\n      }\n  }",
+   "lines": [
+    13612,
+    13623
+   ]
+  },
+  {
+   "id": "16.2.0-s038",
+   "section": "16.2.0",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 3: Interleave Altstep:",
+   "lines": [
+    13625,
+    13625
+   ]
+  },
+  {
+   "id": "16.2.0-s039",
+   "section": "16.2.0",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "altstep interleave a_interleaveAltStep(in integer p_myPar1, in integer p_myPar2) \n     runs on MyComponentType {\n     var integer v_myLocalVar := f_myFunction();  // local variable\n     [] pCO1.receive(MyTemplate(p_myPar1, v_myLocalVar)) {}\n     [] pCO1.receive(MyTemplate(p_myPar2, v_myLocalVar)) {}\n  }\n  //can be viewed as a shorthand for\n  altstep a_interleaveAltStep(in integer p_myPar1, in integer p_myPar2) \n     runs on MyComponentType {\n     var integer v_myLocalVar := f_myFunction();  // local variable\n     [] pCO1.receive(MyTemplate(p_myPar1, v_myLocalVar)) {\n       alt {\n          [] pCO1.receive(MyTemplate(p_myPar2, v_myLocalVar))\n       }\n     }\n     [] pCO1.receive(MyTemplate(p_myPar2, v_myLocalVar)) {\n       alt {\n          [] pCO1.receive(MyTemplate(p_myPar1, v_myLocalVar))\n       }\n     }\n  }",
+   "lines": [
+    13626,
+    13648
+   ]
+  },
+  {
+   "id": "16.2.1-s001",
+   "section": "16.2.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The invocation of an altstep is always related to an alt statement.",
+   "lines": [
+    13652,
+    13653
+   ]
+  },
+  {
+   "id": "16.2.1-s002",
+   "section": "16.2.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The invocation may be done either implicitly by the default mechanism (see clause C.5) or explicitly by a direct call within an alt statement (see clause 20.2).",
+   "lines": [
+    13652,
+    13653
+   ]
+  },
+  {
+   "id": "16.2.1-s003",
+   "section": "16.2.1",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "[ @nodefault ] AltstepRef \"(\" [ { ActualPar [\",\"] } ] \")\"",
+   "lines": [
+    13656,
+    13658
+   ]
+  },
+  {
+   "id": "16.2.1-s004",
+   "section": "16.2.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The invocation of an altstep causes no new snapshot and the evaluation of the top alternatives of an altstep is done by using the actual snapshot of the alt statement from which the altstep was called.",
+   "lines": [
+    13662,
+    13663
+   ]
+  },
+  {
+   "id": "16.2.1-s005",
+   "section": "16.2.1",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "NOTE 1: A new snapshot within an altstep will of course be taken, if within a selected top alternative a new alt statement is specified and entered.",
+   "lines": [
+    13665,
+    13666
+   ]
+  },
+  {
+   "id": "16.2.1-s006",
+   "section": "16.2.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "For an implicit invocation of an altstep by means of the default mechanism, the altstep shall be activated as a default by means of an activate statement before the place of the invocation is reached.",
+   "lines": [
+    13668,
+    13669
+   ]
+  },
+  {
+   "id": "16.2.1-s007",
+   "section": "16.2.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "An explicit call of an altstep within an alt statement looks syntactically like a function invocation as an alternative.",
+   "lines": [
+    13671,
+    13681
+   ]
+  },
+  {
+   "id": "16.2.1-s008",
+   "section": "16.2.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "When an altstep is called explicitly within an alt statement, the next alternative to be checked is the first alternative of the altstep.",
+   "lines": [
+    13671,
+    13681
+   ]
+  },
+  {
+   "id": "16.2.1-s009",
+   "section": "16.2.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The alternatives of the altstep are checked and executed the same way as alternatives of an alt statement (see clause 20.1) with the exception that no new snapshot is taken when entering the altstep.",
+   "lines": [
+    13671,
+    13681
+   ]
+  },
+  {
+   "id": "16.2.1-s010",
+   "section": "16.2.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "An unsuccessful termination of the altstep (i.e. all top alternatives of the altstep have been checked and no matching branch is found) causes the evaluation of the next alternative or invocation of the default mechanism (if the explicit call is the last alternative of the alt statement).",
+   "lines": [
+    13671,
+    13681
+   ]
+  },
+  {
+   "id": "16.2.1-s011",
+   "section": "16.2.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "A successful termination may cause either the termination of the test component, i.e. the altstep ends with a stop statement, or a new snapshot and re-evaluation of the alt statement, i.e. the altstep ends with repeat (see clause 20.2) or a continuation immediately after the alt statement, i.e. the execution of the selected top alternative of the altstep ends with a break statement (see clause 19.12) or without explicit repeat or stop.",
+   "lines": [
+    13671,
+    13681
+   ]
+  },
+  {
+   "id": "16.2.1-s012",
+   "section": "16.2.1",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "NOTE 2: Due to the possibility of defining dynamic test configurations, an alternative in an explicitly invoked altstep may refer to a disconnected or unmapped port at the time of its evaluation.",
+   "lines": [
+    13683,
+    13688
+   ]
+  },
+  {
+   "id": "16.2.1-s013",
+   "section": "16.2.1",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "In TTCN-3, ports belong to the receiving component and matching is related to the top elements in the port queues.",
+   "lines": [
+    13683,
+    13688
+   ]
+  },
+  {
+   "id": "16.2.1-s014",
+   "section": "16.2.1",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "Dynamically unmapped and disconnected ports contribute to a snapshot in the same manner as mapped and connected ports.",
+   "lines": [
+    13683,
+    13688
+   ]
+  },
+  {
+   "id": "16.2.1-s015",
+   "section": "16.2.1",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "This means, an explicitly invoked altstep may execute receiving operations that empty the queues of unmapped and disconnected ports without causing a test case error.",
+   "lines": [
+    13683,
+    13688
+   ]
+  },
+  {
+   "id": "16.2.1-s016",
+   "section": "16.2.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "An altstep can also be called as a stand-alone statement in a TTCN-3 behaviour description.",
+   "lines": [
+    13690,
+    13693
+   ]
+  },
+  {
+   "id": "16.2.1-s017",
+   "section": "16.2.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "In this case, the call of the altstep can be interpreted as shorthand for an alt statement with only one alternative describing the explicit call of the altstep.",
+   "lines": [
+    13690,
+    13693
+   ]
+  },
+  {
+   "id": "16.2.1-s018",
+   "section": "16.2.1",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If the @nodefault modifier is placed before a stand-alone altstep call, the implicit alt statement also contains the @nodefault modifier.",
+   "lines": [
+    13690,
+    13693
+   ]
+  },
+  {
+   "id": "16.2.1-s019",
+   "section": "16.2.1",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clause 5, the following restrictions apply:",
+   "lines": [
+    13697,
+    13697
+   ]
+  },
+  {
+   "id": "16.2.1-s020",
+   "section": "16.2.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) When invoking an altstep, the compatibility of the test component type of the invoking test component and of the altstep runs on clause (as described in clause 6.3.2.7) need to be fulfilled.",
+   "lines": [
+    13699,
+    13700
+   ]
+  },
+  {
+   "id": "16.2.1-s021",
+   "section": "16.2.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "b) Further restrictions on invoking altsteps in the activate statement are given in clause 20.5.2.",
+   "lines": [
+    13702,
+    13702
+   ]
+  },
+  {
+   "id": "16.2.1-s022",
+   "section": "16.2.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "c) When invoking an altstep, the mtc and system compatibility of the mtc and system components of the invoked altstep with the actual mtc and system types of the running test case as described in clause 6.3.2.7 need to be fulfilled.",
+   "lines": [
+    13704,
+    13706
+   ]
+  },
+  {
+   "id": "16.2.1-s023",
+   "section": "16.2.1",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 1: Implicit invocation of an altstep via a default activation",
+   "lines": [
+    13715,
+    13715
+   ]
+  },
+  {
+   "id": "16.2.1-s024",
+   "section": "16.2.1",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": ":\n  var default v_myDefVarTwo := activate(a_mySecondAltStep()); // Activation of an altstep as \n                                       // default\n   :",
+   "lines": [
+    13716,
+    13721
+   ]
+  },
+  {
+   "id": "16.2.1-s025",
+   "section": "16.2.1",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 2: Explicit invocation of an altstep within an alt statement",
+   "lines": [
+    13723,
+    13723
+   ]
+  },
+  {
+   "id": "16.2.1-s026",
+   "section": "16.2.1",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": ":\n  alt {\n     [] pCO3.receive {\n        …\n       }\n     [] a_anotherAltStep(); // explicit call of altstep a_anotherAltStep as an alternative\n                   // of an alt statement\n     [] t_myTimer.timeout {}\n  }",
+   "lines": [
+    13724,
+    13734
+   ]
+  },
+  {
+   "id": "16.2.1-s027",
+   "section": "16.2.1",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 3: Explicit, stand-alone invocation of an altstep",
+   "lines": [
+    13736,
+    13736
+   ]
+  },
+  {
+   "id": "16.2.1-s028",
+   "section": "16.2.1",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "// The statement\n  a_anotherAltStep(); // a_anotherAltStep is assumed to be a correctly defined altstep\n  //is a shorthand for\n  alt {\n     [] a_anotherAltStep();\n  }",
+   "lines": [
+    13737,
+    13744
+   ]
+  },
+  {
+   "id": "16.3-s001",
+   "section": "16.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "A test case is complete and independent specification of the actions required to achieve a specific test purpose.",
+   "lines": [
+    13748,
+    13753
+   ]
+  },
+  {
+   "id": "16.3-s002",
+   "section": "16.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "It typically starts in a stable testing state and ends in a stable testing state.",
+   "lines": [
+    13748,
+    13753
+   ]
+  },
+  {
+   "id": "16.3-s003",
+   "section": "16.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "It may involve one or more consecutive or concurrent connections to the SUT.",
+   "lines": [
+    13748,
+    13753
+   ]
+  },
+  {
+   "id": "16.3-s004",
+   "section": "16.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The test case shall be complete in the sense that it is sufficient to enable a test verdict to be assigned unambiguously to each potentially observable test outcome (i.e. sequence of test events).",
+   "lines": [
+    13748,
+    13753
+   ]
+  },
+  {
+   "id": "16.3-s005",
+   "section": "16.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The test case shall be independent in the sense that it shall be possible to execute the derived executable test case in isolation from other such test cases.",
+   "lines": [
+    13748,
+    13753
+   ]
+  },
+  {
+   "id": "16.3-s006",
+   "section": "16.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "In TTCN-3, test cases are a special kind of function.",
+   "lines": [
+    13755,
+    13757
+   ]
+  },
+  {
+   "id": "16.3-s007",
+   "section": "16.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Test cases define the behaviour, which have to be executed to check whether the SUT passes a test or not.",
+   "lines": [
+    13755,
+    13757
+   ]
+  },
+  {
+   "id": "16.3-s008",
+   "section": "16.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "This behaviour is performed by the MTC which is automatically created when a test case is being executed.",
+   "lines": [
+    13755,
+    13757
+   ]
+  },
+  {
+   "id": "16.3-s009",
+   "section": "16.3",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "testcase TestcaseIdentifier\n  \"(\" [ { ( FormalValuePar | FormalTemplatePar) [\",\"] } ] \")\"\n  [ runs on ComponentType ]\n  [ system ComponentType ] \n  StatementBlock",
+   "lines": [
+    13760,
+    13766
+   ]
+  },
+  {
+   "id": "16.3-s010",
+   "section": "16.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "A test case is considered to be a self-contained and complete specification that checks a test purpose.",
+   "lines": [
+    13770,
+    13771
+   ]
+  },
+  {
+   "id": "16.3-s011",
+   "section": "16.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The result of a test case execution is a test verdict.",
+   "lines": [
+    13770,
+    13771
+   ]
+  },
+  {
+   "id": "16.3-s012",
+   "section": "16.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "A test case header has two parts:",
+   "lines": [
+    13773,
+    13773
+   ]
+  },
+  {
+   "id": "16.3-s013",
+   "section": "16.3",
+   "kind": "list-item",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "a) interface part (optional): denoted by the keyword runs `on which references the required component type for` the MTC and makes the associated port names visible within the MTC behaviour.",
+   "lines": [
+    13775,
+    13777
+   ]
+  },
+  {
+   "id": "16.3-s014",
+   "section": "16.3",
+   "kind": "list-item",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "In case the runs `on clause` is missing, the MTC created by the test case has no ports, and no component constants and variables; and b) test system part (optional): denoted by the keyword system which references the component type which defines the required ports for the test system interface.",
+   "lines": [
+    13775,
+    13783
+   ]
+  },
+  {
+   "id": "16.3-s015",
+   "section": "16.3",
+   "kind": "list-item",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The test system part shall only be omitted if, during test execution, only the MTC is instantiated.",
+   "lines": [
+    13779,
+    13783
+   ]
+  },
+  {
+   "id": "16.3-s016",
+   "section": "16.3",
+   "kind": "list-item",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "In this case, the MTC type defines the test system interface ports implicitly if the runs `on clause is present.",
+   "lines": [
+    13779,
+    13783
+   ]
+  },
+  {
+   "id": "16.3-s017",
+   "section": "16.3",
+   "kind": "list-item",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If both runs` `on and system clauses are missing, the test system` interface has no ports;",
+   "lines": [
+    13779,
+    13783
+   ]
+  },
+  {
+   "id": "16.3-s018",
+   "section": "16.3",
+   "kind": "list-item",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "c) all formal parameter types of the test case shall be of a data type.",
+   "lines": [
+    13790,
+    13790
+   ]
+  },
+  {
+   "id": "16.3-s019",
+   "section": "16.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The behaviour of a test case can be defined by using the program statements and operations described in clause 18.",
+   "lines": [
+    13792,
+    13792
+   ]
+  },
+  {
+   "id": "16.3-s020",
+   "section": "16.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Test cases may be parameterized as described in clause 5.4.",
+   "lines": [
+    13794,
+    13795
+   ]
+  },
+  {
+   "id": "16.3-s021",
+   "section": "16.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Test cases can be executed from control behaviour definitions (see clause 26).",
+   "lines": [
+    13794,
+    13795
+   ]
+  },
+  {
+   "id": "16.3-s022",
+   "section": "16.3",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clause 5, the following restrictions apply:",
+   "lines": [
+    13799,
+    13799
+   ]
+  },
+  {
+   "id": "16.3-s023",
+   "section": "16.3",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) The rules for formal parameter lists shall be followed as defined in clause 5.4.",
+   "lines": [
+    13801,
+    13801
+   ]
+  },
+  {
+   "id": "16.3-s024",
+   "section": "16.3",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "b) Test cases may only be invoked with an execute statement in a function or altstep running on a control component as defined in clause 26.",
+   "lines": [
+    13803,
+    13804
+   ]
+  },
+  {
+   "id": "16.3-s025",
+   "section": "16.3",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "testcase TC_MyTestCaseOne()\n  runs on MyMtcType1  // defines the type of the MTC \n  system MyTestSystemType  // makes the port names of the TSI visible to the MTC\n  { \n     : // The behaviour defined here executes on the mtc when the test case invoked\n  }\n  // or, a test case where only the MTC is instantiated \n  testcase TC_MyTestCaseTwo() runs on MyMtcType2\n  {\n     : // The behaviour defined here executes on the mtc when the test case invoked\n  }",
+   "lines": [
+    13807,
+    13819
+   ]
+  }
+ ]
+}

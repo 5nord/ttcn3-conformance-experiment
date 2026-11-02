@@ -1,0 +1,20 @@
+// @requirement: 19.0 -- Statement: Clear queue and enable sending & receiving at a to port; Associated keyword or symbol: start; Can be invoked by test behaviour: Yes
+// @id: TTCN3-CORE-19.0-007a
+// @verdict: pass reject
+module M_19_00_test_016 {
+
+    type port M message { inout integer }
+
+    type component C {
+        port M p;
+    }
+
+    testcase TC() runs on C {
+        setverdict(pass);
+    }
+
+    control {
+        all port.start; // error: port start in control part
+        execute(TC());
+    }
+}

@@ -1,0 +1,1210 @@
+{
+ "part": "06.part9",
+ "chapter": "6",
+ "chapter_file": "06-types-and-values",
+ "title": "Types and values",
+ "sections": {
+  "6.2.15.0": {
+   "title": "General",
+   "start": 5937
+  },
+  "6.2.15.1": {
+   "title": "Map Type Definition",
+   "start": 5942
+  },
+  "6.2.15.2": {
+   "title": "Indexed Assignment Notation",
+   "start": 5967
+  },
+  "6.2.15.3": {
+   "title": "Unmapping Keys",
+   "start": 6029
+  },
+  "6.2.15.4": {
+   "title": "Index Notation",
+   "start": 6064
+  },
+  "6.2.15.5": {
+   "title": "Accessing the Keys of a Map",
+   "start": 6118
+  },
+  "6.2.15.6": {
+   "title": "Accessing the Values of a Map",
+   "start": 6153
+  },
+  "6.2.15.7": {
+   "title": "Referencing of Elements of a Map",
+   "start": 6192
+  },
+  "6.2.15.8": {
+   "title": "Nested type definitions",
+   "start": 6212
+  },
+  "6.2.15.9": {
+   "title": "Optionality of map element values",
+   "start": 6225
+  },
+  "6.2.16": {
+   "title": "The open type",
+   "start": 6236
+  }
+ },
+ "lines": [
+  5939,
+  6268
+ ],
+ "units": [
+  {
+   "id": "6.2.15.0-s001",
+   "section": "6.2.15.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "TTCN-3 supports the specification of map types that map from a set of unique keys to a set of values in such a way that each value in the set of key is associated with exactly one value in the set of values.",
+   "lines": [
+    5939,
+    5940
+   ]
+  },
+  {
+   "id": "6.2.15.1-s001",
+   "section": "6.2.15.1",
+   "kind": "prose",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "**type** **map** **from** _Type_ **to** _Type_ _Identifier_",
+   "lines": [
+    5946,
+    5946
+   ]
+  },
+  {
+   "id": "6.2.15.1-s002",
+   "section": "6.2.15.1",
+   "kind": "prose",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "**_Semantical Description_**",
+   "lines": [
+    5948,
+    5948
+   ]
+  },
+  {
+   "id": "6.2.15.1-s003",
+   "section": "6.2.15.1",
+   "kind": "prose",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "The Type following the from keyword is the type of the keys of the map type.",
+   "lines": [
+    5950,
+    5951
+   ]
+  },
+  {
+   "id": "6.2.15.1-s004",
+   "section": "6.2.15.1",
+   "kind": "prose",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "The Type following the to keyword is the type of the values of the map type.",
+   "lines": [
+    5950,
+    5951
+   ]
+  },
+  {
+   "id": "6.2.15.1-s005",
+   "section": "6.2.15.1",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) void b) void",
+   "lines": [
+    5955,
+    5957
+   ]
+  },
+  {
+   "id": "6.2.15.1-s006",
+   "section": "6.2.15.1",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE:",
+   "lines": [
+    5961,
+    5961
+   ]
+  },
+  {
+   "id": "6.2.15.1-s007",
+   "section": "6.2.15.1",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "type record Connection { charstring iPaddr, integer portNr } type record Client { charstring name } type map from Connection to Client ConnectedClients; // associate each connection with a client",
+   "lines": [
+    5963,
+    5965
+   ]
+  },
+  {
+   "id": "6.2.15.2-s001",
+   "section": "6.2.15.2",
+   "kind": "prose",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "\"{\" [\"*\" \",\"] { \"[\" Index \"]\" \":=\" Value \",\" } \"}\"",
+   "lines": [
+    5972,
+    5972
+   ]
+  },
+  {
+   "id": "6.2.15.2-s002",
+   "section": "6.2.15.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Values of the map type can be denoted with the indexed assignment notation where the indices are values of the key type of the map type and the right hand sides are values of the value type.",
+   "lines": [
+    5976,
+    5979
+   ]
+  },
+  {
+   "id": "6.2.15.2-s003",
+   "section": "6.2.15.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Templates of the map type can use a specific form of the mixed notation, where the first item is and asterisk representing the AnyElementsOrNone matching symbol, followed by one or more indexed assignments (see clause B.1.3.2 for more details).",
+   "lines": [
+    5976,
+    5979
+   ]
+  },
+  {
+   "id": "6.2.15.2-s004",
+   "section": "6.2.15.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "When using the indexed assignment notation on the right hand side of an assignment, elements for keys to be changed are identified explicitly and either a value or the not used symbol \"-\" can be assigned to them.",
+   "lines": [
+    5981,
+    5985
+   ]
+  },
+  {
+   "id": "6.2.15.2-s005",
+   "section": "6.2.15.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Other elements, not referred to by keys in the notation, shall remain unchanged.",
+   "lines": [
+    5981,
+    5985
+   ]
+  },
+  {
+   "id": "6.2.15.2-s006",
+   "section": "6.2.15.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Re-assigning a previously initialized value, using the not used symbol or just skipping a field or element in an assignment notation, will cause that field or element to remain unchanged.",
+   "lines": [
+    5981,
+    5985
+   ]
+  },
+  {
+   "id": "6.2.15.2-s007",
+   "section": "6.2.15.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) In the index assignment notation, every index expression shall evaluate to a different value than all the other ones.",
+   "lines": [
+    5989,
+    5990
+   ]
+  },
+  {
+   "id": "6.2.15.2-s008",
+   "section": "6.2.15.2",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE:",
+   "lines": [
+    5994,
+    5994
+   ]
+  },
+  {
+   "id": "6.2.15.2-s009",
+   "section": "6.2.15.2",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "const Connection connection0 := { \"1.1.1.0\", 8080 }\n  const Connection connection1 := { \"1.1.1.1\", 8080 }\n  const Connection connection2 := { \"1.1.1.1\", 80 }\n  const Client client0 := \"Client0\"\n  const Client client1 := \"Client1\"\n  const Client client2 := \"Client2\"\n  const Client client3 := \"Client3\"\n  var ConnectedClients v_myVariable:= {\n     [connection0] := client0,\n     [connection1] := client1,\n     [connection2] := client2\n  }\n  v_myVariable :=\n  {\n     [connection1] := client3,\n  }\n  // after this, v_myVariable contains:\n  // { [connection0] := client0 /* unchanged */, \n     [connection1] := client3, \n     [connection2] := client2 /* unchanged */ }\n  v_myVariable :=\n  {\n     [connection0] := -,\n     [connection1] := client2,\n     [connection2] := - \n  }\n  // after this, v_myVariable contains:\n  // { [connection0] := client0 /* unchanged */, \n     [connection1] := client2, \n     [connection2] := client2 /* unchanged */ }",
+   "lines": [
+    5995,
+    6026
+   ]
+  },
+  {
+   "id": "6.2.15.3-s001",
+   "section": "6.2.15.3",
+   "kind": "prose",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "**unmap \"(\" ValueRef \",\" [ SingleExpression | \"*\"] \")\"**",
+   "lines": [
+    6033,
+    6033
+   ]
+  },
+  {
+   "id": "6.2.15.3-s002",
+   "section": "6.2.15.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "To remove a mapping from a key to its associated value in a variable of a map type, the unmap statement may be used.",
+   "lines": [
+    6037,
+    6038
+   ]
+  },
+  {
+   "id": "6.2.15.3-s003",
+   "section": "6.2.15.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If the map variable did not associate the given key with a value, the operation has no effect.",
+   "lines": [
+    6037,
+    6038
+   ]
+  },
+  {
+   "id": "6.2.15.3-s004",
+   "section": "6.2.15.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The unmap statement may be also used to remove the AnyElementsOrNone matching symbol from a map template variable.",
+   "lines": [
+    6040,
+    6042
+   ]
+  },
+  {
+   "id": "6.2.15.3-s005",
+   "section": "6.2.15.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "In this case, the second parameter of the statement shall be an asterisk literal.",
+   "lines": [
+    6040,
+    6042
+   ]
+  },
+  {
+   "id": "6.2.15.3-s006",
+   "section": "6.2.15.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If the template variable does not contain the AnyElementsOrNone matching symbol, the operation has no effect.",
+   "lines": [
+    6040,
+    6042
+   ]
+  },
+  {
+   "id": "6.2.15.3-s007",
+   "section": "6.2.15.3",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) ValueRef shall be an initialized variable of map type and SingleExpression shall be a value compatible with the key type of the map type of ValueRef.",
+   "lines": [
+    6046,
+    6047
+   ]
+  },
+  {
+   "id": "6.2.15.3-s008",
+   "section": "6.2.15.3",
+   "kind": "example-text",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "EXAMPLE:",
+   "lines": [
+    6049,
+    6049
+   ]
+  },
+  {
+   "id": "6.2.15.3-s009",
+   "section": "6.2.15.3",
+   "kind": "example-code",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "var template ConnectedClients v_myTemplate := {\n     *,\n     [connection0] := client0,\n     [connection1] := client1,\n     [connection2] := client2\n  }\n  ummap(v_myTemplate, connection0); \n  // changes the template to { *, [connection1] := client1, [connection2] := client2 }\n  ummap(v_myTemplate, *); \n  // changes the template to { [connection1] := client1, [connection2] := client2 }",
+   "lines": [
+    6050,
+    6061
+   ]
+  },
+  {
+   "id": "6.2.15.4-s001",
+   "section": "6.2.15.4",
+   "kind": "prose",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "_ValueRef_ \"[\" Index | \"*\" \"]\"",
+   "lines": [
+    6068,
+    6068
+   ]
+  },
+  {
+   "id": "6.2.15.4-s002",
+   "section": "6.2.15.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Index notation can be used on both the right-hand side and left-hand side of assignments.",
+   "lines": [
+    6072,
+    6072
+   ]
+  },
+  {
+   "id": "6.2.15.4-s003",
+   "section": "6.2.15.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The index notation, when used on the right-hand side, refers to the value element that the map value or template associates with the key given as the index or with the presence of the AnyElementsOrNone matching symbol if asterisk is used instead of the index.",
+   "lines": [
+    6079,
+    6079
+   ]
+  },
+  {
+   "id": "6.2.15.4-s004",
+   "section": "6.2.15.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If a key is used, the following rules apply.",
+   "lines": [
+    6081,
+    6081
+   ]
+  },
+  {
+   "id": "6.2.15.4-s005",
+   "section": "6.2.15.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "When the index notation is used at the left-hand side, only the value associated with the index key is changed, values with other keys remain unchanged.",
+   "lines": [
+    6081,
+    6081
+   ]
+  },
+  {
+   "id": "6.2.15.4-s006",
+   "section": "6.2.15.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Using the index notation on the left hand side of an assignment with a key that already has a value associated with it causes the key to be mapped to the newly assigned value.",
+   "lines": [
+    6081,
+    6081
+   ]
+  },
+  {
+   "id": "6.2.15.4-s007",
+   "section": "6.2.15.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Presence of a mapping for a key can be checked by using the isbound, isvalue or ispresent operation with an index notation as its argument.",
+   "lines": [
+    6083,
+    6083
+   ]
+  },
+  {
+   "id": "6.2.15.4-s008",
+   "section": "6.2.15.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If the asterisk literal is used instead of an index, the following rules apply.",
+   "lines": [
+    6085,
+    6087
+   ]
+  },
+  {
+   "id": "6.2.15.4-s009",
+   "section": "6.2.15.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "When the asterisk symbol is used at the left-hand side of an assignment, only the presence of the AnyElementsOrNone within the template is changed, values and keys remain unchanged.",
+   "lines": [
+    6085,
+    6087
+   ]
+  },
+  {
+   "id": "6.2.15.4-s010",
+   "section": "6.2.15.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The right-hand side of the assignment shall resolve into a boolean value in this case.",
+   "lines": [
+    6085,
+    6087
+   ]
+  },
+  {
+   "id": "6.2.15.4-s011",
+   "section": "6.2.15.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "When used at the right-hand side of an assignment, the notation returns a boolean value indicating if the _AnyElementsOrNone_ is present within the map template.",
+   "lines": [
+    6085,
+    6087
+   ]
+  },
+  {
+   "id": "6.2.15.4-s012",
+   "section": "6.2.15.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Presence of the AnyElementsOrNone in a map template can be checked by using the isbound or ispresent operation with an index notation containing the asterisk symbol as its argument.",
+   "lines": [
+    6089,
+    6090
+   ]
+  },
+  {
+   "id": "6.2.15.4-s013",
+   "section": "6.2.15.4",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) The index expression used for index notation and index assignment notation shall be completely initialized and compatible with the from type of the map type.",
+   "lines": [
+    6094,
+    6095
+   ]
+  },
+  {
+   "id": "6.2.15.4-s014",
+   "section": "6.2.15.4",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "b) When an index operation of a map value with a key as an index is used as the left-hand side of an assignment, the assigned value shall be compatible with the to type of the map type.",
+   "lines": [
+    6097,
+    6098
+   ]
+  },
+  {
+   "id": "6.2.15.4-s015",
+   "section": "6.2.15.4",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "c) An index notation used on the right hand side with a key that has no associated value shall result in an error.",
+   "lines": [
+    6100,
+    6100
+   ]
+  },
+  {
+   "id": "6.2.15.4-s016",
+   "section": "6.2.15.4",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE:",
+   "lines": [
+    6104,
+    6104
+   ]
+  },
+  {
+   "id": "6.2.15.4-s017",
+   "section": "6.2.15.4",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "if (not isbound(v_myVariable[connection0])) {\n     v_myVariable[connection0] := newClient; // adds mapping for connection0 to the map\n  }\n  if (isbound(v_myVariable[connection0])) { \n     unmap(v_myVariable, connection0); // deletes mapping for connection0 from the map\n     f(v_myVariable[connection0]); // results in a testcase error\n  }\n  if (not (v_myTemplate[*])) {\n     v_myTemplate[*] := true; // adds AnyElementsOrNone to the template\n  }",
+   "lines": [
+    6105,
+    6116
+   ]
+  },
+  {
+   "id": "6.2.15.5-s001",
+   "section": "6.2.15.5",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The set of keys that the map associates with a value can be accessed using the from selector.",
+   "lines": [
+    6120,
+    6120
+   ]
+  },
+  {
+   "id": "6.2.15.5-s002",
+   "section": "6.2.15.5",
+   "kind": "prose",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "_MapValue \".\" from_",
+   "lines": [
+    6124,
+    6124
+   ]
+  },
+  {
+   "id": "6.2.15.5-s003",
+   "section": "6.2.15.5",
+   "kind": "prose",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "_MapValueType_ \".\" `from`",
+   "lines": [
+    6126,
+    6126
+   ]
+  },
+  {
+   "id": "6.2.15.5-s004",
+   "section": "6.2.15.5",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If the MapValue is a value of type MapValueType defined as map from _A_ to _B_ then MapValue.from yields a result compatible with type set of A that contains all the key values from MapValue.",
+   "lines": [
+    6130,
+    6130
+   ]
+  },
+  {
+   "id": "6.2.15.5-s005",
+   "section": "6.2.15.5",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "This type can also be referenced as _MapValueType.from._",
+   "lines": [
+    6130,
+    6130
+   ]
+  },
+  {
+   "id": "6.2.15.5-s006",
+   "section": "6.2.15.5",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "There is always exactly one value mapped to each key in a map value.",
+   "lines": [
+    6132,
+    6135
+   ]
+  },
+  {
+   "id": "6.2.15.5-s007",
+   "section": "6.2.15.5",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The values in the set of keys are always unique, so comparing two values from the set of keys that have a different index using the equality operator will always yield false.",
+   "lines": [
+    6132,
+    6135
+   ]
+  },
+  {
+   "id": "6.2.15.5-s008",
+   "section": "6.2.15.5",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Since the length of the map value is equal to the number of key value pairs in the map value and there is precisely one key per value, the length of the set of keys is equal to the length of the map value.",
+   "lines": [
+    6132,
+    6135
+   ]
+  },
+  {
+   "id": "6.2.15.5-s009",
+   "section": "6.2.15.5",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "NOTE: It is unspecified in which order the keys of a map type value are enumerated.",
+   "lines": [
+    6142,
+    6142
+   ]
+  },
+  {
+   "id": "6.2.15.5-s010",
+   "section": "6.2.15.5",
+   "kind": "example-text",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "EXAMPLE: Iterating over the keys of a map.",
+   "lines": [
+    6144,
+    6144
+   ]
+  },
+  {
+   "id": "6.2.15.5-s011",
+   "section": "6.2.15.5",
+   "kind": "example-code",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "var MapValueType v_map;\n  var MapValueType.from v_keys := v_map.from;\n  for (var integer i := 0; i < lengthof(v_keys); i := i + 1) {\n     // do something with v_map[v_keys[i]];\n  }",
+   "lines": [
+    6145,
+    6151
+   ]
+  },
+  {
+   "id": "6.2.15.6-s001",
+   "section": "6.2.15.6",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The set of values that the map contains can be accessed using the to selector.",
+   "lines": [
+    6155,
+    6155
+   ]
+  },
+  {
+   "id": "6.2.15.6-s002",
+   "section": "6.2.15.6",
+   "kind": "prose",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "MapValue \".\" to",
+   "lines": [
+    6159,
+    6159
+   ]
+  },
+  {
+   "id": "6.2.15.6-s003",
+   "section": "6.2.15.6",
+   "kind": "prose",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "MapValueType \".\" `to`",
+   "lines": [
+    6161,
+    6161
+   ]
+  },
+  {
+   "id": "6.2.15.6-s004",
+   "section": "6.2.15.6",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If MapValue is a value of type MapValueType defined as map `from` _A_ `to` _B then MapValue.to yields a result_ compatible with type set of _B that contains all the values from MapValue.",
+   "lines": [
+    6165,
+    6167
+   ]
+  },
+  {
+   "id": "6.2.15.6-s005",
+   "section": "6.2.15.6",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "This type can also be referenced as_ _MapValueType.to;_",
+   "lines": [
+    6165,
+    6167
+   ]
+  },
+  {
+   "id": "6.2.15.6-s006",
+   "section": "6.2.15.6",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Since two different keys might be mapped to the same value in a map value, the values in the set of values might not be unique.",
+   "lines": [
+    6169,
+    6169
+   ]
+  },
+  {
+   "id": "6.2.15.6-s007",
+   "section": "6.2.15.6",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The set of values will contain one value for each key value pair in the map.",
+   "lines": [
+    6169,
+    6169
+   ]
+  },
+  {
+   "id": "6.2.15.6-s008",
+   "section": "6.2.15.6",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Since the length of the map value is equal to number of key value pairs in the map value and there is precisely one item for each key value pair in the set of values, the length of the set of values is equal to the length of map value.",
+   "lines": [
+    6169,
+    6169
+   ]
+  },
+  {
+   "id": "6.2.15.6-s009",
+   "section": "6.2.15.6",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "NOTE: It is unspecified in which order the values of a map type value are enumerated.",
+   "lines": [
+    6171,
+    6171
+   ]
+  },
+  {
+   "id": "6.2.15.6-s010",
+   "section": "6.2.15.6",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 1: Iterating over the values of a map",
+   "lines": [
+    6175,
+    6175
+   ]
+  },
+  {
+   "id": "6.2.15.6-s011",
+   "section": "6.2.15.6",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "var MapValueType v_map;\n  var MapValueType.to v_values := v_map.to;\n  for (var integer i := 0; i < lengthof(v_values); i := i + 1) {\n     // do something with v_values[i];\n  }",
+   "lines": [
+    6176,
+    6182
+   ]
+  },
+  {
+   "id": "6.2.15.6-s012",
+   "section": "6.2.15.6",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 2: Contents of the set of values",
+   "lines": [
+    6184,
+    6184
+   ]
+  },
+  {
+   "id": "6.2.15.6-s013",
+   "section": "6.2.15.6",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "Type map from charstring to integer MapValueType;\n  var MapValueType v_map := { [\"a\"] := 0, [\"b\"] := 0, [\"c\"] := 1 };\n  var MapValueType.to v_values := v_map.to;\n  match(v_values, {0,1,0}) // yields true",
+   "lines": [
+    6185,
+    6190
+   ]
+  },
+  {
+   "id": "6.2.15.7-s001",
+   "section": "6.2.15.7",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "When referencing an element of an uninitialized map value or field or omitted field (including omitting a field at a higher level of the embedding hierarchy) on the left-hand side of an assignment, the reference shall recursively be expanded up to and including the depth of the referenced element as follows:",
+   "lines": [
+    6194,
+    6196
+   ]
+  },
+  {
+   "id": "6.2.15.7-s002",
+   "section": "6.2.15.7",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "a) When expanding a value or value field of map type, the element referenced by the index notation shall be set to present.",
+   "lines": [
+    6198,
+    6199
+   ]
+  },
+  {
+   "id": "6.2.15.7-s003",
+   "section": "6.2.15.7",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "b) Expansion of record, record of and set of, union and set values and intermediate fields shall follow the rules of item a) in clauses 6.2.1.1, 6.2.3.0 and 6.2.5.1 and clause 6.2.2.1 correspondingly.",
+   "lines": [
+    6201,
+    6202
+   ]
+  },
+  {
+   "id": "6.2.15.7-s004",
+   "section": "6.2.15.7",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "c) At the end of the expansion, the value at the right-hand side of the assignment shall be assigned to the referenced element.",
+   "lines": [
+    6204,
+    6205
+   ]
+  },
+  {
+   "id": "6.2.15.8-s001",
+   "section": "6.2.15.8",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "TTCN-3 supports the definition of map types with nested structured types for the to part.",
+   "lines": [
+    6214,
+    6215
+   ]
+  },
+  {
+   "id": "6.2.15.8-s002",
+   "section": "6.2.15.8",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The usage of structured types (record, set, enumerated, set `of, record` `of, union and map) is allowed.`",
+   "lines": [
+    6214,
+    6215
+   ]
+  },
+  {
+   "id": "6.2.15.8-s003",
+   "section": "6.2.15.8",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "NOTE: It is recommended that only basic types are used for the keys of map types.",
+   "lines": [
+    6217,
+    6218
+   ]
+  },
+  {
+   "id": "6.2.15.8-s004",
+   "section": "6.2.15.8",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "Using complex structured types for keys of map types can have negative impact on the speed of the execution.",
+   "lines": [
+    6217,
+    6218
+   ]
+  },
+  {
+   "id": "6.2.15.8-s005",
+   "section": "6.2.15.8",
+   "kind": "example-text",
+   "context": null,
+   "normative": false,
+   "text": "EXAMPLE:",
+   "lines": [
+    6220,
+    6220
+   ]
+  },
+  {
+   "id": "6.2.15.8-s006",
+   "section": "6.2.15.8",
+   "kind": "example-code",
+   "context": null,
+   "normative": false,
+   "text": "type map from charstring to map from charstring to charstring MapType;",
+   "lines": [
+    6221,
+    6223
+   ]
+  },
+  {
+   "id": "6.2.15.9-s001",
+   "section": "6.2.15.9",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "In map values, both keys and value fields associated with them are mandatory.",
+   "lines": [
+    6227,
+    6228
+   ]
+  },
+  {
+   "id": "6.2.15.9-s002",
+   "section": "6.2.15.9",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The omit symbol shall not be assigned to a map key or value field.",
+   "lines": [
+    6227,
+    6228
+   ]
+  },
+  {
+   "id": "6.2.15.9-s003",
+   "section": "6.2.15.9",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "NOTE: The unmap operation is used for removing a key from a map.",
+   "lines": [
+    6230,
+    6230
+   ]
+  },
+  {
+   "id": "6.2.15.9-s004",
+   "section": "6.2.15.9",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Keys of map templates shall not contain matching symbols.",
+   "lines": [
+    6232,
+    6234
+   ]
+  },
+  {
+   "id": "6.2.15.9-s005",
+   "section": "6.2.15.9",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Value fields associated with keys of map templates might contain matching symbols including symbols for optional fields such as omit, * or ifpresent (see Annex B for more details).",
+   "lines": [
+    6232,
+    6234
+   ]
+  },
+  {
+   "id": "6.2.16-s001",
+   "section": "6.2.16",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The open type is represented by the keyword any.",
+   "lines": [
+    6238,
+    6240
+   ]
+  },
+  {
+   "id": "6.2.16-s002",
+   "section": "6.2.16",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "It shall only be used in formal parameters of external and predefined functions.",
+   "lines": [
+    6238,
+    6240
+   ]
+  },
+  {
+   "id": "6.2.16-s003",
+   "section": "6.2.16",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Values of all types can be directly passed as actual parameters to formal parameters of the open type without the need to explicitly specify a type context.",
+   "lines": [
+    6238,
+    6240
+   ]
+  },
+  {
+   "id": "6.2.16-s004",
+   "section": "6.2.16",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) The open type shall be used only in formal parameter of predefined or external functions.",
+   "lines": [
+    6244,
+    6244
+   ]
+  },
+  {
+   "id": "6.2.16-s005",
+   "section": "6.2.16",
+   "kind": "note",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "NOTE: The open type is forbidden in all other TTCN-3 statements, e.g. in:",
+   "lines": [
+    6246,
+    6246
+   ]
+  },
+  {
+   "id": "6.2.16-s006",
+   "section": "6.2.16",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Type declarations",
+   "lines": [
+    6248,
+    6248
+   ]
+  },
+  {
+   "id": "6.2.16-s007",
+   "section": "6.2.16",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Variable declarations",
+   "lines": [
+    6250,
+    6250
+   ]
+  },
+  {
+   "id": "6.2.16-s008",
+   "section": "6.2.16",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Template declarations",
+   "lines": [
+    6252,
+    6252
+   ]
+  },
+  {
+   "id": "6.2.16-s009",
+   "section": "6.2.16",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Constant declarations",
+   "lines": [
+    6254,
+    6254
+   ]
+  },
+  {
+   "id": "6.2.16-s010",
+   "section": "6.2.16",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Module parameter declarations",
+   "lines": [
+    6256,
+    6256
+   ]
+  },
+  {
+   "id": "6.2.16-s011",
+   "section": "6.2.16",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Formal parameters of templates, test cases, altsteps, non-external functions, map and unmap operations",
+   "lines": [
+    6258,
+    6259
+   ]
+  },
+  {
+   "id": "6.2.16-s012",
+   "section": "6.2.16",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Return clauses of functions",
+   "lines": [
+    6261,
+    6261
+   ]
+  },
+  {
+   "id": "6.2.16-s013",
+   "section": "6.2.16",
+   "kind": "example-text",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "EXAMPLE:",
+   "lines": [
+    6263,
+    6263
+   ]
+  },
+  {
+   "id": "6.2.16-s014",
+   "section": "6.2.16",
+   "kind": "example-code",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "external function fx_printf(charstring p_format, any p_data);\n  ...\n  fx_printf(\"Numeric value: %d\", 1);",
+   "lines": [
+    6264,
+    6268
+   ]
+  }
+ ]
+}

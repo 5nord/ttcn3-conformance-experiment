@@ -1,0 +1,1380 @@
+{
+ "batch": "b061",
+ "requirements": [
+  {
+   "id": "TTCN3-CORE-21.3.1-002a",
+   "section": "21.3.1",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "ComponentType \".\" create [ \"(\" Expression [\",\" Expression] \")\" ] [ alive ]",
+   "canonical": "The `create` operation has the syntax ComponentType \".\" `create` [ \"(\" Expression [\",\" Expression] \")\" ] [ `alive` ].",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16394,
+    16396
+   ],
+   "examples": [
+    {
+     "lines": [
+      16452,
+      16469
+     ],
+     "text": "// This example declares variables of type MyComponentType, which is used to store the \n  // references of newly created component instances of type MyComponentType which is the\n  // result of the create operations. An associated name is allocated to some of the created\n  // component instances.\n   :\n  var MyComponentType v_myNewComponent;\n  var MyComponentType v_myNewestComponent;\n  var MyComponentType v_myAliveComponent;\n  var MyComponentType v_myAnotherAliveComponent;\n  var MyComponentType v_myDeployedComponent;\n   :\n  v_myNewComponent := MyComponentType.create;\n  v_myNewestComponent := MyComponentType.create(\"Newest\");\n  v_myAliveComponent := MyComponentType.create alive;\n  v_myAnotherAliveComponent := MyComponentType.create(\"Another Alive\") alive;\n  v_myDeployedComponent := MyComponentType.create(-, \"Host4\");"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.03.01_test_001.ttcn3",
+   "module": "M_21_03_01_test_001",
+   "header": "// @requirement: 21.3.1 -- ComponentType \".\" create [ \"(\" Expression [\",\" Expression] \")\" ] [ alive ]"
+  },
+  {
+   "id": "TTCN3-CORE-21.3.1-003a",
+   "section": "21.3.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The MTC is the only test component, which is automatically created when a test case starts.",
+   "canonical": "The MTC IS the only test component that is created automatically when a test case starts.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16400,
+    16403
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.01_test_002.ttcn3",
+   "module": "M_21_03_01_test_002",
+   "header": "// @requirement: 21.3.1 -- The MTC is the only test component, which is automatically created when a test case starts."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.1-004a",
+   "section": "21.3.1",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "All other test components (the PTCs) shall be created explicitly during test execution by create operations.",
+   "canonical": "A PTC SHALL be created explicitly during test execution by a `create` operation.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16400,
+    16403
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.01_test_003.ttcn3",
+   "module": "M_21_03_01_test_003",
+   "header": "// @requirement: 21.3.1 -- All other test components (the PTCs) shall be created explicitly during test execution by create operations."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.1-005a",
+   "section": "21.3.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "A component is created with its full set of ports of which the input queues are empty and with its full set of constants, variables and timers.",
+   "canonical": "A newly created test component IS created with its full set of ports, the input queues of which are empty.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16400,
+    16403
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.01_test_004.ttcn3",
+   "module": "M_21_03_01_test_004",
+   "header": "// @requirement: 21.3.1 -- A component is created with its full set of ports of which the input queues are empty and with its full set of constants, variables and timers."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.1-005b",
+   "section": "21.3.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "A component is created with its full set of ports of which the input queues are empty and with its full set of constants, variables and timers.",
+   "canonical": "A newly created test component IS created with its full set of component constants, component variables and component timers.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16400,
+    16403
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.01_test_005.ttcn3",
+   "module": "M_21_03_01_test_005",
+   "header": "// @requirement: 21.3.1 -- A component is created with its full set of ports of which the input queues are empty and with its full set of constants, variables and timers."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.1-006a",
+   "section": "21.3.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "Furthermore, if a port is defined to be of the type in or inout it shall be in a listening state ready to receive traffic over the connection.",
+   "canonical": "A port whose port type allows incoming (in or inout) communication SHALL be in a listening state, ready to receive traffic over the connection, when the component is created.",
+   "condition": "the port is defined to be of the type in or inout",
+   "cross_refs": [
+    "21.3.2"
+   ],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "Ports are not 'of the type in or inout'; the intended meaning is a port whose port type declares in or inout messages/signatures.",
+    "improper_terms": [
+     {
+      "used": "port ... of the type in or inout",
+      "proper": "port whose port type declares in or inout messages or signatures",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    16400,
+    16403
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.01_test_006.ttcn3",
+   "module": "M_21_03_01_test_006",
+   "header": "// @requirement: 21.3.1 -- Furthermore, if a port is defined to be of the type in or inout it shall be in a listening state ready to receive traffic over the connection."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.1-007a",
+   "section": "21.3.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "All component variables and timers are reset to their initial value (if any) and all component constants are reset to their assigned values when the component is explicitly or implicitly created.",
+   "canonical": "When a test component is explicitly or implicitly created, every component variable and component timer IS reset to its initial value, if any.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16405,
+    16406
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.01_test_007.ttcn3",
+   "module": "M_21_03_01_test_007",
+   "header": "// @requirement: 21.3.1 -- All component variables and timers are reset to their initial value (if any) and all component constants are reset to their assigned values when the component is explicitly or implicitly created."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.1-007b",
+   "section": "21.3.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "All component variables and timers are reset to their initial value (if any) and all component constants are reset to their assigned values when the component is explicitly or implicitly created.",
+   "canonical": "When a test component is explicitly or implicitly created, every component constant IS reset to its assigned value.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16405,
+    16406
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.01_test_008.ttcn3",
+   "module": "M_21_03_01_test_008",
+   "header": "// @requirement: 21.3.1 -- All component variables and timers are reset to their initial value (if any) and all component constants are reset to their assigned values when the component is explicitly or implicitly created."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.1-009a",
+   "section": "21.3.1",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "The latter is created using the additional alive keyword.",
+   "canonical": "An alive-type PTC IS created using the `create` operation with the additional `alive` keyword.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16408,
+    16412
+   ],
+   "examples": [
+    {
+     "lines": [
+      16452,
+      16469
+     ],
+     "text": "// This example declares variables of type MyComponentType, which is used to store the \n  // references of newly created component instances of type MyComponentType which is the\n  // result of the create operations. An associated name is allocated to some of the created\n  // component instances.\n   :\n  var MyComponentType v_myNewComponent;\n  var MyComponentType v_myNewestComponent;\n  var MyComponentType v_myAliveComponent;\n  var MyComponentType v_myAnotherAliveComponent;\n  var MyComponentType v_myDeployedComponent;\n   :\n  v_myNewComponent := MyComponentType.create;\n  v_myNewestComponent := MyComponentType.create(\"Newest\");\n  v_myAliveComponent := MyComponentType.create alive;\n  v_myAnotherAliveComponent := MyComponentType.create(\"Another Alive\") alive;\n  v_myDeployedComponent := MyComponentType.create(-, \"Host4\");"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.03.01_test_009.ttcn3",
+   "module": "M_21_03_01_test_009",
+   "header": "// @requirement: 21.3.1 -- The latter is created using the additional alive keyword."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.1-010a",
+   "section": "21.3.1",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "An alive-type PTC shall be destroyed explicitly using the kill operation (see clause 21.3.4), whereas a non-alive PTC is destroyed implicitly after its behaviour terminates.",
+   "canonical": "An alive-type PTC SHALL be destroyed explicitly using the `kill` operation.",
+   "condition": null,
+   "cross_refs": [
+    "21.3.4"
+   ],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "It is unclear whether this obliges the test writer to kill alive-type PTCs or only states that an alive-type PTC is not destroyed implicitly when its behaviour terminates (test case termination destroys it anyway, see 21.3.1-s011). The second reading is chosen.",
+    "readings": [
+     "An alive-type PTC IS NOT destroyed implicitly when its behaviour terminates; it is destroyed only by the `kill` operation or by the termination of the test case.",
+     "The test writer SHALL kill every alive-type PTC explicitly using the `kill` operation before the test case ends."
+    ]
+   },
+   "spec_lines": [
+    16408,
+    16412
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.01_test_010.ttcn3",
+   "module": "M_21_03_01_test_010",
+   "header": "// @requirement: 21.3.1 -- An alive-type PTC shall be destroyed explicitly using the kill operation (see clause 21.3.4), whereas a non-alive PTC is destroyed implicitly after its behaviour terminates."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.1-010b",
+   "section": "21.3.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "An alive-type PTC shall be destroyed explicitly using the kill operation (see clause 21.3.4), whereas a non-alive PTC is destroyed implicitly after its behaviour terminates.",
+   "canonical": "A non-alive PTC IS destroyed implicitly after its behaviour terminates.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16408,
+    16412
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.01_test_011.ttcn3",
+   "module": "M_21_03_01_test_011",
+   "header": "// @requirement: 21.3.1 -- An alive-type PTC shall be destroyed explicitly using the kill operation (see clause 21.3.4), whereas a non-alive PTC is destroyed implicitly after its behaviour terminates."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.1-011a",
+   "section": "21.3.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Termination of a test case, i.e. the MTC, terminates all PTCs that still exist, if any.",
+   "canonical": "The termination of a test case, i.e. of the MTC, terminates all PTCs that still exist.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16408,
+    16412
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.01_test_012.ttcn3",
+   "module": "M_21_03_01_test_012",
+   "header": "// @requirement: 21.3.1 -- Termination of a test case, i.e. the MTC, terminates all PTCs that still exist, if any."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.1-012b",
+   "section": "21.3.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Since all test components and ports are implicitly destroyed at the termination of each test case, each test case shall completely create its required configuration of components and connections when it is invoked.",
+   "canonical": "Every test component and every port IS implicitly destroyed at the termination of each test case.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16414,
+    16415
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.01_test_013.ttcn3",
+   "module": "M_21_03_01_test_013",
+   "header": "// @requirement: 21.3.1 -- Since all test components and ports are implicitly destroyed at the termination of each test case, each test case shall completely create its required configuration of components and connections when it is invoked."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.1-013a",
+   "section": "21.3.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "The create operation shall return the unique component reference of the newly created instance.",
+   "canonical": "The `create` operation SHALL return the unique component reference of the newly created test component instance.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16422,
+    16424
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.01_test_014.ttcn3",
+   "module": "M_21_03_01_test_014",
+   "header": "// @requirement: 21.3.1 -- The create operation shall return the unique component reference of the newly created instance."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.1-014a",
+   "section": "21.3.1",
+   "type": "information",
+   "modality": "CAN",
+   "original": "The unique reference to the component will typically be stored in a variable (see clause 6.2.10.1) and can be used for connecting instances and for communication purposes such as sending and receiving.",
+   "canonical": "A component reference returned by the `create` operation CAN be stored in a variable.",
+   "condition": null,
+   "cross_refs": [
+    "6.2.10.1"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16422,
+    16424
+   ],
+   "examples": [
+    {
+     "lines": [
+      16452,
+      16469
+     ],
+     "text": "// This example declares variables of type MyComponentType, which is used to store the \n  // references of newly created component instances of type MyComponentType which is the\n  // result of the create operations. An associated name is allocated to some of the created\n  // component instances.\n   :\n  var MyComponentType v_myNewComponent;\n  var MyComponentType v_myNewestComponent;\n  var MyComponentType v_myAliveComponent;\n  var MyComponentType v_myAnotherAliveComponent;\n  var MyComponentType v_myDeployedComponent;\n   :\n  v_myNewComponent := MyComponentType.create;\n  v_myNewestComponent := MyComponentType.create(\"Newest\");\n  v_myAliveComponent := MyComponentType.create alive;\n  v_myAnotherAliveComponent := MyComponentType.create(\"Another Alive\") alive;\n  v_myDeployedComponent := MyComponentType.create(-, \"Host4\");"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.03.01_test_015.ttcn3",
+   "module": "M_21_03_01_test_015",
+   "header": "// @requirement: 21.3.1 -- The unique reference to the component will typically be stored in a variable (see clause 6.2.10.1) and can be used for connecting instances and for communication purposes such as sending and receiving."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.1-014b",
+   "section": "21.3.1",
+   "type": "information",
+   "modality": "CAN",
+   "original": "The unique reference to the component will typically be stored in a variable (see clause 6.2.10.1) and can be used for connecting instances and for communication purposes such as sending and receiving.",
+   "canonical": "A component reference CAN be used for connecting test component instances and for communication purposes such as sending and receiving.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16422,
+    16424
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.01_test_016.ttcn3",
+   "module": "M_21_03_01_test_016",
+   "header": "// @requirement: 21.3.1 -- The unique reference to the component will typically be stored in a variable (see clause 6.2.10.1) and can be used for connecting instances and for communication purposes such as sending and receiving."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.1-015a",
+   "section": "21.3.1",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Optionally, a name can be associated with the newly created component instance.",
+   "canonical": "A name MAY be associated with a newly created test component instance.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16426,
+    16428
+   ],
+   "examples": [
+    {
+     "lines": [
+      16452,
+      16469
+     ],
+     "text": "// This example declares variables of type MyComponentType, which is used to store the \n  // references of newly created component instances of type MyComponentType which is the\n  // result of the create operations. An associated name is allocated to some of the created\n  // component instances.\n   :\n  var MyComponentType v_myNewComponent;\n  var MyComponentType v_myNewestComponent;\n  var MyComponentType v_myAliveComponent;\n  var MyComponentType v_myAnotherAliveComponent;\n  var MyComponentType v_myDeployedComponent;\n   :\n  v_myNewComponent := MyComponentType.create;\n  v_myNewestComponent := MyComponentType.create(\"Newest\");\n  v_myAliveComponent := MyComponentType.create alive;\n  v_myAnotherAliveComponent := MyComponentType.create(\"Another Alive\") alive;\n  v_myDeployedComponent := MyComponentType.create(-, \"Host4\");"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.03.01_test_017.ttcn3",
+   "module": "M_21_03_01_test_017",
+   "header": "// @requirement: 21.3.1 -- Optionally, a name can be associated with the newly created component instance."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.1-016a",
+   "section": "21.3.1",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "The test system shall associate the names 'MTC' to the MTC and 'SYSTEM' to the test system interface automatically at creation.",
+   "canonical": "The test system SHALL automatically associate the name 'MTC' with the MTC at its creation.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16426,
+    16428
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.01_test_018.ttcn3",
+   "module": "M_21_03_01_test_018",
+   "header": "// @requirement: 21.3.1 -- The test system shall associate the names 'MTC' to the MTC and 'SYSTEM' to the test system interface automatically at creation."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.1-016b",
+   "section": "21.3.1",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "The test system shall associate the names 'MTC' to the MTC and 'SYSTEM' to the test system interface automatically at creation.",
+   "canonical": "The test system SHALL automatically associate the name 'SYSTEM' with the test system interface at its creation.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16426,
+    16428
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.01_test_019.ttcn3",
+   "module": "M_21_03_01_test_019",
+   "header": "// @requirement: 21.3.1 -- The test system shall associate the names 'MTC' to the MTC and 'SYSTEM' to the test system interface automatically at creation."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.1-017a",
+   "section": "21.3.1",
+   "type": "permission",
+   "modality": "NEED NOT",
+   "original": "Associated component names are not required to be unique.",
+   "canonical": "An associated component instance name NEED NOT be unique.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16426,
+    16428
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.01_test_020.ttcn3",
+   "module": "M_21_03_01_test_020",
+   "header": "// @requirement: 21.3.1 -- Associated component names are not required to be unique."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.1-018b",
+   "section": "21.3.1",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "The component instance name is used for logging purposes (see clause 19.11) only and shall not be used to refer to the component instance (the component reference shall be used for this purpose) and has no effect on matching.",
+   "canonical": "A component instance name SHALL NOT be used to refer to the component instance.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16430,
+    16431
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.01_test_021.ttcn3",
+   "module": "M_21_03_01_test_021",
+   "header": "// @requirement: 21.3.1 -- The component instance name is used for logging purposes (see clause 19.11) only and shall not be used to refer to the component instance (the component reference shall be used for this purpose) and has no effect on matching."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.1-018c",
+   "section": "21.3.1",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "The component instance name is used for logging purposes (see clause 19.11) only and shall not be used to refer to the component instance (the component reference shall be used for this purpose) and has no effect on matching.",
+   "canonical": "The component reference SHALL be used to refer to a component instance.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16430,
+    16431
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.01_test_022.ttcn3",
+   "module": "M_21_03_01_test_022",
+   "header": "// @requirement: 21.3.1 -- The component instance name is used for logging purposes (see clause 19.11) only and shall not be used to refer to the component instance (the component reference shall be used for this purpose) and has no effect on matching."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.1-018d",
+   "section": "21.3.1",
+   "type": "semantics",
+   "modality": "IS NOT",
+   "original": "The component instance name is used for logging purposes (see clause 19.11) only and shall not be used to refer to the component instance (the component reference shall be used for this purpose) and has no effect on matching.",
+   "canonical": "A component instance name IS NOT considered in matching.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16430,
+    16431
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.01_test_023.ttcn3",
+   "module": "M_21_03_01_test_023",
+   "header": "// @requirement: 21.3.1 -- The component instance name is used for logging purposes (see clause 19.11) only and shall not be used to refer to the component instance (the component reference shall be used for this purpose) and has no effect on matching."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.1-019a",
+   "section": "21.3.1",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Also optionally, a host id can be associated with the newly created component instance.",
+   "canonical": "A host id MAY be associated with a newly created test component instance.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16433,
+    16438
+   ],
+   "examples": [
+    {
+     "lines": [
+      16452,
+      16469
+     ],
+     "text": "// This example declares variables of type MyComponentType, which is used to store the \n  // references of newly created component instances of type MyComponentType which is the\n  // result of the create operations. An associated name is allocated to some of the created\n  // component instances.\n   :\n  var MyComponentType v_myNewComponent;\n  var MyComponentType v_myNewestComponent;\n  var MyComponentType v_myAliveComponent;\n  var MyComponentType v_myAnotherAliveComponent;\n  var MyComponentType v_myDeployedComponent;\n   :\n  v_myNewComponent := MyComponentType.create;\n  v_myNewestComponent := MyComponentType.create(\"Newest\");\n  v_myAliveComponent := MyComponentType.create alive;\n  v_myAnotherAliveComponent := MyComponentType.create(\"Another Alive\") alive;\n  v_myDeployedComponent := MyComponentType.create(-, \"Host4\");"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.03.01_test_024.ttcn3",
+   "module": "M_21_03_01_test_024",
+   "header": "// @requirement: 21.3.1 -- Also optionally, a host id can be associated with the newly created component instance."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.1-020a",
+   "section": "21.3.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "If a host id is provided, the create operation shall cause a test case error, if the component cannot be deployed on the specified host.",
+   "canonical": "If a host id is provided and the component cannot be deployed on the specified host, the `create` operation SHALL cause a test case error.",
+   "condition": "a host id is provided and the component cannot be deployed on the specified host",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16433,
+    16438
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.01_test_025.ttcn3",
+   "module": "M_21_03_01_test_025",
+   "header": "// @requirement: 21.3.1 -- If a host id is provided, the create operation shall cause a test case error, if the component cannot be deployed on the specified host."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.1-021a",
+   "section": "21.3.1",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Components can be created at any point in a behaviour definition providing full flexibility with regard to dynamic configurations (i.e. any component can create any other PTC).",
+   "canonical": "The `create` operation MAY be used at any point in a behaviour definition.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16433,
+    16438
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.01_test_026.ttcn3",
+   "module": "M_21_03_01_test_026",
+   "header": "// @requirement: 21.3.1 -- Components can be created at any point in a behaviour definition providing full flexibility with regard to dynamic configurations (i.e. any component can create any other PTC)."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.1-021b",
+   "section": "21.3.1",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Components can be created at any point in a behaviour definition providing full flexibility with regard to dynamic configurations (i.e. any component can create any other PTC).",
+   "canonical": "Any test component MAY create any other PTC.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16433,
+    16438
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.01_test_027.ttcn3",
+   "module": "M_21_03_01_test_027",
+   "header": "// @requirement: 21.3.1 -- Components can be created at any point in a behaviour definition providing full flexibility with regard to dynamic configurations (i.e. any component can create any other PTC)."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.1-022a",
+   "section": "21.3.1",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "The visibility of component references shall follow the same scope rules as that of variables and in order to reference components outside their scope of creation the component reference shall be passed as a parameter or as a field in a message.",
+   "canonical": "The visibility of a component reference SHALL follow the same scope rules as the visibility of variables.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "A component reference is a value; scope rules apply to the variables storing it.",
+    "improper_terms": [
+     {
+      "used": "visibility of component references",
+      "proper": "visibility of variables holding component references",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    16433,
+    16438
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.01_test_028.ttcn3",
+   "module": "M_21_03_01_test_028",
+   "header": "// @requirement: 21.3.1 -- The visibility of component references shall follow the same scope rules as that of variables and in order to reference components outside their scope of creation the component reference shall be passed as a parameter or as a field in a message."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.1-024a",
+   "section": "21.3.1",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "a) The name given by the first Expression shall be a charstring value and when assigned it shall appear as the first argument of the create function.",
+   "canonical": "The name given by the first Expression of the `create` operation SHALL be a `charstring` value.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16445,
+    16446
+   ],
+   "examples": [
+    {
+     "lines": [
+      16452,
+      16469
+     ],
+     "text": "// This example declares variables of type MyComponentType, which is used to store the \n  // references of newly created component instances of type MyComponentType which is the\n  // result of the create operations. An associated name is allocated to some of the created\n  // component instances.\n   :\n  var MyComponentType v_myNewComponent;\n  var MyComponentType v_myNewestComponent;\n  var MyComponentType v_myAliveComponent;\n  var MyComponentType v_myAnotherAliveComponent;\n  var MyComponentType v_myDeployedComponent;\n   :\n  v_myNewComponent := MyComponentType.create;\n  v_myNewestComponent := MyComponentType.create(\"Newest\");\n  v_myAliveComponent := MyComponentType.create alive;\n  v_myAnotherAliveComponent := MyComponentType.create(\"Another Alive\") alive;\n  v_myDeployedComponent := MyComponentType.create(-, \"Host4\");"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.03.01_test_029.ttcn3",
+   "module": "M_21_03_01_test_029",
+   "header": "// @requirement: 21.3.1 -- a) The name given by the first Expression shall be a charstring value and when assigned it shall appear as the first argument of the create function."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.1-024b",
+   "section": "21.3.1",
+   "type": "syntax",
+   "modality": "SHALL",
+   "original": "a) The name given by the first Expression shall be a charstring value and when assigned it shall appear as the first argument of the create function.",
+   "canonical": "When a component name is assigned, it SHALL appear as the first argument of the `create` operation.",
+   "condition": "a name is assigned",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "The create operation is called 'create function'.",
+    "improper_terms": [
+     {
+      "used": "create function",
+      "proper": "create operation",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    16445,
+    16446
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.01_test_030.ttcn3",
+   "module": "M_21_03_01_test_030",
+   "header": "// @requirement: 21.3.1 -- a) The name given by the first Expression shall be a charstring value and when assigned it shall appear as the first argument of the create function."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.1-025a",
+   "section": "21.3.1",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "b) The host id given by the second Expression shall be a charstring value and, when assigned, it shall appear as the second argument of the create function.",
+   "canonical": "The host id given by the second Expression of the `create` operation SHALL be a `charstring` value.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16448,
+    16449
+   ],
+   "examples": [
+    {
+     "lines": [
+      16452,
+      16469
+     ],
+     "text": "// This example declares variables of type MyComponentType, which is used to store the \n  // references of newly created component instances of type MyComponentType which is the\n  // result of the create operations. An associated name is allocated to some of the created\n  // component instances.\n   :\n  var MyComponentType v_myNewComponent;\n  var MyComponentType v_myNewestComponent;\n  var MyComponentType v_myAliveComponent;\n  var MyComponentType v_myAnotherAliveComponent;\n  var MyComponentType v_myDeployedComponent;\n   :\n  v_myNewComponent := MyComponentType.create;\n  v_myNewestComponent := MyComponentType.create(\"Newest\");\n  v_myAliveComponent := MyComponentType.create alive;\n  v_myAnotherAliveComponent := MyComponentType.create(\"Another Alive\") alive;\n  v_myDeployedComponent := MyComponentType.create(-, \"Host4\");"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.03.01_test_031.ttcn3",
+   "module": "M_21_03_01_test_031",
+   "header": "// @requirement: 21.3.1 -- b) The host id given by the second Expression shall be a charstring value and, when assigned, it shall appear as the second argument of the create function."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.1-025b",
+   "section": "21.3.1",
+   "type": "syntax",
+   "modality": "SHALL",
+   "original": "b) The host id given by the second Expression shall be a charstring value and, when assigned, it shall appear as the second argument of the create function.",
+   "canonical": "When a host id is assigned, it SHALL appear as the second argument of the `create` operation.",
+   "condition": "a host id is assigned",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "The syntax block (Expression [\",\" Expression]) does not show how the name is skipped when only a host id is given; the example uses a dash (create(-, \"Host4\")). The reading that the name may be skipped with \"-\" is chosen. The operation is also called 'create function'.",
+    "readings": [
+     "When a host id is assigned, it SHALL appear as the second argument of the `create` operation, and the first argument MAY be the not-used symbol \"-\".",
+     "When a host id is assigned, it SHALL appear as the second argument of the `create` operation, and a name SHALL then also be given as the first argument."
+    ],
+    "improper_terms": [
+     {
+      "used": "create function",
+      "proper": "create operation",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    16448,
+    16449
+   ],
+   "examples": [
+    {
+     "lines": [
+      16452,
+      16469
+     ],
+     "text": "// This example declares variables of type MyComponentType, which is used to store the \n  // references of newly created component instances of type MyComponentType which is the\n  // result of the create operations. An associated name is allocated to some of the created\n  // component instances.\n   :\n  var MyComponentType v_myNewComponent;\n  var MyComponentType v_myNewestComponent;\n  var MyComponentType v_myAliveComponent;\n  var MyComponentType v_myAnotherAliveComponent;\n  var MyComponentType v_myDeployedComponent;\n   :\n  v_myNewComponent := MyComponentType.create;\n  v_myNewestComponent := MyComponentType.create(\"Newest\");\n  v_myAliveComponent := MyComponentType.create alive;\n  v_myAnotherAliveComponent := MyComponentType.create(\"Another Alive\") alive;\n  v_myDeployedComponent := MyComponentType.create(-, \"Host4\");"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.03.01_test_032.ttcn3",
+   "module": "M_21_03_01_test_032",
+   "header": "// @requirement: 21.3.1 -- b) The host id given by the second Expression shall be a charstring value and, when assigned, it shall appear as the second argument of the create function."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.2-002a",
+   "section": "21.3.2",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "ObjectReference \".\" start \"(\" ( FunctionInstance | AltstepInstance ) \")\"",
+   "canonical": "The start test component operation has the syntax ObjectReference \".\" `start` \"(\" ( FunctionInstance | AltstepInstance ) \")\".",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16477,
+    16479
+   ],
+   "examples": [
+    {
+     "lines": [
+      16538,
+      16562
+     ],
+     "text": "function f_myFirstBehaviour() runs on MyComponentType { … }\n   function f_mySecondBehaviour() runs on MyComponentType { … }\n   function f_myThirdBehaviour(out integer p_p1, inout integer p_p2) runs on MyComponentType { … }\n   altstep a_myFourthBehaviour() runs on MyComponentType { ... }\n  :\n  var MyComponentType v_myNewPTC;\n  var MyComponentType v_myAlivePTC;\n  var integer v_int := 0;\n  :\n  v_myNewPTC := MyComponentType.create; // Creation of a new non-alive test component.\n  v_myAlivePTC := MyComponentType.create alive; // Creation of a new alive-type test component\n  :\n  v_myNewPTC.start(f_myFirstBehaviour());  // Start of the non-alive component.\n  v_myNewPTC.done; // Wait for termination\n  v_myNewPTC.start(f_mySecondBehaviour()); // Test case error\n  :\n  v_myAlivePTC.start(f_myFirstBehaviour()); // Start of the alive-type component\n  v_myAlivePTC.done;  // Wait for termination\n  v_myAlivePTC.start(f_mySecondBehaviour()); // Start of the next function on the same component\n  :\n  v_myAlivePTC.start(f_myThirdBehaviour(-,v_int)); // v_int will not be changed by the function\n  v_myAlivePTC.done;\n  v_myAlivePTC.start(a_myFourthBehaviour());  // Direct start of an altstep behaviour<>"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.03.02_test_001.ttcn3",
+   "module": "M_21_03_02_test_001",
+   "header": "// @requirement: 21.3.2 -- ObjectReference \".\" start \"(\" ( FunctionInstance | AltstepInstance ) \")\""
+  },
+  {
+   "id": "TTCN3-CORE-21.3.2-004a",
+   "section": "21.3.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "This is done by using the start operation (as PTC creation does not start execution of the component behaviour).",
+   "canonical": "Binding a behaviour to a PTC and starting its execution IS done by the start test component operation.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16483,
+    16486
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.02_test_002.ttcn3",
+   "module": "M_21_03_02_test_002",
+   "header": "// @requirement: 21.3.2 -- This is done by using the start operation (as PTC creation does not start execution of the component behaviour)."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.2-004b",
+   "section": "21.3.2",
+   "type": "semantics",
+   "modality": "IS NOT",
+   "original": "This is done by using the start operation (as PTC creation does not start execution of the component behaviour).",
+   "canonical": "The creation of a PTC IS NOT the start of the execution of the component behaviour.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16483,
+    16486
+   ],
+   "examples": [
+    {
+     "lines": [
+      16538,
+      16562
+     ],
+     "text": "function f_myFirstBehaviour() runs on MyComponentType { … }\n   function f_mySecondBehaviour() runs on MyComponentType { … }\n   function f_myThirdBehaviour(out integer p_p1, inout integer p_p2) runs on MyComponentType { … }\n   altstep a_myFourthBehaviour() runs on MyComponentType { ... }\n  :\n  var MyComponentType v_myNewPTC;\n  var MyComponentType v_myAlivePTC;\n  var integer v_int := 0;\n  :\n  v_myNewPTC := MyComponentType.create; // Creation of a new non-alive test component.\n  v_myAlivePTC := MyComponentType.create alive; // Creation of a new alive-type test component\n  :\n  v_myNewPTC.start(f_myFirstBehaviour());  // Start of the non-alive component.\n  v_myNewPTC.done; // Wait for termination\n  v_myNewPTC.start(f_mySecondBehaviour()); // Test case error\n  :\n  v_myAlivePTC.start(f_myFirstBehaviour()); // Start of the alive-type component\n  v_myAlivePTC.done;  // Wait for termination\n  v_myAlivePTC.start(f_mySecondBehaviour()); // Start of the next function on the same component\n  :\n  v_myAlivePTC.start(f_myThirdBehaviour(-,v_int)); // v_int will not be changed by the function\n  v_myAlivePTC.done;\n  v_myAlivePTC.start(a_myFourthBehaviour());  // Direct start of an altstep behaviour<>"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.03.02_test_003.ttcn3",
+   "module": "M_21_03_02_test_003",
+   "header": "// @requirement: 21.3.2 -- This is done by using the start operation (as PTC creation does not start execution of the component behaviour)."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.2-006a",
+   "section": "21.3.2",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "The start operation shall bind the required behaviour to the test component.",
+   "canonical": "The start test component operation SHALL bind the required behaviour to the test component.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16488,
+    16489
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.02_test_004.ttcn3",
+   "module": "M_21_03_02_test_004",
+   "header": "// @requirement: 21.3.2 -- The start operation shall bind the required behaviour to the test component."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.2-007a",
+   "section": "21.3.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "This behaviour is defined by reference to an already defined function or altstep.",
+   "canonical": "The behaviour started on a test component IS defined by reference to an already defined function or altstep.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16488,
+    16489
+   ],
+   "examples": [
+    {
+     "lines": [
+      16538,
+      16562
+     ],
+     "text": "function f_myFirstBehaviour() runs on MyComponentType { … }\n   function f_mySecondBehaviour() runs on MyComponentType { … }\n   function f_myThirdBehaviour(out integer p_p1, inout integer p_p2) runs on MyComponentType { … }\n   altstep a_myFourthBehaviour() runs on MyComponentType { ... }\n  :\n  var MyComponentType v_myNewPTC;\n  var MyComponentType v_myAlivePTC;\n  var integer v_int := 0;\n  :\n  v_myNewPTC := MyComponentType.create; // Creation of a new non-alive test component.\n  v_myAlivePTC := MyComponentType.create alive; // Creation of a new alive-type test component\n  :\n  v_myNewPTC.start(f_myFirstBehaviour());  // Start of the non-alive component.\n  v_myNewPTC.done; // Wait for termination\n  v_myNewPTC.start(f_mySecondBehaviour()); // Test case error\n  :\n  v_myAlivePTC.start(f_myFirstBehaviour()); // Start of the alive-type component\n  v_myAlivePTC.done;  // Wait for termination\n  v_myAlivePTC.start(f_mySecondBehaviour()); // Start of the next function on the same component\n  :\n  v_myAlivePTC.start(f_myThirdBehaviour(-,v_int)); // v_int will not be changed by the function\n  v_myAlivePTC.done;\n  v_myAlivePTC.start(a_myFourthBehaviour());  // Direct start of an altstep behaviour<>"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.03.02_test_005.ttcn3",
+   "module": "M_21_03_02_test_005",
+   "header": "// @requirement: 21.3.2 -- This behaviour is defined by reference to an already defined function or altstep."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.2-008a",
+   "section": "21.3.2",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "An alive-type PTC may perform several behaviours in sequential order.",
+   "canonical": "An alive-type PTC MAY perform several behaviours in sequential order.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16496,
+    16502
+   ],
+   "examples": [
+    {
+     "lines": [
+      16538,
+      16562
+     ],
+     "text": "function f_myFirstBehaviour() runs on MyComponentType { … }\n   function f_mySecondBehaviour() runs on MyComponentType { … }\n   function f_myThirdBehaviour(out integer p_p1, inout integer p_p2) runs on MyComponentType { … }\n   altstep a_myFourthBehaviour() runs on MyComponentType { ... }\n  :\n  var MyComponentType v_myNewPTC;\n  var MyComponentType v_myAlivePTC;\n  var integer v_int := 0;\n  :\n  v_myNewPTC := MyComponentType.create; // Creation of a new non-alive test component.\n  v_myAlivePTC := MyComponentType.create alive; // Creation of a new alive-type test component\n  :\n  v_myNewPTC.start(f_myFirstBehaviour());  // Start of the non-alive component.\n  v_myNewPTC.done; // Wait for termination\n  v_myNewPTC.start(f_mySecondBehaviour()); // Test case error\n  :\n  v_myAlivePTC.start(f_myFirstBehaviour()); // Start of the alive-type component\n  v_myAlivePTC.done;  // Wait for termination\n  v_myAlivePTC.start(f_mySecondBehaviour()); // Start of the next function on the same component\n  :\n  v_myAlivePTC.start(f_myThirdBehaviour(-,v_int)); // v_int will not be changed by the function\n  v_myAlivePTC.done;\n  v_myAlivePTC.start(a_myFourthBehaviour());  // Direct start of an altstep behaviour<>"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.03.02_test_006.ttcn3",
+   "module": "M_21_03_02_test_006",
+   "header": "// @requirement: 21.3.2 -- An alive-type PTC may perform several behaviours in sequential order."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.2-009a",
+   "section": "21.3.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Starting a second behaviour on a non-alive PTC or starting a behaviour on a PTC that is still running results in a test case error.",
+   "canonical": "Starting a second behaviour on a non-alive PTC IS a test case error.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16496,
+    16502
+   ],
+   "examples": [
+    {
+     "lines": [
+      16538,
+      16562
+     ],
+     "text": "function f_myFirstBehaviour() runs on MyComponentType { … }\n   function f_mySecondBehaviour() runs on MyComponentType { … }\n   function f_myThirdBehaviour(out integer p_p1, inout integer p_p2) runs on MyComponentType { … }\n   altstep a_myFourthBehaviour() runs on MyComponentType { ... }\n  :\n  var MyComponentType v_myNewPTC;\n  var MyComponentType v_myAlivePTC;\n  var integer v_int := 0;\n  :\n  v_myNewPTC := MyComponentType.create; // Creation of a new non-alive test component.\n  v_myAlivePTC := MyComponentType.create alive; // Creation of a new alive-type test component\n  :\n  v_myNewPTC.start(f_myFirstBehaviour());  // Start of the non-alive component.\n  v_myNewPTC.done; // Wait for termination\n  v_myNewPTC.start(f_mySecondBehaviour()); // Test case error\n  :\n  v_myAlivePTC.start(f_myFirstBehaviour()); // Start of the alive-type component\n  v_myAlivePTC.done;  // Wait for termination\n  v_myAlivePTC.start(f_mySecondBehaviour()); // Start of the next function on the same component\n  :\n  v_myAlivePTC.start(f_myThirdBehaviour(-,v_int)); // v_int will not be changed by the function\n  v_myAlivePTC.done;\n  v_myAlivePTC.start(a_myFourthBehaviour());  // Direct start of an altstep behaviour<>"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.03.02_test_007.ttcn3",
+   "module": "M_21_03_02_test_007",
+   "header": "// @requirement: 21.3.2 -- Starting a second behaviour on a non-alive PTC or starting a behaviour on a PTC that is still running results in a test case error."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.2-009b",
+   "section": "21.3.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Starting a second behaviour on a non-alive PTC or starting a behaviour on a PTC that is still running results in a test case error.",
+   "canonical": "Starting a behaviour on a PTC that is still running IS a test case error.",
+   "condition": "the PTC is still running a behaviour",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16496,
+    16502
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.02_test_008.ttcn3",
+   "module": "M_21_03_02_test_008",
+   "header": "// @requirement: 21.3.2 -- Starting a second behaviour on a non-alive PTC or starting a behaviour on a PTC that is still running results in a test case error."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.2-010a",
+   "section": "21.3.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "If a behaviour is started on an alive-type PTC after termination of a previous behaviour, it uses variable values, timers, ports, and the local verdict as they were left after termination of the previous behaviour.",
+   "canonical": "A behaviour started on an alive-type PTC after termination of a previous behaviour IS executed with the variable values, timers, ports and local verdict as they were left after termination of the previous behaviour.",
+   "condition": "a previous behaviour has terminated on the alive-type PTC",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16496,
+    16502
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.02_test_009.ttcn3",
+   "module": "M_21_03_02_test_009",
+   "header": "// @requirement: 21.3.2 -- If a behaviour is started on an alive-type PTC after termination of a previous behaviour, it uses variable values, timers, ports, and the local verdict as they were left after termination of the previous behaviour."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.2-012a",
+   "section": "21.3.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "In contrast to that, all active defaults are deactivated when the behaviour of an alive-type PTC is stopped.",
+   "canonical": "Every active default IS deactivated when the behaviour of an alive-type PTC is stopped.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16496,
+    16502
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.02_test_010.ttcn3",
+   "module": "M_21_03_02_test_010",
+   "header": "// @requirement: 21.3.2 -- In contrast to that, all active defaults are deactivated when the behaviour of an alive-type PTC is stopped."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.2-013a",
+   "section": "21.3.2",
+   "type": "semantics",
+   "modality": "IS NOT",
+   "original": "This means no default is activated when a new behaviour is started on an alive-type PTC.",
+   "canonical": "When a new behaviour is started on an alive-type PTC, a default IS NOT active.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16496,
+    16502
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.02_test_011.ttcn3",
+   "module": "M_21_03_02_test_011",
+   "header": "// @requirement: 21.3.2 -- This means no default is activated when a new behaviour is started on an alive-type PTC."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.2-016a",
+   "section": "21.3.2",
+   "type": "information",
+   "modality": "CAN",
+   "original": "This means only variable values and timers declared in the component type definition of an alive-type PTC can be accessed by a behaviour with a corresponding runs on-clause that is started on an alive-type PTC.",
+   "canonical": "A behaviour with a corresponding runs on clause started on an alive-type PTC CAN access only the variable values and timers declared in the component type definition of that PTC from previous behaviours.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16504,
+    16507
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.02_test_012.ttcn3",
+   "module": "M_21_03_02_test_012",
+   "header": "// @requirement: 21.3.2 -- This means only variable values and timers declared in the component type definition of an alive-type PTC can be accessed by a behaviour with a corresponding runs on-clause that is started on an alive-type PTC."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.2-017a",
+   "section": "21.3.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Actual inout parameters will be passed to the function by value, i.e. like in-parameters.",
+   "canonical": "In a start test component operation, an actual inout parameter IS passed to the started function by value, i.e. like an in parameter.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16509,
+    16509
+   ],
+   "examples": [
+    {
+     "lines": [
+      16538,
+      16562
+     ],
+     "text": "function f_myFirstBehaviour() runs on MyComponentType { … }\n   function f_mySecondBehaviour() runs on MyComponentType { … }\n   function f_myThirdBehaviour(out integer p_p1, inout integer p_p2) runs on MyComponentType { … }\n   altstep a_myFourthBehaviour() runs on MyComponentType { ... }\n  :\n  var MyComponentType v_myNewPTC;\n  var MyComponentType v_myAlivePTC;\n  var integer v_int := 0;\n  :\n  v_myNewPTC := MyComponentType.create; // Creation of a new non-alive test component.\n  v_myAlivePTC := MyComponentType.create alive; // Creation of a new alive-type test component\n  :\n  v_myNewPTC.start(f_myFirstBehaviour());  // Start of the non-alive component.\n  v_myNewPTC.done; // Wait for termination\n  v_myNewPTC.start(f_mySecondBehaviour()); // Test case error\n  :\n  v_myAlivePTC.start(f_myFirstBehaviour()); // Start of the alive-type component\n  v_myAlivePTC.done;  // Wait for termination\n  v_myAlivePTC.start(f_mySecondBehaviour()); // Start of the next function on the same component\n  :\n  v_myAlivePTC.start(f_myThirdBehaviour(-,v_int)); // v_int will not be changed by the function\n  v_myAlivePTC.done;\n  v_myAlivePTC.start(a_myFourthBehaviour());  // Direct start of an altstep behaviour<>"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.03.02_test_013.ttcn3",
+   "module": "M_21_03_02_test_013",
+   "header": "// @requirement: 21.3.2 -- Actual inout parameters will be passed to the function by value, i.e. like in-parameters."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.2-018a",
+   "section": "21.3.2",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "If the function's formal parameter list includes any out parameter the actual parameter list may omit actual out parameters using the dash symbol (\"-\") or be omitted in the same manner as for actual in parameters with default values (see clause 5.4.2), i.e. they can be omitted in the list notation if all following actual parameters are also omitted and their assignment can be omitted altogether in assignment notation.",
+   "canonical": "In a start test component operation, an actual out parameter MAY be omitted using the not-used symbol (\"-\").",
+   "condition": "the formal parameter list of the function includes an out parameter",
+   "cross_refs": [
+    "5.4.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16511,
+    16516
+   ],
+   "examples": [
+    {
+     "lines": [
+      16538,
+      16562
+     ],
+     "text": "function f_myFirstBehaviour() runs on MyComponentType { … }\n   function f_mySecondBehaviour() runs on MyComponentType { … }\n   function f_myThirdBehaviour(out integer p_p1, inout integer p_p2) runs on MyComponentType { … }\n   altstep a_myFourthBehaviour() runs on MyComponentType { ... }\n  :\n  var MyComponentType v_myNewPTC;\n  var MyComponentType v_myAlivePTC;\n  var integer v_int := 0;\n  :\n  v_myNewPTC := MyComponentType.create; // Creation of a new non-alive test component.\n  v_myAlivePTC := MyComponentType.create alive; // Creation of a new alive-type test component\n  :\n  v_myNewPTC.start(f_myFirstBehaviour());  // Start of the non-alive component.\n  v_myNewPTC.done; // Wait for termination\n  v_myNewPTC.start(f_mySecondBehaviour()); // Test case error\n  :\n  v_myAlivePTC.start(f_myFirstBehaviour()); // Start of the alive-type component\n  v_myAlivePTC.done;  // Wait for termination\n  v_myAlivePTC.start(f_mySecondBehaviour()); // Start of the next function on the same component\n  :\n  v_myAlivePTC.start(f_myThirdBehaviour(-,v_int)); // v_int will not be changed by the function\n  v_myAlivePTC.done;\n  v_myAlivePTC.start(a_myFourthBehaviour());  // Direct start of an altstep behaviour<>"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.03.02_test_014.ttcn3",
+   "module": "M_21_03_02_test_014",
+   "header": "// @requirement: 21.3.2 -- If the function's formal parameter list includes any out parameter the actual parameter list may omit actual out parameters using the dash symbol (\"-\") or be omitted in the same manner as for actual in parameters with default values (see clause 5.4.2), i.e. they can be omitted in the list notation if all following actual parameters are also omitted and their assignment can be omitted altogether in assignment notation."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.2-018b",
+   "section": "21.3.2",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "If the function's formal parameter list includes any out parameter the actual parameter list may omit actual out parameters using the dash symbol (\"-\") or be omitted in the same manner as for actual in parameters with default values (see clause 5.4.2), i.e. they can be omitted in the list notation if all following actual parameters are also omitted and their assignment can be omitted altogether in assignment notation.",
+   "canonical": "In a start test component operation using list notation, an actual out parameter MAY be omitted if all following actual parameters are also omitted.",
+   "condition": "list notation is used",
+   "cross_refs": [
+    "5.4.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16511,
+    16516
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.02_test_015.ttcn3",
+   "module": "M_21_03_02_test_015",
+   "header": "// @requirement: 21.3.2 -- If the function's formal parameter list includes any out parameter the actual parameter list may omit actual out parameters using the dash symbol (\"-\") or be omitted in the same manner as for actual in parameters with default values (see clause 5.4.2), i.e. they can be omitted in the list notation if all following actual parameters are also omitted and their assignment can be omitted altogether in assignment notation."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.2-018c",
+   "section": "21.3.2",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "If the function's formal parameter list includes any out parameter the actual parameter list may omit actual out parameters using the dash symbol (\"-\") or be omitted in the same manner as for actual in parameters with default values (see clause 5.4.2), i.e. they can be omitted in the list notation if all following actual parameters are also omitted and their assignment can be omitted altogether in assignment notation.",
+   "canonical": "In a start test component operation using assignment notation, the assignment of an actual out parameter MAY be omitted altogether.",
+   "condition": "assignment notation is used",
+   "cross_refs": [
+    "5.4.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16511,
+    16516
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.02_test_016.ttcn3",
+   "module": "M_21_03_02_test_016",
+   "header": "// @requirement: 21.3.2 -- If the function's formal parameter list includes any out parameter the actual parameter list may omit actual out parameters using the dash symbol (\"-\") or be omitted in the same manner as for actual in parameters with default values (see clause 5.4.2), i.e. they can be omitted in the list notation if all following actual parameters are also omitted and their assignment can be omitted altogether in assignment notation."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.2-019a",
+   "section": "21.3.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "If a variable is given as an actual out parameter, it will remain unchanged by the started behaviour, even if the behaviour changes the formal parameter during its execution.",
+   "canonical": "A variable given as an actual out parameter in a start test component operation IS left unchanged by the started behaviour, even if the behaviour changes the formal parameter during its execution.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16511,
+    16516
+   ],
+   "examples": [
+    {
+     "lines": [
+      16538,
+      16562
+     ],
+     "text": "function f_myFirstBehaviour() runs on MyComponentType { … }\n   function f_mySecondBehaviour() runs on MyComponentType { … }\n   function f_myThirdBehaviour(out integer p_p1, inout integer p_p2) runs on MyComponentType { … }\n   altstep a_myFourthBehaviour() runs on MyComponentType { ... }\n  :\n  var MyComponentType v_myNewPTC;\n  var MyComponentType v_myAlivePTC;\n  var integer v_int := 0;\n  :\n  v_myNewPTC := MyComponentType.create; // Creation of a new non-alive test component.\n  v_myAlivePTC := MyComponentType.create alive; // Creation of a new alive-type test component\n  :\n  v_myNewPTC.start(f_myFirstBehaviour());  // Start of the non-alive component.\n  v_myNewPTC.done; // Wait for termination\n  v_myNewPTC.start(f_mySecondBehaviour()); // Test case error\n  :\n  v_myAlivePTC.start(f_myFirstBehaviour()); // Start of the alive-type component\n  v_myAlivePTC.done;  // Wait for termination\n  v_myAlivePTC.start(f_mySecondBehaviour()); // Start of the next function on the same component\n  :\n  v_myAlivePTC.start(f_myThirdBehaviour(-,v_int)); // v_int will not be changed by the function\n  v_myAlivePTC.done;\n  v_myAlivePTC.start(a_myFourthBehaviour());  // Direct start of an altstep behaviour<>"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.03.02_test_017.ttcn3",
+   "module": "M_21_03_02_test_017",
+   "header": "// @requirement: 21.3.2 -- If a variable is given as an actual out parameter, it will remain unchanged by the started behaviour, even if the behaviour changes the formal parameter during its execution."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.2-020a",
+   "section": "21.3.2",
+   "type": "semantics",
+   "modality": "IS NOT",
+   "original": "Possible return values of a function invoked in a start test component operation, i.e. templates denoted by return keyword or inout and out parameters, have no effect when the started test component terminates.",
+   "canonical": "A return value or out or inout parameter of a function invoked in a start test component operation IS NOT effective when the started test component terminates.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "Return values are called 'templates denoted by return keyword'; return values may be values or templates.",
+    "improper_terms": [
+     {
+      "used": "templates denoted by return keyword",
+      "proper": "return value",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    16518,
+    16519
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.02_test_018.ttcn3",
+   "module": "M_21_03_02_test_018",
+   "header": "// @requirement: 21.3.2 -- Possible return values of a function invoked in a start test component operation, i.e. templates denoted by return keyword or inout and out parameters, have no effect when the started test component terminates."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.2-022a",
+   "section": "21.3.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "a) The ObjectReference shall be of component type and shall not resolve to a template.",
+   "canonical": "The ObjectReference of a start test component operation SHALL be of component type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16526,
+    16526
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.02_test_019.ttcn3",
+   "module": "M_21_03_02_test_019",
+   "header": "// @requirement: 21.3.2 -- a) The ObjectReference shall be of component type and shall not resolve to a template."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.2-022b",
+   "section": "21.3.2",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "a) The ObjectReference shall be of component type and shall not resolve to a template.",
+   "canonical": "The ObjectReference of a start test component operation SHALL NOT resolve to a template.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16526,
+    16526
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.02_test_020.ttcn3",
+   "module": "M_21_03_02_test_020",
+   "header": "// @requirement: 21.3.2 -- a) The ObjectReference shall be of component type and shall not resolve to a template."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.2-023a",
+   "section": "21.3.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "b) The function or altstep invoked in a start test component operation shall have a runs `on definition` referencing a component type that is compatible with the newly created component (see clause 6.3.2.7).",
+   "canonical": "A function or altstep invoked in a start test component operation SHALL have a runs on clause referencing a component type that is compatible with the test component referenced by the ObjectReference.",
+   "condition": null,
+   "cross_refs": [
+    "6.3.2.7"
+   ],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "'runs on definition' should be 'runs on clause'; 'newly created component' should be the component addressed by the ObjectReference (which may be an alive-type PTC already used before).",
+    "improper_terms": [
+     {
+      "used": "runs on definition",
+      "proper": "runs on clause",
+      "glossary": false
+     },
+     {
+      "used": "newly created component",
+      "proper": "test component referenced by the ObjectReference",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    16528,
+    16529
+   ],
+   "examples": [
+    {
+     "lines": [
+      16538,
+      16562
+     ],
+     "text": "function f_myFirstBehaviour() runs on MyComponentType { … }\n   function f_mySecondBehaviour() runs on MyComponentType { … }\n   function f_myThirdBehaviour(out integer p_p1, inout integer p_p2) runs on MyComponentType { … }\n   altstep a_myFourthBehaviour() runs on MyComponentType { ... }\n  :\n  var MyComponentType v_myNewPTC;\n  var MyComponentType v_myAlivePTC;\n  var integer v_int := 0;\n  :\n  v_myNewPTC := MyComponentType.create; // Creation of a new non-alive test component.\n  v_myAlivePTC := MyComponentType.create alive; // Creation of a new alive-type test component\n  :\n  v_myNewPTC.start(f_myFirstBehaviour());  // Start of the non-alive component.\n  v_myNewPTC.done; // Wait for termination\n  v_myNewPTC.start(f_mySecondBehaviour()); // Test case error\n  :\n  v_myAlivePTC.start(f_myFirstBehaviour()); // Start of the alive-type component\n  v_myAlivePTC.done;  // Wait for termination\n  v_myAlivePTC.start(f_mySecondBehaviour()); // Start of the next function on the same component\n  :\n  v_myAlivePTC.start(f_myThirdBehaviour(-,v_int)); // v_int will not be changed by the function\n  v_myAlivePTC.done;\n  v_myAlivePTC.start(a_myFourthBehaviour());  // Direct start of an altstep behaviour<>"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.03.02_test_021.ttcn3",
+   "module": "M_21_03_02_test_021",
+   "header": "// @requirement: 21.3.2 -- b) The function or altstep invoked in a start test component operation shall have a runs `on definition` referencing a component type that is compatible with the newly created component (see clause 6.3.2.7)."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.2-024a",
+   "section": "21.3.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "c) All formal parameters of the function or altstep invoked in a start test component operation shall be of a component data type.",
+   "canonical": "Every formal parameter of a function or altstep invoked in a start test component operation SHALL be of a component data type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16531,
+    16532
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.02_test_022.ttcn3",
+   "module": "M_21_03_02_test_022",
+   "header": "// @requirement: 21.3.2 -- c) All formal parameters of the function or altstep invoked in a start test component operation shall be of a component data type."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.2-025a",
+   "section": "21.3.2",
+   "type": "information",
+   "modality": "CAN",
+   "original": "NOTE 2: As in and inout ports starts listening when the component is created, at the moment, when it starts execution there may be messages in the incoming queues of such ports already waiting to be processed.",
+   "canonical": "When a test component starts execution, messages CAN already be waiting in the incoming queues of its in and inout ports, because these ports start listening when the component is created.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "'in and inout ports' is not a defined term; ports whose port type allows incoming communication is meant.",
+    "improper_terms": [
+     {
+      "used": "in and inout ports",
+      "proper": "ports whose port type declares in or inout messages",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    16534,
+    16535
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.02_test_023.ttcn3",
+   "module": "M_21_03_02_test_023",
+   "header": "// @requirement: 21.3.2 -- NOTE 2: As in and inout ports starts listening when the component is created, at the moment, when it starts execution there may be messages in the incoming queues of such ports already waiting to be processed."
+  }
+ ]
+}

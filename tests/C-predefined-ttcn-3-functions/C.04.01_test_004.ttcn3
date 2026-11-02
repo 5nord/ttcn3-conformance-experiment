@@ -1,0 +1,21 @@
+// @requirement: C.4.1 -- If the @nocase modifier is present, this and all subsequent matchings shall be done in a case-insensitive way, as specified in clause B.1.5.6.
+// @id: TTCN3-CORE-C.4.1-004a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_04_01_test_004 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var charstring v_in := "XaBcY";
+        var charstring v_res := regexp @nocase(v_in, charstring:"x(AbC)y", 0);
+        if (v_res == "aBc") {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

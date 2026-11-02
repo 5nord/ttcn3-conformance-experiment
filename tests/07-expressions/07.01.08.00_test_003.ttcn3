@@ -1,0 +1,35 @@
+// @requirement: 7.1.8.0 -- In these cases, if resolving dot notation, index notation (see clause 7.2) or decoded field references (see clause 7.3) included in the _ExtendedFieldReference would produce an error (e.g. if an index is out of range, when referencing a sub-field of an_ omitted field etc.), the following happens: Specific rules apply if the operand of a presence checking operator is a data object reference, function instance, template instance or a result of the valueof operation followed by an ExtendedFieldReference.
+// @id: TTCN3-CORE-7.1.8.0-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_07_01_08_00_test_003 {
+
+    type record Inner { integer g1 }
+    type record R { Inner f1 optional, integer f2 }
+    type record of R RoR;
+
+    type component C {}
+
+    function f_r() return R {
+        return { f1 := omit, f2 := 1 };
+    }
+
+    testcase TC() runs on C {
+        var R v_r := { f1 := omit, f2 := 1 };
+        var RoR v_l := { v_r };
+        var template R v_t := { f1 := omit, f2 := 1 };
+        var boolean v_res1 := ispresent(v_r.f1.g1);
+        var boolean v_res2 := isbound(v_l[3].f2);
+        var boolean v_res3 := isvalue(f_r().f1.g1);
+        var boolean v_res4 := ispresent(v_t.f1.g1);
+        var boolean v_res5 := isbound(valueof(v_t).f1.g1);
+        if (not v_res1 and not v_res2 and not v_res3 and not v_res4 and not v_res5) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

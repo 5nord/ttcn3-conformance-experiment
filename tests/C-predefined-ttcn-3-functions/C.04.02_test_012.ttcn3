@@ -1,0 +1,21 @@
+// @requirement: C.4.2 -- The rules for the indexing of string templates specified in the same section are used for interpreting the index and count parameters, i.e. the count parameter counts indexable items.
+// @id: TTCN3-CORE-C.4.2-013a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_04_02_test_012 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template charstring v_in := pattern "a[bc]de";
+        var template charstring v_res := substr(v_in, 1, 2);
+        if (match("bd", v_res) and match("cd", v_res) and not match("bcd", v_res)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

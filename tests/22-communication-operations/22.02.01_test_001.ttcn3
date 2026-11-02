@@ -1,0 +1,39 @@
+// @requirement: 22.2.1 -- ObjectReference "." send "(" TemplateInstance ")" [ to Address ]
+// @id: TTCN3-CORE-22.2.1-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_02_01_test_001 {
+
+    type port P message { inout integer }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    function f_receive() runs on C {
+        T.start;
+        alt {
+            [] p.receive(integer:1) { }
+            [] p.receive { setverdict(fail); stop; }
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        alt {
+            [] p.receive(integer:2) { setverdict(pass); }
+            [] p.receive { setverdict(fail); }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_receive());
+        p.send(1);
+        p.send(2) to v_ptc;
+        v_ptc.done;
+    }
+
+    control {
+        execute(TC());
+    }
+}

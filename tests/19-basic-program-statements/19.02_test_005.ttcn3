@@ -1,0 +1,35 @@
+// @requirement: 19.2 -- A statement block - and only one - will be executed, if its condition evaluates to true.
+// @id: TTCN3-CORE-19.2-006a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_02_test_005 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_a := 1;
+        var integer v_executed := 0;
+        var integer v_branch := 0;
+        if (v_a > 5) {
+            v_executed := v_executed + 1;
+            v_branch := 1;
+        } else if (v_a > 0) {
+            v_executed := v_executed + 1;
+            v_branch := 2;
+        } else if (v_a == 1) {
+            v_executed := v_executed + 1;
+            v_branch := 3;
+        } else {
+            v_executed := v_executed + 1;
+            v_branch := 4;
+        }
+        if (v_executed == 1 and v_branch == 2) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

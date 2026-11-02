@@ -1,0 +1,21 @@
+// @requirement: B.1.4.1 -- NOTE: When the length attribute is used with a template list, elements of the list may be disabled by the attribute.
+// @id: TTCN3-CORE-B.1.4.1-004a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_04_01_test_003 {
+
+    type component C {}
+
+    template charstring mw_str := ("a", "bb", "ccc") length(2);
+
+    testcase TC() runs on C {
+        if (match("bb", mw_str) and not match("a", mw_str) and not match("ccc", mw_str)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

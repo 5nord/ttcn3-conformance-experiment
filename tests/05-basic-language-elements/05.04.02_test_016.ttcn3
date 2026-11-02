@@ -1,0 +1,21 @@
+// @requirement: 5.4.2 -- Actual parameters that are passed to inout formal template parameters shall be template variables or formal template parameters (of in, inout or out parameterization) of the current scope or references to elements of template variables or formal template parameters of structured types.
+// @id: TTCN3-CORE-5.4.2-012a
+// @verdict: pass reject
+module M_05_04_02_test_016 {
+
+    type component C {}
+
+    function f(inout template integer p_t) {
+        p_t := (1..5);
+    }
+
+    testcase TC() runs on C {
+        var integer v_i := 1;
+        f(v_i); // error: value variable passed to inout formal template parameter
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

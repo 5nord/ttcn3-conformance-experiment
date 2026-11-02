@@ -1,0 +1,34 @@
+// @requirement: 20.5.1 -- In the case of a successful termination, the default may either stop the test component by means of a stop statement, or the main control flow of the test component will continue immediately after the alt statement from which the default mechanism was called or the test component will take new snapshot and re-evaluate the alt statement.
+// @id: TTCN3-CORE-20.5.1-016a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_05_01_test_013 {
+
+    type component C {
+        timer T;
+        timer T_guard;
+    }
+
+    altstep a_1() runs on C {
+        [] T.timeout { setverdict(pass); stop; }
+    }
+
+    function f_ptc() runs on C {
+        activate(a_1());
+        T.start(0.1);
+        T_guard.start(0.5);
+        alt {
+            [] T_guard.timeout {}
+        }
+        setverdict(fail);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        v_ptc.start(f_ptc());
+        v_ptc.done;
+    }
+
+    control {
+        execute(TC());
+    }
+}

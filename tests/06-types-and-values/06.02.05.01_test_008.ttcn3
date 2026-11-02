@@ -1,0 +1,27 @@
+// @requirement: 6.2.5.1 -- When an alternative of a union type is referenced on the right hand side of an assignment an error shall occur if the referenced alternative is not the currently chosen alternative or if the referenced union field or value is omitted or uninitialized.
+// @id: TTCN3-CORE-6.2.5.1-007b
+// @verdict: pass accept, ttcn3verdict:error
+module M_06_02_05_01_test_008 {
+
+    type union U {
+        integer choice1,
+        charstring choice2
+    }
+
+    type record R {
+        U field1 optional
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var R v_r := { field1 := omit };
+        setverdict(pass);
+        var integer v_i := v_r.field1.choice1; // error: v_r.field1 is omitted
+        log(v_i);
+    }
+
+    control {
+        execute(TC());
+    }
+}

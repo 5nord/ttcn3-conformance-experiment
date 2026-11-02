@@ -1,0 +1,40 @@
+// @requirement: 5.1 -- Language element: Timer declarations; Associated keyword: timer; Specified in module control: Yes; Specified in functions/ altsteps/test cases: Yes; Specified in test component type: Yes
+// @id: TTCN3-CORE-5.1-024a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_01_test_037 {
+
+    type component C {
+        timer T_component := 0.1;
+    }
+
+    function f_wait() {
+        timer T_function := 0.1;
+        T_function.start;
+        T_function.timeout;
+    }
+
+    altstep a_wait() runs on C {
+        timer T_altstep := 0.1;
+        [] T_component.timeout {
+            T_altstep.start;
+            T_altstep.timeout;
+            setverdict(pass);
+        }
+    }
+
+    testcase TC() runs on C {
+        timer T_testcase := 0.1;
+        T_testcase.start;
+        T_testcase.timeout;
+        f_wait();
+        T_component.start;
+        a_wait();
+    }
+
+    control {
+        timer T_control := 0.1;
+        T_control.start;
+        T_control.timeout;
+        execute(TC());
+    }
+}

@@ -1,0 +1,25 @@
+// @requirement: 7.1.2 -- The operation is a simple concatenation from left to right.
+// @id: TTCN3-CORE-7.1.2-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_07_01_02_test_003 {
+
+    type record of integer RI;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var bitstring v_b1 := '1111'B, v_b2 := '0000'B;
+        var charstring v_c1 := "ab", v_c2 := "cd", v_c3 := "ef";
+        var RI v_r1 := { 1, 2 }, v_r2 := { 3, 4 }, v_r3 := { 5, 6 };
+        if (v_b1 & v_b2 & v_b1 == '111100001111'B and v_c1 & v_c2 & v_c3 == "abcdef" and
+            v_r1 & v_r2 & v_r3 == { 1, 2, 3, 4, 5, 6 }) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

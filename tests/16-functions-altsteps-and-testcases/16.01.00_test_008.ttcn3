@@ -1,0 +1,31 @@
+// @requirement: 16.1.0 -- Execution of a return statement in the body of the function causes evaluation of the return value or template, the function to terminate and to return the result to the location of the call of the function.
+// @id: TTCN3-CORE-16.1.0-007b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_16_01_00_test_008 {
+
+    type component C {
+        var integer v_counter := 0;
+    }
+
+    function f_early(boolean p_stop) runs on C return integer {
+        v_counter := 1;
+        if (p_stop) {
+            return 1;
+        }
+        v_counter := 2;
+        return 2;
+    }
+
+    testcase TC() runs on C {
+        var integer v_res := f_early(true);
+        if (v_res == 1 and v_counter == 1) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,22 @@
+// @requirement: C.5.5 -- In addition to the general error causes in clause 16.1.2, error causes are: Encoding fails due to a runtime system problem (i.e. no encoding function exists for the actual type of inpar).
+// @id: TTCN3-CORE-C.5.5-011a
+// @verdict: pass accept, ttcn3verdict:error
+module M_C_05_05_test_012 {
+
+    type component C {}
+
+    type record R {
+        integer f1,
+        integer f2
+    }
+
+    testcase TC() runs on C {
+        var integer v_len;
+        var octetstring v_o := encvalue_o(R:{ f1 := 1, f2 := 2 }, "", "", v_len); // no encoding function for R
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

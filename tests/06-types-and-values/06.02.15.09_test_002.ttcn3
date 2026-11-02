@@ -1,0 +1,19 @@
+// @requirement: 6.2.15.9 -- The omit symbol shall not be assigned to a map key or value field.
+// @id: TTCN3-CORE-6.2.15.9-002a
+// @verdict: pass reject
+module M_06_02_15_09_test_002 {
+
+    type map from charstring to integer MapType;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MapType v_map := { ["a"] := 1 };
+        v_map["b"] := omit; // error: omit assigned to a map value field
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

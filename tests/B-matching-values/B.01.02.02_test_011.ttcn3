@@ -1,0 +1,31 @@
+// @requirement: B.1.2.2 -- e) The complement of a template list shall not match omit.
+// @id: TTCN3-CORE-B.1.2.2-012a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_02_02_test_011 {
+
+    type component C {}
+
+    type record R {
+        integer f1,
+        integer f2 optional
+    }
+
+    template R mw_r := {
+        f1 := ?,
+        f2 := complement(1, 2)
+    }
+
+    testcase TC() runs on C {
+        var R v_omit := { f1 := 0, f2 := omit };
+        var R v_present := { f1 := 0, f2 := 3 };
+        if (not match(v_omit, mw_r) and match(v_present, mw_r)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,26 @@
+// @requirement: C.5.5 -- In case the encoded message is not octet-based and has a bit length not divisible by 8, the encoded message will be left-aligned in the returned octetstring and the least significant (8 - (bit length mod 8)) bits in the least significant octet will be 0.
+// @id: TTCN3-CORE-C.5.5-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_05_05_test_006 {
+
+    type component C {}
+
+    type bitstring B5 length(5) with { encode "RAW"; variant "FIELDLENGTH(5)" }
+
+    const B5 c_b := '10111'B;
+
+    testcase TC() runs on C {
+        var integer v_len;
+        var bitstring v_bits := encvalue(c_b);
+        var octetstring v_o := encvalue_o(c_b, "", "", v_len);
+        if (substr(oct2bit(v_o), 0, lengthof(v_bits)) == v_bits) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

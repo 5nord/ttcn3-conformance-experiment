@@ -1,0 +1,40 @@
+// @requirement: 14 -- The direction inout and out indicate that these parameters are used to retrieve information from the remote procedure.
+// @id: TTCN3-CORE-14-011a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_14_test_012 {
+
+    signature S(in integer p_in, out integer p_out, inout integer p_io);
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    function f_server() runs on C {
+        var integer v_in, v_io;
+        p.getcall(S:{ p_in := ?, p_out := ?, p_io := ? }) -> param(v_in := p_in, v_io := p_io);
+        p.reply(S:{ p_in := v_in, p_out := v_in * 2, p_io := v_io + 1 });
+    }
+
+    testcase TC() runs on C {
+        var integer v_out, v_io;
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_server());
+        p.call(S:{ p_in := 3, p_out := -, p_io := 10 }, 1.0) {
+            [] p.getreply(S:{ p_in := ?, p_out := ?, p_io := ? }) -> param(v_out := p_out, v_io := p_io) {
+                if (v_out == 6 and v_io == 11) {
+                    setverdict(pass);
+                } else {
+                    setverdict(fail);
+                }
+            }
+            [] p.catch(timeout) { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

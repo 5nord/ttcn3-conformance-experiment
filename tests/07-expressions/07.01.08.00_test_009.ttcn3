@@ -1,0 +1,20 @@
+// @requirement: 7.1.8.0 -- Errors occurring during resolving a value of an index inside index notation or a value of an encoding format parameter of a decoded field reference are not affected by this rule.
+// @id: TTCN3-CORE-7.1.8.0-011a
+// @verdict: pass accept, ttcn3verdict:error
+module M_07_01_08_00_test_009 {
+
+    type record of integer RoI;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var RoI v_l := { 1, 2 };
+        var RoI v_indexes := { 0 };
+        var boolean v_res := ispresent(v_l[v_indexes[3]]); // error: index value cannot be resolved
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

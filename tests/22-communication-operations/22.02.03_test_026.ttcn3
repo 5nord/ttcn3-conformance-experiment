@@ -1,0 +1,46 @@
+// @requirement: 22.2.3 -- In this latter case the trigger operation is considered to be shorthand for an alt statement with two alternatives (one alternative expecting the message and another alternative consuming all other messages and repeating the alt statement, see ETSI ES 201 873-4 [1]).
+// @id: TTCN3-CORE-22.2.3-028a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_02_03_test_026 {
+
+    type port P message { inout integer }
+
+    type component C {
+        port P p;
+        port P q;
+        var boolean v_defaultCalled := false;
+        timer T := 1.0;
+        timer T_empty := 0.3;
+    }
+
+    altstep a_default() runs on C {
+        [] p.receive(integer:1) {
+            v_defaultCalled := true;
+            repeat;
+        }
+        [] T.timeout {
+            setverdict(fail);
+            stop;
+        }
+    }
+
+    testcase TC() runs on C {
+        connect(mtc:p, mtc:q);
+        activate(a_default());
+        q.send(1);
+        q.send(2);
+        q.send(3);
+        T.start;
+        p.trigger(integer:3);
+        if (v_defaultCalled) { setverdict(fail); stop; }
+        T_empty.start;
+        alt {
+            [] p.receive { setverdict(fail); }
+            [] T_empty.timeout { setverdict(pass); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

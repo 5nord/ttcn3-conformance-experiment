@@ -1,0 +1,25 @@
+// @requirement: 21.3.3 -- a) The ObjectReference shall be of component type and shall not resolve to a template.
+// @id: TTCN3-CORE-21.3.3-024b
+// @verdict: pass reject
+module M_21_03_03_test_027 {
+
+    type component C {}
+
+    function f_wait() runs on C {
+        timer T_w := 5.0;
+        T_w.start;
+        T_w.timeout;
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        var template C vt_ptc := v_ptc;
+        v_ptc.start(f_wait());
+        vt_ptc.stop; // error: ObjectReference resolves to a template
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

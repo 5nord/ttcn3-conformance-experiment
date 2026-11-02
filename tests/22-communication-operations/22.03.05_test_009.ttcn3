@@ -1,0 +1,34 @@
+// @requirement: 22.3.5 -- In case of one-to-one connections, the to clause may be omitted, because the receiving entity is uniquely identified by the system structure.
+// @id: TTCN3-CORE-22.3.5-014a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_03_05_test_009 {
+
+    signature S() exception(integer);
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    function f_client() runs on C {
+        p.call(S:{}, 1.0) {
+            [] p.catch(S, 1) { setverdict(pass); }
+            [] p.catch { setverdict(fail); }
+            [] p.catch(timeout) { setverdict(fail); }
+        }
+    }
+
+    testcase TC() runs on C system C {
+        var C v_ptc := C.create;
+        connect(self:p, v_ptc:p);
+        v_ptc.start(f_client());
+        p.getcall(S:{});
+        p.raise(S, 1);
+        v_ptc.done;
+    }
+
+    control {
+        execute(TC(), 5.0);
+    }
+}

@@ -1,0 +1,29 @@
+// @requirement: 6.2.11 -- system | mtc | self | ObjectReference
+// @id: TTCN3-CORE-6.2.11-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_11_test_001 {
+
+    type component C {
+    }
+
+    function f_empty() runs on C {
+    }
+
+    testcase TC() runs on C system C {
+        var C v_sys := system;
+        var C v_mtc := mtc;
+        var C v_self := self;
+        var C v_ptc := C.create;
+        v_ptc.start(f_empty());
+        v_ptc.done;
+        if (v_self == v_mtc and v_sys != v_mtc and v_ptc != v_mtc and v_ptc != v_sys) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

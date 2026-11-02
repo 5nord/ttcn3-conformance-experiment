@@ -1,0 +1,24 @@
+// @requirement: 18 -- Statement: Map port to test interface; Associated keyword or symbol: map; Can be invoked by test behaviour: Yes
+// @id: TTCN3-CORE-18-038a
+// @verdict: pass reject
+module M_18_test_072 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        setverdict(pass);
+    }
+
+    control {
+        var C v_a;
+        var C v_b;
+        map(v_a:p, v_b:p); // error: map in control behaviour
+        execute(TC());
+    }
+}

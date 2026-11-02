@@ -1,0 +1,35 @@
+// @requirement: 19.3.2 -- If no case exists for the chosen alternative, the StatementBlock of the else branch, if it is present, is executed.
+// @id: TTCN3-CORE-19.3.2-012a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_03_02_test_013 {
+
+    type component C {}
+
+    type union U {
+        integer a,
+        boolean b,
+        charstring c
+    }
+
+    testcase TC() runs on C {
+        var U v_u := { c := "x" };
+        var boolean v_else := false;
+        select union (v_u) {
+            case (a, b) {
+                setverdict(fail);
+            }
+            case else {
+                v_else := true;
+            }
+        }
+        if (v_else) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

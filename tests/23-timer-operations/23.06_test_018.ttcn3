@@ -1,0 +1,21 @@
+// @requirement: 23.6 -- e) If the index redirection is used for multi-dimensional timer arrays, the size of the integer array or record of integer type shall exactly be the same as the dimension of the respective timer array, and its type shall allow storing the highest index (from all dimensions) of the timer array.
+// @id: TTCN3-CORE-23.6-018b
+// @verdict: pass reject
+module M_23_06_test_018 {
+
+    type component C {}
+
+    type integer SmallIndex (0..1);
+
+    testcase TC() runs on C {
+        timer TA[2][5];
+        var SmallIndex v_i[2];
+        TA[0][0].start(0.01);
+        any from TA.timeout -> @index value v_i; // error: highest index 4 not in 0..1
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

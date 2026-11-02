@@ -1,0 +1,23 @@
+// @requirement: B.1.5.1 -- A hyphen character "-" inside the list but without preceding or following character loses its special meaning.
+// @id: TTCN3-CORE-B.1.5.1-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_05_01_test_005 {
+
+    type component C {}
+
+    template charstring mw_first := pattern "[-c]";
+    template charstring mw_last := pattern "[a-]";
+
+    testcase TC() runs on C {
+        if (match("-", mw_first) and match("c", mw_first) and not match("b", mw_first)
+            and match("-", mw_last) and match("a", mw_last) and not match("b", mw_last)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

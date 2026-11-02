@@ -1,0 +1,51 @@
+// @requirement: 15.7.1 -- Col1: union; Col2: Yes; Table 11: TTCN-3 Matching Mechanisms: Yes1; Col4: Yes; Col5: Yes; Col6: Yes; Col7: Yes1; Col17: Yes1
+// @id: TTCN3-CORE-15.7.1-023a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_07_01_test_017 {
+
+    type component C {}
+
+    type union U {
+        integer i,
+        charstring s
+    }
+
+    type record R {
+        U f optional
+    }
+
+    template U m_spec := { i := 1 };
+    template U m_omit := omit;
+    template U m_compl := complement({ i := 1 });
+    template U m_list := ({ i := 1 }, { s := "a" });
+    template U m_any := ?;
+    template U m_anyOrNone := *;
+    template R m_rOmit := { f := omit };
+    template R m_rAnyOrNone := { f := * };
+    template R m_rIfPresent := { f := { i := 1 } ifpresent };
+
+    testcase TC() runs on C {
+        var U v_i1 := { i := 1 };
+        var U v_sa := { s := "a" };
+        var U v_i2 := { i := 2 };
+        var R v_absent := { f := omit };
+        var R v_present := { f := v_i1 };
+        var R v_other := { f := v_sa };
+        if (match(v_i1, m_spec) and not match(v_i2, m_spec) and
+            match(v_sa, m_compl) and not match(v_i1, m_compl) and
+            match(v_sa, m_list) and not match(v_i2, m_list) and
+            match(v_i2, m_any) and
+            match(v_absent, m_rOmit) and not match(v_present, m_rOmit) and
+            match(v_absent, m_rAnyOrNone) and match(v_present, m_rAnyOrNone) and
+            match(v_absent, m_rIfPresent) and match(v_present, m_rIfPresent) and
+            not match(v_other, m_rIfPresent)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

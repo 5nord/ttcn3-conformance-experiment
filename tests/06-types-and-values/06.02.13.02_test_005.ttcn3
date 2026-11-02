@@ -1,0 +1,27 @@
+// @requirement: 6.2.13.2 -- Subtype references shall be resolved in a recursive way: the collection of templates denoted by the subtype(s) referenced in the list become members of the new subtype definition with an expanded list containing only possibly partial templates.
+// @id: TTCN3-CORE-6.2.13.2-004a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_13_02_test_005 {
+
+    type record of charstring RoCs;
+    type RoCs RoCs_Sub1 ({ "aa" }, { "bb", "cc" });
+    type RoCs RoCs_Sub2 (RoCs_Sub1, { "dd" });
+    type RoCs RoCs_Sub3 (RoCs_Sub2, { "ee", "ff", "gg" });
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var RoCs_Sub3 v_1 := { "bb", "cc" };
+        var RoCs_Sub3 v_2 := { "dd" };
+        var RoCs_Sub3 v_3 := { "ee", "ff", "gg" };
+        if (v_1[1] == "cc" and v_2[0] == "dd" and lengthof(v_3) == 3) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,22 @@
+// @requirement: 21.3.10 -- f) The optional catch `timeout clause may be present only if the timeout value has been defined.`
+// @id: TTCN3-CORE-21.3.10-033a
+// @verdict: pass reject
+module M_21_03_10_test_048 {
+
+    type component C {}
+
+    function f_behaviour() runs on C {
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        v_ptc.call(f_behaviour()) catch (timeout) { // error: catch timeout without timeout duration
+            setverdict(fail);
+        }
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

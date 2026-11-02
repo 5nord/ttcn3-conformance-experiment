@@ -1,0 +1,18 @@
+// @requirement: 6.2.13.3 -- The newly defined iterated type shall be a subset of the innermost type.
+// @id: TTCN3-CORE-6.2.13.3-002a
+// @verdict: pass reject
+module M_06_02_13_03_test_002 {
+
+    type integer Small (0 .. 10);
+    type set of Small SmallSet (20 .. 30); // error: iterated type is not a subset of the innermost type Small
+
+    type component C {}
+
+    testcase TC() runs on C {
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

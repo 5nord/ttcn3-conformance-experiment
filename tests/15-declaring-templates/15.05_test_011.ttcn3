@@ -1,0 +1,28 @@
+// @requirement: 15.5 -- b) For templates, template fields and elements of record and set types, if a record or set field and its corresponding matching mechanism is specified in the modified template, then the specified matching mechanism replaces the one specified in the corresponding field of the parent template.
+// @id: TTCN3-CORE-15.5-014a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_05_test_011 {
+
+    type record R {
+        integer f1 optional,
+        charstring f2,
+        boolean f3
+    }
+
+    template R mw_r1 := { f1 := 1, f2 := pattern "abc*", f3 := true };
+    template R mw_r2 modifies mw_r1 := { f2 := "x" };
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (match({ f1 := 1, f2 := "x", f3 := true }, mw_r2) and not match({ f1 := 1, f2 := "abcd", f3 := true }, mw_r2)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

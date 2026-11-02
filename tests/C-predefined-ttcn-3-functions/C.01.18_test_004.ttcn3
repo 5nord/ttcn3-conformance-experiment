@@ -1,0 +1,25 @@
+// @requirement: C.1.18 -- For the purpose of this conversion, a hexstring shall be converted into a bitstring, where the hex digits of the hexstring are converted in groups of bits as follows:
+// @id: TTCN3-CORE-C.1.18-004a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_01_18_test_004 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var hexstring v_digits := '0123456789ABCDEF'H;
+        var bitstring v_b := hex2bit(v_digits);
+        if (lengthof(v_b) != 4 * lengthof(v_digits)) {
+            setverdict(fail);
+        }
+        for (var integer i := 0; i < 16; i := i + 1) {
+            if (substr(v_b, 4 * i, 4) != int2bit(i, 4)) {
+                setverdict(fail);
+            }
+        }
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

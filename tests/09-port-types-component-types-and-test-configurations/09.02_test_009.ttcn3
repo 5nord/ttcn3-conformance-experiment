@@ -1,0 +1,25 @@
+// @requirement: 9.2 -- In this case, the component type definition associated with the MTC implicitly defines the corresponding test system interface.
+// @id: TTCN3-CORE-9.2-024a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_09_02_test_009 {
+
+    type port P message { inout integer; }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        map(mtc:p, system:p);
+        if (p.checkstate("Mapped")) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+        unmap(mtc:p, system:p);
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,36 @@
+// @requirement: 15.3 -- a) The dot notation such as myTemplateId.fieldId shall not be used to set or retrieve values in templates in communication events.
+// @id: TTCN3-CORE-15.3-018a
+// @verdict: pass reject
+module M_15_03_test_014 {
+
+    type record MyMessageType {
+        integer field1,
+        charstring field2
+    }
+
+    type port P message {
+        inout MyMessageType;
+    }
+
+    type component C {
+        port P p1;
+        port P p2;
+    }
+
+    template MyMessageType mw_myTemplate := { field1 := ?, field2 := ? }
+
+    testcase TC() runs on C {
+        timer T := 1.0;
+        connect(self:p1, self:p2);
+        p1.send(MyMessageType:{ field1 := 1, field2 := "abc" });
+        T.start;
+        alt {
+            [] p2.receive(mw_myTemplate) -> value mw_myTemplate.field1 { setverdict(pass); } // error: dot notation on a template to retrieve a received value
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,19 @@
+// @requirement: 21.1.1 -- h) If the type of the component referenced in a connection operation is known (either when the component reference is a variable or value returned from a function or the type is defined in the runs on, mtc or system clause of the calling function), the referenced port declaration shall be present in this component type.
+// @id: TTCN3-CORE-21.1.1-038a
+// @verdict: pass reject
+module M_21_01_01_test_039 {
+
+    type port P message { inout integer; }
+
+    type component C1 { port P p1; }
+
+    testcase TC() runs on C1 {
+        var C1 v_ptc := C1.create;
+        connect(self:p1, v_ptc:p2); // error: p2 is not declared in C1
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

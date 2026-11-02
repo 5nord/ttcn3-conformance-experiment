@@ -1,0 +1,25 @@
+// @requirement: 10 -- const [ TypeOrNestedTypeDef ] { ConstIdentifier [ ArrayDef ] ":=" ConstantExpression [ "," ] } [ ";" ]
+// @id: TTCN3-CORE-10-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_10_test_004 {
+
+    type component C {}
+
+    const integer c_a := 1;
+    const boolean c_b := true, c_c := false;
+    const integer c_arr[2] := { 1, 2 }, c_d := 3
+    const record { integer f } c_nested := { f := 4 };
+
+    testcase TC() runs on C {
+        if (c_a == 1 and c_b and not c_c and c_arr[1] == 2 and c_d == 3
+            and c_nested.f == 4) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

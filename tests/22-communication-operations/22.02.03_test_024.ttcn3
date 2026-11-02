@@ -1,0 +1,40 @@
+// @requirement: 22.2.3 -- If any port in the port array which is checked for matching contains a message that does not match, this message is removed and the containing alt statement is re-evaluated, regardless of whether or not other ports in the port array would meet the trigger criteria.
+// @id: TTCN3-CORE-22.2.3-025b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_02_03_test_024 {
+
+    type port P message { inout integer }
+
+    type component C {
+        port P p[2];
+        port P q[2];
+        port P r;
+        port P s;
+        timer T := 1.0;
+        timer T_wait := 0.2;
+    }
+
+    testcase TC() runs on C {
+        var integer v_i;
+        connect(mtc:p[0], mtc:q[0]);
+        connect(mtc:p[1], mtc:q[1]);
+        connect(mtc:r, mtc:s);
+        q[0].send(9);
+        q[1].send(5);
+        s.send(1);
+        T_wait.start;
+        T_wait.timeout;
+        T.start;
+        alt {
+            [] any from p.trigger(integer:5) -> @index value v_i {
+                if (v_i == 1) { setverdict(pass); } else { setverdict(fail); }
+            }
+            [] r.receive(integer:1) { setverdict(fail); }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

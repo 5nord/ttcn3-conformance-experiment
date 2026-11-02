@@ -1,0 +1,22 @@
+// @requirement: 6.1.1.0 -- Values of charstring type can also be calculated using the predefined conversion function int2char with the positive integer value of their encoding as argument (see clause C.1).
+// @id: TTCN3-CORE-6.1.1.0-029a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_01_01_00_test_021 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var charstring v_c1 := int2char(65);
+        var charstring v_c0 := int2char(0);
+        var charstring v_c2 := "BC";
+        if (v_c1 == "A" and char2int(v_c0) == 0 and v_c2 == int2char(66) & int2char(67)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

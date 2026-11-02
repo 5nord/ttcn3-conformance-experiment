@@ -1,0 +1,24 @@
+// @requirement: 15.9 -- In the special case, matching a non-optional value expression ... shall be treated as if the value expression were an optional field.
+// @id: TTCN3-CORE-15.9-007b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_09_test_007 {
+
+    type record R { integer a, integer b optional }
+
+    const R c_r := { a := 1, b := omit };
+    const integer c_c := 1;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (match(c_c, (1, 2) ifpresent) and not match(c_c, 2 ifpresent) and match(c_c, *) and match(c_r.a, *)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

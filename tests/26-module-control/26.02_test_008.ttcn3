@@ -1,0 +1,25 @@
+// @requirement: 26.2 -- If no programming statements are used then, by default, the test cases are executed in the sequential order in which they appear in the module control function.
+// @id: TTCN3-CORE-26.2-012a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_26_02_test_008 {
+
+    type component C {}
+
+    testcase TC_First() runs on C {
+        setverdict(pass);
+    }
+
+    testcase TC_Second(verdicttype p_first) runs on C {
+        if (p_first == pass) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        var verdicttype v_first := none;
+        v_first := execute(TC_First());
+        execute(TC_Second(v_first));
+    }
+}

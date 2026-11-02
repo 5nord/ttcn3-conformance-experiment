@@ -1,0 +1,28 @@
+// @requirement: 6.1.2.1 -- TTCN-3 permits the specification of a list of distinguished templates as listed in table 3.
+// @id: TTCN3-CORE-6.1.2.1-001a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_01_02_01_test_001 {
+
+    type bitstring MyListOfBitStrings ('01'B, '10'B, '11'B);
+    type float MyPi (3.1415926);
+    type charstring MyStringList ("abcd", "rgy", "xyz");
+    type universal charstring MySpecialLetters (char(0, 0, 1, 111), char(0, 0, 1, 112));
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyListOfBitStrings v_bs := '10'B;
+        var MyPi v_pi := 3.1415926;
+        var MyStringList v_cs := "rgy";
+        var MySpecialLetters v_ucs := char(0, 0, 1, 112);
+        if (v_bs == '10'B and v_pi == 3.1415926 and v_cs == "rgy" and v_ucs == char(0, 0, 1, 112)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

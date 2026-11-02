@@ -1,0 +1,27 @@
+// @requirement: 6.3.0 -- NOTE: As address is more a predefined type name than a distinct type with its own properties, the same type compatibility rules apply to an address type and to its derivatives as the rules were if the type was defined with a name different from address.
+// @id: TTCN3-CORE-6.3.0-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_03_00_test_002 {
+
+    type integer address;
+    type address MyAddress (1 .. 10);
+    type integer MyInteger;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var address v_addr := 5;
+        var integer v_int := v_addr;
+        var MyInteger v_myInt := v_addr;
+        var MyAddress v_sub := v_myInt;
+        if (v_int == 5 and v_myInt == 5 and v_sub == v_addr) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,38 @@
+// @requirement: 27.7 -- Also, TTCN-3 language elements that contain such definitions, i.e. module, group, function, altstep, test case, control, and component type definitions can have an optional attribute.
+// @id: TTCN3-CORE-27.7-004a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_27_07_test_003 {
+
+    type record R {
+        integer a,
+        boolean b optional
+    }
+
+    type component C {
+        var R vc_r := { a := 1 };
+    } with { optional "implicit omit" }
+
+    group g_group {
+        const R c_r := { a := 1 };
+    } with { optional "implicit omit" }
+
+    function f_func() return R {
+        var R v_r := { a := 1 };
+        return v_r;
+    } with { optional "implicit omit" }
+
+    altstep a_step() {
+        var R v_r := { a := 1 };
+        [] any port.receive {}
+    } with { optional "implicit omit" }
+
+    testcase TC() runs on C {
+        var R v_r := { a := 1 };
+        setverdict(pass);
+    } with { optional "implicit omit" }
+
+    control {
+        var R v_r := { a := 1 };
+        execute(TC());
+    } with { optional "implicit omit" }
+} with { optional "explicit omit" }

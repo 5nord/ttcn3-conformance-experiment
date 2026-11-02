@@ -1,0 +1,25 @@
+// @requirement: 15.14 -- Applying the presentness conversion to a template expression with no restriction yields a template with the present restriction with the following content:
+// @id: TTCN3-CORE-15.14-003a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_14_test_003 {
+
+    type component C {}
+
+    function f_check(template(present) integer p_t) return boolean {
+        return match(3, p_t);
+    }
+
+    testcase TC() runs on C {
+        var template integer v_t := (1 .. 5);
+        var template(present) integer v_res := v_t.present;
+        if (match(3, v_res) and f_check(v_t.present)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

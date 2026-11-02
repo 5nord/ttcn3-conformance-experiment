@@ -1,0 +1,31 @@
+// @requirement: 27.8 -- The operation returns the actual value of an attribute associated with the type, template, variable, constant or module parameter that precedes the dot symbol.
+// @id: TTCN3-CORE-27.8-003a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_27_08_test_003 {
+
+    type component C {}
+
+    type record of universal charstring RUC;
+
+    type integer MyInt with {
+        display "blue";
+        encode "Codec1";
+        encode "Codec2";
+        extension "Ext1"
+    }
+
+    testcase TC() runs on C {
+        var RUC v_encode := MyInt.encode;
+        var RUC v_extension := MyInt.extension;
+        if (MyInt.display == "blue" and v_encode == { "Codec1", "Codec2" }
+            and v_extension == { "Ext1" }) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

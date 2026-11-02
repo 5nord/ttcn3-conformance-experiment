@@ -1,0 +1,24 @@
+// @requirement: 6.1.0 -- Class of type: enumerated; Keyword: list (see note)
+// @id: TTCN3-CORE-6.1.0-022b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_01_00_test_022 {
+
+    type enumerated MyEnum { e_one, e_two, e_three }
+
+    type MyEnum MyEnumList (e_one, e_two);
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyEnumList v_enum := e_two;
+        if (v_enum == e_two) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,36 @@
+// @requirement: 21.3.8 -- In addition, the killed operation allows to retrieve the final local verdict of killed test components, i.e. the value of the local verdict at the time when the test component was killed.
+// @id: TTCN3-CORE-21.3.8-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_03_08_test_002 {
+
+    type component C {}
+
+    function f_ptc() runs on C {
+        setverdict(pass);
+        self.kill;
+    }
+
+    testcase TC() runs on C {
+        timer T := 1.0;
+        var verdicttype v_verdict := none;
+        var C v_ptc := C.create alive;
+        v_ptc.start(f_ptc());
+        T.start;
+        alt {
+            [] v_ptc.killed -> value v_verdict {
+                if (v_verdict == pass) {
+                    setverdict(pass);
+                } else {
+                    setverdict(fail);
+                }
+            }
+            [] T.timeout {
+                setverdict(fail);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

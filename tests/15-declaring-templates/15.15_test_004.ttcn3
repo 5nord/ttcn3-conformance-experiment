@@ -1,0 +1,23 @@
+// @requirement: 15.15 -- If the pattern contains any matching attribute, the attribute shall be removed by the extraction._
+// @id: TTCN3-CORE-15.15-004a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_15_test_004 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template charstring v_length := pattern "ab?" length(3);
+        var template charstring v_ifpresent := pattern "ab?" ifpresent;
+        var charstring v_str1 := v_length.value;
+        var charstring v_str2 := v_ifpresent.value;
+        if (v_str1 == "ab?" and v_str2 == "ab?") {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

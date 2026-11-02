@@ -1,0 +1,23 @@
+// @requirement: 16.3 -- In this case, the MTC type defines the test system interface ports implicitly if the runs `on clause is present.
+// @id: TTCN3-CORE-16.3-016a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_16_03_test_010 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        map(mtc:p, system:p);
+        unmap(mtc:p, system:p);
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

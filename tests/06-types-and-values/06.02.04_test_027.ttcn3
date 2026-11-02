@@ -1,0 +1,28 @@
+// @requirement: 6.2.4 -- They can be used as a template of the enumerated type by adding a list of integer template(s) and ranges in parenthesis after the name.
+// @id: TTCN3-CORE-6.2.4-024a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_04_test_027 {
+
+    type component C {}
+
+    type enumerated E {
+        e_a,
+        e_list (2, 4 .. 255)
+    };
+
+    template E m_any := e_list(?);
+    template E m_some := e_list((6 .. 10), 15, (20 .. 25));
+
+    testcase TC() runs on C {
+        var E v_e := e_list(22);
+        if (match(v_e, m_any) and match(v_e, m_some) and not match(e_list(5), m_some)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

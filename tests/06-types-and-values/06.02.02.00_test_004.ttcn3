@@ -1,0 +1,26 @@
+// @requirement: 6.2.2.0 -- The field identifiers are local to the set and shall be unique within the set (but do not have to be globally unique).
+// @id: TTCN3-CORE-6.2.2.0-005c
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_02_00_test_004 {
+
+    type component C {}
+
+    const integer field1 := 5;
+
+    type set S {
+        integer field1
+    }
+
+    testcase TC() runs on C {
+        var S v_s := { field1 := 1 };
+        if (v_s.field1 == 1 and field1 == 5) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

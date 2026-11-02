@@ -1,0 +1,23 @@
+// @requirement: 16.1.5 -- b) The component type referenced in the runs on clause shall not contain any port definitions.
+// @id: TTCN3-CORE-16.1.5-004a
+// @verdict: pass reject
+module M_16_01_05_test_004 {
+
+    type port P message {
+        inout integer
+    }
+
+    type component C {}
+
+    type component CP {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        setverdict(pass);
+    }
+
+    function control() runs on CP { // error: runs on component type with port definition
+        execute(TC());
+    }
+}

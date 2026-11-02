@@ -1,0 +1,21 @@
+// @requirement: B.1.5.6 -- When the "@nocase" modifier is used after the pattern keyword, the matching is evaluated in a case insensitive way, i.e. at positions, where without the "@nocase" modifier a small letter alphabetical character would be matched, with the "@nocase" modifier also capital letter counterpart - but only that - shall be accepted.
+// @id: TTCN3-CORE-B.1.5.6-001b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_05_06_test_002 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        template charstring m_p := pattern @nocase "ab??xyz*0";
+        if (match("ab12xyz0", m_p) and match("AB12XYZ0", m_p) and match("aB--xYz990", m_p) and
+            match("Ab..XyZ0", m_p)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

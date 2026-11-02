@@ -1,0 +1,32 @@
+// @requirement: B.1.4.1 -- With AnyValueOrNone and ifpresent it places a restriction on the value, if any.
+// @id: TTCN3-CORE-B.1.4.1-011a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_04_01_test_011 {
+
+    type record R {
+        charstring f optional
+    }
+
+    type component C {}
+
+    template R mw_anyOrNone := { f := * length(2) };
+    template R mw_ifPresent := { f := ? length(2) ifpresent };
+
+    testcase TC() runs on C {
+        var R v_omit := { f := omit };
+        var R v_ok := { f := "ab" };
+        var R v_long := { f := "abc" };
+        if (match(v_omit, mw_anyOrNone) and match(v_ok, mw_anyOrNone) and
+            not match(v_long, mw_anyOrNone) and
+            match(v_omit, mw_ifPresent) and match(v_ok, mw_ifPresent) and
+            not match(v_long, mw_ifPresent)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

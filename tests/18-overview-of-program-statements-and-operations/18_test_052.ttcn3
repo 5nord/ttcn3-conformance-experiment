@@ -1,0 +1,31 @@
+// @requirement: 18 -- Statement: Re-evaluation of alternative behaviour; Associated keyword or symbol: repeat; Can be invoked by control behaviour: Yes; Can be invoked by test behaviour: Yes
+// @id: TTCN3-CORE-18-030b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_18_test_052 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_count := 0;
+        timer T1 := 0.05;
+        timer T2 := 0.3;
+        T1.start;
+        T2.start;
+        alt {
+            [] T1.timeout {
+                v_count := v_count + 1;
+                repeat;
+            }
+            [] T2.timeout {}
+        }
+        if (v_count == 1) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

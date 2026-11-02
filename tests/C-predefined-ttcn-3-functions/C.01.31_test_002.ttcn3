@@ -1,0 +1,27 @@
+// @requirement: C.1.31 -- This function converts an octetstring `invalue to a universal` `charstring by use of the given` string_encoding.
+// @id: TTCN3-CORE-C.1.31-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_01_31_test_002 {
+
+    const universal charstring c_exp := char(0, 0, 0, 196) & char(0, 0, 0, 214) & char(0, 0, 0, 220)
+        & char(0, 0, 0, 228) & char(0, 0, 0, 246) & char(0, 0, 0, 252);
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var octetstring v_utf8 := 'C384C396C39CC3A4C3B6C3BC'O;
+        var octetstring v_utf16be := '00C400D600DC00E400F600FC'O;
+        var octetstring v_utf16le := 'C400D600DC00E400F600FC00'O;
+        if (oct2unichar(v_utf8, "UTF-8") == c_exp and
+            oct2unichar(v_utf16be, "UTF-16BE") == c_exp and
+            oct2unichar(v_utf16le, "UTF-16LE") == c_exp) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

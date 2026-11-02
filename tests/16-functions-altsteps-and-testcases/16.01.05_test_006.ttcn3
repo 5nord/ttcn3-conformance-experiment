@@ -1,0 +1,29 @@
+// @requirement: 16.1.5 -- c) Parameters and the return type shall not be of a port type and shall not be of a structured type that contains fields of a port type on any level of nesting.
+// @id: TTCN3-CORE-16.1.5-005b
+// @verdict: pass reject
+module M_16_01_05_test_006 {
+
+    type port P message {
+        inout integer
+    }
+
+    type record R {
+        record {
+            P f_port
+        } f_inner
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        setverdict(pass);
+    }
+
+    function @control f_runTC(R p_rec) { // error: parameter type contains a nested port field
+        execute(TC());
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,23 @@
+// @requirement: 6.2.15.3 -- If the map variable did not associate the given key with a value, the operation has no effect.
+// @id: TTCN3-CORE-6.2.15.3-003a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_15_03_test_003 {
+
+    type map from charstring to integer MyMap;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyMap v_map := { ["a"] := 1, ["b"] := 2 };
+        unmap(v_map, "z");
+        if (lengthof(v_map) == 2 and v_map["a"] == 1 and v_map["b"] == 2) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

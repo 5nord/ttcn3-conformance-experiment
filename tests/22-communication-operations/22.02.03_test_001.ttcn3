@@ -1,0 +1,34 @@
+// @requirement: 22.2.3 -- [ @nodefault ] ( ObjectReference | any port | any from PortArrayRef ) "." trigger [ "(" TemplateInstance ")" ] [ from Address ] [ "->" [ value ( ValueRef| ( "(" { ValueRef[ ":=" [ @decoded [ "(" Expression ")" ] ] FieldOrTypeReference ][","] } ")" ) ) ] [ sender ValueRef] [ @index value ValueRef] ]
+// @id: TTCN3-CORE-22.2.3-002a
+// @verdict: pass accept, noexecution
+module M_22_02_03_test_001 {
+
+    type port P message { inout integer }
+
+    type component C {
+        port P p;
+        port P pa[2];
+        port P pb[2][2];
+    }
+
+    function f_syntax() runs on C {
+        var integer v_x, v_y, v_i;
+        var integer v_idx[2];
+        var C v_peer := mtc;
+        var C v_sender;
+        p.trigger;
+        p.trigger(integer:?);
+        @nodefault p.trigger(integer:?);
+        p.trigger(integer:?) from v_peer;
+        p.trigger(integer:?) from (v_peer, mtc);
+        p.trigger(integer:?) from any component;
+        p.trigger(integer:?) -> value v_x;
+        p.trigger(integer:?) -> value (v_x, v_y);
+        p.trigger(integer:?) from v_peer -> value v_x sender v_sender;
+        p.trigger -> sender v_sender;
+        any port.trigger;
+        any port.trigger(integer:?) -> value v_x;
+        any from pa.trigger(integer:?) -> value v_x sender v_sender @index value v_i;
+        any from pb.trigger(integer:?) -> @index value v_idx;
+    }
+}

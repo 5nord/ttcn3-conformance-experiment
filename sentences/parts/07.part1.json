@@ -1,0 +1,1254 @@
+{
+ "part": "07.part1",
+ "chapter": "7",
+ "chapter_file": "07-expressions",
+ "title": "Expressions",
+ "sections": {
+  "7.0": {
+   "title": "General",
+   "start": 6948
+  },
+  "7.1.0": {
+   "title": "General",
+   "start": 6995
+  },
+  "7.1.1": {
+   "title": "Arithmetic operators",
+   "start": 7134
+  },
+  "7.1.2": {
+   "title": "List operator",
+   "start": 7190
+  }
+ },
+ "lines": [
+  6950,
+  7212
+ ],
+ "units": [
+  {
+   "id": "7.0-s001",
+   "section": "7.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "TTCN-3 allows the specification of expressions.",
+   "lines": [
+    6950,
+    6951
+   ]
+  },
+  {
+   "id": "7.0-s002",
+   "section": "7.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "TTCN-3 expressions may be template references, value references or literals (i.e. no operation is involved), and may be composed of the operators defined in clause 7.1.",
+   "lines": [
+    6950,
+    6951
+   ]
+  },
+  {
+   "id": "7.0-s003",
+   "section": "7.0",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "NOTE: Templates can be used at the RHS of assignment, parameter passing and (predefined) functions where template passing is explicitly allowed.",
+   "lines": [
+    6953,
+    6954
+   ]
+  },
+  {
+   "id": "7.0-s004",
+   "section": "7.0",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "SingleExpression | \n  \"{\" { ( FieldReference \":=\" ( Expression | \"-\" )) [\",\"] } \"}\" | // compound expression\n  \"{\" [ { ( Expression | \"-\" ) [\",\"] } ] \"}\" // compound expression",
+   "lines": [
+    6957,
+    6961
+   ]
+  },
+  {
+   "id": "7.0-s005",
+   "section": "7.0",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Expressions may be built from other (simple) expressions.",
+   "lines": [
+    6965,
+    6967
+   ]
+  },
+  {
+   "id": "7.0-s006",
+   "section": "7.0",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Functions used in expressions shall have a return clause.",
+   "lines": [
+    6965,
+    6967
+   ]
+  },
+  {
+   "id": "7.0-s007",
+   "section": "7.0",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The operands of the operators used in an expression shall be values and their root types shall be the types specified for the appropriate operator in the subsequent clauses.",
+   "lines": [
+    6965,
+    6967
+   ]
+  },
+  {
+   "id": "7.0-s008",
+   "section": "7.0",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Assignment or list notations are used for expressions of record, set, record of, set of, array, union and anytype types.",
+   "lines": [
+    6969,
+    6969
+   ]
+  },
+  {
+   "id": "7.0-s009",
+   "section": "7.0",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clause 5, the following restrictions apply:",
+   "lines": [
+    6973,
+    6973
+   ]
+  },
+  {
+   "id": "7.0-s010",
+   "section": "7.0",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) At the point, when an expression is evaluated, the evaluated values of the operands used in expressions shall be completely initialized except where explicitly stated otherwise in the specific clause of the operator.",
+   "lines": [
+    6975,
+    6976
+   ]
+  },
+  {
+   "id": "7.0-s011",
+   "section": "7.0",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "b) The root types of the operands shall be the types specified for the appropriate operand.",
+   "lines": [
+    6978,
+    6978
+   ]
+  },
+  {
+   "id": "7.0-s012",
+   "section": "7.0",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "c) With the exception of the equality and non-equality operators, the special value null shall not be used as an operand of expressions (see clause 7.1.3).",
+   "lines": [
+    6980,
+    6981
+   ]
+  },
+  {
+   "id": "7.0-s013",
+   "section": "7.0",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "This means also that all fields and elements of structured types referenced in an expression shall contain completely initialized values, while other fields and elements, not used in the expression, may be uninitialized or contain omit.",
+   "lines": [
+    6983,
+    6984
+   ]
+  },
+  {
+   "id": "7.0-s014",
+   "section": "7.0",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "(c_x + c_y – f_increment(c_z))*3  // single expression\n  { a:= 1, b:= true }  // compound expression, assignment notation\n  { 1, true }  // compound expression, list notation",
+   "lines": [
+    6987,
+    6991
+   ]
+  },
+  {
+   "id": "7.1.0-s001",
+   "section": "7.1.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "TTCN-3 supports a number of predefined operators that may be used in the terms of TTCN-3 expressions.",
+   "lines": [
+    6997,
+    6998
+   ]
+  },
+  {
+   "id": "7.1.0-s002",
+   "section": "7.1.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The predefined operators fall into seven categories:",
+   "lines": [
+    6997,
+    6998
+   ]
+  },
+  {
+   "id": "7.1.0-s003",
+   "section": "7.1.0",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "a) arithmetic operators;",
+   "lines": [
+    7000,
+    7000
+   ]
+  },
+  {
+   "id": "7.1.0-s004",
+   "section": "7.1.0",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "b) list operator;",
+   "lines": [
+    7007,
+    7007
+   ]
+  },
+  {
+   "id": "7.1.0-s005",
+   "section": "7.1.0",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "c) relational operators;",
+   "lines": [
+    7009,
+    7009
+   ]
+  },
+  {
+   "id": "7.1.0-s006",
+   "section": "7.1.0",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "d) logical operators;",
+   "lines": [
+    7011,
+    7011
+   ]
+  },
+  {
+   "id": "7.1.0-s007",
+   "section": "7.1.0",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "e) bitwise operators;",
+   "lines": [
+    7013,
+    7013
+   ]
+  },
+  {
+   "id": "7.1.0-s008",
+   "section": "7.1.0",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "f) shift operators;",
+   "lines": [
+    7015,
+    7015
+   ]
+  },
+  {
+   "id": "7.1.0-s009",
+   "section": "7.1.0",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "g) rotate operators;",
+   "lines": [
+    7017,
+    7017
+   ]
+  },
+  {
+   "id": "7.1.0-s010",
+   "section": "7.1.0",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "h) presence checking operators.",
+   "lines": [
+    7019,
+    7019
+   ]
+  },
+  {
+   "id": "7.1.0-s011",
+   "section": "7.1.0",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clause 5, the following restrictions apply:",
+   "lines": [
+    7023,
+    7023
+   ]
+  },
+  {
+   "id": "7.1.0-s012",
+   "section": "7.1.0",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) When an expression is evaluated, the evaluated values used as the operands of operators shall be completely initialized, except for those operands for which it is explicitly allowed to be partially initialized (see clause 11.1).",
+   "lines": [
+    7025,
+    7027
+   ]
+  },
+  {
+   "id": "7.1.0-s013",
+   "section": "7.1.0",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "These operators are listed in table 5.",
+   "lines": [
+    7029,
+    7029
+   ]
+  },
+  {
+   "id": "7.1.0-s014",
+   "section": "7.1.0",
+   "kind": "caption",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "Table 5: List of TTCN-3 operators",
+   "lines": [
+    7031,
+    7031
+   ]
+  },
+  {
+   "id": "7.1.0-s015",
+   "section": "7.1.0",
+   "kind": "table-text",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "**Category** **Operator** **Symbol or Keyword** **Arithmetic operators** addition **+** subtraction **-** multiplication ***** division **/** modulo **mod** remainder **rem** **String operators** concatenation **&** **Relational operators** equal **==** less than **<** greater than **>** not equal **!=** greater than or equal **>=** less than or equal **<=** **Logical operators** logical not **not** logical and **and** logical or **or** logical xor **xor** **Bitwise operators** bitwise not **not4b** bitwise and **and4b** bitwise or **or4b** bitwise xor **xor4b** **Shift operators** shift left **<<** shift right **>>** **Rotate operators** rotate left **<@** rotate right **@>** **Presence checking operators** field presence check **ispresent** chosen alternative check **ischosen** value check **isvalue** bound check **isbound**",
+   "lines": [
+    7033,
+    7062
+   ]
+  },
+  {
+   "id": "7.1.0-s016",
+   "section": "7.1.0",
+   "kind": "table-text",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "The precedence of these operators is shown in table 6.",
+   "lines": [
+    7064,
+    7067
+   ]
+  },
+  {
+   "id": "7.1.0-s017",
+   "section": "7.1.0",
+   "kind": "table-text",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Within any row in this table, the listed operators have equal precedence.",
+   "lines": [
+    7064,
+    7067
+   ]
+  },
+  {
+   "id": "7.1.0-s018",
+   "section": "7.1.0",
+   "kind": "table-text",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "If more than one operator of equal precedence appears in an expression, the operations are evaluated from left to right.",
+   "lines": [
+    7064,
+    7067
+   ]
+  },
+  {
+   "id": "7.1.0-s019",
+   "section": "7.1.0",
+   "kind": "table-text",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Parentheses may be used to group operands in expressions, in which case a parenthesized expression has the highest precedence for evaluation.",
+   "lines": [
+    7064,
+    7067
+   ]
+  },
+  {
+   "id": "7.1.0-s020",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: Arithmetic operators; Operator: addition; Symbol or Keyword: +",
+   "lines": [
+    7071,
+    7071
+   ]
+  },
+  {
+   "id": "7.1.0-s021",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: subtraction; Operator: -",
+   "lines": [
+    7072,
+    7072
+   ]
+  },
+  {
+   "id": "7.1.0-s022",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: multiplication; Operator: *",
+   "lines": [
+    7073,
+    7073
+   ]
+  },
+  {
+   "id": "7.1.0-s023",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: division; Operator: /",
+   "lines": [
+    7074,
+    7074
+   ]
+  },
+  {
+   "id": "7.1.0-s024",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: modulo; Operator: mod",
+   "lines": [
+    7075,
+    7075
+   ]
+  },
+  {
+   "id": "7.1.0-s025",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: remainder; Operator: rem",
+   "lines": [
+    7076,
+    7076
+   ]
+  },
+  {
+   "id": "7.1.0-s026",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: String operators; Operator: concatenation; Symbol or Keyword: &",
+   "lines": [
+    7077,
+    7077
+   ]
+  },
+  {
+   "id": "7.1.0-s027",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: Relational operators; Operator: equal; Symbol or Keyword: ==",
+   "lines": [
+    7078,
+    7078
+   ]
+  },
+  {
+   "id": "7.1.0-s028",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: less than; Operator: <",
+   "lines": [
+    7079,
+    7079
+   ]
+  },
+  {
+   "id": "7.1.0-s029",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: greater than; Operator: >",
+   "lines": [
+    7080,
+    7080
+   ]
+  },
+  {
+   "id": "7.1.0-s030",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: not equal; Operator: !=",
+   "lines": [
+    7081,
+    7081
+   ]
+  },
+  {
+   "id": "7.1.0-s031",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: greater than or equal; Operator: >=",
+   "lines": [
+    7082,
+    7082
+   ]
+  },
+  {
+   "id": "7.1.0-s032",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: less than or equal; Operator: <=",
+   "lines": [
+    7083,
+    7083
+   ]
+  },
+  {
+   "id": "7.1.0-s033",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: Logical operators; Operator: logical not; Symbol or Keyword: not",
+   "lines": [
+    7084,
+    7084
+   ]
+  },
+  {
+   "id": "7.1.0-s034",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: logical and; Operator: and",
+   "lines": [
+    7085,
+    7085
+   ]
+  },
+  {
+   "id": "7.1.0-s035",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: logical or; Operator: or",
+   "lines": [
+    7086,
+    7086
+   ]
+  },
+  {
+   "id": "7.1.0-s036",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: logical xor; Operator: xor",
+   "lines": [
+    7087,
+    7087
+   ]
+  },
+  {
+   "id": "7.1.0-s037",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: Bitwise operators; Operator: bitwise not; Symbol or Keyword: not4b",
+   "lines": [
+    7088,
+    7088
+   ]
+  },
+  {
+   "id": "7.1.0-s038",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: bitwise and; Operator: and4b",
+   "lines": [
+    7089,
+    7089
+   ]
+  },
+  {
+   "id": "7.1.0-s039",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: bitwise or; Operator: or4b",
+   "lines": [
+    7090,
+    7090
+   ]
+  },
+  {
+   "id": "7.1.0-s040",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: bitwise xor; Operator: xor4b",
+   "lines": [
+    7091,
+    7091
+   ]
+  },
+  {
+   "id": "7.1.0-s041",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: Shift operators; Operator: shift left; Symbol or Keyword: <<",
+   "lines": [
+    7092,
+    7092
+   ]
+  },
+  {
+   "id": "7.1.0-s042",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: shift right; Operator: >>",
+   "lines": [
+    7093,
+    7093
+   ]
+  },
+  {
+   "id": "7.1.0-s043",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: Rotate operators; Operator: rotate left; Symbol or Keyword: <@",
+   "lines": [
+    7094,
+    7094
+   ]
+  },
+  {
+   "id": "7.1.0-s044",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: rotate right; Operator: @>",
+   "lines": [
+    7095,
+    7095
+   ]
+  },
+  {
+   "id": "7.1.0-s045",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: Presence checking operators; Operator: field presence check; Symbol or Keyword: ispresent",
+   "lines": [
+    7096,
+    7096
+   ]
+  },
+  {
+   "id": "7.1.0-s046",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: chosen alternative check; Operator: ischosen",
+   "lines": [
+    7097,
+    7097
+   ]
+  },
+  {
+   "id": "7.1.0-s047",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: value check; Operator: isvalue",
+   "lines": [
+    7098,
+    7098
+   ]
+  },
+  {
+   "id": "7.1.0-s048",
+   "section": "7.1.0",
+   "kind": "table-row",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category: bound check; Operator: isbound",
+   "lines": [
+    7099,
+    7099
+   ]
+  },
+  {
+   "id": "7.1.0-s049",
+   "section": "7.1.0",
+   "kind": "table-header",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Category; Operator; Symbol or Keyword",
+   "lines": [
+    7069,
+    7069
+   ]
+  },
+  {
+   "id": "7.1.0-s050",
+   "section": "7.1.0",
+   "kind": "caption",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "Table 6: Precedence of Operators",
+   "lines": [
+    7106,
+    7106
+   ]
+  },
+  {
+   "id": "7.1.0-s051",
+   "section": "7.1.0",
+   "kind": "table-text",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "**Priority** **Operator type** **Operator** highest **( … )**",
+   "lines": [
+    7108,
+    7109
+   ]
+  },
+  {
+   "id": "7.1.0-s052",
+   "section": "7.1.0",
+   "kind": "table-text",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Unary **ispresent, ischosen, isvalue, isbound** Unary **+, -** Binary ***, /, mod, rem** Binary **+, -, &** Unary **not4b** Binary **and4b** Binary **xor4b** Binary **or4b** Binary **<<, >>, <@, @>** Binary **<, >, <=, >=** Binary **==, !=** Unary **not** Binary **and**",
+   "lines": [
+    7111,
+    7123
+   ]
+  },
+  {
+   "id": "7.1.0-s053",
+   "section": "7.1.0",
+   "kind": "table-text",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Lowest Binary **xor**",
+   "lines": [
+    7125,
+    7125
+   ]
+  },
+  {
+   "id": "7.1.0-s054",
+   "section": "7.1.0",
+   "kind": "table-text",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Binary **or**",
+   "lines": [
+    7127,
+    7127
+   ]
+  },
+  {
+   "id": "7.1.0-s055",
+   "section": "7.1.0",
+   "kind": "note",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "NOTE: Dot notation (\".\"), index notation (\" [ ] \") and the decoding notation (\" => \") should be evaluated from left to right, just after the evaluation of the parentheses (\" ( ) \") operator and before the evaluation of the ispresent, ischosen, isvalue, isbound operators.",
+   "lines": [
+    7129,
+    7130
+   ]
+  },
+  {
+   "id": "7.1.0-s056",
+   "section": "7.1.0",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "That is: a.b[x].d=>e.f is equivalent to `((((a.b)[x]).d)=>e).f`",
+   "lines": [
+    7132,
+    7132
+   ]
+  },
+  {
+   "id": "7.1.1-s001",
+   "section": "7.1.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The arithmetic operators represent the operations of addition, subtraction, multiplication, division, modulo and remainder.",
+   "lines": [
+    7136,
+    7139
+   ]
+  },
+  {
+   "id": "7.1.1-s002",
+   "section": "7.1.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Operands of these operators shall be of integer values (including derivations of integer) or floating-point numbers (including derivations of float, containing numeric values only), except for mod and rem which shall be used with integer (including derivations of integer) types only.",
+   "lines": [
+    7136,
+    7139
+   ]
+  },
+  {
+   "id": "7.1.1-s003",
+   "section": "7.1.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The usage of the special float values infinity, -infinity and not_a_number in arithmetic operators shall follow the rules defined in IEEE 754 [6].",
+   "lines": [
+    7141,
+    7142
+   ]
+  },
+  {
+   "id": "7.1.1-s004",
+   "section": "7.1.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "With integer types, the result type of arithmetic operations is integer.",
+   "lines": [
+    7144,
+    7145
+   ]
+  },
+  {
+   "id": "7.1.1-s005",
+   "section": "7.1.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "With float types, the result type of arithmetic operations is float.",
+   "lines": [
+    7144,
+    7145
+   ]
+  },
+  {
+   "id": "7.1.1-s006",
+   "section": "7.1.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "In the case where plus (+) or minus (-) is used as the unary operator the rules for operands apply as well.",
+   "lines": [
+    7147,
+    7150
+   ]
+  },
+  {
+   "id": "7.1.1-s007",
+   "section": "7.1.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The result of using the minus operator is the negative value of the operand if it was positive and vice versa.",
+   "lines": [
+    7147,
+    7150
+   ]
+  },
+  {
+   "id": "7.1.1-s008",
+   "section": "7.1.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The result of using the plus operator is the value of the operand, i.e. a positive value if the operand value was positive and a negative value if the operand value was negative.",
+   "lines": [
+    7147,
+    7150
+   ]
+  },
+  {
+   "id": "7.1.1-s009",
+   "section": "7.1.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The result of performing the division operation (/) on two:",
+   "lines": [
+    7152,
+    7152
+   ]
+  },
+  {
+   "id": "7.1.1-s010",
+   "section": "7.1.1",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "a) `integer values gives the whole integer part of the value resulting from dividing the first integer by` the second (i.e. fractions are discarded);",
+   "lines": [
+    7154,
+    7155
+   ]
+  },
+  {
+   "id": "7.1.1-s011",
+   "section": "7.1.1",
+   "kind": "list-item",
+   "context": null,
+   "normative": true,
+   "text": "b) numeric float values gives the float value resulting from dividing the first float by the second (i.e. fractions are not discarded).",
+   "lines": [
+    7157,
+    7158
+   ]
+  },
+  {
+   "id": "7.1.1-s012",
+   "section": "7.1.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The operators rem and mod compute on operands of type integer and have a result of type integer.",
+   "lines": [
+    7160,
+    7163
+   ]
+  },
+  {
+   "id": "7.1.1-s013",
+   "section": "7.1.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The operations x rem y and x mod y compute the rest that remains from an integer division of x by y.",
+   "lines": [
+    7160,
+    7163
+   ]
+  },
+  {
+   "id": "7.1.1-s014",
+   "section": "7.1.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Therefore, they are only defined for non-zero operands y.",
+   "lines": [
+    7160,
+    7163
+   ]
+  },
+  {
+   "id": "7.1.1-s015",
+   "section": "7.1.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "For positive x and y, both x `rem` `y and x` `mod` `y have the same result but for` negative arguments they differ.",
+   "lines": [
+    7160,
+    7163
+   ]
+  },
+  {
+   "id": "7.1.1-s016",
+   "section": "7.1.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Formally, mod and rem are defined as follows:",
+   "lines": [
+    7165,
+    7165
+   ]
+  },
+  {
+   "id": "7.1.1-s017",
+   "section": "7.1.1",
+   "kind": "code",
+   "context": null,
+   "normative": true,
+   "text": "x rem y = x - y * (x/y)\n  x mod y = x rem |y|  when x >= 0\n       = 0  when x < 0 and x rem |y| = 0\n       = |y| + x rem |y| when x < 0 and x rem |y| < 0",
+   "lines": [
+    7166,
+    7171
+   ]
+  },
+  {
+   "id": "7.1.1-s018",
+   "section": "7.1.1",
+   "kind": "table-row",
+   "context": null,
+   "normative": true,
+   "text": "Priority: highest Lowest; Operator type: Unary Unary Binary Binary Unary Binary Binary Binary Binary Binary Binary Unary Binary Binary Binary; Operator: ( … ) ispresent, ischosen, isvalue, isbound +, - *, /, mod, rem +, -, & not4b and4b xor4b or4b <<, >>, <@, @> <, >, <=, >= ==, != not and xor or",
+   "lines": [
+    7175,
+    7175
+   ]
+  },
+  {
+   "id": "7.1.1-s019",
+   "section": "7.1.1",
+   "kind": "table-header",
+   "context": null,
+   "normative": true,
+   "text": "Priority; Operator type; Operator",
+   "lines": [
+    7173,
+    7173
+   ]
+  },
+  {
+   "id": "7.1.1-s020",
+   "section": "7.1.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Table 7 illustrates the difference between the mod and rem operator.",
+   "lines": [
+    7182,
+    7182
+   ]
+  },
+  {
+   "id": "7.1.1-s021",
+   "section": "7.1.1",
+   "kind": "caption",
+   "context": null,
+   "normative": false,
+   "text": "Table 7: Effect of mod and rem operator",
+   "lines": [
+    7184,
+    7184
+   ]
+  },
+  {
+   "id": "7.1.1-s022",
+   "section": "7.1.1",
+   "kind": "table-text",
+   "context": null,
+   "normative": true,
+   "text": "**x** **-3** **-2** **-1** **0** **1** **2** **3** **x mod 3** 0 1 2 0 1 2 0 **x rem 3** 0 -2 -1 0 1 2 0",
+   "lines": [
+    7186,
+    7188
+   ]
+  },
+  {
+   "id": "7.1.2-s001",
+   "section": "7.1.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The predefined list operator (&) performs concatenation of values of string types, record of, set of, or array of the same root types.",
+   "lines": [
+    7192,
+    7194
+   ]
+  },
+  {
+   "id": "7.1.2-s002",
+   "section": "7.1.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The operation is a simple concatenation from left to right.",
+   "lines": [
+    7192,
+    7194
+   ]
+  },
+  {
+   "id": "7.1.2-s003",
+   "section": "7.1.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "No form of arithmetic addition is implied.",
+   "lines": [
+    7192,
+    7194
+   ]
+  },
+  {
+   "id": "7.1.2-s004",
+   "section": "7.1.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The result type is the root type of the operands.",
+   "lines": [
+    7192,
+    7194
+   ]
+  },
+  {
+   "id": "7.1.2-s005",
+   "section": "7.1.2",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "NOTE 1: In case of the list types, both the outer type (i.e. record of, set of or array) and the iterated inner type need to have the same root type in a recursive manner.",
+   "lines": [
+    7196,
+    7197
+   ]
+  },
+  {
+   "id": "7.1.2-s006",
+   "section": "7.1.2",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "NOTE 2: It is also possible to concatenate two or more value list notation expressions if the result is to be used as a record of or array of the same root type as the concatenated expressions.",
+   "lines": [
+    7199,
+    7199
+   ]
+  },
+  {
+   "id": "7.1.2-s007",
+   "section": "7.1.2",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clause 5, the following restrictions apply:",
+   "lines": [
+    7203,
+    7203
+   ]
+  },
+  {
+   "id": "7.1.2-s008",
+   "section": "7.1.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) When the list concatenation operator is used for record of-s, set of-s and arrays, its operands shall be at least partially initialized.",
+   "lines": [
+    7205,
+    7206
+   ]
+  },
+  {
+   "id": "7.1.2-s009",
+   "section": "7.1.2",
+   "kind": "example-text",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "EXAMPLE:",
+   "lines": [
+    7208,
+    7208
+   ]
+  },
+  {
+   "id": "7.1.2-s010",
+   "section": "7.1.2",
+   "kind": "example-code",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "'1111'B & '0000'B & '1111'B gives '111100001111'B\n  {1,2} & {3,4} & {5,6} gives the following record of integer {1,2,3,4,5,6}",
+   "lines": [
+    7209,
+    7212
+   ]
+  }
+ ]
+}

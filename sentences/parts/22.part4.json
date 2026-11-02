@@ -1,0 +1,742 @@
+{
+ "part": "22.part4",
+ "chapter": "22",
+ "chapter_file": "22-communication-operations",
+ "title": "Communication operations",
+ "sections": {
+  "22.2.3": {
+   "title": "The Trigger operation",
+   "start": 18003
+  },
+  "22.3.0": {
+   "title": "General",
+   "start": 18188
+  }
+ },
+ "lines": [
+  18005,
+  18201
+ ],
+ "units": [
+  {
+   "id": "22.2.3-s001",
+   "section": "22.2.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The trigger operation is used to await a specific message on an incoming port queue.",
+   "lines": [
+    18005,
+    18005
+   ]
+  },
+  {
+   "id": "22.2.3-s002",
+   "section": "22.2.3",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "[ @nodefault ] ( ObjectReference | any port | any from PortArrayRef ) \".\" trigger\n  [ \"(\" TemplateInstance \")\" ] \n  [ from Address ]\n  [ \"->\" [ value ( ValueRef| \n          ( \"(\" { ValueRef[ \":=\" [ @decoded [ \"(\" Expression \")\" ] ]\n                 FieldOrTypeReference ][\",\"] } \")\" )\n          ) ]\n   [ sender ValueRef] \n   [ @index value ValueRef] ]",
+   "lines": [
+    18008,
+    18018
+   ]
+  },
+  {
+   "id": "22.2.3-s003",
+   "section": "22.2.3",
+   "kind": "note",
+   "context": "Syntactical Structure",
+   "normative": false,
+   "text": "NOTE 1: _Address may be an AddressRef, a list of AddressRef-s or \"any component\"._",
+   "lines": [
+    18020,
+    18020
+   ]
+  },
+  {
+   "id": "22.2.3-s004",
+   "section": "22.2.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The trigger operation removes the top message from the associated incoming port queue.",
+   "lines": [
+    18024,
+    18026
+   ]
+  },
+  {
+   "id": "22.2.3-s005",
+   "section": "22.2.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If that top message meets the matching criteria, the trigger operation behaves in the same manner as a receive operation.",
+   "lines": [
+    18024,
+    18026
+   ]
+  },
+  {
+   "id": "22.2.3-s006",
+   "section": "22.2.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If that top message does not fulfil the matching criteria, it shall be removed from the queue without any further action.",
+   "lines": [
+    18024,
+    18026
+   ]
+  },
+  {
+   "id": "22.2.3-s007",
+   "section": "22.2.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The trigger operation requires the port name, matching criteria for type and value, an optional from restriction (i.e. selection of communication partner) and an optional assignment of the matching message and sender component to variables.",
+   "lines": [
+    18028,
+    18030
+   ]
+  },
+  {
+   "id": "22.2.3-s008",
+   "section": "22.2.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "**Matching criteria**",
+   "lines": [
+    18032,
+    18032
+   ]
+  },
+  {
+   "id": "22.2.3-s009",
+   "section": "22.2.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The matching criteria as defined in clause 22.2.2 apply also to the trigger operation.",
+   "lines": [
+    18034,
+    18034
+   ]
+  },
+  {
+   "id": "22.2.3-s010",
+   "section": "22.2.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "**Trigger from a specific sender**",
+   "lines": [
+    18041,
+    18041
+   ]
+  },
+  {
+   "id": "22.2.3-s011",
+   "section": "22.2.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "In the case of one-to-many connections the trigger operation may be restricted to a certain communication partner.",
+   "lines": [
+    18043,
+    18045
+   ]
+  },
+  {
+   "id": "22.2.3-s012",
+   "section": "22.2.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "This restriction shall be denoted using the from keyword followed by a specification of an address or component reference, a list of address or component references or any component.",
+   "lines": [
+    18043,
+    18045
+   ]
+  },
+  {
+   "id": "22.2.3-s013",
+   "section": "22.2.3",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "NOTE 2: The one-to-one connection is considered to be a simple case of the one-to-many connections and allows the usage of the from-clause.",
+   "lines": [
+    18047,
+    18048
+   ]
+  },
+  {
+   "id": "22.2.3-s014",
+   "section": "22.2.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "**Trigger on any message**",
+   "lines": [
+    18050,
+    18050
+   ]
+  },
+  {
+   "id": "22.2.3-s015",
+   "section": "22.2.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "A trigger operation with no argument list shall trigger on the receipt of any message.",
+   "lines": [
+    18052,
+    18053
+   ]
+  },
+  {
+   "id": "22.2.3-s016",
+   "section": "22.2.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Thus, its meaning is identical to the meaning of receive any message.",
+   "lines": [
+    18052,
+    18053
+   ]
+  },
+  {
+   "id": "22.2.3-s017",
+   "section": "22.2.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "**Trigger on any port**",
+   "lines": [
+    18055,
+    18055
+   ]
+  },
+  {
+   "id": "22.2.3-s018",
+   "section": "22.2.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "To trigger on a message at any port, use the any port keywords.",
+   "lines": [
+    18057,
+    18057
+   ]
+  },
+  {
+   "id": "22.2.3-s019",
+   "section": "22.2.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "**Trigger on any port from a port array**",
+   "lines": [
+    18059,
+    18059
+   ]
+  },
+  {
+   "id": "22.2.3-s020",
+   "section": "22.2.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "To trigger on a message at any port from a specific port array, use the any from PortArrayRef syntax where PortArrayRef shall be a reference to a port array identifier.",
+   "lines": [
+    18061,
+    18068
+   ]
+  },
+  {
+   "id": "22.2.3-s021",
+   "section": "22.2.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "It is also possible to store the index of a port in a single-dimensional port array at which the operation was successful to a variable of type integer or, in case of multi-dimensional port arrays the index of the successful port to an integer array or record of integer variable.",
+   "lines": [
+    18061,
+    18068
+   ]
+  },
+  {
+   "id": "22.2.3-s022",
+   "section": "22.2.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "When checking the port array for matching messages, the port indices to be checked are iterated from lowest to highest.",
+   "lines": [
+    18061,
+    18068
+   ]
+  },
+  {
+   "id": "22.2.3-s023",
+   "section": "22.2.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If the port array is multi-dimensional, then the ports are iterated over from innermost to outermost array dimension from lowest to highest index for each dimension, e.g. [0][0], [0][1], [1][0], [1][1].",
+   "lines": [
+    18061,
+    18068
+   ]
+  },
+  {
+   "id": "22.2.3-s024",
+   "section": "22.2.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The first port which matches all the criteria will cause the operation to be successful even if other ports in the array would also meet the criteria.",
+   "lines": [
+    18061,
+    18068
+   ]
+  },
+  {
+   "id": "22.2.3-s025",
+   "section": "22.2.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If any port in the port array which is checked for matching contains a message that does not match, this message is removed and the containing alt statement is re-evaluated, regardless of whether or not other ports in the port array would meet the trigger criteria.",
+   "lines": [
+    18070,
+    18072
+   ]
+  },
+  {
+   "id": "22.2.3-s026",
+   "section": "22.2.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "**Stand-alone trigger**",
+   "lines": [
+    18074,
+    18074
+   ]
+  },
+  {
+   "id": "22.2.3-s027",
+   "section": "22.2.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The trigger operation can be used as a stand-alone statement in a behaviour description.",
+   "lines": [
+    18076,
+    18076
+   ]
+  },
+  {
+   "id": "22.2.3-s028",
+   "section": "22.2.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "In this latter case the",
+   "lines": [
+    18076,
+    18076
+   ]
+  },
+  {
+   "id": "22.2.3-s029",
+   "section": "22.2.3",
+   "kind": "code",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "trigger operation is considered to be shorthand for an alt statement with two alternatives (one alternative expecting",
+   "lines": [
+    18077,
+    18079
+   ]
+  },
+  {
+   "id": "22.2.3-s030",
+   "section": "22.2.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "the message and another alternative consuming all other messages and repeating the alt statement, see ETSI ES 201 873-4 [1]).",
+   "lines": [
+    18081,
+    18082
+   ]
+  },
+  {
+   "id": "22.2.3-s031",
+   "section": "22.2.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "**Storing the received message, parts of the received message or the sender**",
+   "lines": [
+    18084,
+    18084
+   ]
+  },
+  {
+   "id": "22.2.3-s032",
+   "section": "22.2.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Rules in clause 22.2.2 shall apply.",
+   "lines": [
+    18086,
+    18086
+   ]
+  },
+  {
+   "id": "22.2.3-s033",
+   "section": "22.2.3",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clause 5 and shown in table 16, the following restrictions apply:",
+   "lines": [
+    18090,
+    18091
+   ]
+  },
+  {
+   "id": "22.2.3-s034",
+   "section": "22.2.3",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) The trigger operation shall only be used on message-based ports and the type of the value to be received shall be included in the list of incoming types of the port type definition.",
+   "lines": [
+    18093,
+    18094
+   ]
+  },
+  {
+   "id": "22.2.3-s035",
+   "section": "22.2.3",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "b) A message received by TriggerOnAnyMessage shall not be assigned to a variable.",
+   "lines": [
+    18096,
+    18096
+   ]
+  },
+  {
+   "id": "22.2.3-s036",
+   "section": "22.2.3",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "c) Type mismatch at storing the received value or parts of the received value and storing the sender shall cause an error.",
+   "lines": [
+    18098,
+    18099
+   ]
+  },
+  {
+   "id": "22.2.3-s037",
+   "section": "22.2.3",
+   "kind": "note",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "NOTE 3: An error due to a type mismatch may happen if the types in the receive part are not compatible to the types in the assignment part or, if the from clause is missing, but the type of the sender can be determined and it is not type compatible with the type in the sender clause.",
+   "lines": [
+    18101,
+    18103
+   ]
+  },
+  {
+   "id": "22.2.3-s038",
+   "section": "22.2.3",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "d) All AddressRef items in the from clause and all ValueRef items in the sender clause shall be of type address, component or of the address type bound to the port type (see clause C.5) of the port instance referenced in the trigger operation.",
+   "lines": [
+    18105,
+    18106
+   ]
+  },
+  {
+   "id": "22.2.3-s039",
+   "section": "22.2.3",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "No AddressRef in the from clause shall contain the special value null at the time of the operation.",
+   "lines": [
+    18105,
+    18106
+   ]
+  },
+  {
+   "id": "22.2.3-s040",
+   "section": "22.2.3",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "e) The PortArrayRef shall be a reference to a completely initialized port array.",
+   "lines": [
+    18112,
+    18112
+   ]
+  },
+  {
+   "id": "22.2.3-s041",
+   "section": "22.2.3",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "f) The index redirection shall only be used when the operation is used on an any from port array construct.",
+   "lines": [
+    18114,
+    18114
+   ]
+  },
+  {
+   "id": "22.2.3-s042",
+   "section": "22.2.3",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "g) If the index redirection is used for single-dimensional port arrays, the type of the integer variable shall allow storing the highest index of the respective array.",
+   "lines": [
+    18116,
+    18117
+   ]
+  },
+  {
+   "id": "22.2.3-s043",
+   "section": "22.2.3",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "h) If the index redirection is used for multi-dimensional port arrays, the size of the integer array or record of integer type shall exactly be the same as the dimension of the respective array, and its type shall allow storing the highest index (from all dimensions) of the array.",
+   "lines": [
+    18119,
+    18121
+   ]
+  },
+  {
+   "id": "22.2.3-s044",
+   "section": "22.2.3",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "i) If a variable referenced in the value, sender or @index clause is a lazy or fuzzy variable, the expression assigned to this variable is equal to the result produced by the trigger operation, i.e. later evaluation of the lazy or fuzzy variable does not lead to repeated invocation of the trigger operation.",
+   "lines": [
+    18123,
+    18125
+   ]
+  },
+  {
+   "id": "22.2.3-s045",
+   "section": "22.2.3",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "j) If the trigger operation contains both from and sender clause, the variable or parameter referenced in the sender clause shall be type compatible with the template in the from clause.",
+   "lines": [
+    18127,
+    18128
+   ]
+  },
+  {
+   "id": "22.2.3-s046",
+   "section": "22.2.3",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "k) The ObjectReference shall be of a port type.",
+   "lines": [
+    18130,
+    18130
+   ]
+  },
+  {
+   "id": "22.2.3-s047",
+   "section": "22.2.3",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "l) _TemplateInstance shall be of a data type._ m) The @nodefault modifier is allowed only in stand-alone trigger statements.",
+   "lines": [
+    18132,
+    18134
+   ]
+  },
+  {
+   "id": "22.2.3-s048",
+   "section": "22.2.3",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 1: Basic trigger",
+   "lines": [
+    18138,
+    18138
+   ]
+  },
+  {
+   "id": "22.2.3-s049",
+   "section": "22.2.3",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "myPort.trigger(MyType:?);\n  // Specifies that the operation will trigger on the reception of the first message observed of\n  // the type MyType with an arbitrary value at port myPort.",
+   "lines": [
+    18139,
+    18143
+   ]
+  },
+  {
+   "id": "22.2.3-s050",
+   "section": "22.2.3",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 2: Trigger from a sender and with storing message or sender",
+   "lines": [
+    18145,
+    18145
+   ]
+  },
+  {
+   "id": "22.2.3-s051",
+   "section": "22.2.3",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "myPort.trigger(MyType:?) from myPartner;\n  // Triggers on the reception of the first message of type MyType at port myPort\n  // received from myPartner.\n  myPort.trigger(MyType:?) from myPartner -> value v_myRecMessage;\n  // This example is almost identical to the previous example. In addition, the message which\n  // triggers i.e. all matching criteria are met, is stored in the variable v_myRecMessage.\n  myPort.trigger(MyType:?) -> sender myPartner;\n  // This example is almost identical to the first example. In addition, the reference of the\n  // sender component will be retrieved and stored in variable myPartner.\n  myPort.trigger(integer:?) -> value v_myVar sender v_myPartner;\n  // Trigger on the reception of an arbitrary integer value which afterwards is stored in\n  // variable v_myVar. The reference of the sender component will be stored in variable MyPartner.",
+   "lines": [
+    18146,
+    18159
+   ]
+  },
+  {
+   "id": "22.2.3-s052",
+   "section": "22.2.3",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 3: Trigger on any message",
+   "lines": [
+    18161,
+    18161
+   ]
+  },
+  {
+   "id": "22.2.3-s053",
+   "section": "22.2.3",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "myPort.trigger;\n  myPort.trigger from myPartner;\n  myPort.trigger -> sender v_mySenderVar;",
+   "lines": [
+    18162,
+    18166
+   ]
+  },
+  {
+   "id": "22.2.3-s054",
+   "section": "22.2.3",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 4: Trigger on any port",
+   "lines": [
+    18168,
+    18168
+   ]
+  },
+  {
+   "id": "22.2.3-s055",
+   "section": "22.2.3",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "any port.trigger",
+   "lines": [
+    18169,
+    18171
+   ]
+  },
+  {
+   "id": "22.2.3-s056",
+   "section": "22.2.3",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 5: Trigger on any port from port array",
+   "lines": [
+    18173,
+    18173
+   ]
+  },
+  {
+   "id": "22.2.3-s057",
+   "section": "22.2.3",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "type port MyPort message { inout integer }\n  type component MyComponent {\n    port MyPort p[10][10];\n  }\n  var integer v_i[2];\n  any from p.trigger(mw_myMessage) -> @index value v_i; \n  // Checking if mw_myMessage has been received on any port of the port array p; if yes, the index\n  // of the port on which the matching was first successful is stored in the array v_i; if no port\n  // succeeds, the top messages are removed and the port array is re-checked.",
+   "lines": [
+    18174,
+    18184
+   ]
+  },
+  {
+   "id": "22.3.0-s001",
+   "section": "22.3.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The operations for procedure-based communication via synchronous ports are summarized in table 24.",
+   "lines": [
+    18190,
+    18190
+   ]
+  },
+  {
+   "id": "22.3.0-s002",
+   "section": "22.3.0",
+   "kind": "caption",
+   "context": null,
+   "normative": false,
+   "text": "Table 24: Overview of procedure-based communication",
+   "lines": [
+    18192,
+    18192
+   ]
+  },
+  {
+   "id": "22.3.0-s003",
+   "section": "22.3.0",
+   "kind": "table-text",
+   "context": null,
+   "normative": true,
+   "text": "**Communication operation** **Keyword** Invoke procedure call **call** Accept procedure call from remote entity **getcall** Reply to procedure call from remote entity **reply** Raise exception (to an accepted call) **raise** Handle response from a previous call **getreply** Catch exception (from called entity) **catch** Check call/exception/reply received **check**",
+   "lines": [
+    18194,
+    18201
+   ]
+  }
+ ]
+}

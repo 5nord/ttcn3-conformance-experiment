@@ -1,0 +1,36 @@
+// @requirement: 8.2.3.6 -- For example, when a template is defined based on a structured type, the identifiers and types of fields of the core type shall be accessible and are used for the template definition.
+// @id: TTCN3-CORE-8.2.3.6-012a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_02_03_06_test_008 language "TTCN-3:2023" {
+
+    import from M_08_02_03_06_test_008_A language "TTCN-3:2010" {
+        type MyRec
+    }
+
+    template MyRec m_rec := {
+        f1 := (1 .. 5),
+        f2 := pattern "ab*"
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyRec v_rec := { f1 := 3, f2 := "abc" };
+        if (match(v_rec, m_rec) and match(v_rec.f1, m_rec.f1)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_03_06_test_008_A language "TTCN-3:2010" {
+    type record MyRec {
+        integer f1,
+        charstring f2
+    }
+}

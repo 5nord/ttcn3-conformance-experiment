@@ -1,0 +1,37 @@
+// @requirement: 22.2.2 -- A receive operation with no argument list for the type and value matching criteria of the message to be received shall remove the message on the top of the incoming port queue (if any) if all other matching criteria are fulfilled.
+// @id: TTCN3-CORE-22.2.2-043a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_02_02_test_036 {
+
+    type port P message { inout integer, charstring }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    function f_send() runs on C {
+        p.send(charstring:"a");
+        p.send(integer:2);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_send());
+        T.start;
+        alt {
+            [] p.receive from v_ptc { }
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        alt {
+            [] p.receive(integer:2) { setverdict(pass); }
+            [] p.receive { setverdict(fail); }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

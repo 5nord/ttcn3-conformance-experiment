@@ -1,0 +1,36 @@
+// @requirement: 8.2.3.7 -- It is not possible to import individual import statements of another module.
+// @id: TTCN3-CORE-8.2.3.7-006a
+// @verdict: pass reject
+module M_08_02_03_07_test_006 {
+
+    import from M_08_02_03_07_test_006_B {
+        import M_08_02_03_07_test_006_A // error: individual import statement cannot be imported
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_03_07_test_006_A {
+    type integer T1;
+}
+
+module M_08_02_03_07_test_006_X {
+    type integer T2;
+}
+
+module M_08_02_03_07_test_006_B {
+    public import from M_08_02_03_07_test_006_A {
+        type T1
+    }
+    public import from M_08_02_03_07_test_006_X {
+        type T2
+    }
+}

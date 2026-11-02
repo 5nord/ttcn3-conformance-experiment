@@ -1,0 +1,33 @@
+// @requirement: C.5.4 -- This bitstring is then passed as a parameter to the standard decvalue function that performs the actual decoding.
+// @id: TTCN3-CORE-C.5.4-024a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_05_04_test_023 {
+
+    type component C {}
+
+    type integer I with { variant "32 bit" };
+
+    const I c_val := 1094861636;
+
+    testcase TC() runs on C {
+        var universal charstring v_ok := encvalue_unichar(c_val);
+        var universal charstring v_short := substr(v_ok, 0, 2);
+        var bitstring v_bits_ok := oct2bit(unichar2oct(v_ok, "UTF-8"));
+        var bitstring v_bits_short := oct2bit(unichar2oct(v_short, "UTF-8"));
+        var I v_dec_ok, v_ref_ok, v_dec_short, v_ref_short;
+        var integer v_ref_res_ok := decvalue(v_bits_ok, v_ref_ok);
+        var integer v_ref_res_short := decvalue(v_bits_short, v_ref_short);
+        var integer v_res_ok := decvalue_unichar(v_ok, v_dec_ok);
+        var integer v_res_short := decvalue_unichar(v_short, v_dec_short);
+        if (v_res_ok == v_ref_res_ok and v_dec_ok == v_ref_ok and
+            v_res_short == v_ref_res_short) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

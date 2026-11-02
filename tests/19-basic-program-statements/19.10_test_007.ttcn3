@@ -1,0 +1,33 @@
+// @requirement: 19.10 -- If there is a statement block, the return statement returns control to the beginning of this statement block and the statement block is executed before the alt statement is left.
+// @id: TTCN3-CORE-19.10-006b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_10_test_007 {
+    type component C {
+        var boolean v_block := false;
+        timer T;
+    }
+
+    altstep a_ret() runs on C {
+        [] T.timeout {
+            return;
+        }
+    }
+
+    testcase TC() runs on C {
+        T.start(0.01);
+        alt {
+            [] a_ret() {
+                v_block := true;
+            }
+        }
+        if (v_block) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

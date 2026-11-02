@@ -1,0 +1,30 @@
+// @requirement: 22.2.1 -- b) When defining the message in-line, the optional type part shall be used if there is ambiguity of the type of the message being sent.
+// @id: TTCN3-CORE-22.2.1-014a
+// @verdict: pass reject
+module M_22_02_01_test_012 {
+
+    type record R1 {
+        integer a
+    }
+
+    type record R2 {
+        integer b
+    }
+
+    type port P message { inout R1, R2 }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        p.send({ 1 }); // error: type of in-line message is ambiguous (R1 or R2)
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

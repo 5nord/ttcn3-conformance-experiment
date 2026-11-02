@@ -1,0 +1,21 @@
+// @requirement: 22.2.2 -- n) The referenced value associated with ValueRef or the return type associated with FunctionInstance followed by the receive keyword, shall be of a port type.
+// @id: TTCN3-CORE-22.2.2-071a
+// @verdict: pass reject
+module M_22_02_02_test_067 {
+
+    type port P message { inout integer }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        var integer v_x := 1;
+        v_x.receive(integer:?); // error: v_x is not of a port type
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

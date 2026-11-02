@@ -1,0 +1,26 @@
+// @requirement: 5.4.1.1 -- In the case of default references the TTCN-3 type default is the type of the formal parameter.
+// @id: TTCN3-CORE-5.4.1.1-018a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_04_01_01_test_020 {
+    type component C {
+        timer T;
+    }
+
+    altstep a_dummy() runs on C {
+        [] T.timeout {}
+    }
+
+    function f_deactivate(default p_def) {
+        deactivate(p_def);
+    }
+
+    testcase TC() runs on C {
+        var default v_def := activate(a_dummy());
+        f_deactivate(v_def);
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

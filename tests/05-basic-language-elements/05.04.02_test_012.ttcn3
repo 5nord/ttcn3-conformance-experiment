@@ -1,0 +1,22 @@
+// @requirement: 5.4.2 -- Actual parameters that are passed to in formal template parameters shall be literal values, module parameters, constants, variables, invocations of value or template returning (external) functions, formal value parameters (of in, inout or out parameterization) of the current scope or expressions composed of the above, as well as templates, template variables or formal template parameters (of in, inout or out parameterization) of the current scope.
+// @id: TTCN3-CORE-5.4.2-009a
+// @verdict: pass reject
+module M_05_04_02_test_012 {
+
+    type component C {}
+
+    function f_void() {
+    }
+
+    function f(in template integer p_t) {
+    }
+
+    testcase TC() runs on C {
+        f(f_void()); // error: invocation of a function without return value
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

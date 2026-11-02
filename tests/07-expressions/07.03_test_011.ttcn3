@@ -1,0 +1,22 @@
+// @requirement: 7.3 -- Extended type references shall always use the extended syntax with parentheses.
+// @id: TTCN3-CORE-7.3-014a
+// @verdict: pass reject
+module M_07_03_test_011 {
+
+    type component C {}
+
+    type record R {
+        integer f1
+    }
+
+    testcase TC() runs on C {
+        var R v_rec := { f1 := 7 };
+        var bitstring v_bs := encvalue(v_rec);
+        var R v_dec := v_bs => M_07_03_test_011.R; // error: qualified type reference without parentheses
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,1472 @@
+{
+ "batch": "b012",
+ "requirements": [
+  {
+   "id": "TTCN3-CORE-6.2.3.1-001a",
+   "section": "6.2.3.1",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "TTCN-3 supports the definition of the aggregated type nested with the record `of or set` `of definition.",
+   "canonical": "The element type of a record of or set of type definition MAY be specified by a nested type definition.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "'aggregated type' is used instead of 'structured type'.",
+    "improper_terms": [
+     {
+      "used": "aggregated type",
+      "proper": "structured type",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    4359,
+    4361
+   ],
+   "examples": [
+    {
+     "lines": [
+      4364,
+      4368
+     ],
+     "text": "type record of enumerated { red, green, blue } ColorList;\n  type record length (10) of record length (10) of integer Matrix;\n  type set of record { charstring id, charstring val } GenericParameters;"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.03.01_test_001.ttcn3",
+   "module": "M_06_02_03_01_test_001",
+   "header": "// @requirement: 6.2.3.1 -- TTCN-3 supports the definition of the aggregated type nested with the record `of or set` `of definition."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.3.1-002a",
+   "section": "6.2.3.1",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Both the` definition of new structured types (record, set, enumerated, set `of and record` `of) and the specification of` subtype constraints are possible.",
+   "canonical": "A nested type definition within a record of or set of type definition MAY define a new record, set, enumerated, set of or record of type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "The parenthesised list omits union types; it is unclear whether the list is exhaustive. Reading 1 (the list is exhaustive as written) was chosen.",
+    "readings": [
+     "A nested type definition within a record of or set of type definition MAY define only a record, set, enumerated, set of or record of type.",
+     "A nested type definition within a record of or set of type definition MAY define any structured type (including union), the list being illustrative."
+    ]
+   },
+   "spec_lines": [
+    4359,
+    4361
+   ],
+   "examples": [
+    {
+     "lines": [
+      4364,
+      4368
+     ],
+     "text": "type record of enumerated { red, green, blue } ColorList;\n  type record length (10) of record length (10) of integer Matrix;\n  type set of record { charstring id, charstring val } GenericParameters;"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.03.01_test_002.ttcn3",
+   "module": "M_06_02_03_01_test_002",
+   "header": "// @requirement: 6.2.3.1 -- Both the` definition of new structured types (record, set, enumerated, set `of and record` `of) and the specification of` subtype constraints are possible."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.3.1-002b",
+   "section": "6.2.3.1",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Both the` definition of new structured types (record, set, enumerated, set `of and record` `of) and the specification of` subtype constraints are possible.",
+   "canonical": "A nested type definition within a record of or set of type definition MAY specify subtype constraints.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    4359,
+    4361
+   ],
+   "examples": [
+    {
+     "lines": [
+      4364,
+      4368
+     ],
+     "text": "type record of enumerated { red, green, blue } ColorList;\n  type record length (10) of record length (10) of integer Matrix;\n  type set of record { charstring id, charstring val } GenericParameters;"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.03.01_test_003.ttcn3",
+   "module": "M_06_02_03_01_test_003",
+   "header": "// @requirement: 6.2.3.1 -- Both the` definition of new structured types (record, set, enumerated, set `of and record` `of) and the specification of` subtype constraints are possible."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.3.2-001a",
+   "section": "6.2.3.2",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "It is also allowed to reference the inner type of record of and set of types by using the index notation but with a dash.",
+   "canonical": "The inner type of a record of or set of type MAY be referenced by using the index notation with a dash.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    4372,
+    4375
+   ],
+   "examples": [
+    {
+     "lines": [
+      4378,
+      4415
+     ],
+     "text": "//Provided the definitions below\n  type record of integer MyRecordOfInt;\n  type record of record {\n     integer f1,\n     set { integer s1, boolean s2 } f2\n  } MyRecordOfRecord;\n  type record of record of integer MyRecordOfRecordOfInt;\n  type record of record {\n     integer f1,\n     record of boolean f2\n  } MyRecordOfRecord2;\n  // Referencing the inner integer type\n  type MyRecordOfInt[-] MyInteger;\n  const MyRecordOfInt[-] c_MyInteger:= 5;\n  // Referencing the nested record type\n  type MyRecordOfRecord[-] MyInnerRecord;\n  const MyRecordOfRecord[-] c_MyRecord := { f1 = 5; f2 := { s1 := 0; s2 := true }}\n  // Referencing the set type nested in the inner record\n  type MyRecordOfRecord[-].f2 MyNestedSet;\n  const MyRecordOfRecord[-].f2 c_MySet := { s1 := 0; s2 := true }\n  // Referencing the innermost boolean\n  type MyRecordOfRecord[-].f2.s2 MyBoolean;\n  const MyRecordOfRecord[-].f2.s2 c_MyBool := false;\n  // Referencing the inner record of\n  type MyRecordOfRecordOfInt[-] MyInnerRecordOfInt;\n  const MyRecordOfRecordOfInt[-] c_MyInnerRecordOfInt := { 0, 1, 2, 3 };\n  // Referencing the integer type within the inner record of\n  type MyRecordOfRecordOfInt[-][-] MyInteger2;\n  const MyRecordOfRecordOfInt[-][-] c_MyInteger2 := 1;\n  // Referencing the boolean type within the nested record\n  type MyRecordOfRecord2[-].f2[-] MyInnermostBoolean;\n  const MyRecordOfRecord2[-].f2[-] c_MyInnermostBoolean := true ;\n  type record length (5) of record of integer ConstrainedRecordOfInt (1 .. 10);\n  typ"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.03.02_test_001.ttcn3",
+   "module": "M_06_02_03_02_test_001",
+   "header": "// @requirement: 6.2.3.2 -- It is also allowed to reference the inner type of record of and set of types by using the index notation but with a dash."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.3.2-002a",
+   "section": "6.2.3.2",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "The notation TypeId[-], where TypeId resolves to the name of a record of or set of type, references the inner type of TypeId.",
+   "canonical": "The notation TypeId[-], where TypeId resolves to the name of a record of or set of type, references the inner type of TypeId.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    4372,
+    4375
+   ],
+   "examples": [
+    {
+     "lines": [
+      4378,
+      4415
+     ],
+     "text": "//Provided the definitions below\n  type record of integer MyRecordOfInt;\n  type record of record {\n     integer f1,\n     set { integer s1, boolean s2 } f2\n  } MyRecordOfRecord;\n  type record of record of integer MyRecordOfRecordOfInt;\n  type record of record {\n     integer f1,\n     record of boolean f2\n  } MyRecordOfRecord2;\n  // Referencing the inner integer type\n  type MyRecordOfInt[-] MyInteger;\n  const MyRecordOfInt[-] c_MyInteger:= 5;\n  // Referencing the nested record type\n  type MyRecordOfRecord[-] MyInnerRecord;\n  const MyRecordOfRecord[-] c_MyRecord := { f1 = 5; f2 := { s1 := 0; s2 := true }}\n  // Referencing the set type nested in the inner record\n  type MyRecordOfRecord[-].f2 MyNestedSet;\n  const MyRecordOfRecord[-].f2 c_MySet := { s1 := 0; s2 := true }\n  // Referencing the innermost boolean\n  type MyRecordOfRecord[-].f2.s2 MyBoolean;\n  const MyRecordOfRecord[-].f2.s2 c_MyBool := false;\n  // Referencing the inner record of\n  type MyRecordOfRecordOfInt[-] MyInnerRecordOfInt;\n  const MyRecordOfRecordOfInt[-] c_MyInnerRecordOfInt := { 0, 1, 2, 3 };\n  // Referencing the integer type within the inner record of\n  type MyRecordOfRecordOfInt[-][-] MyInteger2;\n  const MyRecordOfRecordOfInt[-][-] c_MyInteger2 := 1;\n  // Referencing the boolean type within the nested record\n  type MyRecordOfRecord2[-].f2[-] MyInnermostBoolean;\n  const MyRecordOfRecord2[-].f2[-] c_MyInnermostBoolean := true ;\n  type record length (5) of record of integer ConstrainedRecordOfInt (1 .. 10);\n  typ"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.03.02_test_002.ttcn3",
+   "module": "M_06_02_03_02_test_002",
+   "header": "// @requirement: 6.2.3.2 -- The notation TypeId[-], where TypeId resolves to the name of a record of or set of type, references the inner type of TypeId."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.3.2-003a",
+   "section": "6.2.3.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "If the type definition restricts the element type of the record of or set of type, referencing the inner type of that type yields a type which contains all values from the constrained type.",
+   "canonical": "If the type definition of a record of or set of type restricts its element type, the inner type reference yields a type which contains all values of the constrained element type.",
+   "condition": "the type definition restricts the element type",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "'contains all values from the constrained type' does not state whether the yielded type is exactly the constrained element type or may be wider. Example (ConstrainedRecordOfInt[-]) shows the element constraint is kept, so reading 1 was chosen.",
+    "readings": [
+     "The inner type reference yields exactly the constrained element type (the element subtype constraint is kept).",
+     "The inner type reference yields a type that includes all values of the constrained element type, possibly the unconstrained element type."
+    ]
+   },
+   "spec_lines": [
+    4372,
+    4375
+   ],
+   "examples": [
+    {
+     "lines": [
+      4378,
+      4415
+     ],
+     "text": "//Provided the definitions below\n  type record of integer MyRecordOfInt;\n  type record of record {\n     integer f1,\n     set { integer s1, boolean s2 } f2\n  } MyRecordOfRecord;\n  type record of record of integer MyRecordOfRecordOfInt;\n  type record of record {\n     integer f1,\n     record of boolean f2\n  } MyRecordOfRecord2;\n  // Referencing the inner integer type\n  type MyRecordOfInt[-] MyInteger;\n  const MyRecordOfInt[-] c_MyInteger:= 5;\n  // Referencing the nested record type\n  type MyRecordOfRecord[-] MyInnerRecord;\n  const MyRecordOfRecord[-] c_MyRecord := { f1 = 5; f2 := { s1 := 0; s2 := true }}\n  // Referencing the set type nested in the inner record\n  type MyRecordOfRecord[-].f2 MyNestedSet;\n  const MyRecordOfRecord[-].f2 c_MySet := { s1 := 0; s2 := true }\n  // Referencing the innermost boolean\n  type MyRecordOfRecord[-].f2.s2 MyBoolean;\n  const MyRecordOfRecord[-].f2.s2 c_MyBool := false;\n  // Referencing the inner record of\n  type MyRecordOfRecordOfInt[-] MyInnerRecordOfInt;\n  const MyRecordOfRecordOfInt[-] c_MyInnerRecordOfInt := { 0, 1, 2, 3 };\n  // Referencing the integer type within the inner record of\n  type MyRecordOfRecordOfInt[-][-] MyInteger2;\n  const MyRecordOfRecordOfInt[-][-] c_MyInteger2 := 1;\n  // Referencing the boolean type within the nested record\n  type MyRecordOfRecord2[-].f2[-] MyInnermostBoolean;\n  const MyRecordOfRecord2[-].f2[-] c_MyInnermostBoolean := true ;\n  type record length (5) of record of integer ConstrainedRecordOfInt (1 .. 10);\n  typ"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.03.02_test_003.ttcn3",
+   "module": "M_06_02_03_02_test_003",
+   "header": "// @requirement: 6.2.3.2 -- If the type definition restricts the element type of the record of or set of type, referencing the inner type of that type yields a type which contains all values from the constrained type."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.3.2-005a",
+   "section": "6.2.3.2",
+   "type": "information",
+   "modality": "IS NOT",
+   "original": "//Provided the definitions below type record of integer MyRecordOfInt; type record of record { integer f1, set { integer s1, boolean s2 } f2 } MyRecordOfRecord; type record of record of integer MyRecordOfRecordOfInt; type record of record { integer f1, record of boolean f2 } MyRecordOfRecord2; // Referencing the inner integer type type MyRecordOfInt[-] MyInteger; const MyRecordOfInt[-] c_MyInteger:= 5; // Referencing the nested record type type MyRecordOfRecord[-] MyInnerRecord; const MyRecordOfRecord[-] c_MyRecord := { f1 = 5; f2 := { s1 := 0; s2 := true }} // Referencing the set type nested in the inner record type MyRecordOfRecord[-].f2 MyNestedSet; const MyRecordOfRecord[-].f2 c_MySet := { s1 := 0; s2 := true } // Referencing the innermost boolean type MyRecordOfRecord[-].f2.s2 MyBoolean; const MyRecordOfRecord[-].f2.s2 c_MyBool := false; // Referencing the inner record of type MyRecordOfRecordOfInt[-] MyInnerRecordOfInt; const MyRecordOfRecordOfInt[-] c_MyInnerRecordOfInt := { 0, 1, 2, 3 }; // Referencing the integer type within the inner record of type MyRecordOfRecordOfInt[-][-] MyInteger2; const MyRecordOfRecordOfInt[-][-] c_MyInteger2 := 1; // Referencing the boolean type within the nested record type MyRecordOfRecord2[-].f2[-] MyInnermostBoolean; const MyRecordOfRecord2[-].f2[-] c_MyInnermostBoolean := true ; type record length (5) of record of integer ConstrainedRecordOfInt (1 .. 10); type ConstrainedRecordOfInt[-] ConstrainedInt; // defines the type record of integer, where the integer values are restricted // to the range 1 .. 10 but the record of has no length restriction",
+   "canonical": "A length restriction of the outer record of type IS NOT part of the inner type yielded by an inner type reference.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    4378,
+    4415
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.02.03.02_test_004.ttcn3",
+   "module": "M_06_02_03_02_test_004",
+   "header": "// @requirement: 6.2.3.2 -- //Provided the definitions below type record of integer MyRecordOfInt; type record of record { integer f1, set { integer s1, boolean s2 } f2 } MyRecordOfRecord; type record of record of integer MyRecordOfRecordOfInt; type record of record { integer f1, record of boolean f2 } MyRecordOfRecord2; // Referencing the inner integer type type MyRecordOfInt[-] MyInteger; const MyRecordOfInt[-] c_MyInteger:= 5; // Referencing the nested record type type MyRecordOfRecord[-] MyInnerRecord; const MyRecordOfRecord[-] c_MyRecord := { f1 = 5; f2 := { s1 := 0; s2 := true }} // Referencing the set type nested in the inner record type MyRecordOfRecord[-].f2 MyNestedSet; const MyRecordOfRecord[-].f2 c_MySet := { s1 := 0; s2 := true } // Referencing the innermost boolean type MyRecordOfRecord[-].f2.s2 MyBoolean; const MyRecordOfRecord[-].f2.s2 c_MyBool := false; // Referencing the inner record of type MyRecordOfRecordOfInt[-] MyInnerRecordOfInt; const MyRecordOfRecordOfInt[-] c_MyInnerRecordOfInt := { 0, 1, 2, 3 }; // Referencing the integer type within the inner record of type MyRecordOfRecordOfInt[-][-] MyInteger2; const MyRecordOfRecordOfInt[-][-] c_MyInteger2 := 1; // Referencing the boolean type within the nested record type MyRecordOfRecord2[-].f2[-] MyInnermostBoolean; const MyRecordOfRecord2[-].f2[-] c_MyInnermostBoolean := true ; type record length (5) of record of integer ConstrainedRecordOfInt (1 .. 10); type ConstrainedRecordOfInt[-] ConstrainedInt; // defines the type record of integer, where the integer values are restricted // to the range 1 .. 10 but the record of has no length restriction"
+  },
+  {
+   "id": "TTCN3-CORE-6.2.4-001a",
+   "section": "6.2.4",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "TTCN-3 supports enumerated types.",
+   "canonical": "A TTCN-3 tool SHALL support enumerated types.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    4424,
+    4431
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.02.04_test_001.ttcn3",
+   "module": "M_06_02_04_test_001",
+   "header": "// @requirement: 6.2.4 -- TTCN-3 supports enumerated types."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.4-004a",
+   "section": "6.2.4",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "Each enumerated value shall have an identifier and referencing the values shall only use these identifiers.",
+   "canonical": "An enumerated value SHALL have an identifier.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    4424,
+    4431
+   ],
+   "examples": [
+    {
+     "lines": [
+      4450,
+      4473
+     ],
+     "text": "type enumerated MyFirstEnumType {\n     Monday, Tuesday, Wednesday, Thursday, Friday\n  };\n  type integer Monday;\n  // This definition does not clash with the previous one \n  // as Monday in MyFirstEnumType is of local scope\n  type enumerated MySecondEnumType {\n     Saturday, Sunday, Monday\n  };\n  // This definition is legal as it reuses the Monday identifier within \n  // a different enumerated type\n  type record MyRecordType {\n     integer Monday\n  };\n  // This definition is legal as it reuses the Monday identifier within \n  // a distinct structured type as identifier of a given field of this type\n  type record MyNewRecordType {\n     MyFirstEnumType firstField,\n     integer secondField\n  };\n  var MyNewRecordType v_newRecordValue := { Monday, 0 }\n  // MyFirstEnumType is implicitly referenced via the firstField element of MyNewRecordType"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.04_test_002.ttcn3",
+   "module": "M_06_02_04_test_002",
+   "header": "// @requirement: 6.2.4 -- Each enumerated value shall have an identifier and referencing the values shall only use these identifiers."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.4-004b",
+   "section": "6.2.4",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "Each enumerated value shall have an identifier and referencing the values shall only use these identifiers.",
+   "canonical": "A reference to an enumerated value SHALL only use the identifier of the enumerated value.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    4424,
+    4431
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.02.04_test_003.ttcn3",
+   "module": "M_06_02_04_test_003",
+   "header": "// @requirement: 6.2.4 -- Each enumerated value shall have an identifier and referencing the values shall only use these identifiers."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.4-005a",
+   "section": "6.2.4",
+   "type": "definition",
+   "modality": "IS",
+   "original": "References to enumerated values can occur in two forms: unqualified and qualified.",
+   "canonical": "A reference to an enumerated value IS either in unqualified or in qualified form.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    4424,
+    4431
+   ],
+   "examples": [
+    {
+     "lines": [
+      4481,
+      4502
+     ],
+     "text": "// Valid instantiations of MyFirstEnumType and MySecondEnumType would be \n  var MyFirstEnumType v_today := Tuesday;\n  var MySecondEnumType v_tomorrow := Monday;\n  // The following statements however cause an error as the two variables are instances\n  // of different enumeration types \n  v_today := v_tomorrow;\n  v_today == v_tomorrow;\n  // The following operation is correct\n  if (v_today == Monday ) {...}\n  // the type of variable v_today identifies the type context of MyFirstEnumType for the\n  // equality operator\n  // But the following causes an error\n  if ( Tuesday == Wednesday ) {...}\n  // there is no TTCN-3 type(d) object to establish the type context for the equality operator\n  // Please note that the values Tuesday and Wednesday are defined within the type \n  // MyFirstEnumType only, but this is not sufficient to establish the type context \n  // This kind of error can be fixed using the qualified form for one of the enumerated values.\n  // The type referenced in the qualified form will provide the required type context as shown\n  // in the following condition\n  if (MyFirstEnumType.Tuesday == Wednesday ) {...}"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.04_test_004.ttcn3",
+   "module": "M_06_02_04_test_004",
+   "header": "// @requirement: 6.2.4 -- References to enumerated values can occur in two forms: unqualified and qualified."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.4-006a",
+   "section": "6.2.4",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "The unqualified form uses only the identifier of the enumerated value.",
+   "canonical": "The unqualified form of an enumerated value reference consists only of the identifier of the enumerated value.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    4424,
+    4431
+   ],
+   "examples": [
+    {
+     "lines": [
+      4481,
+      4502
+     ],
+     "text": "// Valid instantiations of MyFirstEnumType and MySecondEnumType would be \n  var MyFirstEnumType v_today := Tuesday;\n  var MySecondEnumType v_tomorrow := Monday;\n  // The following statements however cause an error as the two variables are instances\n  // of different enumeration types \n  v_today := v_tomorrow;\n  v_today == v_tomorrow;\n  // The following operation is correct\n  if (v_today == Monday ) {...}\n  // the type of variable v_today identifies the type context of MyFirstEnumType for the\n  // equality operator\n  // But the following causes an error\n  if ( Tuesday == Wednesday ) {...}\n  // there is no TTCN-3 type(d) object to establish the type context for the equality operator\n  // Please note that the values Tuesday and Wednesday are defined within the type \n  // MyFirstEnumType only, but this is not sufficient to establish the type context \n  // This kind of error can be fixed using the qualified form for one of the enumerated values.\n  // The type referenced in the qualified form will provide the required type context as shown\n  // in the following condition\n  if (MyFirstEnumType.Tuesday == Wednesday ) {...}"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.04_test_005.ttcn3",
+   "module": "M_06_02_04_test_005",
+   "header": "// @requirement: 6.2.4 -- The unqualified form uses only the identifier of the enumerated value."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.4-007a",
+   "section": "6.2.4",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "The qualified form consists of the enumerated type reference, followed by a dot and the enumerated value identifier.",
+   "canonical": "The qualified form of an enumerated value reference consists of the enumerated type reference, followed by a dot and the enumerated value identifier.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    4424,
+    4431
+   ],
+   "examples": [
+    {
+     "lines": [
+      4481,
+      4502
+     ],
+     "text": "// Valid instantiations of MyFirstEnumType and MySecondEnumType would be \n  var MyFirstEnumType v_today := Tuesday;\n  var MySecondEnumType v_tomorrow := Monday;\n  // The following statements however cause an error as the two variables are instances\n  // of different enumeration types \n  v_today := v_tomorrow;\n  v_today == v_tomorrow;\n  // The following operation is correct\n  if (v_today == Monday ) {...}\n  // the type of variable v_today identifies the type context of MyFirstEnumType for the\n  // equality operator\n  // But the following causes an error\n  if ( Tuesday == Wednesday ) {...}\n  // there is no TTCN-3 type(d) object to establish the type context for the equality operator\n  // Please note that the values Tuesday and Wednesday are defined within the type \n  // MyFirstEnumType only, but this is not sufficient to establish the type context \n  // This kind of error can be fixed using the qualified form for one of the enumerated values.\n  // The type referenced in the qualified form will provide the required type context as shown\n  // in the following condition\n  if (MyFirstEnumType.Tuesday == Wednesday ) {...}"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.04_test_006.ttcn3",
+   "module": "M_06_02_04_test_006",
+   "header": "// @requirement: 6.2.4 -- The qualified form consists of the enumerated type reference, followed by a dot and the enumerated value identifier."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.4-008a",
+   "section": "6.2.4",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "original": "The identifiers of enumerated values shall be unique within the enumerated type (but do not have to be globally unique) and are consequently visible in the context of the given type only.",
+   "canonical": "The identifiers of the enumerated values SHALL be unique within the enumerated type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    4424,
+    4431
+   ],
+   "examples": [
+    {
+     "lines": [
+      4450,
+      4473
+     ],
+     "text": "type enumerated MyFirstEnumType {\n     Monday, Tuesday, Wednesday, Thursday, Friday\n  };\n  type integer Monday;\n  // This definition does not clash with the previous one \n  // as Monday in MyFirstEnumType is of local scope\n  type enumerated MySecondEnumType {\n     Saturday, Sunday, Monday\n  };\n  // This definition is legal as it reuses the Monday identifier within \n  // a different enumerated type\n  type record MyRecordType {\n     integer Monday\n  };\n  // This definition is legal as it reuses the Monday identifier within \n  // a distinct structured type as identifier of a given field of this type\n  type record MyNewRecordType {\n     MyFirstEnumType firstField,\n     integer secondField\n  };\n  var MyNewRecordType v_newRecordValue := { Monday, 0 }\n  // MyFirstEnumType is implicitly referenced via the firstField element of MyNewRecordType"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.04_test_007.ttcn3",
+   "module": "M_06_02_04_test_007",
+   "header": "// @requirement: 6.2.4 -- The identifiers of enumerated values shall be unique within the enumerated type (but do not have to be globally unique) and are consequently visible in the context of the given type only."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.4-008b",
+   "section": "6.2.4",
+   "type": "permission",
+   "modality": "NEED NOT",
+   "original": "The identifiers of enumerated values shall be unique within the enumerated type (but do not have to be globally unique) and are consequently visible in the context of the given type only.",
+   "canonical": "The identifier of an enumerated value NEED NOT be globally unique.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    4424,
+    4431
+   ],
+   "examples": [
+    {
+     "lines": [
+      4450,
+      4473
+     ],
+     "text": "type enumerated MyFirstEnumType {\n     Monday, Tuesday, Wednesday, Thursday, Friday\n  };\n  type integer Monday;\n  // This definition does not clash with the previous one \n  // as Monday in MyFirstEnumType is of local scope\n  type enumerated MySecondEnumType {\n     Saturday, Sunday, Monday\n  };\n  // This definition is legal as it reuses the Monday identifier within \n  // a different enumerated type\n  type record MyRecordType {\n     integer Monday\n  };\n  // This definition is legal as it reuses the Monday identifier within \n  // a distinct structured type as identifier of a given field of this type\n  type record MyNewRecordType {\n     MyFirstEnumType firstField,\n     integer secondField\n  };\n  var MyNewRecordType v_newRecordValue := { Monday, 0 }\n  // MyFirstEnumType is implicitly referenced via the firstField element of MyNewRecordType"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.04_test_008.ttcn3",
+   "module": "M_06_02_04_test_008",
+   "header": "// @requirement: 6.2.4 -- The identifiers of enumerated values shall be unique within the enumerated type (but do not have to be globally unique) and are consequently visible in the context of the given type only."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.4-008c",
+   "section": "6.2.4",
+   "type": "static-semantics",
+   "modality": "IS",
+   "original": "The identifiers of enumerated values shall be unique within the enumerated type (but do not have to be globally unique) and are consequently visible in the context of the given type only.",
+   "canonical": "The identifier of an enumerated value IS visible in the context of its enumerated type only.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    4424,
+    4431
+   ],
+   "examples": [
+    {
+     "lines": [
+      4450,
+      4473
+     ],
+     "text": "type enumerated MyFirstEnumType {\n     Monday, Tuesday, Wednesday, Thursday, Friday\n  };\n  type integer Monday;\n  // This definition does not clash with the previous one \n  // as Monday in MyFirstEnumType is of local scope\n  type enumerated MySecondEnumType {\n     Saturday, Sunday, Monday\n  };\n  // This definition is legal as it reuses the Monday identifier within \n  // a different enumerated type\n  type record MyRecordType {\n     integer Monday\n  };\n  // This definition is legal as it reuses the Monday identifier within \n  // a distinct structured type as identifier of a given field of this type\n  type record MyNewRecordType {\n     MyFirstEnumType firstField,\n     integer secondField\n  };\n  var MyNewRecordType v_newRecordValue := { Monday, 0 }\n  // MyFirstEnumType is implicitly referenced via the firstField element of MyNewRecordType"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.04_test_009.ttcn3",
+   "module": "M_06_02_04_test_009",
+   "header": "// @requirement: 6.2.4 -- The identifiers of enumerated values shall be unique within the enumerated type (but do not have to be globally unique) and are consequently visible in the context of the given type only."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.4-009a",
+   "section": "6.2.4",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "original": "This means that for any instantiation or value reference of an enumerated type, the given type shall be implicitly or explicitly identified.",
+   "canonical": "For any instantiation or value reference of an enumerated type, the enumerated type SHALL be implicitly or explicitly identified.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    4424,
+    4431
+   ],
+   "examples": [
+    {
+     "lines": [
+      4481,
+      4502
+     ],
+     "text": "// Valid instantiations of MyFirstEnumType and MySecondEnumType would be \n  var MyFirstEnumType v_today := Tuesday;\n  var MySecondEnumType v_tomorrow := Monday;\n  // The following statements however cause an error as the two variables are instances\n  // of different enumeration types \n  v_today := v_tomorrow;\n  v_today == v_tomorrow;\n  // The following operation is correct\n  if (v_today == Monday ) {...}\n  // the type of variable v_today identifies the type context of MyFirstEnumType for the\n  // equality operator\n  // But the following causes an error\n  if ( Tuesday == Wednesday ) {...}\n  // there is no TTCN-3 type(d) object to establish the type context for the equality operator\n  // Please note that the values Tuesday and Wednesday are defined within the type \n  // MyFirstEnumType only, but this is not sufficient to establish the type context \n  // This kind of error can be fixed using the qualified form for one of the enumerated values.\n  // The type referenced in the qualified form will provide the required type context as shown\n  // in the following condition\n  if (MyFirstEnumType.Tuesday == Wednesday ) {...}"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.04_test_010.ttcn3",
+   "module": "M_06_02_04_test_010",
+   "header": "// @requirement: 6.2.4 -- This means that for any instantiation or value reference of an enumerated type, the given type shall be implicitly or explicitly identified."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.4-010a",
+   "section": "6.2.4",
+   "type": "information",
+   "modality": "IS",
+   "original": "NOTE 1: For example, if the enumerated type is an element or field of a user defined structured type, the enumerated type is implicitly referenced via the given element/field (i.e. by the identifier of the field or the position of the value in a value list notation) at value assignment, instantiation, etc. Another example is passing an enumerated value as actual parameter, in which case the type of the corresponding formal parameter establishes the type context needed to make the enumeration value visible.",
+   "canonical": "If an enumerated type is the type of an element or field of a structured type, the enumerated type IS implicitly referenced via the given element or field at value assignment and instantiation.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    4433,
+    4441
+   ],
+   "examples": [
+    {
+     "lines": [
+      4450,
+      4473
+     ],
+     "text": "type enumerated MyFirstEnumType {\n     Monday, Tuesday, Wednesday, Thursday, Friday\n  };\n  type integer Monday;\n  // This definition does not clash with the previous one \n  // as Monday in MyFirstEnumType is of local scope\n  type enumerated MySecondEnumType {\n     Saturday, Sunday, Monday\n  };\n  // This definition is legal as it reuses the Monday identifier within \n  // a different enumerated type\n  type record MyRecordType {\n     integer Monday\n  };\n  // This definition is legal as it reuses the Monday identifier within \n  // a distinct structured type as identifier of a given field of this type\n  type record MyNewRecordType {\n     MyFirstEnumType firstField,\n     integer secondField\n  };\n  var MyNewRecordType v_newRecordValue := { Monday, 0 }\n  // MyFirstEnumType is implicitly referenced via the firstField element of MyNewRecordType"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.04_test_011.ttcn3",
+   "module": "M_06_02_04_test_011",
+   "header": "// @requirement: 6.2.4 -- NOTE 1: For example, if the enumerated type is an element or field of a user defined structured type, the enumerated type is implicitly referenced via the given element/field (i.e. by the identifier of the field or the position of the value in a value list notation) at value assignment, instantiation, etc. Another example is passing an enumerated value as actual parameter, in which case the type of the corresponding formal parameter establishes the type context needed to make the enumeration value visible."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.4-010b",
+   "section": "6.2.4",
+   "type": "information",
+   "modality": "IS",
+   "original": "NOTE 1: For example, if the enumerated type is an element or field of a user defined structured type, the enumerated type is implicitly referenced via the given element/field (i.e. by the identifier of the field or the position of the value in a value list notation) at value assignment, instantiation, etc. Another example is passing an enumerated value as actual parameter, in which case the type of the corresponding formal parameter establishes the type context needed to make the enumeration value visible.",
+   "canonical": "When an enumerated value is passed as an actual parameter, the type of the corresponding formal parameter establishes the type context that makes the enumerated value visible.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "'enumeration value' is used instead of 'enumerated value'.",
+    "improper_terms": [
+     {
+      "used": "enumeration value",
+      "proper": "enumerated value",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    4433,
+    4441
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.02.04_test_012.ttcn3",
+   "module": "M_06_02_04_test_012",
+   "header": "// @requirement: 6.2.4 -- NOTE 1: For example, if the enumerated type is an element or field of a user defined structured type, the enumerated type is implicitly referenced via the given element/field (i.e. by the identifier of the field or the position of the value in a value list notation) at value assignment, instantiation, etc. Another example is passing an enumerated value as actual parameter, in which case the type of the corresponding formal parameter establishes the type context needed to make the enumeration value visible."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.4-011a",
+   "section": "6.2.4",
+   "type": "information",
+   "modality": "IS",
+   "original": "The third example is the comparison operators: if the type of one of the operands is uniquely identified, it is used as a type context for the other operand (see example 2 below).",
+   "canonical": "For a comparison operator, if the type of one of the operands is uniquely identified, it IS used as the type context for the other operand.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    4433,
+    4441
+   ],
+   "examples": [
+    {
+     "lines": [
+      4481,
+      4502
+     ],
+     "text": "// Valid instantiations of MyFirstEnumType and MySecondEnumType would be \n  var MyFirstEnumType v_today := Tuesday;\n  var MySecondEnumType v_tomorrow := Monday;\n  // The following statements however cause an error as the two variables are instances\n  // of different enumeration types \n  v_today := v_tomorrow;\n  v_today == v_tomorrow;\n  // The following operation is correct\n  if (v_today == Monday ) {...}\n  // the type of variable v_today identifies the type context of MyFirstEnumType for the\n  // equality operator\n  // But the following causes an error\n  if ( Tuesday == Wednesday ) {...}\n  // there is no TTCN-3 type(d) object to establish the type context for the equality operator\n  // Please note that the values Tuesday and Wednesday are defined within the type \n  // MyFirstEnumType only, but this is not sufficient to establish the type context \n  // This kind of error can be fixed using the qualified form for one of the enumerated values.\n  // The type referenced in the qualified form will provide the required type context as shown\n  // in the following condition\n  if (MyFirstEnumType.Tuesday == Wednesday ) {...}"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.04_test_013.ttcn3",
+   "module": "M_06_02_04_test_013",
+   "header": "// @requirement: 6.2.4 -- The third example is the comparison operators: if the type of one of the operands is uniquely identified, it is used as a type context for the other operand (see example 2 below)."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.4-012a",
+   "section": "6.2.4",
+   "type": "information",
+   "modality": "IS",
+   "original": "The fourth example is the match operation, where the type of the template parameter establishes the type context for the operation, if the type of the value parameter is not identified (see example 2 in clause 15.8.2).",
+   "canonical": "For the match operation, if the type of the value parameter is not identified, the type of the template parameter establishes the type context.",
+   "condition": null,
+   "cross_refs": [
+    "15.8.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    4433,
+    4441
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.02.04_test_014.ttcn3",
+   "module": "M_06_02_04_test_014",
+   "header": "// @requirement: 6.2.4 -- The fourth example is the match operation, where the type of the template parameter establishes the type context for the operation, if the type of the value parameter is not identified (see example 2 in clause 15.8.2)."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.4-013a",
+   "section": "6.2.4",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "The identifiers of enumerated values, within the same module, shall only be reused within other structured type definitions and shall not be used for identifiers of local or global visibility at the same or a lower level of the same branch of the scope hierarchy (see scope hierarchy in clause 5.2).",
+   "canonical": "Within the same module, the identifier of an enumerated value SHALL only be reused within other structured type definitions.",
+   "condition": null,
+   "cross_refs": [
+    "5.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    4443,
+    4445
+   ],
+   "examples": [
+    {
+     "lines": [
+      4450,
+      4473
+     ],
+     "text": "type enumerated MyFirstEnumType {\n     Monday, Tuesday, Wednesday, Thursday, Friday\n  };\n  type integer Monday;\n  // This definition does not clash with the previous one \n  // as Monday in MyFirstEnumType is of local scope\n  type enumerated MySecondEnumType {\n     Saturday, Sunday, Monday\n  };\n  // This definition is legal as it reuses the Monday identifier within \n  // a different enumerated type\n  type record MyRecordType {\n     integer Monday\n  };\n  // This definition is legal as it reuses the Monday identifier within \n  // a distinct structured type as identifier of a given field of this type\n  type record MyNewRecordType {\n     MyFirstEnumType firstField,\n     integer secondField\n  };\n  var MyNewRecordType v_newRecordValue := { Monday, 0 }\n  // MyFirstEnumType is implicitly referenced via the firstField element of MyNewRecordType"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.04_test_015.ttcn3",
+   "module": "M_06_02_04_test_015",
+   "header": "// @requirement: 6.2.4 -- The identifiers of enumerated values, within the same module, shall only be reused within other structured type definitions and shall not be used for identifiers of local or global visibility at the same or a lower level of the same branch of the scope hierarchy (see scope hierarchy in clause 5.2)."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.4-013b",
+   "section": "6.2.4",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "The identifiers of enumerated values, within the same module, shall only be reused within other structured type definitions and shall not be used for identifiers of local or global visibility at the same or a lower level of the same branch of the scope hierarchy (see scope hierarchy in clause 5.2).",
+   "canonical": "Within the same module, the identifier of an enumerated value SHALL NOT be used for an identifier of local or global visibility at the same or a lower level of the same branch of the scope hierarchy.",
+   "condition": null,
+   "cross_refs": [
+    "5.2"
+   ],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "Example 1 declares 'type integer Monday' at module level next to an enumerated type containing Monday and states it does not clash, which contradicts a literal reading of the prohibition (the module level is the same level as the enumerated type definition). Reading 1 (literal text) was chosen.",
+    "readings": [
+     "A definition at the same or lower scope level as the enumerated type definition SHALL NOT reuse an enumerated value identifier (so 'type integer Monday' at module level is an error).",
+     "Because enumerated value identifiers are local to their type, only definitions inside the scope of that type context are restricted, and a module-level definition such as 'type integer Monday' is allowed."
+    ]
+   },
+   "spec_lines": [
+    4443,
+    4445
+   ],
+   "examples": [
+    {
+     "lines": [
+      4450,
+      4473
+     ],
+     "text": "type enumerated MyFirstEnumType {\n     Monday, Tuesday, Wednesday, Thursday, Friday\n  };\n  type integer Monday;\n  // This definition does not clash with the previous one \n  // as Monday in MyFirstEnumType is of local scope\n  type enumerated MySecondEnumType {\n     Saturday, Sunday, Monday\n  };\n  // This definition is legal as it reuses the Monday identifier within \n  // a different enumerated type\n  type record MyRecordType {\n     integer Monday\n  };\n  // This definition is legal as it reuses the Monday identifier within \n  // a distinct structured type as identifier of a given field of this type\n  type record MyNewRecordType {\n     MyFirstEnumType firstField,\n     integer secondField\n  };\n  var MyNewRecordType v_newRecordValue := { Monday, 0 }\n  // MyFirstEnumType is implicitly referenced via the firstField element of MyNewRecordType"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.04_test_016.ttcn3",
+   "module": "M_06_02_04_test_016",
+   "header": "// @requirement: 6.2.4 -- The identifiers of enumerated values, within the same module, shall only be reused within other structured type definitions and shall not be used for identifiers of local or global visibility at the same or a lower level of the same branch of the scope hierarchy (see scope hierarchy in clause 5.2)."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.4-018a",
+   "section": "6.2.4",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Each enumerated value may optionally have a user-assigned integer expression or non-empty list of integer literal values or ranges of integer literal values, which is defined after the name of the enumerated value in parenthesis.",
+   "canonical": "An enumerated value MAY have a user-assigned integer expression or a non-empty list of integer literal values or ranges of integer literal values, given in parentheses after the name of the enumerated value.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    4504,
+    4517
+   ],
+   "examples": [
+    {
+     "lines": [
+      4524,
+      4552
+     ],
+     "text": "type enumerated MyThirdEnumType {\n     Blue(0),\n     Yellow(1),\n     Green(3),\n     Other(2, 4..255)\n  }\n  var MyThirdEnumType v_color := Other(5);\n  if (v_color == Other(4)) { // is false\n  }\n  if (v_color > Other(4)) { // is true \n  }\n  if (match(v_color, Other(?))) { // is true\n  }\n  if (match(v_color, Other(6..10))) { // is false\n  }\n  if (match(v_color, Other((6..10), 15, (20..25)))) { // is false\n  }\n  v_color := Blue(0) //causes an error as enumerated values with a specific integer value assigned\n            //shall not use the associated integer value\n  type enumerated MyEnum {\n   e_num (1),\n   e_expr (2+2),  // same as e_expr (4)\n   e_bin_conv (bit2int('0111'B)), // same as e_bin_conv(7)\n   e_oct_conv (oct2int('34'O)), // same as e_oct_conv(52)\n   e_hex_conv (hex2int('AC'H))  // same as e_hex_conv(172)\n  }"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.04_test_017.ttcn3",
+   "module": "M_06_02_04_test_017",
+   "header": "// @requirement: 6.2.4 -- Each enumerated value may optionally have a user-assigned integer expression or non-empty list of integer literal values or ranges of integer literal values, which is defined after the name of the enumerated value in parenthesis."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.4-019a",
+   "section": "6.2.4",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "original": "Each user assigned expression shall be statically bound, known in compilation time, and evaluate to an integer value.",
+   "canonical": "A user-assigned integer expression of an enumerated value SHALL be statically bound and known at compilation time.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    4504,
+    4517
+   ],
+   "examples": [
+    {
+     "lines": [
+      4524,
+      4552
+     ],
+     "text": "type enumerated MyThirdEnumType {\n     Blue(0),\n     Yellow(1),\n     Green(3),\n     Other(2, 4..255)\n  }\n  var MyThirdEnumType v_color := Other(5);\n  if (v_color == Other(4)) { // is false\n  }\n  if (v_color > Other(4)) { // is true \n  }\n  if (match(v_color, Other(?))) { // is true\n  }\n  if (match(v_color, Other(6..10))) { // is false\n  }\n  if (match(v_color, Other((6..10), 15, (20..25)))) { // is false\n  }\n  v_color := Blue(0) //causes an error as enumerated values with a specific integer value assigned\n            //shall not use the associated integer value\n  type enumerated MyEnum {\n   e_num (1),\n   e_expr (2+2),  // same as e_expr (4)\n   e_bin_conv (bit2int('0111'B)), // same as e_bin_conv(7)\n   e_oct_conv (oct2int('34'O)), // same as e_oct_conv(52)\n   e_hex_conv (hex2int('AC'H))  // same as e_hex_conv(172)\n  }"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.04_test_018.ttcn3",
+   "module": "M_06_02_04_test_018",
+   "header": "// @requirement: 6.2.4 -- Each user assigned expression shall be statically bound, known in compilation time, and evaluate to an integer value."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.4-019b",
+   "section": "6.2.4",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "original": "Each user assigned expression shall be statically bound, known in compilation time, and evaluate to an integer value.",
+   "canonical": "A user-assigned integer expression of an enumerated value SHALL evaluate to an integer value.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    4504,
+    4517
+   ],
+   "examples": [
+    {
+     "lines": [
+      4524,
+      4552
+     ],
+     "text": "type enumerated MyThirdEnumType {\n     Blue(0),\n     Yellow(1),\n     Green(3),\n     Other(2, 4..255)\n  }\n  var MyThirdEnumType v_color := Other(5);\n  if (v_color == Other(4)) { // is false\n  }\n  if (v_color > Other(4)) { // is true \n  }\n  if (match(v_color, Other(?))) { // is true\n  }\n  if (match(v_color, Other(6..10))) { // is false\n  }\n  if (match(v_color, Other((6..10), 15, (20..25)))) { // is false\n  }\n  v_color := Blue(0) //causes an error as enumerated values with a specific integer value assigned\n            //shall not use the associated integer value\n  type enumerated MyEnum {\n   e_num (1),\n   e_expr (2+2),  // same as e_expr (4)\n   e_bin_conv (bit2int('0111'B)), // same as e_bin_conv(7)\n   e_oct_conv (oct2int('34'O)), // same as e_oct_conv(52)\n   e_hex_conv (hex2int('AC'H))  // same as e_hex_conv(172)\n  }"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.04_test_019.ttcn3",
+   "module": "M_06_02_04_test_019",
+   "header": "// @requirement: 6.2.4 -- Each user assigned expression shall be statically bound, known in compilation time, and evaluate to an integer value."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.4-020a",
+   "section": "6.2.4",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "original": "Each user-assigned integer value shall be distinct within a single enumerated type, all ranges of all the values lists shall be disjoint and shall not include any of the used single integer values.",
+   "canonical": "Each user-assigned integer value SHALL be distinct within a single enumerated type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    4504,
+    4517
+   ],
+   "examples": [
+    {
+     "lines": [
+      4524,
+      4552
+     ],
+     "text": "type enumerated MyThirdEnumType {\n     Blue(0),\n     Yellow(1),\n     Green(3),\n     Other(2, 4..255)\n  }\n  var MyThirdEnumType v_color := Other(5);\n  if (v_color == Other(4)) { // is false\n  }\n  if (v_color > Other(4)) { // is true \n  }\n  if (match(v_color, Other(?))) { // is true\n  }\n  if (match(v_color, Other(6..10))) { // is false\n  }\n  if (match(v_color, Other((6..10), 15, (20..25)))) { // is false\n  }\n  v_color := Blue(0) //causes an error as enumerated values with a specific integer value assigned\n            //shall not use the associated integer value\n  type enumerated MyEnum {\n   e_num (1),\n   e_expr (2+2),  // same as e_expr (4)\n   e_bin_conv (bit2int('0111'B)), // same as e_bin_conv(7)\n   e_oct_conv (oct2int('34'O)), // same as e_oct_conv(52)\n   e_hex_conv (hex2int('AC'H))  // same as e_hex_conv(172)\n  }"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.04_test_020.ttcn3",
+   "module": "M_06_02_04_test_020",
+   "header": "// @requirement: 6.2.4 -- Each user-assigned integer value shall be distinct within a single enumerated type, all ranges of all the values lists shall be disjoint and shall not include any of the used single integer values."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.4-020b",
+   "section": "6.2.4",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "original": "Each user-assigned integer value shall be distinct within a single enumerated type, all ranges of all the values lists shall be disjoint and shall not include any of the used single integer values.",
+   "canonical": "All ranges of all integer value lists of an enumerated type SHALL be disjoint.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    4504,
+    4517
+   ],
+   "examples": [
+    {
+     "lines": [
+      4524,
+      4552
+     ],
+     "text": "type enumerated MyThirdEnumType {\n     Blue(0),\n     Yellow(1),\n     Green(3),\n     Other(2, 4..255)\n  }\n  var MyThirdEnumType v_color := Other(5);\n  if (v_color == Other(4)) { // is false\n  }\n  if (v_color > Other(4)) { // is true \n  }\n  if (match(v_color, Other(?))) { // is true\n  }\n  if (match(v_color, Other(6..10))) { // is false\n  }\n  if (match(v_color, Other((6..10), 15, (20..25)))) { // is false\n  }\n  v_color := Blue(0) //causes an error as enumerated values with a specific integer value assigned\n            //shall not use the associated integer value\n  type enumerated MyEnum {\n   e_num (1),\n   e_expr (2+2),  // same as e_expr (4)\n   e_bin_conv (bit2int('0111'B)), // same as e_bin_conv(7)\n   e_oct_conv (oct2int('34'O)), // same as e_oct_conv(52)\n   e_hex_conv (hex2int('AC'H))  // same as e_hex_conv(172)\n  }"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.04_test_021.ttcn3",
+   "module": "M_06_02_04_test_021",
+   "header": "// @requirement: 6.2.4 -- Each user-assigned integer value shall be distinct within a single enumerated type, all ranges of all the values lists shall be disjoint and shall not include any of the used single integer values."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.4-020c",
+   "section": "6.2.4",
+   "type": "static-semantics",
+   "modality": "SHALL NOT",
+   "original": "Each user-assigned integer value shall be distinct within a single enumerated type, all ranges of all the values lists shall be disjoint and shall not include any of the used single integer values.",
+   "canonical": "A range in an integer value list of an enumerated type SHALL NOT include any of the single integer values used in that enumerated type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    4504,
+    4517
+   ],
+   "examples": [
+    {
+     "lines": [
+      4524,
+      4552
+     ],
+     "text": "type enumerated MyThirdEnumType {\n     Blue(0),\n     Yellow(1),\n     Green(3),\n     Other(2, 4..255)\n  }\n  var MyThirdEnumType v_color := Other(5);\n  if (v_color == Other(4)) { // is false\n  }\n  if (v_color > Other(4)) { // is true \n  }\n  if (match(v_color, Other(?))) { // is true\n  }\n  if (match(v_color, Other(6..10))) { // is false\n  }\n  if (match(v_color, Other((6..10), 15, (20..25)))) { // is false\n  }\n  v_color := Blue(0) //causes an error as enumerated values with a specific integer value assigned\n            //shall not use the associated integer value\n  type enumerated MyEnum {\n   e_num (1),\n   e_expr (2+2),  // same as e_expr (4)\n   e_bin_conv (bit2int('0111'B)), // same as e_bin_conv(7)\n   e_oct_conv (oct2int('34'O)), // same as e_oct_conv(52)\n   e_hex_conv (hex2int('AC'H))  // same as e_hex_conv(172)\n  }"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.04_test_022.ttcn3",
+   "module": "M_06_02_04_test_022",
+   "header": "// @requirement: 6.2.4 -- Each user-assigned integer value shall be distinct within a single enumerated type, all ranges of all the values lists shall be disjoint and shall not include any of the used single integer values."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.4-021a",
+   "section": "6.2.4",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "For each enumerated value without an assigned integer value, the system successively associates an integer number in the textual order of the enumerated values, starting at the left-hand side, beginning with zero, by step 1 and skipping any number occupied by any of the enumerated values with a manually assigned value or value list.",
+   "canonical": "An enumerated value without an assigned integer value IS associated with an integer number in the textual order of the enumerated values, starting at the left-hand side with zero, in steps of 1, skipping any number occupied by an enumerated value with a manually assigned value or value list.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    4504,
+    4517
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.02.04_test_023.ttcn3",
+   "module": "M_06_02_04_test_023",
+   "header": "// @requirement: 6.2.4 -- For each enumerated value without an assigned integer value, the system successively associates an integer number in the textual order of the enumerated values, starting at the left-hand side, beginning with zero, by step 1 and skipping any number occupied by any of the enumerated values with a manually assigned value or value list."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.4-022a",
+   "section": "6.2.4",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "These values are only used by the system to allow the use of relational operators.",
+   "canonical": "The integer values associated with enumerated values ARE used to evaluate relational operators on enumerated values.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    4504,
+    4517
+   ],
+   "examples": [
+    {
+     "lines": [
+      4524,
+      4552
+     ],
+     "text": "type enumerated MyThirdEnumType {\n     Blue(0),\n     Yellow(1),\n     Green(3),\n     Other(2, 4..255)\n  }\n  var MyThirdEnumType v_color := Other(5);\n  if (v_color == Other(4)) { // is false\n  }\n  if (v_color > Other(4)) { // is true \n  }\n  if (match(v_color, Other(?))) { // is true\n  }\n  if (match(v_color, Other(6..10))) { // is false\n  }\n  if (match(v_color, Other((6..10), 15, (20..25)))) { // is false\n  }\n  v_color := Blue(0) //causes an error as enumerated values with a specific integer value assigned\n            //shall not use the associated integer value\n  type enumerated MyEnum {\n   e_num (1),\n   e_expr (2+2),  // same as e_expr (4)\n   e_bin_conv (bit2int('0111'B)), // same as e_bin_conv(7)\n   e_oct_conv (oct2int('34'O)), // same as e_oct_conv(52)\n   e_hex_conv (hex2int('AC'H))  // same as e_hex_conv(172)\n  }"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.04_test_024.ttcn3",
+   "module": "M_06_02_04_test_024",
+   "header": "// @requirement: 6.2.4 -- These values are only used by the system to allow the use of relational operators."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.4-023a",
+   "section": "6.2.4",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "Enumerated names with an associated value list shall only be used as values together with a specific integer value, which shall be one from the associated list, in parenthesis after the name.",
+   "canonical": "An enumerated value with an associated integer value list SHALL only be used as a value together with a specific integer value in parentheses after its name.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "'enumerated names' is used instead of 'enumerated values' (or their identifiers).",
+    "improper_terms": [
+     {
+      "used": "enumerated names",
+      "proper": "enumerated values",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    4504,
+    4517
+   ],
+   "examples": [
+    {
+     "lines": [
+      4524,
+      4552
+     ],
+     "text": "type enumerated MyThirdEnumType {\n     Blue(0),\n     Yellow(1),\n     Green(3),\n     Other(2, 4..255)\n  }\n  var MyThirdEnumType v_color := Other(5);\n  if (v_color == Other(4)) { // is false\n  }\n  if (v_color > Other(4)) { // is true \n  }\n  if (match(v_color, Other(?))) { // is true\n  }\n  if (match(v_color, Other(6..10))) { // is false\n  }\n  if (match(v_color, Other((6..10), 15, (20..25)))) { // is false\n  }\n  v_color := Blue(0) //causes an error as enumerated values with a specific integer value assigned\n            //shall not use the associated integer value\n  type enumerated MyEnum {\n   e_num (1),\n   e_expr (2+2),  // same as e_expr (4)\n   e_bin_conv (bit2int('0111'B)), // same as e_bin_conv(7)\n   e_oct_conv (oct2int('34'O)), // same as e_oct_conv(52)\n   e_hex_conv (hex2int('AC'H))  // same as e_hex_conv(172)\n  }"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.04_test_025.ttcn3",
+   "module": "M_06_02_04_test_025",
+   "header": "// @requirement: 6.2.4 -- Enumerated names with an associated value list shall only be used as values together with a specific integer value, which shall be one from the associated list, in parenthesis after the name."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.4-023b",
+   "section": "6.2.4",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "Enumerated names with an associated value list shall only be used as values together with a specific integer value, which shall be one from the associated list, in parenthesis after the name.",
+   "canonical": "The integer value given in parentheses after an enumerated value with an associated integer value list SHALL be one of the values of that list.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    4504,
+    4517
+   ],
+   "examples": [
+    {
+     "lines": [
+      4524,
+      4552
+     ],
+     "text": "type enumerated MyThirdEnumType {\n     Blue(0),\n     Yellow(1),\n     Green(3),\n     Other(2, 4..255)\n  }\n  var MyThirdEnumType v_color := Other(5);\n  if (v_color == Other(4)) { // is false\n  }\n  if (v_color > Other(4)) { // is true \n  }\n  if (match(v_color, Other(?))) { // is true\n  }\n  if (match(v_color, Other(6..10))) { // is false\n  }\n  if (match(v_color, Other((6..10), 15, (20..25)))) { // is false\n  }\n  v_color := Blue(0) //causes an error as enumerated values with a specific integer value assigned\n            //shall not use the associated integer value\n  type enumerated MyEnum {\n   e_num (1),\n   e_expr (2+2),  // same as e_expr (4)\n   e_bin_conv (bit2int('0111'B)), // same as e_bin_conv(7)\n   e_oct_conv (oct2int('34'O)), // same as e_oct_conv(52)\n   e_hex_conv (hex2int('AC'H))  // same as e_hex_conv(172)\n  }"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.04_test_026.ttcn3",
+   "module": "M_06_02_04_test_026",
+   "header": "// @requirement: 6.2.4 -- Enumerated names with an associated value list shall only be used as values together with a specific integer value, which shall be one from the associated list, in parenthesis after the name."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.4-024a",
+   "section": "6.2.4",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "They can be used as a template of the enumerated type by adding a list of integer template(s) and ranges in parenthesis after the name.",
+   "canonical": "An enumerated value with an associated integer value list MAY be used as a template of the enumerated type by adding a list of integer templates and ranges in parentheses after its name.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    4504,
+    4517
+   ],
+   "examples": [
+    {
+     "lines": [
+      4524,
+      4552
+     ],
+     "text": "type enumerated MyThirdEnumType {\n     Blue(0),\n     Yellow(1),\n     Green(3),\n     Other(2, 4..255)\n  }\n  var MyThirdEnumType v_color := Other(5);\n  if (v_color == Other(4)) { // is false\n  }\n  if (v_color > Other(4)) { // is true \n  }\n  if (match(v_color, Other(?))) { // is true\n  }\n  if (match(v_color, Other(6..10))) { // is false\n  }\n  if (match(v_color, Other((6..10), 15, (20..25)))) { // is false\n  }\n  v_color := Blue(0) //causes an error as enumerated values with a specific integer value assigned\n            //shall not use the associated integer value\n  type enumerated MyEnum {\n   e_num (1),\n   e_expr (2+2),  // same as e_expr (4)\n   e_bin_conv (bit2int('0111'B)), // same as e_bin_conv(7)\n   e_oct_conv (oct2int('34'O)), // same as e_oct_conv(52)\n   e_hex_conv (hex2int('AC'H))  // same as e_hex_conv(172)\n  }"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.04_test_027.ttcn3",
+   "module": "M_06_02_04_test_027",
+   "header": "// @requirement: 6.2.4 -- They can be used as a template of the enumerated type by adding a list of integer template(s) and ranges in parenthesis after the name."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.4-025a",
+   "section": "6.2.4",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "For enumerated values with no value assigned or with a specific integer value assigned, the user shall not directly use associated integer values, but can access them and convert integer values into enumerated values by using the predefined functions enum2int and int2enum (see clauses 16.1.2, C.1.30 and C.1.4).",
+   "canonical": "For an enumerated value with no assigned value or with a specific integer value assigned, the associated integer value SHALL NOT be used directly.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    4504,
+    4517
+   ],
+   "examples": [
+    {
+     "lines": [
+      4524,
+      4552
+     ],
+     "text": "type enumerated MyThirdEnumType {\n     Blue(0),\n     Yellow(1),\n     Green(3),\n     Other(2, 4..255)\n  }\n  var MyThirdEnumType v_color := Other(5);\n  if (v_color == Other(4)) { // is false\n  }\n  if (v_color > Other(4)) { // is true \n  }\n  if (match(v_color, Other(?))) { // is true\n  }\n  if (match(v_color, Other(6..10))) { // is false\n  }\n  if (match(v_color, Other((6..10), 15, (20..25)))) { // is false\n  }\n  v_color := Blue(0) //causes an error as enumerated values with a specific integer value assigned\n            //shall not use the associated integer value\n  type enumerated MyEnum {\n   e_num (1),\n   e_expr (2+2),  // same as e_expr (4)\n   e_bin_conv (bit2int('0111'B)), // same as e_bin_conv(7)\n   e_oct_conv (oct2int('34'O)), // same as e_oct_conv(52)\n   e_hex_conv (hex2int('AC'H))  // same as e_hex_conv(172)\n  }"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.04_test_028.ttcn3",
+   "module": "M_06_02_04_test_028",
+   "header": "// @requirement: 6.2.4 -- For enumerated values with no value assigned or with a specific integer value assigned, the user shall not directly use associated integer values, but can access them and convert integer values into enumerated values by using the predefined functions enum2int and int2enum (see clauses 16.1.2, C.1.30 and C.1.4)."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.4-025b",
+   "section": "6.2.4",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "For enumerated values with no value assigned or with a specific integer value assigned, the user shall not directly use associated integer values, but can access them and convert integer values into enumerated values by using the predefined functions enum2int and int2enum (see clauses 16.1.2, C.1.30 and C.1.4).",
+   "canonical": "The integer value associated with an enumerated value MAY be accessed using the predefined function `enum2int`, and an integer value MAY be converted into an enumerated value using the predefined function `int2enum`.",
+   "condition": null,
+   "cross_refs": [
+    "16.1.2",
+    "C.1.30",
+    "C.1.4"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    4504,
+    4517
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.02.04_test_029.ttcn3",
+   "module": "M_06_02_04_test_029",
+   "header": "// @requirement: 6.2.4 -- For enumerated values with no value assigned or with a specific integer value assigned, the user shall not directly use associated integer values, but can access them and convert integer values into enumerated values by using the predefined functions enum2int and int2enum (see clauses 16.1.2, C.1.30 and C.1.4)."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.4-030a",
+   "section": "6.2.4",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "When a TTCN-3 module parameter, formal parameter, constant, variable, non-parameterized template or parameterized template with all formal parameters having default values of an imported enumerated type is defined, the name of that definition shall not be the same as any of the enumerated values of that type.",
+   "canonical": "When a module parameter, formal parameter, constant, variable, non-parameterized template or parameterized template whose formal parameters all have default values is defined with an imported enumerated type, the name of that definition SHALL NOT be the same as any of the enumerated values of that type.",
+   "condition": "the definition is of an imported enumerated type",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    4559,
+    4561
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.02.04_test_030.ttcn3",
+   "module": "M_06_02_04_test_030",
+   "header": "// @requirement: 6.2.4 -- When a TTCN-3 module parameter, formal parameter, constant, variable, non-parameterized template or parameterized template with all formal parameters having default values of an imported enumerated type is defined, the name of that definition shall not be the same as any of the enumerated values of that type."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.5.0-001a",
+   "section": "6.2.5.0",
+   "type": "information",
+   "modality": "IS",
+   "original": "TTCN-3 supports the union type.",
+   "canonical": "The TTCN-3 language IS defined to support the union type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    4567,
+    4569
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.02.05.00_test_001.ttcn3",
+   "module": "M_06_02_05_00_test_001",
+   "header": "// @requirement: 6.2.5.0 -- TTCN-3 supports the union type."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.5.0-003a",
+   "section": "6.2.5.0",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Only one of the specified alternatives will ever be present in an actual union value.",
+   "canonical": "An actual union value IS a value in which exactly one of the specified union alternatives is present.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    4567,
+    4569
+   ],
+   "examples": [
+    {
+     "lines": [
+      4574,
+      4587
+     ],
+     "text": "type union MyUnionType \n  {\n     integer number,\n     charstring string\n  };\n  // A valid instantiation of MyUnionType would be \n  var MyUnionType v_age, v_oneYearOlder;\n  var integer v_ageInMonths;\n  v_age.number := 34;  // value notation by referencing the field. Note, that this \n                   // notation makes the given field to be the chosen one\n  v_oneYearOlder := {number := v_age.number+1};\n  v_ageInMonths := v_age.number * 12;"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.05.00_test_002.ttcn3",
+   "module": "M_06_02_05_00_test_002",
+   "header": "// @requirement: 6.2.5.0 -- Only one of the specified alternatives will ever be present in an actual union value."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.5.0-007a",
+   "section": "6.2.5.0",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "The assignment notation shall be used for union-s, and the notation shall assign a value to one field only.",
+   "canonical": "The value notation of a union value SHALL use the assignment notation.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "improper_terms": [
+     {
+      "used": "union-s",
+      "proper": "union value",
+      "glossary": false
+     }
+    ],
+    "issue": "Source unit is classified as example-text by the PDF conversion although it is normative prose following an example; normative is set to false per extraction rules. \"union-s\" is used for values of a union type."
+   },
+   "spec_lines": [
+    4589,
+    4590
+   ],
+   "examples": [
+    {
+     "lines": [
+      4574,
+      4587
+     ],
+     "text": "type union MyUnionType \n  {\n     integer number,\n     charstring string\n  };\n  // A valid instantiation of MyUnionType would be \n  var MyUnionType v_age, v_oneYearOlder;\n  var integer v_ageInMonths;\n  v_age.number := 34;  // value notation by referencing the field. Note, that this \n                   // notation makes the given field to be the chosen one\n  v_oneYearOlder := {number := v_age.number+1};\n  v_ageInMonths := v_age.number * 12;"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.05.00_test_003.ttcn3",
+   "module": "M_06_02_05_00_test_003",
+   "header": "// @requirement: 6.2.5.0 -- The assignment notation shall be used for union-s, and the notation shall assign a value to one field only."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.5.0-007b",
+   "section": "6.2.5.0",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "The assignment notation shall be used for union-s, and the notation shall assign a value to one field only.",
+   "canonical": "The assignment notation for a union value SHALL assign a value to exactly one union alternative.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "readings": [
+     "The assignment notation for a union value SHALL assign a value to exactly one union alternative.",
+     "The assignment notation for a union value SHALL NOT assign values to more than one union alternative (an empty notation being allowed)."
+    ],
+    "issue": "Source unit is classified as example-text by the PDF conversion although it is normative prose following an example; normative is set to false per extraction rules. \"one field only\" is read as exactly one alternative (not zero).",
+    "improper_terms": [
+     {
+      "used": "field",
+      "proper": "union alternative",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    4589,
+    4590
+   ],
+   "examples": [
+    {
+     "lines": [
+      4574,
+      4587
+     ],
+     "text": "type union MyUnionType \n  {\n     integer number,\n     charstring string\n  };\n  // A valid instantiation of MyUnionType would be \n  var MyUnionType v_age, v_oneYearOlder;\n  var integer v_ageInMonths;\n  v_age.number := 34;  // value notation by referencing the field. Note, that this \n                   // notation makes the given field to be the chosen one\n  v_oneYearOlder := {number := v_age.number+1};\n  v_ageInMonths := v_age.number * 12;"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.05.00_test_004.ttcn3",
+   "module": "M_06_02_05_00_test_004",
+   "header": "// @requirement: 6.2.5.0 -- The assignment notation shall be used for union-s, and the notation shall assign a value to one field only."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.5.0-008a",
+   "section": "6.2.5.0",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "This field becomes the chosen field.",
+   "canonical": "The union alternative assigned in the assignment notation of a union value IS the chosen alternative.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    4589,
+    4590
+   ],
+   "examples": [
+    {
+     "lines": [
+      4574,
+      4587
+     ],
+     "text": "type union MyUnionType \n  {\n     integer number,\n     charstring string\n  };\n  // A valid instantiation of MyUnionType would be \n  var MyUnionType v_age, v_oneYearOlder;\n  var integer v_ageInMonths;\n  v_age.number := 34;  // value notation by referencing the field. Note, that this \n                   // notation makes the given field to be the chosen one\n  v_oneYearOlder := {number := v_age.number+1};\n  v_ageInMonths := v_age.number * 12;"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.05.00_test_005.ttcn3",
+   "module": "M_06_02_05_00_test_005",
+   "header": "// @requirement: 6.2.5.0 -- This field becomes the chosen field."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.5.0-009a",
+   "section": "6.2.5.0",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "Neither the not used symbol \"-\" nor omit is allowed in union value notations.",
+   "canonical": "The not used symbol \"-\" SHALL NOT be used in a union value notation.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    4589,
+    4590
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.02.05.00_test_006.ttcn3",
+   "module": "M_06_02_05_00_test_006",
+   "header": "// @requirement: 6.2.5.0 -- Neither the not used symbol \"-\" nor omit is allowed in union value notations."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.5.0-009b",
+   "section": "6.2.5.0",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "Neither the not used symbol \"-\" nor omit is allowed in union value notations.",
+   "canonical": "`omit` SHALL NOT be used in a union value notation.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    4589,
+    4590
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.02.05.00_test_007.ttcn3",
+   "module": "M_06_02_05_00_test_007",
+   "header": "// @requirement: 6.2.5.0 -- Neither the not used symbol \"-\" nor omit is allowed in union value notations."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.5.0-010a",
+   "section": "6.2.5.0",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "The value list notation shall not be used for setting values of union types.",
+   "canonical": "The value list notation SHALL NOT be used for setting values of a union type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    4592,
+    4592
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.02.05.00_test_008.ttcn3",
+   "module": "M_06_02_05_00_test_008",
+   "header": "// @requirement: 6.2.5.0 -- The value list notation shall not be used for setting values of union types."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.5.0-011a",
+   "section": "6.2.5.0",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "At most one of the union alternatives can be declared as the default alternative by using the @default modifier before the type of the alternative.",
+   "canonical": "A union alternative MAY be declared as the default alternative by using the `@default` modifier before the type of the alternative.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    4594,
+    4599
+   ],
+   "examples": [
+    {
+     "lines": [
+      4615,
+      4656
+     ],
+     "text": "type union MyDefaultUnionType\n  {\n    @default integer number,\n        charstring string\n  };\n\n\n  // A valid instantiation of MyDefaultUnionType would be \n  var MyDefaultUnionType v_age, v_oneYearOlder;\n  v_age := 34;  // implicit usage of the default alternative: the integer type is\n            // compatible with the default alternative; this is a shorthand notation\n            // for v_age.number := 34 or v_age := { number := 34 }\n  v_oneYearOlder := v_age+1; // implicit selection of the default alternative: the union\n                   // default alternative is compatible with integer, so that it\n                   // can be used as an integer expression; this is equivalent to:\n                   // v_oneYearOlder.number := v_age.number+1;\n  type union MyDefaultUnionType2 {\n     @default\n     MyDefaultUnionType ageInYears,\n     integer ageInDays\n  }\n  var MyDefaultUnionType2 v_age2 := 3; // nested default usage: 3 is compatible with \n                          // both alternatives, but only alternative ageInYears\n                          // has @default, so this is equivalent to\n                          // v_age2 := { ageInYears := 3 } which is equivalent\n                          // to v_age2 := { ageInYears := { number := 3 } }\n  var integer v_result := v_age + v_age2; // v_result is 37 as the expression is equivalent\n                          // to v_age.number + v_age2.ageInYears\n  v_age := {string := \"I feel young\"};\n  v_result := v_age + v_age2;  // test case error:"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.05.00_test_009.ttcn3",
+   "module": "M_06_02_05_00_test_009",
+   "header": "// @requirement: 6.2.5.0 -- At most one of the union alternatives can be declared as the default alternative by using the @default modifier before the type of the alternative."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.5.0-011b",
+   "section": "6.2.5.0",
+   "type": "restriction",
+   "modality": "SHALL NOT",
+   "original": "At most one of the union alternatives can be declared as the default alternative by using the @default modifier before the type of the alternative.",
+   "canonical": "A union type SHALL NOT declare more than one union alternative as the default alternative.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    4594,
+    4599
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.02.05.00_test_010.ttcn3",
+   "module": "M_06_02_05_00_test_010",
+   "header": "// @requirement: 6.2.5.0 -- At most one of the union alternatives can be declared as the default alternative by using the @default modifier before the type of the alternative."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.5.0-012a",
+   "section": "6.2.5.0",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "For unions with a default alternative, special type compatibility rules apply (see clause 6.3.2.4) which allow using the union value as compatible with the type of the default alternative.",
+   "canonical": "If the union type has a default alternative, a union value IS compatible with the type of the default alternative according to the special type compatibility rules of clause 6.3.2.4.",
+   "condition": "the union type has a default alternative",
+   "cross_refs": [
+    "6.3.2.4"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    4594,
+    4599
+   ],
+   "examples": [
+    {
+     "lines": [
+      4615,
+      4656
+     ],
+     "text": "type union MyDefaultUnionType\n  {\n    @default integer number,\n        charstring string\n  };\n\n\n  // A valid instantiation of MyDefaultUnionType would be \n  var MyDefaultUnionType v_age, v_oneYearOlder;\n  v_age := 34;  // implicit usage of the default alternative: the integer type is\n            // compatible with the default alternative; this is a shorthand notation\n            // for v_age.number := 34 or v_age := { number := 34 }\n  v_oneYearOlder := v_age+1; // implicit selection of the default alternative: the union\n                   // default alternative is compatible with integer, so that it\n                   // can be used as an integer expression; this is equivalent to:\n                   // v_oneYearOlder.number := v_age.number+1;\n  type union MyDefaultUnionType2 {\n     @default\n     MyDefaultUnionType ageInYears,\n     integer ageInDays\n  }\n  var MyDefaultUnionType2 v_age2 := 3; // nested default usage: 3 is compatible with \n                          // both alternatives, but only alternative ageInYears\n                          // has @default, so this is equivalent to\n                          // v_age2 := { ageInYears := 3 } which is equivalent\n                          // to v_age2 := { ageInYears := { number := 3 } }\n  var integer v_result := v_age + v_age2; // v_result is 37 as the expression is equivalent\n                          // to v_age.number + v_age2.ageInYears\n  v_age := {string := \"I feel young\"};\n  v_result := v_age + v_age2;  // test case error:"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.05.00_test_011.ttcn3",
+   "module": "M_06_02_05_00_test_011",
+   "header": "// @requirement: 6.2.5.0 -- For unions with a default alternative, special type compatibility rules apply (see clause 6.3.2.4) which allow using the union value as compatible with the type of the default alternative."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.5.0-013a",
+   "section": "6.2.5.0",
+   "type": "permission",
+   "modality": "NEED NOT",
+   "original": "Therefore, the assignment notation does not have to be used to denote a value of the union type if the union's default alternative is to be chosen.",
+   "canonical": "If the default alternative of a union type is to be chosen, the assignment notation NEED NOT be used to denote a value of the union type.",
+   "condition": "the union's default alternative is to be chosen",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    4594,
+    4599
+   ],
+   "examples": [
+    {
+     "lines": [
+      4615,
+      4656
+     ],
+     "text": "type union MyDefaultUnionType\n  {\n    @default integer number,\n        charstring string\n  };\n\n\n  // A valid instantiation of MyDefaultUnionType would be \n  var MyDefaultUnionType v_age, v_oneYearOlder;\n  v_age := 34;  // implicit usage of the default alternative: the integer type is\n            // compatible with the default alternative; this is a shorthand notation\n            // for v_age.number := 34 or v_age := { number := 34 }\n  v_oneYearOlder := v_age+1; // implicit selection of the default alternative: the union\n                   // default alternative is compatible with integer, so that it\n                   // can be used as an integer expression; this is equivalent to:\n                   // v_oneYearOlder.number := v_age.number+1;\n  type union MyDefaultUnionType2 {\n     @default\n     MyDefaultUnionType ageInYears,\n     integer ageInDays\n  }\n  var MyDefaultUnionType2 v_age2 := 3; // nested default usage: 3 is compatible with \n                          // both alternatives, but only alternative ageInYears\n                          // has @default, so this is equivalent to\n                          // v_age2 := { ageInYears := 3 } which is equivalent\n                          // to v_age2 := { ageInYears := { number := 3 } }\n  var integer v_result := v_age + v_age2; // v_result is 37 as the expression is equivalent\n                          // to v_age.number + v_age2.ageInYears\n  v_age := {string := \"I feel young\"};\n  v_result := v_age + v_age2;  // test case error:"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.05.00_test_012.ttcn3",
+   "module": "M_06_02_05_00_test_012",
+   "header": "// @requirement: 6.2.5.0 -- Therefore, the assignment notation does not have to be used to denote a value of the union type if the union's default alternative is to be chosen."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.5.0-014a",
+   "section": "6.2.5.0",
+   "type": "permission",
+   "modality": "NEED NOT",
+   "original": "Also, the default alternative selection does not have to be used to access the default alternative, if it is chosen.",
+   "canonical": "If the default alternative of a union value is chosen, the default alternative selection (dot notation with the alternative identifier) NEED NOT be used to access the default alternative.",
+   "condition": "the default alternative is the chosen alternative",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    4594,
+    4599
+   ],
+   "examples": [
+    {
+     "lines": [
+      4615,
+      4656
+     ],
+     "text": "type union MyDefaultUnionType\n  {\n    @default integer number,\n        charstring string\n  };\n\n\n  // A valid instantiation of MyDefaultUnionType would be \n  var MyDefaultUnionType v_age, v_oneYearOlder;\n  v_age := 34;  // implicit usage of the default alternative: the integer type is\n            // compatible with the default alternative; this is a shorthand notation\n            // for v_age.number := 34 or v_age := { number := 34 }\n  v_oneYearOlder := v_age+1; // implicit selection of the default alternative: the union\n                   // default alternative is compatible with integer, so that it\n                   // can be used as an integer expression; this is equivalent to:\n                   // v_oneYearOlder.number := v_age.number+1;\n  type union MyDefaultUnionType2 {\n     @default\n     MyDefaultUnionType ageInYears,\n     integer ageInDays\n  }\n  var MyDefaultUnionType2 v_age2 := 3; // nested default usage: 3 is compatible with \n                          // both alternatives, but only alternative ageInYears\n                          // has @default, so this is equivalent to\n                          // v_age2 := { ageInYears := 3 } which is equivalent\n                          // to v_age2 := { ageInYears := { number := 3 } }\n  var integer v_result := v_age + v_age2; // v_result is 37 as the expression is equivalent\n                          // to v_age.number + v_age2.ageInYears\n  v_age := {string := \"I feel young\"};\n  v_result := v_age + v_age2;  // test case error:"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.05.00_test_013.ttcn3",
+   "module": "M_06_02_05_00_test_013",
+   "header": "// @requirement: 6.2.5.0 -- Also, the default alternative selection does not have to be used to access the default alternative, if it is chosen."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.5.0-018a",
+   "section": "6.2.5.0",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "a) All identifiers in the list of effective fields shall be distinct.",
+   "canonical": "All identifiers in the list of effective fields of a union type SHALL be distinct.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    4610,
+    4610
+   ],
+   "examples": [
+    {
+     "lines": [
+      4615,
+      4656
+     ],
+     "text": "type union MyDefaultUnionType\n  {\n    @default integer number,\n        charstring string\n  };\n\n\n  // A valid instantiation of MyDefaultUnionType would be \n  var MyDefaultUnionType v_age, v_oneYearOlder;\n  v_age := 34;  // implicit usage of the default alternative: the integer type is\n            // compatible with the default alternative; this is a shorthand notation\n            // for v_age.number := 34 or v_age := { number := 34 }\n  v_oneYearOlder := v_age+1; // implicit selection of the default alternative: the union\n                   // default alternative is compatible with integer, so that it\n                   // can be used as an integer expression; this is equivalent to:\n                   // v_oneYearOlder.number := v_age.number+1;\n  type union MyDefaultUnionType2 {\n     @default\n     MyDefaultUnionType ageInYears,\n     integer ageInDays\n  }\n  var MyDefaultUnionType2 v_age2 := 3; // nested default usage: 3 is compatible with \n                          // both alternatives, but only alternative ageInYears\n                          // has @default, so this is equivalent to\n                          // v_age2 := { ageInYears := 3 } which is equivalent\n                          // to v_age2 := { ageInYears := { number := 3 } }\n  var integer v_result := v_age + v_age2; // v_result is 37 as the expression is equivalent\n                          // to v_age.number + v_age2.ageInYears\n  v_age := {string := \"I feel young\"};\n  v_result := v_age + v_age2;  // test case error:"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.02.05.00_test_014.ttcn3",
+   "module": "M_06_02_05_00_test_014",
+   "header": "// @requirement: 6.2.5.0 -- a) All identifiers in the list of effective fields shall be distinct."
+  },
+  {
+   "id": "TTCN3-CORE-6.2.5.0-019a",
+   "section": "6.2.5.0",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "b) The @default alternative shall not be of the anytype.",
+   "canonical": "The default alternative of a union type SHALL NOT be of the anytype.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    4612,
+    4612
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.02.05.00_test_015.ttcn3",
+   "module": "M_06_02_05_00_test_015",
+   "header": "// @requirement: 6.2.5.0 -- b) The @default alternative shall not be of the anytype."
+  }
+ ]
+}

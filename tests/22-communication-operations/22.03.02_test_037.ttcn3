@@ -1,0 +1,18 @@
+// @requirement: 22.3.2 -- f) All AddressRef items in the from clause and all ValueRef items in the sender clause shall be of type address, component or of the address type bound to the port type (see clause C.5) of the port instance referenced in the getcall operation.
+// @id: TTCN3-CORE-22.3.2-041a
+// @verdict: pass reject
+module M_22_03_02_test_037 {
+
+    signature S(in integer p_x) noblock;
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    function f_getcall() runs on C {
+        var integer v_addr := 1;
+        p.getcall(S:{?}) from v_addr; // error: AddressRef of type integer
+    }
+}

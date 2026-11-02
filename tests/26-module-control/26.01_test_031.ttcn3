@@ -1,0 +1,23 @@
+// @requirement: 26.1 -- Statement: Read elapsed time; Associated keyword or symbol: read
+// @id: TTCN3-CORE-26.1-031a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_26_01_test_031 {
+
+    type component C {}
+
+    testcase TC(boolean p_ok) runs on C {
+        if (p_ok) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        var float v_elapsed;
+        timer T := 5.0;
+        T.start;
+        v_elapsed := T.read;
+        execute(TC(v_elapsed >= 0.0 and v_elapsed <= 5.0));
+    }
+}

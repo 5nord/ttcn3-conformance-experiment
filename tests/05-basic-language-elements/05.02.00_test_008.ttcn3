@@ -1,0 +1,25 @@
+// @requirement: 5.2.0 -- Definitions made in a test component type may be used in a component type extending this component type definition, and in functions, test cases and altsteps referencing that component type or a compatible test component type (see clause 6.3.2.7) by a runs on clause.
+// @id: TTCN3-CORE-5.2.0-020a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_02_00_test_008 {
+
+    type component C_Base {
+        const integer cc_myConst := 1;
+    }
+
+    type component C extends C_Base {
+        var integer vc_myVar := 2 * cc_myConst;
+    }
+
+    testcase TC() runs on C {
+        if (vc_myVar == 2) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

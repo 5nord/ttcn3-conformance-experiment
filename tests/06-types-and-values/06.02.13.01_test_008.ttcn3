@@ -1,0 +1,27 @@
+// @requirement: 6.2.13.1 -- Record of and set of type definitions may be used to define new record of or set of subtypes.
+// @id: TTCN3-CORE-6.2.13.1-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_13_01_test_008 {
+
+    type record of charstring RoCs;
+    type set of integer SoI;
+
+    type RoCs RoCs4_5 length(4..5);
+    type SoI SoI2 length(2);
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var RoCs4_5 v_rec := { "a", "b", "c", "d" };
+        var SoI2 v_set := { 1, 2 };
+        if (lengthof(v_rec) == 4 and lengthof(v_set) == 2) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

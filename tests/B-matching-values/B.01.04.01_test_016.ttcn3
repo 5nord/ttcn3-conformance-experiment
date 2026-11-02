@@ -1,0 +1,22 @@
+// @requirement: B.1.4.1 -- If the length of a template or template field produced by concatenation is wished to be restricted, the concatenation shall be enclosed into a pair of parentheses.
+// @id: TTCN3-CORE-B.1.4.1-015a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_04_01_test_016 {
+
+    type component C {}
+
+    template charstring mw_str := ("ab" & ?) length(4);
+
+    testcase TC() runs on C {
+        if (match("abcd", mw_str) and not match("abc", mw_str) and
+            not match("abcde", mw_str) and not match("xbcd", mw_str)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

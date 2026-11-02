@@ -1,0 +1,41 @@
+// @requirement: 8.2.3.2 -- The import of single definitions can be used in combination with imports of groups (see clause 8.2.3.3), with imports of definitions of the same kind (see clause 8.2.3.4), and with imports of import statements (see clause 8.2.3.7).
+// @id: TTCN3-CORE-8.2.3.2-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_02_03_02_test_002 {
+
+    import from M_08_02_03_02_test_002_A {
+        const c_single;
+        group g_group;
+        function all;
+        import all
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (c_single == 1 and c_inGroup == 2 and f_get() == 3 and c_fromB == 4) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_03_02_test_002_A {
+    public import from M_08_02_03_02_test_002_B all;
+    const integer c_single := 1;
+    group g_group {
+        const integer c_inGroup := 2;
+    }
+    function f_get() return integer {
+        return 3;
+    }
+}
+
+module M_08_02_03_02_test_002_B {
+    const integer c_fromB := 4;
+}

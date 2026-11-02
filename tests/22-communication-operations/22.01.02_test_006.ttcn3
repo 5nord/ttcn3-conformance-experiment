@@ -1,0 +1,43 @@
+// @requirement: 22.1.2 -- The CALLER calls a remote procedure in the CALLEE by using the call operation.
+// @id: TTCN3-CORE-22.1.2-006a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_01_02_test_006 {
+
+    signature S(in integer p_x) return integer;
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    function f_server() runs on C {
+        var integer v_x;
+        T.start;
+        alt {
+            [] p.getcall(S:{5}) -> param(v_x) {
+                setverdict(pass);
+                p.reply(S:{-} value v_x * 2);
+            }
+            [] p.getcall { setverdict(fail); }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_server());
+        p.call(S:{5}, 1.0) {
+            [] p.getreply(S:{-} value 10) { setverdict(pass); }
+            [] p.getreply { setverdict(fail); }
+            [] p.catch(timeout) { setverdict(fail); }
+        }
+        v_ptc.done;
+    }
+
+    control {
+        execute(TC());
+    }
+}

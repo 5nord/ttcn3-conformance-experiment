@@ -1,0 +1,23 @@
+// @requirement: 15.6.3 -- f) Ifpresent attribute: referencing an element within a record of or set of field to which the ifpresent attribute is attached, shall cause an error (irrespective of the value or the matching mechanism to which ifpresent is appended).
+// @id: TTCN3-CORE-15.6.3-024a
+// @verdict: pass accept, ttcn3verdict:error
+module M_15_06_03_test_016 {
+
+    type record of integer RoI;
+
+    type record R {
+        RoI field1 optional
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template R v_r := {field1 := {1, 2, 3} ifpresent};
+        var template integer v_int := v_r.field1[0]; // error: ifpresent is attached to field1
+        setverdict(fail);
+    }
+
+    control {
+        execute(TC());
+    }
+}

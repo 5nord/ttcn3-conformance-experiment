@@ -1,0 +1,20 @@
+// @requirement: 22.2.2 -- b) The receive operation shall only be used on message-based ports and the type of the value to be received shall be included in the list of incoming types of the port type definition.
+// @id: TTCN3-CORE-22.2.2-057b
+// @verdict: pass reject
+module M_22_02_02_test_049 {
+
+    type port P message { inout integer }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        p.receive(charstring:"a"); // error: charstring is not an incoming type of P
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

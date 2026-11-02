@@ -1,0 +1,46 @@
+// @requirement: 15.6.4 -- After this expansion the value or matching mechanism at the right hand side of the assignment shall be assigned to the referenced parameter. b) _AnyValue: when referencing a parameter within a signature to which AnyValue is assigned, at the left hand_ side of an assignment, the signature template is implicitly expanded to the parameter level.
+// @id: TTCN3-CORE-15.6.4-009a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_06_04_test_006 {
+
+    signature S(in integer par1, in integer par2);
+
+    type port P procedure {
+        inout S;
+    }
+
+    type component C {
+        port P p;
+    }
+
+    template S s_any := ?;
+    template S s_mod modifies s_any := { par1 := 3 };
+
+    function f_receiver() runs on C {
+        timer T := 1.0;
+        T.start;
+        alt {
+            [] p.getcall(s_mod) { setverdict(fail); }
+            [] p.getcall { setverdict(pass); }
+            [] T.timeout { setverdict(fail); }
+        }
+        alt {
+            [] p.getcall(s_mod) { setverdict(pass); }
+            [] p.getcall { setverdict(fail); }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_receiver());
+        p.call(S:{ par1 := 4, par2 := 5 }, nowait);
+        p.call(S:{ par1 := 3, par2 := 5 }, nowait);
+        v_ptc.done;
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,20 @@
+// @requirement: 5.4.2 -- g) If the formal parameter list of TTCN-3 objects function, testcase, altstep or external function is empty, then the empty parentheses shall be included both in the declaration and in the invocation of that object.
+// @id: TTCN3-CORE-5.4.2-048b
+// @verdict: pass reject
+module M_05_04_02_test_053 {
+
+    type component C {}
+
+    function f_empty() return integer {
+        return 1;
+    }
+
+    testcase TC() runs on C {
+        var integer v_i := f_empty; // error: empty parentheses missing in invocation
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

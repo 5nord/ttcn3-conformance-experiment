@@ -1,0 +1,41 @@
+// @requirement: 22.3.2 -- If the operation contains a sender clause but no from clause, the sender shall be type compatible with the type of the variable or parameter referenced in the sender clause.
+// @id: TTCN3-CORE-22.3.2-049a
+// @verdict: pass accept, ttcn3verdict:error
+module M_22_03_02_test_048 {
+
+    signature S(in integer p_x) noblock;
+
+    type port P procedure { inout S }
+
+    type component CA {
+        port P p;
+        timer T := 1.0;
+    }
+
+    type component CB {
+        var integer v_x;
+    }
+
+    altstep a_guard() runs on CA {
+        [] T.timeout { setverdict(fail); stop; }
+    }
+
+    function f_client() runs on CA {
+        p.call(S:{1});
+    }
+
+    testcase TC() runs on CA {
+        var CA v_ptc := CA.create;
+        var CB v_sender;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_client());
+        activate(a_guard());
+        T.start;
+        p.getcall(S:{?}) -> sender v_sender; // error: sender of type CA not compatible with CB
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,32 @@
+// @requirement: 6.2.9 -- Values of this type may be used for addressing purposes in communication operations (see clause 22.1) and be stored in variables.
+// @id: TTCN3-CORE-6.2.9-020b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_09_test_020 {
+
+    type record AddrType {
+        integer host,
+        integer portNum
+    }
+
+    type port P message {
+        address AddrType;
+        inout charstring;
+    }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        var P.address v_addr := { host := 1, portNum := 2 };
+        if (v_addr.host == 1 and v_addr.portNum == 2) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,38 @@
+// @requirement: 6.2.10.2 -- The semantics of component types with extensions are defined by simply replacing each component type definition by its effective component type definition as a pre-processing step prior to using it.
+// @id: TTCN3-CORE-6.2.10.2-011a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_10_02_test_009 {
+
+    type component CBase {
+        var integer vc_i := 10;
+        timer tc_t := 1.0;
+    }
+
+    type component CExt extends CBase {
+        var float vc_f := 1.0;
+    }
+
+    type component CFlat {
+        var integer vc_i := 10;
+        timer tc_t := 1.0;
+        var float vc_f := 1.0;
+    }
+
+    function f_check() runs on CFlat {
+        if (vc_i == 10 and vc_f == 1.0 and not tc_t.running) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    testcase TC() runs on CBase {
+        var CExt v_ptc := CExt.create;
+        v_ptc.start(f_check());
+        v_ptc.done;
+    }
+
+    control {
+        execute(TC());
+    }
+}

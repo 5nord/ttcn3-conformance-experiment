@@ -1,0 +1,26 @@
+// @requirement: C.1.5 -- The hexadecimal digits 0 to F represent the decimal values 0 to 15 respectively.
+// @id: TTCN3-CORE-C.1.5-006a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_01_05_test_007 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        const hexstring c_digits := '0123456789ABCDEF'H;
+        var boolean v_ok := true;
+        for (var integer i := 0; i < 16; i := i + 1) {
+            if (int2hex(i, 1) != c_digits[i]) {
+                v_ok := false;
+            }
+        }
+        if (v_ok) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

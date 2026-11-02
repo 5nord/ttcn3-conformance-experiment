@@ -1,0 +1,41 @@
+// @requirement: 22.2.3 -- NOTE 1: _Address may be an AddressRef, a list of AddressRef-s or "any component"._
+// @id: TTCN3-CORE-22.2.3-003a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_02_03_test_002 {
+
+    type port P message { inout integer }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    function f_send() runs on C {
+        p.send(1);
+        p.send(2);
+        p.send(3);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_send());
+        T.start;
+        alt {
+            [] p.trigger(integer:1) from v_ptc {}
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        alt {
+            [] p.trigger(integer:2) from (mtc, v_ptc) {}
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        alt {
+            [] p.trigger(integer:3) from any component { setverdict(pass); }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

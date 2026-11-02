@@ -1,0 +1,35 @@
+// @requirement: 15.10 -- The returned value can be assigned to a variable, may be used in expressions, as an actual value parameter, etc.
+// @id: TTCN3-CORE-15.10-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_10_test_001 {
+
+    type record ExampleType {
+        integer field1,
+        boolean field2
+    }
+
+    template ExampleType m_setupTemplate := {
+        field1 := 1,
+        field2 := true
+    }
+
+    function f_get(ExampleType p_v) return integer {
+        return p_v.field1;
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var ExampleType v_rxValue := valueof(m_setupTemplate);
+        var integer v_sum := valueof(m_setupTemplate).field1 + 1;
+        if (v_rxValue.field1 == 1 and v_sum == 2 and f_get(valueof(m_setupTemplate)) == 1) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

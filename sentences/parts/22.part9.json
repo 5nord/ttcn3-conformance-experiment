@@ -1,0 +1,642 @@
+{
+ "part": "22.part9",
+ "chapter": "22",
+ "chapter_file": "22-communication-operations",
+ "title": "Communication operations",
+ "sections": {
+  "22.4": {
+   "title": "The Check operation",
+   "start": 19289
+  }
+ },
+ "lines": [
+  19291,
+  19448
+ ],
+ "units": [
+  {
+   "id": "22.4-s001",
+   "section": "22.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The check operation allows reading the top element of a message-based or procedure-based incoming port queue.",
+   "lines": [
+    19291,
+    19291
+   ]
+  },
+  {
+   "id": "22.4-s002",
+   "section": "22.4",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "[ @nodefault ] ( ObjectReference | any port | any from PortArrayRef ) \".\" check\n  [ \"(\" \n     ( PortReceiveOp | PortGetCallOp | PortGetReplyOp | PortCatchOp ) |\n     ( [ from Address ] \n     [ \"->\" [ sender ValueRef] \n         [ @index value ValueRef] ] )\n   \")\" ]",
+   "lines": [
+    19294,
+    19302
+   ]
+  },
+  {
+   "id": "22.4-s003",
+   "section": "22.4",
+   "kind": "note",
+   "context": "Syntactical Structure",
+   "normative": false,
+   "text": "NOTE 1: _Address may be an AddressRef, a list of AddressRef-s or \"any component\"._",
+   "lines": [
+    19304,
+    19304
+   ]
+  },
+  {
+   "id": "22.4-s004",
+   "section": "22.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The check operation is a generic operation that allows read access to the top element of message-based and procedure-based incoming port queues without removing the top element from the queue.",
+   "lines": [
+    19308,
+    19311
+   ]
+  },
+  {
+   "id": "22.4-s005",
+   "section": "22.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The check operation has to handle values of a certain type at message-based ports and to distinguish between calls to be accepted, exceptions to be caught and replies from previous calls at procedure-based ports.",
+   "lines": [
+    19308,
+    19311
+   ]
+  },
+  {
+   "id": "22.4-s006",
+   "section": "22.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The receiving operations receive, getcall, getreply and catch together with their matching and value, sender or parameter storing parts, are used by the check operation to define the conditions that have to be checked and the information to be optionally extracted.",
+   "lines": [
+    19313,
+    19315
+   ]
+  },
+  {
+   "id": "22.4-s007",
+   "section": "22.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "It is the top element of an incoming port queue that shall be checked (it is not possible to look into the queue).",
+   "lines": [
+    19317,
+    19325
+   ]
+  },
+  {
+   "id": "22.4-s008",
+   "section": "22.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If the queue is empty the check operation fails.",
+   "lines": [
+    19317,
+    19325
+   ]
+  },
+  {
+   "id": "22.4-s009",
+   "section": "22.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If the queue is not empty, a copy of the top element is taken and the receiving operation specified in the check operation is performed on the copy.",
+   "lines": [
+    19317,
+    19325
+   ]
+  },
+  {
+   "id": "22.4-s010",
+   "section": "22.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The check operation fails if the receiving operation fails i.e. the matching criteria are not fulfilled.",
+   "lines": [
+    19317,
+    19325
+   ]
+  },
+  {
+   "id": "22.4-s011",
+   "section": "22.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "In this case the copy of the top element of the queue is discarded and test execution continues in the normal manner, i.e. the statement or alternative next to the check operation is evaluated.",
+   "lines": [
+    19317,
+    19325
+   ]
+  },
+  {
+   "id": "22.4-s012",
+   "section": "22.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The check operation is successful if the receiving operation is successful.",
+   "lines": [
+    19317,
+    19325
+   ]
+  },
+  {
+   "id": "22.4-s013",
+   "section": "22.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "In this case, the value, sender or parameter storing parts of the receiving operation, if any, are executed, i.e. the message and/or a part of it, the sender's address or component reference, the parameter(s) of the call or reply or the value of the exception are stored in the associated variables.",
+   "lines": [
+    19317,
+    19325
+   ]
+  },
+  {
+   "id": "22.4-s014",
+   "section": "22.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If check is used as a stand-alone statement, it is considered to be a shorthand for an alt statement with the check operation as the only alternative.",
+   "lines": [
+    19327,
+    19328
+   ]
+  },
+  {
+   "id": "22.4-s015",
+   "section": "22.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "**Check from a specific sender**",
+   "lines": [
+    19330,
+    19330
+   ]
+  },
+  {
+   "id": "22.4-s016",
+   "section": "22.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "In the case of one-to-many connections the check operation may be restricted to a certain communication partner.",
+   "lines": [
+    19332,
+    19334
+   ]
+  },
+  {
+   "id": "22.4-s017",
+   "section": "22.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "This restriction shall be denoted using the from keyword followed by a specification of an address or component reference, a list of address or component references or any component.",
+   "lines": [
+    19332,
+    19334
+   ]
+  },
+  {
+   "id": "22.4-s018",
+   "section": "22.4",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "NOTE 2: The one-to-one connection is considered to be a simple case of the one-to-many connections and allows the usage of the from-clause.",
+   "lines": [
+    19336,
+    19337
+   ]
+  },
+  {
+   "id": "22.4-s019",
+   "section": "22.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "**Check any operation**",
+   "lines": [
+    19339,
+    19339
+   ]
+  },
+  {
+   "id": "22.4-s020",
+   "section": "22.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "A check operation with no argument list allows checking whether something waits for processing in an incoming port queue.",
+   "lines": [
+    19341,
+    19343
+   ]
+  },
+  {
+   "id": "22.4-s021",
+   "section": "22.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The check any operation allows to distinguish between different senders (in case of one-to-many connections) by using a from clause and to retrieve the sender by using a shorthand assignment part with a sender clause.",
+   "lines": [
+    19341,
+    19343
+   ]
+  },
+  {
+   "id": "22.4-s022",
+   "section": "22.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "**Check on any port**",
+   "lines": [
+    19345,
+    19345
+   ]
+  },
+  {
+   "id": "22.4-s023",
+   "section": "22.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "To check on any port, use the any port keywords.",
+   "lines": [
+    19347,
+    19347
+   ]
+  },
+  {
+   "id": "22.4-s024",
+   "section": "22.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "**Check on any port from a port array**",
+   "lines": [
+    19354,
+    19354
+   ]
+  },
+  {
+   "id": "22.4-s025",
+   "section": "22.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "To check on any port from a specific port array, indices use the any from PortArrayRef syntax where PortArrayRef shall be a reference to a port array identifier.",
+   "lines": [
+    19356,
+    19364
+   ]
+  },
+  {
+   "id": "22.4-s026",
+   "section": "22.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "It is also possible to store the index of a port in a single-dimensional port array at which the operation was successful to a variable of type integer or, in case of multi-dimensional port arrays the index of the successful port to an integer array or record of integer variable.",
+   "lines": [
+    19356,
+    19364
+   ]
+  },
+  {
+   "id": "22.4-s027",
+   "section": "22.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "When checking the port array for a matching message, call, reply or exception, the port indices to be checked are iterated from lowest to highest.",
+   "lines": [
+    19356,
+    19364
+   ]
+  },
+  {
+   "id": "22.4-s028",
+   "section": "22.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If the port array is multi-dimensional, then the ports are iterated over from innermost to outermost array dimension from lowest to highest index for each dimension, e.g. [0][0], [0][1], [1][0], [1][1].",
+   "lines": [
+    19356,
+    19364
+   ]
+  },
+  {
+   "id": "22.4-s029",
+   "section": "22.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The first port which matches all the criteria will cause the operation to be successful even if other ports in the array would also meet the criteria.",
+   "lines": [
+    19356,
+    19364
+   ]
+  },
+  {
+   "id": "22.4-s030",
+   "section": "22.4",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clause 5 and shown in table 16, the following restrictions apply:",
+   "lines": [
+    19368,
+    19369
+   ]
+  },
+  {
+   "id": "22.4-s031",
+   "section": "22.4",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) Using the check operation in a wrong manner, e.g. check for an exception at a message-based port shall cause a test case error.",
+   "lines": [
+    19371,
+    19372
+   ]
+  },
+  {
+   "id": "22.4-s032",
+   "section": "22.4",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "b) All AddressRef items in the from clause and all ValueRef items in the sender clause shall be of type address, component or of the address type bound to the port type (see clause C.5) of the port instance referenced in the check operation.",
+   "lines": [
+    19374,
+    19376
+   ]
+  },
+  {
+   "id": "22.4-s033",
+   "section": "22.4",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "No AddressRef in the from clause shall contain the special value null at the time of the operation.",
+   "lines": [
+    19374,
+    19376
+   ]
+  },
+  {
+   "id": "22.4-s034",
+   "section": "22.4",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "c) The PortArrayRef shall be a reference to a completely initialized port array.",
+   "lines": [
+    19378,
+    19378
+   ]
+  },
+  {
+   "id": "22.4-s035",
+   "section": "22.4",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "d) The index redirection shall only be used when the operation is used on an any from port array construct.",
+   "lines": [
+    19380,
+    19380
+   ]
+  },
+  {
+   "id": "22.4-s036",
+   "section": "22.4",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "e) If the index redirection is used for single-dimensional arrays, the type of the integer variable shall allow storing the highest index of the respective port array.",
+   "lines": [
+    19382,
+    19383
+   ]
+  },
+  {
+   "id": "22.4-s037",
+   "section": "22.4",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "f) If the index redirection is used for multi-dimensional arrays, the size of the integer array or record of integer type shall exactly be the same as the dimension of the respective port array, and the its type shall allow storing the highest index (from all dimensions) of the port array.",
+   "lines": [
+    19385,
+    19387
+   ]
+  },
+  {
+   "id": "22.4-s038",
+   "section": "22.4",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "g) If a variable referenced in the sender or @index clause is a lazy or fuzzy variable, the expression assigned to this variable is equal to the result produced by the check operation, i.e. later evaluation of the lazy or fuzzy variable does not lead to repeated invocation of the check operation.",
+   "lines": [
+    19389,
+    19391
+   ]
+  },
+  {
+   "id": "22.4-s039",
+   "section": "22.4",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "h) If the check operation contains both from and sender clause, the variable or parameter referenced in the sender clause shall be type compatible with the template in the from clause.",
+   "lines": [
+    19393,
+    19394
+   ]
+  },
+  {
+   "id": "22.4-s040",
+   "section": "22.4",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "If the operation contains a sender clause but no from clause, the sender shall be type compatible with the variable or parameter referenced in the sender clause.",
+   "lines": [
+    19393,
+    19394
+   ]
+  },
+  {
+   "id": "22.4-s041",
+   "section": "22.4",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "i) The ObjectReference shall be of a port type.",
+   "lines": [
+    19396,
+    19396
+   ]
+  },
+  {
+   "id": "22.4-s042",
+   "section": "22.4",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "j) The @nodefault modifier is allowed only in stand-alone check statements.",
+   "lines": [
+    19398,
+    19398
+   ]
+  },
+  {
+   "id": "22.4-s043",
+   "section": "22.4",
+   "kind": "note",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "NOTE 3: In most cases the correct usage of the check operation can be checked statically, i.e. before/during compilation.",
+   "lines": [
+    19400,
+    19401
+   ]
+  },
+  {
+   "id": "22.4-s044",
+   "section": "22.4",
+   "kind": "note",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "NOTE 4: An error due to a type mismatch may happen if the types in the receive part are not compatible to the types in the assignment part or, if the from clause is missing, but the type of the sender can be determined and it is not type compatible with the type in the sender clause.",
+   "lines": [
+    19403,
+    19405
+   ]
+  },
+  {
+   "id": "22.4-s045",
+   "section": "22.4",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 1: Basic check:",
+   "lines": [
+    19409,
+    19409
+   ]
+  },
+  {
+   "id": "22.4-s046",
+   "section": "22.4",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "myPort1.check(receive(5)); // Checks for an integer message of value 5.\n  myPort1.check(receive(charstring:?) -> value v_myCharVar);\n  // Checks for a charstring message and stores the message if the message type is charstring\n  myPort2.check(getcall(MyProc:{5, v_myVar}) from myPartner);\n\n  // Checks for a call of MyProc at port myPort2 from myPartner\n  myPort2.check(getreply(MyProc:{5, v_myVar} value 20));\n  // Checks for a reply from procedure MyProc at myPort2 where the returned value is 20 and\n  // the values of the two out or inout parameters are 5 and the value of v_myVar.\n  myPort2.check(catch(MyProc, s_myTemplate(5, v_myVar)));\n  myPort2.check(getreply(MyProc1:{?, v_myVar} value *)-> value v_myReturnValue param(v_myPar1,-));\n  myPort.check(getcall(MyProc:{5, v_myVar}) from myPartner -> param (v_myPar1Var, v_myPar2Var));\n  myPort.check(getcall(MyProc:{5, v_myVar}) -> sender v_mySenderVar);",
+   "lines": [
+    19410,
+    19424
+   ]
+  },
+  {
+   "id": "22.4-s047",
+   "section": "22.4",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 2: Check any operation:",
+   "lines": [
+    19426,
+    19426
+   ]
+  },
+  {
+   "id": "22.4-s048",
+   "section": "22.4",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "myPort.check;\n  myPort.check(from myPartner);\n  myPort.check(-> sender v_mySenderVar);",
+   "lines": [
+    19427,
+    19431
+   ]
+  },
+  {
+   "id": "22.4-s049",
+   "section": "22.4",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 3: Check on any port:",
+   "lines": [
+    19433,
+    19433
+   ]
+  },
+  {
+   "id": "22.4-s050",
+   "section": "22.4",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "any port.check;",
+   "lines": [
+    19434,
+    19436
+   ]
+  },
+  {
+   "id": "22.4-s051",
+   "section": "22.4",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 4: Check on any port from port array:",
+   "lines": [
+    19438,
+    19438
+   ]
+  },
+  {
+   "id": "22.4-s052",
+   "section": "22.4",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "type port MyPort procedure { inout MyProc }\n  type component MyComponent {\n    port MyPort p[10][10];\n  }\n  var integer v_i[2]; \n  any from p.check(catch(MyProc, MyType:?)) -> @index value v_i; \n  // Checking for an incoming exception of the type MyType on any port of the port array p and\n  // storing the index of the port on which the matching was successful first",
+   "lines": [
+    19439,
+    19448
+   ]
+  }
+ ]
+}

@@ -1,0 +1,54 @@
+// @requirement: 22.3.1 -- Like for the send operation, TTCN-3 also supports unicast, multicast and broadcast calls of procedures.
+// @id: TTCN3-CORE-22.3.1-037a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_03_01_test_024 {
+
+    signature S(in integer p_x) return integer;
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+        timer T := 2.0;
+    }
+
+    altstep a_guard() runs on C {
+        [] T.timeout { setverdict(fail); stop; }
+    }
+
+    function f_server() runs on C {
+        var integer v_x;
+        alt {
+            [] p.getcall(S:{?}) -> param(v_x) { p.reply(S:{-} value v_x); repeat; }
+        }
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc1 := C.create, v_ptc2 := C.create;
+        connect(mtc:p, v_ptc1:p);
+        connect(mtc:p, v_ptc2:p);
+        v_ptc1.start(f_server());
+        v_ptc2.start(f_server());
+        p.call(S:{1}, 1.0) to v_ptc1 {
+            [] p.getreply(S:{-} value 1) from v_ptc1 {}
+            [] p.catch(timeout) { setverdict(fail); stop; }
+        }
+        activate(a_guard());
+        T.start;
+        p.call(S:{2}, nowait) to (v_ptc1, v_ptc2);
+        interleave {
+            [] p.getreply(S:{-} value 2) from v_ptc1 {}
+            [] p.getreply(S:{-} value 2) from v_ptc2 {}
+        }
+        p.call(S:{3}, nowait) to all component;
+        interleave {
+            [] p.getreply(S:{-} value 3) from v_ptc1 {}
+            [] p.getreply(S:{-} value 3) from v_ptc2 {}
+        }
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

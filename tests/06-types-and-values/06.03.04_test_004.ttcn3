@@ -1,0 +1,19 @@
+// @requirement: 6.3.4 -- The signature type of the parameter list given to the operations call, getcall, reply, getreply and the signature type given to the operations catch and raise shall also be explicitly defined in the associated port type definition.
+// @id: TTCN3-CORE-6.3.4-003a
+// @verdict: pass reject
+module M_06_03_04_test_004 {
+    signature S1(in integer p_x);
+    signature S2(in integer p_x);
+    type port P procedure { inout S1 }
+    type component C { port P p }
+
+    testcase TC() runs on C {
+        connect(mtc:p, mtc:p);
+        p.call(S2:{ p_x := 1 }, nowait); // error: S2 is not listed in port type P
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

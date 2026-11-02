@@ -1,0 +1,13 @@
+// @requirement: 11.2 -- var TemplateModifier [ (@lazy | @fuzzy) [ @deterministic ] ] [ TypeOrNestedTypeDef ] { VarIdentifier [ ArrayDef ] ":=" TemplateBody [ "," ] }+ [ ";" ]
+// @id: TTCN3-CORE-11.2-007a
+// @verdict: pass accept, noexecution
+module M_11_02_test_008 {
+    type component C {}
+
+    testcase TC() runs on C {
+        var template integer v_a := ?;
+        var template(present) @lazy @deterministic integer v_b := 1, v_c[2] := { 1, 2 }
+        var omit @fuzzy integer v_d := omit;
+        var template v_e := 5;
+    }
+}

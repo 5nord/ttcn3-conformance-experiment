@@ -1,0 +1,1547 @@
+{
+ "batch": "b020",
+ "requirements": [
+  {
+   "id": "TTCN3-CORE-6.3.4-001a",
+   "section": "6.3.4",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "The communication operations (see clause 22) `send, receive, trigger, call, getcall, reply, getreply` and raise and connection operations connect, map, disconnect and unmap (see clause 21.1) are exceptions to the weaker rule of type compatibility and require strong typing.",
+   "canonical": "The communication operations `send`, `receive`, `trigger`, `call`, `getcall`, `reply`, `getreply` and `raise` SHALL apply strong typing instead of type compatibility.",
+   "condition": null,
+   "cross_refs": [
+    "22"
+   ],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "The list omits `catch` (and `check`), while 6.3.4-s003/s004 treat `catch` like `raise`. Chose the literal list.",
+    "readings": [
+     "Only the listed operations `send`, `receive`, `trigger`, `call`, `getcall`, `reply`, `getreply` and `raise` SHALL apply strong typing.",
+     "All communication operations of clause 22, including `catch` and `check`, SHALL apply strong typing."
+    ]
+   },
+   "spec_lines": [
+    6769,
+    6776
+   ],
+   "examples": [
+    {
+     "lines": [
+      6779,
+      6790
+     ],
+     "text": "type record MyRec {...}  // user defined type\n  type MyRec MyRecAlias;  // a type alias\n  type port MyPort message { inout MyRec, MyRecAlias; }  // port that can transport both types\n  type component MyComponent { port MyPort p; }\n  template MyRecAlias m_myRecAlias:= {...}  // a template of the alias type\n  var MyComponent v_myComp1 := MyComponent.create, v_myComp2 := MyComponent.create; \n  connect (v_myComp1:p, v_myComp2:p) // two connected PTCs via ports that can \n                               // transport the user-defined and the alias type\n  // in v_myComp1:\n  p.send (m_myRecAlias);  // sending of template of alias type"
+    },
+    {
+     "lines": [
+      6796,
+      6805
+     ],
+     "text": "// in v_myComp2:\n  p.receive (MyRec:?); \n  // shall not match as the transmitted template is of the alias type and \n  // not of the user-defined type\n  // in v_myComp2:\n  var MyRec v_x;\n  p.receive (MyRecAlias:?) -> value v_x; \n  // shall not cause an error since storing the value requires no strong typing"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.03.04_test_001.ttcn3",
+   "module": "M_06_03_04_test_001",
+   "header": "// @requirement: 6.3.4 -- The communication operations (see clause 22) `send, receive, trigger, call, getcall, reply, getreply` and raise and connection operations connect, map, disconnect and unmap (see clause 21.1) are exceptions to the weaker rule of type compatibility and require strong typing."
+  },
+  {
+   "id": "TTCN3-CORE-6.3.4-001b",
+   "section": "6.3.4",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "The communication operations (see clause 22) `send, receive, trigger, call, getcall, reply, getreply` and raise and connection operations connect, map, disconnect and unmap (see clause 21.1) are exceptions to the weaker rule of type compatibility and require strong typing.",
+   "canonical": "The connection operations `connect`, `map`, `disconnect` and `unmap` SHALL apply strong typing instead of type compatibility.",
+   "condition": null,
+   "cross_refs": [
+    "21.1"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6769,
+    6776
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.03.04_test_002.ttcn3",
+   "module": "M_06_03_04_test_002",
+   "header": "// @requirement: 6.3.4 -- The communication operations (see clause 22) `send, receive, trigger, call, getcall, reply, getreply` and raise and connection operations connect, map, disconnect and unmap (see clause 21.1) are exceptions to the weaker rule of type compatibility and require strong typing."
+  },
+  {
+   "id": "TTCN3-CORE-6.3.4-002a",
+   "section": "6.3.4",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "The types of values or templates directly used as parameters of the operations send, receive and trigger shall also be explicitly defined in the associated port type definition.",
+   "canonical": "The type of a value or template used directly as argument of a `send`, `receive` or `trigger` operation SHALL be explicitly listed in the definition of the port type of the port the operation is applied to.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6769,
+    6776
+   ],
+   "examples": [
+    {
+     "lines": [
+      6779,
+      6790
+     ],
+     "text": "type record MyRec {...}  // user defined type\n  type MyRec MyRecAlias;  // a type alias\n  type port MyPort message { inout MyRec, MyRecAlias; }  // port that can transport both types\n  type component MyComponent { port MyPort p; }\n  template MyRecAlias m_myRecAlias:= {...}  // a template of the alias type\n  var MyComponent v_myComp1 := MyComponent.create, v_myComp2 := MyComponent.create; \n  connect (v_myComp1:p, v_myComp2:p) // two connected PTCs via ports that can \n                               // transport the user-defined and the alias type\n  // in v_myComp1:\n  p.send (m_myRecAlias);  // sending of template of alias type"
+    },
+    {
+     "lines": [
+      6796,
+      6805
+     ],
+     "text": "// in v_myComp2:\n  p.receive (MyRec:?); \n  // shall not match as the transmitted template is of the alias type and \n  // not of the user-defined type\n  // in v_myComp2:\n  var MyRec v_x;\n  p.receive (MyRecAlias:?) -> value v_x; \n  // shall not cause an error since storing the value requires no strong typing"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.03.04_test_003.ttcn3",
+   "module": "M_06_03_04_test_003",
+   "header": "// @requirement: 6.3.4 -- The types of values or templates directly used as parameters of the operations send, receive and trigger shall also be explicitly defined in the associated port type definition."
+  },
+  {
+   "id": "TTCN3-CORE-6.3.4-003a",
+   "section": "6.3.4",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "The signature type of the parameter list given to the operations call, getcall, reply, getreply and the signature type given to the operations catch and raise shall also be explicitly defined in the associated port type definition.",
+   "canonical": "The signature of the parameter list given to a `call`, `getcall`, `reply` or `getreply` operation, and the signature given to a `catch` or `raise` operation, SHALL be explicitly listed in the definition of the port type of the port the operation is applied to.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6769,
+    6776
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.03.04_test_004.ttcn3",
+   "module": "M_06_03_04_test_004",
+   "header": "// @requirement: 6.3.4 -- The signature type of the parameter list given to the operations call, getcall, reply, getreply and the signature type given to the operations catch and raise shall also be explicitly defined in the associated port type definition."
+  },
+  {
+   "id": "TTCN3-CORE-6.3.4-004a",
+   "section": "6.3.4",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "The types of values or templates directly used as exceptions to the operations catch and raise shall be explicitly defined in the exceptions part of the definition of the signature given to the operation.",
+   "canonical": "The type of a value or template used directly as exception in a `catch` or `raise` operation SHALL be explicitly listed in the exception list of the signature given to the operation.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6769,
+    6776
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.03.04_test_005.ttcn3",
+   "module": "M_06_03_04_test_005",
+   "header": "// @requirement: 6.3.4 -- The types of values or templates directly used as exceptions to the operations catch and raise shall be explicitly defined in the exceptions part of the definition of the signature given to the operation."
+  },
+  {
+   "id": "TTCN3-CORE-6.3.4-007a",
+   "section": "6.3.4",
+   "type": "semantics",
+   "modality": "SHALL NOT",
+   "original": "p.receive (MyRec:?); // shall not match as the transmitted template is of the alias type and not of the user-defined type",
+   "canonical": "A `receive` operation whose template is of a type \"T\" SHALL NOT match a message that was sent as a value or template of a different type, even if that type is a synonym of type \"T\".",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6796,
+    6805
+   ],
+   "examples": [
+    {
+     "lines": [
+      6779,
+      6790
+     ],
+     "text": "type record MyRec {...}  // user defined type\n  type MyRec MyRecAlias;  // a type alias\n  type port MyPort message { inout MyRec, MyRecAlias; }  // port that can transport both types\n  type component MyComponent { port MyPort p; }\n  template MyRecAlias m_myRecAlias:= {...}  // a template of the alias type\n  var MyComponent v_myComp1 := MyComponent.create, v_myComp2 := MyComponent.create; \n  connect (v_myComp1:p, v_myComp2:p) // two connected PTCs via ports that can \n                               // transport the user-defined and the alias type\n  // in v_myComp1:\n  p.send (m_myRecAlias);  // sending of template of alias type"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.03.04_test_006.ttcn3",
+   "module": "M_06_03_04_test_006",
+   "header": "// @requirement: 6.3.4 -- p.receive (MyRec:?); // shall not match as the transmitted template is of the alias type and not of the user-defined type"
+  },
+  {
+   "id": "TTCN3-CORE-6.3.4-007b",
+   "section": "6.3.4",
+   "type": "semantics",
+   "modality": "IS NOT",
+   "original": "var MyRec v_x; p.receive (MyRecAlias:?) -> value v_x; // shall not cause an error since storing the value requires no strong typing",
+   "canonical": "Storing the value of a received message in a variable by a value redirect IS NOT subject to strong typing; the variable needs only be of a compatible type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6796,
+    6805
+   ],
+   "examples": [
+    {
+     "lines": [
+      6779,
+      6790
+     ],
+     "text": "type record MyRec {...}  // user defined type\n  type MyRec MyRecAlias;  // a type alias\n  type port MyPort message { inout MyRec, MyRecAlias; }  // port that can transport both types\n  type component MyComponent { port MyPort p; }\n  template MyRecAlias m_myRecAlias:= {...}  // a template of the alias type\n  var MyComponent v_myComp1 := MyComponent.create, v_myComp2 := MyComponent.create; \n  connect (v_myComp1:p, v_myComp2:p) // two connected PTCs via ports that can \n                               // transport the user-defined and the alias type\n  // in v_myComp1:\n  p.send (m_myRecAlias);  // sending of template of alias type"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.03.04_test_007.ttcn3",
+   "module": "M_06_03_04_test_007",
+   "header": "// @requirement: 6.3.4 -- var MyRec v_x; p.receive (MyRecAlias:?) -> value v_x; // shall not cause an error since storing the value requires no strong typing"
+  },
+  {
+   "id": "TTCN3-CORE-6.3.5-001a",
+   "section": "6.3.5",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "If it is necessary to convert values of one type to values of another type, because their types have different root types, then either one of the predefined conversion functions defined in clause 16.1.2 or a user defined function shall be used.",
+   "canonical": "When a value has to be converted to a type with a different root type, the conversion SHALL use one of the predefined conversion functions of clause 16.1.2 or a user-defined function.",
+   "condition": "the source and target types have different root types",
+   "cross_refs": [
+    "16.1.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6809,
+    6810
+   ],
+   "examples": [
+    {
+     "lines": [
+      6813,
+      6816
+     ],
+     "text": "// To convert an integer value to a hexstring value use the predefined function int2hex \n  MyHstring := int2hex(123, 4);"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.03.05_test_001.ttcn3",
+   "module": "M_06_03_05_test_001",
+   "header": "// @requirement: 6.3.5 -- If it is necessary to convert values of one type to values of another type, because their types have different root types, then either one of the predefined conversion functions defined in clause 16.1.2 or a user defined function shall be used."
+  },
+  {
+   "id": "TTCN3-CORE-6.3.6-001a",
+   "section": "6.3.6",
+   "type": "static-semantics",
+   "modality": "IS",
+   "original": "For variables, constants and parameters of port types, the reference to a port \"b\" of type \"B\" is compatible to type \"A\" if type \"B\" and type \"A\" are equal or synonym types.",
+   "canonical": "A reference to a port \"b\" of port type \"B\" IS compatible with port type \"A\" (for variables, constants and parameters of port types) only if type \"B\" and type \"A\" are equal or synonym types.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6820,
+    6821
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.03.06_test_001.ttcn3",
+   "module": "M_06_03_06_test_001",
+   "header": "// @requirement: 6.3.6 -- For variables, constants and parameters of port types, the reference to a port \"b\" of type \"B\" is compatible to type \"A\" if type \"B\" and type \"A\" are equal or synonym types."
+  },
+  {
+   "id": "TTCN3-CORE-6.3.7-001a",
+   "section": "6.3.7",
+   "type": "static-semantics",
+   "modality": "IS",
+   "original": "For variables, constants and parameters of timer types, the reference to a timer is compatible with any other timer reference.",
+   "canonical": "A timer reference IS compatible with any other timer reference (for variables, constants and parameters of timer types).",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6825,
+    6826
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.03.07_test_001.ttcn3",
+   "module": "M_06_03_07_test_001",
+   "header": "// @requirement: 6.3.7 -- For variables, constants and parameters of timer types, the reference to a timer is compatible with any other timer reference."
+  },
+  {
+   "id": "TTCN3-CORE-6.3.8-001a",
+   "section": "6.3.8",
+   "type": "static-semantics",
+   "modality": "IS NOT",
+   "original": "map types are only compatible with other map types.",
+   "canonical": "A map type IS NOT compatible with any type other than a map type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6829,
+    6831
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.03.08_test_001.ttcn3",
+   "module": "M_06_03_08_test_001",
+   "header": "// @requirement: 6.3.8 -- map types are only compatible with other map types."
+  },
+  {
+   "id": "TTCN3-CORE-6.3.8-001b",
+   "section": "6.3.8",
+   "type": "static-semantics",
+   "modality": "IS",
+   "original": "A value \"b\" of a map type \"B\" is compatible with a map type \"A\" if the from type of \"A\" is compatible with the from type of \"B\" and the to type of \"B\" is compatible with the to type of \"A\".",
+   "canonical": "A value \"b\" of map type \"B\" IS compatible with map type \"A\" if the from type of \"A\" is compatible with the from type of \"B\" and the to type of \"B\" is compatible with the to type of \"A\".",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6829,
+    6834
+   ],
+   "examples": [
+    {
+     "lines": [
+      6837,
+      6842
+     ],
+     "text": "type map from charstring to universal charstring Map1;\n  type map from universal charstring to charstring Map2; \n  // every value of Map2 can be used in a variable of Map1 but access to values \n  // associated with keys that are not charstring values is not possible"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.03.08_test_002.ttcn3",
+   "module": "M_06_03_08_test_002",
+   "header": "// @requirement: 6.3.8 -- A value \"b\" of a map type \"B\" is compatible with a map type \"A\" if the from type of \"A\" is compatible with the from type of \"B\" and the to type of \"B\" is compatible with the to type of \"A\"."
+  },
+  {
+   "id": "TTCN3-CORE-6.3.8-004a",
+   "section": "6.3.8",
+   "type": "information",
+   "modality": "CANNOT",
+   "original": "// every value of Map2 can be used in a variable of Map1 but access to values associated with keys that are not charstring values is not possible",
+   "canonical": "When a value of map type \"B\" is used in a variable of map type \"A\" whose from type is narrower, values associated with keys that are not values of the from type of \"A\" CANNOT be accessed through the variable.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6837,
+    6842
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.03.08_test_003.ttcn3",
+   "module": "M_06_03_08_test_003",
+   "header": "// @requirement: 6.3.8 -- // every value of Map2 can be used in a variable of Map1 but access to values associated with keys that are not charstring values is not possible"
+  },
+  {
+   "id": "TTCN3-CORE-6.4-001a",
+   "section": "6.4",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "A type can be defined as a synonym to another type.",
+   "canonical": "A type MAY be defined as a synonym of another type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6846,
+    6847
+   ],
+   "examples": [
+    {
+     "lines": [
+      6850,
+      6852
+     ],
+     "text": "type MyType1 MyType2; // MyType2 is synonym to MyType1"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.04_test_001.ttcn3",
+   "module": "M_06_04_test_001",
+   "header": "// @requirement: 6.4 -- A type can be defined as a synonym to another type."
+  },
+  {
+   "id": "TTCN3-CORE-6.4-002a",
+   "section": "6.4",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Type synonyms can be defined for all kinds of types.",
+   "canonical": "A type synonym MAY be defined for every kind of type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6846,
+    6847
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.04_test_002.ttcn3",
+   "module": "M_06_04_test_002",
+   "header": "// @requirement: 6.4 -- Type synonyms can be defined for all kinds of types."
+  },
+  {
+   "id": "TTCN3-CORE-6.4-003a",
+   "section": "6.4",
+   "type": "static-semantics",
+   "modality": "IS",
+   "original": "Synonym types are compatible.",
+   "canonical": "Synonym types ARE compatible with each other.",
+   "condition": null,
+   "cross_refs": [
+    "6.3.4"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6846,
+    6847
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.04_test_003.ttcn3",
+   "module": "M_06_04_test_003",
+   "header": "// @requirement: 6.4 -- Synonym types are compatible."
+  },
+  {
+   "id": "TTCN3-CORE-6.5-001a",
+   "section": "6.5",
+   "type": "restriction",
+   "modality": "MAY",
+   "original": "Automatic types are used in variable, constant and module parameter declarations.",
+   "canonical": "The automatic type MAY be used only in a variable declaration, a template variable declaration, a constant declaration or a module parameter declaration.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "The sentence is descriptive; it is unclear whether the list is exhaustive (other declarations, e.g. formal parameters or templates, are excluded) and whether template variable declarations count as variable declarations (the examples use `var template`). Chose the exhaustive reading including template variables.",
+    "readings": [
+     "The automatic type MAY be used only in variable (including template variable), constant and module parameter declarations.",
+     "The automatic type MAY be used at least in variable, constant and module parameter declarations; other uses are not addressed."
+    ]
+   },
+   "spec_lines": [
+    6856,
+    6859
+   ],
+   "examples": [
+    {
+     "lines": [
+      6918,
+      6931
+     ],
+     "text": "function f_isEven(integer p_par) return boolean { return p_par mod 2 == 0; }\n type enumerated Colour { yellow, red, blue, green }\n var integer v_int := 1;\n var v_automaticA := v_int; // automatic integer type\n var v_automaticB := f_isEven(5); // automatic boolean type\n var v_automaticC := match(5, ?); // automatic boolean type\n var v_automaticD := v_int + 6; // automatic integer type\n var v_automaticE := '0010'B; // automatic bitstring type\n var v_automaticF := \"abc\"; // automatic charstring type\n var template v_automaticG := integer:?; // automatic integer type\n var v_automaticH := Colour.red; // automatic enumerated type\n var v_automaticI := {1, 2, 3, 4, 5}; // automatic record of integer type"
+    },
+    {
+     "lines": [
+      6937,
+      6944
+     ],
+     "text": "// automatic type: record { charstring description, integer val }\n  var v_automaticJ := { description := \"description\", val := 23 }; \n  var v_automaticK := { [1] := 10, [2] := 8 }; // automatic record of integer type\n  // automatic type: map from charstring to float\n  var v_automaticL := { [\"basePrice\"] := 5.0, [\"vat\"] := 1.0, [\"total\"] := 6.0 };\n  var template v_automaticErr := ?; // Causes an error as the ? symbol doesn't provide a type"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.05_test_001.ttcn3",
+   "module": "M_06_05_test_001",
+   "header": "// @requirement: 6.5 -- Automatic types are used in variable, constant and module parameter declarations."
+  },
+  {
+   "id": "TTCN3-CORE-6.5-002a",
+   "section": "6.5",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "When used, the type part of these declarations is skipped and the type is provided implicitly.",
+   "canonical": "A variable, constant or module parameter declaration that uses the automatic type IS written without the type part.",
+   "condition": "the declaration uses the automatic type",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6856,
+    6859
+   ],
+   "examples": [
+    {
+     "lines": [
+      6918,
+      6931
+     ],
+     "text": "function f_isEven(integer p_par) return boolean { return p_par mod 2 == 0; }\n type enumerated Colour { yellow, red, blue, green }\n var integer v_int := 1;\n var v_automaticA := v_int; // automatic integer type\n var v_automaticB := f_isEven(5); // automatic boolean type\n var v_automaticC := match(5, ?); // automatic boolean type\n var v_automaticD := v_int + 6; // automatic integer type\n var v_automaticE := '0010'B; // automatic bitstring type\n var v_automaticF := \"abc\"; // automatic charstring type\n var template v_automaticG := integer:?; // automatic integer type\n var v_automaticH := Colour.red; // automatic enumerated type\n var v_automaticI := {1, 2, 3, 4, 5}; // automatic record of integer type"
+    },
+    {
+     "lines": [
+      6937,
+      6944
+     ],
+     "text": "// automatic type: record { charstring description, integer val }\n  var v_automaticJ := { description := \"description\", val := 23 }; \n  var v_automaticK := { [1] := 10, [2] := 8 }; // automatic record of integer type\n  // automatic type: map from charstring to float\n  var v_automaticL := { [\"basePrice\"] := 5.0, [\"vat\"] := 1.0, [\"total\"] := 6.0 };\n  var template v_automaticErr := ?; // Causes an error as the ? symbol doesn't provide a type"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.05_test_002.ttcn3",
+   "module": "M_06_05_test_002",
+   "header": "// @requirement: 6.5 -- When used, the type part of these declarations is skipped and the type is provided implicitly."
+  },
+  {
+   "id": "TTCN3-CORE-6.5-003a",
+   "section": "6.5",
+   "type": "static-semantics",
+   "modality": "IS",
+   "original": "The automatic type is equal to the type of an expression or template body on the right-hand side of an assignment of the declaration.",
+   "canonical": "The automatic type IS equal to the type of the expression or template body on the right-hand side of the assignment of the declaration.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6856,
+    6859
+   ],
+   "examples": [
+    {
+     "lines": [
+      6918,
+      6931
+     ],
+     "text": "function f_isEven(integer p_par) return boolean { return p_par mod 2 == 0; }\n type enumerated Colour { yellow, red, blue, green }\n var integer v_int := 1;\n var v_automaticA := v_int; // automatic integer type\n var v_automaticB := f_isEven(5); // automatic boolean type\n var v_automaticC := match(5, ?); // automatic boolean type\n var v_automaticD := v_int + 6; // automatic integer type\n var v_automaticE := '0010'B; // automatic bitstring type\n var v_automaticF := \"abc\"; // automatic charstring type\n var template v_automaticG := integer:?; // automatic integer type\n var v_automaticH := Colour.red; // automatic enumerated type\n var v_automaticI := {1, 2, 3, 4, 5}; // automatic record of integer type"
+    },
+    {
+     "lines": [
+      6937,
+      6944
+     ],
+     "text": "// automatic type: record { charstring description, integer val }\n  var v_automaticJ := { description := \"description\", val := 23 }; \n  var v_automaticK := { [1] := 10, [2] := 8 }; // automatic record of integer type\n  // automatic type: map from charstring to float\n  var v_automaticL := { [\"basePrice\"] := 5.0, [\"vat\"] := 1.0, [\"total\"] := 6.0 };\n  var template v_automaticErr := ?; // Causes an error as the ? symbol doesn't provide a type"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.05_test_003.ttcn3",
+   "module": "M_06_05_test_003",
+   "header": "// @requirement: 6.5 -- The automatic type is equal to the type of an expression or template body on the right-hand side of an assignment of the declaration."
+  },
+  {
+   "id": "TTCN3-CORE-6.5-004a",
+   "section": "6.5",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "The type of the expression or template body used for automatic typing shall be implicitly unambiguous.",
+   "canonical": "The type of the expression or template body used for automatic typing SHALL be unambiguously determinable from the expression or template body itself.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "\"implicitly unambiguous\" is not defined; it can mean determinable without any type context, or determinable according to the list a) to q). Chose the first reading, which the list then makes concrete.",
+    "readings": [
+     "The type of the expression or template body SHALL be determinable without any external type context.",
+     "The type of the expression or template body SHALL be determinable by applying the rules of items a) to q) of clause 6.5."
+    ]
+   },
+   "spec_lines": [
+    6856,
+    6859
+   ],
+   "examples": [
+    {
+     "lines": [
+      6937,
+      6944
+     ],
+     "text": "// automatic type: record { charstring description, integer val }\n  var v_automaticJ := { description := \"description\", val := 23 }; \n  var v_automaticK := { [1] := 10, [2] := 8 }; // automatic record of integer type\n  // automatic type: map from charstring to float\n  var v_automaticL := { [\"basePrice\"] := 5.0, [\"vat\"] := 1.0, [\"total\"] := 6.0 };\n  var template v_automaticErr := ?; // Causes an error as the ? symbol doesn't provide a type"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.05_test_004.ttcn3",
+   "module": "M_06_05_test_004",
+   "header": "// @requirement: 6.5 -- The type of the expression or template body used for automatic typing shall be implicitly unambiguous."
+  },
+  {
+   "id": "TTCN3-CORE-6.5-005a",
+   "section": "6.5",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "The expression or template body shall be one of the following:",
+   "canonical": "The expression or template body used for automatic typing SHALL be one of the forms listed in items a) to q) of clause 6.5.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6861,
+    6861
+   ],
+   "examples": [
+    {
+     "lines": [
+      6937,
+      6944
+     ],
+     "text": "// automatic type: record { charstring description, integer val }\n  var v_automaticJ := { description := \"description\", val := 23 }; \n  var v_automaticK := { [1] := 10, [2] := 8 }; // automatic record of integer type\n  // automatic type: map from charstring to float\n  var v_automaticL := { [\"basePrice\"] := 5.0, [\"vat\"] := 1.0, [\"total\"] := 6.0 };\n  var template v_automaticErr := ?; // Causes an error as the ? symbol doesn't provide a type"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.05_test_005.ttcn3",
+   "module": "M_06_05_test_005",
+   "header": "// @requirement: 6.5 -- The expression or template body shall be one of the following:"
+  },
+  {
+   "id": "TTCN3-CORE-6.5-006a",
+   "section": "6.5",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "a) Reference to an existing variable, parameter, constant, template or a field or element inside of it.",
+   "canonical": "The expression or template body used for automatic typing MAY be a reference to an existing variable, formal parameter, constant or template, or to a field or element inside of it.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "\"parameter\" is used where formal parameter (or module parameter) is meant.",
+    "improper_terms": [
+     {
+      "used": "parameter",
+      "proper": "formal parameter",
+      "glossary": true
+     }
+    ]
+   },
+   "spec_lines": [
+    6861,
+    6863
+   ],
+   "examples": [
+    {
+     "lines": [
+      6918,
+      6931
+     ],
+     "text": "function f_isEven(integer p_par) return boolean { return p_par mod 2 == 0; }\n type enumerated Colour { yellow, red, blue, green }\n var integer v_int := 1;\n var v_automaticA := v_int; // automatic integer type\n var v_automaticB := f_isEven(5); // automatic boolean type\n var v_automaticC := match(5, ?); // automatic boolean type\n var v_automaticD := v_int + 6; // automatic integer type\n var v_automaticE := '0010'B; // automatic bitstring type\n var v_automaticF := \"abc\"; // automatic charstring type\n var template v_automaticG := integer:?; // automatic integer type\n var v_automaticH := Colour.red; // automatic enumerated type\n var v_automaticI := {1, 2, 3, 4, 5}; // automatic record of integer type"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.05_test_006.ttcn3",
+   "module": "M_06_05_test_006",
+   "header": "// @requirement: 6.5 -- a) Reference to an existing variable, parameter, constant, template or a field or element inside of it."
+  },
+  {
+   "id": "TTCN3-CORE-6.5-007a",
+   "section": "6.5",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "b) Function call returning a value, including predefined functions.",
+   "canonical": "The expression or template body used for automatic typing MAY be a call of a function returning a value, including a predefined function.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6861,
+    6870
+   ],
+   "examples": [
+    {
+     "lines": [
+      6918,
+      6931
+     ],
+     "text": "function f_isEven(integer p_par) return boolean { return p_par mod 2 == 0; }\n type enumerated Colour { yellow, red, blue, green }\n var integer v_int := 1;\n var v_automaticA := v_int; // automatic integer type\n var v_automaticB := f_isEven(5); // automatic boolean type\n var v_automaticC := match(5, ?); // automatic boolean type\n var v_automaticD := v_int + 6; // automatic integer type\n var v_automaticE := '0010'B; // automatic bitstring type\n var v_automaticF := \"abc\"; // automatic charstring type\n var template v_automaticG := integer:?; // automatic integer type\n var v_automaticH := Colour.red; // automatic enumerated type\n var v_automaticI := {1, 2, 3, 4, 5}; // automatic record of integer type"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.05_test_007.ttcn3",
+   "module": "M_06_05_test_007",
+   "header": "// @requirement: 6.5 -- b) Function call returning a value, including predefined functions."
+  },
+  {
+   "id": "TTCN3-CORE-6.5-008a",
+   "section": "6.5",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "c) TTCN-3 operation returning a value such as match, valueof, present, etc.",
+   "canonical": "The expression or template body used for automatic typing MAY be a TTCN-3 operation returning a value, such as `match`, `valueof` or `ispresent`.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "\"present\" is not a TTCN-3 operation; the `ispresent` operation is meant. The list is open (\"etc.\").",
+    "improper_terms": [
+     {
+      "used": "present",
+      "proper": "ispresent",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    6861,
+    6872
+   ],
+   "examples": [
+    {
+     "lines": [
+      6918,
+      6931
+     ],
+     "text": "function f_isEven(integer p_par) return boolean { return p_par mod 2 == 0; }\n type enumerated Colour { yellow, red, blue, green }\n var integer v_int := 1;\n var v_automaticA := v_int; // automatic integer type\n var v_automaticB := f_isEven(5); // automatic boolean type\n var v_automaticC := match(5, ?); // automatic boolean type\n var v_automaticD := v_int + 6; // automatic integer type\n var v_automaticE := '0010'B; // automatic bitstring type\n var v_automaticF := \"abc\"; // automatic charstring type\n var template v_automaticG := integer:?; // automatic integer type\n var v_automaticH := Colour.red; // automatic enumerated type\n var v_automaticI := {1, 2, 3, 4, 5}; // automatic record of integer type"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.05_test_008.ttcn3",
+   "module": "M_06_05_test_008",
+   "header": "// @requirement: 6.5 -- c) TTCN-3 operation returning a value such as match, valueof, present, etc."
+  },
+  {
+   "id": "TTCN3-CORE-6.5-009a",
+   "section": "6.5",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "d) Expression composed of several operands where the type of the result can be unambiguously resolved using the rules for expressions (clause 7) or automatic types.",
+   "canonical": "The expression or template body used for automatic typing MAY be an expression composed of several operands whose result type can be unambiguously resolved using the rules for expressions or automatic types.",
+   "condition": "the result type can be unambiguously resolved",
+   "cross_refs": [
+    "7"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6861,
+    6875
+   ],
+   "examples": [
+    {
+     "lines": [
+      6918,
+      6931
+     ],
+     "text": "function f_isEven(integer p_par) return boolean { return p_par mod 2 == 0; }\n type enumerated Colour { yellow, red, blue, green }\n var integer v_int := 1;\n var v_automaticA := v_int; // automatic integer type\n var v_automaticB := f_isEven(5); // automatic boolean type\n var v_automaticC := match(5, ?); // automatic boolean type\n var v_automaticD := v_int + 6; // automatic integer type\n var v_automaticE := '0010'B; // automatic bitstring type\n var v_automaticF := \"abc\"; // automatic charstring type\n var template v_automaticG := integer:?; // automatic integer type\n var v_automaticH := Colour.red; // automatic enumerated type\n var v_automaticI := {1, 2, 3, 4, 5}; // automatic record of integer type"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.05_test_009.ttcn3",
+   "module": "M_06_05_test_009",
+   "header": "// @requirement: 6.5 -- d) Expression composed of several operands where the type of the result can be unambiguously resolved using the rules for expressions (clause 7) or automatic types."
+  },
+  {
+   "id": "TTCN3-CORE-6.5-010a",
+   "section": "6.5",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "e) Literal of the integer, float, boolean, bitstring, hexstring, octetstring, verditctype type.",
+   "canonical": "The expression or template body used for automatic typing MAY be a literal of the `integer`, `float`, `boolean`, `bitstring`, `hexstring`, `octetstring` or `verdicttype` type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "Typo \"verditctype\" for the `verdicttype` type.",
+    "improper_terms": [
+     {
+      "used": "verditctype",
+      "proper": "verdicttype",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    6861,
+    6878
+   ],
+   "examples": [
+    {
+     "lines": [
+      6918,
+      6931
+     ],
+     "text": "function f_isEven(integer p_par) return boolean { return p_par mod 2 == 0; }\n type enumerated Colour { yellow, red, blue, green }\n var integer v_int := 1;\n var v_automaticA := v_int; // automatic integer type\n var v_automaticB := f_isEven(5); // automatic boolean type\n var v_automaticC := match(5, ?); // automatic boolean type\n var v_automaticD := v_int + 6; // automatic integer type\n var v_automaticE := '0010'B; // automatic bitstring type\n var v_automaticF := \"abc\"; // automatic charstring type\n var template v_automaticG := integer:?; // automatic integer type\n var v_automaticH := Colour.red; // automatic enumerated type\n var v_automaticI := {1, 2, 3, 4, 5}; // automatic record of integer type"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.05_test_010.ttcn3",
+   "module": "M_06_05_test_010",
+   "header": "// @requirement: 6.5 -- e) Literal of the integer, float, boolean, bitstring, hexstring, octetstring, verditctype type."
+  },
+  {
+   "id": "TTCN3-CORE-6.5-011a",
+   "section": "6.5",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "f) Character string literal.",
+   "canonical": "The expression or template body used for automatic typing MAY be a character string literal.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6861,
+    6880
+   ],
+   "examples": [
+    {
+     "lines": [
+      6918,
+      6931
+     ],
+     "text": "function f_isEven(integer p_par) return boolean { return p_par mod 2 == 0; }\n type enumerated Colour { yellow, red, blue, green }\n var integer v_int := 1;\n var v_automaticA := v_int; // automatic integer type\n var v_automaticB := f_isEven(5); // automatic boolean type\n var v_automaticC := match(5, ?); // automatic boolean type\n var v_automaticD := v_int + 6; // automatic integer type\n var v_automaticE := '0010'B; // automatic bitstring type\n var v_automaticF := \"abc\"; // automatic charstring type\n var template v_automaticG := integer:?; // automatic integer type\n var v_automaticH := Colour.red; // automatic enumerated type\n var v_automaticI := {1, 2, 3, 4, 5}; // automatic record of integer type"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.05_test_011.ttcn3",
+   "module": "M_06_05_test_011",
+   "header": "// @requirement: 6.5 -- f) Character string literal."
+  },
+  {
+   "id": "TTCN3-CORE-6.5-012a",
+   "section": "6.5",
+   "type": "static-semantics",
+   "modality": "IS",
+   "original": "If the literal contains only characters of the charstring type, the automatic type is charstring, otherwise it is universal charstring.",
+   "canonical": "If a character string literal used for automatic typing contains only characters of the `charstring` type, the automatic type IS `charstring`.",
+   "condition": "the literal contains only characters of the charstring type",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6880,
+    6880
+   ],
+   "examples": [
+    {
+     "lines": [
+      6918,
+      6931
+     ],
+     "text": "function f_isEven(integer p_par) return boolean { return p_par mod 2 == 0; }\n type enumerated Colour { yellow, red, blue, green }\n var integer v_int := 1;\n var v_automaticA := v_int; // automatic integer type\n var v_automaticB := f_isEven(5); // automatic boolean type\n var v_automaticC := match(5, ?); // automatic boolean type\n var v_automaticD := v_int + 6; // automatic integer type\n var v_automaticE := '0010'B; // automatic bitstring type\n var v_automaticF := \"abc\"; // automatic charstring type\n var template v_automaticG := integer:?; // automatic integer type\n var v_automaticH := Colour.red; // automatic enumerated type\n var v_automaticI := {1, 2, 3, 4, 5}; // automatic record of integer type"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.05_test_012.ttcn3",
+   "module": "M_06_05_test_012",
+   "header": "// @requirement: 6.5 -- If the literal contains only characters of the charstring type, the automatic type is charstring, otherwise it is universal charstring."
+  },
+  {
+   "id": "TTCN3-CORE-6.5-012b",
+   "section": "6.5",
+   "type": "static-semantics",
+   "modality": "IS",
+   "original": "If the literal contains only characters of the charstring type, the automatic type is charstring, otherwise it is universal charstring.",
+   "canonical": "If a character string literal used for automatic typing contains a character that is not of the `charstring` type, the automatic type IS `universal charstring`.",
+   "condition": "the literal contains a character outside the charstring character set",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6880,
+    6880
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.05_test_013.ttcn3",
+   "module": "M_06_05_test_013",
+   "header": "// @requirement: 6.5 -- If the literal contains only characters of the charstring type, the automatic type is charstring, otherwise it is universal charstring."
+  },
+  {
+   "id": "TTCN3-CORE-6.5-013a",
+   "section": "6.5",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "g) Inline template.",
+   "canonical": "The template body used for automatic typing MAY be an inline template.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6861,
+    6882
+   ],
+   "examples": [
+    {
+     "lines": [
+      6918,
+      6931
+     ],
+     "text": "function f_isEven(integer p_par) return boolean { return p_par mod 2 == 0; }\n type enumerated Colour { yellow, red, blue, green }\n var integer v_int := 1;\n var v_automaticA := v_int; // automatic integer type\n var v_automaticB := f_isEven(5); // automatic boolean type\n var v_automaticC := match(5, ?); // automatic boolean type\n var v_automaticD := v_int + 6; // automatic integer type\n var v_automaticE := '0010'B; // automatic bitstring type\n var v_automaticF := \"abc\"; // automatic charstring type\n var template v_automaticG := integer:?; // automatic integer type\n var v_automaticH := Colour.red; // automatic enumerated type\n var v_automaticI := {1, 2, 3, 4, 5}; // automatic record of integer type"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.05_test_014.ttcn3",
+   "module": "M_06_05_test_014",
+   "header": "// @requirement: 6.5 -- g) Inline template."
+  },
+  {
+   "id": "TTCN3-CORE-6.5-014a",
+   "section": "6.5",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "h) Qualified enumerated value.",
+   "canonical": "The expression used for automatic typing MAY be a qualified enumerated value.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6861,
+    6884
+   ],
+   "examples": [
+    {
+     "lines": [
+      6918,
+      6931
+     ],
+     "text": "function f_isEven(integer p_par) return boolean { return p_par mod 2 == 0; }\n type enumerated Colour { yellow, red, blue, green }\n var integer v_int := 1;\n var v_automaticA := v_int; // automatic integer type\n var v_automaticB := f_isEven(5); // automatic boolean type\n var v_automaticC := match(5, ?); // automatic boolean type\n var v_automaticD := v_int + 6; // automatic integer type\n var v_automaticE := '0010'B; // automatic bitstring type\n var v_automaticF := \"abc\"; // automatic charstring type\n var template v_automaticG := integer:?; // automatic integer type\n var v_automaticH := Colour.red; // automatic enumerated type\n var v_automaticI := {1, 2, 3, 4, 5}; // automatic record of integer type"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.05_test_015.ttcn3",
+   "module": "M_06_05_test_015",
+   "header": "// @requirement: 6.5 -- h) Qualified enumerated value."
+  },
+  {
+   "id": "TTCN3-CORE-6.5-015a",
+   "section": "6.5",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "original": "i) Value list where all values have a common type shall provide an automatic type record of _{common type}._ The common type shall fulfil requirements for automatic typing.",
+   "canonical": "A value list notation in which all values have a common type SHALL provide the automatic type `record of` the common type.",
+   "condition": "all values of the value list have a common type",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6861,
+    6887
+   ],
+   "examples": [
+    {
+     "lines": [
+      6918,
+      6931
+     ],
+     "text": "function f_isEven(integer p_par) return boolean { return p_par mod 2 == 0; }\n type enumerated Colour { yellow, red, blue, green }\n var integer v_int := 1;\n var v_automaticA := v_int; // automatic integer type\n var v_automaticB := f_isEven(5); // automatic boolean type\n var v_automaticC := match(5, ?); // automatic boolean type\n var v_automaticD := v_int + 6; // automatic integer type\n var v_automaticE := '0010'B; // automatic bitstring type\n var v_automaticF := \"abc\"; // automatic charstring type\n var template v_automaticG := integer:?; // automatic integer type\n var v_automaticH := Colour.red; // automatic enumerated type\n var v_automaticI := {1, 2, 3, 4, 5}; // automatic record of integer type"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.05_test_016.ttcn3",
+   "module": "M_06_05_test_016",
+   "header": "// @requirement: 6.5 -- i) Value list where all values have a common type shall provide an automatic type record of _{common type}._ The common type shall fulfil requirements for automatic typing."
+  },
+  {
+   "id": "TTCN3-CORE-6.5-015b",
+   "section": "6.5",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "i) Value list where all values have a common type shall provide an automatic type record of _{common type}._ The common type shall fulfil requirements for automatic typing.",
+   "canonical": "The common type of the values of a value list notation used for automatic typing SHALL fulfil the requirements for automatic typing.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6861,
+    6887
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.05_test_017.ttcn3",
+   "module": "M_06_05_test_017",
+   "header": "// @requirement: 6.5 -- i) Value list where all values have a common type shall provide an automatic type record of _{common type}._ The common type shall fulfil requirements for automatic typing."
+  },
+  {
+   "id": "TTCN3-CORE-6.5-016a",
+   "section": "6.5",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "original": "j) Field assignment notation where all values fulfil requirements for automatic typing shall provide an automatic record type with the same number and order of fields as in the field assignment notation.",
+   "canonical": "An assignment notation used for automatic typing SHALL provide an automatic record type with the same number and order of fields as in the assignment notation.",
+   "condition": "all values in the assignment notation fulfil the requirements for automatic typing",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "\"field assignment notation\" is used for the glossary term \"assignment notation\".",
+    "improper_terms": [
+     {
+      "used": "field assignment notation",
+      "proper": "assignment notation",
+      "glossary": true
+     }
+    ]
+   },
+   "spec_lines": [
+    6861,
+    6893
+   ],
+   "examples": [
+    {
+     "lines": [
+      6937,
+      6944
+     ],
+     "text": "// automatic type: record { charstring description, integer val }\n  var v_automaticJ := { description := \"description\", val := 23 }; \n  var v_automaticK := { [1] := 10, [2] := 8 }; // automatic record of integer type\n  // automatic type: map from charstring to float\n  var v_automaticL := { [\"basePrice\"] := 5.0, [\"vat\"] := 1.0, [\"total\"] := 6.0 };\n  var template v_automaticErr := ?; // Causes an error as the ? symbol doesn't provide a type"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.05_test_018.ttcn3",
+   "module": "M_06_05_test_018",
+   "header": "// @requirement: 6.5 -- j) Field assignment notation where all values fulfil requirements for automatic typing shall provide an automatic record type with the same number and order of fields as in the field assignment notation."
+  },
+  {
+   "id": "TTCN3-CORE-6.5-016b",
+   "section": "6.5",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "j) Field assignment notation where all values fulfil requirements for automatic typing shall provide an automatic record type with the same number and order of fields as in the field assignment notation.",
+   "canonical": "Each value in an assignment notation used for automatic typing SHALL fulfil the requirements for automatic typing.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "\"field assignment notation\" is used for the glossary term \"assignment notation\".",
+    "improper_terms": [
+     {
+      "used": "field assignment notation",
+      "proper": "assignment notation",
+      "glossary": true
+     }
+    ]
+   },
+   "spec_lines": [
+    6861,
+    6893
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.05_test_019.ttcn3",
+   "module": "M_06_05_test_019",
+   "header": "// @requirement: 6.5 -- j) Field assignment notation where all values fulfil requirements for automatic typing shall provide an automatic record type with the same number and order of fields as in the field assignment notation."
+  },
+  {
+   "id": "TTCN3-CORE-6.5-017a",
+   "section": "6.5",
+   "type": "static-semantics",
+   "modality": "IS",
+   "original": "The names of record fields are equal to the field names from the notation and record field types are automatic types of the field values in the notation.",
+   "canonical": "The name of each field of the automatic record type IS equal to the corresponding field name in the assignment notation.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6889,
+    6893
+   ],
+   "examples": [
+    {
+     "lines": [
+      6937,
+      6944
+     ],
+     "text": "// automatic type: record { charstring description, integer val }\n  var v_automaticJ := { description := \"description\", val := 23 }; \n  var v_automaticK := { [1] := 10, [2] := 8 }; // automatic record of integer type\n  // automatic type: map from charstring to float\n  var v_automaticL := { [\"basePrice\"] := 5.0, [\"vat\"] := 1.0, [\"total\"] := 6.0 };\n  var template v_automaticErr := ?; // Causes an error as the ? symbol doesn't provide a type"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.05_test_020.ttcn3",
+   "module": "M_06_05_test_020",
+   "header": "// @requirement: 6.5 -- The names of record fields are equal to the field names from the notation and record field types are automatic types of the field values in the notation."
+  },
+  {
+   "id": "TTCN3-CORE-6.5-017b",
+   "section": "6.5",
+   "type": "static-semantics",
+   "modality": "IS",
+   "original": "The names of record fields are equal to the field names from the notation and record field types are automatic types of the field values in the notation.",
+   "canonical": "The type of each field of the automatic record type IS the automatic type of the corresponding field value in the assignment notation.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6889,
+    6893
+   ],
+   "examples": [
+    {
+     "lines": [
+      6937,
+      6944
+     ],
+     "text": "// automatic type: record { charstring description, integer val }\n  var v_automaticJ := { description := \"description\", val := 23 }; \n  var v_automaticK := { [1] := 10, [2] := 8 }; // automatic record of integer type\n  // automatic type: map from charstring to float\n  var v_automaticL := { [\"basePrice\"] := 5.0, [\"vat\"] := 1.0, [\"total\"] := 6.0 };\n  var template v_automaticErr := ?; // Causes an error as the ? symbol doesn't provide a type"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.05_test_021.ttcn3",
+   "module": "M_06_05_test_021",
+   "header": "// @requirement: 6.5 -- The names of record fields are equal to the field names from the notation and record field types are automatic types of the field values in the notation."
+  },
+  {
+   "id": "TTCN3-CORE-6.5-018a",
+   "section": "6.5",
+   "type": "static-semantics",
+   "modality": "IS",
+   "original": "A record field is created as optional if the value in the notation doesn't fulfil requirements of the present template restriction (see clause 15.8 for more details), otherwise it is created without the optional property.",
+   "canonical": "A field of the automatic record type IS optional if the corresponding value in the assignment notation does not fulfil the requirements of the `present` template restriction.",
+   "condition": "the field value does not fulfil the present template restriction",
+   "cross_refs": [
+    "15.8"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6889,
+    6893
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.05_test_022.ttcn3",
+   "module": "M_06_05_test_022",
+   "header": "// @requirement: 6.5 -- A record field is created as optional if the value in the notation doesn't fulfil requirements of the present template restriction (see clause 15.8 for more details), otherwise it is created without the optional property."
+  },
+  {
+   "id": "TTCN3-CORE-6.5-018b",
+   "section": "6.5",
+   "type": "static-semantics",
+   "modality": "IS NOT",
+   "original": "A record field is created as optional if the value in the notation doesn't fulfil requirements of the present template restriction (see clause 15.8 for more details), otherwise it is created without the optional property.",
+   "canonical": "A field of the automatic record type IS NOT optional if the corresponding value in the assignment notation fulfils the requirements of the `present` template restriction.",
+   "condition": "the field value fulfils the present template restriction",
+   "cross_refs": [
+    "15.8"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6889,
+    6893
+   ],
+   "examples": [
+    {
+     "lines": [
+      6937,
+      6944
+     ],
+     "text": "// automatic type: record { charstring description, integer val }\n  var v_automaticJ := { description := \"description\", val := 23 }; \n  var v_automaticK := { [1] := 10, [2] := 8 }; // automatic record of integer type\n  // automatic type: map from charstring to float\n  var v_automaticL := { [\"basePrice\"] := 5.0, [\"vat\"] := 1.0, [\"total\"] := 6.0 };\n  var template v_automaticErr := ?; // Causes an error as the ? symbol doesn't provide a type"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.05_test_023.ttcn3",
+   "module": "M_06_05_test_023",
+   "header": "// @requirement: 6.5 -- A record field is created as optional if the value in the notation doesn't fulfil requirements of the present template restriction (see clause 15.8 for more details), otherwise it is created without the optional property."
+  },
+  {
+   "id": "TTCN3-CORE-6.5-019a",
+   "section": "6.5",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "original": "k) Index assignment notation where all indexes are of the integer type and all item values have a common type shall provide an automatic type record of _{common type}.",
+   "canonical": "An index notation used for automatic typing in which all indexes are of the `integer` type and all item values have a common type SHALL provide the automatic type `record of` the common type.",
+   "condition": "all indexes are of the integer type and all item values have a common type",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "\"index assignment notation\" is used for the glossary term \"index notation\".",
+    "improper_terms": [
+     {
+      "used": "index assignment notation",
+      "proper": "index notation",
+      "glossary": true
+     }
+    ]
+   },
+   "spec_lines": [
+    6861,
+    6897
+   ],
+   "examples": [
+    {
+     "lines": [
+      6937,
+      6944
+     ],
+     "text": "// automatic type: record { charstring description, integer val }\n  var v_automaticJ := { description := \"description\", val := 23 }; \n  var v_automaticK := { [1] := 10, [2] := 8 }; // automatic record of integer type\n  // automatic type: map from charstring to float\n  var v_automaticL := { [\"basePrice\"] := 5.0, [\"vat\"] := 1.0, [\"total\"] := 6.0 };\n  var template v_automaticErr := ?; // Causes an error as the ? symbol doesn't provide a type"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.05_test_024.ttcn3",
+   "module": "M_06_05_test_024",
+   "header": "// @requirement: 6.5 -- k) Index assignment notation where all indexes are of the integer type and all item values have a common type shall provide an automatic type record of _{common type}."
+  },
+  {
+   "id": "TTCN3-CORE-6.5-020a",
+   "section": "6.5",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "The common type shall fulfil requirements_ for automatic typing.",
+   "canonical": "The common type of the item values of an index notation with integer indexes used for automatic typing SHALL fulfil the requirements for automatic typing.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6895,
+    6897
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.05_test_025.ttcn3",
+   "module": "M_06_05_test_025",
+   "header": "// @requirement: 6.5 -- The common type shall fulfil requirements_ for automatic typing."
+  },
+  {
+   "id": "TTCN3-CORE-6.5-021a",
+   "section": "6.5",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "original": "l) Index assignment notation where all indexes have a common type in case the type is different from the integer type and all item values have a common type shall provide an automatic type map from _{common type of the indexes} to_ _{common type of the values}.",
+   "canonical": "An index notation used for automatic typing in which all indexes have a common type other than `integer` and all item values have a common type SHALL provide the automatic type `map from` the common index type `to` the common value type.",
+   "condition": "all indexes have a common non-integer type and all item values have a common type",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "\"index assignment notation\" is used for the glossary term \"index notation\".",
+    "improper_terms": [
+     {
+      "used": "index assignment notation",
+      "proper": "index notation",
+      "glossary": true
+     }
+    ]
+   },
+   "spec_lines": [
+    6861,
+    6901
+   ],
+   "examples": [
+    {
+     "lines": [
+      6937,
+      6944
+     ],
+     "text": "// automatic type: record { charstring description, integer val }\n  var v_automaticJ := { description := \"description\", val := 23 }; \n  var v_automaticK := { [1] := 10, [2] := 8 }; // automatic record of integer type\n  // automatic type: map from charstring to float\n  var v_automaticL := { [\"basePrice\"] := 5.0, [\"vat\"] := 1.0, [\"total\"] := 6.0 };\n  var template v_automaticErr := ?; // Causes an error as the ? symbol doesn't provide a type"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.05_test_026.ttcn3",
+   "module": "M_06_05_test_026",
+   "header": "// @requirement: 6.5 -- l) Index assignment notation where all indexes have a common type in case the type is different from the integer type and all item values have a common type shall provide an automatic type map from _{common type of the indexes} to_ _{common type of the values}."
+  },
+  {
+   "id": "TTCN3-CORE-6.5-022a",
+   "section": "6.5",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "The common type of the indexes and the_ common type of the values shall fulfil requirements for automatic typing.",
+   "canonical": "The common type of the indexes and the common type of the item values of an index notation with non-integer indexes used for automatic typing SHALL fulfil the requirements for automatic typing.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6899,
+    6901
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.05_test_027.ttcn3",
+   "module": "M_06_05_test_027",
+   "header": "// @requirement: 6.5 -- The common type of the indexes and the_ common type of the values shall fulfil requirements for automatic typing."
+  },
+  {
+   "id": "TTCN3-CORE-6.5-023a",
+   "section": "6.5",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "original": "m) List of templates with two or more items and complemented list of templates where all templates have a common type shall provide automatic type that is equal to the common type.",
+   "canonical": "A template list with two or more items or a complemented template list, in which all templates have a common type, SHALL provide an automatic type equal to the common type.",
+   "condition": "all templates in the list have a common type",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "It is unclear whether \"with two or more items\" also applies to the complemented list, and \"and\" means \"or\" here. Chose the reading that the minimum of two items applies only to the template list.",
+    "readings": [
+     "A template list with two or more items, or a complemented template list with any number of items, SHALL provide the common type as automatic type.",
+     "A template list or a complemented template list SHALL provide the common type as automatic type only if it has two or more items."
+    ],
+    "improper_terms": [
+     {
+      "used": "list of templates",
+      "proper": "template list",
+      "glossary": false
+     },
+     {
+      "used": "complemented list of templates",
+      "proper": "complemented template list",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    6861,
+    6905
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.05_test_028.ttcn3",
+   "module": "M_06_05_test_028",
+   "header": "// @requirement: 6.5 -- m) List of templates with two or more items and complemented list of templates where all templates have a common type shall provide automatic type that is equal to the common type."
+  },
+  {
+   "id": "TTCN3-CORE-6.5-024a",
+   "section": "6.5",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "The common type shall fulfil requirements for automatic typing.",
+   "canonical": "The common type of the templates of a template list or complemented template list used for automatic typing SHALL fulfil the requirements for automatic typing.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6903,
+    6905
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.05_test_029.ttcn3",
+   "module": "M_06_05_test_029",
+   "header": "// @requirement: 6.5 -- The common type shall fulfil requirements for automatic typing."
+  },
+  {
+   "id": "TTCN3-CORE-6.5-025a",
+   "section": "6.5",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "n) Value range.",
+   "canonical": "The template body used for automatic typing MAY be a value range.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6861,
+    6907
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.05_test_030.ttcn3",
+   "module": "M_06_05_test_030",
+   "header": "// @requirement: 6.5 -- n) Value range."
+  },
+  {
+   "id": "TTCN3-CORE-6.5-026a",
+   "section": "6.5",
+   "type": "static-semantics",
+   "modality": "IS",
+   "original": "The automatic type is equal to the type of the bounds.",
+   "canonical": "The automatic type of a value range IS equal to the type of its bounds.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "The rule does not say what happens when one bound is infinity or when the bounds have different types. Chose the reading that the type of the non-infinite bound(s) is used.",
+    "readings": [
+     "The automatic type of a value range IS the type of its finite bound(s); bounds of different types are an error.",
+     "The automatic type of a value range IS the common type of both bounds, determined by the expression rules."
+    ]
+   },
+   "spec_lines": [
+    6907,
+    6907
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.05_test_031.ttcn3",
+   "module": "M_06_05_test_031",
+   "header": "// @requirement: 6.5 -- The automatic type is equal to the type of the bounds."
+  },
+  {
+   "id": "TTCN3-CORE-6.5-027a",
+   "section": "6.5",
+   "type": "static-semantics",
+   "modality": "IS",
+   "original": "If both bounds are set to infinity, the integer type is provided.",
+   "canonical": "If both bounds of a value range used for automatic typing are infinity, the automatic type IS `integer`.",
+   "condition": "both bounds are set to infinity",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6907,
+    6907
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.05_test_032.ttcn3",
+   "module": "M_06_05_test_032",
+   "header": "// @requirement: 6.5 -- If both bounds are set to infinity, the integer type is provided."
+  },
+  {
+   "id": "TTCN3-CORE-6.5-028a",
+   "section": "6.5",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "o) Pattern.",
+   "canonical": "The template body used for automatic typing MAY be a pattern.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6861,
+    6909
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.05_test_033.ttcn3",
+   "module": "M_06_05_test_033",
+   "header": "// @requirement: 6.5 -- o) Pattern."
+  },
+  {
+   "id": "TTCN3-CORE-6.5-029a",
+   "section": "6.5",
+   "type": "static-semantics",
+   "modality": "IS",
+   "original": "If the pattern contains only characters or references of the charstring type, the automatic type is charstring, otherwise it is universal charstring.",
+   "canonical": "If a pattern used for automatic typing contains only characters or references of the `charstring` type, the automatic type IS `charstring`.",
+   "condition": "the pattern contains only characters or references of the charstring type",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6909,
+    6909
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.05_test_034.ttcn3",
+   "module": "M_06_05_test_034",
+   "header": "// @requirement: 6.5 -- If the pattern contains only characters or references of the charstring type, the automatic type is charstring, otherwise it is universal charstring."
+  },
+  {
+   "id": "TTCN3-CORE-6.5-029b",
+   "section": "6.5",
+   "type": "static-semantics",
+   "modality": "IS",
+   "original": "If the pattern contains only characters or references of the charstring type, the automatic type is charstring, otherwise it is universal charstring.",
+   "canonical": "If a pattern used for automatic typing contains a character or reference that is not of the `charstring` type, the automatic type IS `universal charstring`.",
+   "condition": "the pattern contains a character or reference not of the charstring type",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6909,
+    6909
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.05_test_035.ttcn3",
+   "module": "M_06_05_test_035",
+   "header": "// @requirement: 6.5 -- If the pattern contains only characters or references of the charstring type, the automatic type is charstring, otherwise it is universal charstring."
+  },
+  {
+   "id": "TTCN3-CORE-6.5-030a",
+   "section": "6.5",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "original": "p) Superset and subset where all items have a common type shall provide an automatic type set of _{common_ _type}.",
+   "canonical": "A `superset` or `subset` matching mechanism in which all items have a common type SHALL provide the automatic type `set of` the common type.",
+   "condition": "all items have a common type",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "\"Superset and subset\" means either of the two matching mechanisms.",
+    "improper_terms": [
+     {
+      "used": "Superset and subset",
+      "proper": "superset or subset matching mechanism",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    6861,
+    6912
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.05_test_036.ttcn3",
+   "module": "M_06_05_test_036",
+   "header": "// @requirement: 6.5 -- p) Superset and subset where all items have a common type shall provide an automatic type set of _{common_ _type}."
+  },
+  {
+   "id": "TTCN3-CORE-6.5-031a",
+   "section": "6.5",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "The common type shall fulfil requirements for automatic typing._ q) Any other TTCN-3 language operation that can occur on the right-hand side of an assignment where the type context is unambiguous.",
+   "canonical": "The common type of the items of a `superset` or `subset` matching mechanism used for automatic typing SHALL fulfil the requirements for automatic typing.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6911,
+    6915
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.05_test_037.ttcn3",
+   "module": "M_06_05_test_037",
+   "header": "// @requirement: 6.5 -- The common type shall fulfil requirements for automatic typing._ q) Any other TTCN-3 language operation that can occur on the right-hand side of an assignment where the type context is unambiguous."
+  },
+  {
+   "id": "TTCN3-CORE-6.5-031b",
+   "section": "6.5",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "The common type shall fulfil requirements for automatic typing._ q) Any other TTCN-3 language operation that can occur on the right-hand side of an assignment where the type context is unambiguous.",
+   "canonical": "The expression or template body used for automatic typing MAY be any other TTCN-3 language operation that can occur on the right-hand side of an assignment, if its type context is unambiguous.",
+   "condition": "the type context is unambiguous",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "With an automatic type there is no declared type that provides a type context, so it is unclear which operations qualify; the item is open-ended. Chose the reading that the operation itself must determine its type unambiguously.",
+    "readings": [
+     "Any operation whose result type is determined by the operation itself MAY be used for automatic typing.",
+     "Any operation MAY be used for automatic typing if an enclosing construct provides an unambiguous type context."
+    ]
+   },
+   "spec_lines": [
+    6861,
+    6915
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.05_test_038.ttcn3",
+   "module": "M_06_05_test_038",
+   "header": "// @requirement: 6.5 -- The common type shall fulfil requirements for automatic typing._ q) Any other TTCN-3 language operation that can occur on the right-hand side of an assignment where the type context is unambiguous."
+  },
+  {
+   "id": "TTCN3-CORE-6.5-034a",
+   "section": "6.5",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "var template v_automaticErr := ?; // Causes an error as the ? symbol doesn't provide a type",
+   "canonical": "The template body of a declaration that uses the automatic type SHALL NOT consist only of the AnyValue matching symbol `?`, because `?` does not provide a type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    6856,
+    6944
+   ],
+   "examples": [
+    {
+     "lines": [
+      6937,
+      6944
+     ],
+     "text": "// automatic type: record { charstring description, integer val }\n  var v_automaticJ := { description := \"description\", val := 23 }; \n  var v_automaticK := { [1] := 10, [2] := 8 }; // automatic record of integer type\n  // automatic type: map from charstring to float\n  var v_automaticL := { [\"basePrice\"] := 5.0, [\"vat\"] := 1.0, [\"total\"] := 6.0 };\n  var template v_automaticErr := ?; // Causes an error as the ? symbol doesn't provide a type"
+    }
+   ],
+   "file": "tests/06-types-and-values/06.05_test_039.ttcn3",
+   "module": "M_06_05_test_039",
+   "header": "// @requirement: 6.5 -- var template v_automaticErr := ?; // Causes an error as the ? symbol doesn't provide a type"
+  }
+ ]
+}

@@ -1,0 +1,23 @@
+// @requirement: 19.3.1 -- b) When all templateInstances of all branches can be statically evaluated in compile time to specific values or value ranges no two branches shall match the same value.
+// @id: TTCN3-CORE-19.3.1-023b
+// @verdict: pass reject
+module M_19_03_01_test_019 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_x := 1;
+        select (v_x) {
+            case (1, 2) {
+                setverdict(pass);
+            }
+            case (2) { // error: value 2 is already matched by the previous branch
+                setverdict(fail);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

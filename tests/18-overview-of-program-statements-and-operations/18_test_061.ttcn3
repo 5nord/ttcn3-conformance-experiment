@@ -1,0 +1,29 @@
+// @requirement: 18 -- Statement: Deactivate a default; Associated keyword or symbol: deactivate; Can be invoked by control behaviour: Yes; Can be invoked by test behaviour: Yes
+// @id: TTCN3-CORE-18-033b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_18_test_061 {
+
+    type component C {}
+
+    altstep a_def() runs on C {
+        [else] {
+            setverdict(fail);
+        }
+    }
+
+    testcase TC() runs on C {
+        timer T := 0.05;
+        var default v_def := activate(a_def());
+        deactivate(v_def);
+        T.start;
+        alt {
+            [] T.timeout {
+                setverdict(pass);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

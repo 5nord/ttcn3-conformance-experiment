@@ -1,0 +1,42 @@
+// @requirement: 22.1.4.2 -- The assignment part in a receiving operation is optional.
+// @id: TTCN3-CORE-22.1.4.2-009a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_01_04_02_test_007 {
+
+    signature S(in integer p_x) noblock;
+
+    type port PM message { inout integer }
+
+    type port PP procedure { inout S }
+
+    type component C {
+        port PM pm;
+        port PP pp;
+        timer T := 1.0;
+    }
+
+    function f_ptc() runs on C {
+        pm.send(integer:5);
+        pp.call(S:{6});
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:pm, v_ptc:pm);
+        connect(mtc:pp, v_ptc:pp);
+        v_ptc.start(f_ptc());
+        T.start;
+        alt {
+            [] pm.receive(integer:5) {}
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        alt {
+            [] pp.getcall(S:{6}) { setverdict(pass); }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

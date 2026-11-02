@@ -1,0 +1,22 @@
+// @requirement: 15.6.1 -- c) A specific value containing a single AnyElement matching mechanism if the referenced template is of a binary string type to which the AnyValue matching mechanism is assigned.
+// @id: TTCN3-CORE-15.6.1-013a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_06_01_test_013 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template bitstring v_bit := ?, v_e;
+        v_e := v_bit[0];
+        if (match('1'B, v_e) and match('0'B, v_e) and not match('11'B, v_e)
+            and not match(''B, v_e)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

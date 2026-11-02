@@ -1,0 +1,52 @@
+// @requirement: 15.7.1 -- Col1: hexstring; Col2: Yes; Table 11: TTCN-3 Matching Mechanisms: Yes1; Col4: Yes; Col5: Yes; Col6: Yes; Col7: Yes1; Col12: Yes; Col13: Yes; Col14: Yes; Col16: Yes; Col17: Yes1
+// @id: TTCN3-CORE-15.7.1-015a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_07_01_test_009 {
+
+    type component C {}
+
+    type record R {
+        hexstring f optional
+    }
+
+    type integer Payload with { encode "RAW" }
+
+    template hexstring m_spec := 'AB'H;
+    template hexstring m_omit := omit;
+    template hexstring m_compl := complement('AB'H);
+    template hexstring m_list := ('AB'H, 'C'H);
+    template hexstring m_any := ?;
+    template hexstring m_anyOrNone := *;
+    template hexstring m_decmatch := decmatch Payload:?;
+    template hexstring m_anyElem := 'A?B'H;
+    template hexstring m_anyElems := 'A*'H;
+    template hexstring m_length := ? length(3);
+    template R m_rOmit := { f := omit };
+    template R m_rAnyOrNone := { f := * };
+    template R m_rIfPresent := { f := 'AB'H ifpresent };
+
+    testcase TC() runs on C {
+        var R v_absent := { f := omit };
+        var R v_present := { f := 'AB'H };
+        var R v_other := { f := 'C'H };
+        if (match('AB'H, m_spec) and not match('AC'H, m_spec) and
+            match('AC'H, m_compl) and not match('AB'H, m_compl) and
+            match('C'H, m_list) and not match('D'H, m_list) and
+            match('0'H, m_any) and
+            match('A0B'H, m_anyElem) and not match('AB'H, m_anyElem) and
+            match('A'H, m_anyElems) and match('A12'H, m_anyElems) and not match('BA'H, m_anyElems) and
+            match('123'H, m_length) and not match('12'H, m_length) and
+            match(v_absent, m_rOmit) and not match(v_present, m_rOmit) and
+            match(v_absent, m_rAnyOrNone) and match(v_present, m_rAnyOrNone) and
+            match(v_absent, m_rIfPresent) and match(v_present, m_rIfPresent) and
+            not match(v_other, m_rIfPresent)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

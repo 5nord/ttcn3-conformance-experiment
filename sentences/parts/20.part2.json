@@ -1,0 +1,1294 @@
+{
+ "part": "20.part2",
+ "chapter": "20",
+ "chapter_file": "20-statement-and-operations-for-alternative-behaviour",
+ "title": "Statement and operations for alternative behaviours",
+ "sections": {
+  "20.2": {
+   "title": "The Alt statement",
+   "start": 15203
+  },
+  "20.3": {
+   "title": "The Repeat statement",
+   "start": 15507
+  }
+ },
+ "lines": [
+  15205,
+  15567
+ ],
+ "units": [
+  {
+   "id": "20.2-s001",
+   "section": "20.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "An alt statement expresses sets of possible alternatives that form a tree of possible execution paths.",
+   "lines": [
+    15205,
+    15205
+   ]
+  },
+  {
+   "id": "20.2-s002",
+   "section": "20.2",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "alt [ @nodefault ] \"{\" \n       { ( VarInstance | TimerInstance | ConstDef | TemplateDef ) [\";\"] }\n       { \n        \"[\" [ BooleanExpression ] \"]\" \n            ( ( TimeoutStatement |\n               ReceiveStatement |\n               TriggerStatement |\n               GetCallStatement |\n               CatchStatement |\n               CheckStatement |\n               GetReplyStatement |\n               DoneStatement |\n               KilledStatement ) StatementBlock ) \n             | \n            ( AltstepInstance [ StatementBlock ] )\n       } \n       [ \"[\" else \"]\" StatementBlock ]\n  \"}\"",
+   "lines": [
+    15208,
+    15227
+   ]
+  },
+  {
+   "id": "20.2-s003",
+   "section": "20.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The alt statement denotes branching of test behaviour due to the reception and handling of communication and/or timer events and/or the termination of parallel test components, i.e. it is related to the use of the TTCN-3 operations receive, trigger, getcall, getreply, catch, check, timeout, done and killed.",
+   "lines": [
+    15236,
+    15239
+   ]
+  },
+  {
+   "id": "20.2-s004",
+   "section": "20.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The alt statement denotes a set of possible events that are to be matched against a particular snapshot.",
+   "lines": [
+    15236,
+    15239
+   ]
+  },
+  {
+   "id": "20.2-s005",
+   "section": "20.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "An alt statement may define some local definitions before its alternative branches.",
+   "lines": [
+    15241,
+    15242
+   ]
+  },
+  {
+   "id": "20.2-s006",
+   "section": "20.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "These can be used by all the branches.",
+   "lines": [
+    15241,
+    15242
+   ]
+  },
+  {
+   "id": "20.2-s007",
+   "section": "20.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "**Execution of alternative behaviour:**",
+   "lines": [
+    15244,
+    15244
+   ]
+  },
+  {
+   "id": "20.2-s008",
+   "section": "20.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "When entering an alt statement, a snapshot is taken.",
+   "lines": [
+    15246,
+    15248
+   ]
+  },
+  {
+   "id": "20.2-s009",
+   "section": "20.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If the alt statement contains local definitions before its first branch, these are evaluated before the snapshot is taken.",
+   "lines": [
+    15246,
+    15248
+   ]
+  },
+  {
+   "id": "20.2-s010",
+   "section": "20.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "When the alt statements executes the repeat operation, the whole alt statement, including the local definitions, is re-evaluated.",
+   "lines": [
+    15246,
+    15248
+   ]
+  },
+  {
+   "id": "20.2-s011",
+   "section": "20.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The alternative branches in the alt statement and the top alternatives of invoked altsteps and altsteps that are activated as defaults are processed in the order of their appearance.",
+   "lines": [
+    15250,
+    15254
+   ]
+  },
+  {
+   "id": "20.2-s012",
+   "section": "20.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If several defaults are active, the reverse order of their activation determines the evaluation order of the top alternatives in the defaults.",
+   "lines": [
+    15250,
+    15254
+   ]
+  },
+  {
+   "id": "20.2-s013",
+   "section": "20.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The alternative branches in active defaults are reached by the default mechanism described in clause 20.5.",
+   "lines": [
+    15250,
+    15254
+   ]
+  },
+  {
+   "id": "20.2-s014",
+   "section": "20.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If the alt statement contains the @nodefault modifier, all active default alternatives are ignored for the execution of this alt statement.",
+   "lines": [
+    15250,
+    15254
+   ]
+  },
+  {
+   "id": "20.2-s015",
+   "section": "20.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The individual alternative branches are either branches that may be guarded by a Boolean expression or else-branches, i.e. alternative branches starting with [else].",
+   "lines": [
+    15256,
+    15257
+   ]
+  },
+  {
+   "id": "20.2-s016",
+   "section": "20.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Else-branches are always chosen and executed when they are reached (see below).",
+   "lines": [
+    15259,
+    15259
+   ]
+  },
+  {
+   "id": "20.2-s017",
+   "section": "20.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Branches that may be guarded by boolean expressions either invoke an altstep (altstep-branch), or start with a done operation (done-branch), a killed operation (killed-branch), timeout operation (timeout-branch) or a receiving operation (receiving-branch), i.e. receive, trigger, getcall, getreply, `catch or a check operation.",
+   "lines": [
+    15261,
+    15266
+   ]
+  },
+  {
+   "id": "20.2-s018",
+   "section": "20.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The` evaluation of the Boolean guards shall be based on the snapshot.",
+   "lines": [
+    15261,
+    15266
+   ]
+  },
+  {
+   "id": "20.2-s019",
+   "section": "20.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The Boolean guard is considered to be fulfilled if no Boolean guard is defined, or if the Boolean guard evaluates to true.",
+   "lines": [
+    15261,
+    15266
+   ]
+  },
+  {
+   "id": "20.2-s020",
+   "section": "20.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The branches are processed and executed in the following manner.",
+   "lines": [
+    15261,
+    15266
+   ]
+  },
+  {
+   "id": "20.2-s021",
+   "section": "20.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "An altstep-branch is selected if the Boolean guard is fulfilled.",
+   "lines": [
+    15268,
+    15271
+   ]
+  },
+  {
+   "id": "20.2-s022",
+   "section": "20.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The selection of an altstep-branch causes the invocation of the referenced altstep, i.e. the altstep is invoked and the evaluation of the snapshot continues within the altstep.",
+   "lines": [
+    15268,
+    15271
+   ]
+  },
+  {
+   "id": "20.2-s023",
+   "section": "20.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "An altstep-branch may contain an optional statement block.",
+   "lines": [
+    15268,
+    15271
+   ]
+  },
+  {
+   "id": "20.2-s024",
+   "section": "20.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The optional statement block shall be executed only, if an alternative of the altstep referenced in the altstep-branch has been selected and executed.",
+   "lines": [
+    15268,
+    15271
+   ]
+  },
+  {
+   "id": "20.2-s025",
+   "section": "20.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "A done-branch is selected if the Boolean guard is fulfilled and if the specified test component is in the list of stopped components of the snapshot.",
+   "lines": [
+    15273,
+    15275
+   ]
+  },
+  {
+   "id": "20.2-s026",
+   "section": "20.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The selection causes the execution of the statement block following the done operation.",
+   "lines": [
+    15273,
+    15275
+   ]
+  },
+  {
+   "id": "20.2-s027",
+   "section": "20.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The done operation itself has no further effect.",
+   "lines": [
+    15273,
+    15275
+   ]
+  },
+  {
+   "id": "20.2-s028",
+   "section": "20.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "A killed-branch is selected if the Boolean guard is fulfilled and if the specified test component is in the list of killed components of the snapshot.",
+   "lines": [
+    15277,
+    15279
+   ]
+  },
+  {
+   "id": "20.2-s029",
+   "section": "20.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The selection causes the execution of the statement block following the killed operation.",
+   "lines": [
+    15277,
+    15279
+   ]
+  },
+  {
+   "id": "20.2-s030",
+   "section": "20.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The killed operation itself has no further effect.",
+   "lines": [
+    15277,
+    15279
+   ]
+  },
+  {
+   "id": "20.2-s031",
+   "section": "20.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "A timeout-branch is selected if the Boolean guard is fulfilled and if the specified timeout event is in the timeout-list of the snapshot.",
+   "lines": [
+    15281,
+    15283
+   ]
+  },
+  {
+   "id": "20.2-s032",
+   "section": "20.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The selection causes execution of the specified timeout operation, i.e. removal of the timeout event from the timeout-list, and the execution of the statement block following the timeout operation.",
+   "lines": [
+    15281,
+    15283
+   ]
+  },
+  {
+   "id": "20.2-s033",
+   "section": "20.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "A receiving-branch is selected if the Boolean guard is fulfilled and if the matching criteria of receiving operation is fulfilled by one of the messages, calls, replies or exceptions in the snapshot.",
+   "lines": [
+    15285,
+    15290
+   ]
+  },
+  {
+   "id": "20.2-s034",
+   "section": "20.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The selection causes execution of the receiving operation, i.e. removal of the matching message, call, reply or exception from the port queue, maybe an assignment of the received information to a variable and the execution of the statement block following the receiving operation.",
+   "lines": [
+    15285,
+    15290
+   ]
+  },
+  {
+   "id": "20.2-s035",
+   "section": "20.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "In the case of the trigger operation the top message of the queue is also removed if the Boolean guard is fulfilled but the matching criteria is not.",
+   "lines": [
+    15285,
+    15290
+   ]
+  },
+  {
+   "id": "20.2-s036",
+   "section": "20.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "In this case the statement block of the given alternative is not executed.",
+   "lines": [
+    15285,
+    15290
+   ]
+  },
+  {
+   "id": "20.2-s037",
+   "section": "20.2",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "NOTE 1: The TTCN-3 semantics describe the evaluation of a snapshot as a series of indivisible actions of a test component.",
+   "lines": [
+    15292,
+    15296
+   ]
+  },
+  {
+   "id": "20.2-s038",
+   "section": "20.2",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "The semantics do not assume that the evaluation of a snapshot has no duration.",
+   "lines": [
+    15292,
+    15296
+   ]
+  },
+  {
+   "id": "20.2-s039",
+   "section": "20.2",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "During the evaluation of a snapshot, test components may stop, timers may timeout and new messages, calls, replies or exceptions may enter the port queues of the component However, these events do not change the actual snapshot and thus, are not considered for the snapshot evaluation.",
+   "lines": [
+    15292,
+    15296
+   ]
+  },
+  {
+   "id": "20.2-s040",
+   "section": "20.2",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "NOTE 2: Due to the possibility of defining dynamic test configurations, a receiving branch may refer to a disconnected or unmapped port at the time of its evaluation.",
+   "lines": [
+    15303,
+    15308
+   ]
+  },
+  {
+   "id": "20.2-s041",
+   "section": "20.2",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "In TTCN-3, ports belong to the receiving component and matching is related to the top elements in the port queues.",
+   "lines": [
+    15303,
+    15308
+   ]
+  },
+  {
+   "id": "20.2-s042",
+   "section": "20.2",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "Dynamically unmapped and disconnected ports contribute to a snapshot in the same manner as mapped and connected ports.",
+   "lines": [
+    15303,
+    15308
+   ]
+  },
+  {
+   "id": "20.2-s043",
+   "section": "20.2",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "This means, the execution of receiving operations may empty the queues of unmapped and disconnected ports without causing a test case error.",
+   "lines": [
+    15303,
+    15308
+   ]
+  },
+  {
+   "id": "20.2-s044",
+   "section": "20.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If none of the alternative branches in the alt statement and top alternatives in the invoked altsteps and active defaults can be selected and executed, the alt statement shall be executed again, i.e. a new snapshot is taken and the evaluation of the alternative branches is repeated with the new snapshot.",
+   "lines": [
+    15310,
+    15314
+   ]
+  },
+  {
+   "id": "20.2-s045",
+   "section": "20.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "This repetitive procedure shall continue until either an alternative branch is selected and executed, or the test case is stopped by another component or by the test system (e.g. because the MTC is stopped) or with a dynamic error.",
+   "lines": [
+    15310,
+    15314
+   ]
+  },
+  {
+   "id": "20.2-s046",
+   "section": "20.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The test case shall stop and indicate a dynamic error if a test component is completely blocked.",
+   "lines": [
+    15316,
+    15318
+   ]
+  },
+  {
+   "id": "20.2-s047",
+   "section": "20.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "This means none of the alternatives can be chosen, no relevant test component is running, no relevant timer is running and all relevant ports contain at least one message, call, reply or exception that do not match.",
+   "lines": [
+    15316,
+    15318
+   ]
+  },
+  {
+   "id": "20.2-s048",
+   "section": "20.2",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "NOTE 3: The repetitive procedure of taking a complete snapshot and re-evaluate all alternatives is only a conceptual means for describing the semantics of the alt statement.",
+   "lines": [
+    15320,
+    15322
+   ]
+  },
+  {
+   "id": "20.2-s049",
+   "section": "20.2",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "The concrete algorithm that implements this semantics is outside the scope of the present document.",
+   "lines": [
+    15320,
+    15322
+   ]
+  },
+  {
+   "id": "20.2-s050",
+   "section": "20.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "**Selecting/deselecting an alternative:**",
+   "lines": [
+    15324,
+    15324
+   ]
+  },
+  {
+   "id": "20.2-s051",
+   "section": "20.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If necessary, it is possible to enable/disable an alternative by means of a Boolean expression placed between the (\"[…]\") brackets of the alternative.",
+   "lines": [
+    15326,
+    15327
+   ]
+  },
+  {
+   "id": "20.2-s052",
+   "section": "20.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "**Else branch in alternatives:**",
+   "lines": [
+    15329,
+    15329
+   ]
+  },
+  {
+   "id": "20.2-s053",
+   "section": "20.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Any branch in an alt statement can be defined as an else branch by including the else keyword between the opening and closing brackets at the beginning of the alternative.",
+   "lines": [
+    15331,
+    15333
+   ]
+  },
+  {
+   "id": "20.2-s054",
+   "section": "20.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The statement block of the else branch is always executed if no other alternative textually preceding the else branch has proceeded.",
+   "lines": [
+    15331,
+    15333
+   ]
+  },
+  {
+   "id": "20.2-s055",
+   "section": "20.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "**Default mechanism:**",
+   "lines": [
+    15335,
+    15335
+   ]
+  },
+  {
+   "id": "20.2-s056",
+   "section": "20.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "It should be noted that the default mechanism (see clause 20.5) is always invoked at the end of all alternatives unless the @nodefault modifier is present.",
+   "lines": [
+    15337,
+    15339
+   ]
+  },
+  {
+   "id": "20.2-s057",
+   "section": "20.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If an else branch is defined, the default mechanism will never be called, i.e. active defaults will never be entered.",
+   "lines": [
+    15337,
+    15339
+   ]
+  },
+  {
+   "id": "20.2-s058",
+   "section": "20.2",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "NOTE 4: It is also possible to use else in altsteps.",
+   "lines": [
+    15341,
+    15341
+   ]
+  },
+  {
+   "id": "20.2-s059",
+   "section": "20.2",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "NOTE 5: It is allowed to use a repeat statement within an else branch.",
+   "lines": [
+    15343,
+    15343
+   ]
+  },
+  {
+   "id": "20.2-s060",
+   "section": "20.2",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "NOTE 6: It is allowed to define more than one else branch in an alt statement or in an altstep, however always only the first else branch is executed.",
+   "lines": [
+    15345,
+    15346
+   ]
+  },
+  {
+   "id": "20.2-s061",
+   "section": "20.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "**Re-evaluation of alt statements:**",
+   "lines": [
+    15348,
+    15348
+   ]
+  },
+  {
+   "id": "20.2-s062",
+   "section": "20.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The re-evaluation of an alt statement can be specified by using a repeat statement (see clause 20.3).",
+   "lines": [
+    15350,
+    15350
+   ]
+  },
+  {
+   "id": "20.2-s063",
+   "section": "20.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "**Invocation of altsteps as alternatives:**",
+   "lines": [
+    15352,
+    15352
+   ]
+  },
+  {
+   "id": "20.2-s064",
+   "section": "20.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "TTCN-3 allows the invocation of altsteps as alternatives in alt statements (see clause 16.2.1).",
+   "lines": [
+    15354,
+    15355
+   ]
+  },
+  {
+   "id": "20.2-s065",
+   "section": "20.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "When an altstep is explicitly invoked as an alternative, the optional statement block following the altstep call shall also be executed.",
+   "lines": [
+    15354,
+    15355
+   ]
+  },
+  {
+   "id": "20.2-s066",
+   "section": "20.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "**Continue execution after the alt statement:**",
+   "lines": [
+    15357,
+    15357
+   ]
+  },
+  {
+   "id": "20.2-s067",
+   "section": "20.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Behaviour execution continues with the statement following the alt statement when one of the branches of the alt or invoked defaults is selected and completely executed, or a branch of an altstep used in an altsteps-branch is selected and the branch and the optional statement block following the invoked altstep are completely executed.",
+   "lines": [
+    15359,
+    15361
+   ]
+  },
+  {
+   "id": "20.2-s068",
+   "section": "20.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Execution also continues with the statement following the alt statement if a break statement is reached in the statement block of the selected branch of an alt statement, of an altstep used in an altstep-branch, or of an `altstep` invoked as default.",
+   "lines": [
+    15363,
+    15365
+   ]
+  },
+  {
+   "id": "20.2-s069",
+   "section": "20.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The alt statement can also be left by using a goto statement in the selected branch of the alt (i.e. no branches of altsteps and defaults can be considered in this case), and execution continues with the statement following the label, `goto` is pointing to.",
+   "lines": [
+    15371,
+    15373
+   ]
+  },
+  {
+   "id": "20.2-s070",
+   "section": "20.2",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clause 5 and shown in table 16, the following restrictions apply:",
+   "lines": [
+    15377,
+    15378
+   ]
+  },
+  {
+   "id": "20.2-s071",
+   "section": "20.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) The open and close square brackets (\"[…]\") shall be present at the start of each alternative, even if they are empty.",
+   "lines": [
+    15380,
+    15382
+   ]
+  },
+  {
+   "id": "20.2-s072",
+   "section": "20.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "This not only aids readability but also is necessary to syntactically distinguish one alternative from another.",
+   "lines": [
+    15380,
+    15382
+   ]
+  },
+  {
+   "id": "20.2-s073",
+   "section": "20.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "b) The evaluation of a Boolean expression guarding an alternative shall not have side effects.",
+   "lines": [
+    15384,
+    15387
+   ]
+  },
+  {
+   "id": "20.2-s074",
+   "section": "20.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "To avoid side effects that cause an inconsistency between the actual snapshot and the state of the component, the same restrictions as the restrictions for the initialization of local definitions within altsteps (clause 16.1.5) and the restrictions imposed on the contents of functions called from special places (clause 16.1.4) shall apply.",
+   "lines": [
+    15384,
+    15387
+   ]
+  },
+  {
+   "id": "20.2-s075",
+   "section": "20.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "c) The evaluation of the event of an alt branch shall not have side effects.",
+   "lines": [
+    15389,
+    15393
+   ]
+  },
+  {
+   "id": "20.2-s076",
+   "section": "20.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "To avoid side effects that cause an inconsistency between the actual snapshot and the state of the component or introduce indeterminism in the evaluation of the following alt branches or the re-evaluation of the same alt branch, the restrictions imposed on the contents of functions called from special places (clause 16.1.4) shall apply to expressions occurring in the matching part of an alternative.",
+   "lines": [
+    15389,
+    15393
+   ]
+  },
+  {
+   "id": "20.2-s077",
+   "section": "20.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "d) The evaluation of an altstep invoked from an alt branch, if none of the alternatives in the altstep is chosen, shall not have side effects.",
+   "lines": [
+    15395,
+    15397
+   ]
+  },
+  {
+   "id": "20.2-s078",
+   "section": "20.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "To avoid side effects the restrictions imposed on the contents of functions called from special places (clause 16.1.4) shall apply to the actual parameters of the invoked altstep.",
+   "lines": [
+    15395,
+    15397
+   ]
+  },
+  {
+   "id": "20.2-s079",
+   "section": "20.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "e) Void.",
+   "lines": [
+    15399,
+    15399
+   ]
+  },
+  {
+   "id": "20.2-s080",
+   "section": "20.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "f) An alt statement used inside control behaviour shall only contain timeout statements.",
+   "lines": [
+    15401,
+    15401
+   ]
+  },
+  {
+   "id": "20.2-s081",
+   "section": "20.2",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 1: Nested alternatives:",
+   "lines": [
+    15405,
+    15405
+   ]
+  },
+  {
+   "id": "20.2-s082",
+   "section": "20.2",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "alt {\n     [] myPort.receive (mw_myMessage) {\n       setverdict (pass);\n       t_myTimer.start;\n       alt {\n          [] myPort.receive (mw_mySecondMessage) {\n            t_myTimer.stop;\n            setverdict (pass);\n          }\n          [] t_myTimer.timeout {\n            myPort.send (m_myRepeat);\n            t_myTimer.start;\n            alt {\n              [] myPort.receive (mw_mySecondMessage) {\n                 t_myTimer.stop;\n                 setverdict (pass)\n              }\n              [] t_myTimer.timeout { setverdict (inconc) }\n              [] myPort.receive { setverdict (fail) }\n            }\n          }\n          [] myPort.receive { setverdict (fail) }\n       }\n     }\n     [] t_myTimer.timeout { setverdict (inconc) }\n     [] myPort.receive { setverdict (fail) }\n  }",
+   "lines": [
+    15406,
+    15434
+   ]
+  },
+  {
+   "id": "20.2-s083",
+   "section": "20.2",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 2: Alt statement with guards:",
+   "lines": [
+    15436,
+    15436
+   ]
+  },
+  {
+   "id": "20.2-s084",
+   "section": "20.2",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "alt {\n   [v_x>1] l2.receive {  // Boolean guard/expression \n        setverdict(pass);\n     }\n   [v_x<=1] l2.receive {  // Boolean guard/expression \n        setverdict(inconc);\n     }\n  }",
+   "lines": [
+    15437,
+    15446
+   ]
+  },
+  {
+   "id": "20.2-s085",
+   "section": "20.2",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 3: Alt statement with else branch:",
+   "lines": [
+    15448,
+    15448
+   ]
+  },
+  {
+   "id": "20.2-s086",
+   "section": "20.2",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "// Use of alternative with Boolean expressions (or guard) and else branch\n  alt {\n   :\n   [else] {  // else branch\n       f_myErrorHandling(); \n       setverdict(fail);\n       stop;\n     }\n  }",
+   "lines": [
+    15449,
+    15459
+   ]
+  },
+  {
+   "id": "20.2-s087",
+   "section": "20.2",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 4: Re-evaluation with repeat:",
+   "lines": [
+    15461,
+    15461
+   ]
+  },
+  {
+   "id": "20.2-s088",
+   "section": "20.2",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "alt {\n   [] pCO3.receive {\n       v_count := v_count + 1;\n       repeat // usage of repeat\n     }\n   [] t_t1.timeout { }\n   [] any port.receive {\n       setverdict(fail);\n       stop;\n     }\n  }",
+   "lines": [
+    15462,
+    15474
+   ]
+  },
+  {
+   "id": "20.2-s089",
+   "section": "20.2",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 5: Alt statement with explicitly invoked altstep:",
+   "lines": [
+    15476,
+    15476
+   ]
+  },
+  {
+   "id": "20.2-s090",
+   "section": "20.2",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "alt {\n   [] pCO3.receive { }\n   [] a_anotherAltStep() { // Explicit call of altstep a_anotherAltStep as alternative.\n       setverdict(inconc) // Statement block executed if an alternative within\n                   // altstep AnotherAltStep has been selected and executed.\n     }\n   [] t_myTimer.timeout { }\n  }",
+   "lines": [
+    15477,
+    15486
+   ]
+  },
+  {
+   "id": "20.2-s091",
+   "section": "20.2",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 6: Alt statement with forbidden function calls:",
+   "lines": [
+    15488,
+    15488
+   ]
+  },
+  {
+   "id": "20.2-s092",
+   "section": "20.2",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "alt {\n   [] f_getPort().receive(t(p())) { } // forbidden if f_getPort, t or p has side effects\n   [] a_anotherAltStep(f());     // forbidden if f has side effects\n   [] t_myTimer[i(p())].timeout { }  // forbidden if i or p has side effects\n   [f_g()] f_getComponent(p()).done {} // forbidden if f_g, f_getComponent or p has side effects\n  }",
+   "lines": [
+    15489,
+    15496
+   ]
+  },
+  {
+   "id": "20.2-s093",
+   "section": "20.2",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 7: Alt statement with local definition:",
+   "lines": [
+    15498,
+    15498
+   ]
+  },
+  {
+   "id": "20.2-s094",
+   "section": "20.2",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "alt {\n   var integer currentTime := f_getCurrentTime();\n   [] p.receive(Message:{ ..., ts := (currentTime-10 .. currentTime+10) }) { ... }\n   ...\n  }",
+   "lines": [
+    15499,
+    15505
+   ]
+  },
+  {
+   "id": "20.3-s001",
+   "section": "20.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The repeat statement is used for a re-evaluation of an alt statement.",
+   "lines": [
+    15509,
+    15509
+   ]
+  },
+  {
+   "id": "20.3-s002",
+   "section": "20.3",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "repeat",
+   "lines": [
+    15512,
+    15514
+   ]
+  },
+  {
+   "id": "20.3-s003",
+   "section": "20.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The repeat statement, when used in the statement block of alternatives of alt statements, causes the re-evaluation of the alt statement, i.e. a new snapshot is taken and the alternatives of the alt statement are evaluated in the order of their specification.",
+   "lines": [
+    15523,
+    15525
+   ]
+  },
+  {
+   "id": "20.3-s004",
+   "section": "20.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "When used in statement blocks of the response and exception handling parts of blocking procedure calls, the repeat statement causes the re-evaluation of the response and exception handling part of the call (see clause 22.3.1).",
+   "lines": [
+    15527,
+    15528
+   ]
+  },
+  {
+   "id": "20.3-s005",
+   "section": "20.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If a repeat statement is used in a top alternative in an altstep definition, it causes a new snapshot and the re-evaluation of the alt statement from which the altstep has been called.",
+   "lines": [
+    15530,
+    15532
+   ]
+  },
+  {
+   "id": "20.3-s006",
+   "section": "20.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The call of the altstep may either be done implicitly by the default mechanism (see clause 20.5.1) or explicitly in the alt statement (see clause 20.2).",
+   "lines": [
+    15530,
+    15532
+   ]
+  },
+  {
+   "id": "20.3-s007",
+   "section": "20.3",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clause 5 and shown in table 16, the following restrictions apply:",
+   "lines": [
+    15536,
+    15537
+   ]
+  },
+  {
+   "id": "20.3-s008",
+   "section": "20.3",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) The repeat statement shall only be used within alt statements, call statements or altsteps.",
+   "lines": [
+    15539,
+    15539
+   ]
+  },
+  {
+   "id": "20.3-s009",
+   "section": "20.3",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 1: Usage of repeat in an alt statement:",
+   "lines": [
+    15543,
+    15543
+   ]
+  },
+  {
+   "id": "20.3-s010",
+   "section": "20.3",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "alt {\n   [] pCO3.receive {\n       v_count := v_count + 1;\n       repeat // usage of repeat\n     }\n   [] t_t1.timeout { }\n   [] any port.receive {\n       setverdict(fail);\n       stop;\n     }\n  }",
+   "lines": [
+    15544,
+    15556
+   ]
+  },
+  {
+   "id": "20.3-s011",
+   "section": "20.3",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 2: Usage of repeat in an altstep:",
+   "lines": [
+    15558,
+    15558
+   ]
+  },
+  {
+   "id": "20.3-s012",
+   "section": "20.3",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "altstep a_anotherAltStep() runs on MyComponentType {\n     [] pCO1.receive{\n       setverdict(inconc);\n       repeat // usage of repeat\n      }\n     [] pCO2.receive {}\n  }",
+   "lines": [
+    15559,
+    15567
+   ]
+  }
+ ]
+}

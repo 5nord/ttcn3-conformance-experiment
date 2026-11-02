@@ -1,0 +1,29 @@
+// @requirement: 15.11 -- The concatenation of templates of list types results in the sequential concatenation of the single templates from left to right, with two exceptions: before concatenation, an AnyValue matching symbol without a length modifier shall be replaced by a single AnyElementsOrNone matching symbol and AnyValue and AnyValueOrNone matching symbols with a length modifier shall be replaced by an AnyElementsOrNone matching mechanism with the same length modifier.
+// @id: TTCN3-CORE-15.11-006c
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_11_test_010 {
+
+    type record of integer RoI;
+
+    const RoI c_1234 := { 1, 2, 3, 4 };
+    const RoI c_124 := { 1, 2, 4 };
+    const RoI c_14 := { 1, 4 };
+
+    template RoI mw_t1 := { 1 } & ? length(2) & { 4 };
+    template RoI mw_t2 := { 1 } & * length(1 .. 2) & { 4 };
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (match(c_1234, mw_t1) and not match(c_124, mw_t1) and
+            match(c_124, mw_t2) and match(c_1234, mw_t2) and not match(c_14, mw_t2)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

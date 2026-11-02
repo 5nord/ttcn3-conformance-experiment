@@ -1,0 +1,26 @@
+// @requirement: 22.3.4 -- It shall be decoded into a value of the same type as the variable on the left hand side of the assignment.
+// @id: TTCN3-CORE-22.3.4-019a
+// @verdict: pass accept, noexecution
+module M_22_03_04_test_017 {
+
+    type record R {
+        integer f1,
+        boolean f2
+    }
+
+    signature S(out bitstring p_enc);
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    function f_getreply() runs on C return R {
+        var R v_r;
+        p.getreply(S:{?}) -> param(v_r := @decoded p_enc);
+        return v_r;
+    }
+} with {
+    encode "JSON"
+}

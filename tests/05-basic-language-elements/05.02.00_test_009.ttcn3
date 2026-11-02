@@ -1,0 +1,33 @@
+// @requirement: 5.2.0 -- Definitions made in a test component type may be used in a component type extending this component type definition, and in functions, test cases and altsteps referencing that component type or a compatible test component type (see clause 6.3.2.7) by a runs on clause.
+// @id: TTCN3-CORE-5.2.0-020b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_02_00_test_009 {
+
+    type component C_Base {
+        var integer vc_x := 1;
+        timer T := 0.1;
+    }
+
+    type component C extends C_Base {
+    }
+
+    function f_inc() runs on C_Base {
+        vc_x := vc_x + 1;
+    }
+
+    altstep a_check() runs on C_Base {
+        [vc_x == 2] T.timeout {
+            setverdict(pass);
+        }
+    }
+
+    testcase TC() runs on C {
+        f_inc();
+        T.start;
+        a_check();
+    }
+
+    control {
+        execute(TC());
+    }
+}

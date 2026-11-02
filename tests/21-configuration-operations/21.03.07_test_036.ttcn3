@@ -1,0 +1,29 @@
+// @requirement: 21.3.7 -- h) If the index redirection is used for multi-dimensional component arrays, the size of the integer array or record of integer type shall exactly be the same as the dimension of the respective array, and its type shall allow storing the highest index (from all dimensions) of the array.
+// @id: TTCN3-CORE-21.3.7-032b
+// @verdict: pass reject
+module M_21_03_07_test_036 {
+
+    type component C {}
+
+    type integer SmallInt (0..1);
+
+    function f_ptc() runs on C {}
+
+    testcase TC() runs on C {
+        var C v_arr[2][3];
+        var SmallInt v_idx[2];
+        for (var integer i := 0; i < 2; i := i + 1) {
+            for (var integer j := 0; j < 3; j := j + 1) {
+                v_arr[i][j] := C.create;
+                v_arr[i][j].start(f_ptc());
+            }
+        }
+        all component.done;
+        any from v_arr.done -> @index value v_idx; // error: highest index 2 not storable in SmallInt
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

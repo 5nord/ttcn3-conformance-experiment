@@ -1,0 +1,3828 @@
+{
+ "document": "ETSI ES 201 873-1 V4.17.1 (2025-09)",
+ "chapter": "11",
+ "title": "Declaring variables",
+ "file": "11-declaring-variables",
+ "source_lines": [
+  9997,
+  10222
+ ],
+ "sentences": [
+  {
+   "id": "11.0-s001",
+   "section": "11.0",
+   "kind": "prose",
+   "normative": true,
+   "text": "TTCN-3 variables are statically typed variables.",
+   "lines": [
+    10001,
+    10002
+   ]
+  },
+  {
+   "id": "11.0-s002",
+   "section": "11.0",
+   "kind": "prose",
+   "normative": true,
+   "text": "Variables are either value variables to store values or template variables to store templates.",
+   "lines": [
+    10001,
+    10002
+   ]
+  },
+  {
+   "id": "11.0-s003",
+   "section": "11.0",
+   "kind": "prose",
+   "normative": true,
+   "text": "Variables can be of simple basic types, basic string types, structured types, special data types (including subtypes derived from these types) as well as address, component or default, port or timer types.",
+   "lines": [
+    10004,
+    10005
+   ]
+  },
+  {
+   "id": "11.0-s004",
+   "section": "11.0",
+   "kind": "prose",
+   "normative": true,
+   "text": "The type of the variable is either provided explicitly or implicitly according to the rules for automatic typing specified in clause 6.5.",
+   "lines": [
+    10007,
+    10009
+   ]
+  },
+  {
+   "id": "11.0-s005",
+   "section": "11.0",
+   "kind": "prose",
+   "normative": true,
+   "text": "When automatic typing is used, the TypeOrNestedParDef part of the declaration is missing and the type of the variable is equal to the type of the expression or template body on the right-hand side of the assignment.",
+   "lines": [
+    10007,
+    10009
+   ]
+  },
+  {
+   "id": "11.0-s006",
+   "section": "11.0",
+   "kind": "prose",
+   "normative": true,
+   "text": "Variables can be declared and used in test cases, functions and altsteps.",
+   "lines": [
+    10011,
+    10013
+   ]
+  },
+  {
+   "id": "11.0-s007",
+   "section": "11.0",
+   "kind": "prose",
+   "normative": true,
+   "text": "Additionally, variables can be declared in component type definitions.",
+   "lines": [
+    10011,
+    10013
+   ]
+  },
+  {
+   "id": "11.0-s008",
+   "section": "11.0",
+   "kind": "prose",
+   "normative": true,
+   "text": "These variables can be used in test cases, altsteps and functions which are running on a given component type.",
+   "lines": [
+    10011,
+    10013
+   ]
+  },
+  {
+   "id": "11.0-s009",
+   "section": "11.0",
+   "kind": "prose",
+   "normative": true,
+   "text": "Variables can be declared lazy using the @lazy modifier.",
+   "lines": [
+    10015,
+    10015
+   ]
+  },
+  {
+   "id": "11.0-s010",
+   "section": "11.0",
+   "kind": "prose",
+   "normative": true,
+   "text": "Alternatively, variables can be declared fuzzy using the @fuzzy modifier.",
+   "lines": [
+    10017,
+    10017
+   ]
+  },
+  {
+   "id": "11.0-s011",
+   "section": "11.0",
+   "kind": "prose",
+   "normative": true,
+   "text": "If a variable is declared fuzzy or lazy they can additionally declared with the @deterministic modifier to indicate that when used in a deterministic evaluation context, any evaluation of the variable would have no side effect and would yield the same result.",
+   "lines": [
+    10019,
+    10021
+   ]
+  },
+  {
+   "id": "11.0-s012",
+   "section": "11.0",
+   "kind": "prose",
+   "normative": true,
+   "text": "Lazy and fuzzy features are valid only in the scope, where the variables' names are visible.",
+   "lines": [
+    10023,
+    10025
+   ]
+  },
+  {
+   "id": "11.0-s013",
+   "section": "11.0",
+   "kind": "prose",
+   "normative": true,
+   "text": "For example, if a fuzzy variable is passed to a formal parameter declared without a modifier, it loses its fuzzy feature inside the called function.",
+   "lines": [
+    10023,
+    10025
+   ]
+  },
+  {
+   "id": "11.0-s014",
+   "section": "11.0",
+   "kind": "prose",
+   "normative": true,
+   "text": "Similarly, if it is passed to a lazy formal parameter, it becomes lazy within the called function.",
+   "lines": [
+    10023,
+    10025
+   ]
+  },
+  {
+   "id": "11.0-s015",
+   "section": "11.0",
+   "kind": "prose",
+   "normative": true,
+   "text": "Whenever a lazy or fuzzy variable is assigned, the TE is required to save the lexical environment (the set of directly or indirectly referenced values and templates) valid at the time of the assignment, so that it is possible to resolve the expression at the time of evaluation of the lazy or fuzzy value or template.",
+   "lines": [
+    10027,
+    10031
+   ]
+  },
+  {
+   "id": "11.0-s016",
+   "section": "11.0",
+   "kind": "prose",
+   "normative": true,
+   "text": "If the assignment was made on a lower scope than the evaluation, saving the lexical environment extends lifetime of the referenced variables defined on that lower scope.",
+   "lines": [
+    10027,
+    10031
+   ]
+  },
+  {
+   "id": "11.0-s017",
+   "section": "11.0",
+   "kind": "example-code",
+   "normative": false,
+   "text": "var @fuzzy integer v_fuzzy := 1;\n  var integer v_var;\n  var boolean v_condition := true;\n  if (v_condition) {\n     var integer v_local := 0;\n     v_fuzzy := v_local;\n     v_local := 10;\n  }\n  // although v_local is no longer valid at this point, v_fuzzy still evaluates to 10 because\n  // the lexical environment is available to the fuzzy variable:\n  v_var := v_fuzzy;",
+   "lines": [
+    10034,
+    10046
+   ]
+  },
+  {
+   "id": "11.1-s001",
+   "section": "11.1",
+   "kind": "prose",
+   "normative": true,
+   "text": "A TTCN-3 value variable stores values.",
+   "lines": [
+    10050,
+    10051
+   ]
+  },
+  {
+   "id": "11.1-s002",
+   "section": "11.1",
+   "kind": "prose",
+   "normative": true,
+   "text": "It is declared by the var keyword followed by a type identifier or a nested type definition and a variable identifier.",
+   "lines": [
+    10050,
+    10051
+   ]
+  },
+  {
+   "id": "11.1-s003",
+   "section": "11.1",
+   "kind": "prose",
+   "normative": true,
+   "text": "An initial value can be assigned at variable declaration.",
+   "lines": [
+    10050,
+    10051
+   ]
+  },
+  {
+   "id": "11.1-s004",
+   "section": "11.1",
+   "kind": "prose",
+   "normative": true,
+   "text": "It may be used at the right hand side as well as at the left hand side of assignments, in expressions, following the return keyword in bodies of functions with a return clause in their headers and may be passed to both value and template-type formal parameters.",
+   "lines": [
+    10053,
+    10055
+   ]
+  },
+  {
+   "id": "11.1-s005",
+   "section": "11.1",
+   "kind": "syntax",
+   "normative": true,
+   "text": "var [ ( @lazy | @fuzzy ) [ @deterministic ] ] [ TypeOrNestedTypeDef ]\n   { VarIdentifier [ ArrayDef ] [ \":=\" Expression ] [ \",\" ] }+ [ \";\" ]",
+   "lines": [
+    10058,
+    10061
+   ]
+  },
+  {
+   "id": "11.1-s006",
+   "section": "11.1",
+   "kind": "prose",
+   "normative": true,
+   "text": "A value variable associates a name with the location of a value.",
+   "lines": [
+    10070,
+    10072
+   ]
+  },
+  {
+   "id": "11.1-s007",
+   "section": "11.1",
+   "kind": "prose",
+   "normative": true,
+   "text": "A value variable may change its value during test execution several times.",
+   "lines": [
+    10070,
+    10072
+   ]
+  },
+  {
+   "id": "11.1-s008",
+   "section": "11.1",
+   "kind": "prose",
+   "normative": true,
+   "text": "A value can be assigned several times to a value variable.",
+   "lines": [
+    10070,
+    10072
+   ]
+  },
+  {
+   "id": "11.1-s009",
+   "section": "11.1",
+   "kind": "prose",
+   "normative": true,
+   "text": "The value variable can be referenced multiple times in a TTCN-3 module.",
+   "lines": [
+    10070,
+    10072
+   ]
+  },
+  {
+   "id": "11.1-s010",
+   "section": "11.1",
+   "kind": "prose",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clause 5, the following restrictions apply:",
+   "lines": [
+    10076,
+    10076
+   ]
+  },
+  {
+   "id": "11.1-s011",
+   "section": "11.1",
+   "kind": "list-item",
+   "normative": true,
+   "text": "a) _Expression shall evaluate to a value which is type compatible with TypeOrNestedTypeDef._ b) Value variables shall store values only.",
+   "lines": [
+    10078,
+    10080
+   ]
+  },
+  {
+   "id": "11.1-s012",
+   "section": "11.1",
+   "kind": "list-item",
+   "normative": true,
+   "text": "c) Value variables shall not be declared or used in a module definitions part (i.e. global variables are not supported in TTCN-3).",
+   "lines": [
+    10082,
+    10083
+   ]
+  },
+  {
+   "id": "11.1-s013",
+   "section": "11.1",
+   "kind": "list-item",
+   "normative": true,
+   "text": "d) Use of uninitialized value variables at other places than the left hand side of assignments, in return statements, or as actual parameters passed to formal parameters shall cause an error.",
+   "lines": [
+    10085,
+    10086
+   ]
+  },
+  {
+   "id": "11.1-s014",
+   "section": "11.1",
+   "kind": "list-item",
+   "normative": true,
+   "text": "e) The initialization or assignment of a fuzzy or lazy variable shall not contain function calls of functions with inout or out parameters.",
+   "lines": [
+    10088,
+    10089
+   ]
+  },
+  {
+   "id": "11.1-s015",
+   "section": "11.1",
+   "kind": "list-item",
+   "normative": true,
+   "text": "The called functions may use other functions with inout or out parameters internally.",
+   "lines": [
+    10088,
+    10089
+   ]
+  },
+  {
+   "id": "11.1-s016",
+   "section": "11.1",
+   "kind": "list-item",
+   "normative": true,
+   "text": "f) If a lazy or fuzzy value variable is used in deterministic contexts (i.e. during the evaluation of a snapshot or initialization of global non-fuzzy templates), it shall be declared @deterministic and the expression assigned to the variable shall fulfill the restrictions imposed on content of functions used in special places given in clause 16.1.4.",
+   "lines": [
+    10091,
+    10094
+   ]
+  },
+  {
+   "id": "11.1-s017",
+   "section": "11.1",
+   "kind": "list-item",
+   "normative": true,
+   "text": "g) The expression assigned to a lazy or fuzzy variable might contain a direct or indirect reference to this variable.",
+   "lines": [
+    10096,
+    10097
+   ]
+  },
+  {
+   "id": "11.1-s018",
+   "section": "11.1",
+   "kind": "list-item",
+   "normative": true,
+   "text": "Evaluation of such an expression shall cause a dynamic error.",
+   "lines": [
+    10096,
+    10097
+   ]
+  },
+  {
+   "id": "11.1-s019",
+   "section": "11.1",
+   "kind": "list-item",
+   "normative": true,
+   "text": "h) Using the dot notation (see clauses 6.2.1.1, 6.2.2.1 and 6.2.5.1) and index notation (see clauses 6.2.7 and 6.2.3.0) for referencing a field, alternative or element of an address value, which actual value is null shall cause an error.",
+   "lines": [
+    10099,
+    10101
+   ]
+  },
+  {
+   "id": "11.1-s020",
+   "section": "11.1",
+   "kind": "list-item",
+   "normative": true,
+   "text": "i) The expression shall evaluate to a value, which is at least partially initialized.",
+   "lines": [
+    10103,
+    10103
+   ]
+  },
+  {
+   "id": "11.1-s021",
+   "section": "11.1",
+   "kind": "list-item",
+   "normative": true,
+   "text": "j) If the TypeOrNestedTypeDef part is missing from the declaration, the ArrayDef part shall be missing as well and the assignment part (i.e. \":=\" Expression) shall be present.",
+   "lines": [
+    10105,
+    10106
+   ]
+  },
+  {
+   "id": "11.1-s022",
+   "section": "11.1",
+   "kind": "example-code",
+   "normative": false,
+   "text": "var integer v_myVar0;\n  var integer v_myVar1 := 1;\n  var boolean v_myVar2 := true, v_myVar3 := false;\n  var @lazy integer v_myLazyVar1 := v_myVar1+1;\n  var timer v_timer1;\n  var record of integer v_numbers := {1, 2, 3}; // declaration with a nested type\n  timer t_myTimer1; v_myVar1 := 2;\n  v_myVar1 := v_myLazyVar1; // v_myLazyVar1 evaluates to 2 + 1\n  v_myLazyVar1 := v_myLazyVar1 + 1;\n  v_myVar1 := v_myLazyVar1; // causes an error as v_myLazyVar1 references itself\n  v_timer1 := t_myTimer1;",
+   "lines": [
+    10109,
+    10121
+   ]
+  },
+  {
+   "id": "11.2-s001",
+   "section": "11.2",
+   "kind": "prose",
+   "normative": true,
+   "text": "A TTCN-3 template variable stores templates.",
+   "lines": [
+    10125,
+    10126
+   ]
+  },
+  {
+   "id": "11.2-s002",
+   "section": "11.2",
+   "kind": "prose",
+   "normative": true,
+   "text": "They are declared by the `var template` keyword followed by a type identifier and a variable identifier.",
+   "lines": [
+    10125,
+    10126
+   ]
+  },
+  {
+   "id": "11.2-s003",
+   "section": "11.2",
+   "kind": "prose",
+   "normative": true,
+   "text": "An initial content can be assigned at declaration.",
+   "lines": [
+    10125,
+    10126
+   ]
+  },
+  {
+   "id": "11.2-s004",
+   "section": "11.2",
+   "kind": "prose",
+   "normative": true,
+   "text": "In addition to values, template variables may also store matching mechanisms (see clause 15.6.6).",
+   "lines": [
+    10125,
+    10126
+   ]
+  },
+  {
+   "id": "11.2-s005",
+   "section": "11.2",
+   "kind": "prose",
+   "normative": true,
+   "text": "Template variables may be used on the right hand side as well as on the left hand side of assignments, following the `return` keyword in bodies of functions defining a template-type return value in their headers and may be passed as actual parameters to template-type formal parameters.",
+   "lines": [
+    10128,
+    10129
+   ]
+  },
+  {
+   "id": "11.2-s006",
+   "section": "11.2",
+   "kind": "prose",
+   "normative": true,
+   "text": "It is also allowed to assign a template instance to a template variable or a template variable field.",
+   "lines": [
+    10128,
+    10129
+   ]
+  },
+  {
+   "id": "11.2-s007",
+   "section": "11.2",
+   "kind": "syntax",
+   "normative": true,
+   "text": "var TemplateModifier [ (@lazy | @fuzzy) [ @deterministic ] ]\n   [ TypeOrNestedTypeDef ] { VarIdentifier [ ArrayDef ] \":=\" TemplateBody [ \",\" ] }+ [ \";\" ]",
+   "lines": [
+    10137,
+    10140
+   ]
+  },
+  {
+   "id": "11.2-s008",
+   "section": "11.2",
+   "kind": "prose",
+   "normative": true,
+   "text": "A template variable associates a name with the location of a template or a value (as every value is also a template).",
+   "lines": [
+    10144,
+    10146
+   ]
+  },
+  {
+   "id": "11.2-s009",
+   "section": "11.2",
+   "kind": "prose",
+   "normative": true,
+   "text": "A template variable may change its template during test execution several times.",
+   "lines": [
+    10144,
+    10146
+   ]
+  },
+  {
+   "id": "11.2-s010",
+   "section": "11.2",
+   "kind": "prose",
+   "normative": true,
+   "text": "A template or value can be assigned several times to a template variable.",
+   "lines": [
+    10144,
+    10146
+   ]
+  },
+  {
+   "id": "11.2-s011",
+   "section": "11.2",
+   "kind": "prose",
+   "normative": true,
+   "text": "The template variable can be referenced multiple times in a TTCN-3 module.",
+   "lines": [
+    10144,
+    10146
+   ]
+  },
+  {
+   "id": "11.2-s012",
+   "section": "11.2",
+   "kind": "prose",
+   "normative": true,
+   "text": "The content of a template variable can be restricted to the matching mechanisms specific value and omit in the same way as formal template parameters, see clause 5.4.1.2.",
+   "lines": [
+    10148,
+    10150
+   ]
+  },
+  {
+   "id": "11.2-s013",
+   "section": "11.2",
+   "kind": "prose",
+   "normative": true,
+   "text": "The restriction template (omit) can be replaced by the shorthand notation omit.",
+   "lines": [
+    10148,
+    10150
+   ]
+  },
+  {
+   "id": "11.2-s014",
+   "section": "11.2",
+   "kind": "note",
+   "normative": false,
+   "text": "NOTE 1: String and list type templates can be concatenated, see clause 15.11.",
+   "lines": [
+    10152,
+    10152
+   ]
+  },
+  {
+   "id": "11.2-s015",
+   "section": "11.2",
+   "kind": "prose",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clause 5, the following restrictions apply:",
+   "lines": [
+    10156,
+    10156
+   ]
+  },
+  {
+   "id": "11.2-s016",
+   "section": "11.2",
+   "kind": "list-item",
+   "normative": true,
+   "text": "a) Template variables shall not be declared or used in a module definitions part (i.e. global variables are not supported in TTCN-3).",
+   "lines": [
+    10158,
+    10159
+   ]
+  },
+  {
+   "id": "11.2-s017",
+   "section": "11.2",
+   "kind": "list-item",
+   "normative": true,
+   "text": "b) When used on the right hand side of assignments template variables shall not be operands of TTCN-3 operators (see clause 7.1) and the variable on the left hand side shall be a template variable too.",
+   "lines": [
+    10161,
+    10162
+   ]
+  },
+  {
+   "id": "11.2-s018",
+   "section": "11.2",
+   "kind": "list-item",
+   "normative": true,
+   "text": "c) When accessing element of template variables either on the left hand side or on the right hand side of assignments, the rules given in clause 15.6 shall apply.",
+   "lines": [
+    10164,
+    10165
+   ]
+  },
+  {
+   "id": "11.2-s019",
+   "section": "11.2",
+   "kind": "note",
+   "normative": false,
+   "text": "NOTE 2: While it is not allowed to directly apply TTCN-3 operations to template variables, it is allowed to use the dot notation and the index notation to inspect and modify template variable fields.",
+   "lines": [
+    10167,
+    10168
+   ]
+  },
+  {
+   "id": "11.2-s020",
+   "section": "11.2",
+   "kind": "list-item",
+   "normative": true,
+   "text": "d) Use of uninitialized template variables at other places than the left hand side of assignments, in return statements, or as actual parameters passed to formal parameters shall cause an error.",
+   "lines": [
+    10170,
+    10171
+   ]
+  },
+  {
+   "id": "11.2-s021",
+   "section": "11.2",
+   "kind": "list-item",
+   "normative": true,
+   "text": "e) Void.",
+   "lines": [
+    10173,
+    10173
+   ]
+  },
+  {
+   "id": "11.2-s022",
+   "section": "11.2",
+   "kind": "list-item",
+   "normative": true,
+   "text": "f) If the template variable is restricted, then the template used to initialize it shall contain only the matching mechanisms as described in clause 15.8.",
+   "lines": [
+    10175,
+    10176
+   ]
+  },
+  {
+   "id": "11.2-s023",
+   "section": "11.2",
+   "kind": "list-item",
+   "normative": true,
+   "text": "g) Template variables, similarly to global and local templates, shall be fully specified in order to be used in sending and receiving operations.",
+   "lines": [
+    10178,
+    10179
+   ]
+  },
+  {
+   "id": "11.2-s024",
+   "section": "11.2",
+   "kind": "list-item",
+   "normative": true,
+   "text": "h) Restrictions on templates in clause 15.0 shall apply.",
+   "lines": [
+    10181,
+    10181
+   ]
+  },
+  {
+   "id": "11.2-s025",
+   "section": "11.2",
+   "kind": "list-item",
+   "normative": true,
+   "text": "i) The initialization or assignment of a fuzzy or lazy variable shall not contain function calls of functions with inout or out parameters.",
+   "lines": [
+    10183,
+    10184
+   ]
+  },
+  {
+   "id": "11.2-s026",
+   "section": "11.2",
+   "kind": "list-item",
+   "normative": true,
+   "text": "The called functions may use other functions with inout or out parameters internally.",
+   "lines": [
+    10183,
+    10184
+   ]
+  },
+  {
+   "id": "11.2-s027",
+   "section": "11.2",
+   "kind": "list-item",
+   "normative": true,
+   "text": "j) If a lazy or fuzzy template variable is used in deterministic contexts (i.e. during the evaluation of a snapshot or initialization of global non-fuzzy templates), it shall be declared @deterministic and the template body assigned to the variable shall fulfill the restrictions imposed on content of functions used in special places given in clause 16.1.4.",
+   "lines": [
+    10186,
+    10189
+   ]
+  },
+  {
+   "id": "11.2-s028",
+   "section": "11.2",
+   "kind": "list-item",
+   "normative": true,
+   "text": "k) Using the dot notation (see clauses 6.2.1.1, 6.2.2.1 and 6.2.5.1) and index notation (see clause 6.2.7) for referencing a field, alternative or element of an address value, which actual value is null shall cause an error.",
+   "lines": [
+    10191,
+    10193
+   ]
+  },
+  {
+   "id": "11.2-s029",
+   "section": "11.2",
+   "kind": "list-item",
+   "normative": true,
+   "text": "l) The template body at the right-hand side of the assignment symbol shall evaluate to a value or template, which is type compatible with the variable being declared.",
+   "lines": [
+    10195,
+    10196
+   ]
+  },
+  {
+   "id": "11.2-s030",
+   "section": "11.2",
+   "kind": "list-item",
+   "normative": true,
+   "text": "m) The template body at the right-hand side of the assignment symbol shall evaluate to an object that is at least partially initialized.",
+   "lines": [
+    10198,
+    10199
+   ]
+  },
+  {
+   "id": "11.2-s031",
+   "section": "11.2",
+   "kind": "list-item",
+   "normative": true,
+   "text": "n) If the TypeOrNestedTypeDef part is missing from the declaration, the ArrayDef part shall be missing as well and the assignment part (i.e. \":=\" TemplateBody) shall be present.",
+   "lines": [
+    10201,
+    10202
+   ]
+  },
+  {
+   "id": "11.2-s032",
+   "section": "11.2",
+   "kind": "example-code",
+   "normative": false,
+   "text": "var template integer v_myVarTemp1 := ?;\n  var template MyRecord v_myVarTemp2 := { field1 := true, field2 := * },\n                v_myVarTemp3 := { field1 := ?, field2 := v_myVarTemp1 };\n  var template @fuzzy float v_fuzzTemp1 := rnd(); // evaluated on every usage\n  var template @fuzzy MyRecord v_fuzzTemp2 := { rnd() < 0.5, float2int(rnd()) };\n  var template @lazy float LazyTemp1 := v_fuzzTemp1; // evaluates v_fuzzTemp1\n  var template @lazy MyRecord v_lazyTemp2 := \n     { v_lazyTemp1 < 0.5, float2int(v_fuzzTemp1) }; // evaluates v_lazyTemp1 and v_fuzzTemp1\n  v_lazyTemp2.field1 := true; // evaluates v_lazyTemp2 and overwrites field1 with true",
+   "lines": [
+    10210,
+    10220
+   ]
+  }
+ ],
+ "entities": [
+  {
+   "id": "ent:actual-parameter",
+   "term_ref": "actual parameter",
+   "sentence_ids": [
+    "11.1-s013",
+    "11.2-s005",
+    "11.2-s020"
+   ],
+   "name": "actual parameter",
+   "category": "language-element"
+  },
+  {
+   "id": "ent:address-type",
+   "term_ref": null,
+   "sentence_ids": [
+    "11.0-s003"
+   ],
+   "name": "address type",
+   "category": "type"
+  },
+  {
+   "id": "ent:address-value",
+   "term_ref": null,
+   "sentence_ids": [
+    "11.1-s019",
+    "11.2-s028"
+   ],
+   "name": "address value",
+   "category": "value"
+  },
+  {
+   "id": "ent:altstep",
+   "term_ref": null,
+   "sentence_ids": [
+    "11.0-s006"
+   ],
+   "name": "altstep",
+   "category": "language-element"
+  },
+  {
+   "id": "ent:array-def",
+   "term_ref": null,
+   "sentence_ids": [
+    "11.1-s005",
+    "11.1-s021",
+    "11.2-s007",
+    "11.2-s031"
+   ],
+   "name": "ArrayDef",
+   "category": "language-element"
+  },
+  {
+   "id": "ent:assignment",
+   "term_ref": null,
+   "sentence_ids": [
+    "11.1-s004",
+    "11.2-s005",
+    "11.2-s017"
+   ],
+   "name": "assignment",
+   "category": "statement"
+  },
+  {
+   "id": "ent:automatic-type",
+   "term_ref": "automatic type",
+   "sentence_ids": [
+    "11.0-s004",
+    "11.0-s005"
+   ],
+   "name": "automatic type",
+   "category": "concept"
+  },
+  {
+   "id": "ent:basic-type",
+   "term_ref": "basic types",
+   "sentence_ids": [
+    "11.0-s003"
+   ],
+   "name": "basic types",
+   "category": "type"
+  },
+  {
+   "id": "ent:communication-operation",
+   "term_ref": null,
+   "sentence_ids": [
+    "11.2-s023"
+   ],
+   "name": "communication operation",
+   "category": "operation"
+  },
+  {
+   "id": "ent:component-type",
+   "term_ref": null,
+   "sentence_ids": [
+    "11.0-s003",
+    "11.0-s007"
+   ],
+   "name": "component type",
+   "category": "type"
+  },
+  {
+   "id": "ent:component-variable",
+   "term_ref": "component variable",
+   "sentence_ids": [
+    "11.0-s007",
+    "11.0-s008"
+   ],
+   "name": "component variable",
+   "category": "language-element"
+  },
+  {
+   "id": "ent:default-type",
+   "term_ref": null,
+   "sentence_ids": [
+    "11.0-s003"
+   ],
+   "name": "default type",
+   "category": "type"
+  },
+  {
+   "id": "ent:deterministic-context",
+   "term_ref": null,
+   "sentence_ids": [
+    "11.0-s011",
+    "11.1-s016",
+    "11.2-s027"
+   ],
+   "name": "deterministic evaluation context",
+   "category": "concept"
+  },
+  {
+   "id": "ent:deterministic-modifier",
+   "term_ref": null,
+   "sentence_ids": [
+    "11.0-s011",
+    "11.1-s005",
+    "11.1-s016",
+    "11.2-s007",
+    "11.2-s027"
+   ],
+   "name": "@deterministic modifier",
+   "category": "modifier"
+  },
+  {
+   "id": "ent:dot-notation",
+   "term_ref": null,
+   "sentence_ids": [
+    "11.1-s019",
+    "11.2-s019",
+    "11.2-s028"
+   ],
+   "name": "dot notation",
+   "category": "concept"
+  },
+  {
+   "id": "ent:error",
+   "term_ref": "test case error",
+   "sentence_ids": [
+    "11.1-s013",
+    "11.1-s017",
+    "11.1-s018",
+    "11.1-s019",
+    "11.2-s020",
+    "11.2-s028"
+   ],
+   "name": "test case error",
+   "category": "error"
+  },
+  {
+   "id": "ent:expression",
+   "term_ref": null,
+   "sentence_ids": [
+    "11.1-s005",
+    "11.1-s011",
+    "11.1-s016",
+    "11.1-s017",
+    "11.1-s018",
+    "11.1-s020"
+   ],
+   "name": "expression",
+   "category": "language-element"
+  },
+  {
+   "id": "ent:formal-parameter",
+   "term_ref": "formal parameter",
+   "sentence_ids": [
+    "11.0-s013",
+    "11.0-s014",
+    "11.1-s004",
+    "11.2-s005"
+   ],
+   "name": "formal parameter",
+   "category": "language-element"
+  },
+  {
+   "id": "ent:function",
+   "term_ref": null,
+   "sentence_ids": [
+    "11.0-s006",
+    "11.1-s014",
+    "11.1-s015",
+    "11.2-s025",
+    "11.2-s026"
+   ],
+   "name": "function",
+   "category": "language-element"
+  },
+  {
+   "id": "ent:function-call",
+   "term_ref": null,
+   "sentence_ids": [
+    "11.1-s014",
+    "11.2-s025"
+   ],
+   "name": "function call",
+   "category": "operation"
+  },
+  {
+   "id": "ent:fuzzy-modifier",
+   "term_ref": null,
+   "sentence_ids": [
+    "11.0-s010",
+    "11.1-s005",
+    "11.2-s007"
+   ],
+   "name": "@fuzzy modifier",
+   "category": "modifier"
+  },
+  {
+   "id": "ent:fuzzy-variable",
+   "term_ref": "fuzzy value or template",
+   "sentence_ids": [
+    "11.0-s010",
+    "11.0-s012",
+    "11.0-s013",
+    "11.0-s014",
+    "11.0-s015",
+    "11.1-s014",
+    "11.2-s025",
+    "11.2-s032"
+   ],
+   "name": "fuzzy value or template",
+   "category": "language-element"
+  },
+  {
+   "id": "ent:index-notation",
+   "term_ref": "index notation",
+   "sentence_ids": [
+    "11.1-s019",
+    "11.2-s019",
+    "11.2-s028"
+   ],
+   "name": "index notation",
+   "category": "language-element"
+  },
+  {
+   "id": "ent:lazy-modifier",
+   "term_ref": null,
+   "sentence_ids": [
+    "11.0-s009",
+    "11.1-s005",
+    "11.2-s007"
+   ],
+   "name": "@lazy modifier",
+   "category": "modifier"
+  },
+  {
+   "id": "ent:lazy-variable",
+   "term_ref": "lazy value or template",
+   "sentence_ids": [
+    "11.0-s009",
+    "11.0-s012",
+    "11.0-s015",
+    "11.1-s014",
+    "11.1-s016",
+    "11.1-s017",
+    "11.1-s018",
+    "11.2-s025",
+    "11.2-s027"
+   ],
+   "name": "lazy value or template",
+   "category": "language-element"
+  },
+  {
+   "id": "ent:lexical-environment",
+   "term_ref": null,
+   "sentence_ids": [
+    "11.0-s015",
+    "11.0-s016"
+   ],
+   "name": "lexical environment",
+   "category": "concept"
+  },
+  {
+   "id": "ent:matching-mechanism",
+   "term_ref": null,
+   "sentence_ids": [
+    "11.2-s004",
+    "11.2-s022"
+   ],
+   "name": "matching mechanism",
+   "category": "matching-mechanism"
+  },
+  {
+   "id": "ent:module-definitions-part",
+   "term_ref": null,
+   "sentence_ids": [
+    "11.1-s012",
+    "11.2-s016"
+   ],
+   "name": "module definitions part",
+   "category": "language-element"
+  },
+  {
+   "id": "ent:omit-restriction",
+   "term_ref": null,
+   "sentence_ids": [
+    "11.2-s013"
+   ],
+   "name": "omit restriction",
+   "category": "modifier"
+  },
+  {
+   "id": "ent:operator",
+   "term_ref": null,
+   "sentence_ids": [
+    "11.2-s017"
+   ],
+   "name": "operator",
+   "category": "operator"
+  },
+  {
+   "id": "ent:port-type",
+   "term_ref": null,
+   "sentence_ids": [
+    "11.0-s003"
+   ],
+   "name": "port type",
+   "category": "type"
+  },
+  {
+   "id": "ent:return-statement",
+   "term_ref": null,
+   "sentence_ids": [
+    "11.1-s004",
+    "11.1-s013",
+    "11.2-s005"
+   ],
+   "name": "return statement",
+   "category": "statement"
+  },
+  {
+   "id": "ent:structured-type",
+   "term_ref": null,
+   "sentence_ids": [
+    "11.0-s003"
+   ],
+   "name": "structured type",
+   "category": "type"
+  },
+  {
+   "id": "ent:template",
+   "term_ref": "template",
+   "sentence_ids": [
+    "11.2-s001",
+    "11.2-s014",
+    "11.2-s023"
+   ],
+   "name": "template",
+   "category": "language-element"
+  },
+  {
+   "id": "ent:template-body",
+   "term_ref": null,
+   "sentence_ids": [
+    "11.2-s007",
+    "11.2-s027",
+    "11.2-s029",
+    "11.2-s030"
+   ],
+   "name": "template body",
+   "category": "language-element"
+  },
+  {
+   "id": "ent:template-concatenation",
+   "term_ref": null,
+   "sentence_ids": [
+    "11.2-s014"
+   ],
+   "name": "template concatenation",
+   "category": "operator"
+  },
+  {
+   "id": "ent:template-instance",
+   "term_ref": null,
+   "sentence_ids": [
+    "11.2-s006"
+   ],
+   "name": "template instance",
+   "category": "language-element"
+  },
+  {
+   "id": "ent:template-restriction",
+   "term_ref": null,
+   "sentence_ids": [
+    "11.2-s007",
+    "11.2-s012",
+    "11.2-s022"
+   ],
+   "name": "template restriction",
+   "category": "concept"
+  },
+  {
+   "id": "ent:template-variable",
+   "term_ref": null,
+   "sentence_ids": [
+    "11.0-s002",
+    "11.2-s001",
+    "11.2-s004",
+    "11.2-s005",
+    "11.2-s006",
+    "11.2-s008",
+    "11.2-s009",
+    "11.2-s010",
+    "11.2-s011",
+    "11.2-s012",
+    "11.2-s016",
+    "11.2-s017",
+    "11.2-s018",
+    "11.2-s019",
+    "11.2-s020",
+    "11.2-s022",
+    "11.2-s023",
+    "11.2-s024",
+    "11.2-s032"
+   ],
+   "name": "template variable",
+   "category": "language-element"
+  },
+  {
+   "id": "ent:template-variable-declaration",
+   "term_ref": null,
+   "sentence_ids": [
+    "11.2-s002",
+    "11.2-s003",
+    "11.2-s007",
+    "11.2-s031"
+   ],
+   "name": "template variable declaration",
+   "category": "language-element"
+  },
+  {
+   "id": "ent:testcase",
+   "term_ref": "test case",
+   "sentence_ids": [
+    "11.0-s006"
+   ],
+   "name": "test case",
+   "category": "language-element"
+  },
+  {
+   "id": "ent:timer-type",
+   "term_ref": null,
+   "sentence_ids": [
+    "11.0-s003",
+    "11.1-s022"
+   ],
+   "name": "timer type",
+   "category": "type"
+  },
+  {
+   "id": "ent:ttcn3-tool",
+   "term_ref": null,
+   "sentence_ids": [
+    "11.0-s015"
+   ],
+   "name": "TTCN-3 tool",
+   "category": "entity"
+  },
+  {
+   "id": "ent:type-or-nested-type-def",
+   "term_ref": null,
+   "sentence_ids": [
+    "11.0-s005",
+    "11.1-s005",
+    "11.1-s011",
+    "11.1-s021",
+    "11.2-s007",
+    "11.2-s031"
+   ],
+   "name": "TypeOrNestedTypeDef",
+   "category": "language-element"
+  },
+  {
+   "id": "ent:uninitialized-variable",
+   "term_ref": "uninitialized",
+   "sentence_ids": [
+    "11.1-s013",
+    "11.2-s020"
+   ],
+   "name": "uninitialized",
+   "category": "concept"
+  },
+  {
+   "id": "ent:value",
+   "term_ref": "value",
+   "sentence_ids": [
+    "11.1-s001",
+    "11.2-s004",
+    "11.2-s008"
+   ],
+   "name": "value",
+   "category": "value"
+  },
+  {
+   "id": "ent:value-variable",
+   "term_ref": null,
+   "sentence_ids": [
+    "11.0-s002",
+    "11.1-s001",
+    "11.1-s004",
+    "11.1-s006",
+    "11.1-s007",
+    "11.1-s008",
+    "11.1-s009",
+    "11.1-s011",
+    "11.1-s012",
+    "11.1-s013",
+    "11.1-s022"
+   ],
+   "name": "value variable",
+   "category": "language-element"
+  },
+  {
+   "id": "ent:value-variable-declaration",
+   "term_ref": null,
+   "sentence_ids": [
+    "11.1-s002",
+    "11.1-s003",
+    "11.1-s005",
+    "11.1-s021"
+   ],
+   "name": "value variable declaration",
+   "category": "language-element"
+  },
+  {
+   "id": "ent:var-keyword",
+   "term_ref": null,
+   "sentence_ids": [
+    "11.1-s002",
+    "11.2-s002"
+   ],
+   "name": "var keyword",
+   "category": "keyword"
+  },
+  {
+   "id": "ent:variable",
+   "term_ref": null,
+   "sentence_ids": [
+    "11.0-s001",
+    "11.0-s002",
+    "11.0-s003",
+    "11.0-s004",
+    "11.0-s005",
+    "11.0-s006",
+    "11.0-s009",
+    "11.0-s010",
+    "11.1-s012"
+   ],
+   "name": "variable",
+   "category": "language-element"
+  },
+  {
+   "id": "ent:variable-declaration",
+   "term_ref": null,
+   "sentence_ids": [
+    "11.0-s005",
+    "11.0-s010"
+   ],
+   "name": "variable declaration",
+   "category": "language-element"
+  }
+ ],
+ "terms_used": [
+  {
+   "term": "@deterministic",
+   "in_glossary": false,
+   "sentence_ids": [
+    "11.0-s011"
+   ]
+  },
+  {
+   "term": "@fuzzy",
+   "in_glossary": false,
+   "sentence_ids": [
+    "11.0-s010"
+   ]
+  },
+  {
+   "term": "@lazy",
+   "in_glossary": false,
+   "sentence_ids": [
+    "11.0-s009"
+   ]
+  },
+  {
+   "term": "actual parameter",
+   "in_glossary": true,
+   "sentence_ids": [
+    "11.1-s013",
+    "11.2-s005"
+   ]
+  },
+  {
+   "term": "address type",
+   "in_glossary": false,
+   "sentence_ids": [
+    "11.0-s003"
+   ]
+  },
+  {
+   "term": "address value",
+   "in_glossary": false,
+   "sentence_ids": [
+    "11.1-s019",
+    "11.2-s028"
+   ]
+  },
+  {
+   "term": "altstep",
+   "in_glossary": false,
+   "sentence_ids": [
+    "11.0-s006"
+   ]
+  },
+  {
+   "term": "automatic type",
+   "in_glossary": true,
+   "sentence_ids": [
+    "11.0-s004"
+   ]
+  },
+  {
+   "term": "basic types",
+   "in_glossary": true,
+   "sentence_ids": [
+    "11.0-s003"
+   ]
+  },
+  {
+   "term": "completely initialized",
+   "in_glossary": true,
+   "sentence_ids": [
+    "11.2-s023"
+   ]
+  },
+  {
+   "term": "component type",
+   "in_glossary": false,
+   "sentence_ids": [
+    "11.0-s003",
+    "11.0-s007"
+   ]
+  },
+  {
+   "term": "component variable",
+   "in_glossary": true,
+   "sentence_ids": [
+    "11.0-s007"
+   ]
+  },
+  {
+   "term": "default type",
+   "in_glossary": false,
+   "sentence_ids": [
+    "11.0-s003"
+   ]
+  },
+  {
+   "term": "deterministic evaluation context",
+   "in_glossary": false,
+   "sentence_ids": [
+    "11.0-s011"
+   ]
+  },
+  {
+   "term": "dot notation",
+   "in_glossary": false,
+   "sentence_ids": [
+    "11.1-s019",
+    "11.2-s028"
+   ]
+  },
+  {
+   "term": "dynamic error",
+   "in_glossary": false,
+   "sentence_ids": [
+    "11.1-s018"
+   ]
+  },
+  {
+   "term": "expression",
+   "in_glossary": false,
+   "sentence_ids": [
+    "11.1-s004",
+    "11.1-s011"
+   ]
+  },
+  {
+   "term": "formal parameter",
+   "in_glossary": true,
+   "sentence_ids": [
+    "11.0-s013",
+    "11.1-s004"
+   ]
+  },
+  {
+   "term": "function",
+   "in_glossary": false,
+   "sentence_ids": [
+    "11.0-s006"
+   ]
+  },
+  {
+   "term": "fuzzy value or template",
+   "in_glossary": true,
+   "sentence_ids": [
+    "11.0-s010",
+    "11.0-s015"
+   ]
+  },
+  {
+   "term": "index notation",
+   "in_glossary": true,
+   "sentence_ids": [
+    "11.1-s019",
+    "11.2-s028"
+   ]
+  },
+  {
+   "term": "lazy value or template",
+   "in_glossary": true,
+   "sentence_ids": [
+    "11.0-s009",
+    "11.0-s015"
+   ]
+  },
+  {
+   "term": "left hand side (of assignment)",
+   "in_glossary": true,
+   "sentence_ids": [
+    "11.1-s004",
+    "11.2-s005"
+   ]
+  },
+  {
+   "term": "lexical environment",
+   "in_glossary": false,
+   "sentence_ids": [
+    "11.0-s015"
+   ]
+  },
+  {
+   "term": "matching mechanism",
+   "in_glossary": false,
+   "sentence_ids": [
+    "11.2-s004",
+    "11.2-s022"
+   ]
+  },
+  {
+   "term": "module definitions part",
+   "in_glossary": false,
+   "sentence_ids": [
+    "11.1-s012",
+    "11.2-s016"
+   ]
+  },
+  {
+   "term": "partially initialized",
+   "in_glossary": true,
+   "sentence_ids": [
+    "11.1-s020",
+    "11.2-s030"
+   ]
+  },
+  {
+   "term": "port type",
+   "in_glossary": false,
+   "sentence_ids": [
+    "11.0-s003"
+   ]
+  },
+  {
+   "term": "receiving operation",
+   "in_glossary": false,
+   "sentence_ids": [
+    "11.2-s023"
+   ]
+  },
+  {
+   "term": "right hand side (of assignment)",
+   "in_glossary": true,
+   "sentence_ids": [
+    "11.1-s004",
+    "11.2-s005"
+   ]
+  },
+  {
+   "term": "scope",
+   "in_glossary": false,
+   "sentence_ids": [
+    "11.0-s012",
+    "11.0-s016"
+   ]
+  },
+  {
+   "term": "sending operation",
+   "in_glossary": false,
+   "sentence_ids": [
+    "11.2-s023"
+   ]
+  },
+  {
+   "term": "snapshot",
+   "in_glossary": false,
+   "sentence_ids": [
+    "11.1-s016",
+    "11.2-s027"
+   ]
+  },
+  {
+   "term": "structured type",
+   "in_glossary": false,
+   "sentence_ids": [
+    "11.0-s003"
+   ]
+  },
+  {
+   "term": "template",
+   "in_glossary": true,
+   "sentence_ids": [
+    "11.0-s002",
+    "11.2-s001"
+   ]
+  },
+  {
+   "term": "template body",
+   "in_glossary": false,
+   "sentence_ids": [
+    "11.2-s007",
+    "11.2-s029"
+   ]
+  },
+  {
+   "term": "template instance",
+   "in_glossary": false,
+   "sentence_ids": [
+    "11.2-s006"
+   ]
+  },
+  {
+   "term": "template restriction",
+   "in_glossary": false,
+   "sentence_ids": [
+    "11.2-s012",
+    "11.2-s022"
+   ]
+  },
+  {
+   "term": "template variable",
+   "in_glossary": false,
+   "sentence_ids": [
+    "11.0-s002",
+    "11.2-s001"
+   ]
+  },
+  {
+   "term": "test case",
+   "in_glossary": true,
+   "sentence_ids": [
+    "11.0-s006"
+   ]
+  },
+  {
+   "term": "timer type",
+   "in_glossary": false,
+   "sentence_ids": [
+    "11.0-s003"
+   ]
+  },
+  {
+   "term": "TTCN-3 operator",
+   "in_glossary": false,
+   "sentence_ids": [
+    "11.2-s017"
+   ]
+  },
+  {
+   "term": "type compatibility",
+   "in_glossary": true,
+   "sentence_ids": [
+    "11.1-s011",
+    "11.2-s029"
+   ]
+  },
+  {
+   "term": "uninitialized",
+   "in_glossary": true,
+   "sentence_ids": [
+    "11.1-s013",
+    "11.2-s020"
+   ]
+  },
+  {
+   "term": "value",
+   "in_glossary": true,
+   "sentence_ids": [
+    "11.0-s002",
+    "11.1-s001"
+   ]
+  },
+  {
+   "term": "value variable",
+   "in_glossary": false,
+   "sentence_ids": [
+    "11.0-s002",
+    "11.1-s001"
+   ]
+  },
+  {
+   "term": "variable",
+   "in_glossary": false,
+   "sentence_ids": [
+    "11.0-s001",
+    "11.0-s002"
+   ]
+  }
+ ],
+ "relationships": [
+  {
+   "subject": "ent:value-variable",
+   "predicate": "is-a",
+   "object": "ent:variable",
+   "sentence_ids": [
+    "11.0-s002"
+   ]
+  },
+  {
+   "subject": "ent:template-variable",
+   "predicate": "is-a",
+   "object": "ent:variable",
+   "sentence_ids": [
+    "11.0-s002"
+   ]
+  },
+  {
+   "subject": "ent:component-type",
+   "predicate": "may-contain",
+   "object": "ent:component-variable",
+   "sentence_ids": [
+    "11.0-s007"
+   ]
+  },
+  {
+   "subject": "ent:value-variable",
+   "predicate": "stores",
+   "object": "ent:value",
+   "sentence_ids": [
+    "11.1-s011"
+   ]
+  },
+  {
+   "subject": "ent:module-definitions-part",
+   "predicate": "shall-not-contain",
+   "object": "ent:value-variable",
+   "sentence_ids": [
+    "11.1-s012"
+   ]
+  },
+  {
+   "subject": "ent:lazy-modifier",
+   "predicate": "applies-to",
+   "object": "ent:variable",
+   "sentence_ids": [
+    "11.0-s009"
+   ]
+  },
+  {
+   "subject": "ent:fuzzy-modifier",
+   "predicate": "applies-to",
+   "object": "ent:variable",
+   "sentence_ids": [
+    "11.0-s010"
+   ]
+  },
+  {
+   "subject": "ent:deterministic-modifier",
+   "predicate": "applies-to",
+   "object": "ent:lazy-variable",
+   "sentence_ids": [
+    "11.0-s011"
+   ]
+  },
+  {
+   "subject": "ent:deterministic-modifier",
+   "predicate": "applies-to",
+   "object": "ent:fuzzy-variable",
+   "sentence_ids": [
+    "11.0-s011"
+   ]
+  },
+  {
+   "subject": "ent:value-variable-declaration",
+   "predicate": "has-part",
+   "object": "ent:var-keyword",
+   "sentence_ids": [
+    "11.1-s002"
+   ]
+  },
+  {
+   "subject": "ent:value-variable-declaration",
+   "predicate": "has-part",
+   "object": "ent:type-or-nested-type-def",
+   "sentence_ids": [
+    "11.1-s005"
+   ]
+  },
+  {
+   "subject": "ent:value-variable-declaration",
+   "predicate": "has-part",
+   "object": "ent:array-def",
+   "sentence_ids": [
+    "11.1-s005"
+   ]
+  },
+  {
+   "subject": "ent:value-variable-declaration",
+   "predicate": "has-part",
+   "object": "ent:expression",
+   "sentence_ids": [
+    "11.1-s005"
+   ]
+  },
+  {
+   "subject": "ent:value-variable-declaration",
+   "predicate": "is-a",
+   "object": "ent:variable-declaration",
+   "sentence_ids": [
+    "11.1-s005"
+   ]
+  },
+  {
+   "subject": "ent:lazy-variable",
+   "predicate": "is-a",
+   "object": "ent:variable",
+   "sentence_ids": [
+    "11.0-s009"
+   ]
+  },
+  {
+   "subject": "ent:fuzzy-variable",
+   "predicate": "is-a",
+   "object": "ent:variable",
+   "sentence_ids": [
+    "11.0-s010"
+   ]
+  },
+  {
+   "subject": "ent:component-variable",
+   "predicate": "is-a",
+   "object": "ent:variable",
+   "sentence_ids": [
+    "11.0-s007"
+   ]
+  },
+  {
+   "subject": "ent:fuzzy-variable",
+   "predicate": "is-passed-to",
+   "object": "ent:formal-parameter",
+   "sentence_ids": [
+    "11.0-s013"
+   ]
+  },
+  {
+   "subject": "ent:ttcn3-tool",
+   "predicate": "saves",
+   "object": "ent:lexical-environment",
+   "sentence_ids": [
+    "11.0-s015"
+   ]
+  },
+  {
+   "subject": "ent:template-variable",
+   "predicate": "stores",
+   "object": "ent:template",
+   "sentence_ids": [
+    "11.2-s001"
+   ]
+  },
+  {
+   "subject": "ent:template-variable",
+   "predicate": "may-contain",
+   "object": "ent:matching-mechanism",
+   "sentence_ids": [
+    "11.2-s004"
+   ]
+  },
+  {
+   "subject": "ent:value",
+   "predicate": "is-a",
+   "object": "ent:template",
+   "sentence_ids": [
+    "11.2-s008"
+   ]
+  },
+  {
+   "subject": "ent:template-restriction",
+   "predicate": "applies-to",
+   "object": "ent:template-variable",
+   "sentence_ids": [
+    "11.2-s012"
+   ]
+  },
+  {
+   "subject": "ent:module-definitions-part",
+   "predicate": "shall-not-contain",
+   "object": "ent:template-variable",
+   "sentence_ids": [
+    "11.2-s016"
+   ]
+  },
+  {
+   "subject": "ent:template-variable-declaration",
+   "predicate": "has-part",
+   "object": "ent:template-body",
+   "sentence_ids": [
+    "11.2-s007"
+   ]
+  },
+  {
+   "subject": "ent:template-variable-declaration",
+   "predicate": "has-part",
+   "object": "ent:template-restriction",
+   "sentence_ids": [
+    "11.2-s007"
+   ]
+  },
+  {
+   "subject": "ent:omit-restriction",
+   "predicate": "is-a",
+   "object": "ent:template-restriction",
+   "sentence_ids": [
+    "11.2-s013"
+   ]
+  },
+  {
+   "subject": "ent:template-variable-declaration",
+   "predicate": "is-a",
+   "object": "ent:variable-declaration",
+   "sentence_ids": [
+    "11.2-s007"
+   ]
+  },
+  {
+   "subject": "ent:template-concatenation",
+   "predicate": "applies-to",
+   "object": "ent:template",
+   "sentence_ids": [
+    "11.2-s014"
+   ]
+  },
+  {
+   "subject": "ent:template-variable",
+   "predicate": "is-used-in",
+   "object": "ent:communication-operation",
+   "sentence_ids": [
+    "11.2-s023"
+   ]
+  }
+ ],
+ "requirements": [
+  {
+   "id": "TTCN3-CORE-11.0-001a",
+   "section": "11.0",
+   "type": "definition",
+   "modality": "IS",
+   "subject": "ent:variable",
+   "condition": null,
+   "canonical": "A TTCN-3 variable IS a statically typed variable.",
+   "original": "TTCN-3 variables are statically typed variables.",
+   "normative": true,
+   "testable": false,
+   "cross_refs": [],
+   "sentence_ids": [
+    "11.0-s001"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.0-002a",
+   "section": "11.0",
+   "type": "definition",
+   "modality": "IS",
+   "subject": "ent:variable",
+   "condition": null,
+   "canonical": "A variable IS either a value variable, which stores values, or a template variable, which stores templates.",
+   "original": "Variables are either value variables to store values or template variables to store templates.",
+   "normative": true,
+   "testable": false,
+   "cross_refs": [],
+   "sentence_ids": [
+    "11.0-s002"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.0-003a",
+   "section": "11.0",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:variable",
+   "condition": null,
+   "canonical": "A variable MAY be of a simple basic type, a basic string type, a structured type, a special data type (including subtypes derived from these types), an address type, a component type, a default type, a port type or a timer type.",
+   "original": "Variables can be of simple basic types, basic string types, structured types, special data types (including subtypes derived from these types) as well as address, component or default, port or timer types.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "11.0-s003"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.0-004a",
+   "section": "11.0",
+   "type": "semantics",
+   "modality": "IS",
+   "subject": "ent:variable",
+   "condition": null,
+   "canonical": "The type of a variable IS provided either explicitly in the declaration or implicitly according to the automatic typing rules of clause 6.5.",
+   "original": "The type of the variable is either provided explicitly or implicitly according to the rules for automatic typing specified in clause 6.5.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "6.5"
+   ],
+   "sentence_ids": [
+    "11.0-s004"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.0-005a",
+   "section": "11.0",
+   "type": "syntax",
+   "modality": "IS",
+   "subject": "ent:variable-declaration",
+   "condition": "automatic typing is used",
+   "canonical": "When automatic typing is used, the TypeOrNestedTypeDef part of a variable declaration IS absent.",
+   "original": "When automatic typing is used, the TypeOrNestedParDef part of the declaration is missing and the type of the variable is equal to the type of the expression or template body on the right-hand side of the assignment.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "6.5"
+   ],
+   "sentence_ids": [
+    "11.0-s005"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "terminology",
+    "improper_terms": [
+     {
+      "used": "TypeOrNestedParDef",
+      "proper": "TypeOrNestedTypeDef",
+      "glossary": false
+     }
+    ],
+    "issue": "The sentence names the syntax element TypeOrNestedParDef, but the variable declaration syntax in clauses 11.1 and 11.2 uses TypeOrNestedTypeDef."
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.0-005b",
+   "section": "11.0",
+   "type": "static-semantics",
+   "modality": "IS",
+   "subject": "ent:variable",
+   "condition": "automatic typing is used",
+   "canonical": "When automatic typing is used, the type of a variable IS equal to the type of the expression or template body on the right-hand side of the assignment in its declaration.",
+   "original": "When automatic typing is used, the TypeOrNestedParDef part of the declaration is missing and the type of the variable is equal to the type of the expression or template body on the right-hand side of the assignment.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "6.5"
+   ],
+   "sentence_ids": [
+    "11.0-s005"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.0-006a",
+   "section": "11.0",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:variable",
+   "condition": null,
+   "canonical": "A variable MAY be declared and used in testcases, functions and altsteps.",
+   "original": "Variables can be declared and used in test cases, functions and altsteps.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "11.0-s006"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.0-007a",
+   "section": "11.0",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:component-variable",
+   "condition": null,
+   "canonical": "A variable MAY be declared in a component type definition.",
+   "original": "Additionally, variables can be declared in component type definitions.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "11.0-s007"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.0-008a",
+   "section": "11.0",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:component-variable",
+   "condition": null,
+   "canonical": "A variable declared in a component type definition MAY be used in testcases, altsteps and functions running on that component type.",
+   "original": "These variables can be used in test cases, altsteps and functions which are running on a given component type.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "11.0-s008"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "readings": [
+     "A variable declared in a component type definition MAY be used in testcases, altsteps and functions whose runs on clause references that component type.",
+     "A variable declared in a component type definition MAY be used in testcases, altsteps and functions whose runs on clause references that component type or a component type compatible with it."
+    ],
+    "issue": "'running on a given component type' does not state whether compatible component types (clause 6.3.3) are included; the first reading is chosen as the literal one."
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.0-009a",
+   "section": "11.0",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:lazy-modifier",
+   "condition": null,
+   "canonical": "A variable MAY be declared lazy using the `@lazy` modifier.",
+   "original": "Variables can be declared lazy using the @lazy modifier.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "11.0-s009"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.0-010a",
+   "section": "11.0",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:fuzzy-modifier",
+   "condition": null,
+   "canonical": "A variable MAY be declared fuzzy using the `@fuzzy` modifier as an alternative to the `@lazy` modifier.",
+   "original": "Alternatively, variables can be declared fuzzy using the @fuzzy modifier.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "11.0-s010"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.0-010b",
+   "section": "11.0",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "subject": "ent:variable-declaration",
+   "condition": null,
+   "canonical": "A variable declaration SHALL NOT contain both the `@lazy` and the `@fuzzy` modifier.",
+   "original": "Alternatively, variables can be declared fuzzy using the @fuzzy modifier.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "11.1",
+    "11.2"
+   ],
+   "sentence_ids": [
+    "11.0-s010"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.0-011a",
+   "section": "11.0",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:deterministic-modifier",
+   "condition": "the variable is declared lazy or fuzzy",
+   "canonical": "A variable declared `@lazy` or `@fuzzy` MAY additionally be declared with the `@deterministic` modifier.",
+   "original": "If a variable is declared fuzzy or lazy they can additionally declared with the @deterministic modifier to indicate that when used in a deterministic evaluation context, any evaluation of the variable would have no side effect and would yield the same result.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "11.0-s011"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.0-011b",
+   "section": "11.0",
+   "type": "semantics",
+   "modality": "IS",
+   "subject": "ent:deterministic-modifier",
+   "condition": null,
+   "canonical": "The `@deterministic` modifier on a lazy or fuzzy variable IS an indication that, in a deterministic evaluation context, any evaluation of the variable has no side effect and yields the same result.",
+   "original": "If a variable is declared fuzzy or lazy they can additionally declared with the @deterministic modifier to indicate that when used in a deterministic evaluation context, any evaluation of the variable would have no side effect and would yield the same result.",
+   "normative": true,
+   "testable": false,
+   "cross_refs": [
+    "16.1.4"
+   ],
+   "sentence_ids": [
+    "11.0-s011"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.0-012a",
+   "section": "11.0",
+   "type": "semantics",
+   "modality": "IS",
+   "subject": "ent:lazy-variable",
+   "condition": null,
+   "canonical": "The lazy or fuzzy property of a variable IS valid only in the scope where the variable name is visible.",
+   "original": "Lazy and fuzzy features are valid only in the scope, where the variables' names are visible.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "11.0-s012"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.0-013a",
+   "section": "11.0",
+   "type": "semantics",
+   "modality": "IS",
+   "subject": "ent:fuzzy-variable",
+   "condition": "the fuzzy variable is passed to a formal parameter declared without `@lazy` or `@fuzzy` modifier",
+   "canonical": "A fuzzy variable passed to a formal parameter declared without a modifier IS not fuzzy inside the called function.",
+   "original": "For example, if a fuzzy variable is passed to a formal parameter declared without a modifier, it loses its fuzzy feature inside the called function.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "5.4.1.1"
+   ],
+   "sentence_ids": [
+    "11.0-s013"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.0-014a",
+   "section": "11.0",
+   "type": "semantics",
+   "modality": "IS",
+   "subject": "ent:fuzzy-variable",
+   "condition": "the fuzzy variable is passed to a formal parameter declared `@lazy`",
+   "canonical": "A fuzzy variable passed to a lazy formal parameter IS lazy within the called function.",
+   "original": "Similarly, if it is passed to a lazy formal parameter, it becomes lazy within the called function.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "5.4.1.1"
+   ],
+   "sentence_ids": [
+    "11.0-s014",
+    "11.0-s013"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.0-015a",
+   "section": "11.0",
+   "type": "semantics",
+   "modality": "SHALL",
+   "subject": "ent:ttcn3-tool",
+   "condition": "a lazy or fuzzy variable is assigned",
+   "canonical": "Whenever a lazy or fuzzy variable is assigned, the test execution SHALL save the lexical environment (the set of directly or indirectly referenced values and templates) valid at the time of the assignment, so that the expression can be resolved when the lazy or fuzzy value or template is evaluated.",
+   "original": "Whenever a lazy or fuzzy variable is assigned, the TE is required to save the lexical environment (the set of directly or indirectly referenced values and templates) valid at the time of the assignment, so that it is possible to resolve the expression at the time of evaluation of the lazy or fuzzy value or template.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "11.0-s015"
+   ],
+   "examples": [
+    "11.0-s017"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.0-016a",
+   "section": "11.0",
+   "type": "semantics",
+   "modality": "IS",
+   "subject": "ent:lexical-environment",
+   "condition": "the assignment was made in a lower scope than the evaluation",
+   "canonical": "If a lazy or fuzzy variable is assigned in a lower scope than the scope of its evaluation, saving the lexical environment IS extending the lifetime of the referenced variables defined in that lower scope.",
+   "original": "If the assignment was made on a lower scope than the evaluation, saving the lexical environment extends lifetime of the referenced variables defined on that lower scope.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "11.0-s016"
+   ],
+   "examples": [
+    "11.0-s017"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.1-001a",
+   "section": "11.1",
+   "type": "definition",
+   "modality": "IS",
+   "subject": "ent:value-variable",
+   "condition": null,
+   "canonical": "A TTCN-3 value variable IS a variable that stores values.",
+   "original": "A TTCN-3 value variable stores values.",
+   "normative": true,
+   "testable": false,
+   "cross_refs": [],
+   "sentence_ids": [
+    "11.1-s001"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.1-002a",
+   "section": "11.1",
+   "type": "syntax",
+   "modality": "IS",
+   "subject": "ent:value-variable-declaration",
+   "condition": null,
+   "canonical": "A value variable declaration IS the `var` keyword followed by a type identifier or a nested type definition and a variable identifier.",
+   "original": "It is declared by the var keyword followed by a type identifier or a nested type definition and a variable identifier.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "11.1-s002"
+   ],
+   "examples": [
+    "11.1-s022"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.1-003a",
+   "section": "11.1",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:value-variable-declaration",
+   "condition": null,
+   "canonical": "A value variable declaration MAY assign an initial value to the value variable.",
+   "original": "An initial value can be assigned at variable declaration.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "11.1-s003"
+   ],
+   "examples": [
+    "11.1-s022"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.1-004a",
+   "section": "11.1",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:value-variable",
+   "condition": null,
+   "canonical": "A value variable MAY be used on the right hand side and on the left hand side of assignments.",
+   "original": "It may be used at the right hand side as well as at the left hand side of assignments, in expressions, following the return keyword in bodies of functions with a return clause in their headers and may be passed to both value and template-type formal parameters.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "11.1-s004"
+   ],
+   "examples": [
+    "11.1-s022"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.1-004b",
+   "section": "11.1",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:value-variable",
+   "condition": null,
+   "canonical": "A value variable MAY be used in expressions.",
+   "original": "It may be used at the right hand side as well as at the left hand side of assignments, in expressions, following the return keyword in bodies of functions with a return clause in their headers and may be passed to both value and template-type formal parameters.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "11.1-s004"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.1-004c",
+   "section": "11.1",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:value-variable",
+   "condition": null,
+   "canonical": "A value variable MAY be used following the `return` keyword in the body of a function with a return clause in its header.",
+   "original": "It may be used at the right hand side as well as at the left hand side of assignments, in expressions, following the return keyword in bodies of functions with a return clause in their headers and may be passed to both value and template-type formal parameters.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "11.1-s004"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.1-004d",
+   "section": "11.1",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:value-variable",
+   "condition": null,
+   "canonical": "A value variable MAY be passed as actual parameter to both value formal parameters and template-type formal parameters.",
+   "original": "It may be used at the right hand side as well as at the left hand side of assignments, in expressions, following the return keyword in bodies of functions with a return clause in their headers and may be passed to both value and template-type formal parameters.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "11.1-s004"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.1-005a",
+   "section": "11.1",
+   "type": "syntax",
+   "modality": "IS",
+   "subject": "ent:value-variable-declaration",
+   "condition": null,
+   "canonical": "A value variable declaration has the syntax `var` [ ( `@lazy` | `@fuzzy` ) [ `@deterministic` ] ] [ TypeOrNestedTypeDef ] followed by one or more comma-separated VarIdentifier [ ArrayDef ] [ \":=\" Expression ] and an optional \";\".",
+   "original": "var [ ( @lazy | @fuzzy ) [ @deterministic ] ] [ TypeOrNestedTypeDef ] { VarIdentifier [ ArrayDef ] [ \":=\" Expression ] [ \",\" ] }+ [ \";\" ]",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "11.1-s005"
+   ],
+   "examples": [
+    "11.1-s022"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.1-006a",
+   "section": "11.1",
+   "type": "definition",
+   "modality": "IS",
+   "subject": "ent:value-variable",
+   "condition": null,
+   "canonical": "A value variable IS an association of a name with the location of a value.",
+   "original": "A value variable associates a name with the location of a value.",
+   "normative": true,
+   "testable": false,
+   "cross_refs": [],
+   "sentence_ids": [
+    "11.1-s006"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.1-007a",
+   "section": "11.1",
+   "type": "semantics",
+   "modality": "MAY",
+   "subject": "ent:value-variable",
+   "condition": null,
+   "canonical": "A value variable MAY change its value several times during test execution.",
+   "original": "A value variable may change its value during test execution several times.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "11.1-s007"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.1-008a",
+   "section": "11.1",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:value-variable",
+   "condition": null,
+   "canonical": "A value MAY be assigned several times to a value variable.",
+   "original": "A value can be assigned several times to a value variable.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "11.1-s008"
+   ],
+   "examples": [
+    "11.1-s022"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.1-009a",
+   "section": "11.1",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:value-variable",
+   "condition": null,
+   "canonical": "A value variable MAY be referenced multiple times in a TTCN-3 module.",
+   "original": "The value variable can be referenced multiple times in a TTCN-3 module.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "11.1-s009"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.1-011a",
+   "section": "11.1",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "subject": "ent:expression",
+   "condition": null,
+   "canonical": "The Expression in a value variable declaration SHALL evaluate to a value that is type compatible with TypeOrNestedTypeDef.",
+   "original": "a) _Expression shall evaluate to a value which is type compatible with TypeOrNestedTypeDef._",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "6.3"
+   ],
+   "sentence_ids": [
+    "11.1-s011"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.1-011b",
+   "section": "11.1",
+   "type": "restriction",
+   "modality": "SHALL",
+   "subject": "ent:value-variable",
+   "condition": null,
+   "canonical": "A value variable SHALL store values only.",
+   "original": "b) Value variables shall store values only.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "11.1-s011"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.1-012a",
+   "section": "11.1",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "subject": "ent:value-variable",
+   "condition": null,
+   "canonical": "A value variable SHALL NOT be declared or used in a module definitions part.",
+   "original": "c) Value variables shall not be declared or used in a module definitions part (i.e. global variables are not supported in TTCN-3).",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "11.1-s012"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.1-012b",
+   "section": "11.1",
+   "type": "information",
+   "modality": "IS NOT",
+   "subject": "ent:variable",
+   "condition": null,
+   "canonical": "A global variable IS NOT supported in TTCN-3.",
+   "original": "c) Value variables shall not be declared or used in a module definitions part (i.e. global variables are not supported in TTCN-3).",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "11.1-s012"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.1-013a",
+   "section": "11.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "subject": "ent:uninitialized-variable",
+   "condition": null,
+   "canonical": "Use of an uninitialized value variable at any place other than the left hand side of an assignment, a return statement, or an actual parameter passed to a formal parameter SHALL cause an error.",
+   "original": "d) Use of uninitialized value variables at other places than the left hand side of assignments, in return statements, or as actual parameters passed to formal parameters shall cause an error.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "11.1-s013"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "readings": [
+     "Use of an uninitialized value variable in any place other than the left hand side of an assignment, a return statement or an actual parameter SHALL cause an error (static or dynamic).",
+     "Use of an uninitialized value variable in any place other than the left hand side of an assignment, a return statement or an actual parameter SHALL cause a dynamic error at runtime only."
+    ],
+    "issue": "The kind of error (compile-time or runtime) is not stated; the canonical text keeps the generic 'error'. Also unclear whether passing to an in formal parameter is excluded from the error."
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.1-014a",
+   "section": "11.1",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "subject": "ent:lazy-variable",
+   "condition": null,
+   "canonical": "The initialization or assignment of a lazy or fuzzy value variable SHALL NOT contain a call of a function with `inout` or `out` parameters.",
+   "original": "e) The initialization or assignment of a fuzzy or lazy variable shall not contain function calls of functions with inout or out parameters.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "11.1-s014"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.1-015a",
+   "section": "11.1",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:function",
+   "condition": null,
+   "canonical": "A function called in the initialization or assignment of a lazy or fuzzy value variable MAY internally call other functions with `inout` or `out` parameters.",
+   "original": "The called functions may use other functions with inout or out parameters internally.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "11.1-s015",
+    "11.1-s014"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.1-016a",
+   "section": "11.1",
+   "type": "restriction",
+   "modality": "SHALL",
+   "subject": "ent:deterministic-modifier",
+   "condition": "a lazy or fuzzy value variable is used in a deterministic context",
+   "canonical": "If a lazy or fuzzy value variable is used in a deterministic context (i.e. during the evaluation of a snapshot or the initialization of a global non-fuzzy template), the variable SHALL be declared `@deterministic`.",
+   "original": "f) If a lazy or fuzzy value variable is used in deterministic contexts (i.e. during the evaluation of a snapshot or initialization of global non-fuzzy templates), it shall be declared @deterministic and the expression assigned to the variable shall fulfill the restrictions imposed on content of functions used in special places given in clause 16.1.4.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "16.1.4"
+   ],
+   "sentence_ids": [
+    "11.1-s016"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.1-016b",
+   "section": "11.1",
+   "type": "restriction",
+   "modality": "SHALL",
+   "subject": "ent:expression",
+   "condition": "a lazy or fuzzy value variable is used in a deterministic context",
+   "canonical": "If a lazy or fuzzy value variable is used in a deterministic context, the expression assigned to the variable SHALL fulfil the restrictions on the content of functions used in special places given in clause 16.1.4.",
+   "original": "f) If a lazy or fuzzy value variable is used in deterministic contexts (i.e. during the evaluation of a snapshot or initialization of global non-fuzzy templates), it shall be declared @deterministic and the expression assigned to the variable shall fulfill the restrictions imposed on content of functions used in special places given in clause 16.1.4.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "16.1.4"
+   ],
+   "sentence_ids": [
+    "11.1-s016"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.1-017a",
+   "section": "11.1",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:expression",
+   "condition": null,
+   "canonical": "The expression assigned to a lazy or fuzzy variable MAY contain a direct or indirect reference to that variable.",
+   "original": "g) The expression assigned to a lazy or fuzzy variable might contain a direct or indirect reference to this variable.",
+   "normative": true,
+   "testable": false,
+   "cross_refs": [],
+   "sentence_ids": [
+    "11.1-s017"
+   ],
+   "examples": [
+    "11.1-s022"
+   ],
+   "ambiguity": {
+    "status": "ambiguous",
+    "readings": [
+     "The expression assigned to a lazy or fuzzy variable MAY (is permitted to) contain a direct or indirect reference to that variable.",
+     "The expression assigned to a lazy or fuzzy variable CAN (possibly) contain a direct or indirect reference to that variable, which is a situation to be handled by the following rule."
+    ],
+    "issue": "'might' is unclear between a permission and a possibility; read together with the next sentence the self-reference is statically allowed but leads to a dynamic error on evaluation. The permission reading is chosen."
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.1-018a",
+   "section": "11.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "subject": "ent:error",
+   "condition": "the expression assigned to a lazy or fuzzy variable contains a direct or indirect reference to that variable",
+   "canonical": "Evaluation of an expression assigned to a lazy or fuzzy variable that directly or indirectly references that variable SHALL cause a dynamic error.",
+   "original": "Evaluation of such an expression shall cause a dynamic error.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "11.1-s018",
+    "11.1-s017"
+   ],
+   "examples": [
+    "11.1-s022"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.1-019a",
+   "section": "11.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "subject": "ent:address-value",
+   "condition": "the actual value of the address value is `null`",
+   "canonical": "Using the dot notation or the index notation to reference a field, alternative or element of an address value whose actual value is `null` SHALL cause an error.",
+   "original": "h) Using the dot notation (see clauses 6.2.1.1, 6.2.2.1 and 6.2.5.1) and index notation (see clauses 6.2.7 and 6.2.3.0) for referencing a field, alternative or element of an address value, which actual value is null shall cause an error.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "6.2.1.1",
+    "6.2.2.1",
+    "6.2.5.1",
+    "6.2.7",
+    "6.2.3.0",
+    "6.2.12"
+   ],
+   "sentence_ids": [
+    "11.1-s019"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.1-020a",
+   "section": "11.1",
+   "type": "restriction",
+   "modality": "SHALL",
+   "subject": "ent:expression",
+   "condition": null,
+   "canonical": "The Expression in a value variable declaration SHALL evaluate to a value that is at least partially initialized.",
+   "original": "i) The expression shall evaluate to a value, which is at least partially initialized.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "11.1-s020"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.1-021a",
+   "section": "11.1",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "subject": "ent:value-variable-declaration",
+   "condition": "the TypeOrNestedTypeDef part is missing",
+   "canonical": "If the TypeOrNestedTypeDef part is missing from a value variable declaration, the ArrayDef part SHALL be missing as well.",
+   "original": "j) If the TypeOrNestedTypeDef part is missing from the declaration, the ArrayDef part shall be missing as well and the assignment part (i.e. \":=\" Expression) shall be present.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "6.5"
+   ],
+   "sentence_ids": [
+    "11.1-s021"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.1-021b",
+   "section": "11.1",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "subject": "ent:value-variable-declaration",
+   "condition": "the TypeOrNestedTypeDef part is missing",
+   "canonical": "If the TypeOrNestedTypeDef part is missing from a value variable declaration, the assignment part (\":=\" Expression) SHALL be present.",
+   "original": "j) If the TypeOrNestedTypeDef part is missing from the declaration, the ArrayDef part shall be missing as well and the assignment part (i.e. \":=\" Expression) shall be present.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "6.5"
+   ],
+   "sentence_ids": [
+    "11.1-s021"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.1-022a",
+   "section": "11.1",
+   "type": "information",
+   "modality": "IS",
+   "subject": "ent:value-variable",
+   "condition": null,
+   "canonical": "A value variable of timer type IS assignable from a timer.",
+   "original": "var timer v_timer1; ... timer t_myTimer1; ... v_timer1 := t_myTimer1;",
+   "normative": false,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "11.1-s022"
+   ],
+   "examples": [
+    "11.1-s022"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.2-001a",
+   "section": "11.2",
+   "type": "definition",
+   "modality": "IS",
+   "subject": "ent:template-variable",
+   "condition": null,
+   "canonical": "A TTCN-3 template variable IS a variable that stores templates.",
+   "original": "A TTCN-3 template variable stores templates.",
+   "normative": true,
+   "testable": false,
+   "cross_refs": [],
+   "sentence_ids": [
+    "11.2-s001"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.2-002a",
+   "section": "11.2",
+   "type": "syntax",
+   "modality": "IS",
+   "subject": "ent:template-variable-declaration",
+   "condition": null,
+   "canonical": "A template variable declaration IS the `var template` keywords followed by a type identifier and a variable identifier.",
+   "original": "They are declared by the `var template` keyword followed by a type identifier and a variable identifier.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "11.2"
+   ],
+   "sentence_ids": [
+    "11.2-s002"
+   ],
+   "examples": [
+    "11.2-s032"
+   ],
+   "ambiguity": {
+    "status": "terminology",
+    "improper_terms": [
+     {
+      "used": "`var template` keyword",
+      "proper": "`var` keyword followed by a template modifier (TemplateModifier)",
+      "glossary": false
+     }
+    ],
+    "issue": "The prose speaks of a single 'var template keyword' and only a type identifier, while the syntactical structure uses `var` TemplateModifier (template, possibly with restriction) and TypeOrNestedTypeDef (which also allows a nested type definition or automatic typing)."
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.2-003a",
+   "section": "11.2",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:template-variable-declaration",
+   "condition": null,
+   "canonical": "A template variable declaration MAY assign an initial content to the template variable.",
+   "original": "An initial content can be assigned at declaration.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "11.2-s003"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "readings": [
+     "A template variable declaration MAY assign an initial content to the template variable (the assignment is optional).",
+     "A template variable declaration SHALL assign an initial content, as the syntactical structure requires \":=\" TemplateBody."
+    ],
+    "issue": "The prose suggests an optional initial content, but the syntax block of 11.2 makes \":=\" TemplateBody mandatory. The prose reading is kept in the canonical text; test authors should follow the syntax block."
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.2-004a",
+   "section": "11.2",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:template-variable",
+   "condition": null,
+   "canonical": "A template variable MAY store matching mechanisms in addition to values.",
+   "original": "In addition to values, template variables may also store matching mechanisms (see clause 15.6.6).",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "15.6.6"
+   ],
+   "sentence_ids": [
+    "11.2-s004"
+   ],
+   "examples": [
+    "11.2-s032"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.2-005a",
+   "section": "11.2",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:template-variable",
+   "condition": null,
+   "canonical": "A template variable MAY be used on the right hand side and on the left hand side of assignments.",
+   "original": "Template variables may be used on the right hand side as well as on the left hand side of assignments, following the `return` keyword in bodies of functions defining a template-type return value in their headers and may be passed as actual parameters to template-type formal parameters.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "11.2-s005"
+   ],
+   "examples": [
+    "11.2-s032"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.2-005b",
+   "section": "11.2",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:template-variable",
+   "condition": null,
+   "canonical": "A template variable MAY be used following the `return` keyword in the body of a function that defines a template-type return value in its header.",
+   "original": "Template variables may be used on the right hand side as well as on the left hand side of assignments, following the `return` keyword in bodies of functions defining a template-type return value in their headers and may be passed as actual parameters to template-type formal parameters.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "11.2-s005"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.2-005c",
+   "section": "11.2",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:template-variable",
+   "condition": null,
+   "canonical": "A template variable MAY be passed as actual parameter to a template-type formal parameter.",
+   "original": "Template variables may be passed as actual parameters to template-type formal parameters.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "11.2-s005"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.2-006a",
+   "section": "11.2",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:template-instance",
+   "condition": null,
+   "canonical": "A template instance MAY be assigned to a template variable or to a field of a template variable.",
+   "original": "It is also allowed to assign a template instance to a template variable or a template variable field.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "11.2-s006"
+   ],
+   "examples": [
+    "11.2-s032"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.2-007a",
+   "section": "11.2",
+   "type": "syntax",
+   "modality": "IS",
+   "subject": "ent:template-variable-declaration",
+   "condition": null,
+   "canonical": "A template variable declaration has the syntax `var` TemplateModifier [ ( `@lazy` | `@fuzzy` ) [ `@deterministic` ] ] [ TypeOrNestedTypeDef ] followed by one or more comma-separated VarIdentifier [ ArrayDef ] \":=\" TemplateBody and an optional \";\".",
+   "original": "var TemplateModifier [ (@lazy | @fuzzy) [ @deterministic ] ] [ TypeOrNestedTypeDef ] { VarIdentifier [ ArrayDef ] \":=\" TemplateBody [ \",\" ] }+ [ \";\" ]",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "11.2-s007"
+   ],
+   "examples": [
+    "11.2-s032"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.2-008a",
+   "section": "11.2",
+   "type": "definition",
+   "modality": "IS",
+   "subject": "ent:template-variable",
+   "condition": null,
+   "canonical": "A template variable IS an association of a name with the location of a template or a value.",
+   "original": "A template variable associates a name with the location of a template or a value (as every value is also a template).",
+   "normative": true,
+   "testable": false,
+   "cross_refs": [],
+   "sentence_ids": [
+    "11.2-s008"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.2-008b",
+   "section": "11.2",
+   "type": "information",
+   "modality": "IS",
+   "subject": "ent:value",
+   "condition": null,
+   "canonical": "Every value IS also a template.",
+   "original": "A template variable associates a name with the location of a template or a value (as every value is also a template).",
+   "normative": true,
+   "testable": false,
+   "cross_refs": [],
+   "sentence_ids": [
+    "11.2-s008"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.2-009a",
+   "section": "11.2",
+   "type": "semantics",
+   "modality": "MAY",
+   "subject": "ent:template-variable",
+   "condition": null,
+   "canonical": "A template variable MAY change its template several times during test execution.",
+   "original": "A template variable may change its template during test execution several times.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "11.2-s009"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.2-010a",
+   "section": "11.2",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:template-variable",
+   "condition": null,
+   "canonical": "A template or value MAY be assigned several times to a template variable.",
+   "original": "A template or value can be assigned several times to a template variable.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "11.2-s010"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.2-011a",
+   "section": "11.2",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:template-variable",
+   "condition": null,
+   "canonical": "A template variable MAY be referenced multiple times in a TTCN-3 module.",
+   "original": "The template variable can be referenced multiple times in a TTCN-3 module.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "11.2-s011"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.2-012a",
+   "section": "11.2",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:template-restriction",
+   "condition": null,
+   "canonical": "The content of a template variable MAY be restricted by a template restriction to the matching mechanisms specific value and `omit`, in the same way as formal template parameters.",
+   "original": "The content of a template variable can be restricted to the matching mechanisms specific value and omit in the same way as formal template parameters, see clause 5.4.1.2.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "5.4.1.2",
+    "15.8"
+   ],
+   "sentence_ids": [
+    "11.2-s012"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.2-013a",
+   "section": "11.2",
+   "type": "syntax",
+   "modality": "MAY",
+   "subject": "ent:omit-restriction",
+   "condition": null,
+   "canonical": "The template restriction `template (omit)` MAY be replaced by the shorthand notation `omit`.",
+   "original": "The restriction template (omit) can be replaced by the shorthand notation omit.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "15.8"
+   ],
+   "sentence_ids": [
+    "11.2-s013"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.2-014a",
+   "section": "11.2",
+   "type": "information",
+   "modality": "CAN",
+   "subject": "ent:template-concatenation",
+   "condition": null,
+   "canonical": "A string type template or a list type template CAN be concatenated.",
+   "original": "NOTE 1: String and list type templates can be concatenated, see clause 15.11.",
+   "normative": false,
+   "testable": true,
+   "cross_refs": [
+    "15.11"
+   ],
+   "sentence_ids": [
+    "11.2-s014"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.2-016a",
+   "section": "11.2",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "subject": "ent:template-variable",
+   "condition": null,
+   "canonical": "A template variable SHALL NOT be declared or used in a module definitions part.",
+   "original": "a) Template variables shall not be declared or used in a module definitions part (i.e. global variables are not supported in TTCN-3).",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "11.2-s016"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.2-017a",
+   "section": "11.2",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "subject": "ent:template-variable",
+   "condition": "the template variable is used on the right hand side of an assignment",
+   "canonical": "A template variable used on the right hand side of an assignment SHALL NOT be an operand of a TTCN-3 operator.",
+   "original": "b) When used on the right hand side of assignments template variables shall not be operands of TTCN-3 operators (see clause 7.1) and the variable on the left hand side shall be a template variable too.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "7.1"
+   ],
+   "sentence_ids": [
+    "11.2-s017"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.2-017b",
+   "section": "11.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "subject": "ent:template-variable",
+   "condition": "the template variable is used on the right hand side of an assignment",
+   "canonical": "If a template variable is used on the right hand side of an assignment, the variable on the left hand side SHALL be a template variable.",
+   "original": "b) When used on the right hand side of assignments template variables shall not be operands of TTCN-3 operators (see clause 7.1) and the variable on the left hand side shall be a template variable too.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "11.2-s017"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "readings": [
+     "If a template variable is used on the right hand side of an assignment, the variable on the left hand side SHALL be a template variable.",
+     "If a template variable is used on the right hand side of an assignment, the target on the left hand side SHALL be a template variable or a field of a template variable (e.g. accessed via dot or index notation)."
+    ],
+    "issue": "'the variable on the left hand side' does not say whether a field or element of a template variable counts; the second reading is consistent with 11.2-s006, the first is the literal reading and is chosen."
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.2-018a",
+   "section": "11.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "subject": "ent:template-variable",
+   "condition": "an element of a template variable is accessed in an assignment",
+   "canonical": "When an element of a template variable is accessed on the left hand side or the right hand side of an assignment, the rules of clause 15.6 SHALL apply.",
+   "original": "c) When accessing element of template variables either on the left hand side or on the right hand side of assignments, the rules given in clause 15.6 shall apply.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "15.6"
+   ],
+   "sentence_ids": [
+    "11.2-s018"
+   ],
+   "examples": [
+    "11.2-s032"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.2-019a",
+   "section": "11.2",
+   "type": "information",
+   "modality": "MAY",
+   "subject": "ent:template-variable",
+   "condition": null,
+   "canonical": "The dot notation and the index notation MAY be used to inspect and modify fields of a template variable, although TTCN-3 operations SHALL NOT be applied directly to template variables.",
+   "original": "NOTE 2: While it is not allowed to directly apply TTCN-3 operations to template variables, it is allowed to use the dot notation and the index notation to inspect and modify template variable fields.",
+   "normative": false,
+   "testable": true,
+   "cross_refs": [
+    "15.6"
+   ],
+   "sentence_ids": [
+    "11.2-s019"
+   ],
+   "examples": [
+    "11.2-s032"
+   ],
+   "ambiguity": {
+    "status": "terminology",
+    "improper_terms": [
+     {
+      "used": "TTCN-3 operations",
+      "proper": "TTCN-3 operators",
+      "glossary": false
+     }
+    ],
+    "issue": "The NOTE says 'TTCN-3 operations' while restriction b) it explains speaks of 'TTCN-3 operators (see clause 7.1)'."
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.2-020a",
+   "section": "11.2",
+   "type": "semantics",
+   "modality": "SHALL",
+   "subject": "ent:uninitialized-variable",
+   "condition": null,
+   "canonical": "Use of an uninitialized template variable at any place other than the left hand side of an assignment, a return statement, or an actual parameter passed to a formal parameter SHALL cause an error.",
+   "original": "d) Use of uninitialized template variables at other places than the left hand side of assignments, in return statements, or as actual parameters passed to formal parameters shall cause an error.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "11.2-s020"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "readings": [
+     "Use of an uninitialized template variable in any other place SHALL cause an error (static or dynamic).",
+     "Use of an uninitialized template variable in any other place SHALL cause a dynamic error at runtime only."
+    ],
+    "issue": "The kind of error (compile-time or runtime) is not stated; since template variable declarations require an initial TemplateBody, it is also unclear how a template variable can be uninitialized. The generic reading is chosen."
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.2-022a",
+   "section": "11.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "subject": "ent:template-restriction",
+   "condition": "the template variable has a template restriction",
+   "canonical": "If a template variable is restricted, the template used to initialize it SHALL contain only the matching mechanisms permitted by the restriction as described in clause 15.8.",
+   "original": "f) If the template variable is restricted, then the template used to initialize it shall contain only the matching mechanisms as described in clause 15.8.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "15.8"
+   ],
+   "sentence_ids": [
+    "11.2-s022"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.2-023a",
+   "section": "11.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "subject": "ent:template-variable",
+   "condition": "the template variable is used in a sending or receiving operation",
+   "canonical": "A template variable SHALL be completely initialized in order to be used in a sending or receiving operation, as global and local templates.",
+   "original": "g) Template variables, similarly to global and local templates, shall be fully specified in order to be used in sending and receiving operations.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "15.0",
+    "22"
+   ],
+   "sentence_ids": [
+    "11.2-s023"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "terminology",
+    "improper_terms": [
+     {
+      "used": "fully specified",
+      "proper": "completely initialized",
+      "glossary": true
+     }
+    ],
+    "issue": "'fully specified' is not a defined term; the glossary term 'completely initialized' is meant. For sending operations the template additionally has to resolve to a value (clause 15.0)."
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.2-024a",
+   "section": "11.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "subject": "ent:template-variable",
+   "condition": null,
+   "canonical": "The restrictions on templates given in clause 15.0 SHALL apply to template variables.",
+   "original": "h) Restrictions on templates in clause 15.0 shall apply.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "15.0"
+   ],
+   "sentence_ids": [
+    "11.2-s024"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.2-025a",
+   "section": "11.2",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "subject": "ent:lazy-variable",
+   "condition": null,
+   "canonical": "The initialization or assignment of a lazy or fuzzy template variable SHALL NOT contain a call of a function with `inout` or `out` parameters.",
+   "original": "i) The initialization or assignment of a fuzzy or lazy variable shall not contain function calls of functions with inout or out parameters.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "11.2-s025"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.2-026a",
+   "section": "11.2",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:function",
+   "condition": null,
+   "canonical": "A function called in the initialization or assignment of a lazy or fuzzy template variable MAY internally call other functions with `inout` or `out` parameters.",
+   "original": "The called functions may use other functions with inout or out parameters internally.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "11.2-s026",
+    "11.2-s025"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.2-027a",
+   "section": "11.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "subject": "ent:deterministic-modifier",
+   "condition": "a lazy or fuzzy template variable is used in a deterministic context",
+   "canonical": "If a lazy or fuzzy template variable is used in a deterministic context (i.e. during the evaluation of a snapshot or the initialization of a global non-fuzzy template), the variable SHALL be declared `@deterministic`.",
+   "original": "j) If a lazy or fuzzy template variable is used in deterministic contexts (i.e. during the evaluation of a snapshot or initialization of global non-fuzzy templates), it shall be declared @deterministic and the template body assigned to the variable shall fulfill the restrictions imposed on content of functions used in special places given in clause 16.1.4.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "16.1.4"
+   ],
+   "sentence_ids": [
+    "11.2-s027"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.2-027b",
+   "section": "11.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "subject": "ent:template-body",
+   "condition": "a lazy or fuzzy template variable is used in a deterministic context",
+   "canonical": "If a lazy or fuzzy template variable is used in a deterministic context, the template body assigned to the variable SHALL fulfil the restrictions on the content of functions used in special places given in clause 16.1.4.",
+   "original": "j) If a lazy or fuzzy template variable is used in deterministic contexts (i.e. during the evaluation of a snapshot or initialization of global non-fuzzy templates), it shall be declared @deterministic and the template body assigned to the variable shall fulfill the restrictions imposed on content of functions used in special places given in clause 16.1.4.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "16.1.4"
+   ],
+   "sentence_ids": [
+    "11.2-s027"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.2-028a",
+   "section": "11.2",
+   "type": "semantics",
+   "modality": "SHALL",
+   "subject": "ent:address-value",
+   "condition": "the actual value of the address value is `null` (in the context of template variables)",
+   "canonical": "Using the dot notation or the index notation to reference a field, alternative or element of an address value whose actual value is `null` SHALL cause an error.",
+   "original": "k) Using the dot notation (see clauses 6.2.1.1, 6.2.2.1 and 6.2.5.1) and index notation (see clause 6.2.7) for referencing a field, alternative or element of an address value, which actual value is null shall cause an error.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "6.2.1.1",
+    "6.2.2.1",
+    "6.2.5.1",
+    "6.2.7",
+    "6.2.12"
+   ],
+   "sentence_ids": [
+    "11.2-s028"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.2-029a",
+   "section": "11.2",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "subject": "ent:template-body",
+   "condition": null,
+   "canonical": "The template body on the right-hand side of the assignment symbol in a template variable declaration SHALL evaluate to a value or template that is type compatible with the declared template variable.",
+   "original": "l) The template body at the right-hand side of the assignment symbol shall evaluate to a value or template, which is type compatible with the variable being declared.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "6.3"
+   ],
+   "sentence_ids": [
+    "11.2-s029"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.2-030a",
+   "section": "11.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "subject": "ent:template-body",
+   "condition": null,
+   "canonical": "The template body on the right-hand side of the assignment symbol in a template variable declaration SHALL evaluate to an object that is at least partially initialized.",
+   "original": "m) The template body at the right-hand side of the assignment symbol shall evaluate to an object that is at least partially initialized.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "11.2-s030"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.2-031a",
+   "section": "11.2",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "subject": "ent:template-variable-declaration",
+   "condition": "the TypeOrNestedTypeDef part is missing",
+   "canonical": "If the TypeOrNestedTypeDef part is missing from a template variable declaration, the ArrayDef part SHALL be missing as well.",
+   "original": "n) If the TypeOrNestedTypeDef part is missing from the declaration, the ArrayDef part shall be missing as well and the assignment part (i.e. \":=\" TemplateBody) shall be present.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "6.5"
+   ],
+   "sentence_ids": [
+    "11.2-s031"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.2-031b",
+   "section": "11.2",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "subject": "ent:template-variable-declaration",
+   "condition": "the TypeOrNestedTypeDef part is missing",
+   "canonical": "If the TypeOrNestedTypeDef part is missing from a template variable declaration, the assignment part (\":=\" TemplateBody) SHALL be present.",
+   "original": "n) If the TypeOrNestedTypeDef part is missing from the declaration, the ArrayDef part shall be missing as well and the assignment part (i.e. \":=\" TemplateBody) shall be present.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "6.5"
+   ],
+   "sentence_ids": [
+    "11.2-s031"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-11.2-032a",
+   "section": "11.2",
+   "type": "information",
+   "modality": "IS",
+   "subject": "ent:fuzzy-variable",
+   "condition": null,
+   "canonical": "A fuzzy template variable IS evaluated on every usage.",
+   "original": "var template @fuzzy float v_fuzzTemp1 := rnd(); // evaluated on every usage",
+   "normative": false,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "11.2-s032"
+   ],
+   "examples": [
+    "11.2-s032"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   }
+  }
+ ],
+ "non_requirement": [
+  {
+   "sentence_id": "11.1-s010",
+   "category": "cross-reference",
+   "reason": "introduces the restrictions list of 11.1 and refers to the general static rules of clause 5"
+  },
+  {
+   "sentence_id": "11.2-s015",
+   "category": "cross-reference",
+   "reason": "introduces the restrictions list of 11.2 and refers to the general static rules of clause 5"
+  },
+  {
+   "sentence_id": "11.2-s021",
+   "category": "editorial",
+   "reason": "void list item e)"
+  }
+ ]
+}

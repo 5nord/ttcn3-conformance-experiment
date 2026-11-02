@@ -1,0 +1,93 @@
+TTCN-3 REQUIREMENT TESTS - INSTRUCTIONS FOR ONE BATCH
+
+Working directory: /home/mef/Projects/core-language-4.17.1
+Spec (markdown):   "TTCN-3 Core Language, ETSI ES 201 873-1.md"  (ETSI ES 201 873-1 V4.17.1, ~1.2 MB:
+                   NEVER read it whole; read only around the given line numbers with Read offset/limit,
+                   or Grep it, e.g. for BNF rules in annex A)
+Your input:        tests/_batches/<BATCH>.json   (field "requirements": the requirements you must test)
+Your output:       one .ttcn3 file per requirement, at the path given in its "file" field
+                   plus tests/_batches/<BATCH>.notes.json
+Checker:           python3 scripts/check_tests.py batch <BATCH>
+Reference tests:   tests/05-basic-language-elements/05.00_test_00{1,2,3}.ttcn3
+
+GOAL
+For EVERY requirement in your batch, write one minimal, self-contained TTCN-3 test that checks
+exactly that requirement and nothing else. Do not skip any requirement. Do not touch files that
+are not listed in your batch.
+
+PER-REQUIREMENT FIELDS
+  original    verbatim sentence of the standard (already collapsed to one line)
+  canonical   normalised reading of the requirement (use it to understand what to test)
+  condition   precondition under which the requirement applies, if any
+  type/modality  definition|semantics|static-semantics|syntax|permission|restriction|prohibition|...
+               / IS|SHALL|SHALL NOT|MAY|CANNOT|...
+  ambiguity   if not "clear", read "issue"/"readings"; test the reading that is most plausible
+              in the context of the standard, and mention the choice in the notes file
+  spec_lines  [first,last] line of the sentence in the spec markdown. Read at least ~40 lines
+              around it to understand context (the clause heading, syntax box, restrictions list).
+  examples    example code / text from the standard that illustrates the requirement
+  file, module, header  the exact path, module name and first line you MUST use
+
+FILE FORMAT (exact)
+  line 1: the "header" field, verbatim:   // @requirement: <section> -- <original>
+  line 2: // @id: <id>
+  line 3: // @verdict: <one of the verdicts below>
+  then:   module <module> { ... }
+Helper modules (only if the requirement needs more than one module, e.g. imports) go in the
+same file after the main module and are named <module>_<suffix>, e.g. M_08_02_test_004_A.
+Keep comments in the body to a minimum; for a reject test put one short comment on the
+offending line, e.g. "// error: value of wrong type".
+
+VERDICTS (same convention as the ETSI conformance test suite)
+  pass accept, ttcn3verdict:pass     tool must accept the module; executing the control part
+                                     yields verdict pass. This is the default for positive tests.
+  pass accept, ttcn3verdict:<v>      as above but the expected final verdict is v
+                                     (none|inconc|fail|error). Use ttcn3verdict:error for
+                                     requirements that say something causes a runtime/test case error.
+  pass accept, noexecution           tool must accept the module; there is nothing meaningful to
+                                     execute (pure syntax / declaration requirements).
+  pass reject                        tool must reject the module at compile time (violations of
+                                     SHALL NOT / CANNOT / restriction / static-semantics / syntax rules).
+
+HOW TO CHOOSE THE TEST
+  - permission / MAY / syntax / definition: positive test that uses the feature exactly as allowed.
+  - semantics / SHALL: positive executable test that observes the behaviour and calls
+    setverdict(pass) if it holds and setverdict(fail) otherwise.
+  - restriction / prohibition / SHALL NOT / static semantics: negative test (pass reject) that
+    violates exactly this one rule while being otherwise correct. If the rule is a runtime
+    error rule, use pass accept, ttcn3verdict:error instead.
+  - Minimal: smallest module that demonstrates the requirement; one testcase named TC;
+    a component type "type component C {}" (add ports/vars/timers only when needed);
+    a control part "control { execute(TC()); }" for executable tests.
+  - Self-contained: no imports from outside the file, no reliance on a SUT, codecs, or
+    external functions being implemented. For communication, connect ports between the mtc and a
+    PTC created in the test (or map to the system only when the requirement is about map), and
+    send/receive inside the test so behaviour is observable. Use short timer guards
+    (e.g. 1.0 s) to avoid hanging.
+  - Use correct TTCN-3 V4.17.1 syntax. When unsure, check the BNF in annex A of the spec
+    (Grep for the rule name, e.g. "TemplateDef ::=").
+  - Naming: c_ constants, v_ variables, t_/m_ templates, p_ parameters, f_ functions, a_ altsteps,
+    T timers; keep it simple and readable. Indent with 4 spaces.
+
+VALIDATION
+  Run: python3 scripts/check_tests.py batch <BATCH>
+  - Every ERROR must be fixed (missing file, wrong header, wrong module name, bad @verdict).
+  - WARNINGs come from the Titan semantic analyser (ttcn3_compiler -s). Titan is NOT
+    authoritative: it lacks parts of V4.17.1 (e.g. object-oriented features, some newer
+    template/port features) and has its own deviations. But a Titan error on an accept test is
+    frequently a genuine mistake in your test - re-check it against the standard/BNF and fix it.
+    Keep the test as is only if you are confident it is correct per the standard; then record
+    the reason in the notes file. A reject test that Titan accepts means either Titan does not
+    implement the check or your test does not actually violate the rule - re-check.
+  Iterate until there are no ERRORs and every remaining WARNING is justified.
+
+NOTES FILE: tests/_batches/<BATCH>.notes.json
+  {"batch": "<BATCH>",
+   "notes": [ {"id": "<requirement id>", "file": "<path>", "note": "<short text>"} ]}
+  Add an entry only for: ambiguity readings you chose, requirements that are hard to test in
+  TTCN-3 itself (still write the best possible test and say what it does not cover), and Titan
+  warnings you consider wrong (say why).
+
+FINAL ANSWER (keep it SHORT - at most 5 lines, no file listings):
+  <BATCH>: <n> tests written (<a> accept-exec, <b> noexecution, <c> reject);
+  checker: <e> errors, <w> titan warnings remaining; <k> notes.

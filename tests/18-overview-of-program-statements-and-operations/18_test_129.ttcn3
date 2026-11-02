@@ -1,0 +1,26 @@
+// @requirement: 18 -- NOTE 1: Specific places are defined in clause 16.1.4. Only operations that do not have any potential side effects on snapshot evaluation are allowed.
+// @id: TTCN3-CORE-18-069a
+// @verdict: pass reject
+module M_18_test_129 {
+
+    type component C {}
+
+    function f_guard() runs on C return boolean {
+        setverdict(pass); // error: operation with side effect in function called from a guard
+        return true;
+    }
+
+    testcase TC() runs on C {
+        timer T := 0.1;
+        T.start;
+        alt {
+            [f_guard()] T.timeout {
+                setverdict(pass);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

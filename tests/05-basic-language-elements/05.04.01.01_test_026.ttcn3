@@ -1,0 +1,28 @@
+// @requirement: 5.4.1.1 -- The expression may be any expression that is well-defined at the beginning of the scope of the parameterized entity, but shall not refer to other parameters of the same parameter list.
+// @id: TTCN3-CORE-5.4.1.1-024a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_04_01_01_test_026 {
+    type component C {
+        var integer vc_i := 2;
+    }
+
+    function f_comp(in integer p_int1, in integer p_int2 := 3) return integer {
+        return p_int1 + p_int2;
+    }
+
+    function f_get(integer p_x := f_comp(vc_i) * 2) runs on C return integer {
+        return p_x;
+    }
+
+    testcase TC() runs on C {
+        if (f_get() == 10 and f_get(1) == 1) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,24 @@
+// @requirement: 7.3 -- a) If the type following the => symbol is not enclosed into parentheses, only a built-in type or a type reference consisting of a single identifier can be used.
+// @id: TTCN3-CORE-7.3-013a
+// @verdict: pass reject
+module M_07_03_test_010 {
+
+    type component C {}
+
+    type record R {
+        integer f1
+    }
+
+    type record of R RoR;
+
+    testcase TC() runs on C {
+        var R v_rec := { f1 := 7 };
+        var bitstring v_bs := encvalue(v_rec);
+        var R v_dec := v_bs => RoR[-]; // error: type reference is not a single identifier
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,29 @@
+// @requirement: B.1.3.2.0 -- _AnyElementsOrNone is also used in templates of a map type where it replaces none or any number of elements whose_ keys are not present in the map template.
+// @id: TTCN3-CORE-B.1.3.2.0-003a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_03_02_00_test_003 {
+
+    type map from charstring to charstring TMap;
+
+    type component C {}
+
+    template TMap mw_open := { *, ["host"] := "localhost", ["port"] := ? };
+    template TMap mw_closed := { ["host"] := "localhost", ["port"] := ? };
+
+    testcase TC() runs on C {
+        var TMap v_exact := { ["host"] := "localhost", ["port"] := "80" };
+        var TMap v_more := { ["host"] := "localhost", ["port"] := "80", ["user"] := "u", ["pw"] := "p" };
+        var TMap v_missing := { ["host"] := "localhost", ["user"] := "u" };
+        if (match(v_exact, mw_open) and match(v_more, mw_open) and
+            not match(v_missing, mw_open) and
+            not match(v_more, mw_closed)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

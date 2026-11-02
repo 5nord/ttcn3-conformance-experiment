@@ -1,0 +1,53 @@
+// @requirement: 8.2.3.1 -- Importable Definition: Data Template; Possible Local Definitions: Parameter names; Possible Referenced Definitions: Template type, parameter types, constants, module parameters, functions
+// @id: TTCN3-CORE-8.2.3.1-052b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_02_03_01_test_019 {
+
+    import from M_08_02_03_01_test_019_B { template m_rec }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_sum := valueof(m_rec({ x := 1 })).a + valueof(m_rec({ x := 1 })).b
+            + valueof(m_rec({ x := 1 })).c + valueof(m_rec({ x := 1 })).d;
+        if (v_sum == 10) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_03_01_test_019_B {
+    import from M_08_02_03_01_test_019_A all;
+
+    const integer c_value := 2;
+    modulepar integer mp_value := 3;
+
+    function f_value() return integer {
+        return 4;
+    }
+
+    template MyRec m_rec(MyPar p_par) := {
+        a := p_par.x,
+        b := c_value,
+        c := mp_value,
+        d := f_value()
+    }
+}
+
+module M_08_02_03_01_test_019_A {
+    type record MyRec {
+        integer a,
+        integer b,
+        integer c,
+        integer d
+    }
+    type record MyPar {
+        integer x
+    }
+}

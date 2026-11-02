@@ -1,0 +1,19 @@
+// @requirement: 24.2 -- A setverdict operation with a verdict only that overwrites the current local verdict, will also clear the implicit charstring variable. This means previously stored information gets lost.
+// @id: TTCN3-CORE-24.2-014a
+// @verdict: pass accept, ttcn3verdict:fail
+module M_24_02_test_012 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        setverdict(pass, "Information to be cleared");
+        setverdict(fail);
+        if (getverdict != fail) {
+            testcase.stop("verdict not overwritten");
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

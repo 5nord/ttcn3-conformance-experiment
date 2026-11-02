@@ -1,0 +1,942 @@
+{
+ "part": "22.part8",
+ "chapter": "22",
+ "chapter_file": "22-communication-operations",
+ "title": "Communication operations",
+ "sections": {
+  "22.3.6": {
+   "title": "The Catch operation",
+   "start": 19036
+  }
+ },
+ "lines": [
+  19038,
+  19282
+ ],
+ "units": [
+  {
+   "id": "22.3.6-s001",
+   "section": "22.3.6",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The catch operation is used to catch exceptions.",
+   "lines": [
+    19038,
+    19038
+   ]
+  },
+  {
+   "id": "22.3.6-s002",
+   "section": "22.3.6",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "[ @nodefault ] ( ObjectReference | any port | any from PortArrayRef ) \".\" catch\n  [ \"(\" ( Signature [ \",\" TemplateInstance ] ) | TimeoutKeyword \")\" ] \n  [ from Address ]\n  [ \"->\" [ value ( ValueRef| \n          ( \"(\" { ValueRef[ \":=\" [ @decoded [ \"(\" Expression \")\" ] ] \n            FieldOrTypeReference ][\",\"] } \")\" )\n          ) ]\n     [ sender ValueRef] \n     [ @index value ValueRef] ]",
+   "lines": [
+    19041,
+    19051
+   ]
+  },
+  {
+   "id": "22.3.6-s003",
+   "section": "22.3.6",
+   "kind": "note",
+   "context": "Syntactical Structure",
+   "normative": false,
+   "text": "NOTE 1: _Address may be an AddressRef, a list of AddressRef-s or \"any component\"._",
+   "lines": [
+    19053,
+    19053
+   ]
+  },
+  {
+   "id": "22.3.6-s004",
+   "section": "22.3.6",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The catch operation is used to catch exceptions raised by a test component or the SUT as a reaction to a procedure call.",
+   "lines": [
+    19057,
+    19061
+   ]
+  },
+  {
+   "id": "22.3.6-s005",
+   "section": "22.3.6",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Exceptions are specified as types and thus, can be treated like messages, e.g. templates can be used to distinguish between different values of the same exception type.",
+   "lines": [
+    19057,
+    19061
+   ]
+  },
+  {
+   "id": "22.3.6-s006",
+   "section": "22.3.6",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If a Signature is given in the parameter list, it is possible to omit the TemplateInstance part if the catch operation shall match any exception value of any of the exception types declared in the definition of the referenced Signature.",
+   "lines": [
+    19057,
+    19061
+   ]
+  },
+  {
+   "id": "22.3.6-s007",
+   "section": "22.3.6",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The catch operation removes the top exception from the associated incoming port queue if, and only if, that top exception satisfies all the matching criteria associated with the catch operation.",
+   "lines": [
+    19063,
+    19064
+   ]
+  },
+  {
+   "id": "22.3.6-s008",
+   "section": "22.3.6",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "A catch operation may be restricted to a certain communication partner in case of one-to-many connections.",
+   "lines": [
+    19066,
+    19068
+   ]
+  },
+  {
+   "id": "22.3.6-s009",
+   "section": "22.3.6",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "This restriction shall be denoted by using the from keyword followed by a specification of an address or component reference, a list of address or component references or any component.",
+   "lines": [
+    19066,
+    19068
+   ]
+  },
+  {
+   "id": "22.3.6-s010",
+   "section": "22.3.6",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "NOTE 2: The one-to-one connection is considered to be a simple case of the one-to-many connections and allows the usage of the from-clause.",
+   "lines": [
+    19070,
+    19071
+   ]
+  },
+  {
+   "id": "22.3.6-s011",
+   "section": "22.3.6",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The (optional) redirection part of the catch operation comprises of storing the exception value and/or one or more parts of it and the retrieval of the address of the calling component.",
+   "lines": [
+    19073,
+    19076
+   ]
+  },
+  {
+   "id": "22.3.6-s012",
+   "section": "22.3.6",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The keyword value is used to retrieve the value of an exception and/or the parts of it and the keyword sender is used when it is required to retrieve the address of the sender.",
+   "lines": [
+    19073,
+    19076
+   ]
+  },
+  {
+   "id": "22.3.6-s013",
+   "section": "22.3.6",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "When assigning individual fields of an exception, encoded payload fields can be decoded prior to assignment using the @decoded modifier.",
+   "lines": [
+    19083,
+    19091
+   ]
+  },
+  {
+   "id": "22.3.6-s014",
+   "section": "22.3.6",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "In this case, the referenced field on the right hand sided of the assignment shall be one of the bitstring, hexstring, octetstring, charstring or universal charstring types.",
+   "lines": [
+    19083,
+    19091
+   ]
+  },
+  {
+   "id": "22.3.6-s015",
+   "section": "22.3.6",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "It shall be decoded into a value of the same type as the variable on the left hand side of the assignment.",
+   "lines": [
+    19083,
+    19091
+   ]
+  },
+  {
+   "id": "22.3.6-s016",
+   "section": "22.3.6",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Failure of this decoding shall cause a test case error.",
+   "lines": [
+    19083,
+    19091
+   ]
+  },
+  {
+   "id": "22.3.6-s017",
+   "section": "22.3.6",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "In case the referenced field is of the universal `charstring type, the @decoded` clause can contain an optional parameter defining the encoding format.",
+   "lines": [
+    19083,
+    19091
+   ]
+  },
+  {
+   "id": "22.3.6-s018",
+   "section": "22.3.6",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The parameter shall be of the charstring type and it shall contain one of the strings allowed for the decvalue_unichar function (specified in clause C.5.4).",
+   "lines": [
+    19083,
+    19091
+   ]
+  },
+  {
+   "id": "22.3.6-s019",
+   "section": "22.3.6",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Any other value shall cause an error.",
+   "lines": [
+    19083,
+    19091
+   ]
+  },
+  {
+   "id": "22.3.6-s020",
+   "section": "22.3.6",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "In case the referenced field is not a universal **charstring, the optional** parameter shall not be present.",
+   "lines": [
+    19083,
+    19091
+   ]
+  },
+  {
+   "id": "22.3.6-s021",
+   "section": "22.3.6",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The catch operation may be part of the response and exception handling part of a call operation or be used to determine an alternative in an alt statement.",
+   "lines": [
+    19093,
+    19097
+   ]
+  },
+  {
+   "id": "22.3.6-s022",
+   "section": "22.3.6",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If the catch operation is used in the accepting part of a call operation, the information about port name and signature reference to indicate the procedure that raised the exception is redundant, because this information follows from the call operation.",
+   "lines": [
+    19093,
+    19097
+   ]
+  },
+  {
+   "id": "22.3.6-s023",
+   "section": "22.3.6",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "However, for readability reasons (e.g. in case of complex call statements) this information shall be repeated.",
+   "lines": [
+    19093,
+    19097
+   ]
+  },
+  {
+   "id": "22.3.6-s024",
+   "section": "22.3.6",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "**The Timeout exception**",
+   "lines": [
+    19099,
+    19099
+   ]
+  },
+  {
+   "id": "22.3.6-s025",
+   "section": "22.3.6",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "There is one special timeout exception that can be caught by the catch operation.",
+   "lines": [
+    19101,
+    19103
+   ]
+  },
+  {
+   "id": "22.3.6-s026",
+   "section": "22.3.6",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The timeout exception is an emergency exit for cases where a called procedure neither replies nor raises an exception within a predetermined time (see clause 22.3.1).",
+   "lines": [
+    19101,
+    19103
+   ]
+  },
+  {
+   "id": "22.3.6-s027",
+   "section": "22.3.6",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "**Catch any exception**",
+   "lines": [
+    19105,
+    19105
+   ]
+  },
+  {
+   "id": "22.3.6-s028",
+   "section": "22.3.6",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "A catch operation with no argument list allows any valid exception to be caught.",
+   "lines": [
+    19107,
+    19108
+   ]
+  },
+  {
+   "id": "22.3.6-s029",
+   "section": "22.3.6",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The most general case is without using the from keyword.",
+   "lines": [
+    19107,
+    19108
+   ]
+  },
+  {
+   "id": "22.3.6-s030",
+   "section": "22.3.6",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "CatchAnyException will also catch the timeout exception.",
+   "lines": [
+    19107,
+    19108
+   ]
+  },
+  {
+   "id": "22.3.6-s031",
+   "section": "22.3.6",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "**Catch any exception for specific signature**",
+   "lines": [
+    19110,
+    19110
+   ]
+  },
+  {
+   "id": "22.3.6-s032",
+   "section": "22.3.6",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "A catch operation using only a Signature reference in the argument list allows any valid exception for that signature to be caught.",
+   "lines": [
+    19112,
+    19113
+   ]
+  },
+  {
+   "id": "22.3.6-s033",
+   "section": "22.3.6",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "**Catch on any port**",
+   "lines": [
+    19115,
+    19115
+   ]
+  },
+  {
+   "id": "22.3.6-s034",
+   "section": "22.3.6",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "To catch an exception on any port use the any keyword.",
+   "lines": [
+    19117,
+    19117
+   ]
+  },
+  {
+   "id": "22.3.6-s035",
+   "section": "22.3.6",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "**Catch on any port from a port array**",
+   "lines": [
+    19119,
+    19119
+   ]
+  },
+  {
+   "id": "22.3.6-s036",
+   "section": "22.3.6",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "To catch an exception on any port from a specific port array, indices use the any from PortArrayRef syntax where PortArrayRef shall be a reference to a port array identifier.",
+   "lines": [
+    19121,
+    19128
+   ]
+  },
+  {
+   "id": "22.3.6-s037",
+   "section": "22.3.6",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "It is also possible to store the index of a port in a single-dimensional port array at which the operation was successful to a variable of type integer or, in case of multi-dimensional port arrays the index of the successful port to an integer array or record of integer variable.",
+   "lines": [
+    19121,
+    19128
+   ]
+  },
+  {
+   "id": "22.3.6-s038",
+   "section": "22.3.6",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "When checking the port array for matching exceptions, the port indices to be checked are iterated from lowest to highest.",
+   "lines": [
+    19121,
+    19128
+   ]
+  },
+  {
+   "id": "22.3.6-s039",
+   "section": "22.3.6",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If the port array is multi-dimensional, then the ports are iterated over from innermost to outermost array dimension from lowest to highest index for each dimension, e.g. [0][0], [0][1], [1][0], [1][1].",
+   "lines": [
+    19121,
+    19128
+   ]
+  },
+  {
+   "id": "22.3.6-s040",
+   "section": "22.3.6",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The first port which matches all the criteria will cause the operation to be successful even if other ports in the array would also meet the criteria.",
+   "lines": [
+    19121,
+    19128
+   ]
+  },
+  {
+   "id": "22.3.6-s041",
+   "section": "22.3.6",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The catch on any port from a port array operation cannot be used to catch a call timeout.",
+   "lines": [
+    19130,
+    19130
+   ]
+  },
+  {
+   "id": "22.3.6-s042",
+   "section": "22.3.6",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clause 5 and shown in table 16, the following restrictions apply:",
+   "lines": [
+    19134,
+    19135
+   ]
+  },
+  {
+   "id": "22.3.6-s043",
+   "section": "22.3.6",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) The catch operation shall only be used at procedure-based ports.",
+   "lines": [
+    19137,
+    19138
+   ]
+  },
+  {
+   "id": "22.3.6-s044",
+   "section": "22.3.6",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "The type of the caught exception shall be specified in the signature of the procedure that raised the exception.",
+   "lines": [
+    19137,
+    19138
+   ]
+  },
+  {
+   "id": "22.3.6-s045",
+   "section": "22.3.6",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "b) The type definition of the port shall include in its out or inout list the name of the procedure to which the exception belongs.",
+   "lines": [
+    19140,
+    19141
+   ]
+  },
+  {
+   "id": "22.3.6-s046",
+   "section": "22.3.6",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "c) No binding of the incoming values to the terms of the expression or to the template shall occur.",
+   "lines": [
+    19143,
+    19144
+   ]
+  },
+  {
+   "id": "22.3.6-s047",
+   "section": "22.3.6",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "The assignment of the exception values to variables shall be made in the assignment part of the catch operation.",
+   "lines": [
+    19143,
+    19144
+   ]
+  },
+  {
+   "id": "22.3.6-s048",
+   "section": "22.3.6",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "d) Catching timeout exceptions shall be restricted to the exception handling part of a call.",
+   "lines": [
+    19151,
+    19153
+   ]
+  },
+  {
+   "id": "22.3.6-s049",
+   "section": "22.3.6",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "No further matching criteria (including a from part) and no assignment part is allowed for a catch operation that handles a timeout exception.",
+   "lines": [
+    19151,
+    19153
+   ]
+  },
+  {
+   "id": "22.3.6-s050",
+   "section": "22.3.6",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "e) Exception values accepted by catch any exception shall not be assigned to a variable, i.e. the value clause shall not be present.",
+   "lines": [
+    19155,
+    19156
+   ]
+  },
+  {
+   "id": "22.3.6-s051",
+   "section": "22.3.6",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "f) If CatchAnyException is used in the response and exception handling part of a call operation, it shall only treat exceptions raised by the procedure invoked by the call operation.",
+   "lines": [
+    19158,
+    19159
+   ]
+  },
+  {
+   "id": "22.3.6-s052",
+   "section": "22.3.6",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "g) All AddressRef items in the from clause and all ValueRef items in the sender clause shall be of type address, component or of the address type bound to the port type (see clause 6.2.9) of the port instance referenced in the catch operation.",
+   "lines": [
+    19161,
+    19164
+   ]
+  },
+  {
+   "id": "22.3.6-s053",
+   "section": "22.3.6",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "No AddressRef in the from clause shall contain the special value null at the time of the operation.",
+   "lines": [
+    19161,
+    19164
+   ]
+  },
+  {
+   "id": "22.3.6-s054",
+   "section": "22.3.6",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "h) The PortArrayRef shall be a reference to a completely initialized port array.",
+   "lines": [
+    19166,
+    19166
+   ]
+  },
+  {
+   "id": "22.3.6-s055",
+   "section": "22.3.6",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "i) The index redirection shall only be used when the operation is used on an any from port array construct.",
+   "lines": [
+    19168,
+    19168
+   ]
+  },
+  {
+   "id": "22.3.6-s056",
+   "section": "22.3.6",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "j) If the index redirection is used for single-dimensional arrays, the type of the integer variable shall allow storing the highest index of the respective port array.",
+   "lines": [
+    19170,
+    19171
+   ]
+  },
+  {
+   "id": "22.3.6-s057",
+   "section": "22.3.6",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "k) If the index redirection is used for multi-dimensional arrays, the size of the integer array or record of integer type shall exactly be the same as the dimension of the respective port array, and the its type shall allow storing the highest index (from all dimensions) of the port array.",
+   "lines": [
+    19173,
+    19175
+   ]
+  },
+  {
+   "id": "22.3.6-s058",
+   "section": "22.3.6",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "l) If a variable referenced in the value, sender or @index clause is a lazy or fuzzy variable, the expression assigned to this variable is equal to the result produced by the catch operation, i.e. later evaluation of the lazy or fuzzy variable does not lead to repeated invocation of the catch operation.",
+   "lines": [
+    19177,
+    19179
+   ]
+  },
+  {
+   "id": "22.3.6-s059",
+   "section": "22.3.6",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "m) If the catch operation contains both from and sender clause, the variable or parameter referenced in the sender clause shall be type compatible with the template in the from clause.",
+   "lines": [
+    19181,
+    19184
+   ]
+  },
+  {
+   "id": "22.3.6-s060",
+   "section": "22.3.6",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "If the operation contains a sender clause but no from clause, the sender shall be type compatible with the variable or parameter referenced in the sender clause.",
+   "lines": [
+    19181,
+    19184
+   ]
+  },
+  {
+   "id": "22.3.6-s061",
+   "section": "22.3.6",
+   "kind": "note",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "NOTE 3: An error due to a type mismatch may happen if the types in the receive part are not compatible to the types in the assignment part or, if the from clause is missing, but the type of the sender can be determined and it is not type compatible with the type in the sender clause.",
+   "lines": [
+    19186,
+    19188
+   ]
+  },
+  {
+   "id": "22.3.6-s062",
+   "section": "22.3.6",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "n) When assigning implicitly decoded exception fields (by using the @decoded modifier) in cases where the value or template to be matched uses the MatchDecodedContent (decmatch) matching for the parameter to be stored, the type of the template in the MatchDecodedContent matching shall be type-compatible to the type of the variable the decoded field is stored into.",
+   "lines": [
+    19190,
+    19193
+   ]
+  },
+  {
+   "id": "22.3.6-s063",
+   "section": "22.3.6",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "o) The referenced value associated with Ref or the return type associated with FunctionInstance followed by the catch keyword, shall be of a port type.",
+   "lines": [
+    19195,
+    19196
+   ]
+  },
+  {
+   "id": "22.3.6-s064",
+   "section": "22.3.6",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "p) If no TemplateInstance is provided in the parameter list, then also no value clause shall be present in the redirection part.",
+   "lines": [
+    19198,
+    19199
+   ]
+  },
+  {
+   "id": "22.3.6-s065",
+   "section": "22.3.6",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "q) The @nodefault modifier is allowed only in stand-alone catch statements.",
+   "lines": [
+    19201,
+    19201
+   ]
+  },
+  {
+   "id": "22.3.6-s066",
+   "section": "22.3.6",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 1: Basic catch:",
+   "lines": [
+    19205,
+    19205
+   ]
+  },
+  {
+   "id": "22.3.6-s067",
+   "section": "22.3.6",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "myPort.catch(MyProc, integer: v_myVar);  // Catches an integer exception of value\n                            // v_myVar raised by MyProc at port myPort.\n  myPort.catch(MyProc, v_myVar);   // Is an alternative to the previous example.\n  myPort.catch(MyProc, v_a<v_b);   // Catches a boolean exception\n  myPort.catch(MyProc, MyType:{5, v_myVar}); // In-line template definition of an exception value.\n  myPort.catch(MyProc, charstring:\"Hello\")from myPeer; // Catches \"Hello\" exception from myPeer",
+   "lines": [
+    19206,
+    19213
+   ]
+  },
+  {
+   "id": "22.3.6-s068",
+   "section": "22.3.6",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 2: Catch with storing value and/or sender in variables:",
+   "lines": [
+    19220,
+    19220
+   ]
+  },
+  {
+   "id": "22.3.6-s069",
+   "section": "22.3.6",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "myPort.catch(MyProc, MyType:?) from myPartner -> value v_myVar;\n  // Catches an exception from myPartner and assigns its value to v_myVar.\n  myPort.catch(MyProc, s_myTemplate(5)) -> value v_myVarTwo sender myPeer;\n  // Catches an exception, assigns its value to v_myVarTwo and retrieves the\n  // address of the sender.\n  myPort.catch(MyProc, s_myTemplate(5)) -> value (v_myVarThree:= f1)\n                           sender myPeer;\n  // Catches an exception, assigns the value of its field f1 to v_myVarThree and retrieves the\n  // address of the sender.\n  // Handling encoded exception payload:\n  type MyException record {\n    ...\n  }\n  type CommonException record {\n    integer exceptionId,\n    octetstring payload\n  }\n  signature S() exception (CommonException);\n  ...\n  var MyException v_myVar;\n  myPort.catch (S, CommonException:{exceptionId := 25, payload := decmatch MyException:? })  \n                 -> value (v_myVar := @decoded payload);\n  // The encoded payload field of the caught exception is decoded and matched with m_excTemplate;\n  // if the matching is successful the decoded payload is stored in v_myVar.",
+   "lines": [
+    19221,
+    19246
+   ]
+  },
+  {
+   "id": "22.3.6-s070",
+   "section": "22.3.6",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 3: The Timeout exception:",
+   "lines": [
+    19248,
+    19248
+   ]
+  },
+  {
+   "id": "22.3.6-s071",
+   "section": "22.3.6",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "myPort.call(MyProc:{5, v_myVar}, 20E-3) {\n   [] myPort.getreply(MyProc:{?, ?}) { }\n   [] myPort.catch(timeout) { // timeout exception after 20ms\n       setverdict(fail);\n       stop;\n     }\n  }",
+   "lines": [
+    19249,
+    19257
+   ]
+  },
+  {
+   "id": "22.3.6-s072",
+   "section": "22.3.6",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 4: Catch any exception:",
+   "lines": [
+    19259,
+    19259
+   ]
+  },
+  {
+   "id": "22.3.6-s073",
+   "section": "22.3.6",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "myPort.catch;\n  myPort.catch from myPartner;\n  myPort.catch -> sender v_mySenderVar; \n  myPort.catch(MyProc); // catch any exception raised by procedure MyProc",
+   "lines": [
+    19260,
+    19265
+   ]
+  },
+  {
+   "id": "22.3.6-s074",
+   "section": "22.3.6",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 5: Catch on any port:",
+   "lines": [
+    19267,
+    19267
+   ]
+  },
+  {
+   "id": "22.3.6-s075",
+   "section": "22.3.6",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "any port.catch;",
+   "lines": [
+    19268,
+    19270
+   ]
+  },
+  {
+   "id": "22.3.6-s076",
+   "section": "22.3.6",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 6: Catch on any port from port array:",
+   "lines": [
+    19272,
+    19272
+   ]
+  },
+  {
+   "id": "22.3.6-s077",
+   "section": "22.3.6",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "type port MyPort procedure { inout MyProc }\n  type component MyComponent {\n    port MyPort p[10][10];\n  }\n  var integer v_i[2];\n  any from p.catch(MyProc, MyType:?) -> @index value v_i; \n  // Catching an incoming exception of type MyType on any port in the port array p and\n  // storing the index of the port on which the matching was successful first",
+   "lines": [
+    19273,
+    19282
+   ]
+  }
+ ]
+}

@@ -1,0 +1,38 @@
+// @requirement: 5.4.1.1 -- the language elements template, testcase, `altstep and function support dynamic value` parameterization (i.e. this parameterization shall be resolved at runtime).
+// @id: TTCN3-CORE-5.4.1.1-015a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_04_01_01_test_016 {
+    type component C {
+        timer T;
+    }
+
+    template integer m_value(integer p_x) := p_x;
+
+    function f_double(integer p_x) return integer {
+        return 2 * p_x;
+    }
+
+    altstep a_check(integer p_x) runs on C {
+        [] T.timeout {
+            if (p_x == 5) {
+                setverdict(pass);
+            } else {
+                setverdict(fail);
+            }
+        }
+    }
+
+    testcase TC(integer p_x) runs on C {
+        if (f_double(p_x) != 10 or not match(5, m_value(p_x))) {
+            setverdict(fail);
+        }
+        T.start(0.1);
+        alt {
+            [] a_check(p_x);
+        }
+    }
+
+    control {
+        execute(TC(5));
+    }
+}

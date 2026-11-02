@@ -1,0 +1,53 @@
+// @requirement: 15.4 -- NOTE 3: Types of constants, parameters and variables of the actual scope are always unambiguous and can hence always be omitted.
+// @id: TTCN3-CORE-15.4-012a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_04_test_006 {
+
+    type record R1 {
+        integer f1
+    }
+
+    type record R2 {
+        integer f1
+    }
+
+    type port P message { inout R1, R2 }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    const R1 c_r := { f1 := 1 };
+
+    altstep a_guard() runs on C {
+        [] p.receive(R2:?) { setverdict(fail); stop; }
+        [] p.receive { setverdict(fail); stop; }
+        [] T.timeout { setverdict(fail); stop; }
+    }
+
+    function f_send() runs on C {
+        p.send(c_r);
+        p.send(c_r);
+    }
+
+    function f_receive(R1 p_r) runs on C {
+        p.receive(p_r);
+    }
+
+    testcase TC() runs on C {
+        var R1 v_r := { f1 := 1 };
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        activate(a_guard());
+        v_ptc.start(f_send());
+        T.start;
+        p.receive(v_r);
+        f_receive(c_r);
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

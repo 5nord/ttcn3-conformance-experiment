@@ -1,0 +1,47 @@
+// @requirement: 22.3.4 -- i) If a variable referenced in the value, param, sender or @index clause is a lazy or fuzzy variable, the expression assigned to this variable is equal to the result produced by the getreply operation, i.e. later evaluation of the lazy or fuzzy variable does not lead to repeated invocation of the getreply operation.
+// @id: TTCN3-CORE-22.3.4-046a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_03_04_test_045 {
+
+    signature S() return integer;
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    function f_server() runs on C {
+        p.getcall(S:{});
+        p.reply(S:{} value 1);
+        p.getcall(S:{});
+        p.reply(S:{} value 2);
+    }
+
+    testcase TC() runs on C system C {
+        var C v_ptc := C.create;
+        var @fuzzy integer v_res;
+        timer T := 1.0;
+        connect(self:p, v_ptc:p);
+        v_ptc.start(f_server());
+        p.call(S:{}, nowait);
+        p.call(S:{}, nowait);
+        T.start;
+        alt {
+            [] p.getreply(S:{} value ?) -> value v_res {}
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        if (v_res != 1 or v_res != 1) {
+            setverdict(fail);
+            stop;
+        }
+        alt {
+            [] p.getreply(S:{} value 2) { setverdict(pass); }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,19 @@
+// @requirement: A.1.6.8.3 -- If both ShiftExpressions exist, then each ShiftExpression shall evaluate to a specific integer, Enumerated or float Value or derivatives of these types.
+// @id: TTCN3-CORE-A.1.6.8.3-010a
+// @verdict: pass reject
+module M_A_01_06_08_03_test_012 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var bitstring v_b1 := '01'B;
+        var bitstring v_b2 := '10'B;
+        if (v_b1 < v_b2) { // error: operands of < are not integer, enumerated or float
+            setverdict(pass);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,20 @@
+// @requirement: 22.2.3 -- To trigger on a message at any port from a specific port array, use the any from PortArrayRef syntax where PortArrayRef shall be a reference to a port array identifier.
+// @id: TTCN3-CORE-22.2.3-020b
+// @verdict: pass reject
+module M_22_02_03_test_017 {
+
+    type port P message { inout integer }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        any from p.trigger(integer:?); // error: p is not a port array
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

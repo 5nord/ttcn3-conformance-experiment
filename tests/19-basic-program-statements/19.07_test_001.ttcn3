@@ -1,0 +1,32 @@
+// @requirement: 19.7 -- The label statement allows the specification of labels in test cases, functions and altsteps.
+// @id: TTCN3-CORE-19.7-001a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_07_test_001 {
+
+    type component C {
+        timer T;
+    }
+
+    function f_label() {
+        label L_F;
+        log("function");
+    }
+
+    altstep a_label() runs on C {
+        [] T.timeout {
+            label L_A;
+            setverdict(pass);
+        }
+    }
+
+    testcase TC() runs on C {
+        label L_TC;
+        f_label();
+        T.start(0.1);
+        a_label();
+    }
+
+    control {
+        execute(TC());
+    }
+}

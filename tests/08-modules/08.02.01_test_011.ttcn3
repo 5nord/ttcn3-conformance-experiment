@@ -1,0 +1,23 @@
+// @requirement: 8.2.1 -- The type of the module parameter is either provided explicitly or implicitly according to the rules for automatic typing specified in the clause 6.5.
+// @id: TTCN3-CORE-8.2.1-010a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_02_01_test_011 {
+
+    modulepar integer mp_explicit := 1;
+    modulepar mp_implicit := 2;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_sum := mp_explicit + mp_implicit;
+        if (v_sum == 3) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

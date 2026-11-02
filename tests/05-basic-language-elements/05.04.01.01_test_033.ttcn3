@@ -1,0 +1,25 @@
+// @requirement: 5.4.1.1 -- k) When parameters are referenced (e.g. in assignments, expressions, template bodies, etc.), the rules for variables shall apply.
+// @id: TTCN3-CORE-5.4.1.1-030a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_04_01_01_test_033 {
+    type component C {}
+
+    function f_use(integer p_x) return boolean {
+        p_x := p_x + 1;
+        var template integer vt_x := (p_x .. p_x + 1);
+        var integer v_y := p_x * 2;
+        return match(3, vt_x) and v_y == 6;
+    }
+
+    testcase TC() runs on C {
+        if (f_use(2)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

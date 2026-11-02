@@ -1,0 +1,27 @@
+// @requirement: B.1.5.5 -- For the purpose of referenced patterns (see clause 27.9) and references character sets (see clause B.1.5.3) specific type compatibility rules apply: a referenced type, template, constant, variable or module parameter of the type charstring always can be used in the pattern specification of a template or template field of universal charstring type; a referenced type, template or value of the type universal charstring can be used in the pattern specification of a template or template field of charstring type if all characters used in the referenced template or value and the character set allowed by the referenced type has their corresponding characters in the charstring type (see definition of corresponding characters in clause 6.3.1).
+// @id: TTCN3-CORE-B.1.5.5-001b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_05_05_test_002 {
+
+    type universal charstring MyUChars ("a".."c");
+
+    const universal charstring c_us := "ab";
+    const universal charstring c_uc := "x";
+    template universal charstring m_us := "cd";
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var universal charstring v_us := "ef";
+        template charstring m_p := pattern "{c_us}{m_us}{v_us}\N{MyUChars}\N{c_uc}";
+        if (match("abcdefbx", m_p) and not match("abcdefdx", m_p)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

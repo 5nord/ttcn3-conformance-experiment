@@ -1,0 +1,23 @@
+// @requirement: 15.6.3 -- If the position of the referenced item is greater or equal to the position of an AnyElementsOrNone symbol in the transformed form and this AnyElementsOrNone is the last symbol in the template, the value or matching symbol at the right hand side of the assignment shall be assigned to the referenced element. When the reference is used at the left hand side of the assignment, the following applies:
+// @id: TTCN3-CORE-15.6.3-049a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_06_03_test_027 {
+
+    type record of integer RoI;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template RoI v_roI := {1, 2, *};
+        v_roI[4] := 5;
+        if (match({1, 2, 0, 0, 5}, v_roI) and not match({1, 2, 0, 0, 6}, v_roI)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,20 @@
+// @requirement: 15.9 -- b) The operands of the match operation shall be completely initialized.
+// @id: TTCN3-CORE-15.9-011a
+// @verdict: pass accept, ttcn3verdict:error
+module M_15_09_test_011 {
+
+    type record R { integer a, integer b optional }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var R v_r;
+        v_r.a := 1;
+        if (match(v_r, R:{ a := 1, b := omit })) {} // error: v_r.b is not initialized
+        setverdict(fail);
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,17 @@
+// @requirement: 5.2.2 -- TTCN-3 requires uniqueness of identifiers, i.e. all identifiers in the same scope hierarchy shall be distinctive.
+// @id: TTCN3-CORE-5.2.2-001a
+// @verdict: pass reject
+module M_05_02_02_test_001 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_a := 1;
+        var charstring v_a := "a"; // error: v_a is not unique in this scope
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,34 @@
+// @requirement: 16.1.0 -- type component MtcType { ... } type component SystemType { ... } function f_myFunction6() runs on MyPtcType mtc MtcType system SystemType { var MtcType v_mtc := mtc; var SystemType v_system := system; f_myFunction3(); // allowed, f_myFunction3() has no mtc and system clause f_myFunction6(); // allowed, f_myFunction6() has compatible mtc and system clause } function f_myFunction7() runs on MyPtcType system SystemType { var MtcType v_mtc := mtc; // not allowed, mtc type unknown f_myFunction6(); // possible runtime error, no mtc clause of f_myFunction7 } function MyFunction8() runs on MyPtcType mtc MtcType { var SystemType v_system := system; // not allowed, system type unknown f_myFunction6(); // possible runtime error, no system clause of f_myFunction8 }
+// @id: TTCN3-CORE-16.1.0-050b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_16_01_00_test_037 {
+
+    type component MtcType {
+        var integer v_counter := 0;
+    }
+
+    type component SystemType {}
+
+    function f_myFunction3() runs on MtcType {
+        v_counter := v_counter + 1;
+    }
+
+    function f_myFunction6() runs on MtcType mtc MtcType system SystemType {
+        var MtcType v_mtc := mtc;
+        var SystemType v_system := system;
+        f_myFunction3();
+    }
+
+    testcase TC() runs on MtcType system SystemType {
+        f_myFunction6();
+        if (v_counter == 1) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

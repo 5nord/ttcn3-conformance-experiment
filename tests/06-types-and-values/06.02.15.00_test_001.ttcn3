@@ -1,0 +1,23 @@
+// @requirement: 6.2.15.0 -- TTCN-3 supports the specification of map types that map from a set of unique keys to a set of values in such a way that each value in the set of key is associated with exactly one value in the set of values.
+// @id: TTCN3-CORE-6.2.15.0-001b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_15_00_test_001 {
+
+    type map from charstring to integer MyMap;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyMap v_map := { ["a"] := 1 };
+        v_map["a"] := 2;
+        if (lengthof(v_map) == 1 and v_map["a"] == 2) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

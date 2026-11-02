@@ -1,0 +1,37 @@
+// @requirement: C.5.5 -- The rules for dynamic selection of the encode attribute are described in clause 27.9.
+// @id: TTCN3-CORE-C.5.5-009a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_05_05_test_010 {
+
+    type component C {}
+
+    type record F {
+        integer g1
+    } with { encode "JSON"; encode "XML" }
+
+    type record R {
+        F f1
+    } with { encode "JSON"; encode "XML" }
+
+    type record FJ {
+        integer g1
+    } with { encode "JSON" }
+
+    type record RJ {
+        FJ f1
+    } with { encode "JSON" }
+
+    testcase TC() runs on C {
+        var integer v_len;
+        var octetstring v_dyn := encvalue_o(R:{ f1 := { g1 := 1 } }, "", "JSON", v_len);
+        if (v_dyn == encvalue_o(RJ:{ f1 := { g1 := 1 } }, "", "", v_len)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

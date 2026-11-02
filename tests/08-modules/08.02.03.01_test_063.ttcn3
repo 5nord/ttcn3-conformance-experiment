@@ -1,0 +1,30 @@
+// @requirement: 8.2.3.1 -- If the source module uses however language concepts not being part of that language specification, this causes an error for the import statement.
+// @id: TTCN3-CORE-8.2.3.1-099a
+// @verdict: pass reject
+module M_08_02_03_01_test_063 {
+
+    import from M_08_02_03_01_test_063_A language "TTCN-3:2003" all; // error: source module uses the select statement, not part of "TTCN-3:2003"
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (f_check(42) == 1) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_03_01_test_063_A {
+    function f_check(integer p_value) return integer {
+        select (p_value) {
+            case (42) { return 1; }
+            case else { return 0; }
+        }
+    }
+}

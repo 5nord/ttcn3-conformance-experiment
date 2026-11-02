@@ -1,0 +1,41 @@
+// @requirement: 22.1.2 -- The CALLEE accepts the call by means of a getcall operation and executes the requested procedure.
+// @id: TTCN3-CORE-22.1.2-017a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_01_02_test_011 {
+
+    signature S(in integer p_x) noblock;
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+        var integer v_result := 0;
+        timer T := 1.0;
+    }
+
+    function f_proc(in integer p_x) runs on C {
+        v_result := p_x * 2;
+    }
+
+    function f_server() runs on C {
+        var integer v_x;
+        T.start;
+        alt {
+            [] p.getcall(S:{?}) -> param(v_x) { f_proc(v_x); }
+            [] T.timeout { setverdict(fail); }
+        }
+        if (v_result == 6) { setverdict(pass); } else { setverdict(fail); }
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_server());
+        p.call(S:{3});
+        v_ptc.done;
+    }
+
+    control {
+        execute(TC());
+    }
+}

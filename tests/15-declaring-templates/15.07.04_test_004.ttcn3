@@ -1,0 +1,28 @@
+// @requirement: 15.7.4 -- NOTE 1: **ifpresent can be assigned to templates of any type as a whole or to optional fields of record and set types.** **ifpresent can only be used for matching optional fields.**
+// @id: TTCN3-CORE-15.7.4-006a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_07_04_test_004 {
+    type record R {
+        integer a,
+        integer b optional
+    }
+
+    template integer mw_whole := 5 ifpresent;
+    template R mw_field := {a := 1, b := 5 ifpresent};
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var R v_omit := {a := 1, b := omit};
+        var R v_five := {a := 1, b := 5};
+        if (match(5, mw_whole) and match(v_omit, mw_field) and match(v_five, mw_field)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,27 @@
+// @requirement: 15.6.2 -- c) Ifpresent attribute: referencing a subfield within a structured field to which the ifpresent attribute is attached, shall cause an error (irrespective of the value or the matching mechanism to which ifpresent is appended).
+// @id: TTCN3-CORE-15.6.2-017a
+// @verdict: pass accept, ttcn3verdict:error
+module M_15_06_02_test_012 {
+
+    type record R2 {
+        integer g1,
+        R2 g2 optional
+    }
+
+    type record R1 {
+        integer f1 optional,
+        R2 f2 optional
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template R1 v_r1 := {f1 := 0, f2 := {g1 := 1, g2 := omit} ifpresent};
+        var template integer v_int := v_r1.f2.g1; // error: ifpresent is attached to f2
+        setverdict(fail);
+    }
+
+    control {
+        execute(TC());
+    }
+}

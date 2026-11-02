@@ -1,0 +1,1503 @@
+{
+ "batch": "b006",
+ "requirements": [
+  {
+   "id": "TTCN3-CORE-5.4.2-057a",
+   "section": "5.4.2",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "m) Whenever a value or template of a record, set, union, record of, set of, array and anytype type is passed as an actual parameter to an inout parameter, none of the fields or elements of this structured value or template shall be passed as an actual parameter to another inout parameter of the same parameterized TTCN-3 object.",
+   "canonical": "If a value or template of a record, set, union, record of, set of, array or anytype type is passed as an actual parameter to an inout formal parameter, no field or element of that structured value or template SHALL be passed as an actual parameter to another inout formal parameter of the same parameterized TTCN-3 object.",
+   "condition": "a structured value or template is passed to an inout formal parameter",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2669,
+    2672
+   ],
+   "examples": [
+    {
+     "lines": [
+      2705,
+      2736
+     ],
+     "text": "function f_myFunction(inout boolean p_myReferenceParameter){ … };\n  // p_myReferenceParameter is an inout parameter\n  // A function call with an actual parameter\n  f_myFunction(v_myBooleanVariable);\n  // The actual parameter can be read and set within the function \n  function f_myFunction(out template boolean p_myReferenceParameter){ … };\n  // p_myReferenceParameter is an out parameter\n  // A function call with an actual parameter\n  f_myFunction(v_myBooleanVariable);\n  // The actual parameter is initially unbound, but can be set and read within the function.\n  f_myFunction(-); // the outcoming value is not assigned to a variable\n  type record of integer RoI;\n  function f_swapElements (inout integer p_int1, inout integer p_int2) {\n    var integer v_tmp := p_int1;\n   p_int1 := p_int2;\n   p_int2 := v_tmp;\n  }\n  function f_testReferences (inout RoI p_roi, inout integer p_elem) { … }\n  :\n  var RoI v_roi := { 0, 1, 2, 3, 4, 5 }; \n  f_swapElements(v_roi[0], v_roi[5]); // after the function call, v_roi is { 5, 1, 2, 3, 4, 0 }\n  f_testReferences(v_roi, v_roi[2]); // produces an error as elements of v_roi are not allowed\n     // to be passed by reference if the parent structure (v_roi) is passed by reference too.\n  function f_changeAndIncrement(out integer p_e, in integer p_v, inout integer p_i) {\n     p_i := p_i + 1;\n     p_e := p_v;\n  }\n  :\n  var integer v_i := 0;\n  f_changeAndIncrement(v_roi[v_i], 3, v_i); // increments p_i, but still assigns 3 to v_roi[0]"
+    }
+   ],
+   "file": "tests/05-basic-language-elements/05.04.02_test_059.ttcn3",
+   "module": "M_05_04_02_test_059",
+   "header": "// @requirement: 5.4.2 -- m) Whenever a value or template of a record, set, union, record of, set of, array and anytype type is passed as an actual parameter to an inout parameter, none of the fields or elements of this structured value or template shall be passed as an actual parameter to another inout parameter of the same parameterized TTCN-3 object."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.2-058a",
+   "section": "5.4.2",
+   "type": "restriction",
+   "modality": "IS",
+   "original": "This restriction applies recursively to all sub-elements of the structured value or template in any level of nesting.",
+   "canonical": "The prohibition on passing fields or elements of a structured value or template passed to an inout formal parameter to another inout formal parameter of the same object applies recursively to all sub-elements at any level of nesting.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2669,
+    2672
+   ],
+   "examples": [],
+   "file": "tests/05-basic-language-elements/05.04.02_test_060.ttcn3",
+   "module": "M_05_04_02_test_060",
+   "header": "// @requirement: 5.4.2 -- This restriction applies recursively to all sub-elements of the structured value or template in any level of nesting."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.2-059a",
+   "section": "5.4.2",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "original": "n) If two or more actual parameters passed to inout parameters of the same parameterized TTCN-3 object contain a reference to distinct alternatives of the same union or anytype value, an error shall be produced.",
+   "canonical": "If two or more actual parameters passed to inout formal parameters of the same parameterized TTCN-3 object contain references to distinct alternatives of the same union or anytype value, a TTCN-3 tool SHALL produce an error.",
+   "condition": "two or more inout actual parameters reference distinct alternatives of the same union or anytype value",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2674,
+    2675
+   ],
+   "examples": [],
+   "file": "tests/05-basic-language-elements/05.04.02_test_061.ttcn3",
+   "module": "M_05_04_02_test_061",
+   "header": "// @requirement: 5.4.2 -- n) If two or more actual parameters passed to inout parameters of the same parameterized TTCN-3 object contain a reference to distinct alternatives of the same union or anytype value, an error shall be produced."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.2-060a",
+   "section": "5.4.2",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "o) If the mixed notation is used, no value list notation shall be used following the first assignment notation and the parameters given in assignment notation shall not assign parameters that already have an actual parameter given in list notation.",
+   "canonical": "If mixed notation is used, list notation SHALL NOT be used for any actual parameter following the first actual parameter in assignment notation.",
+   "condition": "mixed notation is used",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2677,
+    2679
+   ],
+   "examples": [
+    {
+     "lines": [
+      2929,
+      2957
+     ],
+     "text": "// variadic parameter definitions\n  function f1(integer a...); // type of a is record of integer\n  function f2(integer a[3]...); // type of a is record of integer[3]\n  function f3(integer a, integer b...);\n  function f4(integer a..., integer b...); // ERROR: two variadic parameters\n  function f5(integer a..., integer b); // ERROR: variadic parameter is not at final position\n  function f6(integer a := 10, integer b... := {1,2,3});\n  external function printf(universal charstring format, any args ...);\n  // invoking functions with variadic parameters\n  f1(); // value of a: {}\n  f1(1); // value of a: {1}\n  f1(1,2,3); // value of a: {1,2,3}\n  f3(); // ERROR: f3 requires a value for parameter a\n  f3(100); // value of b: {}\n  f3(100,1,2,3); // value of b: {1,2,3}\n  f3(a := 10, b := {1,2,3}); // assignment notation\n  f3(b := {1,2,3}, a := 10); // assignment notation\n  f3(10, b := {1,2,3}); // mixed notation\n  f6(); // value of a: 10, value of b: {1,2,3}\n  f6(1); // value of a: 1, value of b: {1,2,3}\n  f6(1,2); // value of a: 1, value of b: {2}\n  f6(-) // value of a: 10, value of b: {1,2,3}\n  f6(-,1) // value of a: 10, value of b: {1}\n  f6(-,-) // value of a: 10, value of b: {1,2,3}\n  f6(-,-,-) // ERROR: f6 has only two formal parameters to skip.\n  var record of integer a := {1,2,3};\n  f1(a...); // passing a record of parameter directly"
+    }
+   ],
+   "file": "tests/05-basic-language-elements/05.04.02_test_062.ttcn3",
+   "module": "M_05_04_02_test_062",
+   "header": "// @requirement: 5.4.2 -- o) If the mixed notation is used, no value list notation shall be used following the first assignment notation and the parameters given in assignment notation shall not assign parameters that already have an actual parameter given in list notation."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.2-060b",
+   "section": "5.4.2",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "o) If the mixed notation is used, no value list notation shall be used following the first assignment notation and the parameters given in assignment notation shall not assign parameters that already have an actual parameter given in list notation.",
+   "canonical": "If mixed notation is used, an actual parameter given in assignment notation SHALL NOT assign a formal parameter that already has an actual parameter given in list notation.",
+   "condition": "mixed notation is used",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "'value list notation' is used for the list notation of actual parameter lists; the glossary term denotes a notation for values of structured types.",
+    "improper_terms": [
+     {
+      "used": "value list notation",
+      "proper": "list notation",
+      "glossary": true
+     }
+    ]
+   },
+   "spec_lines": [
+    2677,
+    2679
+   ],
+   "examples": [
+    {
+     "lines": [
+      2880,
+      2894
+     ],
+     "text": "function f_mixed (out integer p_par1, in integer p_par2 := 2, inout integer p_par3) {\n   p_par1 := 1 + p_par2;\n  }\n  function f_f(){\n     var integer v := 0;\n     // the following statements all have the same semantics:\n     f_mixed(-,2,v);\n     f_mixed(-,p_par2 := 2, p_par3 := v);\n     f_mixed(-,-,p_par3 := v);\n     f_mixed(-,p_par3 := v, p_par2 := 2);\n     // not allowed:\n     f_mixed(-,2,p_par3 := v, p_par2 := 5); // p_par2 is already assigned in list notation\n  }"
+    }
+   ],
+   "file": "tests/05-basic-language-elements/05.04.02_test_063.ttcn3",
+   "module": "M_05_04_02_test_063",
+   "header": "// @requirement: 5.4.2 -- o) If the mixed notation is used, no value list notation shall be used following the first assignment notation and the parameters given in assignment notation shall not assign parameters that already have an actual parameter given in list notation."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.2-061a",
+   "section": "5.4.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "p) Actual parameters passed to @deterministic fuzzy or lazy formal parameters shall fulfill the restrictions imposed on content of functions used in special places given in clause 16.1.4.",
+   "canonical": "An actual parameter passed to a @deterministic fuzzy or lazy formal parameter SHALL fulfil the restrictions imposed on the content of functions used in special places given in clause 16.1.4.",
+   "condition": "the formal parameter is a @deterministic fuzzy or lazy formal parameter",
+   "cross_refs": [
+    "16.1.4"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2681,
+    2682
+   ],
+   "examples": [],
+   "file": "tests/05-basic-language-elements/05.04.02_test_064.ttcn3",
+   "module": "M_05_04_02_test_064",
+   "header": "// @requirement: 5.4.2 -- p) Actual parameters passed to @deterministic fuzzy or lazy formal parameters shall fulfill the restrictions imposed on content of functions used in special places given in clause 16.1.4."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.3-001a",
+   "section": "5.4.3",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "The final formal parameter of a template, function, external `function, altstep or testcase may` have a suffix with … (ellipsis).",
+   "canonical": "The final formal parameter of a template, function, external function, altstep or testcase MAY have an ellipsis suffix.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2898,
+    2900
+   ],
+   "examples": [
+    {
+     "lines": [
+      2929,
+      2957
+     ],
+     "text": "// variadic parameter definitions\n  function f1(integer a...); // type of a is record of integer\n  function f2(integer a[3]...); // type of a is record of integer[3]\n  function f3(integer a, integer b...);\n  function f4(integer a..., integer b...); // ERROR: two variadic parameters\n  function f5(integer a..., integer b); // ERROR: variadic parameter is not at final position\n  function f6(integer a := 10, integer b... := {1,2,3});\n  external function printf(universal charstring format, any args ...);\n  // invoking functions with variadic parameters\n  f1(); // value of a: {}\n  f1(1); // value of a: {1}\n  f1(1,2,3); // value of a: {1,2,3}\n  f3(); // ERROR: f3 requires a value for parameter a\n  f3(100); // value of b: {}\n  f3(100,1,2,3); // value of b: {1,2,3}\n  f3(a := 10, b := {1,2,3}); // assignment notation\n  f3(b := {1,2,3}, a := 10); // assignment notation\n  f3(10, b := {1,2,3}); // mixed notation\n  f6(); // value of a: 10, value of b: {1,2,3}\n  f6(1); // value of a: 1, value of b: {1,2,3}\n  f6(1,2); // value of a: 1, value of b: {2}\n  f6(-) // value of a: 10, value of b: {1,2,3}\n  f6(-,1) // value of a: 10, value of b: {1}\n  f6(-,-) // value of a: 10, value of b: {1,2,3}\n  f6(-,-,-) // ERROR: f6 has only two formal parameters to skip.\n  var record of integer a := {1,2,3};\n  f1(a...); // passing a record of parameter directly"
+    }
+   ],
+   "file": "tests/05-basic-language-elements/05.04.03_test_001.ttcn3",
+   "module": "M_05_04_03_test_001",
+   "header": "// @requirement: 5.4.3 -- The final formal parameter of a template, function, external `function, altstep or testcase may` have a suffix with … (ellipsis)."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.3-002b",
+   "section": "5.4.3",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Such formal parameter is called variadic parameter and accepts zero or more values of the specified type.",
+   "canonical": "A variadic parameter accepts zero or more values of the specified type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2898,
+    2900
+   ],
+   "examples": [
+    {
+     "lines": [
+      2929,
+      2957
+     ],
+     "text": "// variadic parameter definitions\n  function f1(integer a...); // type of a is record of integer\n  function f2(integer a[3]...); // type of a is record of integer[3]\n  function f3(integer a, integer b...);\n  function f4(integer a..., integer b...); // ERROR: two variadic parameters\n  function f5(integer a..., integer b); // ERROR: variadic parameter is not at final position\n  function f6(integer a := 10, integer b... := {1,2,3});\n  external function printf(universal charstring format, any args ...);\n  // invoking functions with variadic parameters\n  f1(); // value of a: {}\n  f1(1); // value of a: {1}\n  f1(1,2,3); // value of a: {1,2,3}\n  f3(); // ERROR: f3 requires a value for parameter a\n  f3(100); // value of b: {}\n  f3(100,1,2,3); // value of b: {1,2,3}\n  f3(a := 10, b := {1,2,3}); // assignment notation\n  f3(b := {1,2,3}, a := 10); // assignment notation\n  f3(10, b := {1,2,3}); // mixed notation\n  f6(); // value of a: 10, value of b: {1,2,3}\n  f6(1); // value of a: 1, value of b: {1,2,3}\n  f6(1,2); // value of a: 1, value of b: {2}\n  f6(-) // value of a: 10, value of b: {1,2,3}\n  f6(-,1) // value of a: 10, value of b: {1}\n  f6(-,-) // value of a: 10, value of b: {1,2,3}\n  f6(-,-,-) // ERROR: f6 has only two formal parameters to skip.\n  var record of integer a := {1,2,3};\n  f1(a...); // passing a record of parameter directly"
+    }
+   ],
+   "file": "tests/05-basic-language-elements/05.04.03_test_002.ttcn3",
+   "module": "M_05_04_03_test_002",
+   "header": "// @requirement: 5.4.3 -- Such formal parameter is called variadic parameter and accepts zero or more values of the specified type."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.3-003a",
+   "section": "5.4.3",
+   "type": "static-semantics",
+   "modality": "IS",
+   "original": "Inside the parameterized scope, the type of the formal variadic parameter is a record of the specified type.",
+   "canonical": "Inside the parameterized scope, the type of a variadic formal parameter IS a record of the specified type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2902,
+    2902
+   ],
+   "examples": [
+    {
+     "lines": [
+      2929,
+      2957
+     ],
+     "text": "// variadic parameter definitions\n  function f1(integer a...); // type of a is record of integer\n  function f2(integer a[3]...); // type of a is record of integer[3]\n  function f3(integer a, integer b...);\n  function f4(integer a..., integer b...); // ERROR: two variadic parameters\n  function f5(integer a..., integer b); // ERROR: variadic parameter is not at final position\n  function f6(integer a := 10, integer b... := {1,2,3});\n  external function printf(universal charstring format, any args ...);\n  // invoking functions with variadic parameters\n  f1(); // value of a: {}\n  f1(1); // value of a: {1}\n  f1(1,2,3); // value of a: {1,2,3}\n  f3(); // ERROR: f3 requires a value for parameter a\n  f3(100); // value of b: {}\n  f3(100,1,2,3); // value of b: {1,2,3}\n  f3(a := 10, b := {1,2,3}); // assignment notation\n  f3(b := {1,2,3}, a := 10); // assignment notation\n  f3(10, b := {1,2,3}); // mixed notation\n  f6(); // value of a: 10, value of b: {1,2,3}\n  f6(1); // value of a: 1, value of b: {1,2,3}\n  f6(1,2); // value of a: 1, value of b: {2}\n  f6(-) // value of a: 10, value of b: {1,2,3}\n  f6(-,1) // value of a: 10, value of b: {1}\n  f6(-,-) // value of a: 10, value of b: {1,2,3}\n  f6(-,-,-) // ERROR: f6 has only two formal parameters to skip.\n  var record of integer a := {1,2,3};\n  f1(a...); // passing a record of parameter directly"
+    }
+   ],
+   "file": "tests/05-basic-language-elements/05.04.03_test_003.ttcn3",
+   "module": "M_05_04_03_test_003",
+   "header": "// @requirement: 5.4.3 -- Inside the parameterized scope, the type of the formal variadic parameter is a record of the specified type."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.3-005a",
+   "section": "5.4.3",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "The actual parameter is not present in the list of actual parameters or skipped by using the dash symbol.",
+   "canonical": "When list notation is used, the actual parameter for a variadic formal parameter MAY be absent from the actual parameter list or skipped by using the dash symbol.",
+   "condition": "list notation is used",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2904,
+    2907
+   ],
+   "examples": [
+    {
+     "lines": [
+      2929,
+      2957
+     ],
+     "text": "// variadic parameter definitions\n  function f1(integer a...); // type of a is record of integer\n  function f2(integer a[3]...); // type of a is record of integer[3]\n  function f3(integer a, integer b...);\n  function f4(integer a..., integer b...); // ERROR: two variadic parameters\n  function f5(integer a..., integer b); // ERROR: variadic parameter is not at final position\n  function f6(integer a := 10, integer b... := {1,2,3});\n  external function printf(universal charstring format, any args ...);\n  // invoking functions with variadic parameters\n  f1(); // value of a: {}\n  f1(1); // value of a: {1}\n  f1(1,2,3); // value of a: {1,2,3}\n  f3(); // ERROR: f3 requires a value for parameter a\n  f3(100); // value of b: {}\n  f3(100,1,2,3); // value of b: {1,2,3}\n  f3(a := 10, b := {1,2,3}); // assignment notation\n  f3(b := {1,2,3}, a := 10); // assignment notation\n  f3(10, b := {1,2,3}); // mixed notation\n  f6(); // value of a: 10, value of b: {1,2,3}\n  f6(1); // value of a: 1, value of b: {1,2,3}\n  f6(1,2); // value of a: 1, value of b: {2}\n  f6(-) // value of a: 10, value of b: {1,2,3}\n  f6(-,1) // value of a: 10, value of b: {1}\n  f6(-,-) // value of a: 10, value of b: {1,2,3}\n  f6(-,-,-) // ERROR: f6 has only two formal parameters to skip.\n  var record of integer a := {1,2,3};\n  f1(a...); // passing a record of parameter directly"
+    }
+   ],
+   "file": "tests/05-basic-language-elements/05.04.03_test_004.ttcn3",
+   "module": "M_05_04_03_test_004",
+   "header": "// @requirement: 5.4.3 -- The actual parameter is not present in the list of actual parameters or skipped by using the dash symbol."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.3-006a",
+   "section": "5.4.3",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The actual parameter is equal to an empty record of value or template in this case.",
+   "canonical": "If the actual parameter for a variadic formal parameter is absent or skipped, the actual parameter IS equal to an empty record of value or template.",
+   "condition": "the actual parameter for the variadic parameter is absent or skipped",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "EXAMPLE f6 shows that a skipped variadic parameter with a default value takes the default ({1,2,3}) instead of an empty record of. Chosen reading: the empty record of applies when no default value is defined.",
+    "readings": [
+     "If the actual parameter for a variadic formal parameter without default value is absent or skipped, it IS equal to an empty record of value or template.",
+     "If the actual parameter for any variadic formal parameter is absent or skipped, it IS equal to an empty record of value or template, even if a default value is defined."
+    ]
+   },
+   "spec_lines": [
+    2906,
+    2907
+   ],
+   "examples": [
+    {
+     "lines": [
+      2929,
+      2957
+     ],
+     "text": "// variadic parameter definitions\n  function f1(integer a...); // type of a is record of integer\n  function f2(integer a[3]...); // type of a is record of integer[3]\n  function f3(integer a, integer b...);\n  function f4(integer a..., integer b...); // ERROR: two variadic parameters\n  function f5(integer a..., integer b); // ERROR: variadic parameter is not at final position\n  function f6(integer a := 10, integer b... := {1,2,3});\n  external function printf(universal charstring format, any args ...);\n  // invoking functions with variadic parameters\n  f1(); // value of a: {}\n  f1(1); // value of a: {1}\n  f1(1,2,3); // value of a: {1,2,3}\n  f3(); // ERROR: f3 requires a value for parameter a\n  f3(100); // value of b: {}\n  f3(100,1,2,3); // value of b: {1,2,3}\n  f3(a := 10, b := {1,2,3}); // assignment notation\n  f3(b := {1,2,3}, a := 10); // assignment notation\n  f3(10, b := {1,2,3}); // mixed notation\n  f6(); // value of a: 10, value of b: {1,2,3}\n  f6(1); // value of a: 1, value of b: {1,2,3}\n  f6(1,2); // value of a: 1, value of b: {2}\n  f6(-) // value of a: 10, value of b: {1,2,3}\n  f6(-,1) // value of a: 10, value of b: {1}\n  f6(-,-) // value of a: 10, value of b: {1,2,3}\n  f6(-,-,-) // ERROR: f6 has only two formal parameters to skip.\n  var record of integer a := {1,2,3};\n  f1(a...); // passing a record of parameter directly"
+    }
+   ],
+   "file": "tests/05-basic-language-elements/05.04.03_test_005.ttcn3",
+   "module": "M_05_04_03_test_005",
+   "header": "// @requirement: 5.4.3 -- The actual parameter is equal to an empty record of value or template in this case."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.3-007a",
+   "section": "5.4.3",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Using 1..N comma-separated values of the specified type as the actual parameter.",
+   "canonical": "When list notation is used, 1 to N comma-separated values of the specified type MAY be given as the actual parameter for a variadic formal parameter.",
+   "condition": "list notation is used",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2904,
+    2911
+   ],
+   "examples": [
+    {
+     "lines": [
+      2929,
+      2957
+     ],
+     "text": "// variadic parameter definitions\n  function f1(integer a...); // type of a is record of integer\n  function f2(integer a[3]...); // type of a is record of integer[3]\n  function f3(integer a, integer b...);\n  function f4(integer a..., integer b...); // ERROR: two variadic parameters\n  function f5(integer a..., integer b); // ERROR: variadic parameter is not at final position\n  function f6(integer a := 10, integer b... := {1,2,3});\n  external function printf(universal charstring format, any args ...);\n  // invoking functions with variadic parameters\n  f1(); // value of a: {}\n  f1(1); // value of a: {1}\n  f1(1,2,3); // value of a: {1,2,3}\n  f3(); // ERROR: f3 requires a value for parameter a\n  f3(100); // value of b: {}\n  f3(100,1,2,3); // value of b: {1,2,3}\n  f3(a := 10, b := {1,2,3}); // assignment notation\n  f3(b := {1,2,3}, a := 10); // assignment notation\n  f3(10, b := {1,2,3}); // mixed notation\n  f6(); // value of a: 10, value of b: {1,2,3}\n  f6(1); // value of a: 1, value of b: {1,2,3}\n  f6(1,2); // value of a: 1, value of b: {2}\n  f6(-) // value of a: 10, value of b: {1,2,3}\n  f6(-,1) // value of a: 10, value of b: {1}\n  f6(-,-) // value of a: 10, value of b: {1,2,3}\n  f6(-,-,-) // ERROR: f6 has only two formal parameters to skip.\n  var record of integer a := {1,2,3};\n  f1(a...); // passing a record of parameter directly"
+    }
+   ],
+   "file": "tests/05-basic-language-elements/05.04.03_test_006.ttcn3",
+   "module": "M_05_04_03_test_006",
+   "header": "// @requirement: 5.4.3 -- Using 1..N comma-separated values of the specified type as the actual parameter."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.3-008a",
+   "section": "5.4.3",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The actual parameter is equal to a record of value or template that contains all the comma-separated values in their declaration order.",
+   "canonical": "If comma-separated values are given for a variadic formal parameter, the actual parameter IS equal to a record of value or template that contains all the comma-separated values in their order of appearance.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "'declaration order' is used for the order in which the values appear in the actual parameter list.",
+    "improper_terms": [
+     {
+      "used": "declaration order",
+      "proper": "order of appearance in the actual parameter list",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    2909,
+    2911
+   ],
+   "examples": [
+    {
+     "lines": [
+      2929,
+      2957
+     ],
+     "text": "// variadic parameter definitions\n  function f1(integer a...); // type of a is record of integer\n  function f2(integer a[3]...); // type of a is record of integer[3]\n  function f3(integer a, integer b...);\n  function f4(integer a..., integer b...); // ERROR: two variadic parameters\n  function f5(integer a..., integer b); // ERROR: variadic parameter is not at final position\n  function f6(integer a := 10, integer b... := {1,2,3});\n  external function printf(universal charstring format, any args ...);\n  // invoking functions with variadic parameters\n  f1(); // value of a: {}\n  f1(1); // value of a: {1}\n  f1(1,2,3); // value of a: {1,2,3}\n  f3(); // ERROR: f3 requires a value for parameter a\n  f3(100); // value of b: {}\n  f3(100,1,2,3); // value of b: {1,2,3}\n  f3(a := 10, b := {1,2,3}); // assignment notation\n  f3(b := {1,2,3}, a := 10); // assignment notation\n  f3(10, b := {1,2,3}); // mixed notation\n  f6(); // value of a: 10, value of b: {1,2,3}\n  f6(1); // value of a: 1, value of b: {1,2,3}\n  f6(1,2); // value of a: 1, value of b: {2}\n  f6(-) // value of a: 10, value of b: {1,2,3}\n  f6(-,1) // value of a: 10, value of b: {1}\n  f6(-,-) // value of a: 10, value of b: {1,2,3}\n  f6(-,-,-) // ERROR: f6 has only two formal parameters to skip.\n  var record of integer a := {1,2,3};\n  f1(a...); // passing a record of parameter directly"
+    }
+   ],
+   "file": "tests/05-basic-language-elements/05.04.03_test_007.ttcn3",
+   "module": "M_05_04_03_test_007",
+   "header": "// @requirement: 5.4.3 -- The actual parameter is equal to a record of value or template that contains all the comma-separated values in their declaration order."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.3-009a",
+   "section": "5.4.3",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Using a single parameter of a compatible record of the specified type followed by ....",
+   "canonical": "When list notation is used, a single actual parameter of a compatible record of the specified type followed by an ellipsis MAY be given for a variadic formal parameter.",
+   "condition": "list notation is used",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2904,
+    2914
+   ],
+   "examples": [
+    {
+     "lines": [
+      2929,
+      2957
+     ],
+     "text": "// variadic parameter definitions\n  function f1(integer a...); // type of a is record of integer\n  function f2(integer a[3]...); // type of a is record of integer[3]\n  function f3(integer a, integer b...);\n  function f4(integer a..., integer b...); // ERROR: two variadic parameters\n  function f5(integer a..., integer b); // ERROR: variadic parameter is not at final position\n  function f6(integer a := 10, integer b... := {1,2,3});\n  external function printf(universal charstring format, any args ...);\n  // invoking functions with variadic parameters\n  f1(); // value of a: {}\n  f1(1); // value of a: {1}\n  f1(1,2,3); // value of a: {1,2,3}\n  f3(); // ERROR: f3 requires a value for parameter a\n  f3(100); // value of b: {}\n  f3(100,1,2,3); // value of b: {1,2,3}\n  f3(a := 10, b := {1,2,3}); // assignment notation\n  f3(b := {1,2,3}, a := 10); // assignment notation\n  f3(10, b := {1,2,3}); // mixed notation\n  f6(); // value of a: 10, value of b: {1,2,3}\n  f6(1); // value of a: 1, value of b: {1,2,3}\n  f6(1,2); // value of a: 1, value of b: {2}\n  f6(-) // value of a: 10, value of b: {1,2,3}\n  f6(-,1) // value of a: 10, value of b: {1}\n  f6(-,-) // value of a: 10, value of b: {1,2,3}\n  f6(-,-,-) // ERROR: f6 has only two formal parameters to skip.\n  var record of integer a := {1,2,3};\n  f1(a...); // passing a record of parameter directly"
+    }
+   ],
+   "file": "tests/05-basic-language-elements/05.04.03_test_008.ttcn3",
+   "module": "M_05_04_03_test_008",
+   "header": "// @requirement: 5.4.3 -- Using a single parameter of a compatible record of the specified type followed by ...."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.3-010a",
+   "section": "5.4.3",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The actual parameter is passed directly to the formal variadic parameter in this case.",
+   "canonical": "If a record of actual parameter followed by an ellipsis is given for a variadic formal parameter, the actual parameter IS passed directly to the variadic formal parameter.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2913,
+    2914
+   ],
+   "examples": [
+    {
+     "lines": [
+      2929,
+      2957
+     ],
+     "text": "// variadic parameter definitions\n  function f1(integer a...); // type of a is record of integer\n  function f2(integer a[3]...); // type of a is record of integer[3]\n  function f3(integer a, integer b...);\n  function f4(integer a..., integer b...); // ERROR: two variadic parameters\n  function f5(integer a..., integer b); // ERROR: variadic parameter is not at final position\n  function f6(integer a := 10, integer b... := {1,2,3});\n  external function printf(universal charstring format, any args ...);\n  // invoking functions with variadic parameters\n  f1(); // value of a: {}\n  f1(1); // value of a: {1}\n  f1(1,2,3); // value of a: {1,2,3}\n  f3(); // ERROR: f3 requires a value for parameter a\n  f3(100); // value of b: {}\n  f3(100,1,2,3); // value of b: {1,2,3}\n  f3(a := 10, b := {1,2,3}); // assignment notation\n  f3(b := {1,2,3}, a := 10); // assignment notation\n  f3(10, b := {1,2,3}); // mixed notation\n  f6(); // value of a: 10, value of b: {1,2,3}\n  f6(1); // value of a: 1, value of b: {1,2,3}\n  f6(1,2); // value of a: 1, value of b: {2}\n  f6(-) // value of a: 10, value of b: {1,2,3}\n  f6(-,1) // value of a: 10, value of b: {1}\n  f6(-,-) // value of a: 10, value of b: {1,2,3}\n  f6(-,-,-) // ERROR: f6 has only two formal parameters to skip.\n  var record of integer a := {1,2,3};\n  f1(a...); // passing a record of parameter directly"
+    }
+   ],
+   "file": "tests/05-basic-language-elements/05.04.03_test_009.ttcn3",
+   "module": "M_05_04_03_test_009",
+   "header": "// @requirement: 5.4.3 -- The actual parameter is passed directly to the formal variadic parameter in this case."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.3-011a",
+   "section": "5.4.3",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "When using the assignment notation for an actual variadic parameter, the actual parameter shall be a value or template of a compatible record of the specified type without any additional ellipsis.",
+   "canonical": "When assignment notation is used for a variadic parameter, the actual parameter SHALL be a value or template of a compatible record of the specified type without an ellipsis.",
+   "condition": "assignment notation is used for the variadic parameter",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2916,
+    2918
+   ],
+   "examples": [
+    {
+     "lines": [
+      2929,
+      2957
+     ],
+     "text": "// variadic parameter definitions\n  function f1(integer a...); // type of a is record of integer\n  function f2(integer a[3]...); // type of a is record of integer[3]\n  function f3(integer a, integer b...);\n  function f4(integer a..., integer b...); // ERROR: two variadic parameters\n  function f5(integer a..., integer b); // ERROR: variadic parameter is not at final position\n  function f6(integer a := 10, integer b... := {1,2,3});\n  external function printf(universal charstring format, any args ...);\n  // invoking functions with variadic parameters\n  f1(); // value of a: {}\n  f1(1); // value of a: {1}\n  f1(1,2,3); // value of a: {1,2,3}\n  f3(); // ERROR: f3 requires a value for parameter a\n  f3(100); // value of b: {}\n  f3(100,1,2,3); // value of b: {1,2,3}\n  f3(a := 10, b := {1,2,3}); // assignment notation\n  f3(b := {1,2,3}, a := 10); // assignment notation\n  f3(10, b := {1,2,3}); // mixed notation\n  f6(); // value of a: 10, value of b: {1,2,3}\n  f6(1); // value of a: 1, value of b: {1,2,3}\n  f6(1,2); // value of a: 1, value of b: {2}\n  f6(-) // value of a: 10, value of b: {1,2,3}\n  f6(-,1) // value of a: 10, value of b: {1}\n  f6(-,-) // value of a: 10, value of b: {1,2,3}\n  f6(-,-,-) // ERROR: f6 has only two formal parameters to skip.\n  var record of integer a := {1,2,3};\n  f1(a...); // passing a record of parameter directly"
+    }
+   ],
+   "file": "tests/05-basic-language-elements/05.04.03_test_010.ttcn3",
+   "module": "M_05_04_03_test_010",
+   "header": "// @requirement: 5.4.3 -- When using the assignment notation for an actual variadic parameter, the actual parameter shall be a value or template of a compatible record of the specified type without any additional ellipsis."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.3-012a",
+   "section": "5.4.3",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The actual parameter is passed directly to the formal variadic parameter in this case.",
+   "canonical": "When assignment notation is used for a variadic parameter, the actual parameter IS passed directly to the variadic formal parameter.",
+   "condition": "assignment notation is used",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2916,
+    2918
+   ],
+   "examples": [
+    {
+     "lines": [
+      2929,
+      2957
+     ],
+     "text": "// variadic parameter definitions\n  function f1(integer a...); // type of a is record of integer\n  function f2(integer a[3]...); // type of a is record of integer[3]\n  function f3(integer a, integer b...);\n  function f4(integer a..., integer b...); // ERROR: two variadic parameters\n  function f5(integer a..., integer b); // ERROR: variadic parameter is not at final position\n  function f6(integer a := 10, integer b... := {1,2,3});\n  external function printf(universal charstring format, any args ...);\n  // invoking functions with variadic parameters\n  f1(); // value of a: {}\n  f1(1); // value of a: {1}\n  f1(1,2,3); // value of a: {1,2,3}\n  f3(); // ERROR: f3 requires a value for parameter a\n  f3(100); // value of b: {}\n  f3(100,1,2,3); // value of b: {1,2,3}\n  f3(a := 10, b := {1,2,3}); // assignment notation\n  f3(b := {1,2,3}, a := 10); // assignment notation\n  f3(10, b := {1,2,3}); // mixed notation\n  f6(); // value of a: 10, value of b: {1,2,3}\n  f6(1); // value of a: 1, value of b: {1,2,3}\n  f6(1,2); // value of a: 1, value of b: {2}\n  f6(-) // value of a: 10, value of b: {1,2,3}\n  f6(-,1) // value of a: 10, value of b: {1}\n  f6(-,-) // value of a: 10, value of b: {1,2,3}\n  f6(-,-,-) // ERROR: f6 has only two formal parameters to skip.\n  var record of integer a := {1,2,3};\n  f1(a...); // passing a record of parameter directly"
+    }
+   ],
+   "file": "tests/05-basic-language-elements/05.04.03_test_011.ttcn3",
+   "module": "M_05_04_03_test_011",
+   "header": "// @requirement: 5.4.3 -- The actual parameter is passed directly to the formal variadic parameter in this case."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.3-013a",
+   "section": "5.4.3",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "a) The variadic formal parameter shall be an in parameter.",
+   "canonical": "A variadic formal parameter SHALL be an in parameter.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2922,
+    2923
+   ],
+   "examples": [],
+   "file": "tests/05-basic-language-elements/05.04.03_test_012.ttcn3",
+   "module": "M_05_04_03_test_012",
+   "header": "// @requirement: 5.4.3 -- a) The variadic formal parameter shall be an in parameter."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.3-014a",
+   "section": "5.4.3",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "Using of inout or out kind of parameterization for variadic parameters is forbidden.",
+   "canonical": "A variadic formal parameter SHALL NOT have inout or out parameterization.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2922,
+    2923
+   ],
+   "examples": [],
+   "file": "tests/05-basic-language-elements/05.04.03_test_013.ttcn3",
+   "module": "M_05_04_03_test_013",
+   "header": "// @requirement: 5.4.3 -- Using of inout or out kind of parameterization for variadic parameters is forbidden."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.3-015a",
+   "section": "5.4.3",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "original": "b) Using the ellipsis in a declaration of a formal parameter that is not the last in the list of parameters shall produce an error.",
+   "canonical": "A TTCN-3 tool SHALL produce an error if the ellipsis is used in the declaration of a formal parameter that is not the last in the formal parameter list.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2925,
+    2926
+   ],
+   "examples": [
+    {
+     "lines": [
+      2929,
+      2957
+     ],
+     "text": "// variadic parameter definitions\n  function f1(integer a...); // type of a is record of integer\n  function f2(integer a[3]...); // type of a is record of integer[3]\n  function f3(integer a, integer b...);\n  function f4(integer a..., integer b...); // ERROR: two variadic parameters\n  function f5(integer a..., integer b); // ERROR: variadic parameter is not at final position\n  function f6(integer a := 10, integer b... := {1,2,3});\n  external function printf(universal charstring format, any args ...);\n  // invoking functions with variadic parameters\n  f1(); // value of a: {}\n  f1(1); // value of a: {1}\n  f1(1,2,3); // value of a: {1,2,3}\n  f3(); // ERROR: f3 requires a value for parameter a\n  f3(100); // value of b: {}\n  f3(100,1,2,3); // value of b: {1,2,3}\n  f3(a := 10, b := {1,2,3}); // assignment notation\n  f3(b := {1,2,3}, a := 10); // assignment notation\n  f3(10, b := {1,2,3}); // mixed notation\n  f6(); // value of a: 10, value of b: {1,2,3}\n  f6(1); // value of a: 1, value of b: {1,2,3}\n  f6(1,2); // value of a: 1, value of b: {2}\n  f6(-) // value of a: 10, value of b: {1,2,3}\n  f6(-,1) // value of a: 10, value of b: {1}\n  f6(-,-) // value of a: 10, value of b: {1,2,3}\n  f6(-,-,-) // ERROR: f6 has only two formal parameters to skip.\n  var record of integer a := {1,2,3};\n  f1(a...); // passing a record of parameter directly"
+    }
+   ],
+   "file": "tests/05-basic-language-elements/05.04.03_test_014.ttcn3",
+   "module": "M_05_04_03_test_014",
+   "header": "// @requirement: 5.4.3 -- b) Using the ellipsis in a declaration of a formal parameter that is not the last in the list of parameters shall produce an error."
+  },
+  {
+   "id": "TTCN3-CORE-5.5-001a",
+   "section": "5.5",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "Direct and indirect cyclic definitions are not allowed with the exception of the following cases:",
+   "canonical": "A direct or indirect cyclic definition SHALL NOT be used, except for recursive type definitions, recursive function or altstep definitions, and cyclic imports that form only allowed cyclic definitions.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2961,
+    2961
+   ],
+   "examples": [
+    {
+     "lines": [
+      2978,
+      2987
+     ],
+     "text": "module MyModule {\n     :\n     type record ARecordType { integer a, integer b };\n     :\n  // The following two lines include a cycle that is not allowed\n     const ARecordType c_cConst := { 1, c_dConst.b}; // c_cConst refers to c_dConst\n     const ARecordType c_dConst := { 1, c_cConst.b}; // c_dConst refers to c_cConst\n  }"
+    }
+   ],
+   "file": "tests/05-basic-language-elements/05.05_test_001.ttcn3",
+   "module": "M_05_05_test_001",
+   "header": "// @requirement: 5.5 -- Direct and indirect cyclic definitions are not allowed with the exception of the following cases:"
+  },
+  {
+   "id": "TTCN3-CORE-5.5-002a",
+   "section": "5.5",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "a) for recursive type definitions (see clause 6.2);",
+   "canonical": "A type definition MAY be recursive (cyclic).",
+   "condition": null,
+   "cross_refs": [
+    "6.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2961,
+    2963
+   ],
+   "examples": [],
+   "file": "tests/05-basic-language-elements/05.05_test_002.ttcn3",
+   "module": "M_05_05_test_002",
+   "header": "// @requirement: 5.5 -- a) for recursive type definitions (see clause 6.2);"
+  },
+  {
+   "id": "TTCN3-CORE-5.5-003a",
+   "section": "5.5",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "b) function and altstep definitions (i.e. recursive function or altstep calls);",
+   "canonical": "A function or altstep definition MAY be cyclic, i.e. functions and altsteps MAY be called recursively.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2961,
+    2965
+   ],
+   "examples": [],
+   "file": "tests/05-basic-language-elements/05.05_test_003.ttcn3",
+   "module": "M_05_05_test_003",
+   "header": "// @requirement: 5.5 -- b) function and altstep definitions (i.e. recursive function or altstep calls);"
+  },
+  {
+   "id": "TTCN3-CORE-5.5-004a",
+   "section": "5.5",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "c) cyclic import definitions, if the imported definitions only form allowed cyclic definitions.",
+   "canonical": "Import definitions MAY be cyclic if the imported definitions form only allowed cyclic definitions.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2961,
+    2967
+   ],
+   "examples": [
+    {
+     "lines": [
+      2990,
+      2999
+     ],
+     "text": "module MyModuleA {\n       import from MyModuleB { type MyInteger }\n       type record of MyInteger MyIntegerList;\n  }\n  module MyModuleB {\n       type integer MyInteger;\n       import from MyModuleA { type MyIntegerList }\n  }"
+    }
+   ],
+   "file": "tests/05-basic-language-elements/05.05_test_004.ttcn3",
+   "module": "M_05_05_test_004",
+   "header": "// @requirement: 5.5 -- c) cyclic import definitions, if the imported definitions only form allowed cyclic definitions."
+  },
+  {
+   "id": "TTCN3-CORE-5.5-006a",
+   "section": "5.5",
+   "type": "information",
+   "modality": "IS",
+   "original": "NOTE 2: For the detection of cycles only the main identifiers of the definition are used.",
+   "canonical": "Only the main identifiers of a definition ARE used for the detection of cyclic definitions.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2972,
+    2973
+   ],
+   "examples": [],
+   "file": "tests/05-basic-language-elements/05.05_test_005.ttcn3",
+   "module": "M_05_05_test_005",
+   "header": "// @requirement: 5.5 -- NOTE 2: For the detection of cycles only the main identifiers of the definition are used."
+  },
+  {
+   "id": "TTCN3-CORE-5.5-007a",
+   "section": "5.5",
+   "type": "information",
+   "modality": "IS NOT",
+   "original": "For example, field identifiers are not used.",
+   "canonical": "Field identifiers ARE NOT used for the detection of cyclic definitions.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2972,
+    2973
+   ],
+   "examples": [],
+   "file": "tests/05-basic-language-elements/05.05_test_006.ttcn3",
+   "module": "M_05_05_test_006",
+   "header": "// @requirement: 5.5 -- For example, field identifiers are not used."
+  },
+  {
+   "id": "TTCN3-CORE-6.0-003a",
+   "section": "6.0",
+   "type": "permission",
+   "modality": "CAN",
+   "original": "Structured types such as record types, set types and union types can be constructed from these basic types. enumerated types are specific structured types being constructed of enumerated values.",
+   "canonical": "A structured type such as a record type, set type or union type CAN be constructed from basic types.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3005,
+    3008
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.00_test_001.ttcn3",
+   "module": "M_06_00_test_001",
+   "header": "// @requirement: 6.0 -- Structured types such as record types, set types and union types can be constructed from these basic types. enumerated types are specific structured types being constructed of enumerated values."
+  },
+  {
+   "id": "TTCN3-CORE-6.0-004a",
+   "section": "6.0",
+   "type": "definition",
+   "modality": "IS",
+   "original": "The special data type anytype is defined as the union of all known data types and the address type defined within a TTCN-3 module.",
+   "canonical": "The `anytype` IS the union of all known types and the address type defined within a TTCN-3 module.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "'known data types' is used; the glossary term is 'known types'.",
+    "improper_terms": [
+     {
+      "used": "known data types",
+      "proper": "known types",
+      "glossary": true
+     }
+    ]
+   },
+   "spec_lines": [
+    3010,
+    3012
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.00_test_002.ttcn3",
+   "module": "M_06_00_test_002",
+   "header": "// @requirement: 6.0 -- The special data type anytype is defined as the union of all known data types and the address type defined within a TTCN-3 module."
+  },
+  {
+   "id": "TTCN3-CORE-6.0-005a",
+   "section": "6.0",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "In any specific module context, only the known types can be accessed in a value or template of type anytype.",
+   "canonical": "In a value or template of type `anytype`, only the known types of the specific module context SHALL be accessible.",
+   "condition": "a value or template of type anytype is used in a specific module context",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3010,
+    3012
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.00_test_003.ttcn3",
+   "module": "M_06_00_test_003",
+   "header": "// @requirement: 6.0 -- In any specific module context, only the known types can be accessed in a value or template of type anytype."
+  },
+  {
+   "id": "TTCN3-CORE-6.1.0-002a",
+   "section": "6.1.0",
+   "type": "definition",
+   "modality": "IS",
+   "original": "a) `integer: a type with distinguished values which are the positive and negative whole numbers, including` zero:",
+   "canonical": "The `integer` type IS a type with distinguished values which are the positive and negative whole numbers, including zero.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3062,
+    3063
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.01.00_test_001.ttcn3",
+   "module": "M_06_01_00_test_001",
+   "header": "// @requirement: 6.1.0 -- a) `integer: a type with distinguished values which are the positive and negative whole numbers, including` zero:"
+  },
+  {
+   "id": "TTCN3-CORE-6.1.0-003a",
+   "section": "6.1.0",
+   "type": "syntax",
+   "modality": "SHALL",
+   "original": "Values of integer type shall be denoted by one or more digits; the first digit shall not be zero unless the value is 0; the value zero shall be represented by a single zero.",
+   "canonical": "An integer value SHALL be denoted by one or more digits.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3065,
+    3066
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.01.00_test_002.ttcn3",
+   "module": "M_06_01_00_test_002",
+   "header": "// @requirement: 6.1.0 -- Values of integer type shall be denoted by one or more digits; the first digit shall not be zero unless the value is 0; the value zero shall be represented by a single zero."
+  },
+  {
+   "id": "TTCN3-CORE-6.1.0-003b",
+   "section": "6.1.0",
+   "type": "syntax",
+   "modality": "SHALL NOT",
+   "original": "Values of integer type shall be denoted by one or more digits; the first digit shall not be zero unless the value is 0; the value zero shall be represented by a single zero.",
+   "canonical": "The first digit of an integer value notation SHALL NOT be zero unless the value is 0.",
+   "condition": "the value is not 0",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3065,
+    3066
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.01.00_test_003.ttcn3",
+   "module": "M_06_01_00_test_003",
+   "header": "// @requirement: 6.1.0 -- Values of integer type shall be denoted by one or more digits; the first digit shall not be zero unless the value is 0; the value zero shall be represented by a single zero."
+  },
+  {
+   "id": "TTCN3-CORE-6.1.0-003c",
+   "section": "6.1.0",
+   "type": "syntax",
+   "modality": "SHALL",
+   "original": "Values of integer type shall be denoted by one or more digits; the first digit shall not be zero unless the value is 0; the value zero shall be represented by a single zero.",
+   "canonical": "The integer value zero SHALL be represented by a single zero.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3065,
+    3066
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.01.00_test_004.ttcn3",
+   "module": "M_06_01_00_test_004",
+   "header": "// @requirement: 6.1.0 -- Values of integer type shall be denoted by one or more digits; the first digit shall not be zero unless the value is 0; the value zero shall be represented by a single zero."
+  },
+  {
+   "id": "TTCN3-CORE-6.1.0-004a",
+   "section": "6.1.0",
+   "type": "definition",
+   "modality": "IS",
+   "original": "b) `float: a type to describe floating-point numbers and special float values:`",
+   "canonical": "The `float` type IS a type to describe floating-point numbers and special float values.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3068,
+    3068
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.01.00_test_005.ttcn3",
+   "module": "M_06_01_00_test_005",
+   "header": "// @requirement: 6.1.0 -- b) `float: a type to describe floating-point numbers and special float values:`"
+  },
+  {
+   "id": "TTCN3-CORE-6.1.0-006a",
+   "section": "6.1.0",
+   "type": "restriction",
+   "modality": "IS",
+   "original": "In TTCN-3, the floating-point number value notation is restricted to a base with the value of 10.",
+   "canonical": "The TTCN-3 floating-point value notation IS restricted to the base 10.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3075,
+    3076
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.01.00_test_006.ttcn3",
+   "module": "M_06_01_00_test_006",
+   "header": "// @requirement: 6.1.0 -- In TTCN-3, the floating-point number value notation is restricted to a base with the value of 10."
+  },
+  {
+   "id": "TTCN3-CORE-6.1.0-007a",
+   "section": "6.1.0",
+   "type": "syntax",
+   "modality": "CAN",
+   "original": "Floating point values can be expressed by using two forms of value notations:",
+   "canonical": "A float value CAN be expressed in two forms of value notation: the decimal notation and the exponent notation.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3075,
+    3114
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.01.00_test_007.ttcn3",
+   "module": "M_06_01_00_test_007",
+   "header": "// @requirement: 6.1.0 -- Floating point values can be expressed by using two forms of value notations:"
+  },
+  {
+   "id": "TTCN3-CORE-6.1.0-008a",
+   "section": "6.1.0",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "the decimal notation with a dot in a sequence of numbers like, 1,23 (which represents 123 × 10[-2]), 2,783 (i.e. 2 783 × 10[-3]) or -123,456789 (which represents -123 456 789 × 10[-6]); or",
+   "canonical": "The decimal float value notation IS a sequence of digits containing a dot, e.g. 1.23 (123 × 10^-2), 2.783 or -123.456789.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "The text says 'with a dot' but the examples are written with a comma (1,23); reading 1 chosen since the text and the TTCN-3 grammar use a dot.",
+    "readings": [
+     "The decimal float value notation IS a sequence of digits containing a dot (e.g. 1.23).",
+     "The decimal float value notation IS a sequence of digits containing a comma (e.g. 1,23)."
+    ]
+   },
+   "spec_lines": [
+    3075,
+    3079
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.01.00_test_008.ttcn3",
+   "module": "M_06_01_00_test_008",
+   "header": "// @requirement: 6.1.0 -- the decimal notation with a dot in a sequence of numbers like, 1,23 (which represents 123 × 10[-2]), 2,783 (i.e. 2 783 × 10[-3]) or -123,456789 (which represents -123 456 789 × 10[-6]); or"
+  },
+  {
+   "id": "TTCN3-CORE-6.1.0-009b",
+   "section": "6.1.0",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Class of type: Simple basic types; Keyword: integer; Subtype: range, list",
+   "canonical": "A `integer` type MAY be subtyped by range subtyping and list subtyping.",
+   "condition": null,
+   "cross_refs": [
+    "6.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3081,
+    3083
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.01.00_test_009.ttcn3",
+   "module": "M_06_01_00_test_009",
+   "header": "// @requirement: 6.1.0 -- Class of type: Simple basic types; Keyword: integer; Subtype: range, list"
+  },
+  {
+   "id": "TTCN3-CORE-6.1.0-010b",
+   "section": "6.1.0",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Class of type: float; Keyword: range, list",
+   "canonical": "A `float` type MAY be subtyped by range subtyping and list subtyping.",
+   "condition": null,
+   "cross_refs": [
+    "6.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3081,
+    3084
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.01.00_test_010.ttcn3",
+   "module": "M_06_01_00_test_010",
+   "header": "// @requirement: 6.1.0 -- Class of type: float; Keyword: range, list"
+  },
+  {
+   "id": "TTCN3-CORE-6.1.0-011b",
+   "section": "6.1.0",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Class of type: boolean; Keyword: List",
+   "canonical": "A `boolean` type MAY be subtyped by list subtyping.",
+   "condition": null,
+   "cross_refs": [
+    "6.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3081,
+    3085
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.01.00_test_011.ttcn3",
+   "module": "M_06_01_00_test_011",
+   "header": "// @requirement: 6.1.0 -- Class of type: boolean; Keyword: List"
+  },
+  {
+   "id": "TTCN3-CORE-6.1.0-012b",
+   "section": "6.1.0",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Class of type: verdicttype; Keyword: List",
+   "canonical": "A `verdicttype` type MAY be subtyped by list subtyping.",
+   "condition": null,
+   "cross_refs": [
+    "6.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3081,
+    3086
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.01.00_test_012.ttcn3",
+   "module": "M_06_01_00_test_012",
+   "header": "// @requirement: 6.1.0 -- Class of type: verdicttype; Keyword: List"
+  },
+  {
+   "id": "TTCN3-CORE-6.1.0-013b",
+   "section": "6.1.0",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Class of type: Basic string types; Keyword: bitstring; Subtype: list, length",
+   "canonical": "A `bitstring` type MAY be subtyped by list subtyping and length subtyping.",
+   "condition": null,
+   "cross_refs": [
+    "6.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3081,
+    3087
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.01.00_test_013.ttcn3",
+   "module": "M_06_01_00_test_013",
+   "header": "// @requirement: 6.1.0 -- Class of type: Basic string types; Keyword: bitstring; Subtype: list, length"
+  },
+  {
+   "id": "TTCN3-CORE-6.1.0-014b",
+   "section": "6.1.0",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Class of type: hexstring; Keyword: list, length",
+   "canonical": "A `hexstring` type MAY be subtyped by list subtyping and length subtyping.",
+   "condition": null,
+   "cross_refs": [
+    "6.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3081,
+    3088
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.01.00_test_014.ttcn3",
+   "module": "M_06_01_00_test_014",
+   "header": "// @requirement: 6.1.0 -- Class of type: hexstring; Keyword: list, length"
+  },
+  {
+   "id": "TTCN3-CORE-6.1.0-015b",
+   "section": "6.1.0",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Class of type: octetstring; Keyword: list, length",
+   "canonical": "A `octetstring` type MAY be subtyped by list subtyping and length subtyping.",
+   "condition": null,
+   "cross_refs": [
+    "6.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3081,
+    3089
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.01.00_test_015.ttcn3",
+   "module": "M_06_01_00_test_015",
+   "header": "// @requirement: 6.1.0 -- Class of type: octetstring; Keyword: list, length"
+  },
+  {
+   "id": "TTCN3-CORE-6.1.0-016b",
+   "section": "6.1.0",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Class of type: charstring; Keyword: range, list, length, pattern",
+   "canonical": "A `charstring` type MAY be subtyped by range, list, length and pattern subtyping.",
+   "condition": null,
+   "cross_refs": [
+    "6.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3081,
+    3090
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.01.00_test_016.ttcn3",
+   "module": "M_06_01_00_test_016",
+   "header": "// @requirement: 6.1.0 -- Class of type: charstring; Keyword: range, list, length, pattern"
+  },
+  {
+   "id": "TTCN3-CORE-6.1.0-017b",
+   "section": "6.1.0",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Class of type: universal charstring; Keyword: range, list, length, pattern",
+   "canonical": "A `universal charstring` type MAY be subtyped by range, list, length and pattern subtyping.",
+   "condition": null,
+   "cross_refs": [
+    "6.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3081,
+    3091
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.01.00_test_017.ttcn3",
+   "module": "M_06_01_00_test_017",
+   "header": "// @requirement: 6.1.0 -- Class of type: universal charstring; Keyword: range, list, length, pattern"
+  },
+  {
+   "id": "TTCN3-CORE-6.1.0-018b",
+   "section": "6.1.0",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Class of type: Structured types; Keyword: record; Subtype: list (see note)",
+   "canonical": "A `record` type MAY be subtyped by list subtyping.",
+   "condition": "list subtyping is applied when defining a new constrained type from an already existing parent type",
+   "cross_refs": [
+    "6.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3081,
+    3105
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.01.00_test_018.ttcn3",
+   "module": "M_06_01_00_test_018",
+   "header": "// @requirement: 6.1.0 -- Class of type: Structured types; Keyword: record; Subtype: list (see note)"
+  },
+  {
+   "id": "TTCN3-CORE-6.1.0-019b",
+   "section": "6.1.0",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Class of type: record of; Keyword: list (see note), length",
+   "canonical": "A `record of` type MAY be subtyped by list subtyping and length subtyping.",
+   "condition": "list subtyping is applied when defining a new constrained type from an already existing parent type",
+   "cross_refs": [
+    "6.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3081,
+    3105
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.01.00_test_019.ttcn3",
+   "module": "M_06_01_00_test_019",
+   "header": "// @requirement: 6.1.0 -- Class of type: record of; Keyword: list (see note), length"
+  },
+  {
+   "id": "TTCN3-CORE-6.1.0-020b",
+   "section": "6.1.0",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Class of type: set; Keyword: list (see note)",
+   "canonical": "A `set` type MAY be subtyped by list subtyping.",
+   "condition": "list subtyping is applied when defining a new constrained type from an already existing parent type",
+   "cross_refs": [
+    "6.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3081,
+    3105
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.01.00_test_020.ttcn3",
+   "module": "M_06_01_00_test_020",
+   "header": "// @requirement: 6.1.0 -- Class of type: set; Keyword: list (see note)"
+  },
+  {
+   "id": "TTCN3-CORE-6.1.0-021b",
+   "section": "6.1.0",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Class of type: set of; Keyword: list (see note), length",
+   "canonical": "A `set of` type MAY be subtyped by list subtyping and length subtyping.",
+   "condition": "list subtyping is applied when defining a new constrained type from an already existing parent type",
+   "cross_refs": [
+    "6.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3081,
+    3105
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.01.00_test_021.ttcn3",
+   "module": "M_06_01_00_test_021",
+   "header": "// @requirement: 6.1.0 -- Class of type: set of; Keyword: list (see note), length"
+  },
+  {
+   "id": "TTCN3-CORE-6.1.0-022b",
+   "section": "6.1.0",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Class of type: enumerated; Keyword: list (see note)",
+   "canonical": "A `enumerated` type MAY be subtyped by list subtyping.",
+   "condition": "list subtyping is applied when defining a new constrained type from an already existing parent type",
+   "cross_refs": [
+    "6.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3081,
+    3105
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.01.00_test_022.ttcn3",
+   "module": "M_06_01_00_test_022",
+   "header": "// @requirement: 6.1.0 -- Class of type: enumerated; Keyword: list (see note)"
+  },
+  {
+   "id": "TTCN3-CORE-6.1.0-023b",
+   "section": "6.1.0",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Class of type: union; Keyword: list (see note)",
+   "canonical": "A `union` type MAY be subtyped by list subtyping.",
+   "condition": "list subtyping is applied when defining a new constrained type from an already existing parent type",
+   "cross_refs": [
+    "6.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3081,
+    3105
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.01.00_test_023.ttcn3",
+   "module": "M_06_01_00_test_023",
+   "header": "// @requirement: 6.1.0 -- Class of type: union; Keyword: list (see note)"
+  },
+  {
+   "id": "TTCN3-CORE-6.1.0-024b",
+   "section": "6.1.0",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Class of type: map; Keyword: list (see note)",
+   "canonical": "A `map` type MAY be subtyped by list subtyping.",
+   "condition": "list subtyping is applied when defining a new constrained type from an already existing parent type",
+   "cross_refs": [
+    "6.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3081,
+    3105
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.01.00_test_024.ttcn3",
+   "module": "M_06_01_00_test_024",
+   "header": "// @requirement: 6.1.0 -- Class of type: map; Keyword: list (see note)"
+  },
+  {
+   "id": "TTCN3-CORE-6.1.0-025b",
+   "section": "6.1.0",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Class of type: Special data type; Keyword: anytype; Subtype: list",
+   "canonical": "A `anytype` type MAY be subtyped by list subtyping.",
+   "condition": null,
+   "cross_refs": [
+    "6.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3081,
+    3099
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.01.00_test_025.ttcn3",
+   "module": "M_06_01_00_test_025",
+   "header": "// @requirement: 6.1.0 -- Class of type: Special data type; Keyword: anytype; Subtype: list"
+  },
+  {
+   "id": "TTCN3-CORE-6.1.0-026b",
+   "section": "6.1.0",
+   "type": "restriction",
+   "modality": "IS NOT",
+   "original": "Class of type: Special configuration types; Keyword: address",
+   "canonical": "The `address` type IS NOT subtypable by any subtyping mechanism.",
+   "condition": null,
+   "cross_refs": [
+    "6.2"
+   ],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "The Subtype column is empty for this type; this may mean that subtyping is not allowed or that it is simply not applicable/specified. Reading 1 chosen.",
+    "readings": [
+     "The `address` type IS NOT subtypable by any subtyping mechanism.",
+     "Table 3 does not specify any subtyping mechanism for the `address` type; subtyping rules for it are defined elsewhere (if at all)."
+    ]
+   },
+   "spec_lines": [
+    3081,
+    3100
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.01.00_test_026.ttcn3",
+   "module": "M_06_01_00_test_026",
+   "header": "// @requirement: 6.1.0 -- Class of type: Special configuration types; Keyword: address"
+  },
+  {
+   "id": "TTCN3-CORE-6.1.0-027b",
+   "section": "6.1.0",
+   "type": "restriction",
+   "modality": "IS NOT",
+   "original": "Class of type: port",
+   "canonical": "The `port` type IS NOT subtypable by any subtyping mechanism.",
+   "condition": null,
+   "cross_refs": [
+    "6.2"
+   ],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "The Subtype column is empty for this type; this may mean that subtyping is not allowed or that it is simply not applicable/specified. Reading 1 chosen.",
+    "readings": [
+     "The `port` type IS NOT subtypable by any subtyping mechanism.",
+     "Table 3 does not specify any subtyping mechanism for the `port` type; subtyping rules for it are defined elsewhere (if at all)."
+    ]
+   },
+   "spec_lines": [
+    3081,
+    3101
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.01.00_test_027.ttcn3",
+   "module": "M_06_01_00_test_027",
+   "header": "// @requirement: 6.1.0 -- Class of type: port"
+  },
+  {
+   "id": "TTCN3-CORE-6.1.0-028b",
+   "section": "6.1.0",
+   "type": "restriction",
+   "modality": "IS NOT",
+   "original": "Class of type: component",
+   "canonical": "The `component` type IS NOT subtypable by any subtyping mechanism.",
+   "condition": null,
+   "cross_refs": [
+    "6.2"
+   ],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "The Subtype column is empty for this type; this may mean that subtyping is not allowed or that it is simply not applicable/specified. Reading 1 chosen.",
+    "readings": [
+     "The `component` type IS NOT subtypable by any subtyping mechanism.",
+     "Table 3 does not specify any subtyping mechanism for the `component` type; subtyping rules for it are defined elsewhere (if at all)."
+    ]
+   },
+   "spec_lines": [
+    3081,
+    3102
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.01.00_test_028.ttcn3",
+   "module": "M_06_01_00_test_028",
+   "header": "// @requirement: 6.1.0 -- Class of type: component"
+  },
+  {
+   "id": "TTCN3-CORE-6.1.0-029b",
+   "section": "6.1.0",
+   "type": "restriction",
+   "modality": "IS NOT",
+   "original": "Class of type: Special default type; Keyword: default",
+   "canonical": "The `default` type IS NOT subtypable by any subtyping mechanism.",
+   "condition": null,
+   "cross_refs": [
+    "6.2"
+   ],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "The Subtype column is empty for this type; this may mean that subtyping is not allowed or that it is simply not applicable/specified. Reading 1 chosen.",
+    "readings": [
+     "The `default` type IS NOT subtypable by any subtyping mechanism.",
+     "Table 3 does not specify any subtyping mechanism for the `default` type; subtyping rules for it are defined elsewhere (if at all)."
+    ]
+   },
+   "spec_lines": [
+    3081,
+    3103
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.01.00_test_029.ttcn3",
+   "module": "M_06_01_00_test_029",
+   "header": "// @requirement: 6.1.0 -- Class of type: Special default type; Keyword: default"
+  },
+  {
+   "id": "TTCN3-CORE-6.1.0-030b",
+   "section": "6.1.0",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Class of type: Array notation; Keyword: []; Subtype: list (see note)",
+   "canonical": "An array type MAY be subtyped by list subtyping.",
+   "condition": "list subtyping is applied when defining a new constrained type from an already existing parent type",
+   "cross_refs": [
+    "6.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3081,
+    3105
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.01.00_test_030.ttcn3",
+   "module": "M_06_01_00_test_030",
+   "header": "// @requirement: 6.1.0 -- Class of type: Array notation; Keyword: []; Subtype: list (see note)"
+  },
+  {
+   "id": "TTCN3-CORE-6.1.0-031a",
+   "section": "6.1.0",
+   "type": "information",
+   "modality": "MAY",
+   "original": "NOTE: List subtyping of these types is possible when defining a new constrained type from an already existing parent type but not directly at the declaration of the first parent type.",
+   "canonical": "List subtyping of record, record of, set, set of, enumerated, union, map and array types MAY be applied only when defining a new constrained type from an already existing parent type, not directly at the declaration of the first parent type.",
+   "condition": "the type is a record, record of, set, set of, enumerated, union, map or array type",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    3105,
+    3105
+   ],
+   "examples": [],
+   "file": "tests/06-types-and-values/06.01.00_test_031.ttcn3",
+   "module": "M_06_01_00_test_031",
+   "header": "// @requirement: 6.1.0 -- NOTE: List subtyping of these types is possible when defining a new constrained type from an already existing parent type but not directly at the declaration of the first parent type."
+  }
+ ]
+}

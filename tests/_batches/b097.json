@@ -1,0 +1,1243 @@
+{
+ "batch": "b097",
+ "requirements": [
+  {
+   "id": "TTCN3-CORE-C.1.28-001a",
+   "section": "C.1.28",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "str2oct(in charstring invalue) return octetstring",
+   "canonical": "The predefined function `str2oct` has the signature `str2oct(in charstring invalue) return octetstring`.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25326,
+    25328
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.01.28_test_001.ttcn3",
+   "module": "M_C_01_28_test_001",
+   "header": "// @requirement: C.1.28 -- str2oct(in charstring invalue) return octetstring"
+  },
+  {
+   "id": "TTCN3-CORE-C.1.28-002a",
+   "section": "C.1.28",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "This function converts a string of the type charstring to an octetstring.",
+   "canonical": "The predefined function `str2oct` converts a charstring value to an octetstring value.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25330,
+    25333
+   ],
+   "examples": [
+    {
+     "lines": [
+      25341,
+      25344
+     ],
+     "text": "str2oct(\"54696E6B792D57696E6B79\") = '54696E6B792D57696E6B79'O\n  str2oct(\"1D7\")= '01D7'O"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.01.28_test_002.ttcn3",
+   "module": "M_C_01_28_test_002",
+   "header": "// @requirement: C.1.28 -- This function converts a string of the type charstring to an octetstring."
+  },
+  {
+   "id": "TTCN3-CORE-C.1.28-003a",
+   "section": "C.1.28",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "The string invalue shall contain the \"0\", \"1\", \"2\", \"3\", \"4\", \"5\", \"6\", \"7\", \"8\", \"9\", \"a\", \"b\", \"c\", \"d\", \"e\" \"f\", \"A\", \"B\", \"C\", \"D\", \"E\" or \"F\" graphical characters only.",
+   "canonical": "The `invalue` argument of `str2oct` SHALL contain only the graphical characters \"0\" to \"9\", \"a\" to \"f\" and \"A\" to \"F\".",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25330,
+    25333
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.01.28_test_003.ttcn3",
+   "module": "M_C_01_28_test_003",
+   "header": "// @requirement: C.1.28 -- The string invalue shall contain the \"0\", \"1\", \"2\", \"3\", \"4\", \"5\", \"6\", \"7\", \"8\", \"9\", \"a\", \"b\", \"c\", \"d\", \"e\" \"f\", \"A\", \"B\", \"C\", \"D\", \"E\" or \"F\" graphical characters only."
+  },
+  {
+   "id": "TTCN3-CORE-C.1.28-004a",
+   "section": "C.1.28",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "When the string invalue contains even number characters the resulting octetstring contains 0 as leftmost character followed by the same sequence of characters as in the charstring.",
+   "canonical": "If `invalue` contains an odd number of characters, the octetstring value returned by `str2oct` contains the hex digit 0 as leftmost digit followed by the same sequence of characters as in the charstring value.",
+   "condition": "invalue contains an odd number of characters",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "The text says 'even number characters', but the example str2oct(\"1D7\") = '01D7'O and the parallel rule of hex2oct show that an odd number of characters is meant; the case of an even number (no padding) is not stated explicitly.",
+    "readings": [
+     "If `invalue` contains an odd number of characters, the octetstring value returned by `str2oct` contains 0 as leftmost hex digit followed by the characters of `invalue`.",
+     "If `invalue` contains an even number of characters, the octetstring value returned by `str2oct` contains 0 as leftmost hex digit followed by the characters of `invalue`."
+    ]
+   },
+   "spec_lines": [
+    25330,
+    25333
+   ],
+   "examples": [
+    {
+     "lines": [
+      25341,
+      25344
+     ],
+     "text": "str2oct(\"54696E6B792D57696E6B79\") = '54696E6B792D57696E6B79'O\n  str2oct(\"1D7\")= '01D7'O"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.01.28_test_004.ttcn3",
+   "module": "M_C_01_28_test_004",
+   "header": "// @requirement: C.1.28 -- When the string invalue contains even number characters the resulting octetstring contains 0 as leftmost character followed by the same sequence of characters as in the charstring."
+  },
+  {
+   "id": "TTCN3-CORE-C.1.28-005a",
+   "section": "C.1.28",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "**lengthof (see clause C.2.1 for the resulting octetstring) will return half of lengthof of the incoming charstring.",
+   "canonical": "`lengthof` applied to the octetstring value returned by `str2oct` returns half of `lengthof` of the input charstring value.",
+   "condition": null,
+   "cross_refs": [
+    "C.2.1"
+   ],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "For an input with an odd number of characters the result is padded, so the length is half the input length rounded up (e.g. \"1D7\" gives 2 octets); the text does not mention rounding. The sentence is also garbled by bold markup in the PDF conversion.",
+    "readings": [
+     "`lengthof` applied to the octetstring value returned by `str2oct` returns the length of the input charstring value divided by 2, rounded up.",
+     "`lengthof` applied to the octetstring value returned by `str2oct` returns exactly half of the length of the input charstring value, which is only defined for inputs of even length."
+    ]
+   },
+   "spec_lines": [
+    25335,
+    25336
+   ],
+   "examples": [
+    {
+     "lines": [
+      25341,
+      25344
+     ],
+     "text": "str2oct(\"54696E6B792D57696E6B79\") = '54696E6B792D57696E6B79'O\n  str2oct(\"1D7\")= '01D7'O"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.01.28_test_005.ttcn3",
+   "module": "M_C_01_28_test_005",
+   "header": "// @requirement: C.1.28 -- **lengthof (see clause C.2.1 for the resulting octetstring) will return half of lengthof of the incoming charstring."
+  },
+  {
+   "id": "TTCN3-CORE-C.1.28-006a",
+   "section": "C.1.28",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "In** addition to the general error causes in clause 16.1.2, error causes is:",
+   "canonical": "The general error causes defined in clause 16.1.2 SHALL apply to `str2oct`.",
+   "condition": null,
+   "cross_refs": [
+    "16.1.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25335,
+    25336
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.01.28_test_006.ttcn3",
+   "module": "M_C_01_28_test_006",
+   "header": "// @requirement: C.1.28 -- In** addition to the general error causes in clause 16.1.2, error causes is:"
+  },
+  {
+   "id": "TTCN3-CORE-C.1.28-007a",
+   "section": "C.1.28",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "`invalue contains characters other than specified above.`",
+   "canonical": "If `invalue` contains characters other than \"0\" to \"9\", \"a\" to \"f\" and \"A\" to \"F\", `str2oct` SHALL cause an error.",
+   "condition": "invalue contains characters other than hexadecimal digit characters",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25330,
+    25338
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.01.28_test_007.ttcn3",
+   "module": "M_C_01_28_test_007",
+   "header": "// @requirement: C.1.28 -- `invalue contains characters other than specified above.`"
+  },
+  {
+   "id": "TTCN3-CORE-C.1.28-010a",
+   "section": "C.1.28",
+   "type": "information",
+   "modality": "IS",
+   "original": "NOTE: The semantic of the str2oct function cause asymmetric behaviour: oct2str(str2oct(\"1D7\"))// results in the charstring value \"01D7\"",
+   "canonical": "The semantics of `str2oct` causes asymmetric behaviour with `oct2str`: `oct2str(str2oct(\"1D7\"))` results in the charstring value \"01D7\".",
+   "condition": null,
+   "cross_refs": [
+    "C.1.24"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25346,
+    25349
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.01.28_test_008.ttcn3",
+   "module": "M_C_01_28_test_008",
+   "header": "// @requirement: C.1.28 -- NOTE: The semantic of the str2oct function cause asymmetric behaviour: oct2str(str2oct(\"1D7\"))// results in the charstring value \"01D7\""
+  },
+  {
+   "id": "TTCN3-CORE-C.1.29-001a",
+   "section": "C.1.29",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "str2float(in charstring invalue) return float",
+   "canonical": "The predefined function `str2float` has the signature `str2float(in charstring invalue) return float`.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25357,
+    25359
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.01.29_test_001.ttcn3",
+   "module": "M_C_01_29_test_001",
+   "header": "// @requirement: C.1.29 -- str2float(in charstring invalue) return float"
+  },
+  {
+   "id": "TTCN3-CORE-C.1.29-002a",
+   "section": "C.1.29",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "This function converts a charstring comprising a number into a float value.",
+   "canonical": "The predefined function `str2float` converts a charstring value comprising a number into a float value.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25361,
+    25362
+   ],
+   "examples": [
+    {
+     "lines": [
+      25380,
+      25386
+     ],
+     "text": "str2float(\"12345.6\")  // is the same as str2float(\"123.456E+02\")\n  str2float(\"1.6\")  // returns a float value equal to 1.6\n  str2float(\"+001.\")  // returns a float value equal to 1.0\n  str2float(\"+001\")  // returns a float value equal to 1.0\n  str2float(\"-0.0\")  // returns a float value equal to -0.0"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.01.29_test_002.ttcn3",
+   "module": "M_C_01_29_test_002",
+   "header": "// @requirement: C.1.29 -- This function converts a charstring comprising a number into a float value."
+  },
+  {
+   "id": "TTCN3-CORE-C.1.29-003a",
+   "section": "C.1.29",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "The format of the number in the charstring shall follow rules in clause 6.1.0, items a) or b) with the following exceptions:",
+   "canonical": "The format of the number in the `invalue` argument of `str2float` SHALL follow the rules of clause 6.1.0, items a) or b), with the exceptions listed in clause C.1.29.",
+   "condition": null,
+   "cross_refs": [
+    "6.1.0"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25361,
+    25362
+   ],
+   "examples": [
+    {
+     "lines": [
+      25380,
+      25386
+     ],
+     "text": "str2float(\"12345.6\")  // is the same as str2float(\"123.456E+02\")\n  str2float(\"1.6\")  // returns a float value equal to 1.6\n  str2float(\"+001.\")  // returns a float value equal to 1.0\n  str2float(\"+001\")  // returns a float value equal to 1.0\n  str2float(\"-0.0\")  // returns a float value equal to -0.0"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.01.29_test_003.ttcn3",
+   "module": "M_C_01_29_test_003",
+   "header": "// @requirement: C.1.29 -- The format of the number in the charstring shall follow rules in clause 6.1.0, items a) or b) with the following exceptions:"
+  },
+  {
+   "id": "TTCN3-CORE-C.1.29-004a",
+   "section": "C.1.29",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "leading zeros are allowed;",
+   "canonical": "The number in the `invalue` argument of `str2float` MAY contain leading zeros.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25361,
+    25364
+   ],
+   "examples": [
+    {
+     "lines": [
+      25380,
+      25386
+     ],
+     "text": "str2float(\"12345.6\")  // is the same as str2float(\"123.456E+02\")\n  str2float(\"1.6\")  // returns a float value equal to 1.6\n  str2float(\"+001.\")  // returns a float value equal to 1.0\n  str2float(\"+001\")  // returns a float value equal to 1.0\n  str2float(\"-0.0\")  // returns a float value equal to -0.0"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.01.29_test_004.ttcn3",
+   "module": "M_C_01_29_test_004",
+   "header": "// @requirement: C.1.29 -- leading zeros are allowed;"
+  },
+  {
+   "id": "TTCN3-CORE-C.1.29-005a",
+   "section": "C.1.29",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "leading \"+\" sign before positive values is allowed;",
+   "canonical": "The number in the `invalue` argument of `str2float` MAY have a leading \"+\" sign before a positive value.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25361,
+    25366
+   ],
+   "examples": [
+    {
+     "lines": [
+      25380,
+      25386
+     ],
+     "text": "str2float(\"12345.6\")  // is the same as str2float(\"123.456E+02\")\n  str2float(\"1.6\")  // returns a float value equal to 1.6\n  str2float(\"+001.\")  // returns a float value equal to 1.0\n  str2float(\"+001\")  // returns a float value equal to 1.0\n  str2float(\"-0.0\")  // returns a float value equal to -0.0"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.01.29_test_005.ttcn3",
+   "module": "M_C_01_29_test_005",
+   "header": "// @requirement: C.1.29 -- leading \"+\" sign before positive values is allowed;"
+  },
+  {
+   "id": "TTCN3-CORE-C.1.29-006a",
+   "section": "C.1.29",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "\"-0.0\" is allowed;",
+   "canonical": "The `invalue` argument of `str2float` MAY be \"-0.0\".",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25361,
+    25368
+   ],
+   "examples": [
+    {
+     "lines": [
+      25380,
+      25386
+     ],
+     "text": "str2float(\"12345.6\")  // is the same as str2float(\"123.456E+02\")\n  str2float(\"1.6\")  // returns a float value equal to 1.6\n  str2float(\"+001.\")  // returns a float value equal to 1.0\n  str2float(\"+001\")  // returns a float value equal to 1.0\n  str2float(\"-0.0\")  // returns a float value equal to -0.0"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.01.29_test_006.ttcn3",
+   "module": "M_C_01_29_test_006",
+   "header": "// @requirement: C.1.29 -- \"-0.0\" is allowed;"
+  },
+  {
+   "id": "TTCN3-CORE-C.1.29-007a",
+   "section": "C.1.29",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "no numbers after the dot in the decimal notation are allowed.",
+   "canonical": "The number in decimal notation in the `invalue` argument of `str2float` MAY have no digits after the dot.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "'no numbers after the dot ... are allowed' can be read as a permission (digits after the dot may be omitted) or as a prohibition (digits after the dot are forbidden); the example \"+001.\" and \"12345.6\" show the permission is meant. Also 'numbers' is used where 'digits' is meant.",
+    "readings": [
+     "The number in decimal notation in the `invalue` argument of `str2float` MAY have no digits after the dot.",
+     "The number in decimal notation in the `invalue` argument of `str2float` SHALL NOT have digits after the dot."
+    ],
+    "improper_terms": [
+     {
+      "used": "numbers",
+      "proper": "digits",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    25361,
+    25370
+   ],
+   "examples": [
+    {
+     "lines": [
+      25380,
+      25386
+     ],
+     "text": "str2float(\"12345.6\")  // is the same as str2float(\"123.456E+02\")\n  str2float(\"1.6\")  // returns a float value equal to 1.6\n  str2float(\"+001.\")  // returns a float value equal to 1.0\n  str2float(\"+001\")  // returns a float value equal to 1.0\n  str2float(\"-0.0\")  // returns a float value equal to -0.0"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.01.29_test_007.ttcn3",
+   "module": "M_C_01_29_test_007",
+   "header": "// @requirement: C.1.29 -- no numbers after the dot in the decimal notation are allowed."
+  },
+  {
+   "id": "TTCN3-CORE-C.1.29-008a",
+   "section": "C.1.29",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "In addition to the general error causes in clause 16.1.2, error causes are:",
+   "canonical": "The general error causes defined in clause 16.1.2 SHALL apply to `str2float`.",
+   "condition": null,
+   "cross_refs": [
+    "16.1.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25372,
+    25372
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.01.29_test_008.ttcn3",
+   "module": "M_C_01_29_test_008",
+   "header": "// @requirement: C.1.29 -- In addition to the general error causes in clause 16.1.2, error causes are:"
+  },
+  {
+   "id": "TTCN3-CORE-C.1.29-009a",
+   "section": "C.1.29",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "the format of invalue is different than defined above.",
+   "canonical": "If the format of `invalue` differs from the format defined for `str2float`, `str2float` SHALL cause an error.",
+   "condition": "the format of invalue is different than defined in C.1.29",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25361,
+    25374
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.01.29_test_009.ttcn3",
+   "module": "M_C_01_29_test_009",
+   "header": "// @requirement: C.1.29 -- the format of invalue is different than defined above."
+  },
+  {
+   "id": "TTCN3-CORE-C.1.30-001a",
+   "section": "C.1.30",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "enum2int(in Enumerated_type inpar) return integer",
+   "canonical": "The `enum2int` predefined function has the signature enum2int(in Enumerated_type inpar) return integer.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25389,
+    25391
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.01.30_test_001.ttcn3",
+   "module": "M_C_01_30_test_001",
+   "header": "// @requirement: C.1.30 -- enum2int(in Enumerated_type inpar) return integer"
+  },
+  {
+   "id": "TTCN3-CORE-C.1.30-002a",
+   "section": "C.1.30",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "This function accepts an enumerated value and returns the integer value associated to the enumerated value (see also clause 6.2.4).",
+   "canonical": "The `enum2int` function SHALL accept an enumerated value as its `inpar` parameter.",
+   "condition": null,
+   "cross_refs": [
+    "6.2.4"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25393,
+    25395
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.01.30_test_002.ttcn3",
+   "module": "M_C_01_30_test_002",
+   "header": "// @requirement: C.1.30 -- This function accepts an enumerated value and returns the integer value associated to the enumerated value (see also clause 6.2.4)."
+  },
+  {
+   "id": "TTCN3-CORE-C.1.30-002b",
+   "section": "C.1.30",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "This function accepts an enumerated value and returns the integer value associated to the enumerated value (see also clause 6.2.4).",
+   "canonical": "The `enum2int` function SHALL return the integer value associated to the enumerated value passed to `inpar`.",
+   "condition": null,
+   "cross_refs": [
+    "6.2.4"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25393,
+    25395
+   ],
+   "examples": [
+    {
+     "lines": [
+      25400,
+      25422
+     ],
+     "text": "type enumerated MyFirstEnumType {\n     Monday, Tuesday, Wednesday, Thursday, Friday, Weekend(5..6)\n  };\n  type enumerated MySecondEnumType {\n     Saturday(-3), Sunday (0), Monday\n  };\n  //within a dynamic language element:\n  var MyFirstEnumType v_firstEnum := Monday;\n  var MySecondEnumType v_secondEnum := Monday;\n  enum2int(v_firstEnum) // returns 0\n  enum2int(v_secondEnum) // returns 1\n  v_firstEnum := Wednesday;\n  v_secondEnum := Saturday;\n  enum2int(v_firstEnum) // returns 2\n  enum2int(v_secondEnum) // returns -3\n  v_firstEnum := Friday;\n  v_secondEnum := Sunday;\n  enum2int(v_firstEnum) // returns 4\n  enum2int(v_secondEnum) // returns 0\n  v_firstEnum := Weekend(6);\n  enum2int(v_firstEnum) // returns 6"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.01.30_test_003.ttcn3",
+   "module": "M_C_01_30_test_003",
+   "header": "// @requirement: C.1.30 -- This function accepts an enumerated value and returns the integer value associated to the enumerated value (see also clause 6.2.4)."
+  },
+  {
+   "id": "TTCN3-CORE-C.1.30-003a",
+   "section": "C.1.30",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "The actual parameter passed to inpar always shall be a typed object (see clause 6.2.4 and the definition \"type context\" in clause 3.1).",
+   "canonical": "The actual parameter passed to the `inpar` parameter of `enum2int` SHALL always be a typed object.",
+   "condition": null,
+   "cross_refs": [
+    "6.2.4",
+    "3.1"
+   ],
+   "ambiguity": {
+    "status": "terminology",
+    "improper_terms": [
+     {
+      "used": "typed object",
+      "proper": "value with a type context",
+      "glossary": true
+     }
+    ],
+    "issue": "'typed object' is not defined in clause 3.1; the sentence refers to the glossary term 'type context', so the intended meaning is an enumerated value whose type is known from its context or a type prefix."
+   },
+   "spec_lines": [
+    25393,
+    25395
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.01.30_test_004.ttcn3",
+   "module": "M_C_01_30_test_004",
+   "header": "// @requirement: C.1.30 -- The actual parameter passed to inpar always shall be a typed object (see clause 6.2.4 and the definition \"type context\" in clause 3.1)."
+  },
+  {
+   "id": "TTCN3-CORE-C.1.30-004a",
+   "section": "C.1.30",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The general error causes in clause 16.1.2 apply.",
+   "canonical": "The general error causes of clause 16.1.2 apply to the `enum2int` function.",
+   "condition": null,
+   "cross_refs": [
+    "16.1.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25397,
+    25397
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.01.30_test_005.ttcn3",
+   "module": "M_C_01_30_test_005",
+   "header": "// @requirement: C.1.30 -- The general error causes in clause 16.1.2 apply."
+  },
+  {
+   "id": "TTCN3-CORE-C.1.31-001a",
+   "section": "C.1.31",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "oct2unichar(in octetstring invalue, in charstring string_encoding := \"UTF-8\") return universal charstring",
+   "canonical": "The `oct2unichar` predefined function has the signature oct2unichar(in octetstring invalue, in charstring string_encoding := \"UTF-8\") return universal charstring.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25430,
+    25433
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.01.31_test_001.ttcn3",
+   "module": "M_C_01_31_test_001",
+   "header": "// @requirement: C.1.31 -- oct2unichar(in octetstring invalue, in charstring string_encoding := \"UTF-8\") return universal charstring"
+  },
+  {
+   "id": "TTCN3-CORE-C.1.31-002a",
+   "section": "C.1.31",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "This function converts an octetstring `invalue to a universal` `charstring by use of the given` string_encoding.",
+   "canonical": "The `oct2unichar` function SHALL convert the octetstring `invalue` to a universal charstring by use of the given `string_encoding`.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25435,
+    25438
+   ],
+   "examples": [
+    {
+     "lines": [
+      25466,
+      25470
+     ],
+     "text": "oct2unichar('C384C396C39CC3A4C3B6C3BC'O) = \"ÄÖÜäöü\";\n  oct2unichar('00C400D600DC00E400F600FC'O,\"UTF-16BE\") = \"ÄÖÜäöü\";\n  oct2unichar('C400D600DC00E400F600FC00'O,\"UTF-16LE\") = \"ÄÖÜäöü\";"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.01.31_test_002.ttcn3",
+   "module": "M_C_01_31_test_002",
+   "header": "// @requirement: C.1.31 -- This function converts an octetstring `invalue to a universal` `charstring by use of the given` string_encoding."
+  },
+  {
+   "id": "TTCN3-CORE-C.1.31-003a",
+   "section": "C.1.31",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "The octets are interpreted as mandated by the standardized mapping associated with the given string_encoding and the resulting characters are appended to the returned value.",
+   "canonical": "The `oct2unichar` function SHALL interpret the octets of `invalue` as mandated by the standardized mapping associated with the given `string_encoding`.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25435,
+    25438
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.01.31_test_003.ttcn3",
+   "module": "M_C_01_31_test_003",
+   "header": "// @requirement: C.1.31 -- The octets are interpreted as mandated by the standardized mapping associated with the given string_encoding and the resulting characters are appended to the returned value."
+  },
+  {
+   "id": "TTCN3-CORE-C.1.31-003b",
+   "section": "C.1.31",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "The octets are interpreted as mandated by the standardized mapping associated with the given string_encoding and the resulting characters are appended to the returned value.",
+   "canonical": "The `oct2unichar` function SHALL append the characters resulting from the interpretation of the octets to the returned value.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25435,
+    25438
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.01.31_test_004.ttcn3",
+   "module": "M_C_01_31_test_004",
+   "header": "// @requirement: C.1.31 -- The octets are interpreted as mandated by the standardized mapping associated with the given string_encoding and the resulting characters are appended to the returned value."
+  },
+  {
+   "id": "TTCN3-CORE-C.1.31-004a",
+   "section": "C.1.31",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "If the optional string_encoding parameter is omitted, the default value \"UTF-8\".",
+   "canonical": "If the optional `string_encoding` parameter of `oct2unichar` is omitted, its value IS the default value \"UTF-8\".",
+   "condition": "the string_encoding parameter is omitted",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear",
+    "issue": "The source sentence is grammatically incomplete (verb missing); the meaning is clear from the signature."
+   },
+   "spec_lines": [
+    25435,
+    25438
+   ],
+   "examples": [
+    {
+     "lines": [
+      25466,
+      25470
+     ],
+     "text": "oct2unichar('C384C396C39CC3A4C3B6C3BC'O) = \"ÄÖÜäöü\";\n  oct2unichar('00C400D600DC00E400F600FC'O,\"UTF-16BE\") = \"ÄÖÜäöü\";\n  oct2unichar('C400D600DC00E400F600FC00'O,\"UTF-16LE\") = \"ÄÖÜäöü\";"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.01.31_test_005.ttcn3",
+   "module": "M_C_01_31_test_005",
+   "header": "// @requirement: C.1.31 -- If the optional string_encoding parameter is omitted, the default value \"UTF-8\"."
+  },
+  {
+   "id": "TTCN3-CORE-C.1.31-005a",
+   "section": "C.1.31",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "The following values (see ISO/IEC 10646 [2]) are allowed as string_encoding actual parameters (for the description of the codepoints see clause 27.5): a) \"UTF-8\" b) \"UTF-16\" c) \"UTF-16LE\" d) \"UTF-16BE\" e) \"UTF-32\" f) \"UTF-32LE\" g) \"UTF-32BE\"",
+   "canonical": "The actual parameter passed to the `string_encoding` parameter of `oct2unichar` SHALL be one of \"UTF-8\", \"UTF-16\", \"UTF-16LE\", \"UTF-16BE\", \"UTF-32\", \"UTF-32LE\" or \"UTF-32BE\".",
+   "condition": null,
+   "cross_refs": [
+    "27.5"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25440,
+    25455
+   ],
+   "examples": [
+    {
+     "lines": [
+      25466,
+      25470
+     ],
+     "text": "oct2unichar('C384C396C39CC3A4C3B6C3BC'O) = \"ÄÖÜäöü\";\n  oct2unichar('00C400D600DC00E400F600FC'O,\"UTF-16BE\") = \"ÄÖÜäöü\";\n  oct2unichar('C400D600DC00E400F600FC00'O,\"UTF-16LE\") = \"ÄÖÜäöü\";"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.01.31_test_006.ttcn3",
+   "module": "M_C_01_31_test_006",
+   "header": "// @requirement: C.1.31 -- The following values (see ISO/IEC 10646 [2]) are allowed as string_encoding actual parameters (for the description of the codepoints see clause 27.5): a) \"UTF-8\" b) \"UTF-16\" c) \"UTF-16LE\" d) \"UTF-16BE\" e) \"UTF-32\" f) \"UTF-32LE\" g) \"UTF-32BE\""
+  },
+  {
+   "id": "TTCN3-CORE-C.1.31-007a",
+   "section": "C.1.31",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "The invalue parameter shall not include the optional signature (see clause 10 of ISO/IEC 10646 [2], also known as byte order mark).",
+   "canonical": "The `invalue` parameter of `oct2unichar` SHALL NOT include the optional signature (byte order mark) of ISO/IEC 10646.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25457,
+    25458
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.01.31_test_007.ttcn3",
+   "module": "M_C_01_31_test_007",
+   "header": "// @requirement: C.1.31 -- The invalue parameter shall not include the optional signature (see clause 10 of ISO/IEC 10646 [2], also known as byte order mark)."
+  },
+  {
+   "id": "TTCN3-CORE-C.1.31-008a",
+   "section": "C.1.31",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "In case of \"UTF-16\" and \"UTF-32\" big-endian ordering shall be used (as described in clauses 10.4 and 10.7 of ISO/IEC 10646 [2]).",
+   "canonical": "When `string_encoding` is \"UTF-16\" or \"UTF-32\", the `oct2unichar` function SHALL use big-endian ordering.",
+   "condition": "string_encoding is \"UTF-16\" or \"UTF-32\"",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25460,
+    25461
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.01.31_test_008.ttcn3",
+   "module": "M_C_01_31_test_008",
+   "header": "// @requirement: C.1.31 -- In case of \"UTF-16\" and \"UTF-32\" big-endian ordering shall be used (as described in clauses 10.4 and 10.7 of ISO/IEC 10646 [2])."
+  },
+  {
+   "id": "TTCN3-CORE-C.1.31-009a",
+   "section": "C.1.31",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The general error causes in clause 16.1.2 apply.",
+   "canonical": "The general error causes of clause 16.1.2 apply to the `oct2unichar` function.",
+   "condition": null,
+   "cross_refs": [
+    "16.1.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25463,
+    25463
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.01.31_test_009.ttcn3",
+   "module": "M_C_01_31_test_009",
+   "header": "// @requirement: C.1.31 -- The general error causes in clause 16.1.2 apply."
+  },
+  {
+   "id": "TTCN3-CORE-C.1.32-001a",
+   "section": "C.1.32",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "unichar2oct(in universal charstring invalue, in charstring string_encoding := \"UTF-8\") return octetstring",
+   "canonical": "The `unichar2oct` predefined function has the signature unichar2oct(in universal charstring invalue, in charstring string_encoding := \"UTF-8\") return octetstring.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25476,
+    25479
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.01.32_test_001.ttcn3",
+   "module": "M_C_01_32_test_001",
+   "header": "// @requirement: C.1.32 -- unichar2oct(in universal charstring invalue, in charstring string_encoding := \"UTF-8\") return octetstring"
+  },
+  {
+   "id": "TTCN3-CORE-C.1.32-002a",
+   "section": "C.1.32",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "This function converts a universal `charstring` `invalue to an octetstring.",
+   "canonical": "The `unichar2oct` function SHALL convert the universal charstring `invalue` to an octetstring.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25481,
+    25484
+   ],
+   "examples": [
+    {
+     "lines": [
+      25511,
+      25515
+     ],
+     "text": "unichar2oct(\"ÄÖÜäöü\") = 'C384C396C39CC3A4C3B6C3BC'O;\n  unichar2oct(\"ÄÖÜäöü\",\"UTF-16BE\") = '00C400D600DC00E400F600FC'O;\n  unichar2oct(\"ÄÖÜäöü\",\"UTF-16LE\") = 'C400D600DC00E400F600FC00'O;"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.01.32_test_002.ttcn3",
+   "module": "M_C_01_32_test_002",
+   "header": "// @requirement: C.1.32 -- This function converts a universal `charstring` `invalue to an octetstring."
+  },
+  {
+   "id": "TTCN3-CORE-C.1.32-003a",
+   "section": "C.1.32",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "Each octet of the octetstring` will contain the octets mandated by mapping the characters of invalue using the standardized mapping associated with the given string_encoding in the same order as the characters appear in inpar.",
+   "canonical": "The octetstring returned by `unichar2oct` SHALL contain the octets mandated by mapping the characters of `invalue` with the standardized mapping associated with the given `string_encoding`, in the same order as the characters appear in `invalue`.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "improper_terms": [
+     {
+      "used": "inpar",
+      "proper": "invalue",
+      "glossary": false
+     }
+    ],
+    "issue": "The sentence refers to the parameter 'inpar', which does not exist in the signature of unichar2oct; 'invalue' is meant."
+   },
+   "spec_lines": [
+    25481,
+    25484
+   ],
+   "examples": [
+    {
+     "lines": [
+      25511,
+      25515
+     ],
+     "text": "unichar2oct(\"ÄÖÜäöü\") = 'C384C396C39CC3A4C3B6C3BC'O;\n  unichar2oct(\"ÄÖÜäöü\",\"UTF-16BE\") = '00C400D600DC00E400F600FC'O;\n  unichar2oct(\"ÄÖÜäöü\",\"UTF-16LE\") = 'C400D600DC00E400F600FC00'O;"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.01.32_test_003.ttcn3",
+   "module": "M_C_01_32_test_003",
+   "header": "// @requirement: C.1.32 -- Each octet of the octetstring` will contain the octets mandated by mapping the characters of invalue using the standardized mapping associated with the given string_encoding in the same order as the characters appear in inpar."
+  },
+  {
+   "id": "TTCN3-CORE-C.1.32-004a",
+   "section": "C.1.32",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "If the optional string_encoding parameter is omitted, the default value \"UTF-8\".",
+   "canonical": "If the optional `string_encoding` parameter of `unichar2oct` is omitted, its value IS the default value \"UTF-8\".",
+   "condition": "the string_encoding parameter is omitted",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear",
+    "issue": "The source sentence is grammatically incomplete (verb missing); the meaning is clear from the signature."
+   },
+   "spec_lines": [
+    25481,
+    25484
+   ],
+   "examples": [
+    {
+     "lines": [
+      25511,
+      25515
+     ],
+     "text": "unichar2oct(\"ÄÖÜäöü\") = 'C384C396C39CC3A4C3B6C3BC'O;\n  unichar2oct(\"ÄÖÜäöü\",\"UTF-16BE\") = '00C400D600DC00E400F600FC'O;\n  unichar2oct(\"ÄÖÜäöü\",\"UTF-16LE\") = 'C400D600DC00E400F600FC00'O;"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.01.32_test_004.ttcn3",
+   "module": "M_C_01_32_test_004",
+   "header": "// @requirement: C.1.32 -- If the optional string_encoding parameter is omitted, the default value \"UTF-8\"."
+  },
+  {
+   "id": "TTCN3-CORE-C.1.32-005a",
+   "section": "C.1.32",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "The following values (see ISO/IEC 10646 [2]) are allowed as string_encoding actual parameters (for the description of the UCS encoding scheme see clause 27.5): a) \"UTF-8\" b) \"UTF-16\" c) \"UTF-16LE\" d) \"UTF-16BE\" e) \"UTF-32\" f) \"UTF-32LE\" g) \"UTF-32BE\"",
+   "canonical": "The actual parameter passed to the `string_encoding` parameter of `unichar2oct` SHALL be one of \"UTF-8\", \"UTF-16\", \"UTF-16LE\", \"UTF-16BE\", \"UTF-32\", \"UTF-32LE\" or \"UTF-32BE\".",
+   "condition": null,
+   "cross_refs": [
+    "27.5"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25486,
+    25506
+   ],
+   "examples": [
+    {
+     "lines": [
+      25511,
+      25515
+     ],
+     "text": "unichar2oct(\"ÄÖÜäöü\") = 'C384C396C39CC3A4C3B6C3BC'O;\n  unichar2oct(\"ÄÖÜäöü\",\"UTF-16BE\") = '00C400D600DC00E400F600FC'O;\n  unichar2oct(\"ÄÖÜäöü\",\"UTF-16LE\") = 'C400D600DC00E400F600FC00'O;"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.01.32_test_005.ttcn3",
+   "module": "M_C_01_32_test_005",
+   "header": "// @requirement: C.1.32 -- The following values (see ISO/IEC 10646 [2]) are allowed as string_encoding actual parameters (for the description of the UCS encoding scheme see clause 27.5): a) \"UTF-8\" b) \"UTF-16\" c) \"UTF-16LE\" d) \"UTF-16BE\" e) \"UTF-32\" f) \"UTF-32LE\" g) \"UTF-32BE\""
+  },
+  {
+   "id": "TTCN3-CORE-C.1.32-007a",
+   "section": "C.1.32",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The general error causes in clause 16.1.2 apply.",
+   "canonical": "The general error causes of clause 16.1.2 apply to the `unichar2oct` function.",
+   "condition": null,
+   "cross_refs": [
+    "16.1.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25508,
+    25508
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.01.32_test_006.ttcn3",
+   "module": "M_C_01_32_test_006",
+   "header": "// @requirement: C.1.32 -- The general error causes in clause 16.1.2 apply."
+  },
+  {
+   "id": "TTCN3-CORE-C.1.33-001a",
+   "section": "C.1.33",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "any2unistr(in template any invalue, in universal charstring format := \"\") return universal charstring",
+   "canonical": "The `any2unistr` predefined function has the signature any2unistr(in template any invalue, in universal charstring format := \"\") return universal charstring.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25518,
+    25521
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.01.33_test_001.ttcn3",
+   "module": "M_C_01_33_test_001",
+   "header": "// @requirement: C.1.33 -- any2unistr(in template any invalue, in universal charstring format := \"\") return universal charstring"
+  },
+  {
+   "id": "TTCN3-CORE-C.1.33-002a",
+   "section": "C.1.33",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "This function converts the content of a value or template to a single universal charstring.",
+   "canonical": "The `any2unistr` function SHALL convert the content of a value or template passed to `invalue` to a single universal charstring.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25523,
+    25526
+   ],
+   "examples": [
+    {
+     "lines": [
+      25541,
+      25562
+     ],
+     "text": "var integer v_int1 := 5, v_int2;\n  var template integer mw_int1 := ?;\n  var template integer mw_int2 := -1 ifpresent;\n  var universal charstring v_chr1, v_chr2, v_chr3, v_chr4;\n  v_chr1 := any2unistr(v_int1); // after the assignment v_chr1 will be \"5\"\n  v_chr2 := any2unistr(v_int2); // after the assignment v_chr2 will be \"UNINITIALIZED\"\n  v_chr3 := any2unistr(mw_int1); // after the assignment v_chr3 will be \"?\"\n  v_chr4 := any2unistr(mw_int2); // after the assignment v_chr3 will be \"-1 ifpresent\"\n  type record MyRecord {\n     integer field1,\n     integer field2\n  }\n  var template MyRecord t1;\n  var template MyRecord t2 := {1};\n  v_chr1 := any2unistr(t1); // after the assignment v_chr1 will be \"UNINITIALIZED\"\n  v_chr1 := any2unistr(t2);\n  // after the assignment v_chr1 could be \"{ field1 := 1, field2 := UNINITIALIZED }\"\n  v_chr1 := any2unistr(t1, \"canonical\"); // after the assignment v_chr1 will be \"-\"\n  v_chr1 := any2unistr(t2, \"canonical\");\n  // after the assignment v_chr1 will be \"{ fielfd1 := 1, field2 := - }\""
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.01.33_test_002.ttcn3",
+   "module": "M_C_01_33_test_002",
+   "header": "// @requirement: C.1.33 -- This function converts the content of a value or template to a single universal charstring."
+  },
+  {
+   "id": "TTCN3-CORE-C.1.33-003a",
+   "section": "C.1.33",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The resulting universal charstring is the same as the string produced by the log operation containing the same operand as the one passed to the any2unistr function.",
+   "canonical": "The universal charstring resulting from `any2unistr` IS the same as the string produced by the `log` operation containing the same operand as the one passed to `any2unistr`.",
+   "condition": null,
+   "cross_refs": [
+    "19.11"
+   ],
+   "ambiguity": {
+    "status": "ambiguous",
+    "readings": [
+     "The result of any2unistr IS always the same as the string produced by the log operation for the same operand.",
+     "The result of any2unistr IS the same as the string produced by the log operation for the same operand only when the format parameter is missing or empty."
+    ],
+    "issue": "The unconditional statement conflicts with the format-dependent rules of C.1.33-s007/s008; the second reading (default behaviour) was chosen as consistent with the rest of the clause, but the canonical text keeps the unconditional wording of the source."
+   },
+   "spec_lines": [
+    25523,
+    25526
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.01.33_test_003.ttcn3",
+   "module": "M_C_01_33_test_003",
+   "header": "// @requirement: C.1.33 -- The resulting universal charstring is the same as the string produced by the log operation containing the same operand as the one passed to the any2unistr function."
+  },
+  {
+   "id": "TTCN3-CORE-C.1.33-004a",
+   "section": "C.1.33",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "The value or template passed as a parameter to the any2unichar function may be uninitialized, partially or completely initialized.",
+   "canonical": "The value or template passed to the `invalue` parameter of `any2unistr` MAY be uninitialized, partially initialized or completely initialized.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "improper_terms": [
+     {
+      "used": "any2unichar",
+      "proper": "any2unistr",
+      "glossary": false
+     }
+    ],
+    "issue": "The sentence names the function 'any2unichar', which does not exist; 'any2unistr' is meant."
+   },
+   "spec_lines": [
+    25523,
+    25526
+   ],
+   "examples": [
+    {
+     "lines": [
+      25541,
+      25562
+     ],
+     "text": "var integer v_int1 := 5, v_int2;\n  var template integer mw_int1 := ?;\n  var template integer mw_int2 := -1 ifpresent;\n  var universal charstring v_chr1, v_chr2, v_chr3, v_chr4;\n  v_chr1 := any2unistr(v_int1); // after the assignment v_chr1 will be \"5\"\n  v_chr2 := any2unistr(v_int2); // after the assignment v_chr2 will be \"UNINITIALIZED\"\n  v_chr3 := any2unistr(mw_int1); // after the assignment v_chr3 will be \"?\"\n  v_chr4 := any2unistr(mw_int2); // after the assignment v_chr3 will be \"-1 ifpresent\"\n  type record MyRecord {\n     integer field1,\n     integer field2\n  }\n  var template MyRecord t1;\n  var template MyRecord t2 := {1};\n  v_chr1 := any2unistr(t1); // after the assignment v_chr1 will be \"UNINITIALIZED\"\n  v_chr1 := any2unistr(t2);\n  // after the assignment v_chr1 could be \"{ field1 := 1, field2 := UNINITIALIZED }\"\n  v_chr1 := any2unistr(t1, \"canonical\"); // after the assignment v_chr1 will be \"-\"\n  v_chr1 := any2unistr(t2, \"canonical\");\n  // after the assignment v_chr1 will be \"{ fielfd1 := 1, field2 := - }\""
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.01.33_test_004.ttcn3",
+   "module": "M_C_01_33_test_004",
+   "header": "// @requirement: C.1.33 -- The value or template passed as a parameter to the any2unichar function may be uninitialized, partially or completely initialized."
+  },
+  {
+   "id": "TTCN3-CORE-C.1.33-006a",
+   "section": "C.1.33",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "When the optional format parameter is missing or is set to an empty string the resulting universal charstring is the same as the string produced by the log operation for the same operand.",
+   "canonical": "When the `format` parameter of `any2unistr` is missing or is set to an empty string, the resulting universal charstring IS the same as the string produced by the `log` operation for the same operand.",
+   "condition": "the format parameter is missing or is the empty string",
+   "cross_refs": [
+    "19.11"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25528,
+    25532
+   ],
+   "examples": [
+    {
+     "lines": [
+      25541,
+      25562
+     ],
+     "text": "var integer v_int1 := 5, v_int2;\n  var template integer mw_int1 := ?;\n  var template integer mw_int2 := -1 ifpresent;\n  var universal charstring v_chr1, v_chr2, v_chr3, v_chr4;\n  v_chr1 := any2unistr(v_int1); // after the assignment v_chr1 will be \"5\"\n  v_chr2 := any2unistr(v_int2); // after the assignment v_chr2 will be \"UNINITIALIZED\"\n  v_chr3 := any2unistr(mw_int1); // after the assignment v_chr3 will be \"?\"\n  v_chr4 := any2unistr(mw_int2); // after the assignment v_chr3 will be \"-1 ifpresent\"\n  type record MyRecord {\n     integer field1,\n     integer field2\n  }\n  var template MyRecord t1;\n  var template MyRecord t2 := {1};\n  v_chr1 := any2unistr(t1); // after the assignment v_chr1 will be \"UNINITIALIZED\"\n  v_chr1 := any2unistr(t2);\n  // after the assignment v_chr1 could be \"{ field1 := 1, field2 := UNINITIALIZED }\"\n  v_chr1 := any2unistr(t1, \"canonical\"); // after the assignment v_chr1 will be \"-\"\n  v_chr1 := any2unistr(t2, \"canonical\");\n  // after the assignment v_chr1 will be \"{ fielfd1 := 1, field2 := - }\""
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.01.33_test_005.ttcn3",
+   "module": "M_C_01_33_test_005",
+   "header": "// @requirement: C.1.33 -- When the optional format parameter is missing or is set to an empty string the resulting universal charstring is the same as the string produced by the log operation for the same operand."
+  },
+  {
+   "id": "TTCN3-CORE-C.1.33-007a",
+   "section": "C.1.33",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "When the optional format parameter takes the value \"canonical\": unbound fields are represented in the output as \"-\", the fields and members of structured types are represented recursively in assignment notation.",
+   "canonical": "When the `format` parameter of `any2unistr` is \"canonical\", unbound fields SHALL be represented in the output as \"-\".",
+   "condition": "the format parameter is \"canonical\"",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "improper_terms": [
+     {
+      "used": "unbound fields",
+      "proper": "uninitialized fields",
+      "glossary": true
+     }
+    ],
+    "issue": "'unbound' is not a TTCN-3 term; the glossary uses 'uninitialized'. The example shows that a completely uninitialized template is also represented as \"-\"."
+   },
+   "spec_lines": [
+    25528,
+    25532
+   ],
+   "examples": [
+    {
+     "lines": [
+      25541,
+      25562
+     ],
+     "text": "var integer v_int1 := 5, v_int2;\n  var template integer mw_int1 := ?;\n  var template integer mw_int2 := -1 ifpresent;\n  var universal charstring v_chr1, v_chr2, v_chr3, v_chr4;\n  v_chr1 := any2unistr(v_int1); // after the assignment v_chr1 will be \"5\"\n  v_chr2 := any2unistr(v_int2); // after the assignment v_chr2 will be \"UNINITIALIZED\"\n  v_chr3 := any2unistr(mw_int1); // after the assignment v_chr3 will be \"?\"\n  v_chr4 := any2unistr(mw_int2); // after the assignment v_chr3 will be \"-1 ifpresent\"\n  type record MyRecord {\n     integer field1,\n     integer field2\n  }\n  var template MyRecord t1;\n  var template MyRecord t2 := {1};\n  v_chr1 := any2unistr(t1); // after the assignment v_chr1 will be \"UNINITIALIZED\"\n  v_chr1 := any2unistr(t2);\n  // after the assignment v_chr1 could be \"{ field1 := 1, field2 := UNINITIALIZED }\"\n  v_chr1 := any2unistr(t1, \"canonical\"); // after the assignment v_chr1 will be \"-\"\n  v_chr1 := any2unistr(t2, \"canonical\");\n  // after the assignment v_chr1 will be \"{ fielfd1 := 1, field2 := - }\""
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.01.33_test_006.ttcn3",
+   "module": "M_C_01_33_test_006",
+   "header": "// @requirement: C.1.33 -- When the optional format parameter takes the value \"canonical\": unbound fields are represented in the output as \"-\", the fields and members of structured types are represented recursively in assignment notation."
+  },
+  {
+   "id": "TTCN3-CORE-C.1.33-007b",
+   "section": "C.1.33",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "When the optional format parameter takes the value \"canonical\": unbound fields are represented in the output as \"-\", the fields and members of structured types are represented recursively in assignment notation.",
+   "canonical": "When the `format` parameter of `any2unistr` is \"canonical\", the fields and members of structured types SHALL be represented recursively in assignment notation.",
+   "condition": "the format parameter is \"canonical\"",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25528,
+    25532
+   ],
+   "examples": [
+    {
+     "lines": [
+      25541,
+      25562
+     ],
+     "text": "var integer v_int1 := 5, v_int2;\n  var template integer mw_int1 := ?;\n  var template integer mw_int2 := -1 ifpresent;\n  var universal charstring v_chr1, v_chr2, v_chr3, v_chr4;\n  v_chr1 := any2unistr(v_int1); // after the assignment v_chr1 will be \"5\"\n  v_chr2 := any2unistr(v_int2); // after the assignment v_chr2 will be \"UNINITIALIZED\"\n  v_chr3 := any2unistr(mw_int1); // after the assignment v_chr3 will be \"?\"\n  v_chr4 := any2unistr(mw_int2); // after the assignment v_chr3 will be \"-1 ifpresent\"\n  type record MyRecord {\n     integer field1,\n     integer field2\n  }\n  var template MyRecord t1;\n  var template MyRecord t2 := {1};\n  v_chr1 := any2unistr(t1); // after the assignment v_chr1 will be \"UNINITIALIZED\"\n  v_chr1 := any2unistr(t2);\n  // after the assignment v_chr1 could be \"{ field1 := 1, field2 := UNINITIALIZED }\"\n  v_chr1 := any2unistr(t1, \"canonical\"); // after the assignment v_chr1 will be \"-\"\n  v_chr1 := any2unistr(t2, \"canonical\");\n  // after the assignment v_chr1 will be \"{ fielfd1 := 1, field2 := - }\""
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.01.33_test_007.ttcn3",
+   "module": "M_C_01_33_test_007",
+   "header": "// @requirement: C.1.33 -- When the optional format parameter takes the value \"canonical\": unbound fields are represented in the output as \"-\", the fields and members of structured types are represented recursively in assignment notation."
+  },
+  {
+   "id": "TTCN3-CORE-C.1.33-008b",
+   "section": "C.1.33",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "If the actual value of the format parameter is different from the empty string and \"canonical\", the format of the result produced by the function is either tool-specific if the tool supports the specified custom format or it is the same as the string produced by the log operation (i.e. the same as if the parameter value was the empty string).",
+   "canonical": "When the `format` parameter of `any2unistr` is different from the empty string and \"canonical\" and the tool does not support the specified format, the result IS the same as the string produced by the `log` operation (as if the format parameter were the empty string).",
+   "condition": "format is neither \"\" nor \"canonical\" and the tool does not support the custom format",
+   "cross_refs": [
+    "19.11"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25534,
+    25536
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.01.33_test_008.ttcn3",
+   "module": "M_C_01_33_test_008",
+   "header": "// @requirement: C.1.33 -- If the actual value of the format parameter is different from the empty string and \"canonical\", the format of the result produced by the function is either tool-specific if the tool supports the specified custom format or it is the same as the string produced by the log operation (i.e. the same as if the parameter value was the empty string)."
+  },
+  {
+   "id": "TTCN3-CORE-C.1.33-009a",
+   "section": "C.1.33",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The general error causes in clause 16.1.2 apply.",
+   "canonical": "The general error causes of clause 16.1.2 apply to the `any2unistr` function.",
+   "condition": null,
+   "cross_refs": [
+    "16.1.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25538,
+    25538
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.01.33_test_009.ttcn3",
+   "module": "M_C_01_33_test_009",
+   "header": "// @requirement: C.1.33 -- The general error causes in clause 16.1.2 apply."
+  }
+ ]
+}

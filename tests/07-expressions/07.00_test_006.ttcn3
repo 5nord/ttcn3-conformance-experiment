@@ -1,0 +1,19 @@
+// @requirement: 7.0 -- Functions used in expressions shall have a return clause.
+// @id: TTCN3-CORE-7.0-006a
+// @verdict: pass reject
+module M_07_00_test_006 {
+
+    type component C {}
+
+    function f_noReturn() {
+    }
+
+    testcase TC() runs on C {
+        var integer v_i := f_noReturn() + 1; // error: function without return clause used in expression
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

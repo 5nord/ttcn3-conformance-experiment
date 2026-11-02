@@ -1,0 +1,17 @@
+// @requirement: 15.6.1 -- If the index is used on the left hand side of an assignment and the right hand side contains a binary string value or specific template with not exactly one indexable item.
+// @id: TTCN3-CORE-15.6.1-045a
+// @verdict: pass reject
+module M_15_06_01_test_044 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template octetstring v_oct := '0123'O;
+        v_oct[0] := 'ABCD'O; // error: more than one indexable item
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

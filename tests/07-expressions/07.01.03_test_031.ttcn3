@@ -1,0 +1,31 @@
+// @requirement: 7.1.3 -- Values of the same union type, and values of different union types in which at least one of the alternatives is compatible with the other type (see clause 6.3.2.4) can be compared (independent if a compatible alternative is the selected one or not).
+// @id: TTCN3-CORE-7.1.3-030b
+// @verdict: pass reject
+module M_07_01_03_test_031 {
+
+    type component C {}
+
+    type union U1 {
+        integer d1,
+        integer d2
+    }
+
+    type union U2 {
+        integer e1,
+        integer e2
+    }
+
+    testcase TC() runs on C {
+        var U1 v_u1 := { d1 := 0 };
+        var U2 v_u2 := { e1 := 0 };
+        if (v_u1 == v_u2) { // error: no alternative of U1 is compatible with U2
+            setverdict(fail);
+        } else {
+            setverdict(pass);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

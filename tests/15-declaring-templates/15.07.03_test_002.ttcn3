@@ -1,0 +1,38 @@
+// @requirement: 15.7.3 -- **?: wildcard for any single element in a string, array,** `record of` or set of;
+// @id: TTCN3-CORE-15.7.3-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_07_03_test_002 {
+
+    type component C {}
+
+    type record of integer RoI;
+    type set of integer SoI;
+    type integer A[3];
+
+    template bitstring m_bs := '10??'B;
+    template RoI m_roi := { 1, ?, 3 };
+    template SoI m_soi := { 1, ? };
+    template A m_arr := { 1, ?, 3 };
+
+    testcase TC() runs on C {
+        var RoI v_roiOk := { 1, 7, 3 };
+        var RoI v_roiNok := { 1, 3 };
+        var SoI v_soiOk := { 9, 1 };
+        var SoI v_soiNok := { 9, 1, 8 };
+        var A v_arrOk := { 1, 7, 3 };
+        var A v_arrNok := { 2, 7, 3 };
+        if (match('1001'B, m_bs) and match('1010'B, m_bs) and
+            not match('101'B, m_bs) and not match('10011'B, m_bs) and
+            match(v_roiOk, m_roi) and not match(v_roiNok, m_roi) and
+            match(v_soiOk, m_soi) and not match(v_soiNok, m_soi) and
+            match(v_arrOk, m_arr) and not match(v_arrNok, m_arr)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

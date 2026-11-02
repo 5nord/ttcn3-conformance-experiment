@@ -1,0 +1,28 @@
+// @requirement: 8.3 -- In this case, the control keyword may be optionally prefixed with a module identifier followed by a dot.
+// @id: TTCN3-CORE-8.3-017a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_03_test_023 {
+
+    import from M_08_03_test_023_A { function control };
+
+    control {
+        M_08_03_test_023_A.control(1);
+    }
+}
+
+module M_08_03_test_023_A {
+
+    type component C {}
+
+    testcase TC(integer p_value) runs on C {
+        if (p_value == 1) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    function control(integer p_value) {
+        execute(TC(p_value));
+    }
+}

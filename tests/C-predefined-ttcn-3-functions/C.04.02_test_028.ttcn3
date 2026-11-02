@@ -1,0 +1,20 @@
+// @requirement: C.4.2 -- `inpar is a template of a character or binary string type and contains a matching mechanism other than those` allowed for indexing as specified in clause 15.6.1;
+// @id: TTCN3-CORE-C.4.2-029a
+// @verdict: pass accept, ttcn3verdict:error
+module M_C_04_02_test_028 {
+
+    type component C {}
+
+    function f_substr(in template charstring p_in) return template charstring {
+        return substr(p_in, 0, 1); // error: value list is not allowed for indexing
+    }
+
+    testcase TC() runs on C {
+        var template charstring v_res := f_substr(("ab", "cd"));
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

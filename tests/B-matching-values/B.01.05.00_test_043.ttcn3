@@ -1,0 +1,23 @@
+// @requirement: B.1.5.0 -- The referred value or template shall be of the charstring or universal charstring type and it shall contain either a specific value or pattern.
+// @id: TTCN3-CORE-B.1.5.0-060a
+// @verdict: pass reject
+module M_B_01_05_00_test_043 {
+
+    type component C {}
+
+    const integer c_int := 5;
+
+    template charstring mw_pattern := pattern "a{c_int}"; // error: referenced value is not of a character string type
+
+    testcase TC() runs on C {
+        if (match("a5", mw_pattern)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

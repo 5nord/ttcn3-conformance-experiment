@@ -1,0 +1,18 @@
+// @requirement: 6.1.1.1 -- Trying to assign an element to the end of a string with an index larger than the length of the string shall cause an error.
+// @id: TTCN3-CORE-6.1.1.1-010a
+// @verdict: pass accept, ttcn3verdict:error
+module M_06_01_01_01_test_008 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var bitstring v_bs := '1'B;
+        var integer v_idx := 4;
+        v_bs[v_idx] := '1'B; // error: index larger than the length of the string
+        setverdict(fail);
+    }
+
+    control {
+        execute(TC());
+    }
+}

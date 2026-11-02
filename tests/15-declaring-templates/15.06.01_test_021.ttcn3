@@ -1,0 +1,22 @@
+// @requirement: 15.6.1 -- j) If the referenced template has the value or omit restriction, the result shall have the value restriction.
+// @id: TTCN3-CORE-15.6.1-021a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_06_01_test_021 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template(omit) charstring v_char := "abc";
+        var template(value) charstring v_e := v_char[1];
+        var charstring v_c := valueof(v_e);
+        if (v_c == "b") {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

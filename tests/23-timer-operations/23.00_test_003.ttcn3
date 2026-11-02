@@ -1,0 +1,28 @@
+// @requirement: 23.0 -- Table 26: Any and: receive, trigger, getcall, getreply, catch, check); All with ports: yes; Col4: any port.receive
+// @id: TTCN3-CORE-23.0-007b
+// @verdict: pass reject
+module M_23_00_test_003 {
+
+    type port P message { inout integer }
+
+    type component C {
+        port P p1;
+    }
+
+    testcase TC() runs on C {
+        timer T := 1.0;
+        T.start;
+        alt {
+            [] all port.receive { // error: all port not allowed with receive
+                setverdict(pass);
+            }
+            [] T.timeout {
+                setverdict(fail);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

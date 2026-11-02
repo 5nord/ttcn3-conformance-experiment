@@ -1,0 +1,25 @@
+// @requirement: 20.5.3 -- b) The optional Expression shall be of boolean type and shall not resolve to a template.
+// @id: TTCN3-CORE-20.5.3-012b
+// @verdict: pass reject
+module M_20_05_03_test_012 {
+
+    type component C {
+        timer T;
+    }
+
+    template boolean m_suspend := true;
+
+    altstep a_1() runs on C {
+        [] T.timeout {}
+    }
+
+    testcase TC() runs on C {
+        var default v_def := activate(a_1());
+        deactivate(v_def, m_suspend); // error: Expression resolves to a template
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

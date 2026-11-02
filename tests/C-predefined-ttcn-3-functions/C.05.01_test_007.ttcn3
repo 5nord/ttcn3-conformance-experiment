@@ -1,0 +1,18 @@
+// @requirement: C.5.1 -- inpar is a template, it shall resolve to a specific value (the same restrictions apply as for the argument of the send statement). The returned bitstring represents the encoded value of inpar, however, the TTCN-3 test system need not make any check on its correctness. The optional encoding_info parameter is used for passing additional encoding information to the codec and, if it is omitted, no additional information is sent to the codec. The optional dynamic_encoding parameter is used for dynamic selection of encode attribute of the inpar value for this single encvalue call. The rules for dynamic selection of the encode attribute are described in clause 27.9. In addition to the general error causes in clause 16.1.2, error causes are: - Encoding fails due to a runtime system problem (i.e. no encoding function exists for the actual type of inpar).
+// @id: TTCN3-CORE-C.5.1-004h
+// @verdict: pass accept, noexecution
+module M_C_05_01_test_007 {
+
+    type record Payload {
+        integer x
+    } with { encode "CodecA"; encode "CodecB" }
+
+    type record PDU {
+        charstring source,
+        Payload payload
+    } with { encode "CodecA"; encode "CodecB" }
+
+    function f_encode(PDU p_value) {
+        var bitstring v_enc := encvalue(p_value, "", "CodecB");
+    }
+}

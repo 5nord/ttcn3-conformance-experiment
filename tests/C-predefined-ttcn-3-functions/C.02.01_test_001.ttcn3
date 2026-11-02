@@ -1,0 +1,23 @@
+// @requirement: C.2.1 -- lengthof(in template (present) any inpar) return integer
+// @id: TTCN3-CORE-C.2.1-001a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_02_01_test_001 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var charstring v_s := "abc";
+        var template (present) charstring v_t := ? length(2);
+        var integer v_len1 := lengthof(v_s);
+        var integer v_len2 := lengthof(v_t);
+        if (v_len1 == 3 and v_len2 == 2) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

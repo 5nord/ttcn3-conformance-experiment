@@ -1,0 +1,26 @@
+// @requirement: 22.5.3 -- If the port is defined to allow sending operations then stop port disallows the operations such as send, call, raise, etc. to be performed.
+// @id: TTCN3-CORE-22.5.3-004a
+// @verdict: pass accept, ttcn3verdict:error
+module M_22_05_03_test_005 {
+
+    signature S() noblock;
+
+    type port P procedure {
+        inout S
+    }
+
+    type component C {
+        port P p1, p2;
+    }
+
+    testcase TC() runs on C {
+        connect(self:p1, self:p2);
+        setverdict(pass);
+        p1.stop;
+        p1.call(S:{}); // error: call on a stopped port
+    }
+
+    control {
+        execute(TC());
+    }
+}

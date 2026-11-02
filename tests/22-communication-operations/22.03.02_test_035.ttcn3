@@ -1,0 +1,18 @@
+// @requirement: 22.3.2 -- d) The value assignment part shall not be used with the getcall operation.
+// @id: TTCN3-CORE-22.3.2-039a
+// @verdict: pass reject
+module M_22_03_02_test_035 {
+
+    signature S(in integer p_x) return integer;
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    function f_getcall() runs on C {
+        var integer v_x;
+        p.getcall(S:{?}) -> value v_x; // error: value redirect in getcall
+    }
+}

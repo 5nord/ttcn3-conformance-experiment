@@ -1,0 +1,43 @@
+// @requirement: 22.1.2 -- Blocking procedure-based communication is blocking on the calling and the called side, whereas non-blocking procedure-based communication is only blocking on the called side.
+// @id: TTCN3-CORE-22.1.2-003a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_01_02_test_003 {
+
+    signature S(in integer p_x) return integer;
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+        timer T_meas := 5.0;
+        timer T_delay := 0.5;
+    }
+
+    function f_server() runs on C {
+        T_meas.start;
+        p.getcall(S:{?});
+        if (T_meas.read >= 0.25) { setverdict(pass); } else { setverdict(fail); }
+        T_delay.start;
+        T_delay.timeout;
+        p.reply(S:{-} value 0);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_server());
+        T_delay.start(0.3);
+        T_delay.timeout;
+        T_meas.start;
+        p.call(S:{1}, 2.0) {
+            [] p.getreply(S:{-}) {}
+            [] p.catch(timeout) { setverdict(fail); }
+        }
+        if (T_meas.read >= 0.4) { setverdict(pass); } else { setverdict(fail); }
+        v_ptc.done;
+    }
+
+    control {
+        execute(TC());
+    }
+}

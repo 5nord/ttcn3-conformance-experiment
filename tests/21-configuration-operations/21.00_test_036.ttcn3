@@ -1,0 +1,31 @@
+// @requirement: 21.0 -- **Reference Operations** Mtc Gets the reference to the MTC `connect(mtc:p, ptc:p);` System Gets the reference to the test system `map(c:p, system:sutPort);` interface
+// @id: TTCN3-CORE-21.0-026a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_00_test_036 {
+
+    type port P message { inout integer; }
+
+    type component C {
+        port P p;
+    }
+
+    function f_behaviour() runs on C {
+        connect(mtc:p, self:p);
+        p.send(1);
+    }
+
+    testcase TC() runs on C {
+        timer T := 1.0;
+        var C ptc := C.create;
+        ptc.start(f_behaviour());
+        T.start;
+        alt {
+            [] p.receive(1) { setverdict(pass); }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

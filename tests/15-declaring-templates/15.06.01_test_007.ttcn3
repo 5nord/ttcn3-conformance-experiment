@@ -1,0 +1,22 @@
+// @requirement: 15.6.1 -- In this case, individual items of the combined template are concatenated and the reference is applied to the result of this concatenation using the rules described in this clause.
+// @id: TTCN3-CORE-15.6.1-007a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_06_01_test_007 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template octetstring v_comb := 'AB'O & '?'O & 'CD'O, v_e1, v_e2;
+        v_e1 := v_comb[1];
+        v_e2 := v_comb[2];
+        if (match('77'O, v_e1) and match('CD'O, v_e2) and not match('AB'O, v_e2)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

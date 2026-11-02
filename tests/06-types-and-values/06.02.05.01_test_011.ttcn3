@@ -1,0 +1,36 @@
+// @requirement: 6.2.5.1 -- When referencing an alternative of an uninitialized union value or field or omitted field (including omitting a field at a higher level of the embedding hierarchy) on the left hand side of an assignment, the reference shall recursively be expanded up to and including the depth of the referenced alternative as follows:
+// @id: TTCN3-CORE-6.2.5.1-012a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_05_01_test_011 {
+
+    type union U {
+        integer choice1,
+        charstring choice2
+    }
+
+    type record Inner {
+        U field1 optional
+    }
+
+    type record Outer {
+        Inner inner optional
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var U v_u;
+        var Outer v_o := { inner := omit };
+        v_u.choice1 := 10;
+        v_o.inner.field1.choice1 := 20;
+        if (v_u == { choice1 := 10 } and v_o == { inner := { field1 := { choice1 := 20 } } }) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,13 @@
+// @requirement: B.1.2.7 -- individual elements of the combined template in the all from clause shall not resolve to AnyElementsOrNone or permutation.
+// @id: TTCN3-CORE-B.1.2.7-013b
+// @verdict: pass reject
+module M_B_01_02_07_test_015 {
+
+    type component C {}
+
+    type record of integer RoI;
+    type set of integer SoI;
+
+    template RoI mw_roI := { 1, permutation (2, 3) };
+    template SoI mw_subset := subset (all from mw_roI); // error: element of all from template is a permutation
+}

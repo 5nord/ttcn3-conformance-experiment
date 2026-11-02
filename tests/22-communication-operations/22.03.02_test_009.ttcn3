@@ -1,0 +1,46 @@
+// @requirement: 22.3.2 -- This restriction shall be denoted by using the from keyword followed by a specification of an address or component reference, a list of address or component references or any component.
+// @id: TTCN3-CORE-22.3.2-011a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_03_02_test_009 {
+
+    signature S(in integer p_x) noblock;
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    altstep a_guard() runs on C {
+        [] T.timeout { setverdict(fail); stop; }
+    }
+
+    function f_client(integer p_first) runs on C {
+        p.call(S:{p_first});
+        p.call(S:{p_first + 1});
+        p.call(S:{p_first + 2});
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc1 := C.create, v_ptc2 := C.create;
+        connect(mtc:p, v_ptc1:p);
+        connect(mtc:p, v_ptc2:p);
+        v_ptc1.start(f_client(1));
+        v_ptc1.done;
+        v_ptc2.start(f_client(4));
+        activate(a_guard());
+        T.start;
+        p.getcall(S:{1}) from v_ptc1;
+        p.getcall(S:{2}) from (v_ptc1, v_ptc2);
+        p.getcall(S:{3}) from any component;
+        p.getcall(S:{4}) from v_ptc2;
+        p.getcall(S:{5}) from (v_ptc2, v_ptc1);
+        p.getcall(S:{6}) from any component;
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,25 @@
+// @requirement: 23.5 -- ( ObjectReference ) | any timer | any from TimerArrayRef ) "." running ["->" @index value ValueRef]
+// @id: TTCN3-CORE-23.5-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_23_05_test_001 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        timer T := 5.0;
+        timer TA[3] := { 5.0, 5.0, 5.0 };
+        var integer v_i := -1;
+        T.start;
+        TA[2].start;
+        if (T.running and any timer.running and any from TA.running
+            and any from TA.running -> @index value v_i and v_i == 2) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

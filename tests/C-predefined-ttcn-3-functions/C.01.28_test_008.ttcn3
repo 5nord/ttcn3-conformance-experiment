@@ -1,0 +1,20 @@
+// @requirement: C.1.28 -- NOTE: The semantic of the str2oct function cause asymmetric behaviour: oct2str(str2oct("1D7"))// results in the charstring value "01D7"
+// @id: TTCN3-CORE-C.1.28-010a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_01_28_test_008 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var charstring v_in := "1D7";
+        if (oct2str(str2oct(v_in)) == "01D7") {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,26 @@
+// @requirement: B.1.5.1 -- "\q{group,plane,row,cell}";
+// @id: TTCN3-CORE-B.1.5.1-026a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_05_01_test_021 {
+
+    type component C {}
+
+    template universal charstring mw_set := pattern "[b\q{0,0,0,65}]";
+
+    testcase TC() runs on C {
+        var universal charstring v_a := "A";
+        var universal charstring v_b := "b";
+        var universal charstring v_q := "q";
+        var universal charstring v_zero := "0";
+        if (match(v_a, mw_set) and match(v_b, mw_set)
+            and not match(v_q, mw_set) and not match(v_zero, mw_set)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

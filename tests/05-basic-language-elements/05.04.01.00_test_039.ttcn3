@@ -1,0 +1,39 @@
+// @requirement: 5.4.1.0 -- Lazy and fuzzy properties are valid only in the scope, where the parameters' names are visible.
+// @id: TTCN3-CORE-5.4.1.0-033a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_04_01_00_test_039 {
+
+    type component C {
+        var integer vc_count := 0;
+    }
+
+    function f_next() runs on C return integer {
+        vc_count := vc_count + 1;
+        return vc_count;
+    }
+
+    function f_plain(integer p_v) runs on C {
+        var integer v_before := vc_count;
+        vc_count := 100;
+        if (v_before == 1 and p_v == 1 and p_v == 1 and vc_count == 100) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    function f_lazy(in @lazy integer p_v) runs on C {
+        if (vc_count != 0) {
+            setverdict(fail);
+        }
+        f_plain(p_v);
+    }
+
+    testcase TC() runs on C {
+        f_lazy(f_next());
+    }
+
+    control {
+        execute(TC());
+    }
+}

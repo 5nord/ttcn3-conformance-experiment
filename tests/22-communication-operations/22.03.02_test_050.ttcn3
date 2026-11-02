@@ -1,0 +1,30 @@
+// @requirement: 22.3.2 -- m) When assigning implicitly decoded parameters (by using the @decoded modifier) in cases where the value or template to be matched uses the MatchDecodedContent (decmatch) matching for the parameter to be stored, the type of the template in the MatchDecodedContent matching shall be type-compatible to the type of the variable the decoded field is stored into.
+// @id: TTCN3-CORE-22.3.2-051a
+// @verdict: pass reject
+module M_22_03_02_test_050 {
+
+    type record R1 {
+        integer f1
+    }
+
+    type record R2 {
+        charstring f2
+    }
+
+    signature S(in octetstring p_enc) noblock;
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    template R1 mw_r1 := ?;
+
+    function f_getcall() runs on C {
+        var R2 v_r2;
+        p.getcall(S:{decmatch mw_r1}) -> param(v_r2 := @decoded p_enc); // error: decmatch template is R1, variable is R2
+    }
+} with {
+    encode "JSON"
+}

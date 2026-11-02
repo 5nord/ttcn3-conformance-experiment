@@ -1,0 +1,25 @@
+// @requirement: A.1.6.1.3 -- The same notation can be used for a string element reference inside an TTCN-3 charstring, universal charstring, bitstring, octetstring and hexstring type
+// @id: TTCN3-CORE-A.1.6.1.3-007b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_A_01_06_01_03_test_010 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var charstring v_cs := "abc";
+        var universal charstring v_ucs := "xyz";
+        var bitstring v_bs := '101'B;
+        var octetstring v_os := 'A1B2'O;
+        var hexstring v_hs := 'F0E'H;
+
+        if (v_cs[1] == "b" and v_ucs[2] == "z" and v_bs[1] == '0'B and v_os[1] == 'B2'O and v_hs[2] == 'E'H) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

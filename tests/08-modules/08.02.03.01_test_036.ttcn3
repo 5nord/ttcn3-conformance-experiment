@@ -1,0 +1,29 @@
+// @requirement: 8.2.3.1 -- Name clashes shall be resolved using qualified_ name(s) for the imported definition(s), i.e. prefixing the imported definition (which causes the name clash) by the identifier of the module in which it has been defined; the prefix and the identifier shall be separated by a dot (".").
+// @id: TTCN3-CORE-8.2.3.1-074a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_02_03_01_test_036 {
+
+    import from M_08_02_03_01_test_036_A { type MyType }
+
+    type bitstring MyType;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var M_08_02_03_01_test_036_A.MyType v_imported := "abc";
+        var MyType v_local := '101'B;
+        if (v_imported == "abc" and v_local == '101'B) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_03_01_test_036_A {
+    type charstring MyType;
+}

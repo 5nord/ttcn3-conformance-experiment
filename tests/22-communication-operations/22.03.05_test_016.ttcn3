@@ -1,0 +1,25 @@
+// @requirement: 22.3.5 -- e) Applying a raise operation to an unmapped or disconnected port shall cause a test case error.
+// @id: TTCN3-CORE-22.3.5-023a
+// @verdict: pass accept, ttcn3verdict:error
+module M_22_03_05_test_016 {
+
+    signature S() exception(integer);
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C system C {
+        var C v_ptc := C.create;
+        connect(self:p, v_ptc:p);
+        disconnect(self:p, v_ptc:p);
+        p.raise(S, 1); // error: port is disconnected
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,17 @@
+// @requirement: C.1.25 -- The input parameter invalue shall not` contain octet values higher than 7F.
+// @id: TTCN3-CORE-C.1.25-003a
+// @verdict: pass accept, ttcn3verdict:error
+module M_C_01_25_test_003 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var octetstring v_o := '4180'O;
+        var charstring v_c := oct2char(v_o); // error: octet value higher than 7F
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

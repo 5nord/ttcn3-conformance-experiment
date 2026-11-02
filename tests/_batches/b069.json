@@ -1,0 +1,1552 @@
+{
+ "batch": "b069",
+ "requirements": [
+  {
+   "id": "TTCN3-CORE-22.2.2-048b",
+   "section": "22.2.2",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "It is also possible to store the index of a port in a singledimensional port array at which the operation was successful to a variable of type integer or, in case of multi-dimensional port arrays the index of the successful port to an integer array or record of integer variable.",
+   "canonical": "The index of the successful port in a multi-dimensional port array MAY be stored in an integer array or record of integer variable.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    17847,
+    17853
+   ],
+   "examples": [
+    {
+     "lines": [
+      17991,
+      18001
+     ],
+     "text": "type port MyPort message { inout integer }\n  type component MyComponent {\n    port MyPort p[10][10];\n  }\n  var integer v_i[2];\n  any from p.receive(mw_myMessage) -> @index value v_i; \n  // checking receiving mw_myMessage on any port of the port array p and storing the index of the\n  // port on which the matching was successful first; if, for example MyMessage is matched first\n  // on p[4,2], the content of i will be {4,2}"
+    }
+   ],
+   "file": "tests/22-communication-operations/22.02.02_test_041.ttcn3",
+   "module": "M_22_02_02_test_041",
+   "header": "// @requirement: 22.2.2 -- It is also possible to store the index of a port in a singledimensional port array at which the operation was successful to a variable of type integer or, in case of multi-dimensional port arrays the index of the successful port to an integer array or record of integer variable."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.2-049a",
+   "section": "22.2.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "When checking the port array for matching messages, the port indices to be checked are iterated from lowest to highest.",
+   "canonical": "When checking a port array for matching messages, the port indices are iterated from lowest to highest.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    17847,
+    17853
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.02.02_test_042.ttcn3",
+   "module": "M_22_02_02_test_042",
+   "header": "// @requirement: 22.2.2 -- When checking the port array for matching messages, the port indices to be checked are iterated from lowest to highest."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.2-050a",
+   "section": "22.2.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "If the port array is multi-dimensional, then the ports are iterated over from innermost to outermost array dimension from lowest to highest index for each dimension, e.g. [0][0], [0][1], [1][0], [1][1].",
+   "canonical": "If the port array is multi-dimensional, the ports are iterated from innermost to outermost array dimension, from lowest to highest index for each dimension (e.g. [0][0], [0][1], [1][0], [1][1]).",
+   "condition": "the port array is multi-dimensional",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "'from innermost to outermost' could mean the innermost (last) index varies fastest, or that the innermost dimension is the outer loop; the example order [0][0], [0][1], [1][0], [1][1] supports the first reading, which is chosen.",
+    "readings": [
+     "The last (innermost) index varies fastest: [0][0], [0][1], [1][0], [1][1].",
+     "The first index varies fastest: [0][0], [1][0], [0][1], [1][1]."
+    ]
+   },
+   "spec_lines": [
+    17847,
+    17853
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.02.02_test_043.ttcn3",
+   "module": "M_22_02_02_test_043",
+   "header": "// @requirement: 22.2.2 -- If the port array is multi-dimensional, then the ports are iterated over from innermost to outermost array dimension from lowest to highest index for each dimension, e.g. [0][0], [0][1], [1][0], [1][1]."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.2-051a",
+   "section": "22.2.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The first port which matches all the criteria will cause the operation to be successful even if other ports in the array would also meet the criteria.",
+   "canonical": "The first port of the port array that matches all the criteria causes the `receive` operation to be successful, even if other ports in the array would also meet the criteria.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    17847,
+    17853
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.02.02_test_044.ttcn3",
+   "module": "M_22_02_02_test_044",
+   "header": "// @requirement: 22.2.2 -- The first port which matches all the criteria will cause the operation to be successful even if other ports in the array would also meet the criteria."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.2-053a",
+   "section": "22.2.2",
+   "type": "permission",
+   "modality": "CAN",
+   "original": "The receive operation can be used as a stand-alone statement in a behaviour description.",
+   "canonical": "The `receive` operation CAN be used as a stand-alone statement in a behaviour description.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    17857,
+    17859
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.02.02_test_045.ttcn3",
+   "module": "M_22_02_02_test_045",
+   "header": "// @requirement: 22.2.2 -- The receive operation can be used as a stand-alone statement in a behaviour description."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.2-054a",
+   "section": "22.2.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "In this latter case the receive operation is considered to be shorthand for an alt statement with the receive operation as the only alternative.",
+   "canonical": "A stand-alone `receive` operation is shorthand for an `alt` statement with the `receive` operation as the only alternative.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    17857,
+    17859
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.02.02_test_046.ttcn3",
+   "module": "M_22_02_02_test_046",
+   "header": "// @requirement: 22.2.2 -- In this latter case the receive operation is considered to be shorthand for an alt statement with the receive operation as the only alternative."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.2-056a",
+   "section": "22.2.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "a) When defining the message in-line, the optional type part shall be present whenever the type of the message being received is ambiguous.",
+   "canonical": "When the message is defined in-line, the optional type part SHALL be present whenever the type of the message being received is ambiguous.",
+   "condition": "the message is defined in-line and its type is ambiguous",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    17866,
+    17867
+   ],
+   "examples": [
+    {
+     "lines": [
+      17924,
+      17931
+     ],
+     "text": "myPort.receive(mw_myTemplate(5, v_myVar)); // Matches a message that fulfils the conditions\n                             // defined by template mw_myTemplate at port myPort.\n  myPort.receive(v_a<v_b); // Matches a Boolean value that depends on the outcome of v_a<v_b\n  myPort.receive(integer:v_myVar); // Matches an integer value with the value of v_myVar\n                        // at port myPort\n  myPort.receive(v_myVar); // Is an alternative to the previous example"
+    },
+    {
+     "lines": [
+      17934,
+      17974
+     ],
+     "text": "type MyPayloadType record {\n    integer messageId,\n   ContentType content\n  }\n  type MyType2 record {\n   Header header,\n    octetstring payload\n  }\n  template MyType mw_myTemplate := {\n   messageId := 42,\n   content := ?\n  }\n  ...\n  var MyPayloadType v_myVar;\n  var integer v_myMessageIdVar, v_myIntegerVar;\n  var charstring v_myCharstringVar;\n  var address v_myPeer;\n  var octetstring v_myVarOne := '00ff'O;\n  MyPort.receive(charstring:\"Hello\")from v_myPeer; // Matches charstring \"Hello\" from MyPeer\n  MyPort.receive(MyType:?) -> value v_myVar; // The value of the received message is\n                             // assigned to v_myVar.\n  MyPort.receive(MyType:?) -> value (v_myVar, v_myMessageIdVar:= messageId)\n                   // The value of the received message is stored in the variable\n                   // v_myVar and the value of the messageId field of the received\n                   // message is stored in the variable v_myMessageIdVar.\n  MyPort.receive(anytype:?) -> value (v_myIntegerVar:= integer)\n                   // If the received value is an integer, it is stored in the variable\n                   // v_myIntegerVar, a test case error otherwise.\n  MyPort.receive(charstring:?) -> value (v_myCharstringVar)\n                   // The received value is stored in the variable v_myCharstringVar;\n                   // Note that it is the same as to write \"value v_myCharstringVar\"\n  MyPort.receive(A<B) -> sender v_myPeer;  // The address of the sender is assigned to v_myPeer"
+    }
+   ],
+   "file": "tests/22-communication-operations/22.02.02_test_047.ttcn3",
+   "module": "M_22_02_02_test_047",
+   "header": "// @requirement: 22.2.2 -- a) When defining the message in-line, the optional type part shall be present whenever the type of the message being received is ambiguous."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.2-057a",
+   "section": "22.2.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "b) The receive operation shall only be used on message-based ports and the type of the value to be received shall be included in the list of incoming types of the port type definition.",
+   "canonical": "The `receive` operation SHALL only be used on message-based ports.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    17869,
+    17870
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.02.02_test_048.ttcn3",
+   "module": "M_22_02_02_test_048",
+   "header": "// @requirement: 22.2.2 -- b) The receive operation shall only be used on message-based ports and the type of the value to be received shall be included in the list of incoming types of the port type definition."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.2-057b",
+   "section": "22.2.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "b) The receive operation shall only be used on message-based ports and the type of the value to be received shall be included in the list of incoming types of the port type definition.",
+   "canonical": "The type of the value to be received by a `receive` operation SHALL be included in the list of incoming types of the port type definition.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    17869,
+    17870
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.02.02_test_049.ttcn3",
+   "module": "M_22_02_02_test_049",
+   "header": "// @requirement: 22.2.2 -- b) The receive operation shall only be used on message-based ports and the type of the value to be received shall be included in the list of incoming types of the port type definition."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.2-058a",
+   "section": "22.2.2",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "c) No binding of the incoming values to the terms of the expression or to the template shall occur.",
+   "canonical": "A `receive` operation SHALL NOT bind incoming values to the terms of the expression or to the template.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "It is unclear what 'binding to the terms of the expression or to the template' means for a test author.",
+    "readings": [
+     "Matching a received message SHALL NOT assign values to variables used in the template or expression (no unification-like binding).",
+     "Variables referenced in the template or expression SHALL NOT be changed by the receive operation except through the redirect clauses."
+    ]
+   },
+   "spec_lines": [
+    17872,
+    17872
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.02.02_test_050.ttcn3",
+   "module": "M_22_02_02_test_050",
+   "header": "// @requirement: 22.2.2 -- c) No binding of the incoming values to the terms of the expression or to the template shall occur."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.2-059a",
+   "section": "22.2.2",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "d) A message received by receive any message shall not be stored, i.e. the value clause shall not be present.",
+   "canonical": "A `receive` operation without an argument (receive any message) SHALL NOT contain a `value` clause.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    17874,
+    17874
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.02.02_test_051.ttcn3",
+   "module": "M_22_02_02_test_051",
+   "header": "// @requirement: 22.2.2 -- d) A message received by receive any message shall not be stored, i.e. the value clause shall not be present."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.2-060a",
+   "section": "22.2.2",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "e) Type mismatch at storing the received value or parts of the received value and storing the sender shall cause an error.",
+   "canonical": "A type mismatch at storing the received value or parts of the received value SHALL cause an error.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "Kind of error (compile-time or runtime) is not specified.",
+    "readings": [
+     "A type mismatch detectable statically SHALL cause a compile-time error.",
+     "A type mismatch SHALL cause a test case error at runtime."
+    ]
+   },
+   "spec_lines": [
+    17876,
+    17877
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.02.02_test_052.ttcn3",
+   "module": "M_22_02_02_test_052",
+   "header": "// @requirement: 22.2.2 -- e) Type mismatch at storing the received value or parts of the received value and storing the sender shall cause an error."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.2-060b",
+   "section": "22.2.2",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "e) Type mismatch at storing the received value or parts of the received value and storing the sender shall cause an error.",
+   "canonical": "A type mismatch at storing the sender SHALL cause an error.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "Kind of error (compile-time or runtime) is not specified.",
+    "readings": [
+     "A sender type mismatch detectable statically SHALL cause a compile-time error.",
+     "A sender type mismatch SHALL cause a test case error at runtime."
+    ]
+   },
+   "spec_lines": [
+    17876,
+    17877
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.02.02_test_053.ttcn3",
+   "module": "M_22_02_02_test_053",
+   "header": "// @requirement: 22.2.2 -- e) Type mismatch at storing the received value or parts of the received value and storing the sender shall cause an error."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.2-061a",
+   "section": "22.2.2",
+   "type": "information",
+   "modality": "IS",
+   "original": "NOTE 6: An error due to a type mismatch may happen if the types in the receive part are not compatible to the types in the assignment part or, if the from clause is missing, but the type of the sender can be determined and it is not type compatible with the type in the sender clause.",
+   "canonical": "A type mismatch error can happen if the types in the receive part are not compatible with the types in the assignment part, or if the `from` clause is missing but the type of the sender can be determined and is not type compatible with the type in the `sender` clause.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    17879,
+    17881
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.02.02_test_054.ttcn3",
+   "module": "M_22_02_02_test_054",
+   "header": "// @requirement: 22.2.2 -- NOTE 6: An error due to a type mismatch may happen if the types in the receive part are not compatible to the types in the assignment part or, if the from clause is missing, but the type of the sender can be determined and it is not type compatible with the type in the sender clause."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.2-062a",
+   "section": "22.2.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "f) All AddressRef items in the from clause and all ValueRef items in the sender clause shall be of type address, component or of the address type bound to the port type (see clause C.5) of the port instance referenced in the receive operation.",
+   "canonical": "Every AddressRef in the `from` clause of a `receive` operation SHALL be of type `address`, of a component type, or of the address type bound to the port type of the referenced port.",
+   "condition": null,
+   "cross_refs": [
+    "C.5"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    17883,
+    17884
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.02.02_test_055.ttcn3",
+   "module": "M_22_02_02_test_055",
+   "header": "// @requirement: 22.2.2 -- f) All AddressRef items in the from clause and all ValueRef items in the sender clause shall be of type address, component or of the address type bound to the port type (see clause C.5) of the port instance referenced in the receive operation."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.2-062b",
+   "section": "22.2.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "f) All AddressRef items in the from clause and all ValueRef items in the sender clause shall be of type address, component or of the address type bound to the port type (see clause C.5) of the port instance referenced in the receive operation.",
+   "canonical": "Every ValueRef in the `sender` clause of a `receive` operation SHALL be of type `address`, of a component type, or of the address type bound to the port type of the referenced port.",
+   "condition": null,
+   "cross_refs": [
+    "C.5"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    17883,
+    17884
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.02.02_test_056.ttcn3",
+   "module": "M_22_02_02_test_056",
+   "header": "// @requirement: 22.2.2 -- f) All AddressRef items in the from clause and all ValueRef items in the sender clause shall be of type address, component or of the address type bound to the port type (see clause C.5) of the port instance referenced in the receive operation."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.2-063a",
+   "section": "22.2.2",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "No AddressRef in the from clause shall contain the special value null at the time of the operation.",
+   "canonical": "No AddressRef in the `from` clause of a `receive` operation SHALL contain the special value `null` at the time of the operation.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    17883,
+    17884
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.02.02_test_057.ttcn3",
+   "module": "M_22_02_02_test_057",
+   "header": "// @requirement: 22.2.2 -- No AddressRef in the from clause shall contain the special value null at the time of the operation."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.2-064a",
+   "section": "22.2.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "g) The PortArrayRef shall be a reference to a completely initialized port array.",
+   "canonical": "The PortArrayRef of an `any from` `receive` operation SHALL be a reference to a completely initialized port array.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    17886,
+    17886
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.02.02_test_058.ttcn3",
+   "module": "M_22_02_02_test_058",
+   "header": "// @requirement: 22.2.2 -- g) The PortArrayRef shall be a reference to a completely initialized port array."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.2-065a",
+   "section": "22.2.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "h) The index redirection shall only be used when the operation is used on an any from port array construct.",
+   "canonical": "The index redirection SHALL only be used when the `receive` operation is used on an `any from` port array construct.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    17888,
+    17888
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.02.02_test_059.ttcn3",
+   "module": "M_22_02_02_test_059",
+   "header": "// @requirement: 22.2.2 -- h) The index redirection shall only be used when the operation is used on an any from port array construct."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.2-066a",
+   "section": "22.2.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "i) If the index redirection is used for single-dimensional port arrays, the type of the integer variable shall allow storing the highest index of the respective array.",
+   "canonical": "If the index redirection is used for a single-dimensional port array, the type of the integer variable SHALL allow storing the highest index of the array.",
+   "condition": "index redirection on a single-dimensional port array",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    17890,
+    17891
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.02.02_test_060.ttcn3",
+   "module": "M_22_02_02_test_060",
+   "header": "// @requirement: 22.2.2 -- i) If the index redirection is used for single-dimensional port arrays, the type of the integer variable shall allow storing the highest index of the respective array."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.2-067a",
+   "section": "22.2.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "j) If the index redirection is used for multi-dimensional port arrays, the size of the integer array or record of integer type shall exactly be the same as the dimension of the respective array, and its type shall allow storing the highest index (from all dimensions) of the array.",
+   "canonical": "If the index redirection is used for a multi-dimensional port array, the size of the integer array or record of integer type SHALL be exactly the same as the dimension of the array.",
+   "condition": "index redirection on a multi-dimensional port array",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    17893,
+    17895
+   ],
+   "examples": [
+    {
+     "lines": [
+      17991,
+      18001
+     ],
+     "text": "type port MyPort message { inout integer }\n  type component MyComponent {\n    port MyPort p[10][10];\n  }\n  var integer v_i[2];\n  any from p.receive(mw_myMessage) -> @index value v_i; \n  // checking receiving mw_myMessage on any port of the port array p and storing the index of the\n  // port on which the matching was successful first; if, for example MyMessage is matched first\n  // on p[4,2], the content of i will be {4,2}"
+    }
+   ],
+   "file": "tests/22-communication-operations/22.02.02_test_061.ttcn3",
+   "module": "M_22_02_02_test_061",
+   "header": "// @requirement: 22.2.2 -- j) If the index redirection is used for multi-dimensional port arrays, the size of the integer array or record of integer type shall exactly be the same as the dimension of the respective array, and its type shall allow storing the highest index (from all dimensions) of the array."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.2-067b",
+   "section": "22.2.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "j) If the index redirection is used for multi-dimensional port arrays, the size of the integer array or record of integer type shall exactly be the same as the dimension of the respective array, and its type shall allow storing the highest index (from all dimensions) of the array.",
+   "canonical": "If the index redirection is used for a multi-dimensional port array, the type of the integer array or record of integer SHALL allow storing the highest index (from all dimensions) of the array.",
+   "condition": "index redirection on a multi-dimensional port array",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    17893,
+    17895
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.02.02_test_062.ttcn3",
+   "module": "M_22_02_02_test_062",
+   "header": "// @requirement: 22.2.2 -- j) If the index redirection is used for multi-dimensional port arrays, the size of the integer array or record of integer type shall exactly be the same as the dimension of the respective array, and its type shall allow storing the highest index (from all dimensions) of the array."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.2-068a",
+   "section": "22.2.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "k) If a variable referenced in the value, sender or @index clause is a lazy or fuzzy variable, the expression assigned to this variable is equal to the result produced by the receive operation i.e. later evaluation of the lazy or fuzzy variable does not lead to repeated invocation of the receive operation.",
+   "canonical": "If a variable referenced in the `value`, `sender` or `@index` clause is a lazy or fuzzy variable, the expression assigned to the variable is equal to the result produced by the `receive` operation.",
+   "condition": "the variable is a lazy or fuzzy variable",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    17902,
+    17904
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.02.02_test_063.ttcn3",
+   "module": "M_22_02_02_test_063",
+   "header": "// @requirement: 22.2.2 -- k) If a variable referenced in the value, sender or @index clause is a lazy or fuzzy variable, the expression assigned to this variable is equal to the result produced by the receive operation i.e. later evaluation of the lazy or fuzzy variable does not lead to repeated invocation of the receive operation."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.2-068b",
+   "section": "22.2.2",
+   "type": "semantics",
+   "modality": "IS NOT",
+   "original": "k) If a variable referenced in the value, sender or @index clause is a lazy or fuzzy variable, the expression assigned to this variable is equal to the result produced by the receive operation i.e. later evaluation of the lazy or fuzzy variable does not lead to repeated invocation of the receive operation.",
+   "canonical": "Later evaluation of a lazy or fuzzy variable referenced in the `value`, `sender` or `@index` clause does not lead to repeated invocation of the `receive` operation.",
+   "condition": "the variable is a lazy or fuzzy variable",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    17902,
+    17904
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.02.02_test_064.ttcn3",
+   "module": "M_22_02_02_test_064",
+   "header": "// @requirement: 22.2.2 -- k) If a variable referenced in the value, sender or @index clause is a lazy or fuzzy variable, the expression assigned to this variable is equal to the result produced by the receive operation i.e. later evaluation of the lazy or fuzzy variable does not lead to repeated invocation of the receive operation."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.2-069a",
+   "section": "22.2.2",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "original": "l) If the receive operation contains both from and sender clause, the variable or parameter referenced in the sender clause shall be type compatible with the template in the from clause.",
+   "canonical": "If the `receive` operation contains both a `from` and a `sender` clause, the variable or formal parameter referenced in the `sender` clause SHALL be type compatible with the address expression in the `from` clause.",
+   "condition": "both from and sender clauses are present",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "The from clause contains AddressRef items, not a template; 'parameter' should be 'formal parameter'.",
+    "improper_terms": [
+     {
+      "used": "template in the from clause",
+      "proper": "AddressRef in the from clause",
+      "glossary": false
+     },
+     {
+      "used": "parameter",
+      "proper": "formal parameter",
+      "glossary": true
+     }
+    ]
+   },
+   "spec_lines": [
+    17906,
+    17907
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.02.02_test_065.ttcn3",
+   "module": "M_22_02_02_test_065",
+   "header": "// @requirement: 22.2.2 -- l) If the receive operation contains both from and sender clause, the variable or parameter referenced in the sender clause shall be type compatible with the template in the from clause."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.2-070a",
+   "section": "22.2.2",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "original": "m) When assigning implicitly decoded message fields (by using the @decoded modifier) in cases where the value or template to be matched uses the MatchDecodedContent (decmatch) matching for the field to be stored, the type of the template in the MatchDecodedContent matching shall be type-compatible to the type of the variable the decoded field is stored into.",
+   "canonical": "When a field stored with the `@decoded` modifier is matched with `decmatch` matching, the type of the template in the `decmatch` matching SHALL be type compatible with the type of the variable the decoded field is stored into.",
+   "condition": "@decoded assignment of a field that is matched with decmatch",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    17909,
+    17912
+   ],
+   "examples": [
+    {
+     "lines": [
+      17934,
+      17974
+     ],
+     "text": "type MyPayloadType record {\n    integer messageId,\n   ContentType content\n  }\n  type MyType2 record {\n   Header header,\n    octetstring payload\n  }\n  template MyType mw_myTemplate := {\n   messageId := 42,\n   content := ?\n  }\n  ...\n  var MyPayloadType v_myVar;\n  var integer v_myMessageIdVar, v_myIntegerVar;\n  var charstring v_myCharstringVar;\n  var address v_myPeer;\n  var octetstring v_myVarOne := '00ff'O;\n  MyPort.receive(charstring:\"Hello\")from v_myPeer; // Matches charstring \"Hello\" from MyPeer\n  MyPort.receive(MyType:?) -> value v_myVar; // The value of the received message is\n                             // assigned to v_myVar.\n  MyPort.receive(MyType:?) -> value (v_myVar, v_myMessageIdVar:= messageId)\n                   // The value of the received message is stored in the variable\n                   // v_myVar and the value of the messageId field of the received\n                   // message is stored in the variable v_myMessageIdVar.\n  MyPort.receive(anytype:?) -> value (v_myIntegerVar:= integer)\n                   // If the received value is an integer, it is stored in the variable\n                   // v_myIntegerVar, a test case error otherwise.\n  MyPort.receive(charstring:?) -> value (v_myCharstringVar)\n                   // The received value is stored in the variable v_myCharstringVar;\n                   // Note that it is the same as to write \"value v_myCharstringVar\"\n  MyPort.receive(A<B) -> sender v_myPeer;  // The address of the sender is assigned to v_myPeer"
+    }
+   ],
+   "file": "tests/22-communication-operations/22.02.02_test_066.ttcn3",
+   "module": "M_22_02_02_test_066",
+   "header": "// @requirement: 22.2.2 -- m) When assigning implicitly decoded message fields (by using the @decoded modifier) in cases where the value or template to be matched uses the MatchDecodedContent (decmatch) matching for the field to be stored, the type of the template in the MatchDecodedContent matching shall be type-compatible to the type of the variable the decoded field is stored into."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.2-071a",
+   "section": "22.2.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "n) The referenced value associated with ValueRef or the return type associated with FunctionInstance followed by the receive keyword, shall be of a port type.",
+   "canonical": "The referenced value or the return type of the function instance preceding the `receive` keyword SHALL be of a port type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "The syntax block uses ObjectReference, not ValueRef or FunctionInstance.",
+    "improper_terms": [
+     {
+      "used": "ValueRef / FunctionInstance",
+      "proper": "ObjectReference",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    17914,
+    17915
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.02.02_test_067.ttcn3",
+   "module": "M_22_02_02_test_067",
+   "header": "// @requirement: 22.2.2 -- n) The referenced value associated with ValueRef or the return type associated with FunctionInstance followed by the receive keyword, shall be of a port type."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.2-072a",
+   "section": "22.2.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "o) TemplateInstance shall be of a data type.",
+   "canonical": "The TemplateInstance of a `receive` operation SHALL be of a data type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    17917,
+    17919
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.02.02_test_068.ttcn3",
+   "module": "M_22_02_02_test_068",
+   "header": "// @requirement: 22.2.2 -- o) TemplateInstance shall be of a data type."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.2-072b",
+   "section": "22.2.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "p) The @nodefault modifier is allowed only in stand-alone receive statements.",
+   "canonical": "The `@nodefault` modifier SHALL only be used in stand-alone `receive` statements.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    17917,
+    17919
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.02.02_test_069.ttcn3",
+   "module": "M_22_02_02_test_069",
+   "header": "// @requirement: 22.2.2 -- p) The @nodefault modifier is allowed only in stand-alone receive statements."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.3-002a",
+   "section": "22.2.3",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "[ @nodefault ] ( ObjectReference | any port | any from PortArrayRef ) \".\" trigger [ \"(\" TemplateInstance \")\" ] [ from Address ] [ \"->\" [ value ( ValueRef| ( \"(\" { ValueRef[ \":=\" [ @decoded [ \"(\" Expression \")\" ] ] FieldOrTypeReference ][\",\"] } \")\" ) ) ] [ sender ValueRef] [ @index value ValueRef] ]",
+   "canonical": "The `trigger` operation has the syntax [`@nodefault`] (ObjectReference | `any port` | `any from` PortArrayRef) \".\" `trigger` [\"(\" TemplateInstance \")\"] [`from` Address] [\"->\" [`value` (ValueRef | \"(\" {ValueRef [\":=\" [`@decoded` [\"(\" Expression \")\"]] FieldOrTypeReference] [\",\"]} \")\")] [`sender` ValueRef] [`@index value` ValueRef]].",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18008,
+    18018
+   ],
+   "examples": [
+    {
+     "lines": [
+      18146,
+      18159
+     ],
+     "text": "myPort.trigger(MyType:?) from myPartner;\n  // Triggers on the reception of the first message of type MyType at port myPort\n  // received from myPartner.\n  myPort.trigger(MyType:?) from myPartner -> value v_myRecMessage;\n  // This example is almost identical to the previous example. In addition, the message which\n  // triggers i.e. all matching criteria are met, is stored in the variable v_myRecMessage.\n  myPort.trigger(MyType:?) -> sender myPartner;\n  // This example is almost identical to the first example. In addition, the reference of the\n  // sender component will be retrieved and stored in variable myPartner.\n  myPort.trigger(integer:?) -> value v_myVar sender v_myPartner;\n  // Trigger on the reception of an arbitrary integer value which afterwards is stored in\n  // variable v_myVar. The reference of the sender component will be stored in variable MyPartner."
+    },
+    {
+     "lines": [
+      18162,
+      18166
+     ],
+     "text": "myPort.trigger;\n  myPort.trigger from myPartner;\n  myPort.trigger -> sender v_mySenderVar;"
+    },
+    {
+     "lines": [
+      18169,
+      18171
+     ],
+     "text": "any port.trigger"
+    },
+    {
+     "lines": [
+      18174,
+      18184
+     ],
+     "text": "type port MyPort message { inout integer }\n  type component MyComponent {\n    port MyPort p[10][10];\n  }\n  var integer v_i[2];\n  any from p.trigger(mw_myMessage) -> @index value v_i; \n  // Checking if mw_myMessage has been received on any port of the port array p; if yes, the index\n  // of the port on which the matching was first successful is stored in the array v_i; if no port\n  // succeeds, the top messages are removed and the port array is re-checked."
+    }
+   ],
+   "file": "tests/22-communication-operations/22.02.03_test_001.ttcn3",
+   "module": "M_22_02_03_test_001",
+   "header": "// @requirement: 22.2.3 -- [ @nodefault ] ( ObjectReference | any port | any from PortArrayRef ) \".\" trigger [ \"(\" TemplateInstance \")\" ] [ from Address ] [ \"->\" [ value ( ValueRef| ( \"(\" { ValueRef[ \":=\" [ @decoded [ \"(\" Expression \")\" ] ] FieldOrTypeReference ][\",\"] } \")\" ) ) ] [ sender ValueRef] [ @index value ValueRef] ]"
+  },
+  {
+   "id": "TTCN3-CORE-22.2.3-003a",
+   "section": "22.2.3",
+   "type": "information",
+   "modality": "MAY",
+   "original": "NOTE 1: _Address may be an AddressRef, a list of AddressRef-s or \"any component\"._",
+   "canonical": "The Address in the `from` clause of a `trigger` operation MAY be an AddressRef, a list of AddressRefs or `any component`.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18020,
+    18020
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.02.03_test_002.ttcn3",
+   "module": "M_22_02_03_test_002",
+   "header": "// @requirement: 22.2.3 -- NOTE 1: _Address may be an AddressRef, a list of AddressRef-s or \"any component\"._"
+  },
+  {
+   "id": "TTCN3-CORE-22.2.3-004a",
+   "section": "22.2.3",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The trigger operation removes the top message from the associated incoming port queue.",
+   "canonical": "The `trigger` operation removes the top message from the associated incoming port queue.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18024,
+    18026
+   ],
+   "examples": [
+    {
+     "lines": [
+      18139,
+      18143
+     ],
+     "text": "myPort.trigger(MyType:?);\n  // Specifies that the operation will trigger on the reception of the first message observed of\n  // the type MyType with an arbitrary value at port myPort."
+    }
+   ],
+   "file": "tests/22-communication-operations/22.02.03_test_003.ttcn3",
+   "module": "M_22_02_03_test_003",
+   "header": "// @requirement: 22.2.3 -- The trigger operation removes the top message from the associated incoming port queue."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.3-005a",
+   "section": "22.2.3",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "If that top message meets the matching criteria, the trigger operation behaves in the same manner as a receive operation.",
+   "canonical": "If the top message of the incoming port queue meets the matching criteria, the `trigger` operation behaves in the same manner as a `receive` operation.",
+   "condition": "the top message meets the matching criteria",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18024,
+    18026
+   ],
+   "examples": [
+    {
+     "lines": [
+      18139,
+      18143
+     ],
+     "text": "myPort.trigger(MyType:?);\n  // Specifies that the operation will trigger on the reception of the first message observed of\n  // the type MyType with an arbitrary value at port myPort."
+    }
+   ],
+   "file": "tests/22-communication-operations/22.02.03_test_004.ttcn3",
+   "module": "M_22_02_03_test_004",
+   "header": "// @requirement: 22.2.3 -- If that top message meets the matching criteria, the trigger operation behaves in the same manner as a receive operation."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.3-006a",
+   "section": "22.2.3",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "If that top message does not fulfil the matching criteria, it shall be removed from the queue without any further action.",
+   "canonical": "If the top message of the incoming port queue does not fulfil the matching criteria of a `trigger` operation, the message SHALL be removed from the queue without any further action.",
+   "condition": "the top message does not fulfil the matching criteria",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18024,
+    18026
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.02.03_test_005.ttcn3",
+   "module": "M_22_02_03_test_005",
+   "header": "// @requirement: 22.2.3 -- If that top message does not fulfil the matching criteria, it shall be removed from the queue without any further action."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.3-007a",
+   "section": "22.2.3",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "The trigger operation requires the port name, matching criteria for type and value, an optional from restriction (i.e. selection of communication partner) and an optional assignment of the matching message and sender component to variables.",
+   "canonical": "A `trigger` operation SHALL specify the port name and matching criteria for type and value.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "The sentence says matching criteria are required, but clause 'Trigger on any message' allows a trigger without argument list. Chosen reading: the matching criteria are required unless the trigger on any message form is used.",
+    "readings": [
+     "A `trigger` operation SHALL always specify matching criteria for type and value.",
+     "A `trigger` operation SHALL specify matching criteria for type and value unless it is a trigger on any message without argument list."
+    ]
+   },
+   "spec_lines": [
+    18028,
+    18030
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.02.03_test_006.ttcn3",
+   "module": "M_22_02_03_test_006",
+   "header": "// @requirement: 22.2.3 -- The trigger operation requires the port name, matching criteria for type and value, an optional from restriction (i.e. selection of communication partner) and an optional assignment of the matching message and sender component to variables."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.3-007b",
+   "section": "22.2.3",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "The trigger operation requires the port name, matching criteria for type and value, an optional from restriction (i.e. selection of communication partner) and an optional assignment of the matching message and sender component to variables.",
+   "canonical": "A `trigger` operation MAY contain an optional `from` restriction selecting the communication partner.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18028,
+    18030
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.02.03_test_007.ttcn3",
+   "module": "M_22_02_03_test_007",
+   "header": "// @requirement: 22.2.3 -- The trigger operation requires the port name, matching criteria for type and value, an optional from restriction (i.e. selection of communication partner) and an optional assignment of the matching message and sender component to variables."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.3-007c",
+   "section": "22.2.3",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "The trigger operation requires the port name, matching criteria for type and value, an optional from restriction (i.e. selection of communication partner) and an optional assignment of the matching message and sender component to variables.",
+   "canonical": "A `trigger` operation MAY contain an optional assignment of the matching message and the sender component to variables.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18028,
+    18030
+   ],
+   "examples": [
+    {
+     "lines": [
+      18146,
+      18159
+     ],
+     "text": "myPort.trigger(MyType:?) from myPartner;\n  // Triggers on the reception of the first message of type MyType at port myPort\n  // received from myPartner.\n  myPort.trigger(MyType:?) from myPartner -> value v_myRecMessage;\n  // This example is almost identical to the previous example. In addition, the message which\n  // triggers i.e. all matching criteria are met, is stored in the variable v_myRecMessage.\n  myPort.trigger(MyType:?) -> sender myPartner;\n  // This example is almost identical to the first example. In addition, the reference of the\n  // sender component will be retrieved and stored in variable myPartner.\n  myPort.trigger(integer:?) -> value v_myVar sender v_myPartner;\n  // Trigger on the reception of an arbitrary integer value which afterwards is stored in\n  // variable v_myVar. The reference of the sender component will be stored in variable MyPartner."
+    }
+   ],
+   "file": "tests/22-communication-operations/22.02.03_test_008.ttcn3",
+   "module": "M_22_02_03_test_008",
+   "header": "// @requirement: 22.2.3 -- The trigger operation requires the port name, matching criteria for type and value, an optional from restriction (i.e. selection of communication partner) and an optional assignment of the matching message and sender component to variables."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.3-009a",
+   "section": "22.2.3",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The matching criteria as defined in clause 22.2.2 apply also to the trigger operation.",
+   "canonical": "The matching criteria defined in clause 22.2.2 apply also to the `trigger` operation.",
+   "condition": null,
+   "cross_refs": [
+    "22.2.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18034,
+    18034
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.02.03_test_009.ttcn3",
+   "module": "M_22_02_03_test_009",
+   "header": "// @requirement: 22.2.3 -- The matching criteria as defined in clause 22.2.2 apply also to the trigger operation."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.3-011a",
+   "section": "22.2.3",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "In the case of one-to-many connections the trigger operation may be restricted to a certain communication partner.",
+   "canonical": "In the case of one-to-many connections, the `trigger` operation MAY be restricted to a certain communication partner.",
+   "condition": "one-to-many connection",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18043,
+    18045
+   ],
+   "examples": [
+    {
+     "lines": [
+      18146,
+      18159
+     ],
+     "text": "myPort.trigger(MyType:?) from myPartner;\n  // Triggers on the reception of the first message of type MyType at port myPort\n  // received from myPartner.\n  myPort.trigger(MyType:?) from myPartner -> value v_myRecMessage;\n  // This example is almost identical to the previous example. In addition, the message which\n  // triggers i.e. all matching criteria are met, is stored in the variable v_myRecMessage.\n  myPort.trigger(MyType:?) -> sender myPartner;\n  // This example is almost identical to the first example. In addition, the reference of the\n  // sender component will be retrieved and stored in variable myPartner.\n  myPort.trigger(integer:?) -> value v_myVar sender v_myPartner;\n  // Trigger on the reception of an arbitrary integer value which afterwards is stored in\n  // variable v_myVar. The reference of the sender component will be stored in variable MyPartner."
+    }
+   ],
+   "file": "tests/22-communication-operations/22.02.03_test_010.ttcn3",
+   "module": "M_22_02_03_test_010",
+   "header": "// @requirement: 22.2.3 -- In the case of one-to-many connections the trigger operation may be restricted to a certain communication partner."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.3-012a",
+   "section": "22.2.3",
+   "type": "syntax",
+   "modality": "SHALL",
+   "original": "This restriction shall be denoted using the from keyword followed by a specification of an address or component reference, a list of address or component references or any component.",
+   "canonical": "The restriction of a `trigger` operation to a communication partner SHALL be denoted using the `from` keyword followed by an address or component reference, a list of address or component references, or `any component`.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18043,
+    18045
+   ],
+   "examples": [
+    {
+     "lines": [
+      18146,
+      18159
+     ],
+     "text": "myPort.trigger(MyType:?) from myPartner;\n  // Triggers on the reception of the first message of type MyType at port myPort\n  // received from myPartner.\n  myPort.trigger(MyType:?) from myPartner -> value v_myRecMessage;\n  // This example is almost identical to the previous example. In addition, the message which\n  // triggers i.e. all matching criteria are met, is stored in the variable v_myRecMessage.\n  myPort.trigger(MyType:?) -> sender myPartner;\n  // This example is almost identical to the first example. In addition, the reference of the\n  // sender component will be retrieved and stored in variable myPartner.\n  myPort.trigger(integer:?) -> value v_myVar sender v_myPartner;\n  // Trigger on the reception of an arbitrary integer value which afterwards is stored in\n  // variable v_myVar. The reference of the sender component will be stored in variable MyPartner."
+    },
+    {
+     "lines": [
+      18162,
+      18166
+     ],
+     "text": "myPort.trigger;\n  myPort.trigger from myPartner;\n  myPort.trigger -> sender v_mySenderVar;"
+    }
+   ],
+   "file": "tests/22-communication-operations/22.02.03_test_011.ttcn3",
+   "module": "M_22_02_03_test_011",
+   "header": "// @requirement: 22.2.3 -- This restriction shall be denoted using the from keyword followed by a specification of an address or component reference, a list of address or component references or any component."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.3-013a",
+   "section": "22.2.3",
+   "type": "information",
+   "modality": "IS",
+   "original": "NOTE 2: The one-to-one connection is considered to be a simple case of the one-to-many connections and allows the usage of the from-clause.",
+   "canonical": "A one-to-one connection IS a simple case of a one-to-many connection and allows the usage of the `from` clause in a `trigger` operation.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18047,
+    18048
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.02.03_test_012.ttcn3",
+   "module": "M_22_02_03_test_012",
+   "header": "// @requirement: 22.2.3 -- NOTE 2: The one-to-one connection is considered to be a simple case of the one-to-many connections and allows the usage of the from-clause."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.3-015a",
+   "section": "22.2.3",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "A trigger operation with no argument list shall trigger on the receipt of any message.",
+   "canonical": "A `trigger` operation with no template instance SHALL trigger on the receipt of any message.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "'argument list' is used for the optional TemplateInstance of the trigger operation.",
+    "improper_terms": [
+     {
+      "used": "argument list",
+      "proper": "template instance",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    18052,
+    18053
+   ],
+   "examples": [
+    {
+     "lines": [
+      18162,
+      18166
+     ],
+     "text": "myPort.trigger;\n  myPort.trigger from myPartner;\n  myPort.trigger -> sender v_mySenderVar;"
+    }
+   ],
+   "file": "tests/22-communication-operations/22.02.03_test_013.ttcn3",
+   "module": "M_22_02_03_test_013",
+   "header": "// @requirement: 22.2.3 -- A trigger operation with no argument list shall trigger on the receipt of any message."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.3-016a",
+   "section": "22.2.3",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Thus, its meaning is identical to the meaning of receive any message.",
+   "canonical": "A `trigger` operation with no template instance IS identical in meaning to `receive` any message.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18052,
+    18053
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.02.03_test_014.ttcn3",
+   "module": "M_22_02_03_test_014",
+   "header": "// @requirement: 22.2.3 -- Thus, its meaning is identical to the meaning of receive any message."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.3-018a",
+   "section": "22.2.3",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "To trigger on a message at any port, use the any port keywords.",
+   "canonical": "The `any port` keywords MAY be used in a `trigger` operation to trigger on a message at any port.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18057,
+    18057
+   ],
+   "examples": [
+    {
+     "lines": [
+      18169,
+      18171
+     ],
+     "text": "any port.trigger"
+    }
+   ],
+   "file": "tests/22-communication-operations/22.02.03_test_015.ttcn3",
+   "module": "M_22_02_03_test_015",
+   "header": "// @requirement: 22.2.3 -- To trigger on a message at any port, use the any port keywords."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.3-020a",
+   "section": "22.2.3",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "To trigger on a message at any port from a specific port array, use the any from PortArrayRef syntax where PortArrayRef shall be a reference to a port array identifier.",
+   "canonical": "The `any from` PortArrayRef syntax MAY be used in a `trigger` operation to trigger on a message at any port of a specific port array.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18061,
+    18068
+   ],
+   "examples": [
+    {
+     "lines": [
+      18174,
+      18184
+     ],
+     "text": "type port MyPort message { inout integer }\n  type component MyComponent {\n    port MyPort p[10][10];\n  }\n  var integer v_i[2];\n  any from p.trigger(mw_myMessage) -> @index value v_i; \n  // Checking if mw_myMessage has been received on any port of the port array p; if yes, the index\n  // of the port on which the matching was first successful is stored in the array v_i; if no port\n  // succeeds, the top messages are removed and the port array is re-checked."
+    }
+   ],
+   "file": "tests/22-communication-operations/22.02.03_test_016.ttcn3",
+   "module": "M_22_02_03_test_016",
+   "header": "// @requirement: 22.2.3 -- To trigger on a message at any port from a specific port array, use the any from PortArrayRef syntax where PortArrayRef shall be a reference to a port array identifier."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.3-020b",
+   "section": "22.2.3",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "To trigger on a message at any port from a specific port array, use the any from PortArrayRef syntax where PortArrayRef shall be a reference to a port array identifier.",
+   "canonical": "The PortArrayRef in an `any from` `trigger` operation SHALL be a reference to a port array identifier.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18061,
+    18068
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.02.03_test_017.ttcn3",
+   "module": "M_22_02_03_test_017",
+   "header": "// @requirement: 22.2.3 -- To trigger on a message at any port from a specific port array, use the any from PortArrayRef syntax where PortArrayRef shall be a reference to a port array identifier."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.3-021a",
+   "section": "22.2.3",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "It is also possible to store the index of a port in a single-dimensional port array at which the operation was successful to a variable of type integer or, in case of multi-dimensional port arrays the index of the successful port to an integer array or record of integer variable.",
+   "canonical": "The index of the port of a single-dimensional port array at which the `trigger` operation was successful MAY be stored in a variable of type `integer`.",
+   "condition": "single-dimensional port array",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18061,
+    18068
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.02.03_test_018.ttcn3",
+   "module": "M_22_02_03_test_018",
+   "header": "// @requirement: 22.2.3 -- It is also possible to store the index of a port in a single-dimensional port array at which the operation was successful to a variable of type integer or, in case of multi-dimensional port arrays the index of the successful port to an integer array or record of integer variable."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.3-021b",
+   "section": "22.2.3",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "It is also possible to store the index of a port in a single-dimensional port array at which the operation was successful to a variable of type integer or, in case of multi-dimensional port arrays the index of the successful port to an integer array or record of integer variable.",
+   "canonical": "The index of the port of a multi-dimensional port array at which the `trigger` operation was successful MAY be stored in an integer array or `record of integer` variable.",
+   "condition": "multi-dimensional port array",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18061,
+    18068
+   ],
+   "examples": [
+    {
+     "lines": [
+      18174,
+      18184
+     ],
+     "text": "type port MyPort message { inout integer }\n  type component MyComponent {\n    port MyPort p[10][10];\n  }\n  var integer v_i[2];\n  any from p.trigger(mw_myMessage) -> @index value v_i; \n  // Checking if mw_myMessage has been received on any port of the port array p; if yes, the index\n  // of the port on which the matching was first successful is stored in the array v_i; if no port\n  // succeeds, the top messages are removed and the port array is re-checked."
+    }
+   ],
+   "file": "tests/22-communication-operations/22.02.03_test_019.ttcn3",
+   "module": "M_22_02_03_test_019",
+   "header": "// @requirement: 22.2.3 -- It is also possible to store the index of a port in a single-dimensional port array at which the operation was successful to a variable of type integer or, in case of multi-dimensional port arrays the index of the successful port to an integer array or record of integer variable."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.3-022a",
+   "section": "22.2.3",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "When checking the port array for matching messages, the port indices to be checked are iterated from lowest to highest.",
+   "canonical": "When a `trigger` operation checks a port array for matching messages, the iteration over the port indices IS from lowest to highest.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18061,
+    18068
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.02.03_test_020.ttcn3",
+   "module": "M_22_02_03_test_020",
+   "header": "// @requirement: 22.2.3 -- When checking the port array for matching messages, the port indices to be checked are iterated from lowest to highest."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.3-023a",
+   "section": "22.2.3",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "If the port array is multi-dimensional, then the ports are iterated over from innermost to outermost array dimension from lowest to highest index for each dimension, e.g. [0][0], [0][1], [1][0], [1][1].",
+   "canonical": "If the port array is multi-dimensional, the iteration over the ports IS from innermost to outermost array dimension and from lowest to highest index for each dimension (e.g. [0][0], [0][1], [1][0], [1][1]).",
+   "condition": "the port array is multi-dimensional",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18061,
+    18068
+   ],
+   "examples": [
+    {
+     "lines": [
+      18174,
+      18184
+     ],
+     "text": "type port MyPort message { inout integer }\n  type component MyComponent {\n    port MyPort p[10][10];\n  }\n  var integer v_i[2];\n  any from p.trigger(mw_myMessage) -> @index value v_i; \n  // Checking if mw_myMessage has been received on any port of the port array p; if yes, the index\n  // of the port on which the matching was first successful is stored in the array v_i; if no port\n  // succeeds, the top messages are removed and the port array is re-checked."
+    }
+   ],
+   "file": "tests/22-communication-operations/22.02.03_test_021.ttcn3",
+   "module": "M_22_02_03_test_021",
+   "header": "// @requirement: 22.2.3 -- If the port array is multi-dimensional, then the ports are iterated over from innermost to outermost array dimension from lowest to highest index for each dimension, e.g. [0][0], [0][1], [1][0], [1][1]."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.3-024a",
+   "section": "22.2.3",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The first port which matches all the criteria will cause the operation to be successful even if other ports in the array would also meet the criteria.",
+   "canonical": "The first port of the port array that matches all criteria causes the `trigger` operation to be successful even if other ports in the array would also meet the criteria.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18061,
+    18068
+   ],
+   "examples": [
+    {
+     "lines": [
+      18174,
+      18184
+     ],
+     "text": "type port MyPort message { inout integer }\n  type component MyComponent {\n    port MyPort p[10][10];\n  }\n  var integer v_i[2];\n  any from p.trigger(mw_myMessage) -> @index value v_i; \n  // Checking if mw_myMessage has been received on any port of the port array p; if yes, the index\n  // of the port on which the matching was first successful is stored in the array v_i; if no port\n  // succeeds, the top messages are removed and the port array is re-checked."
+    }
+   ],
+   "file": "tests/22-communication-operations/22.02.03_test_022.ttcn3",
+   "module": "M_22_02_03_test_022",
+   "header": "// @requirement: 22.2.3 -- The first port which matches all the criteria will cause the operation to be successful even if other ports in the array would also meet the criteria."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.3-025a",
+   "section": "22.2.3",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "If any port in the port array which is checked for matching contains a message that does not match, this message is removed and the containing alt statement is re-evaluated, regardless of whether or not other ports in the port array would meet the trigger criteria.",
+   "canonical": "If any port of the port array checked for matching contains a message that does not match, the `trigger` operation removes this message.",
+   "condition": "a port in the port array contains a non-matching message",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18070,
+    18072
+   ],
+   "examples": [
+    {
+     "lines": [
+      18174,
+      18184
+     ],
+     "text": "type port MyPort message { inout integer }\n  type component MyComponent {\n    port MyPort p[10][10];\n  }\n  var integer v_i[2];\n  any from p.trigger(mw_myMessage) -> @index value v_i; \n  // Checking if mw_myMessage has been received on any port of the port array p; if yes, the index\n  // of the port on which the matching was first successful is stored in the array v_i; if no port\n  // succeeds, the top messages are removed and the port array is re-checked."
+    }
+   ],
+   "file": "tests/22-communication-operations/22.02.03_test_023.ttcn3",
+   "module": "M_22_02_03_test_023",
+   "header": "// @requirement: 22.2.3 -- If any port in the port array which is checked for matching contains a message that does not match, this message is removed and the containing alt statement is re-evaluated, regardless of whether or not other ports in the port array would meet the trigger criteria."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.3-025b",
+   "section": "22.2.3",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "If any port in the port array which is checked for matching contains a message that does not match, this message is removed and the containing alt statement is re-evaluated, regardless of whether or not other ports in the port array would meet the trigger criteria.",
+   "canonical": "If any port of the port array checked for matching contains a message that does not match, the containing `alt` statement is re-evaluated regardless of whether other ports in the port array would meet the trigger criteria.",
+   "condition": "a port in the port array contains a non-matching message",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18070,
+    18072
+   ],
+   "examples": [
+    {
+     "lines": [
+      18174,
+      18184
+     ],
+     "text": "type port MyPort message { inout integer }\n  type component MyComponent {\n    port MyPort p[10][10];\n  }\n  var integer v_i[2];\n  any from p.trigger(mw_myMessage) -> @index value v_i; \n  // Checking if mw_myMessage has been received on any port of the port array p; if yes, the index\n  // of the port on which the matching was first successful is stored in the array v_i; if no port\n  // succeeds, the top messages are removed and the port array is re-checked."
+    }
+   ],
+   "file": "tests/22-communication-operations/22.02.03_test_024.ttcn3",
+   "module": "M_22_02_03_test_024",
+   "header": "// @requirement: 22.2.3 -- If any port in the port array which is checked for matching contains a message that does not match, this message is removed and the containing alt statement is re-evaluated, regardless of whether or not other ports in the port array would meet the trigger criteria."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.3-027a",
+   "section": "22.2.3",
+   "type": "permission",
+   "modality": "CAN",
+   "original": "The trigger operation can be used as a stand-alone statement in a behaviour description.",
+   "canonical": "The `trigger` operation CAN be used as a stand-alone statement in a behaviour description.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18076,
+    18076
+   ],
+   "examples": [
+    {
+     "lines": [
+      18139,
+      18143
+     ],
+     "text": "myPort.trigger(MyType:?);\n  // Specifies that the operation will trigger on the reception of the first message observed of\n  // the type MyType with an arbitrary value at port myPort."
+    },
+    {
+     "lines": [
+      18146,
+      18159
+     ],
+     "text": "myPort.trigger(MyType:?) from myPartner;\n  // Triggers on the reception of the first message of type MyType at port myPort\n  // received from myPartner.\n  myPort.trigger(MyType:?) from myPartner -> value v_myRecMessage;\n  // This example is almost identical to the previous example. In addition, the message which\n  // triggers i.e. all matching criteria are met, is stored in the variable v_myRecMessage.\n  myPort.trigger(MyType:?) -> sender myPartner;\n  // This example is almost identical to the first example. In addition, the reference of the\n  // sender component will be retrieved and stored in variable myPartner.\n  myPort.trigger(integer:?) -> value v_myVar sender v_myPartner;\n  // Trigger on the reception of an arbitrary integer value which afterwards is stored in\n  // variable v_myVar. The reference of the sender component will be stored in variable MyPartner."
+    },
+    {
+     "lines": [
+      18162,
+      18166
+     ],
+     "text": "myPort.trigger;\n  myPort.trigger from myPartner;\n  myPort.trigger -> sender v_mySenderVar;"
+    }
+   ],
+   "file": "tests/22-communication-operations/22.02.03_test_025.ttcn3",
+   "module": "M_22_02_03_test_025",
+   "header": "// @requirement: 22.2.3 -- The trigger operation can be used as a stand-alone statement in a behaviour description."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.3-028a",
+   "section": "22.2.3",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "In this latter case the trigger operation is considered to be shorthand for an alt statement with two alternatives (one alternative expecting the message and another alternative consuming all other messages and repeating the alt statement, see ETSI ES 201 873-4 [1]).",
+   "canonical": "A stand-alone `trigger` statement IS shorthand for an `alt` statement with two alternatives, one expecting the message and one consuming all other messages and repeating the `alt` statement.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18076,
+    18082
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.02.03_test_026.ttcn3",
+   "module": "M_22_02_03_test_026",
+   "header": "// @requirement: 22.2.3 -- In this latter case the trigger operation is considered to be shorthand for an alt statement with two alternatives (one alternative expecting the message and another alternative consuming all other messages and repeating the alt statement, see ETSI ES 201 873-4 [1])."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.3-032a",
+   "section": "22.2.3",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "Rules in clause 22.2.2 shall apply.",
+   "canonical": "The rules of clause 22.2.2 for storing the received message, parts of the received message or the sender SHALL apply to the `trigger` operation.",
+   "condition": null,
+   "cross_refs": [
+    "22.2.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18084,
+    18086
+   ],
+   "examples": [
+    {
+     "lines": [
+      18146,
+      18159
+     ],
+     "text": "myPort.trigger(MyType:?) from myPartner;\n  // Triggers on the reception of the first message of type MyType at port myPort\n  // received from myPartner.\n  myPort.trigger(MyType:?) from myPartner -> value v_myRecMessage;\n  // This example is almost identical to the previous example. In addition, the message which\n  // triggers i.e. all matching criteria are met, is stored in the variable v_myRecMessage.\n  myPort.trigger(MyType:?) -> sender myPartner;\n  // This example is almost identical to the first example. In addition, the reference of the\n  // sender component will be retrieved and stored in variable myPartner.\n  myPort.trigger(integer:?) -> value v_myVar sender v_myPartner;\n  // Trigger on the reception of an arbitrary integer value which afterwards is stored in\n  // variable v_myVar. The reference of the sender component will be stored in variable MyPartner."
+    }
+   ],
+   "file": "tests/22-communication-operations/22.02.03_test_027.ttcn3",
+   "module": "M_22_02_03_test_027",
+   "header": "// @requirement: 22.2.3 -- Rules in clause 22.2.2 shall apply."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.3-034a",
+   "section": "22.2.3",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "a) The trigger operation shall only be used on message-based ports and the type of the value to be received shall be included in the list of incoming types of the port type definition.",
+   "canonical": "The `trigger` operation SHALL only be used on message-based ports.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18093,
+    18094
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.02.03_test_028.ttcn3",
+   "module": "M_22_02_03_test_028",
+   "header": "// @requirement: 22.2.3 -- a) The trigger operation shall only be used on message-based ports and the type of the value to be received shall be included in the list of incoming types of the port type definition."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.3-034b",
+   "section": "22.2.3",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "original": "a) The trigger operation shall only be used on message-based ports and the type of the value to be received shall be included in the list of incoming types of the port type definition.",
+   "canonical": "The type of the value to be received by a `trigger` operation SHALL be included in the list of incoming types of the port type definition.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18093,
+    18094
+   ],
+   "examples": [
+    {
+     "lines": [
+      18174,
+      18184
+     ],
+     "text": "type port MyPort message { inout integer }\n  type component MyComponent {\n    port MyPort p[10][10];\n  }\n  var integer v_i[2];\n  any from p.trigger(mw_myMessage) -> @index value v_i; \n  // Checking if mw_myMessage has been received on any port of the port array p; if yes, the index\n  // of the port on which the matching was first successful is stored in the array v_i; if no port\n  // succeeds, the top messages are removed and the port array is re-checked."
+    }
+   ],
+   "file": "tests/22-communication-operations/22.02.03_test_029.ttcn3",
+   "module": "M_22_02_03_test_029",
+   "header": "// @requirement: 22.2.3 -- a) The trigger operation shall only be used on message-based ports and the type of the value to be received shall be included in the list of incoming types of the port type definition."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.3-035a",
+   "section": "22.2.3",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "b) A message received by TriggerOnAnyMessage shall not be assigned to a variable.",
+   "canonical": "A message received by a trigger on any message SHALL NOT be assigned to a variable.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18096,
+    18096
+   ],
+   "examples": [
+    {
+     "lines": [
+      18162,
+      18166
+     ],
+     "text": "myPort.trigger;\n  myPort.trigger from myPartner;\n  myPort.trigger -> sender v_mySenderVar;"
+    }
+   ],
+   "file": "tests/22-communication-operations/22.02.03_test_030.ttcn3",
+   "module": "M_22_02_03_test_030",
+   "header": "// @requirement: 22.2.3 -- b) A message received by TriggerOnAnyMessage shall not be assigned to a variable."
+  },
+  {
+   "id": "TTCN3-CORE-22.2.3-036a",
+   "section": "22.2.3",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "c) Type mismatch at storing the received value or parts of the received value and storing the sender shall cause an error.",
+   "canonical": "A type mismatch at storing the received value or parts of the received value in a `trigger` operation SHALL cause an error.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    18098,
+    18099
+   ],
+   "examples": [],
+   "file": "tests/22-communication-operations/22.02.03_test_031.ttcn3",
+   "module": "M_22_02_03_test_031",
+   "header": "// @requirement: 22.2.3 -- c) Type mismatch at storing the received value or parts of the received value and storing the sender shall cause an error."
+  }
+ ]
+}

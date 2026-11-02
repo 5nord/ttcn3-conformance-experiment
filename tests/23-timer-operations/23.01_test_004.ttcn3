@@ -1,0 +1,47 @@
+// @requirement: 23.1 -- This can be done by using the keywords all and any in combination with the timer operations stop, timeout and running.
+// @id: TTCN3-CORE-23.1-009a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_23_01_test_004 {
+
+    type component C {}
+
+    function f_check_running() runs on C return boolean {
+        return any timer.running;
+    }
+
+    function f_stop_all() runs on C {
+        all timer.stop;
+    }
+
+    function f_wait_timeout() runs on C {
+        alt {
+            [] any timer.timeout {}
+        }
+    }
+
+    testcase TC() runs on C {
+        timer T := 5.0;
+        T.start;
+        if (not f_check_running()) {
+            setverdict(fail, "any timer.running");
+        }
+        f_stop_all();
+        if (T.running) {
+            setverdict(fail, "all timer.stop");
+        }
+        T.start(0.05);
+        f_wait_timeout();
+        alt {
+            [] T.timeout {
+                setverdict(fail, "any timer.timeout");
+            }
+            [else] {
+                setverdict(pass);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

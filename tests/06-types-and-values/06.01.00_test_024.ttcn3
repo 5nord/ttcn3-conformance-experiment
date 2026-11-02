@@ -1,0 +1,24 @@
+// @requirement: 6.1.0 -- Class of type: map; Keyword: list (see note)
+// @id: TTCN3-CORE-6.1.0-024b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_01_00_test_024 {
+
+    type map from charstring to integer MyMap;
+
+    type MyMap MyMapList ({ ["a"] := 1 }, { ["b"] := 2 });
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyMapList v_map := { ["b"] := 2 };
+        if (v_map["b"] == 2) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

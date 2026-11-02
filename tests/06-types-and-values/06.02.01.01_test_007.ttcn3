@@ -1,0 +1,25 @@
+// @requirement: 6.2.1.1 -- Referencing a subfield of an uninitialized or omitted record field or value on the right hand side of an assignment shall cause an error.
+// @id: TTCN3-CORE-6.2.1.1-011a
+// @verdict: pass accept, ttcn3verdict:error
+module M_06_02_01_01_test_007 {
+
+    type component C {}
+
+    type record MyType4 {
+        integer field1 optional,
+        record {
+            integer subfield1,
+            integer subfield2
+        } field2 optional
+    }
+
+    testcase TC() runs on C {
+        var MyType4 v_rec := { field1 := 1, field2 := omit };
+        var integer v_int := v_rec.field2.subfield1; // error: v_rec.field2 is omitted
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

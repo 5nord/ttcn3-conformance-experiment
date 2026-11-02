@@ -1,0 +1,27 @@
+// @requirement: 26.1 -- On termination of the MTC (explicitly or implicitly), all running parallel test components shall be removed by the test system.
+// @id: TTCN3-CORE-26.1-021a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_26_01_test_021 {
+
+    type component C {}
+
+    function f_wait() runs on C {
+        timer T := 3.0;
+        T.start;
+        T.timeout;
+        setverdict(fail);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc1 := C.create;
+        var C v_ptc2 := C.create;
+        v_ptc1.start(f_wait());
+        v_ptc2.start(f_wait());
+        setverdict(pass);
+        stop;
+    }
+
+    control {
+        execute(TC(), 2.0);
+    }
+}

@@ -1,0 +1,31 @@
+// @requirement: 6.1.0 -- Class of type: charstring; Keyword: range, list, length, pattern
+// @id: TTCN3-CORE-6.1.0-016b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_01_00_test_016 {
+
+    type charstring CharRange ("a" .. "z");
+
+    type charstring CharList ("yes", "no");
+
+    type charstring CharLength length(3);
+
+    type charstring CharPattern (pattern "ab*c");
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var CharRange v_range := "abc";
+        var CharList v_list := "no";
+        var CharLength v_len := "xyz";
+        var CharPattern v_pat := "abbc";
+        if (v_range == "abc" and v_list == "no" and lengthof(v_len) == 3 and v_pat == "abbc") {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

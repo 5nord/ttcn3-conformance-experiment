@@ -1,0 +1,18 @@
+// @requirement: 10 -- d) The right-hand side of the assignment that initializes a constant shall evaluate to an object that is at least partially initialized.
+// @id: TTCN3-CORE-10-021a
+// @verdict: pass accept, ttcn3verdict:error
+module M_10_test_018 {
+
+    type component C {
+        var integer vc_x;
+    }
+
+    testcase TC() runs on C {
+        const integer c_x := vc_x; // error: right-hand side is uninitialized
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

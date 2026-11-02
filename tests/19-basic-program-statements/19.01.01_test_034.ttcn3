@@ -1,0 +1,22 @@
+// @requirement: 19.1.1 -- d) If the left-hand side of the assignment is a reference to a non-optional value object (i.e. a value definition, a mandatory field, a record/set of/array element, a union alternative, a value parameter), the right-hand side shall not be a reference to an omitted field or the omit symbol.
+// @id: TTCN3-CORE-19.1.1-037a
+// @verdict: pass reject
+module M_19_01_01_test_034 {
+
+    type component C {}
+
+    type record R {
+        integer a,
+        integer b optional
+    }
+
+    testcase TC() runs on C {
+        var R v_rec := { a := 1, b := 2 };
+        v_rec.a := omit; // error: omit assigned to a mandatory field
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

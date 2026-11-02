@@ -1,0 +1,22 @@
+// @requirement: 9.1 -- A port owned by a component A shall not be connected with two or more ports owned by a component B (see figure 7 (c)).
+// @id: TTCN3-CORE-9.1-015a
+// @verdict: pass accept, ttcn3verdict:error
+module M_09_01_test_008 {
+
+    type port P message { inout integer; }
+
+    type component C {
+        port P p1, p2;
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p1, v_ptc:p1);
+        connect(mtc:p1, v_ptc:p2); // error: p1 connected with two ports of component v_ptc
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

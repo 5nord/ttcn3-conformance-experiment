@@ -1,0 +1,20 @@
+// @requirement: 15.9 -- ... i.e. the match operation cannot be used to compare two templates.
+// @id: TTCN3-CORE-15.9-010b
+// @verdict: pass reject
+module M_15_09_test_010 {
+
+    template integer mw_a := ?;
+    template integer mw_b := (1 .. 5);
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (match(mw_a, mw_b)) { // error: match cannot compare two templates
+            setverdict(pass);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

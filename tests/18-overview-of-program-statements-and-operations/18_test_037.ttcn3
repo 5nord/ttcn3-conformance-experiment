@@ -1,0 +1,37 @@
+// @requirement: 18 -- Statement: Returning control; Associated keyword or symbol: return; Can be invoked by test behaviour: Yes (see note 4); Can be directly or indirectly invoked from specific places (see note 1): Yes
+// @id: TTCN3-CORE-18-024b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_18_test_037 {
+
+    type component C {
+        var integer vc_count := 0;
+    }
+
+    function f_inc() runs on C {
+        vc_count := vc_count + 1;
+        return;
+    }
+
+    altstep a_timeout(timer p_t) runs on C {
+        [] p_t.timeout {
+            vc_count := vc_count + 1;
+            return;
+        }
+    }
+
+    testcase TC() runs on C {
+        timer T := 0.1;
+        f_inc();
+        T.start;
+        a_timeout(T);
+        if (vc_count == 2) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

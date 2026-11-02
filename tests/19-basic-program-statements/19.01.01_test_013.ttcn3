@@ -1,0 +1,28 @@
+// @requirement: 19.1.1 -- A structured value on the right-hand side of the assignment shall be assigned completely to the variable on the left-hand side of the assignment, If a partially initialized value is assigned to a completely initialized variable, fields uninitialized at the right-hand side of the assignment shall also become uninitialized at the left-hand side.
+// @id: TTCN3-CORE-19.1.1-013a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_01_01_test_013 {
+
+    type component C {}
+
+    type record MyRecord {
+        charstring field1,
+        charstring field2,
+        charstring field3
+    }
+
+    testcase TC() runs on C {
+        var MyRecord v_src := { "value1", "value2", "value3" };
+        var MyRecord v_dst := { "a", "b", "c" };
+        v_dst := v_src;
+        if (v_dst.field1 == "value1" and v_dst.field2 == "value2" and v_dst.field3 == "value3") {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

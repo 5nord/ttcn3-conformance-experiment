@@ -1,0 +1,1359 @@
+{
+ "batch": "b099",
+ "requirements": [
+  {
+   "id": "TTCN3-CORE-C.4.1-001a",
+   "section": "C.4.1",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "regexp [@nocase] ( in template (value) any inpar, in template (present) any expression, in integer groupno ) return any_character_string_type",
+   "canonical": "The `regexp` predefined function has the syntax regexp [@nocase] (in template (value) any inpar, in template (present) any expression, in integer groupno) return any_character_string_type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25872,
+    25878
+   ],
+   "examples": [
+    {
+     "lines": [
+      25925,
+      25965
+     ],
+     "text": "// Given\n  var charstring v_myInput := \"  simple text for a regexp example  \";\n  var charstring v_myString;\n  v_myString := regexp(v_myInput,charstring:\"?+(text)?+\",0); \n   // will return \"text\"\n  v_myString := regexp(v_myInput,charstring:\"?+(text)?+\",1); \n   // causes an error as there is no group with index 1\n  v_myString := regexp(v_myInput,charstring:\"(?+)(text)(?+)\",0); \n   // will return \"  simple \"\n  v_myString := regexp(v_myInput,charstring:\"(?+)(text)(?+)\",2); \n   // will return \" for a regexp example  \"\n  v_myString := regexp(v_myInput,charstring:\"((?+)(text)(?+))\",0); \n   // will return the whole inpar, i.e. \"  simple text for a regexp example  \"\n  v_myString := regexp(v_myInput,charstring:\"(([ ]+)(text)(?+))\",0); \n   // will return an empty string as expression does not matches inpar\n  v_myString := regexp(v_myInput,universal charstring:\"?+(text)?+\",0); \n   // will cause an error as inpar is of type charstring, while \n   // expression is of type universal charstring\n  v_myInput := \"   date: 2001-10-20 ; msgno: 17; exp \";\n  var template charstring v_myPattern := \n    pattern \"([ \\t]#(0,)date:[ \\d\\-]#(0,);[ \\t]#(0,)msgno: (\\d#(1,3)); (exp)#(0,1)) [ \\t]#(0,)\";\n   // please note, that only the very first opening bracket and the bracket before \"\\d#(1,3)\" \n   // denotes groups; \"#(0,)\", \"#(1,3)\" and \"#(0,1)\" denotes matching the preceding expression \n   // several time\n  v_myString := regexp(v_myInput, v_myPattern,0);\n   // will return the input string but the whitespac"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.01_test_001.ttcn3",
+   "module": "M_C_04_01_test_001",
+   "header": "// @requirement: C.4.1 -- regexp [@nocase] ( in template (value) any inpar, in template (present) any expression, in integer groupno ) return any_character_string_type"
+  },
+  {
+   "id": "TTCN3-CORE-C.4.1-002a",
+   "section": "C.4.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "This function first matches the parameter inpar (or in case inpar is a template, its value equivalent) against the expression in the second parameter according to the pattern matching specified in clause B.1.5.",
+   "canonical": "The `regexp` function SHALL first match the inpar actual parameter (or, if inpar is a template, its value equivalent) against the expression actual parameter according to the pattern matching rules of clause B.1.5.",
+   "condition": null,
+   "cross_refs": [
+    "B.1.5"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25880,
+    25881
+   ],
+   "examples": [
+    {
+     "lines": [
+      25925,
+      25965
+     ],
+     "text": "// Given\n  var charstring v_myInput := \"  simple text for a regexp example  \";\n  var charstring v_myString;\n  v_myString := regexp(v_myInput,charstring:\"?+(text)?+\",0); \n   // will return \"text\"\n  v_myString := regexp(v_myInput,charstring:\"?+(text)?+\",1); \n   // causes an error as there is no group with index 1\n  v_myString := regexp(v_myInput,charstring:\"(?+)(text)(?+)\",0); \n   // will return \"  simple \"\n  v_myString := regexp(v_myInput,charstring:\"(?+)(text)(?+)\",2); \n   // will return \" for a regexp example  \"\n  v_myString := regexp(v_myInput,charstring:\"((?+)(text)(?+))\",0); \n   // will return the whole inpar, i.e. \"  simple text for a regexp example  \"\n  v_myString := regexp(v_myInput,charstring:\"(([ ]+)(text)(?+))\",0); \n   // will return an empty string as expression does not matches inpar\n  v_myString := regexp(v_myInput,universal charstring:\"?+(text)?+\",0); \n   // will cause an error as inpar is of type charstring, while \n   // expression is of type universal charstring\n  v_myInput := \"   date: 2001-10-20 ; msgno: 17; exp \";\n  var template charstring v_myPattern := \n    pattern \"([ \\t]#(0,)date:[ \\d\\-]#(0,);[ \\t]#(0,)msgno: (\\d#(1,3)); (exp)#(0,1)) [ \\t]#(0,)\";\n   // please note, that only the very first opening bracket and the bracket before \"\\d#(1,3)\" \n   // denotes groups; \"#(0,)\", \"#(1,3)\" and \"#(0,1)\" denotes matching the preceding expression \n   // several time\n  v_myString := regexp(v_myInput, v_myPattern,0);\n   // will return the input string but the whitespac"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.01_test_002.ttcn3",
+   "module": "M_C_04_01_test_002",
+   "header": "// @requirement: C.4.1 -- This function first matches the parameter inpar (or in case inpar is a template, its value equivalent) against the expression in the second parameter according to the pattern matching specified in clause B.1.5."
+  },
+  {
+   "id": "TTCN3-CORE-C.4.1-003a",
+   "section": "C.4.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "If expression is not a template containing a pattern matching mechanism, it shall be processed by this predefined function as if it was a character pattern as described in clause B.1.5.",
+   "canonical": "If the expression actual parameter of `regexp` is not a template containing a pattern matching mechanism, the `regexp` function SHALL process it as if it was a character pattern as described in clause B.1.5.",
+   "condition": "expression is not a template containing a pattern matching mechanism",
+   "cross_refs": [
+    "B.1.5"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25880,
+    25886
+   ],
+   "examples": [
+    {
+     "lines": [
+      25925,
+      25965
+     ],
+     "text": "// Given\n  var charstring v_myInput := \"  simple text for a regexp example  \";\n  var charstring v_myString;\n  v_myString := regexp(v_myInput,charstring:\"?+(text)?+\",0); \n   // will return \"text\"\n  v_myString := regexp(v_myInput,charstring:\"?+(text)?+\",1); \n   // causes an error as there is no group with index 1\n  v_myString := regexp(v_myInput,charstring:\"(?+)(text)(?+)\",0); \n   // will return \"  simple \"\n  v_myString := regexp(v_myInput,charstring:\"(?+)(text)(?+)\",2); \n   // will return \" for a regexp example  \"\n  v_myString := regexp(v_myInput,charstring:\"((?+)(text)(?+))\",0); \n   // will return the whole inpar, i.e. \"  simple text for a regexp example  \"\n  v_myString := regexp(v_myInput,charstring:\"(([ ]+)(text)(?+))\",0); \n   // will return an empty string as expression does not matches inpar\n  v_myString := regexp(v_myInput,universal charstring:\"?+(text)?+\",0); \n   // will cause an error as inpar is of type charstring, while \n   // expression is of type universal charstring\n  v_myInput := \"   date: 2001-10-20 ; msgno: 17; exp \";\n  var template charstring v_myPattern := \n    pattern \"([ \\t]#(0,)date:[ \\d\\-]#(0,);[ \\t]#(0,)msgno: (\\d#(1,3)); (exp)#(0,1)) [ \\t]#(0,)\";\n   // please note, that only the very first opening bracket and the bracket before \"\\d#(1,3)\" \n   // denotes groups; \"#(0,)\", \"#(1,3)\" and \"#(0,1)\" denotes matching the preceding expression \n   // several time\n  v_myString := regexp(v_myInput, v_myPattern,0);\n   // will return the input string but the whitespac"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.01_test_003.ttcn3",
+   "module": "M_C_04_01_test_003",
+   "header": "// @requirement: C.4.1 -- If expression is not a template containing a pattern matching mechanism, it shall be processed by this predefined function as if it was a character pattern as described in clause B.1.5."
+  },
+  {
+   "id": "TTCN3-CORE-C.4.1-004a",
+   "section": "C.4.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "If the @nocase modifier is present, this and all subsequent matchings shall be done in a case-insensitive way, as specified in clause B.1.5.6.",
+   "canonical": "If the `@nocase` modifier is present in a `regexp` call, the matching of that call SHALL be done in a case-insensitive way as specified in clause B.1.5.6.",
+   "condition": "the @nocase modifier is present",
+   "cross_refs": [
+    "B.1.5.6"
+   ],
+   "ambiguity": {
+    "status": "ambiguous",
+    "readings": [
+     "If the `@nocase` modifier is present in a `regexp` call, the matching of that call SHALL be done in a case-insensitive way.",
+     "If the `@nocase` modifier is present in a `regexp` call, that matching and all matchings performed subsequently (e.g. in later statements or calls) SHALL be done in a case-insensitive way."
+    ],
+    "issue": "\"this and all subsequent matchings\" has no defined referent for \"subsequent\"; the reading limited to the matching(s) of the same call is chosen because the modifier is part of the call syntax."
+   },
+   "spec_lines": [
+    25883,
+    25886
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.01_test_004.ttcn3",
+   "module": "M_C_04_01_test_004",
+   "header": "// @requirement: C.4.1 -- If the @nocase modifier is present, this and all subsequent matchings shall be done in a case-insensitive way, as specified in clause B.1.5.6."
+  },
+  {
+   "id": "TTCN3-CORE-C.4.1-005a",
+   "section": "C.4.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "If inpar is a literal (i.e. type is not explicitly given) the corresponding type shall be retrieved from the value contents.",
+   "canonical": "If the inpar actual parameter of `regexp` is a literal whose type is not explicitly given, the type of inpar SHALL be retrieved from the value contents.",
+   "condition": "inpar is a literal without explicitly given type",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25883,
+    25886
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.01_test_005.ttcn3",
+   "module": "M_C_04_01_test_005",
+   "header": "// @requirement: C.4.1 -- If inpar is a literal (i.e. type is not explicitly given) the corresponding type shall be retrieved from the value contents."
+  },
+  {
+   "id": "TTCN3-CORE-C.4.1-006a",
+   "section": "C.4.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "If this matching is unsuccessful, an empty string shall be returned.",
+   "canonical": "If the matching of inpar against expression is unsuccessful, the `regexp` function SHALL return an empty string.",
+   "condition": "the matching is unsuccessful",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25888,
+    25888
+   ],
+   "examples": [
+    {
+     "lines": [
+      25925,
+      25965
+     ],
+     "text": "// Given\n  var charstring v_myInput := \"  simple text for a regexp example  \";\n  var charstring v_myString;\n  v_myString := regexp(v_myInput,charstring:\"?+(text)?+\",0); \n   // will return \"text\"\n  v_myString := regexp(v_myInput,charstring:\"?+(text)?+\",1); \n   // causes an error as there is no group with index 1\n  v_myString := regexp(v_myInput,charstring:\"(?+)(text)(?+)\",0); \n   // will return \"  simple \"\n  v_myString := regexp(v_myInput,charstring:\"(?+)(text)(?+)\",2); \n   // will return \" for a regexp example  \"\n  v_myString := regexp(v_myInput,charstring:\"((?+)(text)(?+))\",0); \n   // will return the whole inpar, i.e. \"  simple text for a regexp example  \"\n  v_myString := regexp(v_myInput,charstring:\"(([ ]+)(text)(?+))\",0); \n   // will return an empty string as expression does not matches inpar\n  v_myString := regexp(v_myInput,universal charstring:\"?+(text)?+\",0); \n   // will cause an error as inpar is of type charstring, while \n   // expression is of type universal charstring\n  v_myInput := \"   date: 2001-10-20 ; msgno: 17; exp \";\n  var template charstring v_myPattern := \n    pattern \"([ \\t]#(0,)date:[ \\d\\-]#(0,);[ \\t]#(0,)msgno: (\\d#(1,3)); (exp)#(0,1)) [ \\t]#(0,)\";\n   // please note, that only the very first opening bracket and the bracket before \"\\d#(1,3)\" \n   // denotes groups; \"#(0,)\", \"#(1,3)\" and \"#(0,1)\" denotes matching the preceding expression \n   // several time\n  v_myString := regexp(v_myInput, v_myPattern,0);\n   // will return the input string but the whitespac"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.01_test_006.ttcn3",
+   "module": "M_C_04_01_test_006",
+   "header": "// @requirement: C.4.1 -- If this matching is unsuccessful, an empty string shall be returned."
+  },
+  {
+   "id": "TTCN3-CORE-C.4.1-007a",
+   "section": "C.4.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "If this matching is successful, the substring of inpar shall be returned, which matched the groupno-s group of expression during the matching.",
+   "canonical": "If the matching of inpar against expression is successful, the `regexp` function SHALL return the substring of inpar that matched the group of expression with group number groupno.",
+   "condition": "the matching is successful",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25890,
+    25892
+   ],
+   "examples": [
+    {
+     "lines": [
+      25925,
+      25965
+     ],
+     "text": "// Given\n  var charstring v_myInput := \"  simple text for a regexp example  \";\n  var charstring v_myString;\n  v_myString := regexp(v_myInput,charstring:\"?+(text)?+\",0); \n   // will return \"text\"\n  v_myString := regexp(v_myInput,charstring:\"?+(text)?+\",1); \n   // causes an error as there is no group with index 1\n  v_myString := regexp(v_myInput,charstring:\"(?+)(text)(?+)\",0); \n   // will return \"  simple \"\n  v_myString := regexp(v_myInput,charstring:\"(?+)(text)(?+)\",2); \n   // will return \" for a regexp example  \"\n  v_myString := regexp(v_myInput,charstring:\"((?+)(text)(?+))\",0); \n   // will return the whole inpar, i.e. \"  simple text for a regexp example  \"\n  v_myString := regexp(v_myInput,charstring:\"(([ ]+)(text)(?+))\",0); \n   // will return an empty string as expression does not matches inpar\n  v_myString := regexp(v_myInput,universal charstring:\"?+(text)?+\",0); \n   // will cause an error as inpar is of type charstring, while \n   // expression is of type universal charstring\n  v_myInput := \"   date: 2001-10-20 ; msgno: 17; exp \";\n  var template charstring v_myPattern := \n    pattern \"([ \\t]#(0,)date:[ \\d\\-]#(0,);[ \\t]#(0,)msgno: (\\d#(1,3)); (exp)#(0,1)) [ \\t]#(0,)\";\n   // please note, that only the very first opening bracket and the bracket before \"\\d#(1,3)\" \n   // denotes groups; \"#(0,)\", \"#(1,3)\" and \"#(0,1)\" denotes matching the preceding expression \n   // several time\n  v_myString := regexp(v_myInput, v_myPattern,0);\n   // will return the input string but the whitespac"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.01_test_007.ttcn3",
+   "module": "M_C_04_01_test_007",
+   "header": "// @requirement: C.4.1 -- If this matching is successful, the substring of inpar shall be returned, which matched the groupno-s group of expression during the matching."
+  },
+  {
+   "id": "TTCN3-CORE-C.4.1-008a",
+   "section": "C.4.1",
+   "type": "definition",
+   "modality": "IS",
+   "original": "Group numbers are assigned by the order of occurrences of the opening bracket of a group and counted starting from 0 by step 1.",
+   "canonical": "The group numbers of an expression of `regexp` ARE assigned in the order of occurrence of the opening bracket of each group, counting from 0 in steps of 1.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25890,
+    25892
+   ],
+   "examples": [
+    {
+     "lines": [
+      25925,
+      25965
+     ],
+     "text": "// Given\n  var charstring v_myInput := \"  simple text for a regexp example  \";\n  var charstring v_myString;\n  v_myString := regexp(v_myInput,charstring:\"?+(text)?+\",0); \n   // will return \"text\"\n  v_myString := regexp(v_myInput,charstring:\"?+(text)?+\",1); \n   // causes an error as there is no group with index 1\n  v_myString := regexp(v_myInput,charstring:\"(?+)(text)(?+)\",0); \n   // will return \"  simple \"\n  v_myString := regexp(v_myInput,charstring:\"(?+)(text)(?+)\",2); \n   // will return \" for a regexp example  \"\n  v_myString := regexp(v_myInput,charstring:\"((?+)(text)(?+))\",0); \n   // will return the whole inpar, i.e. \"  simple text for a regexp example  \"\n  v_myString := regexp(v_myInput,charstring:\"(([ ]+)(text)(?+))\",0); \n   // will return an empty string as expression does not matches inpar\n  v_myString := regexp(v_myInput,universal charstring:\"?+(text)?+\",0); \n   // will cause an error as inpar is of type charstring, while \n   // expression is of type universal charstring\n  v_myInput := \"   date: 2001-10-20 ; msgno: 17; exp \";\n  var template charstring v_myPattern := \n    pattern \"([ \\t]#(0,)date:[ \\d\\-]#(0,);[ \\t]#(0,)msgno: (\\d#(1,3)); (exp)#(0,1)) [ \\t]#(0,)\";\n   // please note, that only the very first opening bracket and the bracket before \"\\d#(1,3)\" \n   // denotes groups; \"#(0,)\", \"#(1,3)\" and \"#(0,1)\" denotes matching the preceding expression \n   // several time\n  v_myString := regexp(v_myInput, v_myPattern,0);\n   // will return the input string but the whitespac"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.01_test_008.ttcn3",
+   "module": "M_C_04_01_test_008",
+   "header": "// @requirement: C.4.1 -- Group numbers are assigned by the order of occurrences of the opening bracket of a group and counted starting from 0 by step 1."
+  },
+  {
+   "id": "TTCN3-CORE-C.4.1-009a",
+   "section": "C.4.1",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "The parameters inpar and expression shall be a value or a template of charstring or universal charstring types.",
+   "canonical": "The inpar and expression actual parameters of `regexp` SHALL each be a value or a template of `charstring` or `universal charstring` type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25894,
+    25897
+   ],
+   "examples": [
+    {
+     "lines": [
+      25925,
+      25965
+     ],
+     "text": "// Given\n  var charstring v_myInput := \"  simple text for a regexp example  \";\n  var charstring v_myString;\n  v_myString := regexp(v_myInput,charstring:\"?+(text)?+\",0); \n   // will return \"text\"\n  v_myString := regexp(v_myInput,charstring:\"?+(text)?+\",1); \n   // causes an error as there is no group with index 1\n  v_myString := regexp(v_myInput,charstring:\"(?+)(text)(?+)\",0); \n   // will return \"  simple \"\n  v_myString := regexp(v_myInput,charstring:\"(?+)(text)(?+)\",2); \n   // will return \" for a regexp example  \"\n  v_myString := regexp(v_myInput,charstring:\"((?+)(text)(?+))\",0); \n   // will return the whole inpar, i.e. \"  simple text for a regexp example  \"\n  v_myString := regexp(v_myInput,charstring:\"(([ ]+)(text)(?+))\",0); \n   // will return an empty string as expression does not matches inpar\n  v_myString := regexp(v_myInput,universal charstring:\"?+(text)?+\",0); \n   // will cause an error as inpar is of type charstring, while \n   // expression is of type universal charstring\n  v_myInput := \"   date: 2001-10-20 ; msgno: 17; exp \";\n  var template charstring v_myPattern := \n    pattern \"([ \\t]#(0,)date:[ \\d\\-]#(0,);[ \\t]#(0,)msgno: (\\d#(1,3)); (exp)#(0,1)) [ \\t]#(0,)\";\n   // please note, that only the very first opening bracket and the bracket before \"\\d#(1,3)\" \n   // denotes groups; \"#(0,)\", \"#(1,3)\" and \"#(0,1)\" denotes matching the preceding expression \n   // several time\n  v_myString := regexp(v_myInput, v_myPattern,0);\n   // will return the input string but the whitespac"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.01_test_009.ttcn3",
+   "module": "M_C_04_01_test_009",
+   "header": "// @requirement: C.4.1 -- The parameters inpar and expression shall be a value or a template of charstring or universal charstring types."
+  },
+  {
+   "id": "TTCN3-CORE-C.4.1-010a",
+   "section": "C.4.1",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "In case inpar is a template, it shall contain the specific value matching mechanism only.",
+   "canonical": "If the inpar actual parameter of `regexp` is a template, it SHALL contain the specific value matching mechanism only.",
+   "condition": "inpar is a template",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "readings": [
+     "If inpar of `regexp` is a template, it SHALL contain the specific value matching mechanism only.",
+     "If inpar of `regexp` is a template, it SHALL contain the specific value or character pattern matching mechanism only."
+    ],
+    "issue": "This sentence allows only specific value, while the error cause in C.4.1-s018 only lists matching mechanisms other than specific value or character pattern; the text of this sentence (together with the formal parameter restriction template (value)) is chosen."
+   },
+   "spec_lines": [
+    25894,
+    25897
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.01_test_010.ttcn3",
+   "module": "M_C_04_01_test_010",
+   "header": "// @requirement: C.4.1 -- In case inpar is a template, it shall contain the specific value matching mechanism only."
+  },
+  {
+   "id": "TTCN3-CORE-C.4.1-011a",
+   "section": "C.4.1",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "When expression is a template it shall contain the specific value or pattern matching mechanisms only.",
+   "canonical": "If the expression actual parameter of `regexp` is a template, it SHALL contain only the specific value or pattern matching mechanisms.",
+   "condition": "expression is a template",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25894,
+    25897
+   ],
+   "examples": [
+    {
+     "lines": [
+      25925,
+      25965
+     ],
+     "text": "// Given\n  var charstring v_myInput := \"  simple text for a regexp example  \";\n  var charstring v_myString;\n  v_myString := regexp(v_myInput,charstring:\"?+(text)?+\",0); \n   // will return \"text\"\n  v_myString := regexp(v_myInput,charstring:\"?+(text)?+\",1); \n   // causes an error as there is no group with index 1\n  v_myString := regexp(v_myInput,charstring:\"(?+)(text)(?+)\",0); \n   // will return \"  simple \"\n  v_myString := regexp(v_myInput,charstring:\"(?+)(text)(?+)\",2); \n   // will return \" for a regexp example  \"\n  v_myString := regexp(v_myInput,charstring:\"((?+)(text)(?+))\",0); \n   // will return the whole inpar, i.e. \"  simple text for a regexp example  \"\n  v_myString := regexp(v_myInput,charstring:\"(([ ]+)(text)(?+))\",0); \n   // will return an empty string as expression does not matches inpar\n  v_myString := regexp(v_myInput,universal charstring:\"?+(text)?+\",0); \n   // will cause an error as inpar is of type charstring, while \n   // expression is of type universal charstring\n  v_myInput := \"   date: 2001-10-20 ; msgno: 17; exp \";\n  var template charstring v_myPattern := \n    pattern \"([ \\t]#(0,)date:[ \\d\\-]#(0,);[ \\t]#(0,)msgno: (\\d#(1,3)); (exp)#(0,1)) [ \\t]#(0,)\";\n   // please note, that only the very first opening bracket and the bracket before \"\\d#(1,3)\" \n   // denotes groups; \"#(0,)\", \"#(1,3)\" and \"#(0,1)\" denotes matching the preceding expression \n   // several time\n  v_myString := regexp(v_myInput, v_myPattern,0);\n   // will return the input string but the whitespac"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.01_test_011.ttcn3",
+   "module": "M_C_04_01_test_011",
+   "header": "// @requirement: C.4.1 -- When expression is a template it shall contain the specific value or pattern matching mechanisms only."
+  },
+  {
+   "id": "TTCN3-CORE-C.4.1-012a",
+   "section": "C.4.1",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "The parameter groupno shall be a non-negative integer.",
+   "canonical": "The groupno actual parameter of `regexp` SHALL be a non-negative integer.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25894,
+    25897
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.01_test_012.ttcn3",
+   "module": "M_C_04_01_test_012",
+   "header": "// @requirement: C.4.1 -- The parameter groupno shall be a non-negative integer."
+  },
+  {
+   "id": "TTCN3-CORE-C.4.1-013a",
+   "section": "C.4.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The type of the character string returned is the root type of inpar.",
+   "canonical": "The type of the character string returned by `regexp` IS the root type of the inpar actual parameter.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25894,
+    25897
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.01_test_013.ttcn3",
+   "module": "M_C_04_01_test_013",
+   "header": "// @requirement: C.4.1 -- The type of the character string returned is the root type of inpar."
+  },
+  {
+   "id": "TTCN3-CORE-C.4.1-014a",
+   "section": "C.4.1",
+   "type": "information",
+   "modality": "IS",
+   "original": "NOTE: This function differs from other well-known regular expression matching implementations in that: a) It matches the whole inpar string instead of only a substring.",
+   "canonical": "Unlike other well-known regular expression implementations, the `regexp` function matches the whole inpar string instead of only a substring.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25899,
+    25901
+   ],
+   "examples": [
+    {
+     "lines": [
+      25925,
+      25965
+     ],
+     "text": "// Given\n  var charstring v_myInput := \"  simple text for a regexp example  \";\n  var charstring v_myString;\n  v_myString := regexp(v_myInput,charstring:\"?+(text)?+\",0); \n   // will return \"text\"\n  v_myString := regexp(v_myInput,charstring:\"?+(text)?+\",1); \n   // causes an error as there is no group with index 1\n  v_myString := regexp(v_myInput,charstring:\"(?+)(text)(?+)\",0); \n   // will return \"  simple \"\n  v_myString := regexp(v_myInput,charstring:\"(?+)(text)(?+)\",2); \n   // will return \" for a regexp example  \"\n  v_myString := regexp(v_myInput,charstring:\"((?+)(text)(?+))\",0); \n   // will return the whole inpar, i.e. \"  simple text for a regexp example  \"\n  v_myString := regexp(v_myInput,charstring:\"(([ ]+)(text)(?+))\",0); \n   // will return an empty string as expression does not matches inpar\n  v_myString := regexp(v_myInput,universal charstring:\"?+(text)?+\",0); \n   // will cause an error as inpar is of type charstring, while \n   // expression is of type universal charstring\n  v_myInput := \"   date: 2001-10-20 ; msgno: 17; exp \";\n  var template charstring v_myPattern := \n    pattern \"([ \\t]#(0,)date:[ \\d\\-]#(0,);[ \\t]#(0,)msgno: (\\d#(1,3)); (exp)#(0,1)) [ \\t]#(0,)\";\n   // please note, that only the very first opening bracket and the bracket before \"\\d#(1,3)\" \n   // denotes groups; \"#(0,)\", \"#(1,3)\" and \"#(0,1)\" denotes matching the preceding expression \n   // several time\n  v_myString := regexp(v_myInput, v_myPattern,0);\n   // will return the input string but the whitespac"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.01_test_014.ttcn3",
+   "module": "M_C_04_01_test_014",
+   "header": "// @requirement: C.4.1 -- NOTE: This function differs from other well-known regular expression matching implementations in that: a) It matches the whole inpar string instead of only a substring."
+  },
+  {
+   "id": "TTCN3-CORE-C.4.1-016a",
+   "section": "C.4.1",
+   "type": "information",
+   "modality": "IS",
+   "original": "b) It starts counting groups from 0, while in some other implementations the first group is referenced by 1 and the whole substring matched by the expression is referenced by 0.",
+   "canonical": "Unlike some other regular expression implementations, the `regexp` function starts counting groups from 0, and group 0 IS the first group rather than the whole matched substring.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25899,
+    25904
+   ],
+   "examples": [
+    {
+     "lines": [
+      25925,
+      25965
+     ],
+     "text": "// Given\n  var charstring v_myInput := \"  simple text for a regexp example  \";\n  var charstring v_myString;\n  v_myString := regexp(v_myInput,charstring:\"?+(text)?+\",0); \n   // will return \"text\"\n  v_myString := regexp(v_myInput,charstring:\"?+(text)?+\",1); \n   // causes an error as there is no group with index 1\n  v_myString := regexp(v_myInput,charstring:\"(?+)(text)(?+)\",0); \n   // will return \"  simple \"\n  v_myString := regexp(v_myInput,charstring:\"(?+)(text)(?+)\",2); \n   // will return \" for a regexp example  \"\n  v_myString := regexp(v_myInput,charstring:\"((?+)(text)(?+))\",0); \n   // will return the whole inpar, i.e. \"  simple text for a regexp example  \"\n  v_myString := regexp(v_myInput,charstring:\"(([ ]+)(text)(?+))\",0); \n   // will return an empty string as expression does not matches inpar\n  v_myString := regexp(v_myInput,universal charstring:\"?+(text)?+\",0); \n   // will cause an error as inpar is of type charstring, while \n   // expression is of type universal charstring\n  v_myInput := \"   date: 2001-10-20 ; msgno: 17; exp \";\n  var template charstring v_myPattern := \n    pattern \"([ \\t]#(0,)date:[ \\d\\-]#(0,);[ \\t]#(0,)msgno: (\\d#(1,3)); (exp)#(0,1)) [ \\t]#(0,)\";\n   // please note, that only the very first opening bracket and the bracket before \"\\d#(1,3)\" \n   // denotes groups; \"#(0,)\", \"#(1,3)\" and \"#(0,1)\" denotes matching the preceding expression \n   // several time\n  v_myString := regexp(v_myInput, v_myPattern,0);\n   // will return the input string but the whitespac"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.01_test_015.ttcn3",
+   "module": "M_C_04_01_test_015",
+   "header": "// @requirement: C.4.1 -- b) It starts counting groups from 0, while in some other implementations the first group is referenced by 1 and the whole substring matched by the expression is referenced by 0."
+  },
+  {
+   "id": "TTCN3-CORE-C.4.1-018a",
+   "section": "C.4.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "when inpar is a template, it contains other matching mechanism than specific value or character pattern;",
+   "canonical": "If the inpar actual parameter of `regexp` is a template that contains a matching mechanism other than specific value or character pattern, an error SHALL occur.",
+   "condition": "inpar is a template containing a matching mechanism other than specific value or character pattern",
+   "cross_refs": [
+    "16.1.2"
+   ],
+   "ambiguity": {
+    "status": "ambiguous",
+    "readings": [
+     "An error SHALL occur if inpar is a template containing a matching mechanism other than specific value or character pattern.",
+     "An error SHALL occur if inpar is a template containing a matching mechanism other than specific value (as required by C.4.1-s010)."
+    ],
+    "issue": "Conflicts with C.4.1-s010, which allows only the specific value matching mechanism for inpar; the literal text of this error cause is used."
+   },
+   "spec_lines": [
+    25906,
+    25908
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.01_test_016.ttcn3",
+   "module": "M_C_04_01_test_016",
+   "header": "// @requirement: C.4.1 -- when inpar is a template, it contains other matching mechanism than specific value or character pattern;"
+  },
+  {
+   "id": "TTCN3-CORE-C.4.1-019a",
+   "section": "C.4.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "when expression is a template, it contains other matching mechanism than specific value or character pattern;",
+   "canonical": "If the expression actual parameter of `regexp` is a template that contains a matching mechanism other than specific value or character pattern, an error SHALL occur.",
+   "condition": "expression is a template containing a matching mechanism other than specific value or character pattern",
+   "cross_refs": [
+    "16.1.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25906,
+    25911
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.01_test_017.ttcn3",
+   "module": "M_C_04_01_test_017",
+   "header": "// @requirement: C.4.1 -- when expression is a template, it contains other matching mechanism than specific value or character pattern;"
+  },
+  {
+   "id": "TTCN3-CORE-C.4.1-020a",
+   "section": "C.4.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "`inpar is of charstring type and expression is of universal charstring type;`",
+   "canonical": "If the inpar actual parameter of `regexp` is of `charstring` type and the expression actual parameter is of `universal charstring` type, an error SHALL occur.",
+   "condition": "inpar is charstring and expression is universal charstring",
+   "cross_refs": [
+    "16.1.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25906,
+    25913
+   ],
+   "examples": [
+    {
+     "lines": [
+      25925,
+      25965
+     ],
+     "text": "// Given\n  var charstring v_myInput := \"  simple text for a regexp example  \";\n  var charstring v_myString;\n  v_myString := regexp(v_myInput,charstring:\"?+(text)?+\",0); \n   // will return \"text\"\n  v_myString := regexp(v_myInput,charstring:\"?+(text)?+\",1); \n   // causes an error as there is no group with index 1\n  v_myString := regexp(v_myInput,charstring:\"(?+)(text)(?+)\",0); \n   // will return \"  simple \"\n  v_myString := regexp(v_myInput,charstring:\"(?+)(text)(?+)\",2); \n   // will return \" for a regexp example  \"\n  v_myString := regexp(v_myInput,charstring:\"((?+)(text)(?+))\",0); \n   // will return the whole inpar, i.e. \"  simple text for a regexp example  \"\n  v_myString := regexp(v_myInput,charstring:\"(([ ]+)(text)(?+))\",0); \n   // will return an empty string as expression does not matches inpar\n  v_myString := regexp(v_myInput,universal charstring:\"?+(text)?+\",0); \n   // will cause an error as inpar is of type charstring, while \n   // expression is of type universal charstring\n  v_myInput := \"   date: 2001-10-20 ; msgno: 17; exp \";\n  var template charstring v_myPattern := \n    pattern \"([ \\t]#(0,)date:[ \\d\\-]#(0,);[ \\t]#(0,)msgno: (\\d#(1,3)); (exp)#(0,1)) [ \\t]#(0,)\";\n   // please note, that only the very first opening bracket and the bracket before \"\\d#(1,3)\" \n   // denotes groups; \"#(0,)\", \"#(1,3)\" and \"#(0,1)\" denotes matching the preceding expression \n   // several time\n  v_myString := regexp(v_myInput, v_myPattern,0);\n   // will return the input string but the whitespac"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.01_test_018.ttcn3",
+   "module": "M_C_04_01_test_018",
+   "header": "// @requirement: C.4.1 -- `inpar is of charstring type and expression is of universal charstring type;`"
+  },
+  {
+   "id": "TTCN3-CORE-C.4.1-021a",
+   "section": "C.4.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "groupno is a negative integer;",
+   "canonical": "If the groupno actual parameter of `regexp` is a negative integer, an error SHALL occur.",
+   "condition": "groupno is negative",
+   "cross_refs": [
+    "16.1.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25906,
+    25917
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.01_test_019.ttcn3",
+   "module": "M_C_04_01_test_019",
+   "header": "// @requirement: C.4.1 -- groupno is a negative integer;"
+  },
+  {
+   "id": "TTCN3-CORE-C.4.1-021b",
+   "section": "C.4.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "there is no groupno -s group in expression.",
+   "canonical": "If the expression of `regexp` contains no group with group number groupno, an error SHALL occur.",
+   "condition": "expression has no group with number groupno",
+   "cross_refs": [
+    "16.1.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25906,
+    25917
+   ],
+   "examples": [
+    {
+     "lines": [
+      25925,
+      25965
+     ],
+     "text": "// Given\n  var charstring v_myInput := \"  simple text for a regexp example  \";\n  var charstring v_myString;\n  v_myString := regexp(v_myInput,charstring:\"?+(text)?+\",0); \n   // will return \"text\"\n  v_myString := regexp(v_myInput,charstring:\"?+(text)?+\",1); \n   // causes an error as there is no group with index 1\n  v_myString := regexp(v_myInput,charstring:\"(?+)(text)(?+)\",0); \n   // will return \"  simple \"\n  v_myString := regexp(v_myInput,charstring:\"(?+)(text)(?+)\",2); \n   // will return \" for a regexp example  \"\n  v_myString := regexp(v_myInput,charstring:\"((?+)(text)(?+))\",0); \n   // will return the whole inpar, i.e. \"  simple text for a regexp example  \"\n  v_myString := regexp(v_myInput,charstring:\"(([ ]+)(text)(?+))\",0); \n   // will return an empty string as expression does not matches inpar\n  v_myString := regexp(v_myInput,universal charstring:\"?+(text)?+\",0); \n   // will cause an error as inpar is of type charstring, while \n   // expression is of type universal charstring\n  v_myInput := \"   date: 2001-10-20 ; msgno: 17; exp \";\n  var template charstring v_myPattern := \n    pattern \"([ \\t]#(0,)date:[ \\d\\-]#(0,);[ \\t]#(0,)msgno: (\\d#(1,3)); (exp)#(0,1)) [ \\t]#(0,)\";\n   // please note, that only the very first opening bracket and the bracket before \"\\d#(1,3)\" \n   // denotes groups; \"#(0,)\", \"#(1,3)\" and \"#(0,1)\" denotes matching the preceding expression \n   // several time\n  v_myString := regexp(v_myInput, v_myPattern,0);\n   // will return the input string but the whitespac"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.01_test_020.ttcn3",
+   "module": "M_C_04_01_test_020",
+   "header": "// @requirement: C.4.1 -- there is no groupno -s group in expression."
+  },
+  {
+   "id": "TTCN3-CORE-C.4.2-001a",
+   "section": "C.4.2",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "substr( in template (present) any inpar, in integer index, in integer count ) return input_string_or_sequence_type",
+   "canonical": "The `substr` predefined function has the syntax substr(in template (present) any inpar, in integer index, in integer count) return input_string_or_sequence_type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25968,
+    25974
+   ],
+   "examples": [
+    {
+     "lines": [
+      26048,
+      26053
+     ],
+     "text": "substr('00100110'B, 3, 4);  // returns '0011'B\n  substr('ABCDEF'H, 2, 3);   // returns 'CDE'H\n  substr('01AB23CD'O, 1, 2);  // returns 'AB23'O\n  substr(\"My name is JJ\", 11, 2); // returns \"JJ\""
+    },
+    {
+     "lines": [
+      26059,
+      26064
+     ],
+     "text": "substr({ 4, 5, 6 }, 1, 2);  // returns {5, 6}\n  var template charstring v_char1 := pattern \"abc[a-z]+\", v_char2 := ?;\n  substr(v_char1, 2, 2);  // returns pattern \"c[a-z]+\"\n  substr(v_char2, 0, 3);  // returns pattern \"???\""
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.02_test_001.ttcn3",
+   "module": "M_C_04_02_test_001",
+   "header": "// @requirement: C.4.2 -- substr( in template (present) any inpar, in integer index, in integer count ) return input_string_or_sequence_type"
+  },
+  {
+   "id": "TTCN3-CORE-C.4.2-002a",
+   "section": "C.4.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "This function returns a substring or subsequence from a value that is of a binary string type (bitstring, hexstring, octetstring), a character string type (charstring, universal charstring), or a sequence type (record of, set of or array).",
+   "canonical": "The `substr` function returns a substring or subsequence of a value of a binary string type (`bitstring`, `hexstring`, `octetstring`), a character string type (`charstring`, `universal charstring`) or a sequence type (`record of`, `set of` or array).",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25976,
+    25984
+   ],
+   "examples": [
+    {
+     "lines": [
+      26048,
+      26053
+     ],
+     "text": "substr('00100110'B, 3, 4);  // returns '0011'B\n  substr('ABCDEF'H, 2, 3);   // returns 'CDE'H\n  substr('01AB23CD'O, 1, 2);  // returns 'AB23'O\n  substr(\"My name is JJ\", 11, 2); // returns \"JJ\""
+    },
+    {
+     "lines": [
+      26059,
+      26064
+     ],
+     "text": "substr({ 4, 5, 6 }, 1, 2);  // returns {5, 6}\n  var template charstring v_char1 := pattern \"abc[a-z]+\", v_char2 := ?;\n  substr(v_char1, 2, 2);  // returns pattern \"c[a-z]+\"\n  substr(v_char2, 0, 3);  // returns pattern \"???\""
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.02_test_002.ttcn3",
+   "module": "M_C_04_02_test_002",
+   "header": "// @requirement: C.4.2 -- This function returns a substring or subsequence from a value that is of a binary string type (bitstring, hexstring, octetstring), a character string type (charstring, universal charstring), or a sequence type (record of, set of or array)."
+  },
+  {
+   "id": "TTCN3-CORE-C.4.2-003a",
+   "section": "C.4.2",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "If inpar is a literal (i.e. type is not explicitly given) the corresponding type shall be retrieved from the value contents.",
+   "canonical": "If the inpar actual parameter of `substr` is a literal whose type is not explicitly given, the type of inpar SHALL be retrieved from the value contents.",
+   "condition": "inpar is a literal without explicitly given type",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25979,
+    25984
+   ],
+   "examples": [
+    {
+     "lines": [
+      26048,
+      26053
+     ],
+     "text": "substr('00100110'B, 3, 4);  // returns '0011'B\n  substr('ABCDEF'H, 2, 3);   // returns 'CDE'H\n  substr('01AB23CD'O, 1, 2);  // returns 'AB23'O\n  substr(\"My name is JJ\", 11, 2); // returns \"JJ\""
+    },
+    {
+     "lines": [
+      26059,
+      26064
+     ],
+     "text": "substr({ 4, 5, 6 }, 1, 2);  // returns {5, 6}\n  var template charstring v_char1 := pattern \"abc[a-z]+\", v_char2 := ?;\n  substr(v_char1, 2, 2);  // returns pattern \"c[a-z]+\"\n  substr(v_char2, 0, 3);  // returns pattern \"???\""
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.02_test_003.ttcn3",
+   "module": "M_C_04_02_test_003",
+   "header": "// @requirement: C.4.2 -- If inpar is a literal (i.e. type is not explicitly given) the corresponding type shall be retrieved from the value contents."
+  },
+  {
+   "id": "TTCN3-CORE-C.4.2-004a",
+   "section": "C.4.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The type of the substring or subsequence returned is the root type of the input parameter.",
+   "canonical": "The type of the substring or subsequence returned by `substr` IS the root type of the inpar actual parameter.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25979,
+    25984
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.02_test_004.ttcn3",
+   "module": "M_C_04_02_test_004",
+   "header": "// @requirement: C.4.2 -- The type of the substring or subsequence returned is the root type of the input parameter."
+  },
+  {
+   "id": "TTCN3-CORE-C.4.2-005a",
+   "section": "C.4.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The starting point of substring or subsequence to return is defined by the second parameter (index).",
+   "canonical": "The index actual parameter of `substr` defines the starting point of the substring or subsequence to return.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25979,
+    25984
+   ],
+   "examples": [
+    {
+     "lines": [
+      26048,
+      26053
+     ],
+     "text": "substr('00100110'B, 3, 4);  // returns '0011'B\n  substr('ABCDEF'H, 2, 3);   // returns 'CDE'H\n  substr('01AB23CD'O, 1, 2);  // returns 'AB23'O\n  substr(\"My name is JJ\", 11, 2); // returns \"JJ\""
+    },
+    {
+     "lines": [
+      26059,
+      26064
+     ],
+     "text": "substr({ 4, 5, 6 }, 1, 2);  // returns {5, 6}\n  var template charstring v_char1 := pattern \"abc[a-z]+\", v_char2 := ?;\n  substr(v_char1, 2, 2);  // returns pattern \"c[a-z]+\"\n  substr(v_char2, 0, 3);  // returns pattern \"???\""
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.02_test_005.ttcn3",
+   "module": "M_C_04_02_test_005",
+   "header": "// @requirement: C.4.2 -- The starting point of substring or subsequence to return is defined by the second parameter (index)."
+  },
+  {
+   "id": "TTCN3-CORE-C.4.2-006a",
+   "section": "C.4.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Indexing starts from zero.",
+   "canonical": "Indexing of inpar in `substr` starts from zero.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25979,
+    25984
+   ],
+   "examples": [
+    {
+     "lines": [
+      26048,
+      26053
+     ],
+     "text": "substr('00100110'B, 3, 4);  // returns '0011'B\n  substr('ABCDEF'H, 2, 3);   // returns 'CDE'H\n  substr('01AB23CD'O, 1, 2);  // returns 'AB23'O\n  substr(\"My name is JJ\", 11, 2); // returns \"JJ\""
+    },
+    {
+     "lines": [
+      26059,
+      26064
+     ],
+     "text": "substr({ 4, 5, 6 }, 1, 2);  // returns {5, 6}\n  var template charstring v_char1 := pattern \"abc[a-z]+\", v_char2 := ?;\n  substr(v_char1, 2, 2);  // returns pattern \"c[a-z]+\"\n  substr(v_char2, 0, 3);  // returns pattern \"???\""
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.02_test_006.ttcn3",
+   "module": "M_C_04_02_test_006",
+   "header": "// @requirement: C.4.2 -- Indexing starts from zero."
+  },
+  {
+   "id": "TTCN3-CORE-C.4.2-007a",
+   "section": "C.4.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The third input parameter (count) defines the length of the substring or subsequence to be returned.",
+   "canonical": "The count actual parameter of `substr` defines the length of the substring or subsequence to be returned.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25979,
+    25984
+   ],
+   "examples": [
+    {
+     "lines": [
+      26048,
+      26053
+     ],
+     "text": "substr('00100110'B, 3, 4);  // returns '0011'B\n  substr('ABCDEF'H, 2, 3);   // returns 'CDE'H\n  substr('01AB23CD'O, 1, 2);  // returns 'AB23'O\n  substr(\"My name is JJ\", 11, 2); // returns \"JJ\""
+    },
+    {
+     "lines": [
+      26059,
+      26064
+     ],
+     "text": "substr({ 4, 5, 6 }, 1, 2);  // returns {5, 6}\n  var template charstring v_char1 := pattern \"abc[a-z]+\", v_char2 := ?;\n  substr(v_char1, 2, 2);  // returns pattern \"c[a-z]+\"\n  substr(v_char2, 0, 3);  // returns pattern \"???\""
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.02_test_007.ttcn3",
+   "module": "M_C_04_02_test_007",
+   "header": "// @requirement: C.4.2 -- The third input parameter (count) defines the length of the substring or subsequence to be returned."
+  },
+  {
+   "id": "TTCN3-CORE-C.4.2-008a",
+   "section": "C.4.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The units of length for string types are as defined in table 4 of the present document.",
+   "canonical": "For string types, the unit of length of the count parameter of `substr` IS as defined in table 4.",
+   "condition": null,
+   "cross_refs": [
+    "6.1.0"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25979,
+    25984
+   ],
+   "examples": [
+    {
+     "lines": [
+      26048,
+      26053
+     ],
+     "text": "substr('00100110'B, 3, 4);  // returns '0011'B\n  substr('ABCDEF'H, 2, 3);   // returns 'CDE'H\n  substr('01AB23CD'O, 1, 2);  // returns 'AB23'O\n  substr(\"My name is JJ\", 11, 2); // returns \"JJ\""
+    },
+    {
+     "lines": [
+      26059,
+      26064
+     ],
+     "text": "substr({ 4, 5, 6 }, 1, 2);  // returns {5, 6}\n  var template charstring v_char1 := pattern \"abc[a-z]+\", v_char2 := ?;\n  substr(v_char1, 2, 2);  // returns pattern \"c[a-z]+\"\n  substr(v_char2, 0, 3);  // returns pattern \"???\""
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.02_test_008.ttcn3",
+   "module": "M_C_04_02_test_008",
+   "header": "// @requirement: C.4.2 -- The units of length for string types are as defined in table 4 of the present document."
+  },
+  {
+   "id": "TTCN3-CORE-C.4.2-009a",
+   "section": "C.4.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "For sequence types, the unit of length is element.",
+   "canonical": "For sequence types, the unit of length of the count parameter of `substr` IS element.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25979,
+    25984
+   ],
+   "examples": [
+    {
+     "lines": [
+      26059,
+      26064
+     ],
+     "text": "substr({ 4, 5, 6 }, 1, 2);  // returns {5, 6}\n  var template charstring v_char1 := pattern \"abc[a-z]+\", v_char2 := ?;\n  substr(v_char1, 2, 2);  // returns pattern \"c[a-z]+\"\n  substr(v_char2, 0, 3);  // returns pattern \"???\""
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.02_test_009.ttcn3",
+   "module": "M_C_04_02_test_009",
+   "header": "// @requirement: C.4.2 -- For sequence types, the unit of length is element."
+  },
+  {
+   "id": "TTCN3-CORE-C.4.2-010a",
+   "section": "C.4.2",
+   "type": "information",
+   "modality": "IS",
+   "original": "NOTE: Note that the root types of arrays is record of, therefore if inpar is an array the returned type is record of.",
+   "canonical": "If the inpar actual parameter of `substr` is an array, the returned type IS `record of`, because the root type of an array is `record of`.",
+   "condition": "inpar is an array",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25986,
+    25986
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.02_test_010.ttcn3",
+   "module": "M_C_04_02_test_010",
+   "header": "// @requirement: C.4.2 -- NOTE: Note that the root types of arrays is record of, therefore if inpar is an array the returned type is record of."
+  },
+  {
+   "id": "TTCN3-CORE-C.4.2-012a",
+   "section": "C.4.2",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "When used on templates of character and binary string types, inpar can contain any template that fulfils the requirements for referencing individual string elements on the right hand side of an assignment specified in clause 15.6.1.",
+   "canonical": "When `substr` is used on a template of a character or binary string type, inpar MAY contain any template that fulfils the requirements for referencing individual string elements on the right hand side of an assignment specified in clause 15.6.1.",
+   "condition": "inpar is a template of a character or binary string type",
+   "cross_refs": [
+    "15.6.1"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25993,
+    25996
+   ],
+   "examples": [
+    {
+     "lines": [
+      26059,
+      26064
+     ],
+     "text": "substr({ 4, 5, 6 }, 1, 2);  // returns {5, 6}\n  var template charstring v_char1 := pattern \"abc[a-z]+\", v_char2 := ?;\n  substr(v_char1, 2, 2);  // returns pattern \"c[a-z]+\"\n  substr(v_char2, 0, 3);  // returns pattern \"???\""
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.02_test_011.ttcn3",
+   "module": "M_C_04_02_test_011",
+   "header": "// @requirement: C.4.2 -- When used on templates of character and binary string types, inpar can contain any template that fulfils the requirements for referencing individual string elements on the right hand side of an assignment specified in clause 15.6.1."
+  },
+  {
+   "id": "TTCN3-CORE-C.4.2-013a",
+   "section": "C.4.2",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "The rules for the indexing of string templates specified in the same section are used for interpreting the index and count parameters, i.e. the count parameter counts indexable items.",
+   "canonical": "When `substr` is used on a string template, the index and count parameters SHALL be interpreted according to the rules for indexing of string templates of clause 15.6.1, i.e. count counts indexable items.",
+   "condition": "inpar is a template of a character or binary string type",
+   "cross_refs": [
+    "15.6.1"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25993,
+    25996
+   ],
+   "examples": [
+    {
+     "lines": [
+      26059,
+      26064
+     ],
+     "text": "substr({ 4, 5, 6 }, 1, 2);  // returns {5, 6}\n  var template charstring v_char1 := pattern \"abc[a-z]+\", v_char2 := ?;\n  substr(v_char1, 2, 2);  // returns pattern \"c[a-z]+\"\n  substr(v_char2, 0, 3);  // returns pattern \"???\""
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.02_test_012.ttcn3",
+   "module": "M_C_04_02_test_012",
+   "header": "// @requirement: C.4.2 -- The rules for the indexing of string templates specified in the same section are used for interpreting the index and count parameters, i.e. the count parameter counts indexable items."
+  },
+  {
+   "id": "TTCN3-CORE-C.4.2-015a",
+   "section": "C.4.2",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "A specific value is returned if the referenced template contains a specific value.",
+   "canonical": "If the referenced template of `substr` contains a specific value, `substr` SHALL return a specific value.",
+   "condition": "the referenced template contains a specific value",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25993,
+    26000
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.02_test_013.ttcn3",
+   "module": "M_C_04_02_test_013",
+   "header": "// @requirement: C.4.2 -- A specific value is returned if the referenced template contains a specific value."
+  },
+  {
+   "id": "TTCN3-CORE-C.4.2-016a",
+   "section": "C.4.2",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "A pattern is returned if the referenced template contains a pattern.",
+   "canonical": "If the referenced template of `substr` contains a pattern, `substr` SHALL return a pattern.",
+   "condition": "the referenced template contains a pattern",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25993,
+    26002
+   ],
+   "examples": [
+    {
+     "lines": [
+      26059,
+      26064
+     ],
+     "text": "substr({ 4, 5, 6 }, 1, 2);  // returns {5, 6}\n  var template charstring v_char1 := pattern \"abc[a-z]+\", v_char2 := ?;\n  substr(v_char1, 2, 2);  // returns pattern \"c[a-z]+\"\n  substr(v_char2, 0, 3);  // returns pattern \"???\""
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.02_test_014.ttcn3",
+   "module": "M_C_04_02_test_014",
+   "header": "// @requirement: C.4.2 -- A pattern is returned if the referenced template contains a pattern."
+  },
+  {
+   "id": "TTCN3-CORE-C.4.2-017a",
+   "section": "C.4.2",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "A specific value containing as many AnyElement symbols as is the count parameter is returned if the referenced template if of a binary string type and contains the AnyValue or AnyValueOrNone matching symbol.",
+   "canonical": "If the referenced template of `substr` is of a binary string type and contains AnyValue or AnyValueOrNone, `substr` SHALL return a specific value containing as many AnyElement symbols as the count parameter.",
+   "condition": "template of binary string type containing AnyValue or AnyValueOrNone",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "improper_terms": [
+     {
+      "used": "if of",
+      "proper": "is of",
+      "glossary": false
+     }
+    ],
+    "issue": "Typo \"template if of a binary string type\" should read \"template is of a binary string type\"."
+   },
+   "spec_lines": [
+    25993,
+    26007
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.02_test_015.ttcn3",
+   "module": "M_C_04_02_test_015",
+   "header": "// @requirement: C.4.2 -- A specific value containing as many AnyElement symbols as is the count parameter is returned if the referenced template if of a binary string type and contains the AnyValue or AnyValueOrNone matching symbol."
+  },
+  {
+   "id": "TTCN3-CORE-C.4.2-018a",
+   "section": "C.4.2",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "In case of the AnyValueOrNone matching symbol, the ifpresent matching attribute shall be added to the returned value.",
+   "canonical": "If the referenced binary string template of `substr` contains AnyValueOrNone, the `ifpresent` matching attribute SHALL be added to the returned value.",
+   "condition": "binary string template containing AnyValueOrNone",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    26004,
+    26007
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.02_test_016.ttcn3",
+   "module": "M_C_04_02_test_016",
+   "header": "// @requirement: C.4.2 -- In case of the AnyValueOrNone matching symbol, the ifpresent matching attribute shall be added to the returned value."
+  },
+  {
+   "id": "TTCN3-CORE-C.4.2-019a",
+   "section": "C.4.2",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "A pattern containing as many ? metacharacters as is the count parameter is returned if the referenced template if of a character string type and contains the AnyValue or AnyValueOrNone matching symbol.",
+   "canonical": "If the referenced template of `substr` is of a character string type and contains AnyValue or AnyValueOrNone, `substr` SHALL return a pattern containing as many ? metacharacters as the count parameter.",
+   "condition": "template of character string type containing AnyValue or AnyValueOrNone",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "improper_terms": [
+     {
+      "used": "if of",
+      "proper": "is of",
+      "glossary": false
+     }
+    ],
+    "issue": "Typo \"template if of a character string type\" should read \"template is of a character string type\"."
+   },
+   "spec_lines": [
+    25993,
+    26012
+   ],
+   "examples": [
+    {
+     "lines": [
+      26059,
+      26064
+     ],
+     "text": "substr({ 4, 5, 6 }, 1, 2);  // returns {5, 6}\n  var template charstring v_char1 := pattern \"abc[a-z]+\", v_char2 := ?;\n  substr(v_char1, 2, 2);  // returns pattern \"c[a-z]+\"\n  substr(v_char2, 0, 3);  // returns pattern \"???\""
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.02_test_017.ttcn3",
+   "module": "M_C_04_02_test_017",
+   "header": "// @requirement: C.4.2 -- A pattern containing as many ? metacharacters as is the count parameter is returned if the referenced template if of a character string type and contains the AnyValue or AnyValueOrNone matching symbol."
+  },
+  {
+   "id": "TTCN3-CORE-C.4.2-020a",
+   "section": "C.4.2",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "In case of the AnyValueOrNone matching symbol, the ifpresent matching attribute shall be added to the returned value.",
+   "canonical": "If the referenced character string template of `substr` contains AnyValueOrNone, the `ifpresent` matching attribute SHALL be added to the returned pattern.",
+   "condition": "character string template containing AnyValueOrNone",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    26009,
+    26012
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.02_test_018.ttcn3",
+   "module": "M_C_04_02_test_018",
+   "header": "// @requirement: C.4.2 -- In case of the AnyValueOrNone matching symbol, the ifpresent matching attribute shall be added to the returned value."
+  },
+  {
+   "id": "TTCN3-CORE-C.4.2-021a",
+   "section": "C.4.2",
+   "type": "semantics",
+   "modality": "SHALL NOT",
+   "original": "If inpar contains a length matching attribute, the returned value shall be without this attribute.",
+   "canonical": "If inpar of `substr` contains a length matching attribute, the value returned by `substr` SHALL NOT contain that length matching attribute.",
+   "condition": "inpar contains a length matching attribute",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    26014,
+    26014
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.02_test_019.ttcn3",
+   "module": "M_C_04_02_test_019",
+   "header": "// @requirement: C.4.2 -- If inpar contains a length matching attribute, the returned value shall be without this attribute."
+  },
+  {
+   "id": "TTCN3-CORE-C.4.2-022a",
+   "section": "C.4.2",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "If inpar contains the ifpresent matching attribute, the returned value shall contain this attribute as well.",
+   "canonical": "If inpar of `substr` contains the `ifpresent` matching attribute, the value returned by `substr` SHALL also contain the `ifpresent` matching attribute.",
+   "condition": "inpar contains the ifpresent matching attribute",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    26016,
+    26016
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.02_test_020.ttcn3",
+   "module": "M_C_04_02_test_020",
+   "header": "// @requirement: C.4.2 -- If inpar contains the ifpresent matching attribute, the returned value shall contain this attribute as well."
+  },
+  {
+   "id": "TTCN3-CORE-C.4.2-023a",
+   "section": "C.4.2",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "If inpar contains a reference to a template with the present restriction a matching symbol that fulfils the requirements of the present restriction or a reference to an unrestricted template field that represents a mandatory field of a record or set or any field of a union, anytype, record `of, set` `of or array, the` returned value shall have the present restriction.",
+   "canonical": "If inpar of `substr` contains a reference to a template with the present restriction, a matching symbol that fulfils the requirements of the present restriction, or a reference to an unrestricted template field that represents a mandatory field of a record or set or any field of a union, anytype, record of, set of or array, the value returned by `substr` SHALL have the present restriction.",
+   "condition": "inpar refers to a present-restricted template or to a mandatory/unrestricted field",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "readings": [
+     "The returned value SHALL have the present restriction if inpar contains (a) a reference to a template with the present restriction, (b) a matching symbol fulfilling the present restriction, or (c) a reference to an unrestricted template field representing a mandatory record/set field or any field of a union, anytype, record of, set of or array.",
+     "The returned value SHALL have the present restriction only if inpar contains a reference to a template with the present restriction whose content is a matching symbol fulfilling the present restriction or a reference to such an unrestricted field."
+    ],
+    "issue": "The sentence lacks commas and is garbled by the PDF conversion, so the scope of \"a reference to\" is unclear; the three-alternative reading is chosen."
+   },
+   "spec_lines": [
+    26018,
+    26021
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.02_test_021.ttcn3",
+   "module": "M_C_04_02_test_021",
+   "header": "// @requirement: C.4.2 -- If inpar contains a reference to a template with the present restriction a matching symbol that fulfils the requirements of the present restriction or a reference to an unrestricted template field that represents a mandatory field of a record or set or any field of a union, anytype, record `of, set` `of or array, the` returned value shall have the present restriction."
+  },
+  {
+   "id": "TTCN3-CORE-C.4.2-024a",
+   "section": "C.4.2",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "If inpar contains a reference to a template with the value or omit restriction, the returned value shall have the value restriction.",
+   "canonical": "If inpar of `substr` contains a reference to a template with the value or omit restriction, the value returned by `substr` SHALL have the value restriction.",
+   "condition": "inpar refers to a template with value or omit restriction",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    26023,
+    26024
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.02_test_022.ttcn3",
+   "module": "M_C_04_02_test_022",
+   "header": "// @requirement: C.4.2 -- If inpar contains a reference to a template with the value or omit restriction, the returned value shall have the value restriction."
+  },
+  {
+   "id": "TTCN3-CORE-C.4.2-025a",
+   "section": "C.4.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "When inpar is a template of sequence type or is an array, only the specific value combined templates whose elements are specific values, and AnyElement matching mechanisms or combined templates are allowed and the substring or subsequence to be returned shall not contain AnyElement or combined template.",
+   "canonical": "When inpar of `substr` is a template of a sequence type or an array, it SHALL contain only specific values, AnyElement or combined templates whose elements are specific values, AnyElement or combined templates.",
+   "condition": "inpar is a template of a sequence type or an array",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "readings": [
+     "inpar SHALL contain only specific values, AnyElement, or combined templates whose elements are specific values, AnyElement or combined templates.",
+     "inpar SHALL be a specific value or a combined template whose elements are only specific values, AnyElement or combined templates (AnyElement not allowed at the top level)."
+    ],
+    "issue": "The sentence \"only the specific value combined templates whose elements are specific values, and AnyElement matching mechanisms or combined templates are allowed\" lacks punctuation; the first reading is chosen, consistent with the error cause C.4.2-s030."
+   },
+   "spec_lines": [
+    26026,
+    26028
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.02_test_023.ttcn3",
+   "module": "M_C_04_02_test_023",
+   "header": "// @requirement: C.4.2 -- When inpar is a template of sequence type or is an array, only the specific value combined templates whose elements are specific values, and AnyElement matching mechanisms or combined templates are allowed and the substring or subsequence to be returned shall not contain AnyElement or combined template."
+  },
+  {
+   "id": "TTCN3-CORE-C.4.2-025b",
+   "section": "C.4.2",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "When inpar is a template of sequence type or is an array, only the specific value combined templates whose elements are specific values, and AnyElement matching mechanisms or combined templates are allowed and the substring or subsequence to be returned shall not contain AnyElement or combined template.",
+   "canonical": "When inpar of `substr` is a template of a sequence type or an array, the substring or subsequence to be returned SHALL NOT contain AnyElement or a combined template.",
+   "condition": "inpar is a template of a sequence type or an array",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    26026,
+    26028
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.02_test_024.ttcn3",
+   "module": "M_C_04_02_test_024",
+   "header": "// @requirement: C.4.2 -- When inpar is a template of sequence type or is an array, only the specific value combined templates whose elements are specific values, and AnyElement matching mechanisms or combined templates are allowed and the substring or subsequence to be returned shall not contain AnyElement or combined template."
+  },
+  {
+   "id": "TTCN3-CORE-C.4.2-027a",
+   "section": "C.4.2",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "`index is less than zero;`",
+   "canonical": "If the index actual parameter of `substr` is less than zero, an error SHALL occur.",
+   "condition": "index < 0",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    26030,
+    26032
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.02_test_025.ttcn3",
+   "module": "M_C_04_02_test_025",
+   "header": "// @requirement: C.4.2 -- `index is less than zero;`"
+  },
+  {
+   "id": "TTCN3-CORE-C.4.2-028a",
+   "section": "C.4.2",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "`count is less than zero;` if inpar contains neither AnyValue nor AnyValueOrNone and index + count is greater than lengthof(inpar);",
+   "canonical": "If the count actual parameter of `substr` is less than zero, an error SHALL occur.",
+   "condition": "count < 0",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    26030,
+    26036
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.02_test_026.ttcn3",
+   "module": "M_C_04_02_test_026",
+   "header": "// @requirement: C.4.2 -- `count is less than zero;` if inpar contains neither AnyValue nor AnyValueOrNone and index + count is greater than lengthof(inpar);"
+  },
+  {
+   "id": "TTCN3-CORE-C.4.2-028b",
+   "section": "C.4.2",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "if inpar contains neither AnyValue nor AnyValueOrNone and index + count is greater than lengthof(inpar);",
+   "canonical": "If inpar of `substr` contains neither AnyValue nor AnyValueOrNone and index + count is greater than lengthof(inpar), an error SHALL occur.",
+   "condition": "inpar contains neither AnyValue nor AnyValueOrNone and index + count > lengthof(inpar)",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    26030,
+    26036
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.02_test_027.ttcn3",
+   "module": "M_C_04_02_test_027",
+   "header": "// @requirement: C.4.2 -- if inpar contains neither AnyValue nor AnyValueOrNone and index + count is greater than lengthof(inpar);"
+  },
+  {
+   "id": "TTCN3-CORE-C.4.2-029a",
+   "section": "C.4.2",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "`inpar is a template of a character or binary string type and contains a matching mechanism other than those` allowed for indexing as specified in clause 15.6.1;",
+   "canonical": "If inpar of `substr` is a template of a character or binary string type containing a matching mechanism other than those allowed for indexing in clause 15.6.1, an error SHALL occur.",
+   "condition": "string template with a matching mechanism not allowed for indexing",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    26030,
+    26039
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.02_test_028.ttcn3",
+   "module": "M_C_04_02_test_028",
+   "header": "// @requirement: C.4.2 -- `inpar is a template of a character or binary string type and contains a matching mechanism other than those` allowed for indexing as specified in clause 15.6.1;"
+  },
+  {
+   "id": "TTCN3-CORE-C.4.2-030a",
+   "section": "C.4.2",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "`inpar is a template of a sequence type or array and it contains other matching mechanism as specific value or` combined template; or if the elements of combined template are any other matching mechanisms than specific values, and AnyElement or combined templates;",
+   "canonical": "If inpar of `substr` is a template of a sequence type or array containing a matching mechanism other than specific value or combined template, or a combined template whose elements are matching mechanisms other than specific values, AnyElement or combined templates, an error SHALL occur.",
+   "condition": "sequence/array template with disallowed matching mechanisms",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    26030,
+    26043
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.02_test_029.ttcn3",
+   "module": "M_C_04_02_test_029",
+   "header": "// @requirement: C.4.2 -- `inpar is a template of a sequence type or array and it contains other matching mechanism as specific value or` combined template; or if the elements of combined template are any other matching mechanisms than specific values, and AnyElement or combined templates;"
+  },
+  {
+   "id": "TTCN3-CORE-C.4.2-031a",
+   "section": "C.4.2",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "the template passed to the inpar parameter is not of type bitstring, hexstring, octetstring, charstring, universal charstring, record of, set of, or array.",
+   "canonical": "If the template passed to inpar of `substr` is not of type `bitstring`, `hexstring`, `octetstring`, `charstring`, `universal charstring`, `record of`, `set of` or array, an error SHALL occur.",
+   "condition": "inpar is not of a string, record of, set of or array type",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    26030,
+    26045
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.04.02_test_030.ttcn3",
+   "module": "M_C_04_02_test_030",
+   "header": "// @requirement: C.4.2 -- the template passed to the inpar parameter is not of type bitstring, hexstring, octetstring, charstring, universal charstring, record of, set of, or array."
+  }
+ ]
+}

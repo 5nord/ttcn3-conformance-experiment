@@ -1,0 +1,44 @@
+// @requirement: 22.2.2 -- For each list element that consists only of a variable or formal parameter name the whole message shall be stored in that variable or formal parameter.
+// @id: TTCN3-CORE-22.2.2-023a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_02_02_test_020 {
+
+    type record R {
+        integer a,
+        charstring b
+    }
+
+    type port P message { inout R }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    const R c_r := { 1, "x" };
+
+    function f_send() runs on C {
+        p.send(c_r);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        var R v_r1, v_r2;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_send());
+        T.start;
+        alt {
+            [] p.receive(R:?) -> value (v_r1, v_r2) { }
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        if (v_r1 == c_r and v_r2 == c_r) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

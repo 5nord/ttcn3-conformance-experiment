@@ -1,0 +1,18 @@
+// @requirement: A.1.6.8.3 -- DecodedFieldReference shall not appear on the left-hand side of assignments and in type references
+// @id: TTCN3-CORE-A.1.6.8.3-019d
+// @verdict: pass reject
+module M_A_01_06_08_03_test_030 {
+
+    type record Inner {
+        integer f1
+    }
+    with {
+        encode "MyCodec"
+    }
+
+    type record PDU {
+        octetstring payload
+    }
+
+    type PDU.payload=>Inner DecodedPayload; // error: decoded field reference in a type reference
+}

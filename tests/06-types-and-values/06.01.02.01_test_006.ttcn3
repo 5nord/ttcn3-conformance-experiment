@@ -1,0 +1,13 @@
+// @requirement: 6.1.2.1 -- Constant expressions used (directly or indirectly) in the template expressions shall meet with the restrictions in clause 10 for constant expressions used in type definitions.
+// @id: TTCN3-CORE-6.1.2.1-005a
+// @verdict: pass reject
+module M_06_01_02_01_test_006 {
+
+    function f_one() return integer {
+        return 1;
+    }
+
+    const integer c_one := f_one();
+
+    type integer MyIntList (0, c_one); // error: constant initialized by a user-defined function used in a type definition
+}

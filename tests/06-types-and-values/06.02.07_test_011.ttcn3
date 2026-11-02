@@ -1,0 +1,22 @@
+// @requirement: 6.2.7 -- Accessing elements outside the array's range will cause a compile-time or test case error.
+// @id: TTCN3-CORE-6.2.7-011a
+// @verdict: pass accept, ttcn3verdict:error
+module M_06_02_07_test_011 {
+
+    type component C {}
+
+    function f_index() return integer {
+        return 3;
+    }
+
+    testcase TC() runs on C {
+        var integer v_a[3] := { 1, 2, 3 };
+        setverdict(pass);
+        var integer v_i := v_a[f_index()]; // error: index 3 is outside the range 0 .. 2
+        log(v_i);
+    }
+
+    control {
+        execute(TC());
+    }
+}

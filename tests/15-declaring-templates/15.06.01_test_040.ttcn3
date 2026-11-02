@@ -1,0 +1,17 @@
+// @requirement: 15.6.1 -- An error shall be issued in all other cases, i.e.:
+// @id: TTCN3-CORE-15.6.1-041a
+// @verdict: pass accept, ttcn3verdict:error
+module M_15_06_01_test_040 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template charstring v_char := complement("ab");
+        v_char[0] := "x"; // error: complemented template list cannot be indexed
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

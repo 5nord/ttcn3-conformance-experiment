@@ -1,0 +1,18 @@
+// @requirement: 10 -- The constant is defined only once, but can be referenced multiple times in a TTCN-3 module.
+// @id: TTCN3-CORE-10-009a
+// @verdict: pass reject
+module M_10_test_007 {
+
+    type component C {}
+
+    const integer c_x := 1;
+    const integer c_x := 1; // error: constant defined twice
+
+    testcase TC() runs on C {
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,23 @@
+// @requirement: 8.2.3.1 -- Only definitions or import statements visible from the importing module can be imported (see clause 8.2.5).
+// @id: TTCN3-CORE-8.2.3.1-006a
+// @verdict: pass reject
+module M_08_02_03_01_test_005 {
+
+    import from M_08_02_03_01_test_005_A { const c_private } // error: c_private is not visible
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (c_private == 1) {
+            setverdict(pass);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_03_01_test_005_A {
+    private const integer c_private := 1;
+}

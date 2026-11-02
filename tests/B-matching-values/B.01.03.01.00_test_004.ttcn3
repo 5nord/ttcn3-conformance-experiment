@@ -1,0 +1,30 @@
+// @requirement: B.1.3.1.0 -- Since both interpretations lead to the same match no problem arises.
+// @id: TTCN3-CORE-B.1.3.1.0-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_03_01_00_test_004 {
+
+    type record of integer RoI;
+
+    type component C {}
+
+    template integer mw_anyValue := ?;
+    template RoI mw_element := {1, ?, 3};
+    template RoI mw_value := {1, mw_anyValue, 3};
+
+    testcase TC() runs on C {
+        var RoI v_ok := {1, 7, 3};
+        var RoI v_short := {1, 3};
+        var RoI v_long := {1, 7, 8, 3};
+        if (match(v_ok, mw_element) and match(v_ok, mw_value) and
+            not match(v_short, mw_element) and not match(v_short, mw_value) and
+            not match(v_long, mw_element) and not match(v_long, mw_value)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,33 @@
+// @requirement: 16.1.4 -- i) Activation and deactivation of defaults, i.e. the activate and deactivate statements (see notes 5 and 6).
+// @id: TTCN3-CORE-16.1.4-012a
+// @verdict: pass reject
+module M_16_01_04_test_011 {
+
+    type component C {
+        timer T := 0.1;
+    }
+
+    altstep a_default() runs on C {
+        [] any timer.timeout {
+            setverdict(fail);
+        }
+    }
+
+    function f_guard() runs on C return boolean {
+        var default v_def := activate(a_default()); // error: activate in a function called in a guard
+        return true;
+    }
+
+    testcase TC() runs on C {
+        T.start;
+        alt {
+            [f_guard()] T.timeout {
+                setverdict(pass);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

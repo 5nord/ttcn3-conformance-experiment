@@ -1,0 +1,30 @@
+// @requirement: 11.0 -- Variables can be declared lazy using the @lazy modifier.
+// @id: TTCN3-CORE-11.0-009a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_11_00_test_008 {
+
+    type component C {
+        var integer vc_count := 0;
+    }
+
+    function f_next() runs on C return integer {
+        vc_count := vc_count + 1;
+        return vc_count;
+    }
+
+    testcase TC() runs on C {
+        var @lazy integer v_lazy := f_next();
+        var integer v_before := vc_count;
+        var integer v_first := v_lazy;
+        var integer v_second := v_lazy;
+        if (v_before == 0 and v_first == 1 and v_second == 1 and vc_count == 1) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

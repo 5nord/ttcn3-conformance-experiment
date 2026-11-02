@@ -1,0 +1,22 @@
+// @requirement: C.1.4 -- The general error causes in clause 16.1.2 apply.
+// @id: TTCN3-CORE-C.1.4-005a
+// @verdict: pass accept, ttcn3verdict:error
+module M_C_01_04_test_007 {
+
+    type enumerated E {
+        e_mon, e_tue, e_wed, e_weekend(6..7)
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_in := 4;
+        var E v_out;
+        int2enum(v_in, v_out); // error: no enumerated value with number 4
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

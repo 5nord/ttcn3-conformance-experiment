@@ -1,0 +1,41 @@
+// @requirement: 5.1 -- Language element: Template variable declarations; Associated keyword: var template; Specified in module control: Yes; Specified in functions/ altsteps/test cases: Yes; Specified in test component type: Yes
+// @id: TTCN3-CORE-5.1-023a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_01_test_035 {
+
+    type component C {
+        var template integer vt_component := 2;
+    }
+
+    function f_match(integer p_value) return boolean {
+        var template integer vt_function := 3;
+        return match(p_value, vt_function);
+    }
+
+    altstep a_timeout(timer p_timer) {
+        var template integer vt_altstep := 4;
+        [] p_timer.timeout {
+            if (match(4, vt_altstep)) {
+                setverdict(pass);
+            } else {
+                setverdict(fail);
+            }
+        }
+    }
+
+    testcase TC(template integer p_control) runs on C {
+        var template integer vt_testcase := 5;
+        timer T := 0.1;
+        if (match(2, vt_component) and f_match(3) and match(5, vt_testcase) and match(6, p_control)) {
+            T.start;
+            a_timeout(T);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        var template integer vt_control := 6;
+        execute(TC(vt_control));
+    }
+}

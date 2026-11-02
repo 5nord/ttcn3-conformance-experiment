@@ -1,0 +1,4161 @@
+{
+ "document": "ETSI ES 201 873-1 V4.17.1 (2025-09)",
+ "chapter": "26",
+ "title": "Module control",
+ "file": "26-module-control",
+ "source_lines": [
+  20346,
+  20660
+ ],
+ "sentences": [
+  {
+   "id": "26.0-s001",
+   "section": "26.0",
+   "kind": "prose",
+   "normative": true,
+   "text": "Test cases are defined in the module definitions part while the control functions manage their execution.",
+   "lines": [
+    20350,
+    20351
+   ]
+  },
+  {
+   "id": "26.0-s002",
+   "section": "26.0",
+   "kind": "prose",
+   "normative": true,
+   "text": "The statements and operations that can be used in control behaviour are summarized in table 31.",
+   "lines": [
+    20350,
+    20351
+   ]
+  },
+  {
+   "id": "26.0-s003",
+   "section": "26.0",
+   "kind": "caption",
+   "normative": false,
+   "text": "Table 31: Overview of TTCN-3 statements and operations in module control",
+   "lines": [
+    20353,
+    20353
+   ]
+  },
+  {
+   "id": "26.0-s004",
+   "section": "26.0",
+   "kind": "table-row",
+   "normative": true,
+   "text": "Statement: Assignments; Associated keyword or symbol: :=",
+   "lines": [
+    20357,
+    20357
+   ]
+  },
+  {
+   "id": "26.0-s005",
+   "section": "26.0",
+   "kind": "table-row",
+   "normative": true,
+   "text": "Statement: If-else; Associated keyword or symbol: if (…) {…} else {…}",
+   "lines": [
+    20358,
+    20358
+   ]
+  },
+  {
+   "id": "26.0-s006",
+   "section": "26.0",
+   "kind": "table-row",
+   "normative": true,
+   "text": "Statement: Select case; Associated keyword or symbol: select case (…) { case (…) {…} case else {…}}",
+   "lines": [
+    20359,
+    20359
+   ]
+  },
+  {
+   "id": "26.0-s007",
+   "section": "26.0",
+   "kind": "table-row",
+   "normative": true,
+   "text": "Statement: For loop; Associated keyword or symbol: for (…) {…}",
+   "lines": [
+    20360,
+    20360
+   ]
+  },
+  {
+   "id": "26.0-s008",
+   "section": "26.0",
+   "kind": "table-row",
+   "normative": true,
+   "text": "Statement: While loop; Associated keyword or symbol: while (…) {…}",
+   "lines": [
+    20361,
+    20361
+   ]
+  },
+  {
+   "id": "26.0-s009",
+   "section": "26.0",
+   "kind": "table-row",
+   "normative": true,
+   "text": "Statement: Do while loop; Associated keyword or symbol: do {…} while (…)",
+   "lines": [
+    20362,
+    20362
+   ]
+  },
+  {
+   "id": "26.0-s010",
+   "section": "26.0",
+   "kind": "table-row",
+   "normative": true,
+   "text": "Statement: Label and Goto; Associated keyword or symbol: label / goto",
+   "lines": [
+    20363,
+    20363
+   ]
+  },
+  {
+   "id": "26.0-s011",
+   "section": "26.0",
+   "kind": "table-row",
+   "normative": true,
+   "text": "Statement: Stop execution; Associated keyword or symbol: stop",
+   "lines": [
+    20364,
+    20364
+   ]
+  },
+  {
+   "id": "26.0-s012",
+   "section": "26.0",
+   "kind": "table-row",
+   "normative": true,
+   "text": "Statement: Leaving a loop, alt or interleave; Associated keyword or symbol: break",
+   "lines": [
+    20365,
+    20365
+   ]
+  },
+  {
+   "id": "26.0-s013",
+   "section": "26.0",
+   "kind": "table-header",
+   "normative": true,
+   "text": "Statement; Associated keyword or symbol",
+   "lines": [
+    20355,
+    20355
+   ]
+  },
+  {
+   "id": "26.0-s014",
+   "section": "26.0",
+   "kind": "prose",
+   "normative": true,
+   "text": "**Statement** **Associated keyword or symbol** Next iteration of a loop **continue** Logging **log** Alternative behaviour (see note) **alt {…}** Re-evaluation of alternative behaviour **repeat** (see note)",
+   "lines": [
+    20372,
+    20377
+   ]
+  },
+  {
+   "id": "26.0-s015",
+   "section": "26.0",
+   "kind": "prose",
+   "normative": true,
+   "text": "Interleaved behaviour (see note) **interleave {…}** Activate a default (see note) **activate** Deactivate a default (see note) **deactivate** Start timer **start** Stop timer **stop** Read elapsed time **read** Check if timer running **running** Timeout event **timeout** Stimulate an (SUT) action externally **action** Execute test case **execute**",
+   "lines": [
+    20379,
+    20388
+   ]
+  },
+  {
+   "id": "26.0-s016",
+   "section": "26.0",
+   "kind": "note",
+   "normative": false,
+   "text": "NOTE: Can be used to control timer operations only.",
+   "lines": [
+    20389,
+    20389
+   ]
+  },
+  {
+   "id": "26.1-s001",
+   "section": "26.1",
+   "kind": "prose",
+   "normative": true,
+   "text": "Test cases are executed with an execute statement in the module control.",
+   "lines": [
+    20393,
+    20393
+   ]
+  },
+  {
+   "id": "26.1-s002",
+   "section": "26.1",
+   "kind": "syntax",
+   "normative": true,
+   "text": "execute \"(\" TestcaseRef \"(\" [ { ActualPar [\",\"] } ] \")\" [ \",\" TimerValue [ \",\" HostId ] ] \")\"",
+   "lines": [
+    20396,
+    20398
+   ]
+  },
+  {
+   "id": "26.1-s003",
+   "section": "26.1",
+   "kind": "prose",
+   "normative": true,
+   "text": "The execute statement is used to start test cases (see clause 27.1) in control behaviour.",
+   "lines": [
+    20402,
+    20405
+   ]
+  },
+  {
+   "id": "26.1-s004",
+   "section": "26.1",
+   "kind": "prose",
+   "normative": true,
+   "text": "The result of an executed test case is always a value of type verdicttype.",
+   "lines": [
+    20402,
+    20405
+   ]
+  },
+  {
+   "id": "26.1-s005",
+   "section": "26.1",
+   "kind": "prose",
+   "normative": true,
+   "text": "Every test case shall contain one and only one MTC the type of which is referenced in the header of the test case definition.",
+   "lines": [
+    20402,
+    20405
+   ]
+  },
+  {
+   "id": "26.1-s006",
+   "section": "26.1",
+   "kind": "prose",
+   "normative": true,
+   "text": "The behaviour defined in the test case body is the behaviour of the MTC.",
+   "lines": [
+    20402,
+    20405
+   ]
+  },
+  {
+   "id": "26.1-s007",
+   "section": "26.1",
+   "kind": "prose",
+   "normative": true,
+   "text": "When a test case is invoked the MTC is created, the ports of the MTC and the test system interface are instantiated and the behaviour specified in the test case definition is started on the MTC.",
+   "lines": [
+    20407,
+    20409
+   ]
+  },
+  {
+   "id": "26.1-s008",
+   "section": "26.1",
+   "kind": "prose",
+   "normative": true,
+   "text": "All these actions shall be performed implicitly i.e. without explicit create and start operations.",
+   "lines": [
+    20407,
+    20409
+   ]
+  },
+  {
+   "id": "26.1-s009",
+   "section": "26.1",
+   "kind": "prose",
+   "normative": true,
+   "text": "**Test case start**",
+   "lines": [
+    20411,
+    20411
+   ]
+  },
+  {
+   "id": "26.1-s010",
+   "section": "26.1",
+   "kind": "prose",
+   "normative": true,
+   "text": "A test case is called using an execute statement.",
+   "lines": [
+    20413,
+    20415
+   ]
+  },
+  {
+   "id": "26.1-s011",
+   "section": "26.1",
+   "kind": "prose",
+   "normative": true,
+   "text": "As the result of the execution of a test case, a test case verdict of either none, pass, inconc, fail or error shall be returned and may be assigned to a variable for further processing.",
+   "lines": [
+    20413,
+    20415
+   ]
+  },
+  {
+   "id": "26.1-s012",
+   "section": "26.1",
+   "kind": "prose",
+   "normative": true,
+   "text": "Optionally, the execute statement allows supervision of a test case by means of a timer duration.",
+   "lines": [
+    20417,
+    20417
+   ]
+  },
+  {
+   "id": "26.1-s013",
+   "section": "26.1",
+   "kind": "prose",
+   "normative": true,
+   "text": "Also optionally, the execute statement allows deployment of the MTC to a specific host before starting the execution.",
+   "lines": [
+    20419,
+    20420
+   ]
+  },
+  {
+   "id": "26.1-s014",
+   "section": "26.1",
+   "kind": "prose",
+   "normative": true,
+   "text": "The host is identified by means of a host id.",
+   "lines": [
+    20419,
+    20420
+   ]
+  },
+  {
+   "id": "26.1-s015",
+   "section": "26.1",
+   "kind": "prose",
+   "normative": true,
+   "text": "**Test case parameterization and configuration**",
+   "lines": [
+    20422,
+    20422
+   ]
+  },
+  {
+   "id": "26.1-s016",
+   "section": "26.1",
+   "kind": "prose",
+   "normative": true,
+   "text": "All variables (if any) visible in the scope unit where the execute statement is used shall be passed into the test case by parameterization if they are to be used in the behaviour definition of that test case, i.e. TTCN-3 does not support global variables of any kind.",
+   "lines": [
+    20424,
+    20426
+   ]
+  },
+  {
+   "id": "26.1-s017",
+   "section": "26.1",
+   "kind": "prose",
+   "normative": true,
+   "text": "At the start of each test case, the test configuration shall be reset.",
+   "lines": [
+    20428,
+    20430
+   ]
+  },
+  {
+   "id": "26.1-s018",
+   "section": "26.1",
+   "kind": "prose",
+   "normative": true,
+   "text": "This means that all components and ports conducted by create, connect, etc. operations in a previous test case were destroyed when that test case was stopped (hence are not \"visible\" to the new test case).",
+   "lines": [
+    20428,
+    20430
+   ]
+  },
+  {
+   "id": "26.1-s019",
+   "section": "26.1",
+   "kind": "prose",
+   "normative": true,
+   "text": "**Test case termination**",
+   "lines": [
+    20432,
+    20432
+   ]
+  },
+  {
+   "id": "26.1-s020",
+   "section": "26.1",
+   "kind": "prose",
+   "normative": true,
+   "text": "A test case terminates with the termination of the MTC.",
+   "lines": [
+    20434,
+    20435
+   ]
+  },
+  {
+   "id": "26.1-s021",
+   "section": "26.1",
+   "kind": "prose",
+   "normative": true,
+   "text": "On termination of the MTC (explicitly or implicitly), all running parallel test components shall be removed by the test system.",
+   "lines": [
+    20434,
+    20435
+   ]
+  },
+  {
+   "id": "26.1-s022",
+   "section": "26.1",
+   "kind": "table-row",
+   "normative": true,
+   "text": "Statement: Next iteration of a loop; Associated keyword or symbol: continue",
+   "lines": [
+    20439,
+    20439
+   ]
+  },
+  {
+   "id": "26.1-s023",
+   "section": "26.1",
+   "kind": "table-row",
+   "normative": true,
+   "text": "Statement: Logging; Associated keyword or symbol: log",
+   "lines": [
+    20440,
+    20440
+   ]
+  },
+  {
+   "id": "26.1-s024",
+   "section": "26.1",
+   "kind": "table-row",
+   "normative": true,
+   "text": "Statement: Alternative behaviour (see note); Associated keyword or symbol: alt {…}",
+   "lines": [
+    20441,
+    20441
+   ]
+  },
+  {
+   "id": "26.1-s025",
+   "section": "26.1",
+   "kind": "table-row",
+   "normative": true,
+   "text": "Statement: Re-evaluation of alternative behaviour (see note); Associated keyword or symbol: repeat",
+   "lines": [
+    20442,
+    20442
+   ]
+  },
+  {
+   "id": "26.1-s026",
+   "section": "26.1",
+   "kind": "table-row",
+   "normative": true,
+   "text": "Statement: Interleaved behaviour (see note); Associated keyword or symbol: interleave {…}",
+   "lines": [
+    20443,
+    20443
+   ]
+  },
+  {
+   "id": "26.1-s027",
+   "section": "26.1",
+   "kind": "table-row",
+   "normative": true,
+   "text": "Statement: Activate a default (see note); Associated keyword or symbol: activate",
+   "lines": [
+    20444,
+    20444
+   ]
+  },
+  {
+   "id": "26.1-s028",
+   "section": "26.1",
+   "kind": "table-row",
+   "normative": true,
+   "text": "Statement: Deactivate a default (see note); Associated keyword or symbol: deactivate",
+   "lines": [
+    20445,
+    20445
+   ]
+  },
+  {
+   "id": "26.1-s029",
+   "section": "26.1",
+   "kind": "table-row",
+   "normative": true,
+   "text": "Statement: Start timer; Associated keyword or symbol: start",
+   "lines": [
+    20446,
+    20446
+   ]
+  },
+  {
+   "id": "26.1-s030",
+   "section": "26.1",
+   "kind": "table-row",
+   "normative": true,
+   "text": "Statement: Stop timer; Associated keyword or symbol: stop",
+   "lines": [
+    20447,
+    20447
+   ]
+  },
+  {
+   "id": "26.1-s031",
+   "section": "26.1",
+   "kind": "table-row",
+   "normative": true,
+   "text": "Statement: Read elapsed time; Associated keyword or symbol: read",
+   "lines": [
+    20448,
+    20448
+   ]
+  },
+  {
+   "id": "26.1-s032",
+   "section": "26.1",
+   "kind": "table-row",
+   "normative": true,
+   "text": "Statement: Check if timer running; Associated keyword or symbol: running",
+   "lines": [
+    20449,
+    20449
+   ]
+  },
+  {
+   "id": "26.1-s033",
+   "section": "26.1",
+   "kind": "table-row",
+   "normative": true,
+   "text": "Statement: Timeout event; Associated keyword or symbol: timeout",
+   "lines": [
+    20450,
+    20450
+   ]
+  },
+  {
+   "id": "26.1-s034",
+   "section": "26.1",
+   "kind": "table-row",
+   "normative": true,
+   "text": "Statement: Stimulate an (SUT) action externally; Associated keyword or symbol: action",
+   "lines": [
+    20451,
+    20451
+   ]
+  },
+  {
+   "id": "26.1-s035",
+   "section": "26.1",
+   "kind": "table-row",
+   "normative": true,
+   "text": "Statement: Execute test case; Associated keyword or symbol: execute",
+   "lines": [
+    20452,
+    20452
+   ]
+  },
+  {
+   "id": "26.1-s036",
+   "section": "26.1",
+   "kind": "note",
+   "normative": false,
+   "text": "NOTE: Can be used to control timer operations only.",
+   "lines": [
+    20453,
+    20453
+   ]
+  },
+  {
+   "id": "26.1-s037",
+   "section": "26.1",
+   "kind": "table-header",
+   "normative": true,
+   "text": "Statement; Associated keyword or symbol",
+   "lines": [
+    20437,
+    20437
+   ]
+  },
+  {
+   "id": "26.1-s038",
+   "section": "26.1",
+   "kind": "note",
+   "normative": false,
+   "text": "NOTE 1: The concrete mechanism for stopping all PTCs is tool specific and therefore outside the scope of the present document.",
+   "lines": [
+    20460,
+    20461
+   ]
+  },
+  {
+   "id": "26.1-s039",
+   "section": "26.1",
+   "kind": "prose",
+   "normative": true,
+   "text": "The final verdict of a test case is calculated based on the final local verdicts of the different test components according to the rules defined in clause 24.1.",
+   "lines": [
+    20463,
+    20465
+   ]
+  },
+  {
+   "id": "26.1-s040",
+   "section": "26.1",
+   "kind": "prose",
+   "normative": true,
+   "text": "The actual local verdict of a test component becomes its final local verdict when the test component terminates itself or is stopped by itself, another test component or by the test system.",
+   "lines": [
+    20463,
+    20465
+   ]
+  },
+  {
+   "id": "26.1-s041",
+   "section": "26.1",
+   "kind": "note",
+   "normative": false,
+   "text": "NOTE 2: To avoid race conditions for the calculation of test verdicts due to the delayed stopping of PTCs, the MTC should ensure that all PTCs have stopped (by means of the done or killed statement) before it stops itself.",
+   "lines": [
+    20467,
+    20469
+   ]
+  },
+  {
+   "id": "26.1-s042",
+   "section": "26.1",
+   "kind": "prose",
+   "normative": true,
+   "text": "**Test case timer**",
+   "lines": [
+    20471,
+    20471
+   ]
+  },
+  {
+   "id": "26.1-s043",
+   "section": "26.1",
+   "kind": "prose",
+   "normative": true,
+   "text": "Timer may be used to supervise the execution of a test case.",
+   "lines": [
+    20473,
+    20476
+   ]
+  },
+  {
+   "id": "26.1-s044",
+   "section": "26.1",
+   "kind": "prose",
+   "normative": true,
+   "text": "This may be done using an explicit timeout in the execute statement.",
+   "lines": [
+    20473,
+    20476
+   ]
+  },
+  {
+   "id": "26.1-s045",
+   "section": "26.1",
+   "kind": "prose",
+   "normative": true,
+   "text": "If the test case does not end within this duration, the result of the test case execution shall be an error verdict and the test system shall terminate the test case.",
+   "lines": [
+    20473,
+    20476
+   ]
+  },
+  {
+   "id": "26.1-s046",
+   "section": "26.1",
+   "kind": "prose",
+   "normative": true,
+   "text": "The timer used for test case supervision is a system timer and need not be declared or started.",
+   "lines": [
+    20473,
+    20476
+   ]
+  },
+  {
+   "id": "26.1-s047",
+   "section": "26.1",
+   "kind": "prose",
+   "normative": true,
+   "text": "**Host id**",
+   "lines": [
+    20478,
+    20478
+   ]
+  },
+  {
+   "id": "26.1-s048",
+   "section": "26.1",
+   "kind": "prose",
+   "normative": true,
+   "text": "A host id can be used to give a specific deployment location to the test system where the MTC shall be started and execute its behaviour.",
+   "lines": [
+    20480,
+    20482
+   ]
+  },
+  {
+   "id": "26.1-s049",
+   "section": "26.1",
+   "kind": "prose",
+   "normative": true,
+   "text": "If a host id is provided, the execute statement shall end with a test case error if the MTC cannot be deployed on the specified host.",
+   "lines": [
+    20480,
+    20482
+   ]
+  },
+  {
+   "id": "26.1-s050",
+   "section": "26.1",
+   "kind": "prose",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clause 5 and shown in table 16, the following restrictions apply:",
+   "lines": [
+    20486,
+    20487
+   ]
+  },
+  {
+   "id": "26.1-s051",
+   "section": "26.1",
+   "kind": "list-item",
+   "normative": true,
+   "text": "a) The TimerValue shall resolve to a non-negative numerical float value (i.e. the value shall be greater or equal 0.0, infinity and not_a_number are disallowed).",
+   "lines": [
+    20489,
+    20490
+   ]
+  },
+  {
+   "id": "26.1-s052",
+   "section": "26.1",
+   "kind": "list-item",
+   "normative": true,
+   "text": "b) When the corresponding formal parameter is not of template type TemplateInstance shall resolve to an _Expression._ c) The execute statement shall not be called from within an existing executing test behaviour chain called from a test case, i.e. test cases can only be executed from a control behaviour.",
+   "lines": [
+    20492,
+    20496
+   ]
+  },
+  {
+   "id": "26.1-s053",
+   "section": "26.1",
+   "kind": "list-item",
+   "normative": true,
+   "text": "d) The HostId parameter shall resolve to a charstring value.",
+   "lines": [
+    20498,
+    20498
+   ]
+  },
+  {
+   "id": "26.1-s054",
+   "section": "26.1",
+   "kind": "example-text",
+   "normative": false,
+   "text": "EXAMPLE 1: Test case execution without keeping the test case verdict:",
+   "lines": [
+    20502,
+    20502
+   ]
+  },
+  {
+   "id": "26.1-s055",
+   "section": "26.1",
+   "kind": "example-code",
+   "normative": false,
+   "text": "execute(TC_MyTestCase1()); // executes TC_MyTestCase1, without storing the\n                   // returned test verdict and without time supervision",
+   "lines": [
+    20503,
+    20506
+   ]
+  },
+  {
+   "id": "26.1-s056",
+   "section": "26.1",
+   "kind": "example-text",
+   "normative": false,
+   "text": "EXAMPLE 2: Test case execution with keeping the test case verdict:",
+   "lines": [
+    20508,
+    20508
+   ]
+  },
+  {
+   "id": "26.1-s057",
+   "section": "26.1",
+   "kind": "example-code",
+   "normative": false,
+   "text": "v_myVerdict := execute(TC_MyTestCase2()); // executes TC_MyTestCase2 and stores the resulting\n                             // verdict in variable v_myVerdict",
+   "lines": [
+    20509,
+    20512
+   ]
+  },
+  {
+   "id": "26.1-s058",
+   "section": "26.1",
+   "kind": "example-text",
+   "normative": false,
+   "text": "EXAMPLE 3: Test case timer:",
+   "lines": [
+    20514,
+    20514
+   ]
+  },
+  {
+   "id": "26.1-s059",
+   "section": "26.1",
+   "kind": "example-code",
+   "normative": false,
+   "text": "v_myVerdict := execute(TC_MyTestCase3(),5E-3);\n  // executes TC_MyTestCase3 and stores the resulting verdict in variable v_myVerdict.\n  // If the test case does not terminate within 5ms, v_myVerdict will get the value 'error'",
+   "lines": [
+    20515,
+    20519
+   ]
+  },
+  {
+   "id": "26.1-s060",
+   "section": "26.1",
+   "kind": "example-text",
+   "normative": false,
+   "text": "EXAMPLE 4: Host id:",
+   "lines": [
+    20521,
+    20521
+   ]
+  },
+  {
+   "id": "26.1-s061",
+   "section": "26.1",
+   "kind": "example-code",
+   "normative": false,
+   "text": "v_myVerdict := execute(TC_MyTestCase3(), -, \"Host1\");\n  // executes TC_MyTestCase3 with unlimited time with MTC deployed to 'Host1'",
+   "lines": [
+    20522,
+    20525
+   ]
+  },
+  {
+   "id": "26.2-s001",
+   "section": "26.2",
+   "kind": "prose",
+   "normative": true,
+   "text": "TTCN-3 test suite execution is controlled by the module control function.",
+   "lines": [
+    20529,
+    20530
+   ]
+  },
+  {
+   "id": "26.2-s002",
+   "section": "26.2",
+   "kind": "prose",
+   "normative": true,
+   "text": "The module control function defines, in which order, sequence, loop, under which preconditions, and with which parameters test cases are to be executed.",
+   "lines": [
+    20529,
+    20530
+   ]
+  },
+  {
+   "id": "26.2-s003",
+   "section": "26.2",
+   "kind": "prose",
+   "normative": true,
+   "text": "**Execution and control component**",
+   "lines": [
+    20537,
+    20537
+   ]
+  },
+  {
+   "id": "26.2-s004",
+   "section": "26.2",
+   "kind": "prose",
+   "normative": true,
+   "text": "The module control function is an entry point for execution of a TTCN-3 test suite.",
+   "lines": [
+    20539,
+    20543
+   ]
+  },
+  {
+   "id": "26.2-s005",
+   "section": "26.2",
+   "kind": "prose",
+   "normative": true,
+   "text": "If the function contains formal parameters, their actual values shall be provided.",
+   "lines": [
+    20539,
+    20543
+   ]
+  },
+  {
+   "id": "26.2-s006",
+   "section": "26.2",
+   "kind": "prose",
+   "normative": true,
+   "text": "When the control function is started, the TE creates a test component called control component.",
+   "lines": [
+    20539,
+    20543
+   ]
+  },
+  {
+   "id": "26.2-s007",
+   "section": "26.2",
+   "kind": "prose",
+   "normative": true,
+   "text": "The component contains variables, constants, templates and timers important for controlling of the execution of the test suite.",
+   "lines": [
+    20539,
+    20543
+   ]
+  },
+  {
+   "id": "26.2-s008",
+   "section": "26.2",
+   "kind": "prose",
+   "normative": true,
+   "text": "The created control component is of the type specified in the runs `on clause of the` module control function.",
+   "lines": [
+    20539,
+    20543
+   ]
+  },
+  {
+   "id": "26.2-s009",
+   "section": "26.2",
+   "kind": "prose",
+   "normative": true,
+   "text": "If the runs `on clause is missing, an empty control component is created.`",
+   "lines": [
+    20539,
+    20543
+   ]
+  },
+  {
+   "id": "26.2-s010",
+   "section": "26.2",
+   "kind": "prose",
+   "normative": true,
+   "text": "**Sequence of test cases**",
+   "lines": [
+    20545,
+    20545
+   ]
+  },
+  {
+   "id": "26.2-s011",
+   "section": "26.2",
+   "kind": "prose",
+   "normative": true,
+   "text": "Program statements specify such things like the order in which test cases are to be executed or the number of times a test case should run.",
+   "lines": [
+    20547,
+    20548
+   ]
+  },
+  {
+   "id": "26.2-s012",
+   "section": "26.2",
+   "kind": "prose",
+   "normative": true,
+   "text": "If no programming statements are used then, by default, the test cases are executed in the sequential order in which they appear in the module control function.",
+   "lines": [
+    20550,
+    20551
+   ]
+  },
+  {
+   "id": "26.2-s013",
+   "section": "26.2",
+   "kind": "note",
+   "normative": false,
+   "text": "NOTE: This does not preclude the possibility that certain tools may wish to override this default ordering to allow a user or tool to select a different execution order.",
+   "lines": [
+    20553,
+    20554
+   ]
+  },
+  {
+   "id": "26.2-s014",
+   "section": "26.2",
+   "kind": "prose",
+   "normative": true,
+   "text": "Timer operations may also be used explicitly to control test case execution.",
+   "lines": [
+    20556,
+    20556
+   ]
+  },
+  {
+   "id": "26.2-s015",
+   "section": "26.2",
+   "kind": "prose",
+   "normative": true,
+   "text": "**Selection/deselection of test cases**",
+   "lines": [
+    20558,
+    20558
+   ]
+  },
+  {
+   "id": "26.2-s016",
+   "section": "26.2",
+   "kind": "prose",
+   "normative": true,
+   "text": "The selection and deselection of test cases can also be used to control the execution of test cases.",
+   "lines": [
+    20560,
+    20560
+   ]
+  },
+  {
+   "id": "26.2-s017",
+   "section": "26.2",
+   "kind": "prose",
+   "normative": true,
+   "text": "There are different ways in TTCN-3 to select and deselect test cases.",
+   "lines": [
+    20562,
+    20564
+   ]
+  },
+  {
+   "id": "26.2-s018",
+   "section": "26.2",
+   "kind": "prose",
+   "normative": true,
+   "text": "For example, boolean expressions may be used to select and deselect which test cases are to be executed.",
+   "lines": [
+    20562,
+    20564
+   ]
+  },
+  {
+   "id": "26.2-s019",
+   "section": "26.2",
+   "kind": "prose",
+   "normative": true,
+   "text": "This includes, of course, the use of functions that return a boolean value.",
+   "lines": [
+    20562,
+    20564
+   ]
+  },
+  {
+   "id": "26.2-s020",
+   "section": "26.2",
+   "kind": "prose",
+   "normative": true,
+   "text": "Another way to execute test cases as a group is to collect them in a control function and invoke that function from the module control function.",
+   "lines": [
+    20566,
+    20567
+   ]
+  },
+  {
+   "id": "26.2-s021",
+   "section": "26.2",
+   "kind": "prose",
+   "normative": true,
+   "text": "As a test case returns a single value of type verdicttype, it is also possible to control the order of test case execution depending on the outcome of a test case.",
+   "lines": [
+    20569,
+    20571
+   ]
+  },
+  {
+   "id": "26.2-s022",
+   "section": "26.2",
+   "kind": "prose",
+   "normative": true,
+   "text": "The use of the TTCN-3 verdicttype is another way to select test cases.",
+   "lines": [
+    20569,
+    20571
+   ]
+  },
+  {
+   "id": "26.2-s023",
+   "section": "26.2",
+   "kind": "example-text",
+   "normative": false,
+   "text": "EXAMPLE 1: Test case execution in a loop:",
+   "lines": [
+    20575,
+    20575
+   ]
+  },
+  {
+   "id": "26.2-s024",
+   "section": "26.2",
+   "kind": "example-code",
+   "normative": false,
+   "text": "module MyTestSuite () {\n     :\n     control {\n        :\n       // Do this test 10 times \n       v_count:=0;\n       while (v_count < 10) \n       { execute (TC_MySimpleTestCase1());\n          V_count := v_count+1;\n       }\n     }\n  }",
+   "lines": [
+    20576,
+    20589
+   ]
+  },
+  {
+   "id": "26.2-s025",
+   "section": "26.2",
+   "kind": "example-text",
+   "normative": false,
+   "text": "EXAMPLE 2: Test case execution controlled by a timer and a counter:",
+   "lines": [
+    20591,
+    20591
+   ]
+  },
+  {
+   "id": "26.2-s026",
+   "section": "26.2",
+   "kind": "example-code",
+   "normative": false,
+   "text": "// Example of the use of the running timer operation \n  while (t_t1.running or v_x<10) // Where t_t1 is a previously started timer\n  { execute(TC_MyTestCase());\n     v_x := v_x+1;\n  }\n  // Example of the use of the start and timeout operations \n  timer t_t1:= 1.0;\n   :\n  execute(TC_MyTestCase1());\n  t_t1.start;\n  t_t1.timeout; // Pause before executing the next test case\n  execute(TC_MyTestCase2());",
+   "lines": [
+    20592,
+    20605
+   ]
+  },
+  {
+   "id": "26.2-s027",
+   "section": "26.2",
+   "kind": "example-text",
+   "normative": false,
+   "text": "EXAMPLE 3: Selection/deselection of test cases with Boolean expressions:",
+   "lines": [
+    20612,
+    20612
+   ]
+  },
+  {
+   "id": "26.2-s028",
+   "section": "26.2",
+   "kind": "example-code",
+   "normative": false,
+   "text": "module MyTestSuite () {\n     :\n     control {\n        :\n       if (f_mySelectionExpression1()) {\n          execute(TC_MySimpleTestCase1());\n          execute(TC_MySimpleTestCase2());\n          execute(TC_MySimpleTestCase3());\n       }\n       if (f_mySelectionExpression2()) {\n          execute(TC_MySimpleTestCase4());\n          execute(TC_MySimpleTestCase5());\n          execute(TC_MySimpleTestCase6());\n       }\n        :\n     }\n  }",
+   "lines": [
+    20613,
+    20631
+   ]
+  },
+  {
+   "id": "26.2-s029",
+   "section": "26.2",
+   "kind": "example-text",
+   "normative": false,
+   "text": "EXAMPLE 4: Selection/deselection of test cases with functions:",
+   "lines": [
+    20633,
+    20633
+   ]
+  },
+  {
+   "id": "26.2-s030",
+   "section": "26.2",
+   "kind": "example-code",
+   "normative": false,
+   "text": "function f_myTestCaseGroup1()\n  { execute(TC_MySimpleTestCase1());\n     execute(TC_MySimpleTestCase2());\n     execute(TC_MySimpleTestCase3());\n  }\n  function f_myTestCaseGroup2()\n  { execute(TC_MySimpleTestCase4());\n     execute(TC_MySimpleTestCase5());\n     execute(TC_MySimpleTestCase6());\n  }\n   :\n  control\n  { if (f_mySelectionExpression1()) { f_myTestCaseGroup1(); }\n     if (f_mySelectionExpression2()) { f_myTestCaseGroup2(); }\n     :\n  }",
+   "lines": [
+    20634,
+    20651
+   ]
+  },
+  {
+   "id": "26.2-s031",
+   "section": "26.2",
+   "kind": "example-text",
+   "normative": false,
+   "text": "EXAMPLE 5: Selection/deselection of test cases based on test case verdicts:",
+   "lines": [
+    20653,
+    20653
+   ]
+  },
+  {
+   "id": "26.2-s032",
+   "section": "26.2",
+   "kind": "example-code",
+   "normative": false,
+   "text": "if ( execute (TC_MySimpleTestCase()) == pass )\n    { execute (TC_MyGoOnTestCase()) }\n  else \n    { execute (TC_MyErrorRecoveryTestCase()) };",
+   "lines": [
+    20654,
+    20659
+   ]
+  }
+ ],
+ "entities": [
+  {
+   "id": "ent:action-statement",
+   "term_ref": null,
+   "sentence_ids": [
+    "26.1-s034"
+   ],
+   "name": "action statement",
+   "category": "statement"
+  },
+  {
+   "id": "ent:activate-operation",
+   "term_ref": null,
+   "sentence_ids": [
+    "26.1-s027",
+    "26.1-s036"
+   ],
+   "name": "activate operation",
+   "category": "operation"
+  },
+  {
+   "id": "ent:actual-parameter",
+   "term_ref": "actual parameter",
+   "sentence_ids": [
+    "26.1-s052",
+    "26.2-s005",
+    "26.1-s002"
+   ],
+   "name": "actual parameter",
+   "category": "language-element"
+  },
+  {
+   "id": "ent:alt-statement",
+   "term_ref": null,
+   "sentence_ids": [
+    "26.1-s024",
+    "26.1-s036"
+   ],
+   "name": "alt statement",
+   "category": "statement"
+  },
+  {
+   "id": "ent:assignment",
+   "term_ref": null,
+   "sentence_ids": [
+    "26.0-s004",
+    "26.1-s057"
+   ],
+   "name": "assignment",
+   "category": "statement"
+  },
+  {
+   "id": "ent:break-statement",
+   "term_ref": null,
+   "sentence_ids": [
+    "26.0-s012"
+   ],
+   "name": "break statement",
+   "category": "statement"
+  },
+  {
+   "id": "ent:component-type",
+   "term_ref": null,
+   "sentence_ids": [
+    "26.2-s008"
+   ],
+   "name": "component type",
+   "category": "type"
+  },
+  {
+   "id": "ent:continue-statement",
+   "term_ref": null,
+   "sentence_ids": [
+    "26.1-s022"
+   ],
+   "name": "continue statement",
+   "category": "statement"
+  },
+  {
+   "id": "ent:control-behaviour",
+   "term_ref": "control behaviour",
+   "sentence_ids": [
+    "26.1-s003"
+   ],
+   "name": "control behaviour",
+   "category": "concept"
+  },
+  {
+   "id": "ent:control-component",
+   "term_ref": null,
+   "sentence_ids": [
+    "26.2-s006",
+    "26.2-s007",
+    "26.2-s008",
+    "26.2-s009"
+   ],
+   "name": "control component",
+   "category": "concept"
+  },
+  {
+   "id": "ent:deactivate-operation",
+   "term_ref": null,
+   "sentence_ids": [
+    "26.1-s028",
+    "26.1-s036"
+   ],
+   "name": "deactivate operation",
+   "category": "operation"
+  },
+  {
+   "id": "ent:do-while-statement",
+   "term_ref": null,
+   "sentence_ids": [
+    "26.0-s009"
+   ],
+   "name": "do-while statement",
+   "category": "statement"
+  },
+  {
+   "id": "ent:done-operation",
+   "term_ref": null,
+   "sentence_ids": [
+    "26.1-s041"
+   ],
+   "name": "done operation",
+   "category": "operation"
+  },
+  {
+   "id": "ent:execute-statement",
+   "term_ref": null,
+   "sentence_ids": [
+    "26.1-s002",
+    "26.1-s055",
+    "26.1-s057",
+    "26.1-s059",
+    "26.1-s061",
+    "26.1-s003",
+    "26.1-s004",
+    "26.1-s011",
+    "26.1-s012",
+    "26.1-s013",
+    "26.1-s035",
+    "26.2-s024",
+    "26.2-s028",
+    "26.2-s030",
+    "26.2-s032",
+    "26.1-s045",
+    "26.1-s049",
+    "26.1-s052"
+   ],
+   "name": "execute statement",
+   "category": "statement"
+  },
+  {
+   "id": "ent:expression",
+   "term_ref": null,
+   "sentence_ids": [
+    "26.2-s018",
+    "26.2-s028"
+   ],
+   "name": "expression",
+   "category": "language-element"
+  },
+  {
+   "id": "ent:final-verdict",
+   "term_ref": null,
+   "sentence_ids": [
+    "26.1-s039"
+   ],
+   "name": "final verdict",
+   "category": "concept"
+  },
+  {
+   "id": "ent:for-statement",
+   "term_ref": null,
+   "sentence_ids": [
+    "26.0-s007"
+   ],
+   "name": "for statement",
+   "category": "statement"
+  },
+  {
+   "id": "ent:function",
+   "term_ref": null,
+   "sentence_ids": [
+    "26.2-s019",
+    "26.2-s018",
+    "26.2-s028",
+    "26.2-s020",
+    "26.2-s030"
+   ],
+   "name": "function",
+   "category": "language-element"
+  },
+  {
+   "id": "ent:goto-statement",
+   "term_ref": null,
+   "sentence_ids": [
+    "26.0-s010"
+   ],
+   "name": "goto statement",
+   "category": "statement"
+  },
+  {
+   "id": "ent:host-id",
+   "term_ref": null,
+   "sentence_ids": [
+    "26.1-s014",
+    "26.1-s061",
+    "26.1-s048",
+    "26.1-s053",
+    "26.1-s002",
+    "26.1-s013"
+   ],
+   "name": "host id",
+   "category": "concept"
+  },
+  {
+   "id": "ent:if-else-statement",
+   "term_ref": null,
+   "sentence_ids": [
+    "26.0-s005",
+    "26.2-s028",
+    "26.2-s032"
+   ],
+   "name": "if-else statement",
+   "category": "statement"
+  },
+  {
+   "id": "ent:interleave-statement",
+   "term_ref": null,
+   "sentence_ids": [
+    "26.1-s026",
+    "26.1-s036"
+   ],
+   "name": "interleave statement",
+   "category": "statement"
+  },
+  {
+   "id": "ent:killed-operation",
+   "term_ref": null,
+   "sentence_ids": [
+    "26.1-s041"
+   ],
+   "name": "killed operation",
+   "category": "operation"
+  },
+  {
+   "id": "ent:label-statement",
+   "term_ref": null,
+   "sentence_ids": [
+    "26.0-s010"
+   ],
+   "name": "label statement",
+   "category": "statement"
+  },
+  {
+   "id": "ent:local-verdict",
+   "term_ref": null,
+   "sentence_ids": [
+    "26.1-s040",
+    "26.1-s039"
+   ],
+   "name": "local verdict",
+   "category": "concept"
+  },
+  {
+   "id": "ent:log-statement",
+   "term_ref": null,
+   "sentence_ids": [
+    "26.1-s023"
+   ],
+   "name": "log statement",
+   "category": "statement"
+  },
+  {
+   "id": "ent:module",
+   "term_ref": null,
+   "sentence_ids": [
+    "26.0-s001"
+   ],
+   "name": "module",
+   "category": "language-element"
+  },
+  {
+   "id": "ent:module-control-function",
+   "term_ref": "control behaviour",
+   "sentence_ids": [
+    "26.0-s001",
+    "26.2-s001",
+    "26.2-s002",
+    "26.2-s024",
+    "26.2-s004",
+    "26.2-s011",
+    "26.2-s012",
+    "26.2-s016",
+    "26.2-s021",
+    "26.2-s032",
+    "26.1-s001",
+    "26.2-s008",
+    "26.1-s035"
+   ],
+   "name": "control behaviour",
+   "category": "language-element"
+  },
+  {
+   "id": "ent:mtc",
+   "term_ref": "Main Test Component (MTC)",
+   "sentence_ids": [
+    "26.1-s005",
+    "26.1-s006",
+    "26.1-s007",
+    "26.1-s041"
+   ],
+   "name": "Main Test Component (MTC)",
+   "category": "language-element"
+  },
+  {
+   "id": "ent:port",
+   "term_ref": "communication port",
+   "sentence_ids": [
+    "26.1-s007"
+   ],
+   "name": "communication port",
+   "category": "language-element"
+  },
+  {
+   "id": "ent:ptc",
+   "term_ref": "Parallel Test Component (PTC)",
+   "sentence_ids": [
+    "26.1-s021"
+   ],
+   "name": "Parallel Test Component (PTC)",
+   "category": "concept"
+  },
+  {
+   "id": "ent:read-timer-operation",
+   "term_ref": null,
+   "sentence_ids": [
+    "26.1-s031"
+   ],
+   "name": "read timer operation",
+   "category": "operation"
+  },
+  {
+   "id": "ent:repeat-statement",
+   "term_ref": null,
+   "sentence_ids": [
+    "26.1-s025",
+    "26.1-s036"
+   ],
+   "name": "repeat statement",
+   "category": "statement"
+  },
+  {
+   "id": "ent:running-timer-operation",
+   "term_ref": null,
+   "sentence_ids": [
+    "26.1-s032",
+    "26.2-s026"
+   ],
+   "name": "running timer operation",
+   "category": "operation"
+  },
+  {
+   "id": "ent:runs-on-clause",
+   "term_ref": null,
+   "sentence_ids": [
+    "26.2-s008"
+   ],
+   "name": "runs on clause",
+   "category": "language-element"
+  },
+  {
+   "id": "ent:select-case-statement",
+   "term_ref": null,
+   "sentence_ids": [
+    "26.0-s006"
+   ],
+   "name": "select case statement",
+   "category": "statement"
+  },
+  {
+   "id": "ent:start-timer-operation",
+   "term_ref": null,
+   "sentence_ids": [
+    "26.1-s029",
+    "26.2-s026"
+   ],
+   "name": "start timer operation",
+   "category": "operation"
+  },
+  {
+   "id": "ent:stop-statement",
+   "term_ref": null,
+   "sentence_ids": [
+    "26.0-s011"
+   ],
+   "name": "stop statement",
+   "category": "statement"
+  },
+  {
+   "id": "ent:stop-timer-operation",
+   "term_ref": null,
+   "sentence_ids": [
+    "26.1-s030"
+   ],
+   "name": "stop timer operation",
+   "category": "operation"
+  },
+  {
+   "id": "ent:system-timer",
+   "term_ref": null,
+   "sentence_ids": [
+    "26.1-s046",
+    "26.1-s059"
+   ],
+   "name": "system timer",
+   "category": "concept"
+  },
+  {
+   "id": "ent:test-component",
+   "term_ref": null,
+   "sentence_ids": [
+    "26.1-s018",
+    "26.1-s017",
+    "26.1-s005",
+    "26.1-s021",
+    "26.2-s006"
+   ],
+   "name": "test component",
+   "category": "language-element"
+  },
+  {
+   "id": "ent:test-configuration",
+   "term_ref": null,
+   "sentence_ids": [
+    "26.1-s017"
+   ],
+   "name": "test configuration",
+   "category": "concept"
+  },
+  {
+   "id": "ent:test-system",
+   "term_ref": "test system",
+   "sentence_ids": [
+    "26.1-s021",
+    "26.1-s045",
+    "26.1-s059"
+   ],
+   "name": "test system",
+   "category": "concept"
+  },
+  {
+   "id": "ent:testcase",
+   "term_ref": "test case",
+   "sentence_ids": [
+    "26.0-s001",
+    "26.1-s001",
+    "26.1-s055",
+    "26.1-s005",
+    "26.1-s007",
+    "26.1-s020",
+    "26.1-s043",
+    "26.1-s059"
+   ],
+   "name": "test case",
+   "category": "language-element"
+  },
+  {
+   "id": "ent:timeout-operation",
+   "term_ref": null,
+   "sentence_ids": [
+    "26.1-s033",
+    "26.2-s026"
+   ],
+   "name": "timeout operation",
+   "category": "operation"
+  },
+  {
+   "id": "ent:timer-operation",
+   "term_ref": null,
+   "sentence_ids": [
+    "26.2-s014",
+    "26.2-s026"
+   ],
+   "name": "timer operation",
+   "category": "operation"
+  },
+  {
+   "id": "ent:timer-value",
+   "term_ref": null,
+   "sentence_ids": [
+    "26.1-s044",
+    "26.1-s043",
+    "26.1-s059",
+    "26.1-s051",
+    "26.1-s002",
+    "26.1-s012",
+    "26.1-s046"
+   ],
+   "name": "timer value",
+   "category": "value"
+  },
+  {
+   "id": "ent:ttcn3-language",
+   "term_ref": null,
+   "sentence_ids": [
+    "26.1-s016"
+   ],
+   "name": "TTCN-3 language",
+   "category": "concept"
+  },
+  {
+   "id": "ent:ttcn3-tool",
+   "term_ref": null,
+   "sentence_ids": [
+    "26.1-s008",
+    "26.1-s007",
+    "26.1-s038",
+    "26.2-s013"
+   ],
+   "name": "TTCN-3 tool",
+   "category": "entity"
+  },
+  {
+   "id": "ent:variable",
+   "term_ref": null,
+   "sentence_ids": [
+    "26.1-s016"
+   ],
+   "name": "variable",
+   "category": "language-element"
+  },
+  {
+   "id": "ent:verdicttype",
+   "term_ref": null,
+   "sentence_ids": [
+    "26.2-s022",
+    "26.2-s032",
+    "26.1-s004"
+   ],
+   "name": "verdicttype",
+   "category": "type"
+  },
+  {
+   "id": "ent:while-statement",
+   "term_ref": null,
+   "sentence_ids": [
+    "26.0-s008",
+    "26.2-s024",
+    "26.2-s026"
+   ],
+   "name": "while statement",
+   "category": "statement"
+  }
+ ],
+ "terms_used": [
+  {
+   "term": "actual parameter",
+   "in_glossary": true,
+   "sentence_ids": [
+    "26.1-s002"
+   ]
+  },
+  {
+   "term": "behaviour definition",
+   "in_glossary": true,
+   "sentence_ids": [
+    "26.1-s016"
+   ]
+  },
+  {
+   "term": "control behaviour",
+   "in_glossary": true,
+   "sentence_ids": [
+    "26.0-s002",
+    "26.1-s003"
+   ]
+  },
+  {
+   "term": "control component",
+   "in_glossary": false,
+   "sentence_ids": [
+    "26.2-s006"
+   ]
+  },
+  {
+   "term": "default",
+   "in_glossary": false,
+   "sentence_ids": [
+    "26.1-s027"
+   ]
+  },
+  {
+   "term": "execute statement",
+   "in_glossary": false,
+   "sentence_ids": [
+    "26.1-s001"
+   ]
+  },
+  {
+   "term": "final verdict",
+   "in_glossary": false,
+   "sentence_ids": [
+    "26.1-s039"
+   ]
+  },
+  {
+   "term": "formal parameter",
+   "in_glossary": true,
+   "sentence_ids": [
+    "26.1-s052",
+    "26.2-s005"
+   ]
+  },
+  {
+   "term": "global variable",
+   "in_glossary": false,
+   "sentence_ids": [
+    "26.1-s016"
+   ]
+  },
+  {
+   "term": "host id",
+   "in_glossary": false,
+   "sentence_ids": [
+    "26.1-s014"
+   ]
+  },
+  {
+   "term": "local verdict",
+   "in_glossary": false,
+   "sentence_ids": [
+    "26.1-s040"
+   ]
+  },
+  {
+   "term": "Main Test Component (MTC)",
+   "in_glossary": true,
+   "sentence_ids": [
+    "26.1-s005"
+   ]
+  },
+  {
+   "term": "module control function",
+   "in_glossary": false,
+   "sentence_ids": [
+    "26.2-s001"
+   ]
+  },
+  {
+   "term": "module definitions part",
+   "in_glossary": false,
+   "sentence_ids": [
+    "26.0-s001"
+   ]
+  },
+  {
+   "term": "Parallel Test Component (PTC)",
+   "in_glossary": true,
+   "sentence_ids": [
+    "26.1-s021"
+   ]
+  },
+  {
+   "term": "port",
+   "in_glossary": false,
+   "sentence_ids": [
+    "26.1-s007"
+   ]
+  },
+  {
+   "term": "runs on clause",
+   "in_glossary": false,
+   "sentence_ids": [
+    "26.2-s008"
+   ]
+  },
+  {
+   "term": "scope unit",
+   "in_glossary": false,
+   "sentence_ids": [
+    "26.1-s016"
+   ]
+  },
+  {
+   "term": "system timer",
+   "in_glossary": false,
+   "sentence_ids": [
+    "26.1-s046"
+   ]
+  },
+  {
+   "term": "template",
+   "in_glossary": true,
+   "sentence_ids": [
+    "26.2-s007"
+   ]
+  },
+  {
+   "term": "test behaviour",
+   "in_glossary": true,
+   "sentence_ids": [
+    "26.1-s052"
+   ]
+  },
+  {
+   "term": "test case",
+   "in_glossary": true,
+   "sentence_ids": [
+    "26.0-s001",
+    "26.1-s001"
+   ]
+  },
+  {
+   "term": "test case error",
+   "in_glossary": true,
+   "sentence_ids": [
+    "26.1-s049"
+   ]
+  },
+  {
+   "term": "test component",
+   "in_glossary": false,
+   "sentence_ids": [
+    "26.1-s040"
+   ]
+  },
+  {
+   "term": "test configuration",
+   "in_glossary": false,
+   "sentence_ids": [
+    "26.1-s017"
+   ]
+  },
+  {
+   "term": "test suite",
+   "in_glossary": true,
+   "sentence_ids": [
+    "26.2-s001"
+   ]
+  },
+  {
+   "term": "test system",
+   "in_glossary": true,
+   "sentence_ids": [
+    "26.1-s021"
+   ]
+  },
+  {
+   "term": "test system interface",
+   "in_glossary": true,
+   "sentence_ids": [
+    "26.1-s007"
+   ]
+  },
+  {
+   "term": "timer",
+   "in_glossary": false,
+   "sentence_ids": [
+    "26.1-s043"
+   ]
+  },
+  {
+   "term": "timer operation",
+   "in_glossary": false,
+   "sentence_ids": [
+    "26.2-s014"
+   ]
+  },
+  {
+   "term": "value",
+   "in_glossary": true,
+   "sentence_ids": [
+    "26.1-s004"
+   ]
+  },
+  {
+   "term": "variable",
+   "in_glossary": false,
+   "sentence_ids": [
+    "26.1-s016"
+   ]
+  },
+  {
+   "term": "verdicttype",
+   "in_glossary": false,
+   "sentence_ids": [
+    "26.1-s004"
+   ]
+  }
+ ],
+ "relationships": [
+  {
+   "subject": "ent:module-control-function",
+   "predicate": "invokes",
+   "object": "ent:testcase",
+   "sentence_ids": [
+    "26.0-s001",
+    "26.1-s001"
+   ]
+  },
+  {
+   "subject": "ent:execute-statement",
+   "predicate": "is-defined-in",
+   "object": "ent:control-behaviour",
+   "sentence_ids": [
+    "26.1-s003"
+   ]
+  },
+  {
+   "subject": "ent:execute-statement",
+   "predicate": "returns",
+   "object": "ent:verdicttype",
+   "sentence_ids": [
+    "26.1-s004"
+   ]
+  },
+  {
+   "subject": "ent:testcase",
+   "predicate": "has-part",
+   "object": "ent:mtc",
+   "sentence_ids": [
+    "26.1-s005"
+   ]
+  },
+  {
+   "subject": "ent:mtc",
+   "predicate": "is-a",
+   "object": "ent:test-component",
+   "sentence_ids": [
+    "26.1-s005"
+   ]
+  },
+  {
+   "subject": "ent:ptc",
+   "predicate": "is-a",
+   "object": "ent:test-component",
+   "sentence_ids": [
+    "26.1-s021"
+   ]
+  },
+  {
+   "subject": "ent:execute-statement",
+   "predicate": "has-part",
+   "object": "ent:timer-value",
+   "sentence_ids": [
+    "26.1-s002",
+    "26.1-s012"
+   ]
+  },
+  {
+   "subject": "ent:execute-statement",
+   "predicate": "has-part",
+   "object": "ent:host-id",
+   "sentence_ids": [
+    "26.1-s002",
+    "26.1-s013"
+   ]
+  },
+  {
+   "subject": "ent:execute-statement",
+   "predicate": "has-part",
+   "object": "ent:actual-parameter",
+   "sentence_ids": [
+    "26.1-s002"
+   ]
+  },
+  {
+   "subject": "ent:timer-value",
+   "predicate": "references",
+   "object": "ent:system-timer",
+   "sentence_ids": [
+    "26.1-s046"
+   ]
+  },
+  {
+   "subject": "ent:final-verdict",
+   "predicate": "references",
+   "object": "ent:local-verdict",
+   "sentence_ids": [
+    "26.1-s039"
+   ]
+  },
+  {
+   "subject": "ent:control-component",
+   "predicate": "is-a",
+   "object": "ent:test-component",
+   "sentence_ids": [
+    "26.2-s006"
+   ]
+  },
+  {
+   "subject": "ent:module-control-function",
+   "predicate": "has-part",
+   "object": "ent:runs-on-clause",
+   "sentence_ids": [
+    "26.2-s008"
+   ]
+  },
+  {
+   "subject": "ent:mtc",
+   "predicate": "invokes",
+   "object": "ent:done-operation",
+   "sentence_ids": [
+    "26.1-s041"
+   ]
+  },
+  {
+   "subject": "ent:mtc",
+   "predicate": "invokes",
+   "object": "ent:killed-operation",
+   "sentence_ids": [
+    "26.1-s041"
+   ]
+  },
+  {
+   "subject": "ent:module-control-function",
+   "predicate": "is-defined-in",
+   "object": "ent:module",
+   "sentence_ids": [
+    "26.0-s001"
+   ]
+  },
+  {
+   "subject": "ent:module-control-function",
+   "predicate": "may-contain",
+   "object": "ent:execute-statement",
+   "sentence_ids": [
+    "26.1-s035"
+   ]
+  },
+  {
+   "subject": "ent:control-component",
+   "predicate": "has-type",
+   "object": "ent:component-type",
+   "sentence_ids": [
+    "26.2-s008"
+   ]
+  }
+ ],
+ "requirements": [
+  {
+   "id": "TTCN3-CORE-26.0-001a",
+   "section": "26.0",
+   "type": "information",
+   "modality": "IS",
+   "subject": "ent:testcase",
+   "condition": null,
+   "canonical": "A test case IS defined in the module definitions part.",
+   "original": "Test cases are defined in the module definitions part while the control functions manage their execution.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "26.0-s001"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.0-001b",
+   "section": "26.0",
+   "type": "semantics",
+   "modality": "IS",
+   "subject": "ent:module-control-function",
+   "condition": null,
+   "canonical": "The module control function IS the place that manages the execution of test cases.",
+   "original": "Test cases are defined in the module definitions part while the control functions manage their execution.",
+   "normative": true,
+   "testable": false,
+   "cross_refs": [
+    "26.2"
+   ],
+   "sentence_ids": [
+    "26.0-s001"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.0-004a",
+   "section": "26.0",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:assignment",
+   "condition": null,
+   "canonical": "An assignment (`:=`) MAY be used in control behaviour.",
+   "original": "Statement: Assignments; Associated keyword or symbol: :=",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "26.0"
+   ],
+   "sentence_ids": [
+    "26.0-s004"
+   ],
+   "examples": [
+    "26.1-s057"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.0-005a",
+   "section": "26.0",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:if-else-statement",
+   "condition": null,
+   "canonical": "The if-else statement (`if (…) {…} else {…}`) MAY be used in control behaviour.",
+   "original": "Statement: If-else; Associated keyword or symbol: if (…) {…} else {…}",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "26.0"
+   ],
+   "sentence_ids": [
+    "26.0-s005"
+   ],
+   "examples": [
+    "26.2-s028",
+    "26.2-s032"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.0-006a",
+   "section": "26.0",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:select-case-statement",
+   "condition": null,
+   "canonical": "The select case statement (`select case`) MAY be used in control behaviour.",
+   "original": "Statement: Select case; Associated keyword or symbol: select case (…) { case (…) {…} case else {…}}",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "26.0"
+   ],
+   "sentence_ids": [
+    "26.0-s006"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.0-007a",
+   "section": "26.0",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:for-statement",
+   "condition": null,
+   "canonical": "The `for` loop statement MAY be used in control behaviour.",
+   "original": "Statement: For loop; Associated keyword or symbol: for (…) {…}",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "26.0"
+   ],
+   "sentence_ids": [
+    "26.0-s007"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.0-008a",
+   "section": "26.0",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:while-statement",
+   "condition": null,
+   "canonical": "The `while` loop statement MAY be used in control behaviour.",
+   "original": "Statement: While loop; Associated keyword or symbol: while (…) {…}",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "26.0"
+   ],
+   "sentence_ids": [
+    "26.0-s008"
+   ],
+   "examples": [
+    "26.2-s024",
+    "26.2-s026"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.0-009a",
+   "section": "26.0",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:do-while-statement",
+   "condition": null,
+   "canonical": "The `do`-`while` loop statement MAY be used in control behaviour.",
+   "original": "Statement: Do while loop; Associated keyword or symbol: do {…} while (…)",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "26.0"
+   ],
+   "sentence_ids": [
+    "26.0-s009"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.0-010a",
+   "section": "26.0",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:label-statement",
+   "condition": null,
+   "canonical": "The `label` statement MAY be used in control behaviour.",
+   "original": "Statement: Label and Goto; Associated keyword or symbol: label / goto",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "26.0"
+   ],
+   "sentence_ids": [
+    "26.0-s010"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.0-010b",
+   "section": "26.0",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:goto-statement",
+   "condition": null,
+   "canonical": "The `goto` statement MAY be used in control behaviour.",
+   "original": "Statement: Label and Goto; Associated keyword or symbol: label / goto",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "26.0"
+   ],
+   "sentence_ids": [
+    "26.0-s010"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.0-011a",
+   "section": "26.0",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:stop-statement",
+   "condition": null,
+   "canonical": "The `stop` statement (stop execution) MAY be used in control behaviour.",
+   "original": "Statement: Stop execution; Associated keyword or symbol: stop",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "26.0"
+   ],
+   "sentence_ids": [
+    "26.0-s011"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.0-012a",
+   "section": "26.0",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:break-statement",
+   "condition": null,
+   "canonical": "The `break` statement (leaving a loop, alt or interleave) MAY be used in control behaviour.",
+   "original": "Statement: Leaving a loop, alt or interleave; Associated keyword or symbol: break",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "26.0"
+   ],
+   "sentence_ids": [
+    "26.0-s012"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.1-001a",
+   "section": "26.1",
+   "type": "semantics",
+   "modality": "IS",
+   "subject": "ent:testcase",
+   "condition": null,
+   "canonical": "A test case IS executed by an `execute` statement in the module control function.",
+   "original": "Test cases are executed with an execute statement in the module control.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "26.1-s001"
+   ],
+   "examples": [
+    "26.1-s055"
+   ],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "\"module control\" is used instead of the V4.17.1 term \"module control function\".",
+    "improper_terms": [
+     {
+      "used": "module control",
+      "proper": "module control function",
+      "glossary": false
+     }
+    ]
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.1-002a",
+   "section": "26.1",
+   "type": "syntax",
+   "modality": "IS",
+   "subject": "ent:execute-statement",
+   "condition": null,
+   "canonical": "The `execute` statement has the syntax `execute ( TestcaseRef ( [ActualPar {, ActualPar}] ) [, TimerValue [, HostId]] )`.",
+   "original": "execute \"(\" TestcaseRef \"(\" [ { ActualPar [\",\"] } ] \")\" [ \",\" TimerValue [ \",\" HostId ] ] \")\"",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "26.1-s002"
+   ],
+   "examples": [
+    "26.1-s055",
+    "26.1-s057",
+    "26.1-s059",
+    "26.1-s061"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.1-003a",
+   "section": "26.1",
+   "type": "semantics",
+   "modality": "IS",
+   "subject": "ent:execute-statement",
+   "condition": null,
+   "canonical": "The `execute` statement IS used to start a test case in control behaviour.",
+   "original": "The execute statement is used to start test cases (see clause 27.1) in control behaviour.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "16.3"
+   ],
+   "sentence_ids": [
+    "26.1-s003"
+   ],
+   "examples": [
+    "26.1-s055"
+   ],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "The cross-reference \"see clause 27.1\" points to the attribute mechanism, which is unrelated; clause 16.3 (Test cases) is most likely meant. The reading with clause 16.3 is used.",
+    "readings": [
+     "The `execute` statement IS used to start a test case (as defined in clause 16.3) in control behaviour.",
+     "The `execute` statement IS used to start a test case in control behaviour, with attribute rules of clause 27.1 applying."
+    ]
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.1-004a",
+   "section": "26.1",
+   "type": "semantics",
+   "modality": "IS",
+   "subject": "ent:execute-statement",
+   "condition": null,
+   "canonical": "The result of an `execute` statement IS always a value of type `verdicttype`.",
+   "original": "The result of an executed test case is always a value of type verdicttype.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "26.1-s004"
+   ],
+   "examples": [
+    "26.1-s057"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.1-005a",
+   "section": "26.1",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "subject": "ent:testcase",
+   "condition": null,
+   "canonical": "A test case SHALL contain exactly one MTC.",
+   "original": "Every test case shall contain one and only one MTC the type of which is referenced in the header of the test case definition.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "26.1-s005"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.1-005b",
+   "section": "26.1",
+   "type": "semantics",
+   "modality": "IS",
+   "subject": "ent:mtc",
+   "condition": null,
+   "canonical": "The MTC of a test case IS of the component type referenced in the header (`runs on` clause) of the test case definition.",
+   "original": "Every test case shall contain one and only one MTC the type of which is referenced in the header of the test case definition.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "16.3"
+   ],
+   "sentence_ids": [
+    "26.1-s005"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.1-006a",
+   "section": "26.1",
+   "type": "semantics",
+   "modality": "IS",
+   "subject": "ent:mtc",
+   "condition": null,
+   "canonical": "The behaviour defined in the test case body IS the behaviour of the MTC.",
+   "original": "The behaviour defined in the test case body is the behaviour of the MTC.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "26.1-s006"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.1-007a",
+   "section": "26.1",
+   "type": "semantics",
+   "modality": "IS",
+   "subject": "ent:mtc",
+   "condition": "a test case is invoked",
+   "canonical": "When a test case is invoked, the MTC IS created.",
+   "original": "When a test case is invoked the MTC is created, the ports of the MTC and the test system interface are instantiated and the behaviour specified in the test case definition is started on the MTC.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "26.1-s007"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.1-007b",
+   "section": "26.1",
+   "type": "semantics",
+   "modality": "IS",
+   "subject": "ent:port",
+   "condition": "a test case is invoked",
+   "canonical": "When a test case is invoked, the ports of the MTC and of the test system interface ARE instantiated.",
+   "original": "When a test case is invoked the MTC is created, the ports of the MTC and the test system interface are instantiated and the behaviour specified in the test case definition is started on the MTC.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "26.1-s007"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.1-007c",
+   "section": "26.1",
+   "type": "semantics",
+   "modality": "IS",
+   "subject": "ent:testcase",
+   "condition": "a test case is invoked",
+   "canonical": "When a test case is invoked, the behaviour specified in the test case definition IS started on the MTC.",
+   "original": "When a test case is invoked the MTC is created, the ports of the MTC and the test system interface are instantiated and the behaviour specified in the test case definition is started on the MTC.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "26.1-s007"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.1-008a",
+   "section": "26.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "subject": "ent:ttcn3-tool",
+   "condition": null,
+   "canonical": "The TTCN-3 tool SHALL create the MTC, instantiate the ports of the MTC and the test system interface, and start the test case behaviour on the MTC implicitly, without explicit `create` and `start` operations.",
+   "original": "All these actions shall be performed implicitly i.e. without explicit create and start operations.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "26.1-s008",
+    "26.1-s007"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.1-011a",
+   "section": "26.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "subject": "ent:execute-statement",
+   "condition": null,
+   "canonical": "The `execute` statement SHALL return a test case verdict of `none`, `pass`, `inconc`, `fail` or `error` as the result of the execution of the test case.",
+   "original": "As the result of the execution of a test case, a test case verdict of either none, pass, inconc, fail or error shall be returned and may be assigned to a variable for further processing.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "24.1"
+   ],
+   "sentence_ids": [
+    "26.1-s011"
+   ],
+   "examples": [
+    "26.1-s057"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.1-011b",
+   "section": "26.1",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:execute-statement",
+   "condition": null,
+   "canonical": "The verdict returned by an `execute` statement MAY be assigned to a variable.",
+   "original": "As the result of the execution of a test case, a test case verdict of either none, pass, inconc, fail or error shall be returned and may be assigned to a variable for further processing.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "26.1-s011"
+   ],
+   "examples": [
+    "26.1-s057",
+    "26.1-s055"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.1-012a",
+   "section": "26.1",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:execute-statement",
+   "condition": null,
+   "canonical": "An `execute` statement MAY specify a timer duration (TimerValue) to supervise the execution of the test case.",
+   "original": "Optionally, the execute statement allows supervision of a test case by means of a timer duration.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "26.1-s012"
+   ],
+   "examples": [
+    "26.1-s059",
+    "26.1-s055"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.1-013a",
+   "section": "26.1",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:execute-statement",
+   "condition": null,
+   "canonical": "An `execute` statement MAY specify a host to which the MTC is deployed before the execution of the test case starts.",
+   "original": "Also optionally, the execute statement allows deployment of the MTC to a specific host before starting the execution.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "26.1-s013"
+   ],
+   "examples": [
+    "26.1-s061"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.1-014a",
+   "section": "26.1",
+   "type": "definition",
+   "modality": "IS",
+   "subject": "ent:host-id",
+   "condition": null,
+   "canonical": "The host for MTC deployment in an `execute` statement IS identified by a host id.",
+   "original": "The host is identified by means of a host id.",
+   "normative": true,
+   "testable": false,
+   "cross_refs": [],
+   "sentence_ids": [
+    "26.1-s014"
+   ],
+   "examples": [
+    "26.1-s061"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.1-016a",
+   "section": "26.1",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "subject": "ent:variable",
+   "condition": "the variable is to be used in the behaviour definition of the test case",
+   "canonical": "A variable visible in the scope unit of an `execute` statement SHALL be passed to the test case as an actual parameter if it is to be used in the behaviour definition of that test case.",
+   "original": "All variables (if any) visible in the scope unit where the execute statement is used shall be passed into the test case by parameterization if they are to be used in the behaviour definition of that test case, i.e. TTCN-3 does not support global variables of any kind.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "26.1-s016"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.1-016b",
+   "section": "26.1",
+   "type": "information",
+   "modality": "IS NOT",
+   "subject": "ent:ttcn3-language",
+   "condition": null,
+   "canonical": "The TTCN-3 language does NOT support global variables of any kind.",
+   "original": "All variables (if any) visible in the scope unit where the execute statement is used shall be passed into the test case by parameterization if they are to be used in the behaviour definition of that test case, i.e. TTCN-3 does not support global variables of any kind.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "26.1-s016"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.1-017a",
+   "section": "26.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "subject": "ent:test-configuration",
+   "condition": null,
+   "canonical": "The test configuration SHALL be reset at the start of each test case.",
+   "original": "At the start of each test case, the test configuration shall be reset.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "26.1-s017"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.1-018a",
+   "section": "26.1",
+   "type": "semantics",
+   "modality": "IS",
+   "subject": "ent:test-component",
+   "condition": null,
+   "canonical": "A test component or port created or connected (by `create`, `connect`, etc. operations) in a previous test case IS destroyed when that test case is stopped and IS NOT visible to a subsequent test case.",
+   "original": "This means that all components and ports conducted by create, connect, etc. operations in a previous test case were destroyed when that test case was stopped (hence are not \"visible\" to the new test case).",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "26.1-s018",
+    "26.1-s017"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "\"conducted\" is used for components and ports set up by create/connect/map operations; \"created\" (components) and \"connected/mapped\" (ports) is meant.",
+    "improper_terms": [
+     {
+      "used": "conducted",
+      "proper": "created or connected",
+      "glossary": false
+     }
+    ]
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.1-020a",
+   "section": "26.1",
+   "type": "semantics",
+   "modality": "IS",
+   "subject": "ent:testcase",
+   "condition": null,
+   "canonical": "A test case terminates when its MTC terminates.",
+   "original": "A test case terminates with the termination of the MTC.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "26.1-s020"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.1-021a",
+   "section": "26.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "subject": "ent:test-system",
+   "condition": "the MTC terminates explicitly or implicitly",
+   "canonical": "When the MTC terminates (explicitly or implicitly), the test system SHALL remove all running PTCs.",
+   "original": "On termination of the MTC (explicitly or implicitly), all running parallel test components shall be removed by the test system.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "26.1-s021"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.1-022a",
+   "section": "26.1",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:continue-statement",
+   "condition": null,
+   "canonical": "The `continue` statement MAY be used in control behaviour.",
+   "original": "Statement: Next iteration of a loop; Associated keyword or symbol: continue",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "26.0"
+   ],
+   "sentence_ids": [
+    "26.1-s022"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.1-023a",
+   "section": "26.1",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:log-statement",
+   "condition": null,
+   "canonical": "The `log` statement MAY be used in control behaviour.",
+   "original": "Statement: Logging; Associated keyword or symbol: log",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "26.0"
+   ],
+   "sentence_ids": [
+    "26.1-s023"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.1-024a",
+   "section": "26.1",
+   "type": "restriction",
+   "modality": "MAY",
+   "subject": "ent:alt-statement",
+   "condition": "used in control behaviour",
+   "canonical": "The `alt` statement MAY be used in control behaviour only to control timer operations.",
+   "original": "Statement: Alternative behaviour (see note); Associated keyword or symbol: alt {…}",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "26.0"
+   ],
+   "sentence_ids": [
+    "26.1-s024",
+    "26.1-s036"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.1-025a",
+   "section": "26.1",
+   "type": "restriction",
+   "modality": "MAY",
+   "subject": "ent:repeat-statement",
+   "condition": "used in control behaviour",
+   "canonical": "The `repeat` statement MAY be used in control behaviour only to control timer operations.",
+   "original": "Statement: Re-evaluation of alternative behaviour (see note); Associated keyword or symbol: repeat",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "26.0"
+   ],
+   "sentence_ids": [
+    "26.1-s025",
+    "26.1-s036"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.1-026a",
+   "section": "26.1",
+   "type": "restriction",
+   "modality": "MAY",
+   "subject": "ent:interleave-statement",
+   "condition": "used in control behaviour",
+   "canonical": "The `interleave` statement MAY be used in control behaviour only to control timer operations.",
+   "original": "Statement: Interleaved behaviour (see note); Associated keyword or symbol: interleave {…}",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "26.0"
+   ],
+   "sentence_ids": [
+    "26.1-s026",
+    "26.1-s036"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.1-027a",
+   "section": "26.1",
+   "type": "restriction",
+   "modality": "MAY",
+   "subject": "ent:activate-operation",
+   "condition": "used in control behaviour",
+   "canonical": "The `activate` operation MAY be used in control behaviour only to control timer operations.",
+   "original": "Statement: Activate a default (see note); Associated keyword or symbol: activate",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "26.0"
+   ],
+   "sentence_ids": [
+    "26.1-s027",
+    "26.1-s036"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.1-028a",
+   "section": "26.1",
+   "type": "restriction",
+   "modality": "MAY",
+   "subject": "ent:deactivate-operation",
+   "condition": "used in control behaviour",
+   "canonical": "The `deactivate` operation MAY be used in control behaviour only to control timer operations.",
+   "original": "Statement: Deactivate a default (see note); Associated keyword or symbol: deactivate",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "26.0"
+   ],
+   "sentence_ids": [
+    "26.1-s028",
+    "26.1-s036"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.1-029a",
+   "section": "26.1",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:start-timer-operation",
+   "condition": null,
+   "canonical": "The timer `start` operation MAY be used in control behaviour.",
+   "original": "Statement: Start timer; Associated keyword or symbol: start",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "26.0"
+   ],
+   "sentence_ids": [
+    "26.1-s029"
+   ],
+   "examples": [
+    "26.2-s026"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.1-030a",
+   "section": "26.1",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:stop-timer-operation",
+   "condition": null,
+   "canonical": "The timer `stop` operation MAY be used in control behaviour.",
+   "original": "Statement: Stop timer; Associated keyword or symbol: stop",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "26.0"
+   ],
+   "sentence_ids": [
+    "26.1-s030"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.1-031a",
+   "section": "26.1",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:read-timer-operation",
+   "condition": null,
+   "canonical": "The timer `read` operation MAY be used in control behaviour.",
+   "original": "Statement: Read elapsed time; Associated keyword or symbol: read",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "26.0"
+   ],
+   "sentence_ids": [
+    "26.1-s031"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.1-032a",
+   "section": "26.1",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:running-timer-operation",
+   "condition": null,
+   "canonical": "The timer `running` operation MAY be used in control behaviour.",
+   "original": "Statement: Check if timer running; Associated keyword or symbol: running",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "26.0"
+   ],
+   "sentence_ids": [
+    "26.1-s032"
+   ],
+   "examples": [
+    "26.2-s026"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.1-033a",
+   "section": "26.1",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:timeout-operation",
+   "condition": null,
+   "canonical": "The timer `timeout` operation MAY be used in control behaviour.",
+   "original": "Statement: Timeout event; Associated keyword or symbol: timeout",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "26.0"
+   ],
+   "sentence_ids": [
+    "26.1-s033"
+   ],
+   "examples": [
+    "26.2-s026"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.1-034a",
+   "section": "26.1",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:action-statement",
+   "condition": null,
+   "canonical": "The `action` statement MAY be used in control behaviour.",
+   "original": "Statement: Stimulate an (SUT) action externally; Associated keyword or symbol: action",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "26.0"
+   ],
+   "sentence_ids": [
+    "26.1-s034"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.1-035a",
+   "section": "26.1",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:execute-statement",
+   "condition": null,
+   "canonical": "The `execute` statement MAY be used in control behaviour.",
+   "original": "Statement: Execute test case; Associated keyword or symbol: execute",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "26.0"
+   ],
+   "sentence_ids": [
+    "26.1-s035"
+   ],
+   "examples": [
+    "26.2-s024",
+    "26.2-s028",
+    "26.2-s030",
+    "26.2-s032"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.1-038a",
+   "section": "26.1",
+   "type": "information",
+   "modality": "IS",
+   "subject": "ent:ttcn3-tool",
+   "condition": null,
+   "canonical": "The concrete mechanism for stopping all PTCs at MTC termination IS tool specific and outside the scope of the standard.",
+   "original": "NOTE 1: The concrete mechanism for stopping all PTCs is tool specific and therefore outside the scope of the present document.",
+   "normative": false,
+   "testable": false,
+   "cross_refs": [],
+   "sentence_ids": [
+    "26.1-s038"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.1-039a",
+   "section": "26.1",
+   "type": "semantics",
+   "modality": "IS",
+   "subject": "ent:final-verdict",
+   "condition": null,
+   "canonical": "The final verdict of a test case IS calculated from the final local verdicts of the test components according to the rules of clause 24.1.",
+   "original": "The final verdict of a test case is calculated based on the final local verdicts of the different test components according to the rules defined in clause 24.1.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [
+    "24.1"
+   ],
+   "sentence_ids": [
+    "26.1-s039"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.1-040a",
+   "section": "26.1",
+   "type": "semantics",
+   "modality": "IS",
+   "subject": "ent:local-verdict",
+   "condition": null,
+   "canonical": "The actual local verdict of a test component becomes its final local verdict when the test component terminates itself or is stopped by itself, by another test component or by the test system.",
+   "original": "The actual local verdict of a test component becomes its final local verdict when the test component terminates itself or is stopped by itself, another test component or by the test system.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "26.1-s040"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.1-041a",
+   "section": "26.1",
+   "type": "recommendation",
+   "modality": "SHOULD",
+   "subject": "ent:mtc",
+   "condition": null,
+   "canonical": "The MTC SHOULD ensure, by means of the `done` or `killed` operation, that all PTCs have stopped before it stops itself.",
+   "original": "NOTE 2: To avoid race conditions for the calculation of test verdicts due to the delayed stopping of PTCs, the MTC should ensure that all PTCs have stopped (by means of the done or killed statement) before it stops itself.",
+   "normative": false,
+   "testable": false,
+   "cross_refs": [],
+   "sentence_ids": [
+    "26.1-s041"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "done and killed are called \"statement\" although the standard defines them as component operations.",
+    "improper_terms": [
+     {
+      "used": "done or killed statement",
+      "proper": "done or killed operation",
+      "glossary": false
+     }
+    ]
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.1-043a",
+   "section": "26.1",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:testcase",
+   "condition": null,
+   "canonical": "The execution of a test case MAY be supervised by a timer.",
+   "original": "Timer may be used to supervise the execution of a test case.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "26.1-s043"
+   ],
+   "examples": [
+    "26.1-s059"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.1-044a",
+   "section": "26.1",
+   "type": "semantics",
+   "modality": "IS",
+   "subject": "ent:timer-value",
+   "condition": null,
+   "canonical": "Test case supervision IS done by an explicit timeout (TimerValue) in the `execute` statement.",
+   "original": "This may be done using an explicit timeout in the execute statement.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "26.1-s044",
+    "26.1-s043"
+   ],
+   "examples": [
+    "26.1-s059"
+   ],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "\"may\" can be read as a permission (one possible way, others exist) or as a description of the only mechanism; the execute statement timeout is the only mechanism defined, so the descriptive reading is used.",
+    "readings": [
+     "Test case supervision IS done by an explicit timeout (TimerValue) in the `execute` statement.",
+     "Test case supervision MAY be done by an explicit timeout in the `execute` statement or by other means."
+    ]
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.1-045a",
+   "section": "26.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "subject": "ent:execute-statement",
+   "condition": "the test case does not end within the duration given by the TimerValue of the execute statement",
+   "canonical": "If the test case does not end within the supervision duration, the result of the `execute` statement SHALL be the verdict `error`.",
+   "original": "If the test case does not end within this duration, the result of the test case execution shall be an error verdict and the test system shall terminate the test case.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "26.1-s045"
+   ],
+   "examples": [
+    "26.1-s059"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.1-045b",
+   "section": "26.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "subject": "ent:test-system",
+   "condition": "the test case does not end within the duration given by the TimerValue of the execute statement",
+   "canonical": "If the test case does not end within the supervision duration, the test system SHALL terminate the test case.",
+   "original": "If the test case does not end within this duration, the result of the test case execution shall be an error verdict and the test system shall terminate the test case.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "26.1-s045"
+   ],
+   "examples": [
+    "26.1-s059"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.1-046a",
+   "section": "26.1",
+   "type": "definition",
+   "modality": "IS",
+   "subject": "ent:system-timer",
+   "condition": null,
+   "canonical": "The timer used for test case supervision IS a system timer.",
+   "original": "The timer used for test case supervision is a system timer and need not be declared or started.",
+   "normative": true,
+   "testable": false,
+   "cross_refs": [],
+   "sentence_ids": [
+    "26.1-s046"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.1-046b",
+   "section": "26.1",
+   "type": "permission",
+   "modality": "NEED NOT",
+   "subject": "ent:system-timer",
+   "condition": null,
+   "canonical": "The test case supervision timer NEED NOT be declared or started.",
+   "original": "The timer used for test case supervision is a system timer and need not be declared or started.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "26.1-s046"
+   ],
+   "examples": [
+    "26.1-s059"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.1-048a",
+   "section": "26.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "subject": "ent:host-id",
+   "condition": "a host id is provided in the execute statement",
+   "canonical": "If a host id is given in an `execute` statement, the MTC SHALL be started and execute its behaviour on the deployment location identified by the host id.",
+   "original": "A host id can be used to give a specific deployment location to the test system where the MTC shall be started and execute its behaviour.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "26.1-s048"
+   ],
+   "examples": [
+    "26.1-s061"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.1-049a",
+   "section": "26.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "subject": "ent:execute-statement",
+   "condition": "a host id is provided and the MTC cannot be deployed on the specified host",
+   "canonical": "If a host id is provided and the MTC cannot be deployed on the specified host, the `execute` statement SHALL end with a test case error.",
+   "original": "If a host id is provided, the execute statement shall end with a test case error if the MTC cannot be deployed on the specified host.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "26.1-s049"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.1-051a",
+   "section": "26.1",
+   "type": "restriction",
+   "modality": "SHALL",
+   "subject": "ent:timer-value",
+   "condition": null,
+   "canonical": "The TimerValue of an `execute` statement SHALL resolve to a non-negative `float` value (greater than or equal to 0.0).",
+   "original": "a) The TimerValue shall resolve to a non-negative numerical float value (i.e. the value shall be greater or equal 0.0, infinity and not_a_number are disallowed).",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "26.1-s051"
+   ],
+   "examples": [
+    "26.1-s059"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.1-051b",
+   "section": "26.1",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "subject": "ent:timer-value",
+   "condition": null,
+   "canonical": "The TimerValue of an `execute` statement SHALL NOT resolve to `infinity` or `not_a_number`.",
+   "original": "a) The TimerValue shall resolve to a non-negative numerical float value (i.e. the value shall be greater or equal 0.0, infinity and not_a_number are disallowed).",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "26.1-s051"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.1-052a",
+   "section": "26.1",
+   "type": "restriction",
+   "modality": "SHALL",
+   "subject": "ent:actual-parameter",
+   "condition": "the corresponding formal parameter of the test case is not a template parameter",
+   "canonical": "If the corresponding formal parameter is not of template kind, an actual parameter (TemplateInstance) of an `execute` statement SHALL resolve to an expression.",
+   "original": "b) When the corresponding formal parameter is not of template type TemplateInstance shall resolve to an _Expression._ c) The execute statement shall not be called from within an existing executing test behaviour chain called from a test case, i.e. test cases can only be executed from a control behaviour.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "26.1-s052"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "The grammar symbol TemplateInstance is used where the actual parameter is meant (the syntax block uses ActualPar); \"of template type\" means a template formal parameter, not a type.",
+    "improper_terms": [
+     {
+      "used": "TemplateInstance",
+      "proper": "actual parameter",
+      "glossary": true
+     },
+     {
+      "used": "of template type",
+      "proper": "template formal parameter",
+      "glossary": false
+     }
+    ]
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.1-052b",
+   "section": "26.1",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "subject": "ent:execute-statement",
+   "condition": null,
+   "canonical": "The `execute` statement SHALL NOT be called from within a test behaviour called from a test case; a test case SHALL only be executed from control behaviour.",
+   "original": "b) When the corresponding formal parameter is not of template type TemplateInstance shall resolve to an _Expression._ c) The execute statement shall not be called from within an existing executing test behaviour chain called from a test case, i.e. test cases can only be executed from a control behaviour.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "26.1-s052"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "\"executing test behaviour chain\" is not a defined term; the call chain of functions and altsteps started by a test case (test behaviour) is meant.",
+    "improper_terms": [
+     {
+      "used": "executing test behaviour chain",
+      "proper": "test behaviour",
+      "glossary": true
+     }
+    ]
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.1-053a",
+   "section": "26.1",
+   "type": "restriction",
+   "modality": "SHALL",
+   "subject": "ent:host-id",
+   "condition": null,
+   "canonical": "The HostId parameter of an `execute` statement SHALL resolve to a `charstring` value.",
+   "original": "d) The HostId parameter shall resolve to a charstring value.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "26.1-s053"
+   ],
+   "examples": [
+    "26.1-s061"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.2-001a",
+   "section": "26.2",
+   "type": "semantics",
+   "modality": "IS",
+   "subject": "ent:module-control-function",
+   "condition": null,
+   "canonical": "The execution of a TTCN-3 test suite IS controlled by the module control function.",
+   "original": "TTCN-3 test suite execution is controlled by the module control function.",
+   "normative": true,
+   "testable": false,
+   "cross_refs": [],
+   "sentence_ids": [
+    "26.2-s001"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.2-002a",
+   "section": "26.2",
+   "type": "semantics",
+   "modality": "IS",
+   "subject": "ent:module-control-function",
+   "condition": null,
+   "canonical": "The module control function defines the order, sequence, loops, preconditions and actual parameters with which test cases are executed.",
+   "original": "The module control function defines, in which order, sequence, loop, under which preconditions, and with which parameters test cases are to be executed.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "26.2-s002"
+   ],
+   "examples": [
+    "26.2-s024"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.2-004a",
+   "section": "26.2",
+   "type": "definition",
+   "modality": "IS",
+   "subject": "ent:module-control-function",
+   "condition": null,
+   "canonical": "The module control function IS an entry point for the execution of a TTCN-3 test suite.",
+   "original": "The module control function is an entry point for execution of a TTCN-3 test suite.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "26.2-s004"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.2-005a",
+   "section": "26.2",
+   "type": "requirement",
+   "modality": "SHALL",
+   "subject": "ent:actual-parameter",
+   "condition": "the module control function has formal parameters",
+   "canonical": "If the module control function has formal parameters, actual values SHALL be provided for them when the module control function is executed.",
+   "original": "If the function contains formal parameters, their actual values shall be provided.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "26.2-s005"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.2-006a",
+   "section": "26.2",
+   "type": "semantics",
+   "modality": "IS",
+   "subject": "ent:control-component",
+   "condition": null,
+   "canonical": "When the module control function is started, the test system creates a test component called control component.",
+   "original": "When the control function is started, the TE creates a test component called control component.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "26.2-s006"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "The abbreviation \"TE\" (TTCN-3 executable) is not defined in the core language; \"test system\" is the glossary term. \"control function\" means the module control function.",
+    "improper_terms": [
+     {
+      "used": "TE",
+      "proper": "test system",
+      "glossary": true
+     }
+    ]
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.2-007a",
+   "section": "26.2",
+   "type": "information",
+   "modality": "IS",
+   "subject": "ent:control-component",
+   "condition": null,
+   "canonical": "The control component contains the variables, constants, templates and timers used to control the execution of the test suite.",
+   "original": "The component contains variables, constants, templates and timers important for controlling of the execution of the test suite.",
+   "normative": true,
+   "testable": false,
+   "cross_refs": [],
+   "sentence_ids": [
+    "26.2-s007"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.2-008a",
+   "section": "26.2",
+   "type": "semantics",
+   "modality": "IS",
+   "subject": "ent:control-component",
+   "condition": null,
+   "canonical": "The control component IS of the component type specified in the `runs on` clause of the module control function.",
+   "original": "The created control component is of the type specified in the runs `on clause of the` module control function.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "26.2-s008"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.2-009a",
+   "section": "26.2",
+   "type": "semantics",
+   "modality": "IS",
+   "subject": "ent:control-component",
+   "condition": "the module control function has no runs on clause",
+   "canonical": "If the module control function has no `runs on` clause, an empty control component IS created.",
+   "original": "If the runs `on clause is missing, an empty control component is created.`",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "26.2-s009"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.2-011a",
+   "section": "26.2",
+   "type": "information",
+   "modality": "CAN",
+   "subject": "ent:module-control-function",
+   "condition": null,
+   "canonical": "Program statements in the module control function CAN specify the order in which test cases are executed and the number of times a test case runs.",
+   "original": "Program statements specify such things like the order in which test cases are to be executed or the number of times a test case should run.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "26.2-s011"
+   ],
+   "examples": [
+    "26.2-s024"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.2-012a",
+   "section": "26.2",
+   "type": "semantics",
+   "modality": "IS",
+   "subject": "ent:module-control-function",
+   "condition": "no program statements are used",
+   "canonical": "If no program statements are used, test cases ARE executed by default in the sequential order in which they appear in the module control function.",
+   "original": "If no programming statements are used then, by default, the test cases are executed in the sequential order in which they appear in the module control function.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "26.2-s012"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "The module control function needs execute statements, so \"no programming statements\" most likely means no control-flow statements; reading chosen: execute statements without control-flow statements run in textual order.",
+    "readings": [
+     "If the module control function contains no control-flow statements, its `execute` statements ARE executed in textual order.",
+     "If the module control function contains no statements other than test case references, the referenced test cases ARE executed in textual order."
+    ]
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.2-013a",
+   "section": "26.2",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:ttcn3-tool",
+   "condition": null,
+   "canonical": "A TTCN-3 tool MAY override the default test case execution order to let a user or tool select a different execution order.",
+   "original": "NOTE: This does not preclude the possibility that certain tools may wish to override this default ordering to allow a user or tool to select a different execution order.",
+   "normative": false,
+   "testable": false,
+   "cross_refs": [],
+   "sentence_ids": [
+    "26.2-s013"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.2-014a",
+   "section": "26.2",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:timer-operation",
+   "condition": null,
+   "canonical": "A timer operation MAY be used explicitly in the module control function to control test case execution.",
+   "original": "Timer operations may also be used explicitly to control test case execution.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "26.2-s014"
+   ],
+   "examples": [
+    "26.2-s026"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.2-016a",
+   "section": "26.2",
+   "type": "information",
+   "modality": "CAN",
+   "subject": "ent:module-control-function",
+   "condition": null,
+   "canonical": "Selection and deselection of test cases CAN be used to control the execution of test cases.",
+   "original": "The selection and deselection of test cases can also be used to control the execution of test cases.",
+   "normative": true,
+   "testable": false,
+   "cross_refs": [],
+   "sentence_ids": [
+    "26.2-s016"
+   ],
+   "examples": [],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.2-018a",
+   "section": "26.2",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:expression",
+   "condition": null,
+   "canonical": "A boolean expression MAY be used in the module control function to select or deselect test cases for execution.",
+   "original": "For example, boolean expressions may be used to select and deselect which test cases are to be executed.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "26.2-s018"
+   ],
+   "examples": [
+    "26.2-s028"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.2-019a",
+   "section": "26.2",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:function",
+   "condition": null,
+   "canonical": "A function returning a `boolean` value MAY be used in the module control function to select or deselect test cases for execution.",
+   "original": "This includes, of course, the use of functions that return a boolean value.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "26.2-s019",
+    "26.2-s018"
+   ],
+   "examples": [
+    "26.2-s028"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.2-020a",
+   "section": "26.2",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:function",
+   "condition": null,
+   "canonical": "Test cases MAY be executed as a group by collecting their `execute` statements in a function that is invoked from the module control function.",
+   "original": "Another way to execute test cases as a group is to collect them in a control function and invoke that function from the module control function.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "26.2-s020"
+   ],
+   "examples": [
+    "26.2-s030"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.2-021a",
+   "section": "26.2",
+   "type": "permission",
+   "modality": "CAN",
+   "subject": "ent:module-control-function",
+   "condition": null,
+   "canonical": "The module control function CAN make the order of test case execution depend on the `verdicttype` value returned by a test case.",
+   "original": "As a test case returns a single value of type verdicttype, it is also possible to control the order of test case execution depending on the outcome of a test case.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "26.2-s021"
+   ],
+   "examples": [
+    "26.2-s032"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   }
+  },
+  {
+   "id": "TTCN3-CORE-26.2-022a",
+   "section": "26.2",
+   "type": "permission",
+   "modality": "MAY",
+   "subject": "ent:verdicttype",
+   "condition": null,
+   "canonical": "A `verdicttype` value returned by an `execute` statement MAY be used to select test cases for execution.",
+   "original": "The use of the TTCN-3 verdicttype is another way to select test cases.",
+   "normative": true,
+   "testable": true,
+   "cross_refs": [],
+   "sentence_ids": [
+    "26.2-s022"
+   ],
+   "examples": [
+    "26.2-s032"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   }
+  }
+ ],
+ "non_requirement": [
+  {
+   "sentence_id": "26.0-s002",
+   "category": "cross-reference",
+   "reason": "pointer to table 31; rows extracted from 26.0-s004..s012 and 26.1-s022..s035"
+  },
+  {
+   "sentence_id": "26.0-s003",
+   "category": "table-structure",
+   "reason": "caption of table 31"
+  },
+  {
+   "sentence_id": "26.0-s013",
+   "category": "table-structure",
+   "reason": "header row of table 31"
+  },
+  {
+   "sentence_id": "26.0-s014",
+   "category": "duplicate",
+   "reason": "garbled rendering of the second half of table 31; extracted from clean pipe-table rows 26.1-s022..s025"
+  },
+  {
+   "sentence_id": "26.0-s015",
+   "category": "duplicate",
+   "reason": "garbled rendering of the second half of table 31; extracted from clean pipe-table rows 26.1-s026..s035"
+  },
+  {
+   "sentence_id": "26.0-s016",
+   "category": "duplicate",
+   "reason": "garbled rendering of the table 31 note; same as 26.1-s036, which is used in requirements 26.1-024a..028a"
+  },
+  {
+   "sentence_id": "26.1-s009",
+   "category": "heading",
+   "reason": "paragraph heading \"Test case start\""
+  },
+  {
+   "sentence_id": "26.1-s010",
+   "category": "covered-elsewhere",
+   "reason": "restates 26.1-s001 (test cases are executed by an execute statement), see TTCN3-CORE-26.1-001a"
+  },
+  {
+   "sentence_id": "26.1-s015",
+   "category": "heading",
+   "reason": "paragraph heading \"Test case parameterization and configuration\""
+  },
+  {
+   "sentence_id": "26.1-s019",
+   "category": "heading",
+   "reason": "paragraph heading \"Test case termination\""
+  },
+  {
+   "sentence_id": "26.1-s037",
+   "category": "table-structure",
+   "reason": "repeated header row of table 31 (continued on next page)"
+  },
+  {
+   "sentence_id": "26.1-s042",
+   "category": "heading",
+   "reason": "paragraph heading \"Test case timer\""
+  },
+  {
+   "sentence_id": "26.1-s047",
+   "category": "heading",
+   "reason": "paragraph heading \"Host id\""
+  },
+  {
+   "sentence_id": "26.1-s050",
+   "category": "cross-reference",
+   "reason": "introduces the restrictions list; refers to general static rules in clause 5 and table 16"
+  },
+  {
+   "sentence_id": "26.1-s054",
+   "category": "example",
+   "reason": "example caption"
+  },
+  {
+   "sentence_id": "26.1-s056",
+   "category": "example",
+   "reason": "example caption"
+  },
+  {
+   "sentence_id": "26.1-s058",
+   "category": "example",
+   "reason": "example caption"
+  },
+  {
+   "sentence_id": "26.1-s060",
+   "category": "example",
+   "reason": "example caption"
+  },
+  {
+   "sentence_id": "26.2-s003",
+   "category": "heading",
+   "reason": "paragraph heading \"Execution and control component\""
+  },
+  {
+   "sentence_id": "26.2-s010",
+   "category": "heading",
+   "reason": "paragraph heading \"Sequence of test cases\""
+  },
+  {
+   "sentence_id": "26.2-s015",
+   "category": "heading",
+   "reason": "paragraph heading \"Selection/deselection of test cases\""
+  },
+  {
+   "sentence_id": "26.2-s017",
+   "category": "informative",
+   "reason": "introductory statement for the following ways of selecting test cases (26.2-s018..s022)"
+  },
+  {
+   "sentence_id": "26.2-s023",
+   "category": "example",
+   "reason": "example caption"
+  },
+  {
+   "sentence_id": "26.2-s025",
+   "category": "example",
+   "reason": "example caption"
+  },
+  {
+   "sentence_id": "26.2-s027",
+   "category": "example",
+   "reason": "example caption"
+  },
+  {
+   "sentence_id": "26.2-s029",
+   "category": "example",
+   "reason": "example caption"
+  },
+  {
+   "sentence_id": "26.2-s031",
+   "category": "example",
+   "reason": "example caption"
+  }
+ ]
+}

@@ -1,0 +1,33 @@
+// @requirement: 22.3.2 -- The getcall operation is used to specify that a test component accepts a call from the SUT, or another test component.
+// @id: TTCN3-CORE-22.3.2-004a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_03_02_test_003 {
+
+    signature S(in integer p_x) noblock;
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    function f_client() runs on C {
+        p.call(S:{1});
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_client());
+        T.start;
+        alt {
+            [] p.getcall(S:{1}) { setverdict(pass); }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

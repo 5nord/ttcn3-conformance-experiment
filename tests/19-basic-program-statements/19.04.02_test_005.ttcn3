@@ -1,0 +1,26 @@
+// @requirement: 19.4.2 -- Elements are iterated in sequential order.
+// @id: TTCN3-CORE-19.4.2-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_04_02_test_005 {
+
+    type record of integer RoI;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var RoI v_range := {3, 1, 2};
+        var RoI v_seen := {};
+        for (var integer x in v_range) {
+            v_seen[lengthof(v_seen)] := x;
+        }
+        if (v_seen == {3, 1, 2}) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

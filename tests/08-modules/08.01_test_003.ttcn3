@@ -1,0 +1,26 @@
+// @requirement: 8.1 -- TTCN-3 modules have an explicit import interface to use definitions from other TTCN-3 or non-TTCN-3 modules.
+// @id: TTCN3-CORE-8.1-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_01_test_003 {
+
+    import from M_08_01_test_003_A { const c_value };
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (c_value == 42) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_01_test_003_A {
+
+    const integer c_value := 42;
+}

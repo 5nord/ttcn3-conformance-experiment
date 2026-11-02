@@ -1,0 +1,23 @@
+// @requirement: B.1.5.0 -- Metacharacter: \t; Description: Match the control character CHARACTER TABULATION (0009) (see ISO/IEC 10646 [2])
+// @id: TTCN3-CORE-B.1.5.0-026a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_05_00_test_023 {
+
+    type component C {}
+
+    template charstring mw_tab := pattern "a\tb";
+
+    testcase TC() runs on C {
+        if (match("a" & int2char(9) & "b", mw_tab) and
+            not match("a b", mw_tab) and
+            not match("atb", mw_tab)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

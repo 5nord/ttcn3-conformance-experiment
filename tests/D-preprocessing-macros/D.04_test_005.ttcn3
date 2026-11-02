@@ -1,0 +1,25 @@
+// @requirement: D.4 -- Also newlines of commented lines shall increase the line number by 1.
+// @id: TTCN3-CORE-D.4-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_D_04_test_005 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_first := __LINE__;
+        // line comment
+        /* block comment
+           spanning
+           three lines */
+        var integer v_second := __LINE__;
+        if (v_second - v_first == 5) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

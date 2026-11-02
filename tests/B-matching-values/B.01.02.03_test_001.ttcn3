@@ -1,0 +1,35 @@
+// @requirement: B.1.2.3 -- The matching symbol "?" (AnyValue) matches any value of the specified type.
+// @id: TTCN3-CORE-B.1.2.3-001a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_02_03_test_001 {
+
+    type component C {}
+
+    type record R {
+        integer field1,
+        charstring field2,
+        boolean field3,
+        integer field4[4]
+    }
+
+    template R mw_r := {
+        field1 := ?,
+        field2 := ?,
+        field3 := ?,
+        field4 := ?
+    }
+
+    testcase TC() runs on C {
+        var R v_r1 := { field1 := -12345, field2 := "", field3 := false, field4 := { 1, 2, 3, 4 } };
+        var R v_r2 := { field1 := 0, field2 := "xyz", field3 := true, field4 := { 9, 8, 7, 6 } };
+        if (match(v_r1, mw_r) and match(v_r2, mw_r)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

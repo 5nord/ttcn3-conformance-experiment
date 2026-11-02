@@ -1,0 +1,35 @@
+// @requirement: 22.5.3 -- To cease listening at the port means that all receiving operations defined before the stop operation shall be completely performed before the working of the port is suspended.
+// @id: TTCN3-CORE-22.5.3-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_05_03_test_006 {
+
+    type port P message {
+        inout integer
+    }
+
+    type component C {
+        port P p1, p2;
+        timer T := 1.0;
+    }
+
+    testcase TC() runs on C {
+        var integer v_rec := 0;
+        connect(self:p1, self:p2);
+        p1.send(5);
+        T.start;
+        alt {
+            [] p2.receive(integer:?) -> value v_rec { T.stop; }
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        p2.stop;
+        if (v_rec == 5) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

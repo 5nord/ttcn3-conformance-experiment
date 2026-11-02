@@ -1,0 +1,24 @@
+// @requirement: 7.1.6 -- Excess shift units (bits, hexadecimal digits or octets) are discarded.
+// @id: TTCN3-CORE-7.1.6-016a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_07_01_06_test_011 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var bitstring v_b := '1111'B >> 2;
+        var hexstring v_h := 'FFF'H >> 1;
+        var octetstring v_o := 'AABB'O >> 1;
+        if (v_b == '0011'B and lengthof(v_b) == 4 and
+            v_h == '0FF'H and lengthof(v_h) == 3 and
+            v_o == '00AA'O and lengthof(v_o) == 2) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

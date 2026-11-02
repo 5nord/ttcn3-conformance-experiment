@@ -1,0 +1,38 @@
+// @requirement: 27.9 -- Repeated call of the setencode operation always uses the static attributes that are valid for the referenced type.
+// @id: TTCN3-CORE-27.9-008a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_27_09_test_010 {
+
+    type record PDU {
+        charstring source,
+        integer data
+    } with { encode "PduCodec1"; encode "PduCodec2" }
+
+    type port P message {
+        inout PDU;
+    }
+
+    type component C {
+        port P p1;
+        port P p2;
+    }
+
+    template PDU m_msg := { source := "source address", data := 1 }
+
+    testcase TC() runs on C {
+        timer T_guard := 1.0;
+        connect(self:p1, self:p2);
+        all port.setencode(PDU, "PduCodec1");
+        all port.setencode(PDU, "PduCodec2");
+        p1.send(m_msg);
+        T_guard.start;
+        alt {
+            [] p2.receive(m_msg) { setverdict(pass); }
+            [] T_guard.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

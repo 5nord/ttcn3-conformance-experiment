@@ -1,0 +1,27 @@
+// @requirement: 22.4 -- The check operation has to handle values of a certain type at message-based ports and to distinguish between calls to be accepted, exceptions to be caught and replies from previous calls at procedure-based ports.
+// @id: TTCN3-CORE-22.4-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_04_test_006 {
+
+    type port MP message { inout integer, charstring; }
+
+    type component C {
+        port MP p1, p2;
+        timer T := 1.0;
+    }
+
+    testcase TC() runs on C {
+        connect(mtc:p1, mtc:p2);
+        p1.send(charstring:"abc");
+        T.start;
+        alt {
+            [] p2.check(receive(integer:?)) { setverdict(fail); }
+            [] p2.check(receive(charstring:?)) { setverdict(pass); }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

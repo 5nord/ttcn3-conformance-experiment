@@ -1,0 +1,1246 @@
+{
+ "part": "20.part3",
+ "chapter": "20",
+ "chapter_file": "20-statement-and-operations-for-alternative-behaviour",
+ "title": "Statement and operations for alternative behaviours",
+ "sections": {
+  "20.4": {
+   "title": "The Interleave statement",
+   "start": 15569
+  },
+  "20.5.0": {
+   "title": "General",
+   "start": 15720
+  },
+  "20.5.1": {
+   "title": "The default mechanism",
+   "start": 15731
+  },
+  "20.5.2": {
+   "title": "The Activate operation",
+   "start": 15778
+  },
+  "20.5.3": {
+   "title": "The Deactivate operation",
+   "start": 15882
+  }
+ },
+ "lines": [
+  15571,
+  15945
+ ],
+ "units": [
+  {
+   "id": "20.4-s001",
+   "section": "20.4",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The `interleave` statement allows to specify the interleaved occurrence and handling of receiving events including `done`, `killed`, `timeout`, `receive`, `trigger`, `getcall`, `getreply`, `catch` and `check`.",
+   "lines": [
+    15571,
+    15572
+   ]
+  },
+  {
+   "id": "20.4-s002",
+   "section": "20.4",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "interleave [ @nodefault ] \"{\" \n     { \"[]\" ( TimeoutStatement |\n          ReceiveStatement |\n          TriggerStatement |\n          GetCallStatement |\n          CatchStatement |\n          CheckStatement |\n          GetReplyStatement |\n          DoneStatement |\n          KilledStatement ) StatementBlock\n     } \n  \"}\"",
+   "lines": [
+    15575,
+    15588
+   ]
+  },
+  {
+   "id": "20.4-s003",
+   "section": "20.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The `interleave` statement allows to specify the interleaved occurrence and handling of the statements done, `killed`, `timeout`, `receive`, `trigger`, `getcall`, `getreply`, `catch` and `check`.",
+   "lines": [
+    15592,
+    15593
+   ]
+  },
+  {
+   "id": "20.4-s004",
+   "section": "20.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Interleaved behaviour can always be replaced by an equivalent set of nested alt statements.",
+   "lines": [
+    15600,
+    15602
+   ]
+  },
+  {
+   "id": "20.4-s005",
+   "section": "20.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The procedures for this replacement and the operational semantics of interleaving are described in part 4 of the TTCN-3 standard (ETSI ES 201 873-4 [1]).",
+   "lines": [
+    15600,
+    15602
+   ]
+  },
+  {
+   "id": "20.4-s006",
+   "section": "20.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The rules for the evaluation of an interleaving statement are the following:",
+   "lines": [
+    15604,
+    15604
+   ]
+  },
+  {
+   "id": "20.4-s007",
+   "section": "20.4",
+   "kind": "list-item",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "a) Whenever a reception statement is executed, the following non-reception statements are subsequently executed until the next reception statement is reached, a break statement is reached, or the interleaved sequence ends.",
+   "lines": [
+    15606,
+    15606
+   ]
+  },
+  {
+   "id": "20.4-s008",
+   "section": "20.4",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "NOTE 1: Reception statements are TTCN-3 statements which may occur in sets of alternatives, i.e. `receive`, `check`, `trigger`, `getcall`, `getreply`, `catch`, `done`, `killed` and `timeout`.",
+   "lines": [
+    15608,
+    15608
+   ]
+  },
+  {
+   "id": "20.4-s009",
+   "section": "20.4",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "Non-reception statements denote all other non-control-transfer statements which can be used within the `interleave` statement.",
+   "lines": [
+    15608,
+    15608
+   ]
+  },
+  {
+   "id": "20.4-s010",
+   "section": "20.4",
+   "kind": "list-item",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "b) If none of the alternatives of the `interleave` statement can be executed, the default mechanism will be invoked.",
+   "lines": [
+    15610,
+    15612
+   ]
+  },
+  {
+   "id": "20.4-s011",
+   "section": "20.4",
+   "kind": "list-item",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "This means, according to the semantics of the default mechanism, the actual snapshot will be used to evaluate those altsteps that have been activated before entering the `interleave` statement.",
+   "lines": [
+    15610,
+    15612
+   ]
+  },
+  {
+   "id": "20.4-s012",
+   "section": "20.4",
+   "kind": "list-item",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If the `interleave` statement contains the `@nodefault` modifier, all active default alternatives are ignored for the execution of this `interleave` statement.",
+   "lines": [
+    15610,
+    15612
+   ]
+  },
+  {
+   "id": "20.4-s013",
+   "section": "20.4",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "NOTE 2: The complete semantics of the default mechanism within an `interleave` statement is given by replacing the `interleave` statement by an equivalent set of nested alt statements.",
+   "lines": [
+    15614,
+    15616
+   ]
+  },
+  {
+   "id": "20.4-s014",
+   "section": "20.4",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "If the `interleave` statement contains the `@nodefault` modifier, it is equivalent with all replacement `alt` statement having the `@nodefault` modifier.",
+   "lines": [
+    15614,
+    15616
+   ]
+  },
+  {
+   "id": "20.4-s015",
+   "section": "20.4",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "The default mechanism applies for each of these alt statements.",
+   "lines": [
+    15614,
+    15616
+   ]
+  },
+  {
+   "id": "20.4-s016",
+   "section": "20.4",
+   "kind": "list-item",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "c) The evaluation then continues by taking the next snapshot if no break statement was encountered.",
+   "lines": [
+    15618,
+    15618
+   ]
+  },
+  {
+   "id": "20.4-s017",
+   "section": "20.4",
+   "kind": "list-item",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "d) The evaluation of the interleave statement is terminated if a break statement is executed.",
+   "lines": [
+    15620,
+    15620
+   ]
+  },
+  {
+   "id": "20.4-s018",
+   "section": "20.4",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The operational semantics of interleaving are fully defined in part 4 of the TTCN-3 standard (ETSI ES 201 873-4 [1]).",
+   "lines": [
+    15622,
+    15622
+   ]
+  },
+  {
+   "id": "20.4-s019",
+   "section": "20.4",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clause 5 and shown in table 16, the following restrictions apply:",
+   "lines": [
+    15626,
+    15627
+   ]
+  },
+  {
+   "id": "20.4-s020",
+   "section": "20.4",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) Control transfer statements activate, deactivate, repeat, all calls of altsteps and (direct and indirect) calls of user-defined functions, which include reception statements, shall not be present in interleave statements.",
+   "lines": [
+    15629,
+    15631
+   ]
+  },
+  {
+   "id": "20.4-s021",
+   "section": "20.4",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "b) In addition, it is not allowed to guard branches of an interleave statement with Boolean expressions (i.e. the '[ ]' shall always be empty).",
+   "lines": [
+    15633,
+    15634
+   ]
+  },
+  {
+   "id": "20.4-s022",
+   "section": "20.4",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "It is also not allowed to specify else branches in interleaved behaviour.",
+   "lines": [
+    15633,
+    15634
+   ]
+  },
+  {
+   "id": "20.4-s023",
+   "section": "20.4",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "c) An interleave used inside control behaviour shall only contain timeout statements in the event parts of the alternatives.",
+   "lines": [
+    15636,
+    15637
+   ]
+  },
+  {
+   "id": "20.4-s024",
+   "section": "20.4",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "d) The restricted use of the control transfer statements for, while, do-while, and goto within interleave statements is allowed under the following conditions:",
+   "lines": [
+    15639,
+    15639
+   ]
+  },
+  {
+   "id": "20.4-s025",
+   "section": "20.4",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "The loop statements for, while, and do-while can be used within statements blocks that do not contain reception statements.",
+   "lines": [
+    15640,
+    15640
+   ]
+  },
+  {
+   "id": "20.4-s026",
+   "section": "20.4",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "The goto statement can be used for defining jumps with statements blocks that do not contain reception statements and for specifying jumps out of interleave statements.",
+   "lines": [
+    15641,
+    15641
+   ]
+  },
+  {
+   "id": "20.4-s027",
+   "section": "20.4",
+   "kind": "example-text",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "EXAMPLE:",
+   "lines": [
+    15643,
+    15643
+   ]
+  },
+  {
+   "id": "20.4-s028",
+   "section": "20.4",
+   "kind": "example-code",
+   "context": "Restrictions",
+   "normative": false,
+   "text": "// The following TTCN-3 code fragment \n  interleave {\n  [] pCO1.receive(mw_mySig1) {\n       PCO1.send(m_mySig2);\n       PCO1.receive(mw_mySig3);\n     }\n  [] pCO2.receive(mw_mySig4) {\n     pCO2.send(m_mySig5);\n     pCO2.send(m_mySig6);\n     pCO2.receive(mw_mySig7);\n  }\n}\n// is a shorthand for \nalt {\n[] PCO1.receive(mw_mySig1) {\n     PCO1.send(m_mySig2);\n     alt {\n     [] PCO1.receive(mw_mySig3) {\n          alt {\n          [] PCO2.receive(mw_mySig4) {\n              PCO2.send(m_mySig5);\n              PCO2.send(m_mySig6);\n              PCO2.receive(mw_mySig7)\n            }\n          }\n       }\n     [] PCO2.receive(mw_mySig4) {\n          PCO2.send(m_mySig5);\n          PCO2.send(m_mySig6);\n          alt {\n          [] PCO1.receive(mw_mySig3) {\n              PCO2.receive(mw_mySig7); \n            }\n          [] PCO2.receive(mw_mySig7) {\n              PCO1.receive(mw_mySig3); \n            }\n          }\n       }\n     }\n  }\n[] pCO2.receive(mw_mySig4) {\n     pCO2.send(m_mySig5);\n     pCO2.send(m_mySig6);\n     alt {\n     [] pCO1.receive(mw_mySig1) {\n          pCO1.send(m_mySig2);\n          alt {\n          [] pCO1.receive(mw_mySig3) {\n              pCO2.receive(mw_mySig7);\n            }\n          [] pCO2.receive(mw_mySig7) {\n              pCO1.receive(mw_mySig3);\n            }\n          }\n       }\n     [] pCO2.receive(mw_mySig7) {\n          alt {\n          [] pCO1.receive(mw_mySig1) {\n              pCO1.send(m_mySig2);\n              pCO1.receive(mw_mySig3);\n            }\n          }\n       }\n     }\n  }\n}",
+   "lines": [
+    15644,
+    15711
+   ]
+  },
+  {
+   "id": "20.5.0-s001",
+   "section": "20.5.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "TTCN-3 allows the activation of altsteps (see clause 16.2.1) as defaults.",
+   "lines": [
+    15722,
+    15729
+   ]
+  },
+  {
+   "id": "20.5.0-s002",
+   "section": "20.5.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "For each test component the defaults, i.e. activated altsteps, are stored as an ordered list.",
+   "lines": [
+    15722,
+    15729
+   ]
+  },
+  {
+   "id": "20.5.0-s003",
+   "section": "20.5.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The defaults are listed in the reversed order of their activation i.e. the last activated default is the first element in the list of active defaults.",
+   "lines": [
+    15722,
+    15729
+   ]
+  },
+  {
+   "id": "20.5.0-s004",
+   "section": "20.5.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The TTCN-3 operations activate (see clause 20.5.2) and deactivate (see clause 20.5.3) operate on the list of defaults.",
+   "lines": [
+    15722,
+    15729
+   ]
+  },
+  {
+   "id": "20.5.0-s005",
+   "section": "20.5.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "If an activate operation creates a new default, it is inserted as the first element into the list.",
+   "lines": [
+    15722,
+    15729
+   ]
+  },
+  {
+   "id": "20.5.0-s006",
+   "section": "20.5.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Re-activated defaults that were previously suspended retain their position in the list.",
+   "lines": [
+    15722,
+    15729
+   ]
+  },
+  {
+   "id": "20.5.0-s007",
+   "section": "20.5.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The deactivate operation either removes a default from the list or suspends it in which case the default remains in the list, but is temporarily inactive.",
+   "lines": [
+    15722,
+    15729
+   ]
+  },
+  {
+   "id": "20.5.0-s008",
+   "section": "20.5.0",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "A default in the default list can be identified by means of default reference that is generated as a result of the corresponding activate operation.",
+   "lines": [
+    15722,
+    15729
+   ]
+  },
+  {
+   "id": "20.5.1-s001",
+   "section": "20.5.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The default mechanism is evoked at the end of each alt statement not annotated with the @nodefault modifier, if due to the actual snapshot none of the specified alternatives could be executed.",
+   "lines": [
+    15733,
+    15738
+   ]
+  },
+  {
+   "id": "20.5.1-s002",
+   "section": "20.5.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "An evoked default mechanism invokes the first altstep in the list of defaults, i.e. the last activated default, and waits for the result of its termination.",
+   "lines": [
+    15733,
+    15738
+   ]
+  },
+  {
+   "id": "20.5.1-s003",
+   "section": "20.5.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The termination can be successful or unsuccessful.",
+   "lines": [
+    15733,
+    15738
+   ]
+  },
+  {
+   "id": "20.5.1-s004",
+   "section": "20.5.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "Unsuccessful means that none of the top alternatives of the altstep (see clause 16.2.1) defining the default behaviour could be selected, successful means that one of the top alternatives of the default has been selected and executed.",
+   "lines": [
+    15733,
+    15738
+   ]
+  },
+  {
+   "id": "20.5.1-s005",
+   "section": "20.5.1",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "NOTE 1: An interleave statement is semantically equivalent to a nested set of alt statements and the default mechanism also applies to each of these alt statements.",
+   "lines": [
+    15740,
+    15743
+   ]
+  },
+  {
+   "id": "20.5.1-s006",
+   "section": "20.5.1",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "This means, the default mechanism also applies to interleave statements.",
+   "lines": [
+    15740,
+    15743
+   ]
+  },
+  {
+   "id": "20.5.1-s007",
+   "section": "20.5.1",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "Furthermore, the restrictions imposed on interleave statements in clause 20.4 do not apply to altsteps that are activated as default behaviour for interleave statements.",
+   "lines": [
+    15740,
+    15743
+   ]
+  },
+  {
+   "id": "20.5.1-s008",
+   "section": "20.5.1",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "NOTE 2: Due to the possibility of defining dynamic test configurations, an alternative in an altstep activated as default may refer to a disconnected or unmapped port at the time of its evaluation.",
+   "lines": [
+    15745,
+    15750
+   ]
+  },
+  {
+   "id": "20.5.1-s009",
+   "section": "20.5.1",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "In TTCN-3, ports belong to the receiving component and matching is related to the top elements in the port queues.",
+   "lines": [
+    15745,
+    15750
+   ]
+  },
+  {
+   "id": "20.5.1-s010",
+   "section": "20.5.1",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "Dynamically unmapped and disconnected ports contribute to a snapshot in the same manner as mapped and connected ports.",
+   "lines": [
+    15745,
+    15750
+   ]
+  },
+  {
+   "id": "20.5.1-s011",
+   "section": "20.5.1",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "This means, an altstep invoked as default may execute receiving operations that empty the queues of unmapped and disconnected ports without causing a test case error.",
+   "lines": [
+    15745,
+    15750
+   ]
+  },
+  {
+   "id": "20.5.1-s012",
+   "section": "20.5.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "In the case of an unsuccessful termination, the default mechanism invokes the next default in the list that is not in the suspended state.",
+   "lines": [
+    15752,
+    15756
+   ]
+  },
+  {
+   "id": "20.5.1-s013",
+   "section": "20.5.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "If the last default in the list has terminated unsuccessfully, the default mechanism will return to the place in the alt statement in which it has been invoked, i.e. at the end of the alt statement, and indicate an unsuccessful default execution.",
+   "lines": [
+    15752,
+    15756
+   ]
+  },
+  {
+   "id": "20.5.1-s014",
+   "section": "20.5.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "An unsuccessful default execution will also be indicated if the list of defaults is empty or if it contains only suspended defaults.",
+   "lines": [
+    15752,
+    15756
+   ]
+  },
+  {
+   "id": "20.5.1-s015",
+   "section": "20.5.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "An unsuccessful default execution may cause a new snapshot or a dynamic error if the test component is blocked (see clause 20.1).",
+   "lines": [
+    15758,
+    15759
+   ]
+  },
+  {
+   "id": "20.5.1-s016",
+   "section": "20.5.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "In the case of a successful termination, the default may either stop the test component by means of a stop statement, or the main control flow of the test component will continue immediately after the alt statement from which the default mechanism was called or the test component will take new snapshot and re-evaluate the alt statement.",
+   "lines": [
+    15761,
+    15766
+   ]
+  },
+  {
+   "id": "20.5.1-s017",
+   "section": "20.5.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The latter has to be specified by means of a repeat statement (see clause 20.3).",
+   "lines": [
+    15761,
+    15766
+   ]
+  },
+  {
+   "id": "20.5.1-s018",
+   "section": "20.5.1",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "If the execution of the selected top alternative of the default ends with a break statement or without a repeat statement the control flow of the test component will continue immediately after the alt statement.",
+   "lines": [
+    15761,
+    15766
+   ]
+  },
+  {
+   "id": "20.5.1-s019",
+   "section": "20.5.1",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "NOTE 3: TTCN-3 does not restrict the implementation of the default mechanism.",
+   "lines": [
+    15768,
+    15771
+   ]
+  },
+  {
+   "id": "20.5.1-s020",
+   "section": "20.5.1",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "It may for example be implemented in form of a process that is implicitly called at the end of each alt statement or in form of a separate thread that is only responsible for the default handling.",
+   "lines": [
+    15768,
+    15771
+   ]
+  },
+  {
+   "id": "20.5.1-s021",
+   "section": "20.5.1",
+   "kind": "note",
+   "context": null,
+   "normative": false,
+   "text": "The only requirement is that defaults are called in the reverse order of their activation when the default mechanism has been invoked.",
+   "lines": [
+    15768,
+    15771
+   ]
+  },
+  {
+   "id": "20.5.2-s001",
+   "section": "20.5.2",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The activate operation is used to activate altsteps as defaults.",
+   "lines": [
+    15780,
+    15780
+   ]
+  },
+  {
+   "id": "20.5.2-s002",
+   "section": "20.5.2",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "activate \"(\" AltstepRef \"(\" [ { ActualPar [\",\"] } ] \")\" | ObjectReference \")\"",
+   "lines": [
+    15783,
+    15785
+   ]
+  },
+  {
+   "id": "20.5.2-s003",
+   "section": "20.5.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "An activate operation if it is called with an AltstepRef will put the referenced altstep as the first element into the list of defaults and return a default reference.",
+   "lines": [
+    15789,
+    15794
+   ]
+  },
+  {
+   "id": "20.5.2-s004",
+   "section": "20.5.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The default reference is a unique identifier for the default and may be used in a deactivate operation for the deactivation of the default.",
+   "lines": [
+    15789,
+    15794
+   ]
+  },
+  {
+   "id": "20.5.2-s005",
+   "section": "20.5.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The actual parameters of a parameterized altstep (see clause 16.2.1) that should be activated as a default, shall be provided in the corresponding activate statement.",
+   "lines": [
+    15789,
+    15794
+   ]
+  },
+  {
+   "id": "20.5.2-s006",
+   "section": "20.5.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "This means, the actual parameters are bound to the default at the time of its activation (and not e.g. at the time of its invocation by the default mechanism).",
+   "lines": [
+    15789,
+    15794
+   ]
+  },
+  {
+   "id": "20.5.2-s007",
+   "section": "20.5.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "If the activate operation is called with an ObjectReference, it will re-activate the referenced default which was previously suspended by a deactivate operation.",
+   "lines": [
+    15796,
+    15799
+   ]
+  },
+  {
+   "id": "20.5.2-s008",
+   "section": "20.5.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "In this case the referenced default shall remain in the same place in the list of defaults as it was before the activate operation, and the activate operation shall return with the same _ObjectReference as it received at calling._",
+   "lines": [
+    15796,
+    15799
+   ]
+  },
+  {
+   "id": "20.5.2-s009",
+   "section": "20.5.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The effect of an activate operation is local to the test component in which it is called.",
+   "lines": [
+    15801,
+    15802
+   ]
+  },
+  {
+   "id": "20.5.2-s010",
+   "section": "20.5.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "This means, a test component cannot activate a default in another test component.",
+   "lines": [
+    15801,
+    15802
+   ]
+  },
+  {
+   "id": "20.5.2-s011",
+   "section": "20.5.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The activate operation can be called without saving the returned default reference.",
+   "lines": [
+    15804,
+    15806
+   ]
+  },
+  {
+   "id": "20.5.2-s012",
+   "section": "20.5.2",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "This form is useful in test cases which do not require explicit deactivation of the activated default, i.e. deactivation of a default is done implicitly at MTC termination.",
+   "lines": [
+    15804,
+    15806
+   ]
+  },
+  {
+   "id": "20.5.2-s013",
+   "section": "20.5.2",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clause 5 and shown in table 16, the following restrictions apply:",
+   "lines": [
+    15810,
+    15811
+   ]
+  },
+  {
+   "id": "20.5.2-s014",
+   "section": "20.5.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) Void.",
+   "lines": [
+    15813,
+    15813
+   ]
+  },
+  {
+   "id": "20.5.2-s015",
+   "section": "20.5.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "b) Void.",
+   "lines": [
+    15815,
+    15815
+   ]
+  },
+  {
+   "id": "20.5.2-s016",
+   "section": "20.5.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "c) An altstep that is activated as a default shall only have in parameters.",
+   "lines": [
+    15817,
+    15817
+   ]
+  },
+  {
+   "id": "20.5.2-s017",
+   "section": "20.5.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "d) The ObjectReference shall be of default type.",
+   "lines": [
+    15819,
+    15819
+   ]
+  },
+  {
+   "id": "20.5.2-s018",
+   "section": "20.5.2",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "e) The ObjectReference shall refer to a default that is marked as suspended in the list of defaults.",
+   "lines": [
+    15821,
+    15821
+   ]
+  },
+  {
+   "id": "20.5.2-s019",
+   "section": "20.5.2",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 1: Activation where the default reference is kept",
+   "lines": [
+    15825,
+    15825
+   ]
+  },
+  {
+   "id": "20.5.2-s020",
+   "section": "20.5.2",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "// Declaration of a variable for the handling of defaults\n  var default v_myDefaultVar := null;\n   :\n  // Declaration of a default reference variable and activation of an altstep as default\n  var default v_myDefVarTwo := activate(a_mySecondAltStep());\n  :\n  // Activation of altstep MyAltStep as a default\n  v_myDefaultVar := activate(a_myAltStep()); // a_myAltStep is activated as default\n   :\n  // Usage of v_myDefaultVar for the deactivation of default a_myDefAltStep\n  deactivate(v_myDefaultVar);",
+   "lines": [
+    15826,
+    15838
+   ]
+  },
+  {
+   "id": "20.5.2-s021",
+   "section": "20.5.2",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 2: Simple activation",
+   "lines": [
+    15840,
+    15840
+   ]
+  },
+  {
+   "id": "20.5.2-s022",
+   "section": "20.5.2",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "// Activation of an altstep as a default, without assignment of default reference\n  activate(a_myCommonDefault());",
+   "lines": [
+    15841,
+    15844
+   ]
+  },
+  {
+   "id": "20.5.2-s023",
+   "section": "20.5.2",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 3: Activation of a parameterized altstep",
+   "lines": [
+    15851,
+    15851
+   ]
+  },
+  {
+   "id": "20.5.2-s024",
+   "section": "20.5.2",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "altstep a_myAltStep2 ( integer  p_value1, MyType p_value2, \n              MyPortType p_port,  timer p_timer )\n  {\n   :\n  }\n  function f_myFunc () runs on MyCompType\n  { :\n  var default v_myDefaultVar := null;\n  v_myDefaultVar := activate(a_myAltStep2(5, v_myVar, vc_myCompPort, tc_myCompTimer);\n     // MyAltStep2 is activated as default with the actual parameters 5 and\n     // the value of v_myVar. A change of v_myVar before a call of a_myAltStep2 by\n     // the default mechanism will not change the actual parameters of the call.\n   :\n  }",
+   "lines": [
+    15852,
+    15867
+   ]
+  },
+  {
+   "id": "20.5.2-s025",
+   "section": "20.5.2",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 4: Re-activation of a previously suspended default",
+   "lines": [
+    15869,
+    15869
+   ]
+  },
+  {
+   "id": "20.5.2-s026",
+   "section": "20.5.2",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "var default v_def1 := activate(a_myDefaultBehaviour1());\n  var default v_def2 := activate(a_myDefaultBehaviour2());\n  var default v_def3 := activate(a_myDefaultBehaviour3());\n     ...\n  deactivate(v_def2, true); // suspend the default temporarily, with a second optional argument\n  alt {...} // alt block without the suspended default v_def2\n     //active defaults that are referred by v_def3, v_def1\n  activate(v_def2); // re-activate the default v_def2\n     //active defaults that are referred by v_def3, v_def2, v_def1",
+   "lines": [
+    15870,
+    15880
+   ]
+  },
+  {
+   "id": "20.5.3-s001",
+   "section": "20.5.3",
+   "kind": "prose",
+   "context": null,
+   "normative": true,
+   "text": "The deactivate operation is used to deactivate or suspend defaults, i.e. previously activated altsteps.",
+   "lines": [
+    15884,
+    15884
+   ]
+  },
+  {
+   "id": "20.5.3-s002",
+   "section": "20.5.3",
+   "kind": "syntax",
+   "context": "Syntactical Structure",
+   "normative": true,
+   "text": "deactivate [ \"(\" ObjectReference [ \",\" Expression ] \")\" ]",
+   "lines": [
+    15887,
+    15889
+   ]
+  },
+  {
+   "id": "20.5.3-s003",
+   "section": "20.5.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "A deactivate operation will remove the referenced default from the list of defaults if the optional Expression evaluates to false, otherwise it marks the referenced default in the list of defaults as suspended.",
+   "lines": [
+    15893,
+    15894
+   ]
+  },
+  {
+   "id": "20.5.3-s004",
+   "section": "20.5.3",
+   "kind": "note",
+   "context": "Semantic Description",
+   "normative": false,
+   "text": "NOTE: A suspended default can be re-activated by an activate operation.",
+   "lines": [
+    15896,
+    15896
+   ]
+  },
+  {
+   "id": "20.5.3-s005",
+   "section": "20.5.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "The effect of a deactivate operation is local to the test component in which it is called.",
+   "lines": [
+    15898,
+    15899
+   ]
+  },
+  {
+   "id": "20.5.3-s006",
+   "section": "20.5.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "This means, a test component cannot deactivate or suspend a default in another test component.",
+   "lines": [
+    15898,
+    15899
+   ]
+  },
+  {
+   "id": "20.5.3-s007",
+   "section": "20.5.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "A deactivate operation without parameter deactivates all defaults of a test component.",
+   "lines": [
+    15901,
+    15901
+   ]
+  },
+  {
+   "id": "20.5.3-s008",
+   "section": "20.5.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Calling a deactivate operation with the special value null as its ObjectReference has no effect.",
+   "lines": [
+    15903,
+    15905
+   ]
+  },
+  {
+   "id": "20.5.3-s009",
+   "section": "20.5.3",
+   "kind": "prose",
+   "context": "Semantic Description",
+   "normative": true,
+   "text": "Calling a deactivate operation with an undefined default reference, e.g. an old reference to a default that has already been deactivated or an uninitialized default reference variable, shall cause a runtime error.",
+   "lines": [
+    15903,
+    15905
+   ]
+  },
+  {
+   "id": "20.5.3-s010",
+   "section": "20.5.3",
+   "kind": "prose",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "In addition to the general static rules of TTCN-3 given in clause 5 and shown in table 16, the following restrictions apply:",
+   "lines": [
+    15909,
+    15910
+   ]
+  },
+  {
+   "id": "20.5.3-s011",
+   "section": "20.5.3",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "a) The ObjectReference shall be of default type.",
+   "lines": [
+    15912,
+    15912
+   ]
+  },
+  {
+   "id": "20.5.3-s012",
+   "section": "20.5.3",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "b) The optional Expression shall be of boolean type and shall not resolve to a template.",
+   "lines": [
+    15914,
+    15914
+   ]
+  },
+  {
+   "id": "20.5.3-s013",
+   "section": "20.5.3",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "Its default value is false.",
+   "lines": [
+    15914,
+    15914
+   ]
+  },
+  {
+   "id": "20.5.3-s014",
+   "section": "20.5.3",
+   "kind": "list-item",
+   "context": "Restrictions",
+   "normative": true,
+   "text": "c) The optional Expression shall evaluate to a value, which is initialized.",
+   "lines": [
+    15916,
+    15916
+   ]
+  },
+  {
+   "id": "20.5.3-s015",
+   "section": "20.5.3",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 1: Simple deactivation",
+   "lines": [
+    15925,
+    15925
+   ]
+  },
+  {
+   "id": "20.5.3-s016",
+   "section": "20.5.3",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "var default v_myDefaultVar := null;\n  var default v_myDefVarTwo := activate(a_mySecondAltStep());\n  var default v_myDefVarThree := activate(a_myThirdAltStep());\n   :\n  v_myDefaultVar := activate(a_myAltStep());\n   :\n  deactivate(v_myDefaultVar); // deactivates a_myAltStep\n  deactivate(v_myDefaultVar, false); // same as above\n   :\n  deactivate; // deactivates all other defaults, i.e. in this case a_mySecondAltStep\n          // and a_myThirdAltStep",
+   "lines": [
+    15926,
+    15938
+   ]
+  },
+  {
+   "id": "20.5.3-s017",
+   "section": "20.5.3",
+   "kind": "example-text",
+   "context": "Examples",
+   "normative": false,
+   "text": "EXAMPLE 2: Suspension of a default",
+   "lines": [
+    15940,
+    15940
+   ]
+  },
+  {
+   "id": "20.5.3-s018",
+   "section": "20.5.3",
+   "kind": "example-code",
+   "context": "Examples",
+   "normative": false,
+   "text": "deactivate(v_myDefaultVar, true); // suspends the default referred by v_myDefaultVar;\n                        // which can be re-activated\n  activate(v_myDefaultVar);",
+   "lines": [
+    15941,
+    15945
+   ]
+  }
+ ]
+}

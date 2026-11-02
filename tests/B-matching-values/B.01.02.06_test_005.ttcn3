@@ -1,0 +1,27 @@
+// @requirement: B.1.2.6 -- However, the length matching attribute may be attached to the _SuperSet itself._
+// @id: TTCN3-CORE-B.1.2.6-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_02_06_test_005 {
+
+    type component C {}
+
+    type set of integer SoI;
+
+    template SoI mw_superset := superset (1, 2) length (3);
+
+    testcase TC() runs on C {
+        var SoI v_three := { 2, 7, 1 };
+        var SoI v_two := { 1, 2 };
+        var SoI v_four := { 1, 2, 3, 4 };
+        if (match(v_three, mw_superset) and not match(v_two, mw_superset)
+            and not match(v_four, mw_superset)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,25 @@
+// @requirement: 10 -- c) Using the dot notation (see clauses 6.2.1.1, 6.2.2.1 and 6.2.5.1) and index notation (see clauses 6.2.7 and 6.2.3.0) for referencing a field, alternative or element of an address value, which actual value is null shall cause an error.
+// @id: TTCN3-CORE-10-020a
+// @verdict: pass accept, ttcn3verdict:error
+module M_10_test_017 {
+
+    type component C {}
+
+    type record address {
+        integer f
+    }
+
+    function f_field(address p_addr) return integer {
+        return p_addr.f; // error: field of a null address value
+    }
+
+    testcase TC() runs on C {
+        var address v_addr := null;
+        var integer v_x := f_field(v_addr);
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

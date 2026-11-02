@@ -1,0 +1,26 @@
+// @requirement: 26.2 -- For example, boolean expressions may be used to select and deselect which test cases are to be executed.
+// @id: TTCN3-CORE-26.2-018a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_26_02_test_010 {
+
+    type component C {}
+
+    const integer c_level := 2;
+
+    testcase TC_Selected() runs on C {
+        setverdict(pass);
+    }
+
+    testcase TC_Deselected() runs on C {
+        setverdict(fail);
+    }
+
+    control {
+        if (c_level > 1) {
+            execute(TC_Selected());
+        }
+        if (c_level > 5) {
+            execute(TC_Deselected());
+        }
+    }
+}

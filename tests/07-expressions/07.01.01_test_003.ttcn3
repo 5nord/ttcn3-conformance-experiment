@@ -1,0 +1,21 @@
+// @requirement: 7.1.1 -- The usage of the special float values infinity, -infinity and not_a_number in arithmetic operators shall follow the rules defined in IEEE 754 [6].
+// @id: TTCN3-CORE-7.1.1-003a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_07_01_01_test_003 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var float v_inf := infinity;
+        var float v_one := 1.0;
+        if (v_inf + v_one == infinity and -v_inf - v_one == -infinity and v_inf * -v_one == -infinity and v_inf - v_inf == not_a_number and v_one / v_inf == 0.0) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

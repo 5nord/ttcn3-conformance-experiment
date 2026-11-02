@@ -1,0 +1,34 @@
+// @requirement: 22.2.2 -- NOTE 2: Encoding attributes also participate in matching in an implicit way, by preventing the decoder to produce an abstract value from the received message encoded in a different way than specified by the attributes.
+// @id: TTCN3-CORE-22.2.2-012a
+// @verdict: pass accept, noexecution
+module M_22_02_02_test_010 {
+
+    type record RecA {
+        integer a
+    } with {
+        encode "CodecA"
+    }
+
+    type record RecB {
+        integer b
+    } with {
+        encode "CodecB"
+    }
+
+    type port P message { inout RecA, RecB }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    testcase TC() runs on C system C {
+        map(mtc:p, system:p);
+        T.start;
+        alt {
+            [] p.receive(RecA:?) { setverdict(pass); }
+            [] p.receive(RecB:?) { setverdict(pass); }
+            [] T.timeout { setverdict(inconc); }
+        }
+    }
+}

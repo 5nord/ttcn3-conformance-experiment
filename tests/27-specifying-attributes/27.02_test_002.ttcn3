@@ -1,0 +1,32 @@
+// @requirement: 27.2 -- e) optional: allows the implicit setting of optional fields in records and sets to omit.
+// @id: TTCN3-CORE-27.2-004e
+// @verdict: pass accept, ttcn3verdict:pass
+module M_27_02_test_002 {
+
+    type record R {
+        integer a,
+        integer b optional
+    }
+
+    type set S {
+        integer a,
+        integer b optional
+    }
+
+    const R c_r := { a := 1 } with { optional "implicit omit" }
+    const S c_s := { a := 1 } with { optional "implicit omit" }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (not ispresent(c_r.b) and not ispresent(c_s.b)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

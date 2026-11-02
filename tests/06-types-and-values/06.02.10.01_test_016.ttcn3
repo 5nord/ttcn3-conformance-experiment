@@ -1,0 +1,46 @@
+// @requirement: 6.2.10.1 -- type component MyCompType { port MyMessagePortType pCOm[3]; port MyProcedurePortType pCOp[3][3] // Defines a component type which has an array of 3 message ports and a two-dimensional // array of 9 procedure ports. }
+// @id: TTCN3-CORE-6.2.10.1-030a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_10_01_test_016 {
+
+    type port PM message {
+        inout integer;
+    }
+
+    signature S_ping();
+
+    type port PP procedure {
+        inout S_ping;
+    }
+
+    type component C {
+        port PM pm[3];
+        port PP pp[3][3];
+    }
+
+    function f_echo() runs on C {
+        var integer v_i;
+        pm[2].receive(integer:?) -> value v_i;
+        pm[2].send(v_i);
+    }
+
+    testcase TC() runs on C {
+        timer T := 1.0;
+        var C v_ptc := C.create;
+        connect(self:pm[0], v_ptc:pm[2]);
+        connect(self:pp[1][2], v_ptc:pp[2][1]);
+        v_ptc.start(f_echo());
+        pm[0].send(7);
+        T.start;
+        alt {
+            [] pm[0].receive(7) { setverdict(pass); }
+            [] pm[0].receive { setverdict(fail); }
+            [] T.timeout { setverdict(fail); }
+        }
+        v_ptc.done;
+    }
+
+    control {
+        execute(TC());
+    }
+}

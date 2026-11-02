@@ -1,0 +1,43 @@
+// @requirement: 15.6.4 -- During this expansion an AnyValue shall be assigned to all parameters of the template. b) _AnyValue: when referencing a parameter within a signature to which AnyValue is assigned, at the left hand_ side of an assignment, the signature template is implicitly expanded to the parameter level.
+// @id: TTCN3-CORE-15.6.4-008a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_06_04_test_005 {
+
+    signature S(in integer par1, in integer par2);
+
+    type port P procedure {
+        inout S;
+    }
+
+    type component C {
+        port P p;
+    }
+
+    template S s_any := ?;
+    template S s_mod modifies s_any := { par1 := 3 };
+
+    function f_receiver() runs on C {
+        timer T := 1.0;
+        T.start;
+        for (var integer i := 0; i < 2; i := i + 1) {
+            alt {
+                [] p.getcall(s_mod) { setverdict(pass); }
+                [] p.getcall { setverdict(fail); }
+                [] T.timeout { setverdict(fail); }
+            }
+        }
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_receiver());
+        p.call(S:{ par1 := 3, par2 := 0 }, nowait);
+        p.call(S:{ par1 := 3, par2 := -1000 }, nowait);
+        v_ptc.done;
+    }
+
+    control {
+        execute(TC());
+    }
+}

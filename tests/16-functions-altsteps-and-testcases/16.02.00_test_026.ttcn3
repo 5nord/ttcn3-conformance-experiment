@@ -1,0 +1,25 @@
+// @requirement: 16.2.0 -- e) An altstep that is activated as a default shall only have `in` value or template parameters.
+// @id: TTCN3-CORE-16.2.0-028a
+// @verdict: pass reject
+module M_16_02_00_test_026 {
+
+    type component C {
+        var integer v_x;
+        timer T_guard := 0.1;
+    }
+
+    altstep a_def(out integer p_x) runs on C {
+        [] T_guard.timeout {
+            p_x := 1;
+        }
+    }
+
+    testcase TC() runs on C {
+        var default v_d := activate(a_def(v_x)); // error: activated altstep has an out parameter
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

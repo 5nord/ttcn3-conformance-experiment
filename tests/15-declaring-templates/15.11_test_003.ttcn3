@@ -1,0 +1,17 @@
+// @requirement: 15.11 -- The single templates of binary string types shall evaluate only to the matching mechanisms specific value, combined template, AnyValue without a length modifier, AnyValue or AnyValueOrNone, both constrained to a fixed length.
+// @id: TTCN3-CORE-15.11-003a
+// @verdict: pass reject
+module M_15_11_test_003 {
+
+    template bitstring mw_t := '01'B & ? length(1 .. 2) & '1'B; // error: length is not fixed
+
+    type component C {}
+
+    testcase TC() runs on C {
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,23 @@
+// @requirement: 5.1 -- The same rules apply to names of predefined TTCN-3 functions (see annex C).
+// @id: TTCN3-CORE-5.1-004b
+// @verdict: pass reject
+module M_05_01_test_006 {
+
+    import from M_05_01_test_006_A language "ASN.1:2002" {
+        const lengthof // error: predefined function name used as identifier of an imported object
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_05_01_test_006_A {
+    const integer c_value := 1;
+}

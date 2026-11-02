@@ -1,0 +1,27 @@
+// @requirement: 8.2.5 -- They are by default public except for imported and friend definitions.
+// @id: TTCN3-CORE-8.2.5-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_02_05_test_004 {
+
+    import from M_08_02_05_test_004_A { type MyInteger; const c_value };
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyInteger v_value := c_value;
+        if (v_value == 1) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_05_test_004_A {
+    type integer MyInteger;
+    const MyInteger c_value := 1;
+}

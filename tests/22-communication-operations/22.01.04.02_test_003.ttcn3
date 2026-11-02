@@ -1,0 +1,37 @@
+// @requirement: 22.1.4.2 -- c) gives an optional address expression that uniquely identifies the communication partner (in case of one-to-many connections).
+// @id: TTCN3-CORE-22.1.4.2-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_01_04_02_test_003 {
+
+    type port P message { inout integer }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    function f_ptc(integer p_value) runs on C {
+        p.send(p_value);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc1 := C.create, v_ptc2 := C.create;
+        var integer v_x;
+        connect(mtc:p, v_ptc1:p);
+        connect(mtc:p, v_ptc2:p);
+        v_ptc1.start(f_ptc(1));
+        v_ptc2.start(f_ptc(2));
+        T.start;
+        alt {
+            [] p.receive(integer:?) from v_ptc2 -> value v_x {
+                if (v_x == 2) { setverdict(pass); } else { setverdict(fail); }
+            }
+            [] p.receive(integer:?) from v_ptc1 { repeat; }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

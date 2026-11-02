@@ -1,0 +1,31 @@
+// @requirement: 21.3.3 -- Furthermore, the local verdict of the component keeps its value.
+// @id: TTCN3-CORE-21.3.3-015a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_03_03_test_019 {
+
+    type component C {}
+
+    function f_first() runs on C {
+        setverdict(pass);
+        stop;
+    }
+
+    function f_second() runs on C {
+        if (getverdict != pass) {
+            setverdict(fail);
+        }
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create alive;
+        v_ptc.start(f_first());
+        v_ptc.done;
+        v_ptc.start(f_second());
+        v_ptc.done;
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,25 @@
+// @requirement: 8.2.3.8 -- When importing into a TTCN-3 module, the language specification (see clause 8.1) of the importing module, the language specification of the import statement and the language specification of the source module, where the imported definitions are defined, have to be compatible according to the following rules.
+// @id: TTCN3-CORE-8.2.3.8-001a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_02_03_08_test_001 language "TTCN-3:2023" {
+
+    import from M_08_02_03_08_test_001_A language "TTCN-3:2023" { const c_value }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (c_value == 1) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_03_08_test_001_A language "TTCN-3:2023" {
+    const integer c_value := 1;
+}

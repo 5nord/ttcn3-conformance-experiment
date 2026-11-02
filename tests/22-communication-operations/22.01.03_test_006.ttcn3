@@ -1,0 +1,30 @@
+// @requirement: 22.1.3 -- Unicast, multicast and broadcast can also be used for mapped ports.
+// @id: TTCN3-CORE-22.1.3-007a
+// @verdict: pass accept, noexecution
+module M_22_01_03_test_006 {
+
+    type integer address;
+
+    type port P message { inout integer }
+
+    type component C {
+        port P p;
+    }
+
+    type component S {
+        port P p;
+    }
+
+    testcase TC() runs on C system S {
+        var address v_a1 := 1, v_a2 := 2;
+        map(mtc:p, system:p);
+        p.send(1) to v_a1;
+        p.send(2) to (v_a1, v_a2);
+        p.send(3) to all component;
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

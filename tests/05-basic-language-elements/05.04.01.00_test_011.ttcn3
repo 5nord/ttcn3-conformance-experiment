@@ -1,0 +1,23 @@
+// @requirement: 5.4.1.0 -- Formal in parameters may have default values.
+// @id: TTCN3-CORE-5.4.1.0-013a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_04_01_00_test_011 {
+
+    type component C {}
+
+    function f_add(in integer p_x, in integer p_y := 3) return integer {
+        return p_x + p_y;
+    }
+
+    testcase TC() runs on C {
+        if (f_add(1, 2) == 3) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

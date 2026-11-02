@@ -1,0 +1,30 @@
+// @requirement: 6.2.1.1 -- If a field in a record type or a subtype of a record type is referenced by the dot notation, the resulting type is the set of values allowed for that field imposed by the constraints of the field declaration itself (i.e. any constraints applied to the **record type itself are ignored).**
+// @id: TTCN3-CORE-6.2.1.1-008b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_01_01_test_006 {
+
+    type component C {}
+
+    type record MyType2 {
+        integer field1 (1 .. 10),
+        charstring field2 optional
+    }
+
+    type MyType2 MyType3 ({ 1, omit }, { 2, "foo" }, { 3, "bar" });
+    type MyType3.field1 MyType4;
+    type MyType3.field2 MyType5;
+
+    testcase TC() runs on C {
+        var MyType4 v_i := 7;
+        var MyType5 v_s := "xyz";
+        if (v_i == 7 and v_s == "xyz") {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

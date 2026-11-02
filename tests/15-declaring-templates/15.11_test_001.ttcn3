@@ -1,0 +1,39 @@
+// @requirement: 15.11 -- Templates of string and list types (bitstring, octetstring, hexstring, charstring, universal charstring, record of, set of, and array) can be concatenated from several single (in-line) templates using the concatenation operation.
+// @id: TTCN3-CORE-15.11-001a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_11_test_001 {
+
+    type record of integer RoI;
+    type set of integer SoI;
+    type integer AI[3];
+
+    const universal charstring c_uchar := "AB" & char(0, 0, 1, 0);
+    const RoI c_roi := { 1, 2 };
+    const SoI c_soi := { 1, 2 };
+    const AI c_ai := { 1, 2, 3 };
+
+    template bitstring mw_bit := '01'B & ? length(1);
+    template octetstring mw_oct := 'AB'O & ? length(1);
+    template hexstring mw_hex := 'A'H & ? length(1);
+    template charstring mw_char := "AB" & ? length(1);
+    template universal charstring mw_uchar := "AB" & ? length(1);
+    template RoI mw_roi := { 1 } & ? length(1);
+    template SoI mw_soi := { 1 } & ? length(1);
+    template AI mw_ai := { 1 } & ? length(2);
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (match('011'B, mw_bit) and match('ABCD'O, mw_oct) and match('AB'H, mw_hex) and
+            match("ABC", mw_char) and match(c_uchar, mw_uchar) and match(c_roi, mw_roi) and
+            match(c_soi, mw_soi) and match(c_ai, mw_ai)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

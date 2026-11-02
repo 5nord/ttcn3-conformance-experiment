@@ -1,0 +1,23 @@
+// @requirement: 8.2.3.6 -- Only versioned or foreign elements with a TTCN-3 view of a given edition are importable into a TTCN-3 module of that edition.
+// @id: TTCN3-CORE-8.2.3.6-022a
+// @verdict: pass reject
+module M_08_02_03_06_test_011 language "TTCN-3:2023" {
+
+    import from M_08_02_03_06_test_011_A language "TTCN-3:2005" {
+        type MyOid // error: objid based type has no TTCN-3 view in this edition
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_03_06_test_011_A language "TTCN-3:2005" {
+    type objid MyOid;
+}

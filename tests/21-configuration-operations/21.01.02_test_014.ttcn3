@@ -1,0 +1,25 @@
+// @requirement: 21.1.2 -- The all component keyword shall only be used in combination with the all port keyword, i.e. all component:all port, and shall only be used by the MTC.
+// @id: TTCN3-CORE-21.1.2-011b
+// @verdict: pass accept, ttcn3verdict:error
+module M_21_01_02_test_014 {
+
+    type port P message { inout integer; }
+
+    type component C { port P p; }
+
+    function f_release() runs on C {
+        disconnect(all component:all port); // error: not called by the MTC
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(self:p, v_ptc:p);
+        v_ptc.start(f_release());
+        v_ptc.done;
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,23 @@
+// @requirement: 6.3.1 -- For variables, constants, templates, etc. of universal charstring type, value 'b' is compatible with a charstring type 'A' if all characters used in value 'b' have their corresponding characters (i.e. the same control or graphical character using the same character code) in the type charstring and it does not violate any type constraint specification (range, list or length) of type "A".
+// @id: TTCN3-CORE-6.3.1-010a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_03_01_test_003 {
+
+    type charstring MyString length (3);
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var universal charstring v_u := "ab" & char(0, 0, 0, 99);
+        var MyString v_c := v_u;
+        if (v_c == "abc") {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,20 @@
+// @requirement: 5.4.1.2 -- h) Only in template parameters can be declared lazy or fuzzy.
+// @id: TTCN3-CORE-5.4.1.2-023a
+// @verdict: pass reject
+module M_05_04_01_02_test_023 {
+    type component C {}
+
+    function f_set(out template @fuzzy integer p_t) { // error: fuzzy parameter is not in
+        p_t := ?;
+    }
+
+    testcase TC() runs on C {
+        var template integer vt_x;
+        f_set(vt_x);
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

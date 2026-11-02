@@ -1,0 +1,25 @@
+// @requirement: 6.1.2.6.1 -- It is possible to mix both template list and type list subtyping with each other and with range subtyping.
+// @id: TTCN3-CORE-6.1.2.6.1-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_01_02_06_01_test_002 {
+
+    type integer SmallInt (1 .. 5);
+    type integer MixedInt (SmallInt, 10, 20 .. 30);
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MixedInt v_1 := 3;
+        var MixedInt v_2 := 10;
+        var MixedInt v_3 := 25;
+        if (v_1 == 3 and v_2 == 10 and v_3 == 25) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

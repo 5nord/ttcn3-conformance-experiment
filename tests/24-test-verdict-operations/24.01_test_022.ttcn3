@@ -1,0 +1,32 @@
+// @requirement: 24.1 -- Table 30: Overwriting rules for the verdict (rows: current value None/Pass/Inconc/Fail; columns: new verdict assignment value pass/inconc/fail/none) Fail: fail fail fail fail
+// @id: TTCN3-CORE-24.1-032d
+// @verdict: pass accept, ttcn3verdict:pass
+module M_24_01_test_022 {
+
+    type component C {}
+
+    testcase TC_set(verdicttype p_new) runs on C {
+        setverdict(fail);
+        setverdict(p_new);
+        if (getverdict != fail) {
+            testcase.stop("unexpected local verdict");
+        }
+    }
+
+    testcase TC(boolean p_ok) runs on C {
+        if (p_ok) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        var boolean v_ok := true;
+        v_ok := v_ok and execute(TC_set(pass)) == fail;
+        v_ok := v_ok and execute(TC_set(inconc)) == fail;
+        v_ok := v_ok and execute(TC_set(fail)) == fail;
+        v_ok := v_ok and execute(TC_set(none)) == fail;
+        execute(TC(v_ok));
+    }
+}

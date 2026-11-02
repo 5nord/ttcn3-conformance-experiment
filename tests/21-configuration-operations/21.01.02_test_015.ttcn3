@@ -1,0 +1,20 @@
+// @requirement: 21.1.2 -- Furthermore, the all component:all port argument shall be used as the one and only argument of a disconnect or unmap operation and it allows to release all connections and mappings of the test configuration.
+// @id: TTCN3-CORE-21.1.2-012a
+// @verdict: pass reject
+module M_21_01_02_test_015 {
+
+    type port P message { inout integer; }
+
+    type component C { port P p; }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(self:p, v_ptc:p);
+        disconnect(all component:all port, v_ptc:p); // error: all component:all port with a second argument
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

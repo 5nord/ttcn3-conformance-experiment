@@ -1,0 +1,17 @@
+// @requirement: 22.3.4 -- To get a reply on any port from a specific port array, use the any from PortArrayRef syntax where PortArrayRef shall be a reference to a port array identifier.
+// @id: TTCN3-CORE-22.3.4-031b
+// @verdict: pass reject
+module M_22_03_04_test_028 {
+
+    signature S(out integer p_y);
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    function f_getreply() runs on C {
+        any from p.getreply(S:{?}); // error: p is not a port array
+    }
+}

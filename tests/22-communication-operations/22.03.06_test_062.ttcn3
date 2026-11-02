@@ -1,0 +1,22 @@
+// @requirement: 22.3.6 -- p) If no TemplateInstance is provided in the parameter list, then also no value clause shall be present in the redirection part.
+// @id: TTCN3-CORE-22.3.6-064a
+// @verdict: pass reject
+module M_22_03_06_test_062 {
+
+    signature S() exception (integer);
+
+    type port P procedure { inout S; }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        var integer v_x;
+        p.catch(S) -> value v_x; // error: value clause without TemplateInstance
+    }
+
+    control {
+        execute(TC());
+    }
+}

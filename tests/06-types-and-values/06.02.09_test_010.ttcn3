@@ -1,0 +1,41 @@
+// @requirement: 6.2.9 -- The in list of the test system interface port contains message or procedure for which the mapped test component port allows the following operations: `receive`, `trigger`, `getcall`, `reply` or `raise`.
+// @id: TTCN3-CORE-6.2.9-010a
+// @verdict: pass accept, noexecution
+module M_06_02_09_test_010 {
+
+    signature S(in integer p_x) return integer exception(charstring);
+
+    type port P_msg message {
+        in integer;
+    }
+
+    type port P_proc procedure {
+        in S;
+    }
+
+    type component C {
+        port P_msg pm;
+        port P_proc pp;
+    }
+
+    type component TSI {
+        port P_msg pm;
+        port P_proc pp;
+    }
+
+    testcase TC() runs on C system TSI {
+        map(self:pm, system:pm);
+        map(self:pp, system:pp);
+        alt {
+            [] pm.receive(integer:?) {}
+            [] pm.trigger(integer:?) {}
+            [] pp.getcall(S:{1}) {
+                pp.reply(S:{-} value 1);
+            }
+            [] pp.getcall(S:{0}) {
+                pp.raise(S, "e");
+            }
+        }
+        setverdict(pass);
+    }
+}

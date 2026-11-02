@@ -1,0 +1,22 @@
+// @requirement: B.1.5.1 -- For example in pattern "[ab[r-z]]" the second "[" denotes a literal "[", the first "]" closes the list and the second "]" retains its literal value as no related opening bracket precedes it in the pattern.
+// @id: TTCN3-CORE-B.1.5.1-029a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_05_01_test_024 {
+
+    type component C {}
+
+    template charstring mw_set := pattern "[ab[r-z]]";
+
+    testcase TC() runs on C {
+        if (match("[]", mw_set) and match("a]", mw_set)
+            and not match("a", mw_set) and not match("a]]", mw_set) and not match("[", mw_set)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

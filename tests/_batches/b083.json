@@ -1,0 +1,1515 @@
+{
+ "batch": "b083",
+ "requirements": [
+  {
+   "id": "TTCN3-CORE-27.5-036b",
+   "section": "27.5",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "There are two possible notations: either a simple string when the variant is related to a single encode attribute or a comma separated list of strings enclosed in curly brackets if the variant is related to multiple encodings.",
+   "canonical": "When the variant is related to multiple encodings, the first part of an encoding related variant attribute IS a comma separated list of strings enclosed in curly brackets.",
+   "condition": "variant related to multiple encodings",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    21357,
+    21362
+   ],
+   "examples": [
+    {
+     "lines": [
+      21380,
+      21417
+     ],
+     "text": "module MyTTCNmodule1 \n  { :\n     type charstring MyType; // Normally encoded according to the \"Global encoding rule\"\n     : \n     group myRecords \n     { :\n       type record MyPDU1\n       {\n          integer field1,  // field1 will be encoded according to \"Rule 2\" \n                        // using encoding variant \"length form 3\"\n          MyType  field3  // field3 will be encoded according to\n                        // \"Global encoding rule\" using any possible length\n                        // encoding format\n       }\n       with { variant (field1) \"length form 3\" }\n       :\n     }\n     with { encode \"Rule 2\" }\n\n     type charstring Multi with { \n       encode \"Codec1\"; variant \"Codec1\".\"Rule1\";\n       encode \"Codec2\"; variant \"Codec2\".\"Rule3\";\n     }; // multiple encodings (\"Codec1\", \"Codec2\"), the variant \"Rule1\" is valid\n       // for the \"Codec1\" encoding only, while the variant \"Rule3\" applies only\n       // for the \"Codec2\" encoding\n     type charstring Multi2 with { \n       encode \"Codec1\"; encode \"Codec2\"; \n       variant {\"Codec1\",\"Codec2\"}.\"Rule1\";\n     }; // multiple encodings (\"Codec1\", \"Codec2\"), variant \"Rule1\" applies to both of them\n     type charstring Multi3 with { \n       encode \"Codec1\"; encode \"Codec2\"; \n       variant \"Rule1\";\n     } // the statement will produce an error as there are multiple encodings and the\n       // variant attribute doesn't specify encoding reference\n  }\n  with { encode \"Global encoding rule\" }"
+    }
+   ],
+   "file": "tests/27-specifying-attributes/27.05_test_023.ttcn3",
+   "module": "M_27_05_test_023",
+   "header": "// @requirement: 27.5 -- There are two possible notations: either a simple string when the variant is related to a single encode attribute or a comma separated list of strings enclosed in curly brackets if the variant is related to multiple encodings."
+  },
+  {
+   "id": "TTCN3-CORE-27.5-037a",
+   "section": "27.5",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "The second part of the attribute (following the dot symbol) is a simple string that specifies the variant value.",
+   "canonical": "The second part (following the dot) of an encoding related variant attribute IS a simple string that specifies the variant value.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    21357,
+    21362
+   ],
+   "examples": [
+    {
+     "lines": [
+      21380,
+      21417
+     ],
+     "text": "module MyTTCNmodule1 \n  { :\n     type charstring MyType; // Normally encoded according to the \"Global encoding rule\"\n     : \n     group myRecords \n     { :\n       type record MyPDU1\n       {\n          integer field1,  // field1 will be encoded according to \"Rule 2\" \n                        // using encoding variant \"length form 3\"\n          MyType  field3  // field3 will be encoded according to\n                        // \"Global encoding rule\" using any possible length\n                        // encoding format\n       }\n       with { variant (field1) \"length form 3\" }\n       :\n     }\n     with { encode \"Rule 2\" }\n\n     type charstring Multi with { \n       encode \"Codec1\"; variant \"Codec1\".\"Rule1\";\n       encode \"Codec2\"; variant \"Codec2\".\"Rule3\";\n     }; // multiple encodings (\"Codec1\", \"Codec2\"), the variant \"Rule1\" is valid\n       // for the \"Codec1\" encoding only, while the variant \"Rule3\" applies only\n       // for the \"Codec2\" encoding\n     type charstring Multi2 with { \n       encode \"Codec1\"; encode \"Codec2\"; \n       variant {\"Codec1\",\"Codec2\"}.\"Rule1\";\n     }; // multiple encodings (\"Codec1\", \"Codec2\"), variant \"Rule1\" applies to both of them\n     type charstring Multi3 with { \n       encode \"Codec1\"; encode \"Codec2\"; \n       variant \"Rule1\";\n     } // the statement will produce an error as there are multiple encodings and the\n       // variant attribute doesn't specify encoding reference\n  }\n  with { encode \"Global encoding rule\" }"
+    }
+   ],
+   "file": "tests/27-specifying-attributes/27.05_test_024.ttcn3",
+   "module": "M_27_05_test_024",
+   "header": "// @requirement: 27.5 -- The second part of the attribute (following the dot symbol) is a simple string that specifies the variant value."
+  },
+  {
+   "id": "TTCN3-CORE-27.5-038a",
+   "section": "27.5",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The encoding related attributes are valid only when the related encoding is selected.",
+   "canonical": "An encoding related variant attribute IS valid only when the related encoding is selected.",
+   "condition": null,
+   "cross_refs": [
+    "27.9"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    21364,
+    21364
+   ],
+   "examples": [
+    {
+     "lines": [
+      21380,
+      21417
+     ],
+     "text": "module MyTTCNmodule1 \n  { :\n     type charstring MyType; // Normally encoded according to the \"Global encoding rule\"\n     : \n     group myRecords \n     { :\n       type record MyPDU1\n       {\n          integer field1,  // field1 will be encoded according to \"Rule 2\" \n                        // using encoding variant \"length form 3\"\n          MyType  field3  // field3 will be encoded according to\n                        // \"Global encoding rule\" using any possible length\n                        // encoding format\n       }\n       with { variant (field1) \"length form 3\" }\n       :\n     }\n     with { encode \"Rule 2\" }\n\n     type charstring Multi with { \n       encode \"Codec1\"; variant \"Codec1\".\"Rule1\";\n       encode \"Codec2\"; variant \"Codec2\".\"Rule3\";\n     }; // multiple encodings (\"Codec1\", \"Codec2\"), the variant \"Rule1\" is valid\n       // for the \"Codec1\" encoding only, while the variant \"Rule3\" applies only\n       // for the \"Codec2\" encoding\n     type charstring Multi2 with { \n       encode \"Codec1\"; encode \"Codec2\"; \n       variant {\"Codec1\",\"Codec2\"}.\"Rule1\";\n     }; // multiple encodings (\"Codec1\", \"Codec2\"), variant \"Rule1\" applies to both of them\n     type charstring Multi3 with { \n       encode \"Codec1\"; encode \"Codec2\"; \n       variant \"Rule1\";\n     } // the statement will produce an error as there are multiple encodings and the\n       // variant attribute doesn't specify encoding reference\n  }\n  with { encode \"Global encoding rule\" }"
+    }
+   ],
+   "file": "tests/27-specifying-attributes/27.05_test_025.ttcn3",
+   "module": "M_27_05_test_025",
+   "header": "// @requirement: 27.5 -- The encoding related attributes are valid only when the related encoding is selected."
+  },
+  {
+   "id": "TTCN3-CORE-27.5-039a",
+   "section": "27.5",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "It is not allowed to define variant attributes with no encoding reference if multiple encodings are used.",
+   "canonical": "If multiple encodings are used, a variant attribute SHALL NOT be defined without an encoding reference.",
+   "condition": "multiple encodings are used",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    21366,
+    21366
+   ],
+   "examples": [
+    {
+     "lines": [
+      21380,
+      21417
+     ],
+     "text": "module MyTTCNmodule1 \n  { :\n     type charstring MyType; // Normally encoded according to the \"Global encoding rule\"\n     : \n     group myRecords \n     { :\n       type record MyPDU1\n       {\n          integer field1,  // field1 will be encoded according to \"Rule 2\" \n                        // using encoding variant \"length form 3\"\n          MyType  field3  // field3 will be encoded according to\n                        // \"Global encoding rule\" using any possible length\n                        // encoding format\n       }\n       with { variant (field1) \"length form 3\" }\n       :\n     }\n     with { encode \"Rule 2\" }\n\n     type charstring Multi with { \n       encode \"Codec1\"; variant \"Codec1\".\"Rule1\";\n       encode \"Codec2\"; variant \"Codec2\".\"Rule3\";\n     }; // multiple encodings (\"Codec1\", \"Codec2\"), the variant \"Rule1\" is valid\n       // for the \"Codec1\" encoding only, while the variant \"Rule3\" applies only\n       // for the \"Codec2\" encoding\n     type charstring Multi2 with { \n       encode \"Codec1\"; encode \"Codec2\"; \n       variant {\"Codec1\",\"Codec2\"}.\"Rule1\";\n     }; // multiple encodings (\"Codec1\", \"Codec2\"), variant \"Rule1\" applies to both of them\n     type charstring Multi3 with { \n       encode \"Codec1\"; encode \"Codec2\"; \n       variant \"Rule1\";\n     } // the statement will produce an error as there are multiple encodings and the\n       // variant attribute doesn't specify encoding reference\n  }\n  with { encode \"Global encoding rule\" }"
+    }
+   ],
+   "file": "tests/27-specifying-attributes/27.05_test_026.ttcn3",
+   "module": "M_27_05_test_026",
+   "header": "// @requirement: 27.5 -- It is not allowed to define variant attributes with no encoding reference if multiple encodings are used."
+  },
+  {
+   "id": "TTCN3-CORE-27.5-041a",
+   "section": "27.5",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "The with statement can contain any number of variant attributes.",
+   "canonical": "A with statement MAY contain any number of variant attributes.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    21370,
+    21370
+   ],
+   "examples": [],
+   "file": "tests/27-specifying-attributes/27.05_test_027.ttcn3",
+   "module": "M_27_05_test_027",
+   "header": "// @requirement: 27.5 -- The with statement can contain any number of variant attributes."
+  },
+  {
+   "id": "TTCN3-CORE-27.5-043a",
+   "section": "27.5",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "a) When dot notation is used in the variant attribute value for an element, the strings preceding the dot symbol shall resolve into one of the encode attribute values associated with the same element.",
+   "canonical": "When dot notation is used in the variant attribute value for an element, the strings preceding the dot SHALL resolve into one of the encode attribute values associated with the same element.",
+   "condition": "dot notation is used in the variant attribute value",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    21376,
+    21377
+   ],
+   "examples": [
+    {
+     "lines": [
+      21380,
+      21417
+     ],
+     "text": "module MyTTCNmodule1 \n  { :\n     type charstring MyType; // Normally encoded according to the \"Global encoding rule\"\n     : \n     group myRecords \n     { :\n       type record MyPDU1\n       {\n          integer field1,  // field1 will be encoded according to \"Rule 2\" \n                        // using encoding variant \"length form 3\"\n          MyType  field3  // field3 will be encoded according to\n                        // \"Global encoding rule\" using any possible length\n                        // encoding format\n       }\n       with { variant (field1) \"length form 3\" }\n       :\n     }\n     with { encode \"Rule 2\" }\n\n     type charstring Multi with { \n       encode \"Codec1\"; variant \"Codec1\".\"Rule1\";\n       encode \"Codec2\"; variant \"Codec2\".\"Rule3\";\n     }; // multiple encodings (\"Codec1\", \"Codec2\"), the variant \"Rule1\" is valid\n       // for the \"Codec1\" encoding only, while the variant \"Rule3\" applies only\n       // for the \"Codec2\" encoding\n     type charstring Multi2 with { \n       encode \"Codec1\"; encode \"Codec2\"; \n       variant {\"Codec1\",\"Codec2\"}.\"Rule1\";\n     }; // multiple encodings (\"Codec1\", \"Codec2\"), variant \"Rule1\" applies to both of them\n     type charstring Multi3 with { \n       encode \"Codec1\"; encode \"Codec2\"; \n       variant \"Rule1\";\n     } // the statement will produce an error as there are multiple encodings and the\n       // variant attribute doesn't specify encoding reference\n  }\n  with { encode \"Global encoding rule\" }"
+    }
+   ],
+   "file": "tests/27-specifying-attributes/27.05_test_028.ttcn3",
+   "module": "M_27_05_test_028",
+   "header": "// @requirement: 27.5 -- a) When dot notation is used in the variant attribute value for an element, the strings preceding the dot symbol shall resolve into one of the encode attribute values associated with the same element."
+  },
+  {
+   "id": "TTCN3-CORE-27.6-002a",
+   "section": "27.6",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "The with statement may contain any number of extension attributes.",
+   "canonical": "A with statement MAY contain any number of extension attributes.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    21421,
+    21422
+   ],
+   "examples": [
+    {
+     "lines": [
+      21441,
+      21446
+     ],
+     "text": "testcase TC_MyTestcase() runs on MTCType {\n  :\n  }\n  with { extension \"Test Purpose: This test case is used to check …\" }"
+    }
+   ],
+   "file": "tests/27-specifying-attributes/27.06_test_001.ttcn3",
+   "module": "M_27_06_test_001",
+   "header": "// @requirement: 27.6 -- The with statement may contain any number of extension attributes."
+  },
+  {
+   "id": "TTCN3-CORE-27.6-003a",
+   "section": "27.6",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "extension",
+   "canonical": "An extension attribute IS denoted by the keyword `extension` in a with statement.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    21425,
+    21427
+   ],
+   "examples": [
+    {
+     "lines": [
+      21441,
+      21446
+     ],
+     "text": "testcase TC_MyTestcase() runs on MTCType {\n  :\n  }\n  with { extension \"Test Purpose: This test case is used to check …\" }"
+    }
+   ],
+   "file": "tests/27-specifying-attributes/27.06_test_002.ttcn3",
+   "module": "M_27_06_test_002",
+   "header": "// @requirement: 27.6 -- extension"
+  },
+  {
+   "id": "TTCN3-CORE-27.6-004a",
+   "section": "27.6",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "All TTCN-3 language elements can have extension attributes specified by the user.",
+   "canonical": "An extension attribute MAY be specified by the user for any TTCN-3 language element.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    21431,
+    21431
+   ],
+   "examples": [
+    {
+     "lines": [
+      21441,
+      21446
+     ],
+     "text": "testcase TC_MyTestcase() runs on MTCType {\n  :\n  }\n  with { extension \"Test Purpose: This test case is used to check …\" }"
+    }
+   ],
+   "file": "tests/27-specifying-attributes/27.06_test_003.ttcn3",
+   "module": "M_27_06_test_003",
+   "header": "// @requirement: 27.6 -- All TTCN-3 language elements can have extension attributes specified by the user."
+  },
+  {
+   "id": "TTCN3-CORE-27.7-002a",
+   "section": "27.7",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "optional",
+   "canonical": "An optional attribute IS denoted by the keyword `optional` in a with statement.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    21454,
+    21456
+   ],
+   "examples": [
+    {
+     "lines": [
+      21510,
+      21575
+     ],
+     "text": "type record MyRecord1 {\n   integer a,\n   boolean b optional\n  }\n  type record MyRecord2 {\n    MyRecord1 m\n  }\n  // reference templates with explicitly set fields\n  template MyRecord1 mw_myTemplate1 := { a := ?, b := omit }\n  template MyRecord2 mw_myTemplate2 := { m := { a := ?, b := omit }}\n  // reference templates\n  template MyRecord1 mw_myTemplate1a := {a := ? } // b is undefined\n  template MyRecord1 mw_myTemplate1b := {a := ? } with {optional \"explicit omit\"} // b is\n  undefined\n  template MyRecord2 mw_myTemplate2a := {} // m and its subfields are undefined\n  template MyRecord2 mw_myTemplate2b := { m := { a := ?}}; // m.b is undefined\n  // templates with attribute\n  template MyRecord1 mw_myTemplate11 := { a := ? } with {optional \"implicit omit\"}\n   // same as mw_myTemplate1, b is set to omit\n  template MyRecord2 mw_myTemplate21 := { m := { a := ?}} with {optional \"implicit omit\"}\n    // same as mw_myTemplate2, by recursive application of the attribute\n  template MyRecord2 mw_myTemplate22 := { m := mw_myTemplate1a } with {optional \"implicit omit\"}\n    // same as mw_myTemplate2, by recursive application of the attribute\n  template MyRecord2 mw_myTemplate23 := {} with {optional \"implicit omit\"}\n   // same as mw_myTemplate2a, m remains undefined\n\n  template MyRecord2 mw_myTemplate24 := { m := mw_myTemplate1b } with {optional \"implicit omit\"}\n    // same as mw_myTemplate2b, the attribute on the lower scope is not overwritten\n  template MyRecord2 mw_myTemplate25 := { m := MyTemp"
+    }
+   ],
+   "file": "tests/27-specifying-attributes/27.07_test_001.ttcn3",
+   "module": "M_27_07_test_001",
+   "header": "// @requirement: 27.7 -- optional"
+  },
+  {
+   "id": "TTCN3-CORE-27.7-003a",
+   "section": "27.7",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "TTCN-3 constants, module parameters, templates, variables and template variables can have an optional attribute.",
+   "canonical": "An optional attribute MAY be associated with a constant, module parameter, template, variable or template variable.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    21460,
+    21465
+   ],
+   "examples": [
+    {
+     "lines": [
+      21510,
+      21575
+     ],
+     "text": "type record MyRecord1 {\n   integer a,\n   boolean b optional\n  }\n  type record MyRecord2 {\n    MyRecord1 m\n  }\n  // reference templates with explicitly set fields\n  template MyRecord1 mw_myTemplate1 := { a := ?, b := omit }\n  template MyRecord2 mw_myTemplate2 := { m := { a := ?, b := omit }}\n  // reference templates\n  template MyRecord1 mw_myTemplate1a := {a := ? } // b is undefined\n  template MyRecord1 mw_myTemplate1b := {a := ? } with {optional \"explicit omit\"} // b is\n  undefined\n  template MyRecord2 mw_myTemplate2a := {} // m and its subfields are undefined\n  template MyRecord2 mw_myTemplate2b := { m := { a := ?}}; // m.b is undefined\n  // templates with attribute\n  template MyRecord1 mw_myTemplate11 := { a := ? } with {optional \"implicit omit\"}\n   // same as mw_myTemplate1, b is set to omit\n  template MyRecord2 mw_myTemplate21 := { m := { a := ?}} with {optional \"implicit omit\"}\n    // same as mw_myTemplate2, by recursive application of the attribute\n  template MyRecord2 mw_myTemplate22 := { m := mw_myTemplate1a } with {optional \"implicit omit\"}\n    // same as mw_myTemplate2, by recursive application of the attribute\n  template MyRecord2 mw_myTemplate23 := {} with {optional \"implicit omit\"}\n   // same as mw_myTemplate2a, m remains undefined\n\n  template MyRecord2 mw_myTemplate24 := { m := mw_myTemplate1b } with {optional \"implicit omit\"}\n    // same as mw_myTemplate2b, the attribute on the lower scope is not overwritten\n  template MyRecord2 mw_myTemplate25 := { m := MyTemp"
+    }
+   ],
+   "file": "tests/27-specifying-attributes/27.07_test_002.ttcn3",
+   "module": "M_27_07_test_002",
+   "header": "// @requirement: 27.7 -- TTCN-3 constants, module parameters, templates, variables and template variables can have an optional attribute."
+  },
+  {
+   "id": "TTCN3-CORE-27.7-004a",
+   "section": "27.7",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Also, TTCN-3 language elements that contain such definitions, i.e. module, group, function, altstep, test case, control, and component type definitions can have an optional attribute.",
+   "canonical": "An optional attribute MAY be associated with a module, group, function, altstep, testcase, module control function or component type definition.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    21460,
+    21465
+   ],
+   "examples": [],
+   "file": "tests/27-specifying-attributes/27.07_test_003.ttcn3",
+   "module": "M_27_07_test_003",
+   "header": "// @requirement: 27.7 -- Also, TTCN-3 language elements that contain such definitions, i.e. module, group, function, altstep, test case, control, and component type definitions can have an optional attribute."
+  },
+  {
+   "id": "TTCN3-CORE-27.7-005a",
+   "section": "27.7",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "When an optional attribute is associated to a function, altstep, test case, control or component type definitions, it shall have effect on all the constants, module parameters, templates, variables and template variables declared within these definitions and not on the enframing definition itself.",
+   "canonical": "When an optional attribute is associated with a function, altstep, testcase, module control function or component type definition, it SHALL have effect on all constants, module parameters, templates, variables and template variables declared within that definition.",
+   "condition": "optional attribute associated with a function, altstep, testcase, control or component type definition",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    21460,
+    21465
+   ],
+   "examples": [],
+   "file": "tests/27-specifying-attributes/27.07_test_004.ttcn3",
+   "module": "M_27_07_test_004",
+   "header": "// @requirement: 27.7 -- When an optional attribute is associated to a function, altstep, test case, control or component type definitions, it shall have effect on all the constants, module parameters, templates, variables and template variables declared within these definitions and not on the enframing definition itself."
+  },
+  {
+   "id": "TTCN3-CORE-27.7-006a",
+   "section": "27.7",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "When no value of the optional attribute is explicitly specified for a definition (either directly or inherited from the surrounding scope), the value of the optional attribute is implicitly set to \"explicit omit\" for that definition.",
+   "canonical": "When no value of the optional attribute is specified for a definition, either directly or inherited from the surrounding scope, the optional attribute of that definition IS implicitly \"explicit omit\".",
+   "condition": "no optional attribute value specified directly or inherited",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    21467,
+    21468
+   ],
+   "examples": [
+    {
+     "lines": [
+      21510,
+      21575
+     ],
+     "text": "type record MyRecord1 {\n   integer a,\n   boolean b optional\n  }\n  type record MyRecord2 {\n    MyRecord1 m\n  }\n  // reference templates with explicitly set fields\n  template MyRecord1 mw_myTemplate1 := { a := ?, b := omit }\n  template MyRecord2 mw_myTemplate2 := { m := { a := ?, b := omit }}\n  // reference templates\n  template MyRecord1 mw_myTemplate1a := {a := ? } // b is undefined\n  template MyRecord1 mw_myTemplate1b := {a := ? } with {optional \"explicit omit\"} // b is\n  undefined\n  template MyRecord2 mw_myTemplate2a := {} // m and its subfields are undefined\n  template MyRecord2 mw_myTemplate2b := { m := { a := ?}}; // m.b is undefined\n  // templates with attribute\n  template MyRecord1 mw_myTemplate11 := { a := ? } with {optional \"implicit omit\"}\n   // same as mw_myTemplate1, b is set to omit\n  template MyRecord2 mw_myTemplate21 := { m := { a := ?}} with {optional \"implicit omit\"}\n    // same as mw_myTemplate2, by recursive application of the attribute\n  template MyRecord2 mw_myTemplate22 := { m := mw_myTemplate1a } with {optional \"implicit omit\"}\n    // same as mw_myTemplate2, by recursive application of the attribute\n  template MyRecord2 mw_myTemplate23 := {} with {optional \"implicit omit\"}\n   // same as mw_myTemplate2a, m remains undefined\n\n  template MyRecord2 mw_myTemplate24 := { m := mw_myTemplate1b } with {optional \"implicit omit\"}\n    // same as mw_myTemplate2b, the attribute on the lower scope is not overwritten\n  template MyRecord2 mw_myTemplate25 := { m := MyTemp"
+    }
+   ],
+   "file": "tests/27-specifying-attributes/27.07_test_005.ttcn3",
+   "module": "M_27_07_test_005",
+   "header": "// @requirement: 27.7 -- When no value of the optional attribute is explicitly specified for a definition (either directly or inherited from the surrounding scope), the value of the optional attribute is implicitly set to \"explicit omit\" for that definition."
+  },
+  {
+   "id": "TTCN3-CORE-27.7-009a",
+   "section": "27.7",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "a) \"implicit omit\" means that all optional fields, that have no assigned value definition in the statement on which the attribute operates, are set to omit.",
+   "canonical": "With the optional attribute \"implicit omit\", every optional field that has no assigned value definition in the statement on which the attribute operates IS set to `omit`.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    21479,
+    21481
+   ],
+   "examples": [
+    {
+     "lines": [
+      21510,
+      21575
+     ],
+     "text": "type record MyRecord1 {\n   integer a,\n   boolean b optional\n  }\n  type record MyRecord2 {\n    MyRecord1 m\n  }\n  // reference templates with explicitly set fields\n  template MyRecord1 mw_myTemplate1 := { a := ?, b := omit }\n  template MyRecord2 mw_myTemplate2 := { m := { a := ?, b := omit }}\n  // reference templates\n  template MyRecord1 mw_myTemplate1a := {a := ? } // b is undefined\n  template MyRecord1 mw_myTemplate1b := {a := ? } with {optional \"explicit omit\"} // b is\n  undefined\n  template MyRecord2 mw_myTemplate2a := {} // m and its subfields are undefined\n  template MyRecord2 mw_myTemplate2b := { m := { a := ?}}; // m.b is undefined\n  // templates with attribute\n  template MyRecord1 mw_myTemplate11 := { a := ? } with {optional \"implicit omit\"}\n   // same as mw_myTemplate1, b is set to omit\n  template MyRecord2 mw_myTemplate21 := { m := { a := ?}} with {optional \"implicit omit\"}\n    // same as mw_myTemplate2, by recursive application of the attribute\n  template MyRecord2 mw_myTemplate22 := { m := mw_myTemplate1a } with {optional \"implicit omit\"}\n    // same as mw_myTemplate2, by recursive application of the attribute\n  template MyRecord2 mw_myTemplate23 := {} with {optional \"implicit omit\"}\n   // same as mw_myTemplate2a, m remains undefined\n\n  template MyRecord2 mw_myTemplate24 := { m := mw_myTemplate1b } with {optional \"implicit omit\"}\n    // same as mw_myTemplate2b, the attribute on the lower scope is not overwritten\n  template MyRecord2 mw_myTemplate25 := { m := MyTemp"
+    }
+   ],
+   "file": "tests/27-specifying-attributes/27.07_test_006.ttcn3",
+   "module": "M_27_07_test_006",
+   "header": "// @requirement: 27.7 -- a) \"implicit omit\" means that all optional fields, that have no assigned value definition in the statement on which the attribute operates, are set to omit."
+  },
+  {
+   "id": "TTCN3-CORE-27.7-010a",
+   "section": "27.7",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "This applies recursively to the optional fields of the entity and to subfields of the mandatory fields.",
+   "canonical": "The \"implicit omit\" rule IS applied recursively to the optional fields of the entity and to the subfields of its mandatory fields.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    21479,
+    21481
+   ],
+   "examples": [
+    {
+     "lines": [
+      21510,
+      21575
+     ],
+     "text": "type record MyRecord1 {\n   integer a,\n   boolean b optional\n  }\n  type record MyRecord2 {\n    MyRecord1 m\n  }\n  // reference templates with explicitly set fields\n  template MyRecord1 mw_myTemplate1 := { a := ?, b := omit }\n  template MyRecord2 mw_myTemplate2 := { m := { a := ?, b := omit }}\n  // reference templates\n  template MyRecord1 mw_myTemplate1a := {a := ? } // b is undefined\n  template MyRecord1 mw_myTemplate1b := {a := ? } with {optional \"explicit omit\"} // b is\n  undefined\n  template MyRecord2 mw_myTemplate2a := {} // m and its subfields are undefined\n  template MyRecord2 mw_myTemplate2b := { m := { a := ?}}; // m.b is undefined\n  // templates with attribute\n  template MyRecord1 mw_myTemplate11 := { a := ? } with {optional \"implicit omit\"}\n   // same as mw_myTemplate1, b is set to omit\n  template MyRecord2 mw_myTemplate21 := { m := { a := ?}} with {optional \"implicit omit\"}\n    // same as mw_myTemplate2, by recursive application of the attribute\n  template MyRecord2 mw_myTemplate22 := { m := mw_myTemplate1a } with {optional \"implicit omit\"}\n    // same as mw_myTemplate2, by recursive application of the attribute\n  template MyRecord2 mw_myTemplate23 := {} with {optional \"implicit omit\"}\n   // same as mw_myTemplate2a, m remains undefined\n\n  template MyRecord2 mw_myTemplate24 := { m := mw_myTemplate1b } with {optional \"implicit omit\"}\n    // same as mw_myTemplate2b, the attribute on the lower scope is not overwritten\n  template MyRecord2 mw_myTemplate25 := { m := MyTemp"
+    }
+   ],
+   "file": "tests/27-specifying-attributes/27.07_test_007.ttcn3",
+   "module": "M_27_07_test_007",
+   "header": "// @requirement: 27.7 -- This applies recursively to the optional fields of the entity and to subfields of the mandatory fields."
+  },
+  {
+   "id": "TTCN3-CORE-27.7-011a",
+   "section": "27.7",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "b) \"explicit omit\" means that all optional fields, that have no assigned value definition in the statement on which the attribute operates, are left undefined.",
+   "canonical": "With the optional attribute \"explicit omit\", every optional field that has no assigned value definition in the statement on which the attribute operates IS left undefined.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    21483,
+    21485
+   ],
+   "examples": [
+    {
+     "lines": [
+      21510,
+      21575
+     ],
+     "text": "type record MyRecord1 {\n   integer a,\n   boolean b optional\n  }\n  type record MyRecord2 {\n    MyRecord1 m\n  }\n  // reference templates with explicitly set fields\n  template MyRecord1 mw_myTemplate1 := { a := ?, b := omit }\n  template MyRecord2 mw_myTemplate2 := { m := { a := ?, b := omit }}\n  // reference templates\n  template MyRecord1 mw_myTemplate1a := {a := ? } // b is undefined\n  template MyRecord1 mw_myTemplate1b := {a := ? } with {optional \"explicit omit\"} // b is\n  undefined\n  template MyRecord2 mw_myTemplate2a := {} // m and its subfields are undefined\n  template MyRecord2 mw_myTemplate2b := { m := { a := ?}}; // m.b is undefined\n  // templates with attribute\n  template MyRecord1 mw_myTemplate11 := { a := ? } with {optional \"implicit omit\"}\n   // same as mw_myTemplate1, b is set to omit\n  template MyRecord2 mw_myTemplate21 := { m := { a := ?}} with {optional \"implicit omit\"}\n    // same as mw_myTemplate2, by recursive application of the attribute\n  template MyRecord2 mw_myTemplate22 := { m := mw_myTemplate1a } with {optional \"implicit omit\"}\n    // same as mw_myTemplate2, by recursive application of the attribute\n  template MyRecord2 mw_myTemplate23 := {} with {optional \"implicit omit\"}\n   // same as mw_myTemplate2a, m remains undefined\n\n  template MyRecord2 mw_myTemplate24 := { m := mw_myTemplate1b } with {optional \"implicit omit\"}\n    // same as mw_myTemplate2b, the attribute on the lower scope is not overwritten\n  template MyRecord2 mw_myTemplate25 := { m := MyTemp"
+    }
+   ],
+   "file": "tests/27-specifying-attributes/27.07_test_008.ttcn3",
+   "module": "M_27_07_test_008",
+   "header": "// @requirement: 27.7 -- b) \"explicit omit\" means that all optional fields, that have no assigned value definition in the statement on which the attribute operates, are left undefined."
+  },
+  {
+   "id": "TTCN3-CORE-27.7-012a",
+   "section": "27.7",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "This applies recursively to the optional fields of the entity and to subfields of the mandatory fields.",
+   "canonical": "The \"explicit omit\" rule IS applied recursively to the optional fields of the entity and to the subfields of its mandatory fields.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    21483,
+    21485
+   ],
+   "examples": [
+    {
+     "lines": [
+      21510,
+      21575
+     ],
+     "text": "type record MyRecord1 {\n   integer a,\n   boolean b optional\n  }\n  type record MyRecord2 {\n    MyRecord1 m\n  }\n  // reference templates with explicitly set fields\n  template MyRecord1 mw_myTemplate1 := { a := ?, b := omit }\n  template MyRecord2 mw_myTemplate2 := { m := { a := ?, b := omit }}\n  // reference templates\n  template MyRecord1 mw_myTemplate1a := {a := ? } // b is undefined\n  template MyRecord1 mw_myTemplate1b := {a := ? } with {optional \"explicit omit\"} // b is\n  undefined\n  template MyRecord2 mw_myTemplate2a := {} // m and its subfields are undefined\n  template MyRecord2 mw_myTemplate2b := { m := { a := ?}}; // m.b is undefined\n  // templates with attribute\n  template MyRecord1 mw_myTemplate11 := { a := ? } with {optional \"implicit omit\"}\n   // same as mw_myTemplate1, b is set to omit\n  template MyRecord2 mw_myTemplate21 := { m := { a := ?}} with {optional \"implicit omit\"}\n    // same as mw_myTemplate2, by recursive application of the attribute\n  template MyRecord2 mw_myTemplate22 := { m := mw_myTemplate1a } with {optional \"implicit omit\"}\n    // same as mw_myTemplate2, by recursive application of the attribute\n  template MyRecord2 mw_myTemplate23 := {} with {optional \"implicit omit\"}\n   // same as mw_myTemplate2a, m remains undefined\n\n  template MyRecord2 mw_myTemplate24 := { m := mw_myTemplate1b } with {optional \"implicit omit\"}\n    // same as mw_myTemplate2b, the attribute on the lower scope is not overwritten\n  template MyRecord2 mw_myTemplate25 := { m := MyTemp"
+    }
+   ],
+   "file": "tests/27-specifying-attributes/27.07_test_009.ttcn3",
+   "module": "M_27_07_test_009",
+   "header": "// @requirement: 27.7 -- This applies recursively to the optional fields of the entity and to subfields of the mandatory fields."
+  },
+  {
+   "id": "TTCN3-CORE-27.7-013a",
+   "section": "27.7",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "For variables and template variables associated with an \"implicit omit\" optional attribute, recursive procedure is applied to their optional fields after each assignment or usage as out or inout actual parameter in the scope of their declaration (e.g. after re-assigning parts or all of a variable's value) setting all optional fields that have no assigned value definition to omit.",
+   "canonical": "For a variable or template variable associated with an \"implicit omit\" optional attribute, the recursive procedure SHALL be applied after each assignment in the scope of its declaration, setting all optional fields without an assigned value definition to `omit`.",
+   "condition": "variable or template variable with \"implicit omit\"",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    21487,
+    21490
+   ],
+   "examples": [
+    {
+     "lines": [
+      21510,
+      21575
+     ],
+     "text": "type record MyRecord1 {\n   integer a,\n   boolean b optional\n  }\n  type record MyRecord2 {\n    MyRecord1 m\n  }\n  // reference templates with explicitly set fields\n  template MyRecord1 mw_myTemplate1 := { a := ?, b := omit }\n  template MyRecord2 mw_myTemplate2 := { m := { a := ?, b := omit }}\n  // reference templates\n  template MyRecord1 mw_myTemplate1a := {a := ? } // b is undefined\n  template MyRecord1 mw_myTemplate1b := {a := ? } with {optional \"explicit omit\"} // b is\n  undefined\n  template MyRecord2 mw_myTemplate2a := {} // m and its subfields are undefined\n  template MyRecord2 mw_myTemplate2b := { m := { a := ?}}; // m.b is undefined\n  // templates with attribute\n  template MyRecord1 mw_myTemplate11 := { a := ? } with {optional \"implicit omit\"}\n   // same as mw_myTemplate1, b is set to omit\n  template MyRecord2 mw_myTemplate21 := { m := { a := ?}} with {optional \"implicit omit\"}\n    // same as mw_myTemplate2, by recursive application of the attribute\n  template MyRecord2 mw_myTemplate22 := { m := mw_myTemplate1a } with {optional \"implicit omit\"}\n    // same as mw_myTemplate2, by recursive application of the attribute\n  template MyRecord2 mw_myTemplate23 := {} with {optional \"implicit omit\"}\n   // same as mw_myTemplate2a, m remains undefined\n\n  template MyRecord2 mw_myTemplate24 := { m := mw_myTemplate1b } with {optional \"implicit omit\"}\n    // same as mw_myTemplate2b, the attribute on the lower scope is not overwritten\n  template MyRecord2 mw_myTemplate25 := { m := MyTemp"
+    }
+   ],
+   "file": "tests/27-specifying-attributes/27.07_test_010.ttcn3",
+   "module": "M_27_07_test_010",
+   "header": "// @requirement: 27.7 -- For variables and template variables associated with an \"implicit omit\" optional attribute, recursive procedure is applied to their optional fields after each assignment or usage as out or inout actual parameter in the scope of their declaration (e.g. after re-assigning parts or all of a variable's value) setting all optional fields that have no assigned value definition to omit."
+  },
+  {
+   "id": "TTCN3-CORE-27.7-013b",
+   "section": "27.7",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "For variables and template variables associated with an \"implicit omit\" optional attribute, recursive procedure is applied to their optional fields after each assignment or usage as out or inout actual parameter in the scope of their declaration (e.g. after re-assigning parts or all of a variable's value) setting all optional fields that have no assigned value definition to omit.",
+   "canonical": "For a variable or template variable associated with an \"implicit omit\" optional attribute, the recursive procedure SHALL be applied after each usage of it as an `out` or `inout` actual parameter in the scope of its declaration, setting all optional fields without an assigned value definition to `omit`.",
+   "condition": "variable or template variable with \"implicit omit\" used as out or inout actual parameter",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    21487,
+    21490
+   ],
+   "examples": [
+    {
+     "lines": [
+      21510,
+      21575
+     ],
+     "text": "type record MyRecord1 {\n   integer a,\n   boolean b optional\n  }\n  type record MyRecord2 {\n    MyRecord1 m\n  }\n  // reference templates with explicitly set fields\n  template MyRecord1 mw_myTemplate1 := { a := ?, b := omit }\n  template MyRecord2 mw_myTemplate2 := { m := { a := ?, b := omit }}\n  // reference templates\n  template MyRecord1 mw_myTemplate1a := {a := ? } // b is undefined\n  template MyRecord1 mw_myTemplate1b := {a := ? } with {optional \"explicit omit\"} // b is\n  undefined\n  template MyRecord2 mw_myTemplate2a := {} // m and its subfields are undefined\n  template MyRecord2 mw_myTemplate2b := { m := { a := ?}}; // m.b is undefined\n  // templates with attribute\n  template MyRecord1 mw_myTemplate11 := { a := ? } with {optional \"implicit omit\"}\n   // same as mw_myTemplate1, b is set to omit\n  template MyRecord2 mw_myTemplate21 := { m := { a := ?}} with {optional \"implicit omit\"}\n    // same as mw_myTemplate2, by recursive application of the attribute\n  template MyRecord2 mw_myTemplate22 := { m := mw_myTemplate1a } with {optional \"implicit omit\"}\n    // same as mw_myTemplate2, by recursive application of the attribute\n  template MyRecord2 mw_myTemplate23 := {} with {optional \"implicit omit\"}\n   // same as mw_myTemplate2a, m remains undefined\n\n  template MyRecord2 mw_myTemplate24 := { m := mw_myTemplate1b } with {optional \"implicit omit\"}\n    // same as mw_myTemplate2b, the attribute on the lower scope is not overwritten\n  template MyRecord2 mw_myTemplate25 := { m := MyTemp"
+    }
+   ],
+   "file": "tests/27-specifying-attributes/27.07_test_011.ttcn3",
+   "module": "M_27_07_test_011",
+   "header": "// @requirement: 27.7 -- For variables and template variables associated with an \"implicit omit\" optional attribute, recursive procedure is applied to their optional fields after each assignment or usage as out or inout actual parameter in the scope of their declaration (e.g. after re-assigning parts or all of a variable's value) setting all optional fields that have no assigned value definition to omit."
+  },
+  {
+   "id": "TTCN3-CORE-27.7-017a",
+   "section": "27.7",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "a) Data type, port type, procedure signature and import statements shall not have an optional attribute associated to them directly.",
+   "canonical": "An optional attribute SHALL NOT be associated directly with a data type definition, port type definition, procedure signature definition or import statement.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    21501,
+    21504
+   ],
+   "examples": [],
+   "file": "tests/27-specifying-attributes/27.07_test_012.ttcn3",
+   "module": "M_27_07_test_012",
+   "header": "// @requirement: 27.7 -- a) Data type, port type, procedure signature and import statements shall not have an optional attribute associated to them directly."
+  },
+  {
+   "id": "TTCN3-CORE-27.7-019a",
+   "section": "27.7",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "b) At most one optional attribute shall be applied to each definition, each individual field reference or language element to which a with statement is associated.",
+   "canonical": "At most one optional attribute SHALL be applied to each definition, each individual field reference or language element to which a with statement is associated.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    21506,
+    21507
+   ],
+   "examples": [
+    {
+     "lines": [
+      21510,
+      21575
+     ],
+     "text": "type record MyRecord1 {\n   integer a,\n   boolean b optional\n  }\n  type record MyRecord2 {\n    MyRecord1 m\n  }\n  // reference templates with explicitly set fields\n  template MyRecord1 mw_myTemplate1 := { a := ?, b := omit }\n  template MyRecord2 mw_myTemplate2 := { m := { a := ?, b := omit }}\n  // reference templates\n  template MyRecord1 mw_myTemplate1a := {a := ? } // b is undefined\n  template MyRecord1 mw_myTemplate1b := {a := ? } with {optional \"explicit omit\"} // b is\n  undefined\n  template MyRecord2 mw_myTemplate2a := {} // m and its subfields are undefined\n  template MyRecord2 mw_myTemplate2b := { m := { a := ?}}; // m.b is undefined\n  // templates with attribute\n  template MyRecord1 mw_myTemplate11 := { a := ? } with {optional \"implicit omit\"}\n   // same as mw_myTemplate1, b is set to omit\n  template MyRecord2 mw_myTemplate21 := { m := { a := ?}} with {optional \"implicit omit\"}\n    // same as mw_myTemplate2, by recursive application of the attribute\n  template MyRecord2 mw_myTemplate22 := { m := mw_myTemplate1a } with {optional \"implicit omit\"}\n    // same as mw_myTemplate2, by recursive application of the attribute\n  template MyRecord2 mw_myTemplate23 := {} with {optional \"implicit omit\"}\n   // same as mw_myTemplate2a, m remains undefined\n\n  template MyRecord2 mw_myTemplate24 := { m := mw_myTemplate1b } with {optional \"implicit omit\"}\n    // same as mw_myTemplate2b, the attribute on the lower scope is not overwritten\n  template MyRecord2 mw_myTemplate25 := { m := MyTemp"
+    }
+   ],
+   "file": "tests/27-specifying-attributes/27.07_test_013.ttcn3",
+   "module": "M_27_07_test_013",
+   "header": "// @requirement: 27.7 -- b) At most one optional attribute shall be applied to each definition, each individual field reference or language element to which a with statement is associated."
+  },
+  {
+   "id": "TTCN3-CORE-27.8-001a",
+   "section": "27.8",
+   "type": "information",
+   "modality": "IS",
+   "original": "TTCN-3 provides a set of operations that can be used for retrieving attribute values associated with a type, template, variable, constant or module parameter.",
+   "canonical": "TTCN-3 provides operations for retrieving the attribute values associated with a type, template, variable, constant or module parameter.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    21579,
+    21580
+   ],
+   "examples": [
+    {
+     "lines": [
+      21621,
+      21653
+     ],
+     "text": "// MyPDU1 will be displayed as PDU \n  type record MyPDU1 { ... } with { \n  display \"blue\";\n     encode \"Codec1\";\n     variant \"Codec1\".\"Rule1A\";\n     variant \"Codec1\".\"Rule1B\";\n     encode \"Codec2\";\n     variant \"Codec2\".\"Rule2A\";\n     variant \"Codec2\".\"Rule2B\";\n  }\n  type record of universal charstring RUC;\n  control {\n     var MyPDU1 v_pdu;\n     var universal charstring v_display;\n     var RUC v_encoding, v_variants;\n     v_display := MyPDU1.display; // v_display will contain \"blue\"\n     v_display := v_variants.display; // v_display will contain \"\" as no display attribute is\n                          // defined for v_variants\n     v_encoding := v_pdu.encode;  // v_encoding will contain { \"Codec1\", \"Codec2\" }\n     v_variants := v_pdu.variant; // v_variants will contain {} as all variants are bound\n                          // to encode attributes\n     // retrieve variants for all defined encodings\n     for (var integer i := 0; i < sizeof(v_encoding); i := i + 1) {\n       v_variants := v_pdu.variant(v_encoding[i]);\n       ... \n     }\n     v_variants := v_variants.encode; // v_variants will contain {} as no encode attribute is\n                        // defined for v_variants\n     v_variants := v_pdu.variant(\"UnknownCodec\"); // produces an error as there is no such\n                                 // encode attribute as \"UnknownCodec\"\n  }"
+    }
+   ],
+   "file": "tests/27-specifying-attributes/27.08_test_001.ttcn3",
+   "module": "M_27_08_test_001",
+   "header": "// @requirement: 27.8 -- TTCN-3 provides a set of operations that can be used for retrieving attribute values associated with a type, template, variable, constant or module parameter."
+  },
+  {
+   "id": "TTCN3-CORE-27.8-002a",
+   "section": "27.8",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "( Type | TemplateInstance ) \".\" ( display | encode | variant | extension | optional ) [ \"(\" Expression \")\" ]",
+   "canonical": "An attribute retrieval operation has the syntax ( Type | TemplateInstance ) \".\" ( `display` | `encode` | `variant` | `extension` | `optional` ) [ \"(\" Expression \")\" ].",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    21583,
+    21586
+   ],
+   "examples": [
+    {
+     "lines": [
+      21621,
+      21653
+     ],
+     "text": "// MyPDU1 will be displayed as PDU \n  type record MyPDU1 { ... } with { \n  display \"blue\";\n     encode \"Codec1\";\n     variant \"Codec1\".\"Rule1A\";\n     variant \"Codec1\".\"Rule1B\";\n     encode \"Codec2\";\n     variant \"Codec2\".\"Rule2A\";\n     variant \"Codec2\".\"Rule2B\";\n  }\n  type record of universal charstring RUC;\n  control {\n     var MyPDU1 v_pdu;\n     var universal charstring v_display;\n     var RUC v_encoding, v_variants;\n     v_display := MyPDU1.display; // v_display will contain \"blue\"\n     v_display := v_variants.display; // v_display will contain \"\" as no display attribute is\n                          // defined for v_variants\n     v_encoding := v_pdu.encode;  // v_encoding will contain { \"Codec1\", \"Codec2\" }\n     v_variants := v_pdu.variant; // v_variants will contain {} as all variants are bound\n                          // to encode attributes\n     // retrieve variants for all defined encodings\n     for (var integer i := 0; i < sizeof(v_encoding); i := i + 1) {\n       v_variants := v_pdu.variant(v_encoding[i]);\n       ... \n     }\n     v_variants := v_variants.encode; // v_variants will contain {} as no encode attribute is\n                        // defined for v_variants\n     v_variants := v_pdu.variant(\"UnknownCodec\"); // produces an error as there is no such\n                                 // encode attribute as \"UnknownCodec\"\n  }"
+    }
+   ],
+   "file": "tests/27-specifying-attributes/27.08_test_002.ttcn3",
+   "module": "M_27_08_test_002",
+   "header": "// @requirement: 27.8 -- ( Type | TemplateInstance ) \".\" ( display | encode | variant | extension | optional ) [ \"(\" Expression \")\" ]"
+  },
+  {
+   "id": "TTCN3-CORE-27.8-003a",
+   "section": "27.8",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The operation returns the actual value of an attribute associated with the type, template, variable, constant or module parameter that precedes the dot symbol.",
+   "canonical": "An attribute retrieval operation returns the actual value of the attribute associated with the type, template, variable, constant or module parameter preceding the dot.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    21590,
+    21592
+   ],
+   "examples": [
+    {
+     "lines": [
+      21621,
+      21653
+     ],
+     "text": "// MyPDU1 will be displayed as PDU \n  type record MyPDU1 { ... } with { \n  display \"blue\";\n     encode \"Codec1\";\n     variant \"Codec1\".\"Rule1A\";\n     variant \"Codec1\".\"Rule1B\";\n     encode \"Codec2\";\n     variant \"Codec2\".\"Rule2A\";\n     variant \"Codec2\".\"Rule2B\";\n  }\n  type record of universal charstring RUC;\n  control {\n     var MyPDU1 v_pdu;\n     var universal charstring v_display;\n     var RUC v_encoding, v_variants;\n     v_display := MyPDU1.display; // v_display will contain \"blue\"\n     v_display := v_variants.display; // v_display will contain \"\" as no display attribute is\n                          // defined for v_variants\n     v_encoding := v_pdu.encode;  // v_encoding will contain { \"Codec1\", \"Codec2\" }\n     v_variants := v_pdu.variant; // v_variants will contain {} as all variants are bound\n                          // to encode attributes\n     // retrieve variants for all defined encodings\n     for (var integer i := 0; i < sizeof(v_encoding); i := i + 1) {\n       v_variants := v_pdu.variant(v_encoding[i]);\n       ... \n     }\n     v_variants := v_variants.encode; // v_variants will contain {} as no encode attribute is\n                        // defined for v_variants\n     v_variants := v_pdu.variant(\"UnknownCodec\"); // produces an error as there is no such\n                                 // encode attribute as \"UnknownCodec\"\n  }"
+    }
+   ],
+   "file": "tests/27-specifying-attributes/27.08_test_003.ttcn3",
+   "module": "M_27_08_test_003",
+   "header": "// @requirement: 27.8 -- The operation returns the actual value of an attribute associated with the type, template, variable, constant or module parameter that precedes the dot symbol."
+  },
+  {
+   "id": "TTCN3-CORE-27.8-004a",
+   "section": "27.8",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "The value preceding the dot symbol may be unitialized.",
+   "canonical": "The variable or template preceding the dot of an attribute retrieval operation MAY be uninitialized.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "\"value\" is used for the entity preceding the dot, which is a type or template instance; \"unitialized\" is a misspelling of the glossary term \"uninitialized\".",
+    "improper_terms": [
+     {
+      "used": "value",
+      "proper": "variable, constant, template or module parameter (TemplateInstance)",
+      "glossary": false
+     },
+     {
+      "used": "unitialized",
+      "proper": "uninitialized",
+      "glossary": true
+     }
+    ]
+   },
+   "spec_lines": [
+    21590,
+    21592
+   ],
+   "examples": [
+    {
+     "lines": [
+      21621,
+      21653
+     ],
+     "text": "// MyPDU1 will be displayed as PDU \n  type record MyPDU1 { ... } with { \n  display \"blue\";\n     encode \"Codec1\";\n     variant \"Codec1\".\"Rule1A\";\n     variant \"Codec1\".\"Rule1B\";\n     encode \"Codec2\";\n     variant \"Codec2\".\"Rule2A\";\n     variant \"Codec2\".\"Rule2B\";\n  }\n  type record of universal charstring RUC;\n  control {\n     var MyPDU1 v_pdu;\n     var universal charstring v_display;\n     var RUC v_encoding, v_variants;\n     v_display := MyPDU1.display; // v_display will contain \"blue\"\n     v_display := v_variants.display; // v_display will contain \"\" as no display attribute is\n                          // defined for v_variants\n     v_encoding := v_pdu.encode;  // v_encoding will contain { \"Codec1\", \"Codec2\" }\n     v_variants := v_pdu.variant; // v_variants will contain {} as all variants are bound\n                          // to encode attributes\n     // retrieve variants for all defined encodings\n     for (var integer i := 0; i < sizeof(v_encoding); i := i + 1) {\n       v_variants := v_pdu.variant(v_encoding[i]);\n       ... \n     }\n     v_variants := v_variants.encode; // v_variants will contain {} as no encode attribute is\n                        // defined for v_variants\n     v_variants := v_pdu.variant(\"UnknownCodec\"); // produces an error as there is no such\n                                 // encode attribute as \"UnknownCodec\"\n  }"
+    }
+   ],
+   "file": "tests/27-specifying-attributes/27.08_test_004.ttcn3",
+   "module": "M_27_08_test_004",
+   "header": "// @requirement: 27.8 -- The value preceding the dot symbol may be unitialized."
+  },
+  {
+   "id": "TTCN3-CORE-27.8-005a",
+   "section": "27.8",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "The attribute kind is denoted by the keyword following the dot symbol.",
+   "canonical": "The attribute kind retrieved by an attribute retrieval operation IS denoted by the keyword (`display`, `encode`, `variant`, `extension` or `optional`) following the dot.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    21590,
+    21592
+   ],
+   "examples": [
+    {
+     "lines": [
+      21621,
+      21653
+     ],
+     "text": "// MyPDU1 will be displayed as PDU \n  type record MyPDU1 { ... } with { \n  display \"blue\";\n     encode \"Codec1\";\n     variant \"Codec1\".\"Rule1A\";\n     variant \"Codec1\".\"Rule1B\";\n     encode \"Codec2\";\n     variant \"Codec2\".\"Rule2A\";\n     variant \"Codec2\".\"Rule2B\";\n  }\n  type record of universal charstring RUC;\n  control {\n     var MyPDU1 v_pdu;\n     var universal charstring v_display;\n     var RUC v_encoding, v_variants;\n     v_display := MyPDU1.display; // v_display will contain \"blue\"\n     v_display := v_variants.display; // v_display will contain \"\" as no display attribute is\n                          // defined for v_variants\n     v_encoding := v_pdu.encode;  // v_encoding will contain { \"Codec1\", \"Codec2\" }\n     v_variants := v_pdu.variant; // v_variants will contain {} as all variants are bound\n                          // to encode attributes\n     // retrieve variants for all defined encodings\n     for (var integer i := 0; i < sizeof(v_encoding); i := i + 1) {\n       v_variants := v_pdu.variant(v_encoding[i]);\n       ... \n     }\n     v_variants := v_variants.encode; // v_variants will contain {} as no encode attribute is\n                        // defined for v_variants\n     v_variants := v_pdu.variant(\"UnknownCodec\"); // produces an error as there is no such\n                                 // encode attribute as \"UnknownCodec\"\n  }"
+    }
+   ],
+   "file": "tests/27-specifying-attributes/27.08_test_005.ttcn3",
+   "module": "M_27_08_test_005",
+   "header": "// @requirement: 27.8 -- The attribute kind is denoted by the keyword following the dot symbol."
+  },
+  {
+   "id": "TTCN3-CORE-27.8-006a",
+   "section": "27.8",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The return value of the operations for retrieving attribute values is of a universal charstring type in case of attributes that can be present only once (display, optional) .",
+   "canonical": "An attribute retrieval operation for an attribute that can be present only once (`display`, `optional`) returns a value of universal charstring type.",
+   "condition": "display or optional attribute",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    21594,
+    21598
+   ],
+   "examples": [
+    {
+     "lines": [
+      21621,
+      21653
+     ],
+     "text": "// MyPDU1 will be displayed as PDU \n  type record MyPDU1 { ... } with { \n  display \"blue\";\n     encode \"Codec1\";\n     variant \"Codec1\".\"Rule1A\";\n     variant \"Codec1\".\"Rule1B\";\n     encode \"Codec2\";\n     variant \"Codec2\".\"Rule2A\";\n     variant \"Codec2\".\"Rule2B\";\n  }\n  type record of universal charstring RUC;\n  control {\n     var MyPDU1 v_pdu;\n     var universal charstring v_display;\n     var RUC v_encoding, v_variants;\n     v_display := MyPDU1.display; // v_display will contain \"blue\"\n     v_display := v_variants.display; // v_display will contain \"\" as no display attribute is\n                          // defined for v_variants\n     v_encoding := v_pdu.encode;  // v_encoding will contain { \"Codec1\", \"Codec2\" }\n     v_variants := v_pdu.variant; // v_variants will contain {} as all variants are bound\n                          // to encode attributes\n     // retrieve variants for all defined encodings\n     for (var integer i := 0; i < sizeof(v_encoding); i := i + 1) {\n       v_variants := v_pdu.variant(v_encoding[i]);\n       ... \n     }\n     v_variants := v_variants.encode; // v_variants will contain {} as no encode attribute is\n                        // defined for v_variants\n     v_variants := v_pdu.variant(\"UnknownCodec\"); // produces an error as there is no such\n                                 // encode attribute as \"UnknownCodec\"\n  }"
+    }
+   ],
+   "file": "tests/27-specifying-attributes/27.08_test_006.ttcn3",
+   "module": "M_27_08_test_006",
+   "header": "// @requirement: 27.8 -- The return value of the operations for retrieving attribute values is of a universal charstring type in case of attributes that can be present only once (display, optional) ."
+  },
+  {
+   "id": "TTCN3-CORE-27.8-007a",
+   "section": "27.8",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "If such an attribute is not defined, the operation returns an empty string.",
+   "canonical": "If a `display` or `optional` attribute is not defined, the attribute retrieval operation returns an empty string.",
+   "condition": "display or optional attribute not defined",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    21594,
+    21598
+   ],
+   "examples": [
+    {
+     "lines": [
+      21621,
+      21653
+     ],
+     "text": "// MyPDU1 will be displayed as PDU \n  type record MyPDU1 { ... } with { \n  display \"blue\";\n     encode \"Codec1\";\n     variant \"Codec1\".\"Rule1A\";\n     variant \"Codec1\".\"Rule1B\";\n     encode \"Codec2\";\n     variant \"Codec2\".\"Rule2A\";\n     variant \"Codec2\".\"Rule2B\";\n  }\n  type record of universal charstring RUC;\n  control {\n     var MyPDU1 v_pdu;\n     var universal charstring v_display;\n     var RUC v_encoding, v_variants;\n     v_display := MyPDU1.display; // v_display will contain \"blue\"\n     v_display := v_variants.display; // v_display will contain \"\" as no display attribute is\n                          // defined for v_variants\n     v_encoding := v_pdu.encode;  // v_encoding will contain { \"Codec1\", \"Codec2\" }\n     v_variants := v_pdu.variant; // v_variants will contain {} as all variants are bound\n                          // to encode attributes\n     // retrieve variants for all defined encodings\n     for (var integer i := 0; i < sizeof(v_encoding); i := i + 1) {\n       v_variants := v_pdu.variant(v_encoding[i]);\n       ... \n     }\n     v_variants := v_variants.encode; // v_variants will contain {} as no encode attribute is\n                        // defined for v_variants\n     v_variants := v_pdu.variant(\"UnknownCodec\"); // produces an error as there is no such\n                                 // encode attribute as \"UnknownCodec\"\n  }"
+    }
+   ],
+   "file": "tests/27-specifying-attributes/27.08_test_007.ttcn3",
+   "module": "M_27_08_test_007",
+   "header": "// @requirement: 27.8 -- If such an attribute is not defined, the operation returns an empty string."
+  },
+  {
+   "id": "TTCN3-CORE-27.8-008a",
+   "section": "27.8",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "If the attribute can occur multiple times (encode, variant, extension), the operation returns a record of universal charstring type.",
+   "canonical": "An attribute retrieval operation for an attribute that can occur multiple times (`encode`, `variant`, `extension`) returns a value of a record of universal charstring type.",
+   "condition": "encode, variant or extension attribute",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "It is not stated which \"record of universal charstring\" type is returned (no predefined type exists); the example assigns it to a user-defined type RUC. Chose: a value compatible with any record of universal charstring type.",
+    "readings": [
+     "An attribute retrieval operation for `encode`, `variant` or `extension` returns a value compatible with any record of universal charstring type.",
+     "An attribute retrieval operation for `encode`, `variant` or `extension` returns a value of one specific (implicitly predefined) record of universal charstring type."
+    ]
+   },
+   "spec_lines": [
+    21594,
+    21598
+   ],
+   "examples": [
+    {
+     "lines": [
+      21621,
+      21653
+     ],
+     "text": "// MyPDU1 will be displayed as PDU \n  type record MyPDU1 { ... } with { \n  display \"blue\";\n     encode \"Codec1\";\n     variant \"Codec1\".\"Rule1A\";\n     variant \"Codec1\".\"Rule1B\";\n     encode \"Codec2\";\n     variant \"Codec2\".\"Rule2A\";\n     variant \"Codec2\".\"Rule2B\";\n  }\n  type record of universal charstring RUC;\n  control {\n     var MyPDU1 v_pdu;\n     var universal charstring v_display;\n     var RUC v_encoding, v_variants;\n     v_display := MyPDU1.display; // v_display will contain \"blue\"\n     v_display := v_variants.display; // v_display will contain \"\" as no display attribute is\n                          // defined for v_variants\n     v_encoding := v_pdu.encode;  // v_encoding will contain { \"Codec1\", \"Codec2\" }\n     v_variants := v_pdu.variant; // v_variants will contain {} as all variants are bound\n                          // to encode attributes\n     // retrieve variants for all defined encodings\n     for (var integer i := 0; i < sizeof(v_encoding); i := i + 1) {\n       v_variants := v_pdu.variant(v_encoding[i]);\n       ... \n     }\n     v_variants := v_variants.encode; // v_variants will contain {} as no encode attribute is\n                        // defined for v_variants\n     v_variants := v_pdu.variant(\"UnknownCodec\"); // produces an error as there is no such\n                                 // encode attribute as \"UnknownCodec\"\n  }"
+    }
+   ],
+   "file": "tests/27-specifying-attributes/27.08_test_008.ttcn3",
+   "module": "M_27_08_test_008",
+   "header": "// @requirement: 27.8 -- If the attribute can occur multiple times (encode, variant, extension), the operation returns a record of universal charstring type."
+  },
+  {
+   "id": "TTCN3-CORE-27.8-009a",
+   "section": "27.8",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "If such an attribute is not present, the operation returns an empty record of value.",
+   "canonical": "If an `encode`, `variant` or `extension` attribute is not present, the attribute retrieval operation returns an empty record of value.",
+   "condition": "encode, variant or extension attribute not present",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    21594,
+    21598
+   ],
+   "examples": [
+    {
+     "lines": [
+      21621,
+      21653
+     ],
+     "text": "// MyPDU1 will be displayed as PDU \n  type record MyPDU1 { ... } with { \n  display \"blue\";\n     encode \"Codec1\";\n     variant \"Codec1\".\"Rule1A\";\n     variant \"Codec1\".\"Rule1B\";\n     encode \"Codec2\";\n     variant \"Codec2\".\"Rule2A\";\n     variant \"Codec2\".\"Rule2B\";\n  }\n  type record of universal charstring RUC;\n  control {\n     var MyPDU1 v_pdu;\n     var universal charstring v_display;\n     var RUC v_encoding, v_variants;\n     v_display := MyPDU1.display; // v_display will contain \"blue\"\n     v_display := v_variants.display; // v_display will contain \"\" as no display attribute is\n                          // defined for v_variants\n     v_encoding := v_pdu.encode;  // v_encoding will contain { \"Codec1\", \"Codec2\" }\n     v_variants := v_pdu.variant; // v_variants will contain {} as all variants are bound\n                          // to encode attributes\n     // retrieve variants for all defined encodings\n     for (var integer i := 0; i < sizeof(v_encoding); i := i + 1) {\n       v_variants := v_pdu.variant(v_encoding[i]);\n       ... \n     }\n     v_variants := v_variants.encode; // v_variants will contain {} as no encode attribute is\n                        // defined for v_variants\n     v_variants := v_pdu.variant(\"UnknownCodec\"); // produces an error as there is no such\n                                 // encode attribute as \"UnknownCodec\"\n  }"
+    }
+   ],
+   "file": "tests/27-specifying-attributes/27.08_test_009.ttcn3",
+   "module": "M_27_08_test_009",
+   "header": "// @requirement: 27.8 -- If such an attribute is not present, the operation returns an empty record of value."
+  },
+  {
+   "id": "TTCN3-CORE-27.8-010a",
+   "section": "27.8",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "The operation for getting a variant attribute value may be followed by an optional parameter.",
+   "canonical": "An attribute retrieval operation for a `variant` attribute MAY be followed by an optional parameter.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    21600,
+    21602
+   ],
+   "examples": [
+    {
+     "lines": [
+      21621,
+      21653
+     ],
+     "text": "// MyPDU1 will be displayed as PDU \n  type record MyPDU1 { ... } with { \n  display \"blue\";\n     encode \"Codec1\";\n     variant \"Codec1\".\"Rule1A\";\n     variant \"Codec1\".\"Rule1B\";\n     encode \"Codec2\";\n     variant \"Codec2\".\"Rule2A\";\n     variant \"Codec2\".\"Rule2B\";\n  }\n  type record of universal charstring RUC;\n  control {\n     var MyPDU1 v_pdu;\n     var universal charstring v_display;\n     var RUC v_encoding, v_variants;\n     v_display := MyPDU1.display; // v_display will contain \"blue\"\n     v_display := v_variants.display; // v_display will contain \"\" as no display attribute is\n                          // defined for v_variants\n     v_encoding := v_pdu.encode;  // v_encoding will contain { \"Codec1\", \"Codec2\" }\n     v_variants := v_pdu.variant; // v_variants will contain {} as all variants are bound\n                          // to encode attributes\n     // retrieve variants for all defined encodings\n     for (var integer i := 0; i < sizeof(v_encoding); i := i + 1) {\n       v_variants := v_pdu.variant(v_encoding[i]);\n       ... \n     }\n     v_variants := v_variants.encode; // v_variants will contain {} as no encode attribute is\n                        // defined for v_variants\n     v_variants := v_pdu.variant(\"UnknownCodec\"); // produces an error as there is no such\n                                 // encode attribute as \"UnknownCodec\"\n  }"
+    }
+   ],
+   "file": "tests/27-specifying-attributes/27.08_test_010.ttcn3",
+   "module": "M_27_08_test_010",
+   "header": "// @requirement: 27.8 -- The operation for getting a variant attribute value may be followed by an optional parameter."
+  },
+  {
+   "id": "TTCN3-CORE-27.8-011a",
+   "section": "27.8",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "If no parameter is present, the operation returns only variants that are not bound to any particular encoding.",
+   "canonical": "If no parameter is present, the `variant` attribute retrieval operation returns only the variants that are not bound to any particular encoding.",
+   "condition": "no parameter",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    21600,
+    21602
+   ],
+   "examples": [
+    {
+     "lines": [
+      21621,
+      21653
+     ],
+     "text": "// MyPDU1 will be displayed as PDU \n  type record MyPDU1 { ... } with { \n  display \"blue\";\n     encode \"Codec1\";\n     variant \"Codec1\".\"Rule1A\";\n     variant \"Codec1\".\"Rule1B\";\n     encode \"Codec2\";\n     variant \"Codec2\".\"Rule2A\";\n     variant \"Codec2\".\"Rule2B\";\n  }\n  type record of universal charstring RUC;\n  control {\n     var MyPDU1 v_pdu;\n     var universal charstring v_display;\n     var RUC v_encoding, v_variants;\n     v_display := MyPDU1.display; // v_display will contain \"blue\"\n     v_display := v_variants.display; // v_display will contain \"\" as no display attribute is\n                          // defined for v_variants\n     v_encoding := v_pdu.encode;  // v_encoding will contain { \"Codec1\", \"Codec2\" }\n     v_variants := v_pdu.variant; // v_variants will contain {} as all variants are bound\n                          // to encode attributes\n     // retrieve variants for all defined encodings\n     for (var integer i := 0; i < sizeof(v_encoding); i := i + 1) {\n       v_variants := v_pdu.variant(v_encoding[i]);\n       ... \n     }\n     v_variants := v_variants.encode; // v_variants will contain {} as no encode attribute is\n                        // defined for v_variants\n     v_variants := v_pdu.variant(\"UnknownCodec\"); // produces an error as there is no such\n                                 // encode attribute as \"UnknownCodec\"\n  }"
+    }
+   ],
+   "file": "tests/27-specifying-attributes/27.08_test_011.ttcn3",
+   "module": "M_27_08_test_011",
+   "header": "// @requirement: 27.8 -- If no parameter is present, the operation returns only variants that are not bound to any particular encoding."
+  },
+  {
+   "id": "TTCN3-CORE-27.8-012a",
+   "section": "27.8",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "If the parameter is present, the returned value will contain variants that are bound to the encoding referenced by the parameter.",
+   "canonical": "If the parameter is present, the `variant` attribute retrieval operation returns the variants that are bound to the encoding referenced by the parameter.",
+   "condition": "parameter present",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "\"will contain variants that are bound to the encoding\" does not say whether variants not bound to any encoding are also included. Chose: only the bound variants.",
+    "readings": [
+     "If the parameter is present, the `variant` attribute retrieval operation returns only the variants bound to the referenced encoding.",
+     "If the parameter is present, the `variant` attribute retrieval operation returns the variants bound to the referenced encoding plus the variants not bound to any encoding."
+    ]
+   },
+   "spec_lines": [
+    21600,
+    21602
+   ],
+   "examples": [
+    {
+     "lines": [
+      21621,
+      21653
+     ],
+     "text": "// MyPDU1 will be displayed as PDU \n  type record MyPDU1 { ... } with { \n  display \"blue\";\n     encode \"Codec1\";\n     variant \"Codec1\".\"Rule1A\";\n     variant \"Codec1\".\"Rule1B\";\n     encode \"Codec2\";\n     variant \"Codec2\".\"Rule2A\";\n     variant \"Codec2\".\"Rule2B\";\n  }\n  type record of universal charstring RUC;\n  control {\n     var MyPDU1 v_pdu;\n     var universal charstring v_display;\n     var RUC v_encoding, v_variants;\n     v_display := MyPDU1.display; // v_display will contain \"blue\"\n     v_display := v_variants.display; // v_display will contain \"\" as no display attribute is\n                          // defined for v_variants\n     v_encoding := v_pdu.encode;  // v_encoding will contain { \"Codec1\", \"Codec2\" }\n     v_variants := v_pdu.variant; // v_variants will contain {} as all variants are bound\n                          // to encode attributes\n     // retrieve variants for all defined encodings\n     for (var integer i := 0; i < sizeof(v_encoding); i := i + 1) {\n       v_variants := v_pdu.variant(v_encoding[i]);\n       ... \n     }\n     v_variants := v_variants.encode; // v_variants will contain {} as no encode attribute is\n                        // defined for v_variants\n     v_variants := v_pdu.variant(\"UnknownCodec\"); // produces an error as there is no such\n                                 // encode attribute as \"UnknownCodec\"\n  }"
+    }
+   ],
+   "file": "tests/27-specifying-attributes/27.08_test_012.ttcn3",
+   "module": "M_27_08_test_012",
+   "header": "// @requirement: 27.8 -- If the parameter is present, the returned value will contain variants that are bound to the encoding referenced by the parameter."
+  },
+  {
+   "id": "TTCN3-CORE-27.8-014a",
+   "section": "27.8",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "a) The optional parameter of the operation shall be used only for getting variant attributes.",
+   "canonical": "The optional parameter of an attribute retrieval operation SHALL be used only for retrieving `variant` attributes.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    21613,
+    21613
+   ],
+   "examples": [],
+   "file": "tests/27-specifying-attributes/27.08_test_013.ttcn3",
+   "module": "M_27_08_test_013",
+   "header": "// @requirement: 27.8 -- a) The optional parameter of the operation shall be used only for getting variant attributes."
+  },
+  {
+   "id": "TTCN3-CORE-27.8-015a",
+   "section": "27.8",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "b) The Expression in optional parameter of the operation shall be of the universal charstring type.",
+   "canonical": "The Expression in the optional parameter of an attribute retrieval operation SHALL be of universal charstring type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    21615,
+    21615
+   ],
+   "examples": [],
+   "file": "tests/27-specifying-attributes/27.08_test_014.ttcn3",
+   "module": "M_27_08_test_014",
+   "header": "// @requirement: 27.8 -- b) The Expression in optional parameter of the operation shall be of the universal charstring type."
+  },
+  {
+   "id": "TTCN3-CORE-27.8-016a",
+   "section": "27.8",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "c) An error shall be produced if the Expression in the optional parameters is not one of the valid encode attributes.",
+   "canonical": "An error SHALL be produced if the Expression in the optional parameter of an attribute retrieval operation is not one of the valid encode attributes of the referenced type or template.",
+   "condition": "parameter value is not a valid encode attribute",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "It is not stated whether the error is a compile-time error (when the Expression is constant) or a runtime error, nor whose encode attributes are meant. Chose: the encode attributes of the entity preceding the dot, checked whenever the value is known.",
+    "readings": [
+     "A compile-time error SHALL be produced if the constant Expression is not one of the encode attributes of the entity preceding the dot.",
+     "A runtime error SHALL be produced when the evaluated Expression is not one of the encode attributes of the entity preceding the dot."
+    ]
+   },
+   "spec_lines": [
+    21617,
+    21618
+   ],
+   "examples": [
+    {
+     "lines": [
+      21621,
+      21653
+     ],
+     "text": "// MyPDU1 will be displayed as PDU \n  type record MyPDU1 { ... } with { \n  display \"blue\";\n     encode \"Codec1\";\n     variant \"Codec1\".\"Rule1A\";\n     variant \"Codec1\".\"Rule1B\";\n     encode \"Codec2\";\n     variant \"Codec2\".\"Rule2A\";\n     variant \"Codec2\".\"Rule2B\";\n  }\n  type record of universal charstring RUC;\n  control {\n     var MyPDU1 v_pdu;\n     var universal charstring v_display;\n     var RUC v_encoding, v_variants;\n     v_display := MyPDU1.display; // v_display will contain \"blue\"\n     v_display := v_variants.display; // v_display will contain \"\" as no display attribute is\n                          // defined for v_variants\n     v_encoding := v_pdu.encode;  // v_encoding will contain { \"Codec1\", \"Codec2\" }\n     v_variants := v_pdu.variant; // v_variants will contain {} as all variants are bound\n                          // to encode attributes\n     // retrieve variants for all defined encodings\n     for (var integer i := 0; i < sizeof(v_encoding); i := i + 1) {\n       v_variants := v_pdu.variant(v_encoding[i]);\n       ... \n     }\n     v_variants := v_variants.encode; // v_variants will contain {} as no encode attribute is\n                        // defined for v_variants\n     v_variants := v_pdu.variant(\"UnknownCodec\"); // produces an error as there is no such\n                                 // encode attribute as \"UnknownCodec\"\n  }"
+    }
+   ],
+   "file": "tests/27-specifying-attributes/27.08_test_015.ttcn3",
+   "module": "M_27_08_test_015",
+   "header": "// @requirement: 27.8 -- c) An error shall be produced if the Expression in the optional parameters is not one of the valid encode attributes."
+  },
+  {
+   "id": "TTCN3-CORE-27.9-001a",
+   "section": "27.9",
+   "type": "information",
+   "modality": "CAN",
+   "original": "The setencode operation can be used on a port or set of ports to dynamically select for the affected ports a single encode attribute value to be used for a type that has multiple encode attributes attached to it.",
+   "canonical": "The `setencode` operation CAN be used on a port or set of ports to dynamically select, for the affected ports, a single encode attribute value for a type that has multiple encode attributes.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    21658,
+    21659
+   ],
+   "examples": [
+    {
+     "lines": [
+      21705,
+      21733
+     ],
+     "text": "type port P message {\n    inout PDU;\n  }\n  type component C {\n  port P p;\n  }\n  // Payload type with two encoding options\n  type record Payload {\n   ...\n  } with { encode \"PayloadCodec1\"; encode \"PayloadCodec2\" }\n  // PDU type with two encoding options\n  type record PDU {\n   charstring source,\n   charstring destination,\n    Payload payload\n  } with { encode \"PduCodec1\"; encode \"PduCodec2\" }\n  template PDU m_msg := {\n   source := \"source address\",\n   destination := \"destination address\",\n   payload := { ... }\n  }\n  testcase TC01() runs on C {\n   p.setencode(PDU.payload, \"PayloadCodec2\");\n   p.setencode (PDU, \"PduCodec1\");\n   p.send(m_msg); // m_msg will be sent with its encode attribute set to \"PduCodec1\"\n           // and its payload field will have its encode attribute set to \"PayloadCodec2\"\n  }"
+    }
+   ],
+   "file": "tests/27-specifying-attributes/27.09_test_001.ttcn3",
+   "module": "M_27_09_test_001",
+   "header": "// @requirement: 27.9 -- The setencode operation can be used on a port or set of ports to dynamically select for the affected ports a single encode attribute value to be used for a type that has multiple encode attributes attached to it."
+  },
+  {
+   "id": "TTCN3-CORE-27.9-002a",
+   "section": "27.9",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "(SingleExpression | ( all port ) | self ) \".\" setencode\"(\" Type \",\" SingleExpression \")\"",
+   "canonical": "The `setencode` operation has the syntax ( SingleExpression | `all port` | `self` ) \".\" `setencode` \"(\" Type \",\" SingleExpression \")\".",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    21662,
+    21664
+   ],
+   "examples": [
+    {
+     "lines": [
+      21705,
+      21733
+     ],
+     "text": "type port P message {\n    inout PDU;\n  }\n  type component C {\n  port P p;\n  }\n  // Payload type with two encoding options\n  type record Payload {\n   ...\n  } with { encode \"PayloadCodec1\"; encode \"PayloadCodec2\" }\n  // PDU type with two encoding options\n  type record PDU {\n   charstring source,\n   charstring destination,\n    Payload payload\n  } with { encode \"PduCodec1\"; encode \"PduCodec2\" }\n  template PDU m_msg := {\n   source := \"source address\",\n   destination := \"destination address\",\n   payload := { ... }\n  }\n  testcase TC01() runs on C {\n   p.setencode(PDU.payload, \"PayloadCodec2\");\n   p.setencode (PDU, \"PduCodec1\");\n   p.send(m_msg); // m_msg will be sent with its encode attribute set to \"PduCodec1\"\n           // and its payload field will have its encode attribute set to \"PayloadCodec2\"\n  }"
+    }
+   ],
+   "file": "tests/27-specifying-attributes/27.09_test_002.ttcn3",
+   "module": "M_27_09_test_002",
+   "header": "// @requirement: 27.9 -- (SingleExpression | ( all port ) | self ) \".\" setencode\"(\" Type \",\" SingleExpression \")\""
+  },
+  {
+   "id": "TTCN3-CORE-27.9-003a",
+   "section": "27.9",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The setencode operation dynamically restricts the number of encode attribute values of a referenced type or its fields or elements to a single value.",
+   "canonical": "The `setencode` operation dynamically restricts the encode attribute values of the referenced type, or of its fields or elements, to a single value.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    21668,
+    21672
+   ],
+   "examples": [
+    {
+     "lines": [
+      21705,
+      21733
+     ],
+     "text": "type port P message {\n    inout PDU;\n  }\n  type component C {\n  port P p;\n  }\n  // Payload type with two encoding options\n  type record Payload {\n   ...\n  } with { encode \"PayloadCodec1\"; encode \"PayloadCodec2\" }\n  // PDU type with two encoding options\n  type record PDU {\n   charstring source,\n   charstring destination,\n    Payload payload\n  } with { encode \"PduCodec1\"; encode \"PduCodec2\" }\n  template PDU m_msg := {\n   source := \"source address\",\n   destination := \"destination address\",\n   payload := { ... }\n  }\n  testcase TC01() runs on C {\n   p.setencode(PDU.payload, \"PayloadCodec2\");\n   p.setencode (PDU, \"PduCodec1\");\n   p.send(m_msg); // m_msg will be sent with its encode attribute set to \"PduCodec1\"\n           // and its payload field will have its encode attribute set to \"PayloadCodec2\"\n  }"
+    }
+   ],
+   "file": "tests/27-specifying-attributes/27.09_test_003.ttcn3",
+   "module": "M_27_09_test_003",
+   "header": "// @requirement: 27.9 -- The setencode operation dynamically restricts the number of encode attribute values of a referenced type or its fields or elements to a single value."
+  },
+  {
+   "id": "TTCN3-CORE-27.9-004a",
+   "section": "27.9",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Dependent on the language element preceding the dot, the encoding configuration is valid either for all sending and receiving operations of a single port (single port reference), sending and receiving operations of all ports of the current component (all `port notation) or for all codec functions and communication operations of` the current component (self keyword).",
+   "canonical": "When the `setencode` operation is applied to a single port reference, the encoding configuration IS valid for all sending and receiving operations of that port.",
+   "condition": "single port reference precedes the dot",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    21668,
+    21672
+   ],
+   "examples": [
+    {
+     "lines": [
+      21705,
+      21733
+     ],
+     "text": "type port P message {\n    inout PDU;\n  }\n  type component C {\n  port P p;\n  }\n  // Payload type with two encoding options\n  type record Payload {\n   ...\n  } with { encode \"PayloadCodec1\"; encode \"PayloadCodec2\" }\n  // PDU type with two encoding options\n  type record PDU {\n   charstring source,\n   charstring destination,\n    Payload payload\n  } with { encode \"PduCodec1\"; encode \"PduCodec2\" }\n  template PDU m_msg := {\n   source := \"source address\",\n   destination := \"destination address\",\n   payload := { ... }\n  }\n  testcase TC01() runs on C {\n   p.setencode(PDU.payload, \"PayloadCodec2\");\n   p.setencode (PDU, \"PduCodec1\");\n   p.send(m_msg); // m_msg will be sent with its encode attribute set to \"PduCodec1\"\n           // and its payload field will have its encode attribute set to \"PayloadCodec2\"\n  }"
+    }
+   ],
+   "file": "tests/27-specifying-attributes/27.09_test_004.ttcn3",
+   "module": "M_27_09_test_004",
+   "header": "// @requirement: 27.9 -- Dependent on the language element preceding the dot, the encoding configuration is valid either for all sending and receiving operations of a single port (single port reference), sending and receiving operations of all ports of the current component (all `port notation) or for all codec functions and communication operations of` the current component (self keyword)."
+  },
+  {
+   "id": "TTCN3-CORE-27.9-004b",
+   "section": "27.9",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Dependent on the language element preceding the dot, the encoding configuration is valid either for all sending and receiving operations of a single port (single port reference), sending and receiving operations of all ports of the current component (all `port notation) or for all codec functions and communication operations of` the current component (self keyword).",
+   "canonical": "When the `setencode` operation is applied with `all port`, the encoding configuration IS valid for the sending and receiving operations of all ports of the current component.",
+   "condition": "`all port` precedes the dot",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    21668,
+    21672
+   ],
+   "examples": [],
+   "file": "tests/27-specifying-attributes/27.09_test_005.ttcn3",
+   "module": "M_27_09_test_005",
+   "header": "// @requirement: 27.9 -- Dependent on the language element preceding the dot, the encoding configuration is valid either for all sending and receiving operations of a single port (single port reference), sending and receiving operations of all ports of the current component (all `port notation) or for all codec functions and communication operations of` the current component (self keyword)."
+  },
+  {
+   "id": "TTCN3-CORE-27.9-004c",
+   "section": "27.9",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Dependent on the language element preceding the dot, the encoding configuration is valid either for all sending and receiving operations of a single port (single port reference), sending and receiving operations of all ports of the current component (all `port notation) or for all codec functions and communication operations of` the current component (self keyword).",
+   "canonical": "When the `setencode` operation is applied with `self`, the encoding configuration IS valid for all codec functions and communication operations of the current component.",
+   "condition": "`self` precedes the dot",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    21668,
+    21672
+   ],
+   "examples": [],
+   "file": "tests/27-specifying-attributes/27.09_test_006.ttcn3",
+   "module": "M_27_09_test_006",
+   "header": "// @requirement: 27.9 -- Dependent on the language element preceding the dot, the encoding configuration is valid either for all sending and receiving operations of a single port (single port reference), sending and receiving operations of all ports of the current component (all `port notation) or for all codec functions and communication operations of` the current component (self keyword)."
+  },
+  {
+   "id": "TTCN3-CORE-27.9-005a",
+   "section": "27.9",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "If the referenced type contains multiple encode attributes and the expression provided in the setencode operation is equal to one of these encode attribute values, the statement reduces the list of encode attributes to the selected one.",
+   "canonical": "If the referenced type contains multiple encode attributes and the expression of the `setencode` operation equals one of them, the `setencode` operation reduces the list of encode attributes to the selected one.",
+   "condition": "type has multiple encode attributes and expression equals one of them",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "The behaviour when the expression matches none of the encode attributes (or the type has only one) is not specified. Chose: the stated case only.",
+    "readings": [
+     "If the expression matches none of the encode attributes, the `setencode` operation has no effect.",
+     "If the expression matches none of the encode attributes, the `setencode` operation causes an error."
+    ]
+   },
+   "spec_lines": [
+    21674,
+    21677
+   ],
+   "examples": [
+    {
+     "lines": [
+      21705,
+      21733
+     ],
+     "text": "type port P message {\n    inout PDU;\n  }\n  type component C {\n  port P p;\n  }\n  // Payload type with two encoding options\n  type record Payload {\n   ...\n  } with { encode \"PayloadCodec1\"; encode \"PayloadCodec2\" }\n  // PDU type with two encoding options\n  type record PDU {\n   charstring source,\n   charstring destination,\n    Payload payload\n  } with { encode \"PduCodec1\"; encode \"PduCodec2\" }\n  template PDU m_msg := {\n   source := \"source address\",\n   destination := \"destination address\",\n   payload := { ... }\n  }\n  testcase TC01() runs on C {\n   p.setencode(PDU.payload, \"PayloadCodec2\");\n   p.setencode (PDU, \"PduCodec1\");\n   p.send(m_msg); // m_msg will be sent with its encode attribute set to \"PduCodec1\"\n           // and its payload field will have its encode attribute set to \"PayloadCodec2\"\n  }"
+    }
+   ],
+   "file": "tests/27-specifying-attributes/27.09_test_007.ttcn3",
+   "module": "M_27_09_test_007",
+   "header": "// @requirement: 27.9 -- If the referenced type contains multiple encode attributes and the expression provided in the setencode operation is equal to one of these encode attribute values, the statement reduces the list of encode attributes to the selected one."
+  },
+  {
+   "id": "TTCN3-CORE-27.9-006a",
+   "section": "27.9",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The procedure is applied recursively to all elements and fields or the referenced type.",
+   "canonical": "The `setencode` reduction procedure IS applied recursively to all elements and fields of the referenced type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "\"fields or the referenced type\" is a typo for \"fields of the referenced type\".",
+    "improper_terms": [
+     {
+      "used": "or the referenced type",
+      "proper": "of the referenced type",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    21674,
+    21677
+   ],
+   "examples": [
+    {
+     "lines": [
+      21705,
+      21733
+     ],
+     "text": "type port P message {\n    inout PDU;\n  }\n  type component C {\n  port P p;\n  }\n  // Payload type with two encoding options\n  type record Payload {\n   ...\n  } with { encode \"PayloadCodec1\"; encode \"PayloadCodec2\" }\n  // PDU type with two encoding options\n  type record PDU {\n   charstring source,\n   charstring destination,\n    Payload payload\n  } with { encode \"PduCodec1\"; encode \"PduCodec2\" }\n  template PDU m_msg := {\n   source := \"source address\",\n   destination := \"destination address\",\n   payload := { ... }\n  }\n  testcase TC01() runs on C {\n   p.setencode(PDU.payload, \"PayloadCodec2\");\n   p.setencode (PDU, \"PduCodec1\");\n   p.send(m_msg); // m_msg will be sent with its encode attribute set to \"PduCodec1\"\n           // and its payload field will have its encode attribute set to \"PayloadCodec2\"\n  }"
+    }
+   ],
+   "file": "tests/27-specifying-attributes/27.09_test_008.ttcn3",
+   "module": "M_27_09_test_008",
+   "header": "// @requirement: 27.9 -- The procedure is applied recursively to all elements and fields or the referenced type."
+  },
+  {
+   "id": "TTCN3-CORE-27.9-007a",
+   "section": "27.9",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "After executing the operation, all other encode attributes and variants related to them are dynamically disabled and invisible to the codec.",
+   "canonical": "After the `setencode` operation is executed, all other encode attributes of the referenced type and the variants related to them IS dynamically disabled and invisible to the codec.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    21674,
+    21677
+   ],
+   "examples": [
+    {
+     "lines": [
+      21705,
+      21733
+     ],
+     "text": "type port P message {\n    inout PDU;\n  }\n  type component C {\n  port P p;\n  }\n  // Payload type with two encoding options\n  type record Payload {\n   ...\n  } with { encode \"PayloadCodec1\"; encode \"PayloadCodec2\" }\n  // PDU type with two encoding options\n  type record PDU {\n   charstring source,\n   charstring destination,\n    Payload payload\n  } with { encode \"PduCodec1\"; encode \"PduCodec2\" }\n  template PDU m_msg := {\n   source := \"source address\",\n   destination := \"destination address\",\n   payload := { ... }\n  }\n  testcase TC01() runs on C {\n   p.setencode(PDU.payload, \"PayloadCodec2\");\n   p.setencode (PDU, \"PduCodec1\");\n   p.send(m_msg); // m_msg will be sent with its encode attribute set to \"PduCodec1\"\n           // and its payload field will have its encode attribute set to \"PayloadCodec2\"\n  }"
+    }
+   ],
+   "file": "tests/27-specifying-attributes/27.09_test_009.ttcn3",
+   "module": "M_27_09_test_009",
+   "header": "// @requirement: 27.9 -- After executing the operation, all other encode attributes and variants related to them are dynamically disabled and invisible to the codec."
+  },
+  {
+   "id": "TTCN3-CORE-27.9-008a",
+   "section": "27.9",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Repeated call of the setencode operation always uses the static attributes that are valid for the referenced type.",
+   "canonical": "A repeated call of the `setencode` operation always uses the static attributes that are valid for the referenced type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    21684,
+    21686
+   ],
+   "examples": [],
+   "file": "tests/27-specifying-attributes/27.09_test_010.ttcn3",
+   "module": "M_27_09_test_010",
+   "header": "// @requirement: 27.9 -- Repeated call of the setencode operation always uses the static attributes that are valid for the referenced type."
+  },
+  {
+   "id": "TTCN3-CORE-27.9-009a",
+   "section": "27.9",
+   "type": "semantics",
+   "modality": "IS NOT",
+   "original": "Previous calls of the setencode operation referencing the type are not considered in this case.",
+   "canonical": "Previous calls of the `setencode` operation referencing the same type IS NOT considered by a repeated call.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    21684,
+    21686
+   ],
+   "examples": [],
+   "file": "tests/27-specifying-attributes/27.09_test_011.ttcn3",
+   "module": "M_27_09_test_011",
+   "header": "// @requirement: 27.9 -- Previous calls of the setencode operation referencing the type are not considered in this case."
+  },
+  {
+   "id": "TTCN3-CORE-27.9-010a",
+   "section": "27.9",
+   "type": "information",
+   "modality": "CAN",
+   "original": "This way it is possible to change the encoding during test execution using different encodings.",
+   "canonical": "The encoding of a type CAN be changed during test execution by repeated `setencode` calls using different encodings.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    21684,
+    21686
+   ],
+   "examples": [],
+   "file": "tests/27-specifying-attributes/27.09_test_012.ttcn3",
+   "module": "M_27_09_test_012",
+   "header": "// @requirement: 27.9 -- This way it is possible to change the encoding during test execution using different encodings."
+  },
+  {
+   "id": "TTCN3-CORE-27.9-011a",
+   "section": "27.9",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "It is allowed to reference a field or element of a type using an extended type reference in the setencode operation.",
+   "canonical": "The `setencode` operation MAY reference a field or element of a type using an extended type reference.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    21688,
+    21692
+   ],
+   "examples": [
+    {
+     "lines": [
+      21705,
+      21733
+     ],
+     "text": "type port P message {\n    inout PDU;\n  }\n  type component C {\n  port P p;\n  }\n  // Payload type with two encoding options\n  type record Payload {\n   ...\n  } with { encode \"PayloadCodec1\"; encode \"PayloadCodec2\" }\n  // PDU type with two encoding options\n  type record PDU {\n   charstring source,\n   charstring destination,\n    Payload payload\n  } with { encode \"PduCodec1\"; encode \"PduCodec2\" }\n  template PDU m_msg := {\n   source := \"source address\",\n   destination := \"destination address\",\n   payload := { ... }\n  }\n  testcase TC01() runs on C {\n   p.setencode(PDU.payload, \"PayloadCodec2\");\n   p.setencode (PDU, \"PduCodec1\");\n   p.send(m_msg); // m_msg will be sent with its encode attribute set to \"PduCodec1\"\n           // and its payload field will have its encode attribute set to \"PayloadCodec2\"\n  }"
+    }
+   ],
+   "file": "tests/27-specifying-attributes/27.09_test_013.ttcn3",
+   "module": "M_27_09_test_013",
+   "header": "// @requirement: 27.9 -- It is allowed to reference a field or element of a type using an extended type reference in the setencode operation."
+  },
+  {
+   "id": "TTCN3-CORE-27.9-013a",
+   "section": "27.9",
+   "type": "semantics",
+   "modality": "SHALL NOT",
+   "original": "If the extended type reference is used, following calls of the setencode operation for the whole type or any element that contains the referenced payload field won't change the encoding that was dynamically configured for this field or element (and its sub-fields).",
+   "canonical": "If an extended type reference was used in a `setencode` operation, subsequent `setencode` calls for the whole type or any element containing the referenced field SHALL NOT change the encoding dynamically configured for that field or element and its sub-fields.",
+   "condition": "an extended type reference was used in an earlier setencode call",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    21688,
+    21692
+   ],
+   "examples": [
+    {
+     "lines": [
+      21705,
+      21733
+     ],
+     "text": "type port P message {\n    inout PDU;\n  }\n  type component C {\n  port P p;\n  }\n  // Payload type with two encoding options\n  type record Payload {\n   ...\n  } with { encode \"PayloadCodec1\"; encode \"PayloadCodec2\" }\n  // PDU type with two encoding options\n  type record PDU {\n   charstring source,\n   charstring destination,\n    Payload payload\n  } with { encode \"PduCodec1\"; encode \"PduCodec2\" }\n  template PDU m_msg := {\n   source := \"source address\",\n   destination := \"destination address\",\n   payload := { ... }\n  }\n  testcase TC01() runs on C {\n   p.setencode(PDU.payload, \"PayloadCodec2\");\n   p.setencode (PDU, \"PduCodec1\");\n   p.send(m_msg); // m_msg will be sent with its encode attribute set to \"PduCodec1\"\n           // and its payload field will have its encode attribute set to \"PayloadCodec2\"\n  }"
+    }
+   ],
+   "file": "tests/27-specifying-attributes/27.09_test_014.ttcn3",
+   "module": "M_27_09_test_014",
+   "header": "// @requirement: 27.9 -- If the extended type reference is used, following calls of the setencode operation for the whole type or any element that contains the referenced payload field won't change the encoding that was dynamically configured for this field or element (and its sub-fields)."
+  },
+  {
+   "id": "TTCN3-CORE-27.9-015a",
+   "section": "27.9",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "a) If the setencode operation is applied to a single port, the referenced type shall be either listed in the in or out type list of the related port type or it shall be a reference to a field or element on any level of nesting of a type listed in the in or out type list of the related port type.",
+   "canonical": "If the `setencode` operation is applied to a single port, the referenced type SHALL be listed in the in or out type list of the related port type, or be a reference to a field or element, on any level of nesting, of such a type.",
+   "condition": "setencode applied to a single port",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "The port type lists are \"in\", \"out\" and \"inout\"; the restriction mentions only \"in or out\". The example uses an inout list. Chose: types in in, out or inout lists are allowed.",
+    "readings": [
+     "If `setencode` is applied to a single port, the referenced type SHALL be listed in the in, out or inout list of the port type (or be a nested field of such a type).",
+     "If `setencode` is applied to a single port, the referenced type SHALL be listed in the in or out list of the port type only (or be a nested field of such a type)."
+    ]
+   },
+   "spec_lines": [
+    21698,
+    21698
+   ],
+   "examples": [
+    {
+     "lines": [
+      21705,
+      21733
+     ],
+     "text": "type port P message {\n    inout PDU;\n  }\n  type component C {\n  port P p;\n  }\n  // Payload type with two encoding options\n  type record Payload {\n   ...\n  } with { encode \"PayloadCodec1\"; encode \"PayloadCodec2\" }\n  // PDU type with two encoding options\n  type record PDU {\n   charstring source,\n   charstring destination,\n    Payload payload\n  } with { encode \"PduCodec1\"; encode \"PduCodec2\" }\n  template PDU m_msg := {\n   source := \"source address\",\n   destination := \"destination address\",\n   payload := { ... }\n  }\n  testcase TC01() runs on C {\n   p.setencode(PDU.payload, \"PayloadCodec2\");\n   p.setencode (PDU, \"PduCodec1\");\n   p.send(m_msg); // m_msg will be sent with its encode attribute set to \"PduCodec1\"\n           // and its payload field will have its encode attribute set to \"PayloadCodec2\"\n  }"
+    }
+   ],
+   "file": "tests/27-specifying-attributes/27.09_test_015.ttcn3",
+   "module": "M_27_09_test_015",
+   "header": "// @requirement: 27.9 -- a) If the setencode operation is applied to a single port, the referenced type shall be either listed in the in or out type list of the related port type or it shall be a reference to a field or element on any level of nesting of a type listed in the in or out type list of the related port type."
+  },
+  {
+   "id": "TTCN3-CORE-27.9-016a",
+   "section": "27.9",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "b) The SingleExpression used in the second parameter of the setencode operation shall be compatible with the universal charstring type.",
+   "canonical": "The SingleExpression in the second parameter of the `setencode` operation SHALL be compatible with the universal charstring type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    21700,
+    21700
+   ],
+   "examples": [],
+   "file": "tests/27-specifying-attributes/27.09_test_016.ttcn3",
+   "module": "M_27_09_test_016",
+   "header": "// @requirement: 27.9 -- b) The SingleExpression used in the second parameter of the setencode operation shall be compatible with the universal charstring type."
+  },
+  {
+   "id": "TTCN3-CORE-27.9-017a",
+   "section": "27.9",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "c) If present, the SingleExpression preceding the setencode keyword shall be of a port type.",
+   "canonical": "If present, the SingleExpression preceding the `setencode` keyword SHALL be of a port type.",
+   "condition": "a SingleExpression precedes the dot",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    21702,
+    21702
+   ],
+   "examples": [],
+   "file": "tests/27-specifying-attributes/27.09_test_017.ttcn3",
+   "module": "M_27_09_test_017",
+   "header": "// @requirement: 27.9 -- c) If present, the SingleExpression preceding the setencode keyword shall be of a port type."
+  }
+ ]
+}

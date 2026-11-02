@@ -1,0 +1,36 @@
+// @requirement: 6.2.6 -- The anytype is defined locally for each module and (like the other predefined types) cannot be directly imported by another module.
+// @id: TTCN3-CORE-6.2.6-008a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_06_test_005 {
+
+    import from M_06_02_06_test_005_A { function f_check };
+
+    type integer MainInt;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var anytype v_any;
+        v_any.MainInt := 1;
+        if (ischosen(v_any.MainInt) and f_check()) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_06_02_06_test_005_A {
+
+    type integer HelperInt;
+
+    function f_check() return boolean {
+        var anytype v_any;
+        v_any.HelperInt := 2;
+        return ischosen(v_any.HelperInt);
+    }
+}

@@ -1,0 +1,25 @@
+// @requirement: 6.2.5.0 -- The assignment notation shall be used for union-s, and the notation shall assign a value to one field only.
+// @id: TTCN3-CORE-6.2.5.0-007a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_05_00_test_003 {
+
+    type component C {}
+
+    type union U {
+        integer number,
+        charstring string
+    };
+
+    testcase TC() runs on C {
+        var U v_u := { number := 34 };
+        if (ischosen(v_u.number) and v_u.number == 34) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

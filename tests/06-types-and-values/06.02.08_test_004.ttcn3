@@ -1,0 +1,27 @@
+// @requirement: 6.2.8 -- Default references have the special and predefined type default.
+// @id: TTCN3-CORE-6.2.8-004a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_08_test_004 {
+
+    type component C {
+        timer T;
+    }
+
+    altstep a_def() runs on C {
+        [] T.timeout {}
+    }
+
+    function f_activate() runs on C return default {
+        return activate(a_def());
+    }
+
+    testcase TC() runs on C {
+        var default v_d := f_activate();
+        deactivate(v_d);
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

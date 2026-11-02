@@ -1,0 +1,24 @@
+// @requirement: 6.1.1.0 -- Such whitespaces, control characters and backslash will be ignored for the value and length calculation.
+// @id: TTCN3-CORE-6.1.1.0-014a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_01_01_00_test_011 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var hexstring v_h1 := 'Ab 01 D'H;
+        var hexstring v_h2 := 'Ab\
+        01\
+        D'H;
+        if (v_h1 == 'AB01D'H and lengthof(v_h1) == 5 and
+            v_h2 == 'AB01D'H and lengthof(v_h2) == 5) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,18 @@
+// @requirement: 11.1 -- d) Use of uninitialized value variables at other places than the left hand side of assignments, in return statements, or as actual parameters passed to formal parameters shall cause an error.
+// @id: TTCN3-CORE-11.1-013a
+// @verdict: pass accept, ttcn3verdict:error
+module M_11_01_test_015 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_a;
+        var integer v_b;
+        setverdict(pass);
+        v_b := v_a + 1; // error: uninitialized variable used in an expression
+    }
+
+    control {
+        execute(TC());
+    }
+}

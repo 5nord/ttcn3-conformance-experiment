@@ -1,0 +1,22 @@
+// @requirement: 24.3 -- The getverdict operation returns the actual value of the local verdict.
+// @id: TTCN3-CORE-24.3-003a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_24_03_test_003 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var verdicttype v_before := getverdict;
+        setverdict(pass);
+        var verdicttype v_after := getverdict;
+        if (v_before == none and v_after == pass) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

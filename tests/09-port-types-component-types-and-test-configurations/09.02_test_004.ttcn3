@@ -1,0 +1,35 @@
+// @requirement: 9.2 -- Generally, a component type reference defining the test system interface shall be associated with every test case using more than one test component.
+// @id: TTCN3-CORE-9.2-019a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_09_02_test_004 {
+
+    type port P message { inout integer; }
+
+    type component C {
+        port P p;
+    }
+
+    type component S {
+        port P p_sys;
+    }
+
+    function f() runs on C {
+        if (p.checkstate("Mapped")) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    testcase TC() runs on C system S {
+        var C v_ptc := C.create;
+        map(v_ptc:p, system:p_sys);
+        v_ptc.start(f());
+        v_ptc.done;
+        unmap(v_ptc:p, system:p_sys);
+    }
+
+    control {
+        execute(TC());
+    }
+}

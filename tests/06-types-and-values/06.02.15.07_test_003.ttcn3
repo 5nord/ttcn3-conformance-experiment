@@ -1,0 +1,33 @@
+// @requirement: 6.2.15.7 -- b) Expansion of record, record of and set of, union and set values and intermediate fields shall follow the rules of item a) in clauses 6.2.1.1, 6.2.3.0 and 6.2.5.1 and clause 6.2.2.1 correspondingly.
+// @id: TTCN3-CORE-6.2.15.7-003a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_15_07_test_003 {
+
+    type record R {
+        integer f1,
+        integer f2
+    }
+    type record of integer RoI;
+    type map from charstring to R RecMap;
+    type map from charstring to RoI ListMap;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var RecMap v_recMap;
+        var ListMap v_listMap;
+        v_recMap["a"].f1 := 1;
+        v_listMap["b"][2] := 7;
+        if (v_recMap["a"].f1 == 1 and not isbound(v_recMap["a"].f2)
+            and v_listMap["b"][2] == 7 and not isbound(v_listMap["b"][0])
+            and not isbound(v_listMap["b"][1])) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

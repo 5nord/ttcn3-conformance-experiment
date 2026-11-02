@@ -1,0 +1,23 @@
+// @requirement: 5.1 -- TTCN-3 keywords shall neither be used as identifiers of TTCN-3 objects nor as identifiers of objects imported from modules of other languages.
+// @id: TTCN3-CORE-5.1-003b
+// @verdict: pass reject
+module M_05_01_test_004 {
+
+    import from M_05_01_test_004_A language "ASN.1:2002" {
+        const timer // error: keyword used as identifier of an imported object
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_05_01_test_004_A {
+    const integer c_value := 1;
+}

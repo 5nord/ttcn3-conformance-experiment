@@ -1,0 +1,23 @@
+// @requirement: 6.3.2.4 -- log(v_u4); // results in "{ b:=true }" logged; for backward compatibility when a union value is used in a log statement directly, no conversion is performed.
+// @id: TTCN3-CORE-6.3.2.4-015a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_03_02_04_test_009 {
+
+    type component C {}
+
+    type union U4 { integer i, @default boolean b }
+
+    testcase TC() runs on C {
+        var U4 v_u4 := true;
+        log(v_u4);
+        if (any2unistr(v_u4) != any2unistr(true)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

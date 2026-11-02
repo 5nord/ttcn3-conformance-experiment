@@ -1,0 +1,35 @@
+// @requirement: 16.1.4 -- NOTE 7: The restriction of calling functions and deterministic external functions with out or inout parameters does not apply recursively, i.e. calling functions that themselves call functions with out or inout parameters is legal.
+// @id: TTCN3-CORE-16.1.4-026a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_16_01_04_test_022 {
+
+    type component C {
+        timer T := 0.1;
+    }
+
+    function f_out(out integer p_x) {
+        p_x := 1;
+    }
+
+    function f_mid() return boolean {
+        var integer v_x;
+        f_out(v_x);
+        return v_x == 1;
+    }
+
+    testcase TC() runs on C {
+        T.start;
+        alt {
+            [f_mid()] T.timeout {
+                setverdict(pass);
+            }
+            [not f_mid()] T.timeout {
+                setverdict(fail);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

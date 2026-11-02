@@ -1,0 +1,26 @@
+// @requirement: 19.1.1 -- Table 17: Overview of TTCN-3 basic program statements: Leaving a loop, alt, altstep or interleave; Col2: break
+// @id: TTCN3-CORE-19.1.1-027a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_01_01_test_026 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_count := 0;
+        while (true) {
+            v_count := v_count + 1;
+            if (v_count == 3) {
+                break;
+            }
+        }
+        if (v_count == 3) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

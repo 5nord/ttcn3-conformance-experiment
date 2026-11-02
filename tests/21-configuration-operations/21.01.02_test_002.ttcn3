@@ -1,0 +1,34 @@
+// @requirement: 21.1.2 -- disconnect [ ( "(" ComponentRef ":" Port "," ComponentRef ":" Port ")" ) | ( "(" PortRef ")" ) | ( "(" ComponentRef ":" all port ")" ) | ( "(" all component ":" all port ")" ) ] unmap [ ( "(" ComponentRef ":" Port "," ComponentRef ":" Port ")" [ param "(" [ { ActualPar [","] }+ ] ")" ] ) | ( "(" PortRef ")" [ param "(" [ { ActualPar [","] }+ ] ")" ] ) | ( "(" ComponentRef ":" all port ")" ) | ( "(" all component ":" all port ")" ) ]
+// @id: TTCN3-CORE-21.1.2-002b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_01_02_test_002 {
+
+    type port P message {
+        inout integer;
+        unmap param (integer p_x);
+    }
+
+    type component C { port P p; }
+
+    testcase TC() runs on C system C {
+        map(self:p, system:p);
+        unmap(self:p, system:p);
+        map(self:p, system:p);
+        unmap(self:p, system:p) param (1);
+        map(self:p, system:p);
+        unmap(system:p) param (2);
+        map(self:p, system:p);
+        unmap(self:p);
+        map(self:p, system:p);
+        unmap(self:all port);
+        map(self:p, system:p);
+        unmap(all component:all port);
+        map(self:p, system:p);
+        unmap;
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

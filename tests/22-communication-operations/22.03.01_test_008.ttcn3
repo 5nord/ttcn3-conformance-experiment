@@ -1,0 +1,34 @@
+// @requirement: 22.3.1 -- If necessary, it is possible to enable/disable an alternative by means of a boolean expression placed between the "[ ]" brackets of the alternative.
+// @id: TTCN3-CORE-22.3.1-012a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_03_01_test_008 {
+
+    signature S(in integer p_x) return integer;
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    function f_server() runs on C {
+        p.getcall(S:{?});
+        p.reply(S:{-} value 1);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        var boolean v_enabled := false;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_server());
+        p.call(S:{1}, 1.0) {
+            [v_enabled] p.getreply(S:{-} value 1) { setverdict(fail); }
+            [not v_enabled] p.getreply(S:{-} value 1) { setverdict(pass); }
+            [] p.catch(timeout) { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

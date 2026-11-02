@@ -1,0 +1,36 @@
+// @requirement: 21.3.10 -- If the incomplete execution occurs because the called component was stopped or killed and a catch stop clause is added to the call operation, the StatementBlock of that clause is executed before the call operation terminates.
+// @id: TTCN3-CORE-21.3.10-009a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_03_10_test_007 {
+
+    type component C {}
+
+    function f_stop() runs on C {
+        self.stop;
+    }
+
+    function f_kill() runs on C {
+        self.kill;
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc1 := C.create;
+        var C v_ptc2 := C.create;
+        var integer v_caught := 0;
+        v_ptc1.call(f_stop()) catch (stop) {
+            v_caught := v_caught + 1;
+        }
+        v_ptc2.call(f_kill()) catch (stop) {
+            v_caught := v_caught + 1;
+        }
+        if (v_caught == 2) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

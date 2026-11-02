@@ -1,0 +1,25 @@
+// @requirement: 5.5 -- a) for recursive type definitions (see clause 6.2);
+// @id: TTCN3-CORE-5.5-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_05_test_002 {
+
+    type record Node {
+        integer val,
+        Node next optional
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var Node v_list := { val := 1, next := { val := 2, next := omit } };
+        if (v_list.next.val == 2 and not ispresent(v_list.next.next)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

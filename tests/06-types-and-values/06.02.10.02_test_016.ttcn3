@@ -1,0 +1,22 @@
+// @requirement: 6.2.10.2 -- c) It is allowed to extend component types that are defined by means of extension, as long as no cyclic chain of definition is created.
+// @id: TTCN3-CORE-6.2.10.2-018b
+// @verdict: pass reject
+module M_06_02_10_02_test_016 {
+
+    type component CA extends CB {
+    }
+
+    type component CB extends CA { // error: cyclic extension chain
+    }
+
+    type component C {
+    }
+
+    testcase TC() runs on C {
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

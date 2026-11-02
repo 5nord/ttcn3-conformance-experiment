@@ -1,0 +1,31 @@
+// @requirement: 6.2.3.1 -- Both the` definition of new structured types (record, set, enumerated, set `of and record` `of) and the specification of` subtype constraints are possible.
+// @id: TTCN3-CORE-6.2.3.1-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_03_01_test_002 {
+
+    type component C {}
+
+    type record of record { integer f1 } RoRecord;
+    type record of set { integer f1 } RoSet;
+    type set of enumerated { e_a, e_b } SoEnum;
+    type record of set of integer RoSetOf;
+    type set of record of integer SoRecordOf;
+
+    testcase TC() runs on C {
+        var RoRecord v_rec := { { f1 := 1 } };
+        var RoSet v_set := { { f1 := 2 } };
+        var SoEnum v_enum := { e_b };
+        var RoSetOf v_roso := { { 3, 4 } };
+        var SoRecordOf v_soro := { { 5, 6 } };
+        if (v_rec[0].f1 == 1 and v_set[0].f1 == 2 and v_enum[0] == e_b
+            and v_roso[0][1] == 4 and v_soro[0][1] == 6) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

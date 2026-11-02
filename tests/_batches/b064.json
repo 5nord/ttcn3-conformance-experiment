@@ -1,0 +1,1500 @@
+{
+ "batch": "b064",
+ "requirements": [
+  {
+   "id": "TTCN3-CORE-21.3.7-001a",
+   "section": "21.3.7",
+   "type": "semantics",
+   "modality": "CAN",
+   "original": "The done operation allows behaviour executing on a test component to ascertain whether the behaviour running on a different test component has completed.",
+   "canonical": "The `done` operation CAN be used by behaviour executing on a test component to ascertain whether the behaviour running on a different test component has completed.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16848,
+    16850
+   ],
+   "examples": [
+    {
+     "lines": [
+      16939,
+      16986
+     ],
+     "text": "// Use of done in alternatives\n  alt {\n     [] myPTC.done {\n          setverdict(pass)\n       }\n     [] any port.receive {\n          repeat\n       }\n  }\n  var MyComp v_c := MyComp.create alive;\n  v_c.start(f_myPTCBehaviour());\n  :\n  v_c.done;\n     // matches as soon as the function f_myPTCBehaviour (or function/altstep called by it) stops\n  v_c.done;\n     // matches again, even if the component has not been started again\n  if(v_c.running) {v_c.done}\n     // in case that some other component has started v_c in the meantime\n     // done here matches the end of the next behaviour only, not the previous one\n  // the following done as stand-alone statement:\n  @nodefault all component.done;\n  // has the following meaning:\n  alt @nodefault {\n     [] all component.done {}\n  }\n  // and thus, blocks the execution until all parallel test components have terminated while \n  // ignoring all activated default alternatives\n  // Retrieving and using the final local verdict of a completed PTC\n  var MyComp v_myPTC := MyPTC.create alive;\n  var verdicttype v_myPTCverdict := none;\n  v_myPTC.start(f_myPTCBehaviour());\n  :\n  alt {\n     [] v_myPTC.done -> value v_myPTCverdict {\n          if (v_myPTCverdict == fail) {\n            setverdict(fail);\n            stop;\n          }\n          else {\n            setverdict (pass);\n          }\n       }\n     [] any port.receive {\n          repeat\n       }\n  }"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.03.07_test_001.ttcn3",
+   "module": "M_21_03_07_test_001",
+   "header": "// @requirement: 21.3.7 -- The done operation allows behaviour executing on a test component to ascertain whether the behaviour running on a different test component has completed."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.7-002a",
+   "section": "21.3.7",
+   "type": "semantics",
+   "modality": "CAN",
+   "original": "In addition, the done operation allows to retrieve the final local verdict of completed test components, i.e. the value of the local verdict at the time of test component completion.",
+   "canonical": "The `done` operation CAN retrieve the final local verdict of a completed test component.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16848,
+    16850
+   ],
+   "examples": [
+    {
+     "lines": [
+      16939,
+      16986
+     ],
+     "text": "// Use of done in alternatives\n  alt {\n     [] myPTC.done {\n          setverdict(pass)\n       }\n     [] any port.receive {\n          repeat\n       }\n  }\n  var MyComp v_c := MyComp.create alive;\n  v_c.start(f_myPTCBehaviour());\n  :\n  v_c.done;\n     // matches as soon as the function f_myPTCBehaviour (or function/altstep called by it) stops\n  v_c.done;\n     // matches again, even if the component has not been started again\n  if(v_c.running) {v_c.done}\n     // in case that some other component has started v_c in the meantime\n     // done here matches the end of the next behaviour only, not the previous one\n  // the following done as stand-alone statement:\n  @nodefault all component.done;\n  // has the following meaning:\n  alt @nodefault {\n     [] all component.done {}\n  }\n  // and thus, blocks the execution until all parallel test components have terminated while \n  // ignoring all activated default alternatives\n  // Retrieving and using the final local verdict of a completed PTC\n  var MyComp v_myPTC := MyPTC.create alive;\n  var verdicttype v_myPTCverdict := none;\n  v_myPTC.start(f_myPTCBehaviour());\n  :\n  alt {\n     [] v_myPTC.done -> value v_myPTCverdict {\n          if (v_myPTCverdict == fail) {\n            setverdict(fail);\n            stop;\n          }\n          else {\n            setverdict (pass);\n          }\n       }\n     [] any port.receive {\n          repeat\n       }\n  }"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.03.07_test_002.ttcn3",
+   "module": "M_21_03_07_test_002",
+   "header": "// @requirement: 21.3.7 -- In addition, the done operation allows to retrieve the final local verdict of completed test components, i.e. the value of the local verdict at the time of test component completion."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.7-003a",
+   "section": "21.3.7",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "[ @nodefault ] ( ObjectReference | any component | all component | any from ComponentArrayRef ) \".\" done [ \"->\" [ value ValueRef] [ @index value ValueRef] ]",
+   "canonical": "The `done` operation has the syntax [ `@nodefault` ] ( ObjectReference | `any component` | `all component` | `any from` ComponentArrayRef ) \".\" `done` [ \"->\" [ `value` ValueRef ] [ `@index` `value` ValueRef ] ].",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16853,
+    16859
+   ],
+   "examples": [
+    {
+     "lines": [
+      16939,
+      16986
+     ],
+     "text": "// Use of done in alternatives\n  alt {\n     [] myPTC.done {\n          setverdict(pass)\n       }\n     [] any port.receive {\n          repeat\n       }\n  }\n  var MyComp v_c := MyComp.create alive;\n  v_c.start(f_myPTCBehaviour());\n  :\n  v_c.done;\n     // matches as soon as the function f_myPTCBehaviour (or function/altstep called by it) stops\n  v_c.done;\n     // matches again, even if the component has not been started again\n  if(v_c.running) {v_c.done}\n     // in case that some other component has started v_c in the meantime\n     // done here matches the end of the next behaviour only, not the previous one\n  // the following done as stand-alone statement:\n  @nodefault all component.done;\n  // has the following meaning:\n  alt @nodefault {\n     [] all component.done {}\n  }\n  // and thus, blocks the execution until all parallel test components have terminated while \n  // ignoring all activated default alternatives\n  // Retrieving and using the final local verdict of a completed PTC\n  var MyComp v_myPTC := MyPTC.create alive;\n  var verdicttype v_myPTCverdict := none;\n  v_myPTC.start(f_myPTCBehaviour());\n  :\n  alt {\n     [] v_myPTC.done -> value v_myPTCverdict {\n          if (v_myPTCverdict == fail) {\n            setverdict(fail);\n            stop;\n          }\n          else {\n            setverdict (pass);\n          }\n       }\n     [] any port.receive {\n          repeat\n       }\n  }"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.03.07_test_003.ttcn3",
+   "module": "M_21_03_07_test_003",
+   "header": "// @requirement: 21.3.7 -- [ @nodefault ] ( ObjectReference | any component | all component | any from ComponentArrayRef ) \".\" done [ \"->\" [ value ValueRef] [ @index value ValueRef] ]"
+  },
+  {
+   "id": "TTCN3-CORE-21.3.7-004a",
+   "section": "21.3.7",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "The done operation shall be used in the same manner as a receiving operation or a timeout operation.",
+   "canonical": "The `done` operation SHALL be used in the same manner as a receiving operation or a timeout operation.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16863,
+    16867
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.07_test_004.ttcn3",
+   "module": "M_21_03_07_test_004",
+   "header": "// @requirement: 21.3.7 -- The done operation shall be used in the same manner as a receiving operation or a timeout operation."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.7-005a",
+   "section": "21.3.7",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "This means it shall not be used in a boolean expression, but it can be used to determine an alternative in an alt statement or as stand-alone statement in a behaviour description.",
+   "canonical": "The `done` operation SHALL NOT be used in a boolean expression.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16863,
+    16867
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.07_test_005.ttcn3",
+   "module": "M_21_03_07_test_005",
+   "header": "// @requirement: 21.3.7 -- This means it shall not be used in a boolean expression, but it can be used to determine an alternative in an alt statement or as stand-alone statement in a behaviour description."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.7-005b",
+   "section": "21.3.7",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "This means it shall not be used in a boolean expression, but it can be used to determine an alternative in an alt statement or as stand-alone statement in a behaviour description.",
+   "canonical": "The `done` operation MAY be used to determine an alternative in an `alt` statement.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16863,
+    16867
+   ],
+   "examples": [
+    {
+     "lines": [
+      16939,
+      16986
+     ],
+     "text": "// Use of done in alternatives\n  alt {\n     [] myPTC.done {\n          setverdict(pass)\n       }\n     [] any port.receive {\n          repeat\n       }\n  }\n  var MyComp v_c := MyComp.create alive;\n  v_c.start(f_myPTCBehaviour());\n  :\n  v_c.done;\n     // matches as soon as the function f_myPTCBehaviour (or function/altstep called by it) stops\n  v_c.done;\n     // matches again, even if the component has not been started again\n  if(v_c.running) {v_c.done}\n     // in case that some other component has started v_c in the meantime\n     // done here matches the end of the next behaviour only, not the previous one\n  // the following done as stand-alone statement:\n  @nodefault all component.done;\n  // has the following meaning:\n  alt @nodefault {\n     [] all component.done {}\n  }\n  // and thus, blocks the execution until all parallel test components have terminated while \n  // ignoring all activated default alternatives\n  // Retrieving and using the final local verdict of a completed PTC\n  var MyComp v_myPTC := MyPTC.create alive;\n  var verdicttype v_myPTCverdict := none;\n  v_myPTC.start(f_myPTCBehaviour());\n  :\n  alt {\n     [] v_myPTC.done -> value v_myPTCverdict {\n          if (v_myPTCverdict == fail) {\n            setverdict(fail);\n            stop;\n          }\n          else {\n            setverdict (pass);\n          }\n       }\n     [] any port.receive {\n          repeat\n       }\n  }"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.03.07_test_006.ttcn3",
+   "module": "M_21_03_07_test_006",
+   "header": "// @requirement: 21.3.7 -- This means it shall not be used in a boolean expression, but it can be used to determine an alternative in an alt statement or as stand-alone statement in a behaviour description."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.7-005c",
+   "section": "21.3.7",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "This means it shall not be used in a boolean expression, but it can be used to determine an alternative in an alt statement or as stand-alone statement in a behaviour description.",
+   "canonical": "The `done` operation MAY be used as a stand-alone statement in a behaviour description.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16863,
+    16867
+   ],
+   "examples": [
+    {
+     "lines": [
+      16939,
+      16986
+     ],
+     "text": "// Use of done in alternatives\n  alt {\n     [] myPTC.done {\n          setverdict(pass)\n       }\n     [] any port.receive {\n          repeat\n       }\n  }\n  var MyComp v_c := MyComp.create alive;\n  v_c.start(f_myPTCBehaviour());\n  :\n  v_c.done;\n     // matches as soon as the function f_myPTCBehaviour (or function/altstep called by it) stops\n  v_c.done;\n     // matches again, even if the component has not been started again\n  if(v_c.running) {v_c.done}\n     // in case that some other component has started v_c in the meantime\n     // done here matches the end of the next behaviour only, not the previous one\n  // the following done as stand-alone statement:\n  @nodefault all component.done;\n  // has the following meaning:\n  alt @nodefault {\n     [] all component.done {}\n  }\n  // and thus, blocks the execution until all parallel test components have terminated while \n  // ignoring all activated default alternatives\n  // Retrieving and using the final local verdict of a completed PTC\n  var MyComp v_myPTC := MyPTC.create alive;\n  var verdicttype v_myPTCverdict := none;\n  v_myPTC.start(f_myPTCBehaviour());\n  :\n  alt {\n     [] v_myPTC.done -> value v_myPTCverdict {\n          if (v_myPTCverdict == fail) {\n            setverdict(fail);\n            stop;\n          }\n          else {\n            setverdict (pass);\n          }\n       }\n     [] any port.receive {\n          repeat\n       }\n  }"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.03.07_test_007.ttcn3",
+   "module": "M_21_03_07_test_007",
+   "header": "// @requirement: 21.3.7 -- This means it shall not be used in a boolean expression, but it can be used to determine an alternative in an alt statement or as stand-alone statement in a behaviour description."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.7-006a",
+   "section": "21.3.7",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "In the latter case a done operation is considered to be a shorthand for an alt statement with the done operation as the only alternative.",
+   "canonical": "A stand-alone `done` operation IS a shorthand for an `alt` statement with the `done` operation as the only alternative.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16863,
+    16867
+   ],
+   "examples": [
+    {
+     "lines": [
+      16939,
+      16986
+     ],
+     "text": "// Use of done in alternatives\n  alt {\n     [] myPTC.done {\n          setverdict(pass)\n       }\n     [] any port.receive {\n          repeat\n       }\n  }\n  var MyComp v_c := MyComp.create alive;\n  v_c.start(f_myPTCBehaviour());\n  :\n  v_c.done;\n     // matches as soon as the function f_myPTCBehaviour (or function/altstep called by it) stops\n  v_c.done;\n     // matches again, even if the component has not been started again\n  if(v_c.running) {v_c.done}\n     // in case that some other component has started v_c in the meantime\n     // done here matches the end of the next behaviour only, not the previous one\n  // the following done as stand-alone statement:\n  @nodefault all component.done;\n  // has the following meaning:\n  alt @nodefault {\n     [] all component.done {}\n  }\n  // and thus, blocks the execution until all parallel test components have terminated while \n  // ignoring all activated default alternatives\n  // Retrieving and using the final local verdict of a completed PTC\n  var MyComp v_myPTC := MyPTC.create alive;\n  var verdicttype v_myPTCverdict := none;\n  v_myPTC.start(f_myPTCBehaviour());\n  :\n  alt {\n     [] v_myPTC.done -> value v_myPTCverdict {\n          if (v_myPTCverdict == fail) {\n            setverdict(fail);\n            stop;\n          }\n          else {\n            setverdict (pass);\n          }\n       }\n     [] any port.receive {\n          repeat\n       }\n  }"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.03.07_test_008.ttcn3",
+   "module": "M_21_03_07_test_008",
+   "header": "// @requirement: 21.3.7 -- In the latter case a done operation is considered to be a shorthand for an alt statement with the done operation as the only alternative."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.7-007a",
+   "section": "21.3.7",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "If the @nodefault modifier is placed before a stand-alone done operation, the implicit alt statement also contains the @nodefault modifier.",
+   "canonical": "If the `@nodefault` modifier is placed before a stand-alone `done` operation, the implicit `alt` statement IS also qualified with the `@nodefault` modifier.",
+   "condition": "`@nodefault` precedes a stand-alone `done` operation",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16863,
+    16867
+   ],
+   "examples": [
+    {
+     "lines": [
+      16939,
+      16986
+     ],
+     "text": "// Use of done in alternatives\n  alt {\n     [] myPTC.done {\n          setverdict(pass)\n       }\n     [] any port.receive {\n          repeat\n       }\n  }\n  var MyComp v_c := MyComp.create alive;\n  v_c.start(f_myPTCBehaviour());\n  :\n  v_c.done;\n     // matches as soon as the function f_myPTCBehaviour (or function/altstep called by it) stops\n  v_c.done;\n     // matches again, even if the component has not been started again\n  if(v_c.running) {v_c.done}\n     // in case that some other component has started v_c in the meantime\n     // done here matches the end of the next behaviour only, not the previous one\n  // the following done as stand-alone statement:\n  @nodefault all component.done;\n  // has the following meaning:\n  alt @nodefault {\n     [] all component.done {}\n  }\n  // and thus, blocks the execution until all parallel test components have terminated while \n  // ignoring all activated default alternatives\n  // Retrieving and using the final local verdict of a completed PTC\n  var MyComp v_myPTC := MyPTC.create alive;\n  var verdicttype v_myPTCverdict := none;\n  v_myPTC.start(f_myPTCBehaviour());\n  :\n  alt {\n     [] v_myPTC.done -> value v_myPTCverdict {\n          if (v_myPTCverdict == fail) {\n            setverdict(fail);\n            stop;\n          }\n          else {\n            setverdict (pass);\n          }\n       }\n     [] any port.receive {\n          repeat\n       }\n  }"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.03.07_test_009.ttcn3",
+   "module": "M_21_03_07_test_009",
+   "header": "// @requirement: 21.3.7 -- If the @nodefault modifier is placed before a stand-alone done operation, the implicit alt statement also contains the @nodefault modifier."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.7-008a",
+   "section": "21.3.7",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "When the done operation is applied to a PTC, it matches only if the behaviour of that PTC has been stopped (implicitly or explicitly) or the PTC has been killed.",
+   "canonical": "A `done` operation applied to a PTC matches only if the behaviour of that PTC has been stopped (implicitly or explicitly) or the PTC has been killed.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16869,
+    16870
+   ],
+   "examples": [
+    {
+     "lines": [
+      16939,
+      16986
+     ],
+     "text": "// Use of done in alternatives\n  alt {\n     [] myPTC.done {\n          setverdict(pass)\n       }\n     [] any port.receive {\n          repeat\n       }\n  }\n  var MyComp v_c := MyComp.create alive;\n  v_c.start(f_myPTCBehaviour());\n  :\n  v_c.done;\n     // matches as soon as the function f_myPTCBehaviour (or function/altstep called by it) stops\n  v_c.done;\n     // matches again, even if the component has not been started again\n  if(v_c.running) {v_c.done}\n     // in case that some other component has started v_c in the meantime\n     // done here matches the end of the next behaviour only, not the previous one\n  // the following done as stand-alone statement:\n  @nodefault all component.done;\n  // has the following meaning:\n  alt @nodefault {\n     [] all component.done {}\n  }\n  // and thus, blocks the execution until all parallel test components have terminated while \n  // ignoring all activated default alternatives\n  // Retrieving and using the final local verdict of a completed PTC\n  var MyComp v_myPTC := MyPTC.create alive;\n  var verdicttype v_myPTCverdict := none;\n  v_myPTC.start(f_myPTCBehaviour());\n  :\n  alt {\n     [] v_myPTC.done -> value v_myPTCverdict {\n          if (v_myPTCverdict == fail) {\n            setverdict(fail);\n            stop;\n          }\n          else {\n            setverdict (pass);\n          }\n       }\n     [] any port.receive {\n          repeat\n       }\n  }"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.03.07_test_010.ttcn3",
+   "module": "M_21_03_07_test_010",
+   "header": "// @requirement: 21.3.7 -- When the done operation is applied to a PTC, it matches only if the behaviour of that PTC has been stopped (implicitly or explicitly) or the PTC has been killed."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.7-009a",
+   "section": "21.3.7",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Otherwise, the match is unsuccessful.",
+   "canonical": "A `done` operation applied to a PTC whose behaviour has not been stopped and which has not been killed IS unsuccessful.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16869,
+    16870
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.07_test_011.ttcn3",
+   "module": "M_21_03_07_test_011",
+   "header": "// @requirement: 21.3.7 -- Otherwise, the match is unsuccessful."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.7-010a",
+   "section": "21.3.7",
+   "type": "information",
+   "modality": "IS NOT",
+   "original": "NOTE 1: The execution of a done operation does not change the state of the test component.",
+   "canonical": "The execution of a `done` operation does not change the state of the test component.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16872,
+    16874
+   ],
+   "examples": [
+    {
+     "lines": [
+      16939,
+      16986
+     ],
+     "text": "// Use of done in alternatives\n  alt {\n     [] myPTC.done {\n          setverdict(pass)\n       }\n     [] any port.receive {\n          repeat\n       }\n  }\n  var MyComp v_c := MyComp.create alive;\n  v_c.start(f_myPTCBehaviour());\n  :\n  v_c.done;\n     // matches as soon as the function f_myPTCBehaviour (or function/altstep called by it) stops\n  v_c.done;\n     // matches again, even if the component has not been started again\n  if(v_c.running) {v_c.done}\n     // in case that some other component has started v_c in the meantime\n     // done here matches the end of the next behaviour only, not the previous one\n  // the following done as stand-alone statement:\n  @nodefault all component.done;\n  // has the following meaning:\n  alt @nodefault {\n     [] all component.done {}\n  }\n  // and thus, blocks the execution until all parallel test components have terminated while \n  // ignoring all activated default alternatives\n  // Retrieving and using the final local verdict of a completed PTC\n  var MyComp v_myPTC := MyPTC.create alive;\n  var verdicttype v_myPTCverdict := none;\n  v_myPTC.start(f_myPTCBehaviour());\n  :\n  alt {\n     [] v_myPTC.done -> value v_myPTCverdict {\n          if (v_myPTCverdict == fail) {\n            setverdict(fail);\n            stop;\n          }\n          else {\n            setverdict (pass);\n          }\n       }\n     [] any port.receive {\n          repeat\n       }\n  }"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.03.07_test_012.ttcn3",
+   "module": "M_21_03_07_test_012",
+   "header": "// @requirement: 21.3.7 -- NOTE 1: The execution of a done operation does not change the state of the test component."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.7-011a",
+   "section": "21.3.7",
+   "type": "information",
+   "modality": "IS",
+   "original": "Consecutive done operations applied to the same test component will give the same result as long as the test component does not change its state (see clause F.1.2).",
+   "canonical": "Consecutive `done` operations applied to the same test component give the same result as long as the test component does not change its state.",
+   "condition": null,
+   "cross_refs": [
+    "F.1.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16872,
+    16874
+   ],
+   "examples": [
+    {
+     "lines": [
+      16939,
+      16986
+     ],
+     "text": "// Use of done in alternatives\n  alt {\n     [] myPTC.done {\n          setverdict(pass)\n       }\n     [] any port.receive {\n          repeat\n       }\n  }\n  var MyComp v_c := MyComp.create alive;\n  v_c.start(f_myPTCBehaviour());\n  :\n  v_c.done;\n     // matches as soon as the function f_myPTCBehaviour (or function/altstep called by it) stops\n  v_c.done;\n     // matches again, even if the component has not been started again\n  if(v_c.running) {v_c.done}\n     // in case that some other component has started v_c in the meantime\n     // done here matches the end of the next behaviour only, not the previous one\n  // the following done as stand-alone statement:\n  @nodefault all component.done;\n  // has the following meaning:\n  alt @nodefault {\n     [] all component.done {}\n  }\n  // and thus, blocks the execution until all parallel test components have terminated while \n  // ignoring all activated default alternatives\n  // Retrieving and using the final local verdict of a completed PTC\n  var MyComp v_myPTC := MyPTC.create alive;\n  var verdicttype v_myPTCverdict := none;\n  v_myPTC.start(f_myPTCBehaviour());\n  :\n  alt {\n     [] v_myPTC.done -> value v_myPTCverdict {\n          if (v_myPTCverdict == fail) {\n            setverdict(fail);\n            stop;\n          }\n          else {\n            setverdict (pass);\n          }\n       }\n     [] any port.receive {\n          repeat\n       }\n  }"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.03.07_test_013.ttcn3",
+   "module": "M_21_03_07_test_013",
+   "header": "// @requirement: 21.3.7 -- Consecutive done operations applied to the same test component will give the same result as long as the test component does not change its state (see clause F.1.2)."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.7-012a",
+   "section": "21.3.7",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "When the done operation is applied to a PTC and matches, the final local verdict of the PTC can be retrieved and stored in a variable of the type verdicttype.",
+   "canonical": "When a `done` operation applied to a PTC matches, the final local verdict of the PTC MAY be retrieved and stored in a variable of type `verdicttype`.",
+   "condition": "the `done` operation is applied to a PTC and matches",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16876,
+    16878
+   ],
+   "examples": [
+    {
+     "lines": [
+      16939,
+      16986
+     ],
+     "text": "// Use of done in alternatives\n  alt {\n     [] myPTC.done {\n          setverdict(pass)\n       }\n     [] any port.receive {\n          repeat\n       }\n  }\n  var MyComp v_c := MyComp.create alive;\n  v_c.start(f_myPTCBehaviour());\n  :\n  v_c.done;\n     // matches as soon as the function f_myPTCBehaviour (or function/altstep called by it) stops\n  v_c.done;\n     // matches again, even if the component has not been started again\n  if(v_c.running) {v_c.done}\n     // in case that some other component has started v_c in the meantime\n     // done here matches the end of the next behaviour only, not the previous one\n  // the following done as stand-alone statement:\n  @nodefault all component.done;\n  // has the following meaning:\n  alt @nodefault {\n     [] all component.done {}\n  }\n  // and thus, blocks the execution until all parallel test components have terminated while \n  // ignoring all activated default alternatives\n  // Retrieving and using the final local verdict of a completed PTC\n  var MyComp v_myPTC := MyPTC.create alive;\n  var verdicttype v_myPTCverdict := none;\n  v_myPTC.start(f_myPTCBehaviour());\n  :\n  alt {\n     [] v_myPTC.done -> value v_myPTCverdict {\n          if (v_myPTCverdict == fail) {\n            setverdict(fail);\n            stop;\n          }\n          else {\n            setverdict (pass);\n          }\n       }\n     [] any port.receive {\n          repeat\n       }\n  }"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.03.07_test_014.ttcn3",
+   "module": "M_21_03_07_test_014",
+   "header": "// @requirement: 21.3.7 -- When the done operation is applied to a PTC and matches, the final local verdict of the PTC can be retrieved and stored in a variable of the type verdicttype."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.7-013a",
+   "section": "21.3.7",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "This is denoted by the symbol '->' the keyword value followed by the name of the variable into which the verdict is stored.",
+   "canonical": "Storing the final local verdict IS denoted by the symbol \"->\" followed by the keyword `value` and the name of the variable into which the verdict is stored.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16876,
+    16878
+   ],
+   "examples": [
+    {
+     "lines": [
+      16939,
+      16986
+     ],
+     "text": "// Use of done in alternatives\n  alt {\n     [] myPTC.done {\n          setverdict(pass)\n       }\n     [] any port.receive {\n          repeat\n       }\n  }\n  var MyComp v_c := MyComp.create alive;\n  v_c.start(f_myPTCBehaviour());\n  :\n  v_c.done;\n     // matches as soon as the function f_myPTCBehaviour (or function/altstep called by it) stops\n  v_c.done;\n     // matches again, even if the component has not been started again\n  if(v_c.running) {v_c.done}\n     // in case that some other component has started v_c in the meantime\n     // done here matches the end of the next behaviour only, not the previous one\n  // the following done as stand-alone statement:\n  @nodefault all component.done;\n  // has the following meaning:\n  alt @nodefault {\n     [] all component.done {}\n  }\n  // and thus, blocks the execution until all parallel test components have terminated while \n  // ignoring all activated default alternatives\n  // Retrieving and using the final local verdict of a completed PTC\n  var MyComp v_myPTC := MyPTC.create alive;\n  var verdicttype v_myPTCverdict := none;\n  v_myPTC.start(f_myPTCBehaviour());\n  :\n  alt {\n     [] v_myPTC.done -> value v_myPTCverdict {\n          if (v_myPTCverdict == fail) {\n            setverdict(fail);\n            stop;\n          }\n          else {\n            setverdict (pass);\n          }\n       }\n     [] any port.receive {\n          repeat\n       }\n  }"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.03.07_test_015.ttcn3",
+   "module": "M_21_03_07_test_015",
+   "header": "// @requirement: 21.3.7 -- This is denoted by the symbol '->' the keyword value followed by the name of the variable into which the verdict is stored."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.7-014a",
+   "section": "21.3.7",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "When the all keyword is used with the done operation, it matches if no one PTC is executing its behaviour.",
+   "canonical": "`all component.done` matches if no PTC is executing its behaviour.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16880,
+    16881
+   ],
+   "examples": [
+    {
+     "lines": [
+      16939,
+      16986
+     ],
+     "text": "// Use of done in alternatives\n  alt {\n     [] myPTC.done {\n          setverdict(pass)\n       }\n     [] any port.receive {\n          repeat\n       }\n  }\n  var MyComp v_c := MyComp.create alive;\n  v_c.start(f_myPTCBehaviour());\n  :\n  v_c.done;\n     // matches as soon as the function f_myPTCBehaviour (or function/altstep called by it) stops\n  v_c.done;\n     // matches again, even if the component has not been started again\n  if(v_c.running) {v_c.done}\n     // in case that some other component has started v_c in the meantime\n     // done here matches the end of the next behaviour only, not the previous one\n  // the following done as stand-alone statement:\n  @nodefault all component.done;\n  // has the following meaning:\n  alt @nodefault {\n     [] all component.done {}\n  }\n  // and thus, blocks the execution until all parallel test components have terminated while \n  // ignoring all activated default alternatives\n  // Retrieving and using the final local verdict of a completed PTC\n  var MyComp v_myPTC := MyPTC.create alive;\n  var verdicttype v_myPTCverdict := none;\n  v_myPTC.start(f_myPTCBehaviour());\n  :\n  alt {\n     [] v_myPTC.done -> value v_myPTCverdict {\n          if (v_myPTCverdict == fail) {\n            setverdict(fail);\n            stop;\n          }\n          else {\n            setverdict (pass);\n          }\n       }\n     [] any port.receive {\n          repeat\n       }\n  }"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.03.07_test_016.ttcn3",
+   "module": "M_21_03_07_test_016",
+   "header": "// @requirement: 21.3.7 -- When the all keyword is used with the done operation, it matches if no one PTC is executing its behaviour."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.7-015a",
+   "section": "21.3.7",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "It also matches if no PTC has been created.",
+   "canonical": "`all component.done` matches if no PTC has been created.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16880,
+    16881
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.07_test_017.ttcn3",
+   "module": "M_21_03_07_test_017",
+   "header": "// @requirement: 21.3.7 -- It also matches if no PTC has been created."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.7-016a",
+   "section": "21.3.7",
+   "type": "information",
+   "modality": "IS",
+   "original": "NOTE 2: The difference between the done operation applied to a single ptc and the usage of the all keyword leads to the situation that ptc.done does not match if the ptc has never been started but all component.done matches at the same time as it considers only those components that ever have been started.",
+   "canonical": "`ptc.done` does not match for a PTC that has never been started, while `all component.done` can match at the same time because it considers only PTCs that have been started.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16883,
+    16885
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.07_test_018.ttcn3",
+   "module": "M_21_03_07_test_018",
+   "header": "// @requirement: 21.3.7 -- NOTE 2: The difference between the done operation applied to a single ptc and the usage of the all keyword leads to the situation that ptc.done does not match if the ptc has never been started but all component.done matches at the same time as it considers only those components that ever have been started."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.7-017a",
+   "section": "21.3.7",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "When the any keyword is used with the done operation, it matches if at least the behaviour of one PTC has been stopped or killed.",
+   "canonical": "`any component.done` matches if the behaviour of at least one PTC has been stopped or the PTC has been killed.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16887,
+    16888
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.07_test_019.ttcn3",
+   "module": "M_21_03_07_test_019",
+   "header": "// @requirement: 21.3.7 -- When the any keyword is used with the done operation, it matches if at least the behaviour of one PTC has been stopped or killed."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.7-018a",
+   "section": "21.3.7",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Otherwise, the match is unsuccessful.",
+   "canonical": "`any component.done` IS unsuccessful if no PTC behaviour has been stopped and no PTC has been killed.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16887,
+    16888
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.07_test_020.ttcn3",
+   "module": "M_21_03_07_test_020",
+   "header": "// @requirement: 21.3.7 -- Otherwise, the match is unsuccessful."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.7-019a",
+   "section": "21.3.7",
+   "type": "information",
+   "modality": "IS",
+   "original": "NOTE 3: Stopping the behaviour of a non-alive component also results in removing that component from the test system, while stopping an alive-type component leaves the component alive in the test system.",
+   "canonical": "Stopping the behaviour of a non-alive test component removes that component from the test system.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16890,
+    16892
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.07_test_021.ttcn3",
+   "module": "M_21_03_07_test_021",
+   "header": "// @requirement: 21.3.7 -- NOTE 3: Stopping the behaviour of a non-alive component also results in removing that component from the test system, while stopping an alive-type component leaves the component alive in the test system."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.7-019b",
+   "section": "21.3.7",
+   "type": "information",
+   "modality": "IS",
+   "original": "NOTE 3: Stopping the behaviour of a non-alive component also results in removing that component from the test system, while stopping an alive-type component leaves the component alive in the test system.",
+   "canonical": "Stopping the behaviour of an alive-type test component leaves the component alive in the test system.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16890,
+    16892
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.07_test_022.ttcn3",
+   "module": "M_21_03_07_test_022",
+   "header": "// @requirement: 21.3.7 -- NOTE 3: Stopping the behaviour of a non-alive component also results in removing that component from the test system, while stopping an alive-type component leaves the component alive in the test system."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.7-020a",
+   "section": "21.3.7",
+   "type": "information",
+   "modality": "IS",
+   "original": "In both cases the done operation matches.",
+   "canonical": "The `done` operation matches both for a stopped non-alive test component and for a stopped alive-type test component.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16890,
+    16892
+   ],
+   "examples": [
+    {
+     "lines": [
+      16939,
+      16986
+     ],
+     "text": "// Use of done in alternatives\n  alt {\n     [] myPTC.done {\n          setverdict(pass)\n       }\n     [] any port.receive {\n          repeat\n       }\n  }\n  var MyComp v_c := MyComp.create alive;\n  v_c.start(f_myPTCBehaviour());\n  :\n  v_c.done;\n     // matches as soon as the function f_myPTCBehaviour (or function/altstep called by it) stops\n  v_c.done;\n     // matches again, even if the component has not been started again\n  if(v_c.running) {v_c.done}\n     // in case that some other component has started v_c in the meantime\n     // done here matches the end of the next behaviour only, not the previous one\n  // the following done as stand-alone statement:\n  @nodefault all component.done;\n  // has the following meaning:\n  alt @nodefault {\n     [] all component.done {}\n  }\n  // and thus, blocks the execution until all parallel test components have terminated while \n  // ignoring all activated default alternatives\n  // Retrieving and using the final local verdict of a completed PTC\n  var MyComp v_myPTC := MyPTC.create alive;\n  var verdicttype v_myPTCverdict := none;\n  v_myPTC.start(f_myPTCBehaviour());\n  :\n  alt {\n     [] v_myPTC.done -> value v_myPTCverdict {\n          if (v_myPTCverdict == fail) {\n            setverdict(fail);\n            stop;\n          }\n          else {\n            setverdict (pass);\n          }\n       }\n     [] any port.receive {\n          repeat\n       }\n  }"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.03.07_test_023.ttcn3",
+   "module": "M_21_03_07_test_023",
+   "header": "// @requirement: 21.3.7 -- In both cases the done operation matches."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.7-021a",
+   "section": "21.3.7",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "When the any from component array notation is used, the components from the referenced array are iterated over and individually checked for being stopped or killed from innermost to outermost dimension from lowest to highest index for each dimension.",
+   "canonical": "When the `any from` component array notation is used with the `done` operation, each component of the referenced array IS checked individually for being stopped or killed, iterating from innermost to outermost dimension and from lowest to highest index within each dimension.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16894,
+    16898
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.07_test_024.ttcn3",
+   "module": "M_21_03_07_test_024",
+   "header": "// @requirement: 21.3.7 -- When the any from component array notation is used, the components from the referenced array are iterated over and individually checked for being stopped or killed from innermost to outermost dimension from lowest to highest index for each dimension."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.7-022a",
+   "section": "21.3.7",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The first component to be found stopped or killed causes done operation to succeed.",
+   "canonical": "With the `any from` component array notation, the first component found being stopped or killed causes the `done` operation to succeed.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16894,
+    16898
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.07_test_025.ttcn3",
+   "module": "M_21_03_07_test_025",
+   "header": "// @requirement: 21.3.7 -- The first component to be found stopped or killed causes done operation to succeed."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.7-023a",
+   "section": "21.3.7",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "The index of the matched component can optionally be assigned to an integer variable for single-dimensional arrays or to an integer array or record of integer variable for multi-dimensional component arrays.",
+   "canonical": "The index of the component matched by the `done` operation with `any from` MAY be assigned to an integer variable for a single-dimensional component array, or to an integer array or record of integer variable for a multi-dimensional component array.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16894,
+    16898
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.07_test_026.ttcn3",
+   "module": "M_21_03_07_test_026",
+   "header": "// @requirement: 21.3.7 -- The index of the matched component can optionally be assigned to an integer variable for single-dimensional arrays or to an integer array or record of integer variable for multi-dimensional component arrays."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.7-025a",
+   "section": "21.3.7",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "a) The done operation can be used for PTCs only.",
+   "canonical": "The `done` operation SHALL be applied to PTCs only.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "\"can be used for PTCs only\" is phrased as a capability but is meant as a restriction.",
+    "improper_terms": [
+     {
+      "used": "can be used",
+      "proper": "shall only be used",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    16905,
+    16905
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.07_test_027.ttcn3",
+   "module": "M_21_03_07_test_027",
+   "header": "// @requirement: 21.3.7 -- a) The done operation can be used for PTCs only."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.7-026a",
+   "section": "21.3.7",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "b) The ObjectReference followed by the done keyword, i.e. used for identifying a specific PTC, shall be of a component type and shall not resolve to a template.",
+   "canonical": "The ObjectReference of the `done` operation SHALL be of a component type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16907,
+    16908
+   ],
+   "examples": [
+    {
+     "lines": [
+      16939,
+      16986
+     ],
+     "text": "// Use of done in alternatives\n  alt {\n     [] myPTC.done {\n          setverdict(pass)\n       }\n     [] any port.receive {\n          repeat\n       }\n  }\n  var MyComp v_c := MyComp.create alive;\n  v_c.start(f_myPTCBehaviour());\n  :\n  v_c.done;\n     // matches as soon as the function f_myPTCBehaviour (or function/altstep called by it) stops\n  v_c.done;\n     // matches again, even if the component has not been started again\n  if(v_c.running) {v_c.done}\n     // in case that some other component has started v_c in the meantime\n     // done here matches the end of the next behaviour only, not the previous one\n  // the following done as stand-alone statement:\n  @nodefault all component.done;\n  // has the following meaning:\n  alt @nodefault {\n     [] all component.done {}\n  }\n  // and thus, blocks the execution until all parallel test components have terminated while \n  // ignoring all activated default alternatives\n  // Retrieving and using the final local verdict of a completed PTC\n  var MyComp v_myPTC := MyPTC.create alive;\n  var verdicttype v_myPTCverdict := none;\n  v_myPTC.start(f_myPTCBehaviour());\n  :\n  alt {\n     [] v_myPTC.done -> value v_myPTCverdict {\n          if (v_myPTCverdict == fail) {\n            setverdict(fail);\n            stop;\n          }\n          else {\n            setverdict (pass);\n          }\n       }\n     [] any port.receive {\n          repeat\n       }\n  }"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.03.07_test_028.ttcn3",
+   "module": "M_21_03_07_test_028",
+   "header": "// @requirement: 21.3.7 -- b) The ObjectReference followed by the done keyword, i.e. used for identifying a specific PTC, shall be of a component type and shall not resolve to a template."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.7-026b",
+   "section": "21.3.7",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "b) The ObjectReference followed by the done keyword, i.e. used for identifying a specific PTC, shall be of a component type and shall not resolve to a template.",
+   "canonical": "The ObjectReference of the `done` operation SHALL NOT resolve to a template.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16907,
+    16908
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.07_test_029.ttcn3",
+   "module": "M_21_03_07_test_029",
+   "header": "// @requirement: 21.3.7 -- b) The ObjectReference followed by the done keyword, i.e. used for identifying a specific PTC, shall be of a component type and shall not resolve to a template."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.7-027a",
+   "section": "21.3.7",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "c) The ComponentArrayRef shall be a reference to a completely initialized component array.",
+   "canonical": "The ComponentArrayRef of the `done` operation SHALL be a reference to a completely initialized component array.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16910,
+    16910
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.07_test_030.ttcn3",
+   "module": "M_21_03_07_test_030",
+   "header": "// @requirement: 21.3.7 -- c) The ComponentArrayRef shall be a reference to a completely initialized component array."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.7-028a",
+   "section": "21.3.7",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "d) The variable used in the (optional) value clause for storing the final local verdict of a PTC shall be of the type verdicttype.",
+   "canonical": "The variable used in the value clause of the `done` operation for storing the final local verdict of a PTC SHALL be of type `verdicttype`.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16917,
+    16918
+   ],
+   "examples": [
+    {
+     "lines": [
+      16939,
+      16986
+     ],
+     "text": "// Use of done in alternatives\n  alt {\n     [] myPTC.done {\n          setverdict(pass)\n       }\n     [] any port.receive {\n          repeat\n       }\n  }\n  var MyComp v_c := MyComp.create alive;\n  v_c.start(f_myPTCBehaviour());\n  :\n  v_c.done;\n     // matches as soon as the function f_myPTCBehaviour (or function/altstep called by it) stops\n  v_c.done;\n     // matches again, even if the component has not been started again\n  if(v_c.running) {v_c.done}\n     // in case that some other component has started v_c in the meantime\n     // done here matches the end of the next behaviour only, not the previous one\n  // the following done as stand-alone statement:\n  @nodefault all component.done;\n  // has the following meaning:\n  alt @nodefault {\n     [] all component.done {}\n  }\n  // and thus, blocks the execution until all parallel test components have terminated while \n  // ignoring all activated default alternatives\n  // Retrieving and using the final local verdict of a completed PTC\n  var MyComp v_myPTC := MyPTC.create alive;\n  var verdicttype v_myPTCverdict := none;\n  v_myPTC.start(f_myPTCBehaviour());\n  :\n  alt {\n     [] v_myPTC.done -> value v_myPTCverdict {\n          if (v_myPTCverdict == fail) {\n            setverdict(fail);\n            stop;\n          }\n          else {\n            setverdict (pass);\n          }\n       }\n     [] any port.receive {\n          repeat\n       }\n  }"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.03.07_test_031.ttcn3",
+   "module": "M_21_03_07_test_031",
+   "header": "// @requirement: 21.3.7 -- d) The variable used in the (optional) value clause for storing the final local verdict of a PTC shall be of the type verdicttype."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.7-029a",
+   "section": "21.3.7",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "e) The (optional) value clause for storing the final local verdict of a PTC shall not be used in combination with all component or any component.",
+   "canonical": "The value clause of the `done` operation SHALL NOT be used in combination with `all component` or `any component`.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16920,
+    16920
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.07_test_032.ttcn3",
+   "module": "M_21_03_07_test_032",
+   "header": "// @requirement: 21.3.7 -- e) The (optional) value clause for storing the final local verdict of a PTC shall not be used in combination with all component or any component."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.7-030a",
+   "section": "21.3.7",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "f) The index redirection shall only be used when the operation is used on an any from component array construct.",
+   "canonical": "The index redirection of the `done` operation SHALL only be used when the operation is applied to an `any from` component array construct.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16922,
+    16923
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.07_test_033.ttcn3",
+   "module": "M_21_03_07_test_033",
+   "header": "// @requirement: 21.3.7 -- f) The index redirection shall only be used when the operation is used on an any from component array construct."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.7-031a",
+   "section": "21.3.7",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "g) If the index redirection is used for single-dimensional component arrays, the type of the integer variable shall allow storing the highest index of the respective array.",
+   "canonical": "The type of the integer variable used in the index redirection SHALL allow storing the highest index of the single-dimensional component array.",
+   "condition": "the index redirection is used for a single-dimensional component array",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16925,
+    16926
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.07_test_034.ttcn3",
+   "module": "M_21_03_07_test_034",
+   "header": "// @requirement: 21.3.7 -- g) If the index redirection is used for single-dimensional component arrays, the type of the integer variable shall allow storing the highest index of the respective array."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.7-032a",
+   "section": "21.3.7",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "h) If the index redirection is used for multi-dimensional component arrays, the size of the integer array or record of integer type shall exactly be the same as the dimension of the respective array, and its type shall allow storing the highest index (from all dimensions) of the array.",
+   "canonical": "The size of the integer array or record of integer type used in the index redirection SHALL be exactly the same as the number of dimensions of the multi-dimensional component array.",
+   "condition": "the index redirection is used for a multi-dimensional component array",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "\"size ... the same as the dimension\" could mean the number of dimensions or the size of a dimension.",
+    "readings": [
+     "The size of the integer array or record of integer SHALL equal the number of dimensions of the component array.",
+     "The size of the integer array or record of integer SHALL equal the size of a dimension of the component array."
+    ]
+   },
+   "spec_lines": [
+    16928,
+    16930
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.07_test_035.ttcn3",
+   "module": "M_21_03_07_test_035",
+   "header": "// @requirement: 21.3.7 -- h) If the index redirection is used for multi-dimensional component arrays, the size of the integer array or record of integer type shall exactly be the same as the dimension of the respective array, and its type shall allow storing the highest index (from all dimensions) of the array."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.7-032b",
+   "section": "21.3.7",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "h) If the index redirection is used for multi-dimensional component arrays, the size of the integer array or record of integer type shall exactly be the same as the dimension of the respective array, and its type shall allow storing the highest index (from all dimensions) of the array.",
+   "canonical": "The element type of the integer array or record of integer used in the index redirection SHALL allow storing the highest index of all dimensions of the multi-dimensional component array.",
+   "condition": "the index redirection is used for a multi-dimensional component array",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16928,
+    16930
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.07_test_036.ttcn3",
+   "module": "M_21_03_07_test_036",
+   "header": "// @requirement: 21.3.7 -- h) If the index redirection is used for multi-dimensional component arrays, the size of the integer array or record of integer type shall exactly be the same as the dimension of the respective array, and its type shall allow storing the highest index (from all dimensions) of the array."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.7-033a",
+   "section": "21.3.7",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "i) If a variable referenced in the @index clause is a lazy or fuzzy variable, the expression assigned to this variable is equal to the result produced by the done operation.",
+   "canonical": "If a variable referenced in the @index clause is a lazy or fuzzy variable, the expression assigned to that variable IS equal to the result produced by the `done` operation.",
+   "condition": "the variable referenced in the @index clause is a lazy or fuzzy variable",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16932,
+    16934
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.07_test_037.ttcn3",
+   "module": "M_21_03_07_test_037",
+   "header": "// @requirement: 21.3.7 -- i) If a variable referenced in the @index clause is a lazy or fuzzy variable, the expression assigned to this variable is equal to the result produced by the done operation."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.7-034a",
+   "section": "21.3.7",
+   "type": "semantics",
+   "modality": "IS NOT",
+   "original": "Later evaluation of the lazy or fuzzy variable does not lead to repeated invocation of the done operation.",
+   "canonical": "Later evaluation of a lazy or fuzzy variable referenced in the @index clause IS NOT a repeated invocation of the `done` operation.",
+   "condition": "the variable referenced in the @index clause is a lazy or fuzzy variable",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16932,
+    16934
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.07_test_038.ttcn3",
+   "module": "M_21_03_07_test_038",
+   "header": "// @requirement: 21.3.7 -- Later evaluation of the lazy or fuzzy variable does not lead to repeated invocation of the done operation."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.7-035a",
+   "section": "21.3.7",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "j) The @nodefault modifier is allowed only in stand-alone done statements.",
+   "canonical": "The `@nodefault` modifier SHALL only be used with a stand-alone `done` statement.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16936,
+    16936
+   ],
+   "examples": [
+    {
+     "lines": [
+      16939,
+      16986
+     ],
+     "text": "// Use of done in alternatives\n  alt {\n     [] myPTC.done {\n          setverdict(pass)\n       }\n     [] any port.receive {\n          repeat\n       }\n  }\n  var MyComp v_c := MyComp.create alive;\n  v_c.start(f_myPTCBehaviour());\n  :\n  v_c.done;\n     // matches as soon as the function f_myPTCBehaviour (or function/altstep called by it) stops\n  v_c.done;\n     // matches again, even if the component has not been started again\n  if(v_c.running) {v_c.done}\n     // in case that some other component has started v_c in the meantime\n     // done here matches the end of the next behaviour only, not the previous one\n  // the following done as stand-alone statement:\n  @nodefault all component.done;\n  // has the following meaning:\n  alt @nodefault {\n     [] all component.done {}\n  }\n  // and thus, blocks the execution until all parallel test components have terminated while \n  // ignoring all activated default alternatives\n  // Retrieving and using the final local verdict of a completed PTC\n  var MyComp v_myPTC := MyPTC.create alive;\n  var verdicttype v_myPTCverdict := none;\n  v_myPTC.start(f_myPTCBehaviour());\n  :\n  alt {\n     [] v_myPTC.done -> value v_myPTCverdict {\n          if (v_myPTCverdict == fail) {\n            setverdict(fail);\n            stop;\n          }\n          else {\n            setverdict (pass);\n          }\n       }\n     [] any port.receive {\n          repeat\n       }\n  }"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.03.07_test_039.ttcn3",
+   "module": "M_21_03_07_test_039",
+   "header": "// @requirement: 21.3.7 -- j) The @nodefault modifier is allowed only in stand-alone done statements."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.8-001a",
+   "section": "21.3.8",
+   "type": "semantics",
+   "modality": "CAN",
+   "original": "The killed operation allows to ascertain whether a different test component is alive or has been removed from the test system.",
+   "canonical": "The `killed` operation CAN be used to ascertain whether a different test component is alive or has been removed from the test system.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16990,
+    16992
+   ],
+   "examples": [
+    {
+     "lines": [
+      17074,
+      17117
+     ],
+     "text": "var MyPTCType v_ptc := MyPTCType.create alive; // create an alive-type test component\n  timer t_T:= 10.0; // create a timer\n  t_T.start;  // start the timer\n  v_ptc.start(f_myTestBehavior()); // start executing a function on the PTC\n  alt {\n  [] v_ptc.killed { // if the PTC was killed during execution …\n     t_T.stop; // … stop the timer and …\n     setverdict(inconc);  // … set the verdict to 'inconclusive'\n    }\n  [] v_ptc.done {  // if the PTC terminated regularly …\n     t_T.stop; // … stop the timer and …\n     v_ptc.start(f_anotherFunction()); // … start another function on the PTC\n    }\n  [] t_T.timeout { // if the timeout occurs before the PTC stopped\n     v_ptc.kill;  // … kill the PTC and …\n     setverdict(fail); // … set the verdict to 'fail'\n    }\n  }\n  // Retrieving and using the final local verdict of a killed PTC\n  var MyComp v_myPTC := MyPTC.create alive;\n  var verdicttype v_myPTCverdict := none;\n  v_myPTC.start(f_myPTCBehaviour());\n  :\n  alt {\n     [] v_myPTC.done {  // expected termination\n            setverdict (pass);\n          }\n       }\n     [] v_myPTC.killed -> value v_myPTCverdict {\n          if (v_MyPTCverdict == none) { // v_myPTC killed before verdict assignment\n            setverdict(fail);\n            stop;\n          }\n          else {\n            setverdict (inconc); // further analysis is needed\n            stop;\n          }\n       }\n     [] any port.receive {\n          repeat\n       }\n  }"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.03.08_test_001.ttcn3",
+   "module": "M_21_03_08_test_001",
+   "header": "// @requirement: 21.3.8 -- The killed operation allows to ascertain whether a different test component is alive or has been removed from the test system."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.8-002a",
+   "section": "21.3.8",
+   "type": "semantics",
+   "modality": "CAN",
+   "original": "In addition, the killed operation allows to retrieve the final local verdict of killed test components, i.e. the value of the local verdict at the time when the test component was killed.",
+   "canonical": "The `killed` operation CAN retrieve the final local verdict of a killed test component.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16990,
+    16992
+   ],
+   "examples": [
+    {
+     "lines": [
+      17074,
+      17117
+     ],
+     "text": "var MyPTCType v_ptc := MyPTCType.create alive; // create an alive-type test component\n  timer t_T:= 10.0; // create a timer\n  t_T.start;  // start the timer\n  v_ptc.start(f_myTestBehavior()); // start executing a function on the PTC\n  alt {\n  [] v_ptc.killed { // if the PTC was killed during execution …\n     t_T.stop; // … stop the timer and …\n     setverdict(inconc);  // … set the verdict to 'inconclusive'\n    }\n  [] v_ptc.done {  // if the PTC terminated regularly …\n     t_T.stop; // … stop the timer and …\n     v_ptc.start(f_anotherFunction()); // … start another function on the PTC\n    }\n  [] t_T.timeout { // if the timeout occurs before the PTC stopped\n     v_ptc.kill;  // … kill the PTC and …\n     setverdict(fail); // … set the verdict to 'fail'\n    }\n  }\n  // Retrieving and using the final local verdict of a killed PTC\n  var MyComp v_myPTC := MyPTC.create alive;\n  var verdicttype v_myPTCverdict := none;\n  v_myPTC.start(f_myPTCBehaviour());\n  :\n  alt {\n     [] v_myPTC.done {  // expected termination\n            setverdict (pass);\n          }\n       }\n     [] v_myPTC.killed -> value v_myPTCverdict {\n          if (v_MyPTCverdict == none) { // v_myPTC killed before verdict assignment\n            setverdict(fail);\n            stop;\n          }\n          else {\n            setverdict (inconc); // further analysis is needed\n            stop;\n          }\n       }\n     [] any port.receive {\n          repeat\n       }\n  }"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.03.08_test_002.ttcn3",
+   "module": "M_21_03_08_test_002",
+   "header": "// @requirement: 21.3.8 -- In addition, the killed operation allows to retrieve the final local verdict of killed test components, i.e. the value of the local verdict at the time when the test component was killed."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.8-003a",
+   "section": "21.3.8",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "[ @nodefault ] ( ObjectReference | any component | all component | any from ComponentArrayRef ) \".\" killed [ \"->\" [ value ValueRef] [ @index value ValueRef] ]",
+   "canonical": "The `killed` operation has the syntax [ `@nodefault` ] ( ObjectReference | `any component` | `all component` | `any from` ComponentArrayRef ) \".\" `killed` [ \"->\" [ `value` ValueRef ] [ `@index` `value` ValueRef ] ].",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    16995,
+    17001
+   ],
+   "examples": [
+    {
+     "lines": [
+      17074,
+      17117
+     ],
+     "text": "var MyPTCType v_ptc := MyPTCType.create alive; // create an alive-type test component\n  timer t_T:= 10.0; // create a timer\n  t_T.start;  // start the timer\n  v_ptc.start(f_myTestBehavior()); // start executing a function on the PTC\n  alt {\n  [] v_ptc.killed { // if the PTC was killed during execution …\n     t_T.stop; // … stop the timer and …\n     setverdict(inconc);  // … set the verdict to 'inconclusive'\n    }\n  [] v_ptc.done {  // if the PTC terminated regularly …\n     t_T.stop; // … stop the timer and …\n     v_ptc.start(f_anotherFunction()); // … start another function on the PTC\n    }\n  [] t_T.timeout { // if the timeout occurs before the PTC stopped\n     v_ptc.kill;  // … kill the PTC and …\n     setverdict(fail); // … set the verdict to 'fail'\n    }\n  }\n  // Retrieving and using the final local verdict of a killed PTC\n  var MyComp v_myPTC := MyPTC.create alive;\n  var verdicttype v_myPTCverdict := none;\n  v_myPTC.start(f_myPTCBehaviour());\n  :\n  alt {\n     [] v_myPTC.done {  // expected termination\n            setverdict (pass);\n          }\n       }\n     [] v_myPTC.killed -> value v_myPTCverdict {\n          if (v_MyPTCverdict == none) { // v_myPTC killed before verdict assignment\n            setverdict(fail);\n            stop;\n          }\n          else {\n            setverdict (inconc); // further analysis is needed\n            stop;\n          }\n       }\n     [] any port.receive {\n          repeat\n       }\n  }"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.03.08_test_003.ttcn3",
+   "module": "M_21_03_08_test_003",
+   "header": "// @requirement: 21.3.8 -- [ @nodefault ] ( ObjectReference | any component | all component | any from ComponentArrayRef ) \".\" killed [ \"->\" [ value ValueRef] [ @index value ValueRef] ]"
+  },
+  {
+   "id": "TTCN3-CORE-21.3.8-004a",
+   "section": "21.3.8",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "The killed operation shall be used in the same manner as receiving operations.",
+   "canonical": "The `killed` operation SHALL be used in the same manner as a receiving operation.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    17005,
+    17009
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.08_test_004.ttcn3",
+   "module": "M_21_03_08_test_004",
+   "header": "// @requirement: 21.3.8 -- The killed operation shall be used in the same manner as receiving operations."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.8-005a",
+   "section": "21.3.8",
+   "type": "prohibition",
+   "modality": "SHALL NOT",
+   "original": "This means it shall not be used in boolean expressions, but it can be used to determine an alternative in an alt statement or as a stand-alone statement in a behaviour description.",
+   "canonical": "The `killed` operation SHALL NOT be used in a boolean expression.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    17005,
+    17009
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.08_test_005.ttcn3",
+   "module": "M_21_03_08_test_005",
+   "header": "// @requirement: 21.3.8 -- This means it shall not be used in boolean expressions, but it can be used to determine an alternative in an alt statement or as a stand-alone statement in a behaviour description."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.8-005b",
+   "section": "21.3.8",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "This means it shall not be used in boolean expressions, but it can be used to determine an alternative in an alt statement or as a stand-alone statement in a behaviour description.",
+   "canonical": "The `killed` operation MAY be used to determine an alternative in an `alt` statement.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    17005,
+    17009
+   ],
+   "examples": [
+    {
+     "lines": [
+      17074,
+      17117
+     ],
+     "text": "var MyPTCType v_ptc := MyPTCType.create alive; // create an alive-type test component\n  timer t_T:= 10.0; // create a timer\n  t_T.start;  // start the timer\n  v_ptc.start(f_myTestBehavior()); // start executing a function on the PTC\n  alt {\n  [] v_ptc.killed { // if the PTC was killed during execution …\n     t_T.stop; // … stop the timer and …\n     setverdict(inconc);  // … set the verdict to 'inconclusive'\n    }\n  [] v_ptc.done {  // if the PTC terminated regularly …\n     t_T.stop; // … stop the timer and …\n     v_ptc.start(f_anotherFunction()); // … start another function on the PTC\n    }\n  [] t_T.timeout { // if the timeout occurs before the PTC stopped\n     v_ptc.kill;  // … kill the PTC and …\n     setverdict(fail); // … set the verdict to 'fail'\n    }\n  }\n  // Retrieving and using the final local verdict of a killed PTC\n  var MyComp v_myPTC := MyPTC.create alive;\n  var verdicttype v_myPTCverdict := none;\n  v_myPTC.start(f_myPTCBehaviour());\n  :\n  alt {\n     [] v_myPTC.done {  // expected termination\n            setverdict (pass);\n          }\n       }\n     [] v_myPTC.killed -> value v_myPTCverdict {\n          if (v_MyPTCverdict == none) { // v_myPTC killed before verdict assignment\n            setverdict(fail);\n            stop;\n          }\n          else {\n            setverdict (inconc); // further analysis is needed\n            stop;\n          }\n       }\n     [] any port.receive {\n          repeat\n       }\n  }"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.03.08_test_006.ttcn3",
+   "module": "M_21_03_08_test_006",
+   "header": "// @requirement: 21.3.8 -- This means it shall not be used in boolean expressions, but it can be used to determine an alternative in an alt statement or as a stand-alone statement in a behaviour description."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.8-005c",
+   "section": "21.3.8",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "This means it shall not be used in boolean expressions, but it can be used to determine an alternative in an alt statement or as a stand-alone statement in a behaviour description.",
+   "canonical": "The `killed` operation MAY be used as a stand-alone statement in a behaviour description.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    17005,
+    17009
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.08_test_007.ttcn3",
+   "module": "M_21_03_08_test_007",
+   "header": "// @requirement: 21.3.8 -- This means it shall not be used in boolean expressions, but it can be used to determine an alternative in an alt statement or as a stand-alone statement in a behaviour description."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.8-006a",
+   "section": "21.3.8",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "In the latter case a killed operation is considered to be a shorthand for an alt statement with the killed operation as the only alternative.",
+   "canonical": "A stand-alone `killed` operation IS a shorthand for an `alt` statement with the `killed` operation as the only alternative.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    17005,
+    17009
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.08_test_008.ttcn3",
+   "module": "M_21_03_08_test_008",
+   "header": "// @requirement: 21.3.8 -- In the latter case a killed operation is considered to be a shorthand for an alt statement with the killed operation as the only alternative."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.8-007a",
+   "section": "21.3.8",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "If the @nodefault modifier is placed before a stand-alone killed operation, the implicit alt statement also contains the @nodefault modifier.",
+   "canonical": "If the `@nodefault` modifier is placed before a stand-alone `killed` operation, the implicit `alt` statement IS also qualified with the `@nodefault` modifier.",
+   "condition": "`@nodefault` precedes a stand-alone `killed` operation",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    17005,
+    17009
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.08_test_009.ttcn3",
+   "module": "M_21_03_08_test_009",
+   "header": "// @requirement: 21.3.8 -- If the @nodefault modifier is placed before a stand-alone killed operation, the implicit alt statement also contains the @nodefault modifier."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.8-008a",
+   "section": "21.3.8",
+   "type": "information",
+   "modality": "IS",
+   "original": "NOTE 1: When checking normal test components a killed operation matches if it stopped (implicitly or explicitly) the execution of its behaviour or has been killed explicitly, i.e. the operation is equivalent to the done operation (see clause 21.3.7).",
+   "canonical": "A `killed` operation applied to a non-alive test component matches if the component stopped (implicitly or explicitly) the execution of its behaviour or has been killed explicitly, i.e. it is equivalent to the `done` operation.",
+   "condition": null,
+   "cross_refs": [
+    "21.3.7"
+   ],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "\"normal test components\" is used for non-alive test components; \"it\" refers to the checked component, not the operation.",
+    "improper_terms": [
+     {
+      "used": "normal test components",
+      "proper": "non-alive test components",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    17011,
+    17014
+   ],
+   "examples": [
+    {
+     "lines": [
+      17074,
+      17117
+     ],
+     "text": "var MyPTCType v_ptc := MyPTCType.create alive; // create an alive-type test component\n  timer t_T:= 10.0; // create a timer\n  t_T.start;  // start the timer\n  v_ptc.start(f_myTestBehavior()); // start executing a function on the PTC\n  alt {\n  [] v_ptc.killed { // if the PTC was killed during execution …\n     t_T.stop; // … stop the timer and …\n     setverdict(inconc);  // … set the verdict to 'inconclusive'\n    }\n  [] v_ptc.done {  // if the PTC terminated regularly …\n     t_T.stop; // … stop the timer and …\n     v_ptc.start(f_anotherFunction()); // … start another function on the PTC\n    }\n  [] t_T.timeout { // if the timeout occurs before the PTC stopped\n     v_ptc.kill;  // … kill the PTC and …\n     setverdict(fail); // … set the verdict to 'fail'\n    }\n  }\n  // Retrieving and using the final local verdict of a killed PTC\n  var MyComp v_myPTC := MyPTC.create alive;\n  var verdicttype v_myPTCverdict := none;\n  v_myPTC.start(f_myPTCBehaviour());\n  :\n  alt {\n     [] v_myPTC.done {  // expected termination\n            setverdict (pass);\n          }\n       }\n     [] v_myPTC.killed -> value v_myPTCverdict {\n          if (v_MyPTCverdict == none) { // v_myPTC killed before verdict assignment\n            setverdict(fail);\n            stop;\n          }\n          else {\n            setverdict (inconc); // further analysis is needed\n            stop;\n          }\n       }\n     [] any port.receive {\n          repeat\n       }\n  }"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.03.08_test_010.ttcn3",
+   "module": "M_21_03_08_test_010",
+   "header": "// @requirement: 21.3.8 -- NOTE 1: When checking normal test components a killed operation matches if it stopped (implicitly or explicitly) the execution of its behaviour or has been killed explicitly, i.e. the operation is equivalent to the done operation (see clause 21.3.7)."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.8-009a",
+   "section": "21.3.8",
+   "type": "information",
+   "modality": "IS",
+   "original": "When checking alive-type test components, however, the killed operation matches only if the component has been killed using the kill operation.",
+   "canonical": "A `killed` operation applied to an alive-type test component matches only if the component has been killed using the `kill` operation.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    17011,
+    17014
+   ],
+   "examples": [
+    {
+     "lines": [
+      17074,
+      17117
+     ],
+     "text": "var MyPTCType v_ptc := MyPTCType.create alive; // create an alive-type test component\n  timer t_T:= 10.0; // create a timer\n  t_T.start;  // start the timer\n  v_ptc.start(f_myTestBehavior()); // start executing a function on the PTC\n  alt {\n  [] v_ptc.killed { // if the PTC was killed during execution …\n     t_T.stop; // … stop the timer and …\n     setverdict(inconc);  // … set the verdict to 'inconclusive'\n    }\n  [] v_ptc.done {  // if the PTC terminated regularly …\n     t_T.stop; // … stop the timer and …\n     v_ptc.start(f_anotherFunction()); // … start another function on the PTC\n    }\n  [] t_T.timeout { // if the timeout occurs before the PTC stopped\n     v_ptc.kill;  // … kill the PTC and …\n     setverdict(fail); // … set the verdict to 'fail'\n    }\n  }\n  // Retrieving and using the final local verdict of a killed PTC\n  var MyComp v_myPTC := MyPTC.create alive;\n  var verdicttype v_myPTCverdict := none;\n  v_myPTC.start(f_myPTCBehaviour());\n  :\n  alt {\n     [] v_myPTC.done {  // expected termination\n            setverdict (pass);\n          }\n       }\n     [] v_myPTC.killed -> value v_myPTCverdict {\n          if (v_MyPTCverdict == none) { // v_myPTC killed before verdict assignment\n            setverdict(fail);\n            stop;\n          }\n          else {\n            setverdict (inconc); // further analysis is needed\n            stop;\n          }\n       }\n     [] any port.receive {\n          repeat\n       }\n  }"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.03.08_test_011.ttcn3",
+   "module": "M_21_03_08_test_011",
+   "header": "// @requirement: 21.3.8 -- When checking alive-type test components, however, the killed operation matches only if the component has been killed using the kill operation."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.8-010a",
+   "section": "21.3.8",
+   "type": "information",
+   "modality": "IS",
+   "original": "Otherwise the killed operation is unsuccessful.",
+   "canonical": "A `killed` operation applied to an alive-type test component that has not been killed IS unsuccessful.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    17011,
+    17014
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.08_test_012.ttcn3",
+   "module": "M_21_03_08_test_012",
+   "header": "// @requirement: 21.3.8 -- Otherwise the killed operation is unsuccessful."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.8-011a",
+   "section": "21.3.8",
+   "type": "information",
+   "modality": "IS NOT",
+   "original": "NOTE 2: The execution of a killed operation does not change the state of the test component.",
+   "canonical": "The execution of a `killed` operation does not change the state of the test component.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    17016,
+    17017
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.08_test_013.ttcn3",
+   "module": "M_21_03_08_test_013",
+   "header": "// @requirement: 21.3.8 -- NOTE 2: The execution of a killed operation does not change the state of the test component."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.8-012a",
+   "section": "21.3.8",
+   "type": "information",
+   "modality": "IS",
+   "original": "Consecutive killed operations applied to the same test component will give the same result as long as the test component does not change its state (see clause F.1.2).",
+   "canonical": "Consecutive `killed` operations applied to the same test component give the same result as long as the test component does not change its state.",
+   "condition": null,
+   "cross_refs": [
+    "F.1.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    17016,
+    17017
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.08_test_014.ttcn3",
+   "module": "M_21_03_08_test_014",
+   "header": "// @requirement: 21.3.8 -- Consecutive killed operations applied to the same test component will give the same result as long as the test component does not change its state (see clause F.1.2)."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.8-013a",
+   "section": "21.3.8",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "When the all keyword is used with the killed operation, it matches if all PTCs of the test case have ceased to exist.",
+   "canonical": "`all component.killed` matches if all PTCs of the test case have ceased to exist.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "\"test case\" is written instead of the keyword-style term \"testcase\" used for the TTCN-3 construct.",
+    "improper_terms": [
+     {
+      "used": "test case",
+      "proper": "testcase",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    17019,
+    17020
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.08_test_015.ttcn3",
+   "module": "M_21_03_08_test_015",
+   "header": "// @requirement: 21.3.8 -- When the all keyword is used with the killed operation, it matches if all PTCs of the test case have ceased to exist."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.8-014a",
+   "section": "21.3.8",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "It also matches if no PTC has been created.",
+   "canonical": "`all component.killed` matches if no PTC has been created.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    17019,
+    17020
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.08_test_016.ttcn3",
+   "module": "M_21_03_08_test_016",
+   "header": "// @requirement: 21.3.8 -- It also matches if no PTC has been created."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.8-015a",
+   "section": "21.3.8",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "When the killed operation is applied to a PTC and matches, the final local verdict of that PTC can be retrieved and stored in a variable of the type verdicttype.",
+   "canonical": "When a `killed` operation applied to a PTC matches, the final local verdict of that PTC MAY be retrieved and stored in a variable of type `verdicttype`.",
+   "condition": "the `killed` operation is applied to a PTC and matches",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    17022,
+    17024
+   ],
+   "examples": [
+    {
+     "lines": [
+      17074,
+      17117
+     ],
+     "text": "var MyPTCType v_ptc := MyPTCType.create alive; // create an alive-type test component\n  timer t_T:= 10.0; // create a timer\n  t_T.start;  // start the timer\n  v_ptc.start(f_myTestBehavior()); // start executing a function on the PTC\n  alt {\n  [] v_ptc.killed { // if the PTC was killed during execution …\n     t_T.stop; // … stop the timer and …\n     setverdict(inconc);  // … set the verdict to 'inconclusive'\n    }\n  [] v_ptc.done {  // if the PTC terminated regularly …\n     t_T.stop; // … stop the timer and …\n     v_ptc.start(f_anotherFunction()); // … start another function on the PTC\n    }\n  [] t_T.timeout { // if the timeout occurs before the PTC stopped\n     v_ptc.kill;  // … kill the PTC and …\n     setverdict(fail); // … set the verdict to 'fail'\n    }\n  }\n  // Retrieving and using the final local verdict of a killed PTC\n  var MyComp v_myPTC := MyPTC.create alive;\n  var verdicttype v_myPTCverdict := none;\n  v_myPTC.start(f_myPTCBehaviour());\n  :\n  alt {\n     [] v_myPTC.done {  // expected termination\n            setverdict (pass);\n          }\n       }\n     [] v_myPTC.killed -> value v_myPTCverdict {\n          if (v_MyPTCverdict == none) { // v_myPTC killed before verdict assignment\n            setverdict(fail);\n            stop;\n          }\n          else {\n            setverdict (inconc); // further analysis is needed\n            stop;\n          }\n       }\n     [] any port.receive {\n          repeat\n       }\n  }"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.03.08_test_017.ttcn3",
+   "module": "M_21_03_08_test_017",
+   "header": "// @requirement: 21.3.8 -- When the killed operation is applied to a PTC and matches, the final local verdict of that PTC can be retrieved and stored in a variable of the type verdicttype."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.8-016a",
+   "section": "21.3.8",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "This is denoted by the symbol '->' the keyword value followed by the name of the variable into which the verdict is stored.",
+   "canonical": "Storing the final local verdict in a `killed` operation IS denoted by the symbol \"->\" followed by the keyword `value` and the name of the variable into which the verdict is stored.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    17022,
+    17024
+   ],
+   "examples": [
+    {
+     "lines": [
+      17074,
+      17117
+     ],
+     "text": "var MyPTCType v_ptc := MyPTCType.create alive; // create an alive-type test component\n  timer t_T:= 10.0; // create a timer\n  t_T.start;  // start the timer\n  v_ptc.start(f_myTestBehavior()); // start executing a function on the PTC\n  alt {\n  [] v_ptc.killed { // if the PTC was killed during execution …\n     t_T.stop; // … stop the timer and …\n     setverdict(inconc);  // … set the verdict to 'inconclusive'\n    }\n  [] v_ptc.done {  // if the PTC terminated regularly …\n     t_T.stop; // … stop the timer and …\n     v_ptc.start(f_anotherFunction()); // … start another function on the PTC\n    }\n  [] t_T.timeout { // if the timeout occurs before the PTC stopped\n     v_ptc.kill;  // … kill the PTC and …\n     setverdict(fail); // … set the verdict to 'fail'\n    }\n  }\n  // Retrieving and using the final local verdict of a killed PTC\n  var MyComp v_myPTC := MyPTC.create alive;\n  var verdicttype v_myPTCverdict := none;\n  v_myPTC.start(f_myPTCBehaviour());\n  :\n  alt {\n     [] v_myPTC.done {  // expected termination\n            setverdict (pass);\n          }\n       }\n     [] v_myPTC.killed -> value v_myPTCverdict {\n          if (v_MyPTCverdict == none) { // v_myPTC killed before verdict assignment\n            setverdict(fail);\n            stop;\n          }\n          else {\n            setverdict (inconc); // further analysis is needed\n            stop;\n          }\n       }\n     [] any port.receive {\n          repeat\n       }\n  }"
+    }
+   ],
+   "file": "tests/21-configuration-operations/21.03.08_test_018.ttcn3",
+   "module": "M_21_03_08_test_018",
+   "header": "// @requirement: 21.3.8 -- This is denoted by the symbol '->' the keyword value followed by the name of the variable into which the verdict is stored."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.8-017a",
+   "section": "21.3.8",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "When the any keyword is used with the killed operation, it matches if at least one PTC ceased to exist.",
+   "canonical": "`any component.killed` matches if at least one PTC has ceased to exist.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    17026,
+    17027
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.08_test_019.ttcn3",
+   "module": "M_21_03_08_test_019",
+   "header": "// @requirement: 21.3.8 -- When the any keyword is used with the killed operation, it matches if at least one PTC ceased to exist."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.8-018a",
+   "section": "21.3.8",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Otherwise, the match is unsuccessful.",
+   "canonical": "`any component.killed` IS unsuccessful if no PTC has ceased to exist.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    17026,
+    17027
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.08_test_020.ttcn3",
+   "module": "M_21_03_08_test_020",
+   "header": "// @requirement: 21.3.8 -- Otherwise, the match is unsuccessful."
+  },
+  {
+   "id": "TTCN3-CORE-21.3.8-019a",
+   "section": "21.3.8",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "When the any from component array notation is used, the components from the referenced array are iterated over and individually checked for being killed from innermost to outermost dimension from lowest to highest index for each dimension.",
+   "canonical": "When the `any from` component array notation is used with the `killed` operation, each component of the referenced array IS checked individually for being killed, iterating from innermost to outermost dimension and from lowest to highest index within each dimension.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    17029,
+    17033
+   ],
+   "examples": [],
+   "file": "tests/21-configuration-operations/21.03.08_test_021.ttcn3",
+   "module": "M_21_03_08_test_021",
+   "header": "// @requirement: 21.3.8 -- When the any from component array notation is used, the components from the referenced array are iterated over and individually checked for being killed from innermost to outermost dimension from lowest to highest index for each dimension."
+  }
+ ]
+}

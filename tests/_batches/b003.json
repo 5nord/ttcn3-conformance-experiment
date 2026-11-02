@@ -1,0 +1,1020 @@
+{
+ "batch": "b003",
+ "requirements": [
+  {
+   "id": "TTCN3-CORE-5.4.1.0-001a",
+   "section": "5.4.1.0",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "TTCN-3 modules, structured types, templates, functions, altsteps, and testcases may be defined incompletely, i.e. some entities (variables, templates, ports, timers, etc.) used by the above objects may not be resolved in the definition of the object.",
+   "canonical": "A module, structured type, template, function, altstep or testcase MAY be defined incompletely, i.e. with entities (variables, templates, ports, timers, etc.) used in its definition left unresolved.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "Structured types are listed as parameterizable, but table 2 lists only module, template, function, altstep and testcase, and clause 5.4.1.1 restriction a) forbids parameterization of record of, set of and enumerated definitions. Chosen reading: the list is as stated, the table and restrictions determine which kinds are actually parameterizable.",
+    "readings": [
+     "A module, structured type, template, function, altstep or testcase MAY be parameterized.",
+     "Only a module, template, function, altstep or testcase MAY be parameterized; structured types are not parameterizable."
+    ]
+   },
+   "spec_lines": [
+    2122,
+    2125
+   ],
+   "examples": [],
+   "file": "tests/05-basic-language-elements/05.04.01.00_test_001.ttcn3",
+   "module": "M_05_04_01_00_test_001",
+   "header": "// @requirement: 5.4.1.0 -- TTCN-3 modules, structured types, templates, functions, altsteps, and testcases may be defined incompletely, i.e. some entities (variables, templates, ports, timers, etc.) used by the above objects may not be resolved in the definition of the object."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.1.0-004a",
+   "section": "5.4.1.0",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "Formal parameters of parameterized templates, functions, altsteps, and testcases are defined in formal parameter lists.",
+   "canonical": "A formal parameter of a parameterized template, function, altstep or testcase IS defined in a formal parameter list.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2127,
+    2128
+   ],
+   "examples": [],
+   "file": "tests/05-basic-language-elements/05.04.01.00_test_002.ttcn3",
+   "module": "M_05_04_01_00_test_002",
+   "header": "// @requirement: 5.4.1.0 -- Formal parameters of parameterized templates, functions, altsteps, and testcases are defined in formal parameter lists."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.1.0-005a",
+   "section": "5.4.1.0",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "Formal parameters of modules are defined in module parameter definitions (see clause 8.2.1).",
+   "canonical": "A formal parameter of a module IS defined in a module parameter definition.",
+   "condition": null,
+   "cross_refs": [
+    "8.2.1"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2127,
+    2128
+   ],
+   "examples": [],
+   "file": "tests/05-basic-language-elements/05.04.01.00_test_003.ttcn3",
+   "module": "M_05_04_01_00_test_003",
+   "header": "// @requirement: 5.4.1.0 -- Formal parameters of modules are defined in module parameter definitions (see clause 8.2.1)."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.1.0-006a",
+   "section": "5.4.1.0",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "Formal parameters shall be in, inout or out parameters (see terms in clause 3.1).",
+   "canonical": "A formal parameter SHALL be an in, inout or out parameter.",
+   "condition": null,
+   "cross_refs": [
+    "3.1"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2130,
+    2134
+   ],
+   "examples": [
+    {
+     "lines": [
+      2270,
+      2280
+     ],
+     "text": "function f_myFunction1(in boolean p_myReferenceParameter){ … };\n  // p_myReferenceParameter is an in value parameter. The parameter can be read. It can also be\n  // set within the function, however, the assignment is local to the function only\n  function f_myFunction2(inout boolean p_myReferenceParameter){ … };\n  // p_myReferenceParameter is an inout value parameter. The parameter can be read and set \n  // within the function - the assignment is not local\n  function f_myFunction3(out template boolean p_myReferenceParameter){ … };\n  // p_myReferenceParameter is an out value parameter. The parameter can be set within the \n  // function, the assignment is not local. It can also be read, but only after it has been set."
+    }
+   ],
+   "file": "tests/05-basic-language-elements/05.04.01.00_test_004.ttcn3",
+   "module": "M_05_04_01_00_test_004",
+   "header": "// @requirement: 5.4.1.0 -- Formal parameters shall be in, inout or out parameters (see terms in clause 3.1)."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.1.0-007a",
+   "section": "5.4.1.0",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "If not stated otherwise, a formal parameter is an in parameter.",
+   "canonical": "If not stated otherwise, a formal parameter IS an in parameter.",
+   "condition": "no parameterization kind is stated",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2130,
+    2134
+   ],
+   "examples": [
+    {
+     "lines": [
+      2283,
+      2308
+     ],
+     "text": "type record MyMessage {\n     integer f1,\n     integer f2\n  }\n  function f_myMessage (integer p_int) return MyMessage {\n     var integer v_f1, v_f2;\n     v_f1 := f_mult2 (p_int);\n       // parameter p_int is passed on; as the parameter of the called function f_mult2 is\n       // defined as an inout parameter, it passes back the changed value for p_int, \n     v_f2 := p_int;\n     return {v_f1, v_f2};\n  }\n  function f_mult2 (inout integer p_integer) return integer {\n     p_integer := 2 * p_integer;\n       // the value of the formal parameter is changed; this new value is passed back when\n       // f_mult2 completes\n     return p_integer-1\n  }\n  testcase TC_01 () runs on MTC_PT {\n  ...\n     p1.send (f_myMessage(5))\n       // the value sent is { f1 := 9, f2 := 10 }\n  ...\n  }"
+    }
+   ],
+   "file": "tests/05-basic-language-elements/05.04.01.00_test_005.ttcn3",
+   "module": "M_05_04_01_00_test_005",
+   "header": "// @requirement: 5.4.1.0 -- If not stated otherwise, a formal parameter is an in parameter."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.1.0-008a",
+   "section": "5.4.1.0",
+   "type": "semantics",
+   "modality": "CAN",
+   "original": "For all these three sorts of parameter passing, the formal parameters can both be read and set (i.e. get new values being assigned) within the parameterized object.",
+   "canonical": "A formal parameter, whether in, inout or out, CAN be both read and set within the parameterized object.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2130,
+    2134
+   ],
+   "examples": [
+    {
+     "lines": [
+      2270,
+      2280
+     ],
+     "text": "function f_myFunction1(in boolean p_myReferenceParameter){ … };\n  // p_myReferenceParameter is an in value parameter. The parameter can be read. It can also be\n  // set within the function, however, the assignment is local to the function only\n  function f_myFunction2(inout boolean p_myReferenceParameter){ … };\n  // p_myReferenceParameter is an inout value parameter. The parameter can be read and set \n  // within the function - the assignment is not local\n  function f_myFunction3(out template boolean p_myReferenceParameter){ … };\n  // p_myReferenceParameter is an out value parameter. The parameter can be set within the \n  // function, the assignment is not local. It can also be read, but only after it has been set."
+    },
+    {
+     "lines": [
+      2283,
+      2308
+     ],
+     "text": "type record MyMessage {\n     integer f1,\n     integer f2\n  }\n  function f_myMessage (integer p_int) return MyMessage {\n     var integer v_f1, v_f2;\n     v_f1 := f_mult2 (p_int);\n       // parameter p_int is passed on; as the parameter of the called function f_mult2 is\n       // defined as an inout parameter, it passes back the changed value for p_int, \n     v_f2 := p_int;\n     return {v_f1, v_f2};\n  }\n  function f_mult2 (inout integer p_integer) return integer {\n     p_integer := 2 * p_integer;\n       // the value of the formal parameter is changed; this new value is passed back when\n       // f_mult2 completes\n     return p_integer-1\n  }\n  testcase TC_01 () runs on MTC_PT {\n  ...\n     p1.send (f_myMessage(5))\n       // the value sent is { f1 := 9, f2 := 10 }\n  ...\n  }"
+    }
+   ],
+   "file": "tests/05-basic-language-elements/05.04.01.00_test_006.ttcn3",
+   "module": "M_05_04_01_00_test_006",
+   "header": "// @requirement: 5.4.1.0 -- For all these three sorts of parameter passing, the formal parameters can both be read and set (i.e. get new values being assigned) within the parameterized object."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.1.0-009a",
+   "section": "5.4.1.0",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Formal parameters can be used directly as actual parameters for other parameterized objects, e.g. as actual parameters in function invocations or as actual parameters in template instances.",
+   "canonical": "A formal parameter MAY be used directly as an actual parameter of another parameterized object, e.g. in a function invocation or in a template instance.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2130,
+    2134
+   ],
+   "examples": [
+    {
+     "lines": [
+      2338,
+      2347
+     ],
+     "text": "function f_myFunc2(in bitstring p_refPar1, inout integer p_refPar2) return integer {\n   :\n }\n function f_myFunc1(inout bitstring p_refPar1, out integer p_refPar2) return integer {\n  :\n  return f_myFunc2(p_refPar1, p_refPar2);\n }\n // p_refPar1 and p_refPar2 can be passed directly to a function invocation"
+    }
+   ],
+   "file": "tests/05-basic-language-elements/05.04.01.00_test_007.ttcn3",
+   "module": "M_05_04_01_00_test_007",
+   "header": "// @requirement: 5.4.1.0 -- Formal parameters can be used directly as actual parameters for other parameterized objects, e.g. as actual parameters in function invocations or as actual parameters in template instances."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.1.0-010a",
+   "section": "5.4.1.0",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "original": "If parameters are passed by value (i.e. in case of in and out parameters), type compatibility rules specified in clause 6.3 apply.",
+   "canonical": "If a parameter is passed by value (in and out parameters), the type compatibility rules of clause 6.3 SHALL apply between the actual parameter and the formal parameter.",
+   "condition": "the parameter is passed by value",
+   "cross_refs": [
+    "6.3"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2136,
+    2138
+   ],
+   "examples": [
+    {
+     "lines": [
+      2374,
+      2392
+     ],
+     "text": "function f_byValue (in integer p_int1, in integer p_int2) {\n  p_int2 := p_int2 + 1;\n  log(p_int1);\n  log(p_int2);\n }\n function f_byReference (inout integer p_int1, inout integer p_int2) {\n  p_int2 := p_int2 + 1;\n  log(p_int1);\n  log(p_int2);\n }\n  function f_f () {\n    var integer v_int := 1; \n   f_byValue(v_int, v_int); // prints 1 and 2\n    log(v_int); // prints 1\n   f_byReference(v_int, v_int); // prints 2 and 2\n    log(v_int); // prints 2\n  }"
+    }
+   ],
+   "file": "tests/05-basic-language-elements/05.04.01.00_test_008.ttcn3",
+   "module": "M_05_04_01_00_test_008",
+   "header": "// @requirement: 5.4.1.0 -- If parameters are passed by value (i.e. in case of in and out parameters), type compatibility rules specified in clause 6.3 apply."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.1.0-011a",
+   "section": "5.4.1.0",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "original": "When parameters are passed by reference, strong typing is required.",
+   "canonical": "If a parameter is passed by reference, strong typing SHALL be applied between the actual parameter and the formal parameter.",
+   "condition": "the parameter is passed by reference",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2136,
+    2138
+   ],
+   "examples": [
+    {
+     "lines": [
+      2374,
+      2392
+     ],
+     "text": "function f_byValue (in integer p_int1, in integer p_int2) {\n  p_int2 := p_int2 + 1;\n  log(p_int1);\n  log(p_int2);\n }\n function f_byReference (inout integer p_int1, inout integer p_int2) {\n  p_int2 := p_int2 + 1;\n  log(p_int1);\n  log(p_int2);\n }\n  function f_f () {\n    var integer v_int := 1; \n   f_byValue(v_int, v_int); // prints 1 and 2\n    log(v_int); // prints 1\n   f_byReference(v_int, v_int); // prints 2 and 2\n    log(v_int); // prints 2\n  }"
+    }
+   ],
+   "file": "tests/05-basic-language-elements/05.04.01.00_test_009.ttcn3",
+   "module": "M_05_04_01_00_test_009",
+   "header": "// @requirement: 5.4.1.0 -- When parameters are passed by reference, strong typing is required."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.1.0-012a",
+   "section": "5.4.1.0",
+   "type": "static-semantics",
+   "modality": "SHALL",
+   "original": "Both the actual and formal parameter shall be of the same type.",
+   "canonical": "If a parameter is passed by reference, the actual parameter SHALL be of the same type as the formal parameter.",
+   "condition": "the parameter is passed by reference",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2136,
+    2138
+   ],
+   "examples": [],
+   "file": "tests/05-basic-language-elements/05.04.01.00_test_010.ttcn3",
+   "module": "M_05_04_01_00_test_010",
+   "header": "// @requirement: 5.4.1.0 -- Both the actual and formal parameter shall be of the same type."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.1.0-013a",
+   "section": "5.4.1.0",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Formal in parameters may have default values.",
+   "canonical": "A formal in parameter MAY have a default value.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2140,
+    2140
+   ],
+   "examples": [
+    {
+     "lines": [
+      2316,
+      2335
+     ],
+     "text": "function f_comp (in integer p_int1, in integer p_int2 := 3) return integer {\n  var integer v_v := p_int1 + p_int2;\n  return v_v;\n }\n function f_f () {\n  var integer v_w;\n  v_w := f_comp(1);  // same as calling f_comp(1,3);\n  v_w := f_comp(1,2); // value 2 is taken for parameter p_int2 and not its default value 3\n  …\n }\n type component Comp { var integer i := 0 }\n function g(integer x := f_comp(i)) runs on Comp return integer {\n   // reference to i from Comp is allowed in default value of parameter x\n   return x;\n }\n function h(integer y := g()+i) runs on Comp {\n   // reference to g is allowed because it has a compatible runs on clause as h\n }"
+    }
+   ],
+   "file": "tests/05-basic-language-elements/05.04.01.00_test_011.ttcn3",
+   "module": "M_05_04_01_00_test_011",
+   "header": "// @requirement: 5.4.1.0 -- Formal in parameters may have default values."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.1.0-014a",
+   "section": "5.4.1.0",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "This default value is used when no actual parameter is provided.",
+   "canonical": "If no actual parameter is provided for a formal in parameter with a default value, the default value IS used as the value of the formal parameter.",
+   "condition": "no actual parameter is provided",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2140,
+    2140
+   ],
+   "examples": [
+    {
+     "lines": [
+      2316,
+      2335
+     ],
+     "text": "function f_comp (in integer p_int1, in integer p_int2 := 3) return integer {\n  var integer v_v := p_int1 + p_int2;\n  return v_v;\n }\n function f_f () {\n  var integer v_w;\n  v_w := f_comp(1);  // same as calling f_comp(1,3);\n  v_w := f_comp(1,2); // value 2 is taken for parameter p_int2 and not its default value 3\n  …\n }\n type component Comp { var integer i := 0 }\n function g(integer x := f_comp(i)) runs on Comp return integer {\n   // reference to i from Comp is allowed in default value of parameter x\n   return x;\n }\n function h(integer y := g()+i) runs on Comp {\n   // reference to g is allowed because it has a compatible runs on clause as h\n }"
+    }
+   ],
+   "file": "tests/05-basic-language-elements/05.04.01.00_test_012.ttcn3",
+   "module": "M_05_04_01_00_test_012",
+   "header": "// @requirement: 5.4.1.0 -- This default value is used when no actual parameter is provided."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.1.0-015a",
+   "section": "5.4.1.0",
+   "type": "information",
+   "modality": "CAN",
+   "original": "NOTE 1: Although out parameters can be read within the parameterized object, they do not inherit the value of their actual parameter; i.e. they should be set before they are read.",
+   "canonical": "An out formal parameter CAN be read within the parameterized object, but it does not inherit the value of its actual parameter.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2142,
+    2143
+   ],
+   "examples": [
+    {
+     "lines": [
+      2270,
+      2280
+     ],
+     "text": "function f_myFunction1(in boolean p_myReferenceParameter){ … };\n  // p_myReferenceParameter is an in value parameter. The parameter can be read. It can also be\n  // set within the function, however, the assignment is local to the function only\n  function f_myFunction2(inout boolean p_myReferenceParameter){ … };\n  // p_myReferenceParameter is an inout value parameter. The parameter can be read and set \n  // within the function - the assignment is not local\n  function f_myFunction3(out template boolean p_myReferenceParameter){ … };\n  // p_myReferenceParameter is an out value parameter. The parameter can be set within the \n  // function, the assignment is not local. It can also be read, but only after it has been set."
+    }
+   ],
+   "file": "tests/05-basic-language-elements/05.04.01.00_test_013.ttcn3",
+   "module": "M_05_04_01_00_test_013",
+   "header": "// @requirement: 5.4.1.0 -- NOTE 1: Although out parameters can be read within the parameterized object, they do not inherit the value of their actual parameter; i.e. they should be set before they are read."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.1.0-016a",
+   "section": "5.4.1.0",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Formal value or template parameters may be declared lazy using the @lazy modifier.",
+   "canonical": "A formal value parameter or formal template parameter MAY be declared lazy using the `@lazy` modifier.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2145,
+    2146
+   ],
+   "examples": [
+    {
+     "lines": [
+      2350,
+      2371
+     ],
+     "text": "type component MyComp { var integer vc_int }\n function f_MyLazyFuzzy(in @lazy integer p_lazy, in @fuzzy integer p_fuzzy) runs on MyComp {\n  //When called from MyCalling:\n  vc_int := 1;\n  log(p_lazy); //will log 2 as function double with actual parameter vc_int equals 1 is called\n        //here; 2 is stored in p_lazy (also, function double stores 2 in vc_int)\n  log(p_lazy); //will log 2 again as p_lazy is not re-evaluated\n  log(p_fuzzy);//will log 4 as function double with actual parameter vc_int equals 2 is called\n        // here (also, function double stores 4 in vc_int)\n  log(p_fuzzy) //will log 8 as function double is re-evaluated with actual parameter 4\n }\n function f_double (in integer p_in) runs on MyComp return integer{\n  p_in := 2* p_in;\n  vc_int := p_in;\n  return p_in\n }\n testcase TC_MyCalling() runs on MyComp {\n vc_int := 0;\n f_myLazyFuzzy (f_double(vc_int), f_double(vc_int) )\n }"
+    }
+   ],
+   "file": "tests/05-basic-language-elements/05.04.01.00_test_014.ttcn3",
+   "module": "M_05_04_01_00_test_014",
+   "header": "// @requirement: 5.4.1.0 -- Formal value or template parameters may be declared lazy using the @lazy modifier."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.1.0-017a",
+   "section": "5.4.1.0",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The behaviour of lazy parameters is defined in clause 3.1, definition of lazy values or templates.",
+   "canonical": "A lazy formal parameter IS evaluated as specified by the definition of lazy values or templates in clause 3.1.",
+   "condition": null,
+   "cross_refs": [
+    "3.1"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2145,
+    2146
+   ],
+   "examples": [
+    {
+     "lines": [
+      2350,
+      2371
+     ],
+     "text": "type component MyComp { var integer vc_int }\n function f_MyLazyFuzzy(in @lazy integer p_lazy, in @fuzzy integer p_fuzzy) runs on MyComp {\n  //When called from MyCalling:\n  vc_int := 1;\n  log(p_lazy); //will log 2 as function double with actual parameter vc_int equals 1 is called\n        //here; 2 is stored in p_lazy (also, function double stores 2 in vc_int)\n  log(p_lazy); //will log 2 again as p_lazy is not re-evaluated\n  log(p_fuzzy);//will log 4 as function double with actual parameter vc_int equals 2 is called\n        // here (also, function double stores 4 in vc_int)\n  log(p_fuzzy) //will log 8 as function double is re-evaluated with actual parameter 4\n }\n function f_double (in integer p_in) runs on MyComp return integer{\n  p_in := 2* p_in;\n  vc_int := p_in;\n  return p_in\n }\n testcase TC_MyCalling() runs on MyComp {\n vc_int := 0;\n f_myLazyFuzzy (f_double(vc_int), f_double(vc_int) )\n }"
+    }
+   ],
+   "file": "tests/05-basic-language-elements/05.04.01.00_test_015.ttcn3",
+   "module": "M_05_04_01_00_test_015",
+   "header": "// @requirement: 5.4.1.0 -- The behaviour of lazy parameters is defined in clause 3.1, definition of lazy values or templates."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.1.0-019a",
+   "section": "5.4.1.0",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Formal value or template parameters may be declared fuzzy using the @fuzzy modifier.",
+   "canonical": "A formal value parameter or formal template parameter MAY be declared fuzzy using the `@fuzzy` modifier.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2148,
+    2149
+   ],
+   "examples": [
+    {
+     "lines": [
+      2350,
+      2371
+     ],
+     "text": "type component MyComp { var integer vc_int }\n function f_MyLazyFuzzy(in @lazy integer p_lazy, in @fuzzy integer p_fuzzy) runs on MyComp {\n  //When called from MyCalling:\n  vc_int := 1;\n  log(p_lazy); //will log 2 as function double with actual parameter vc_int equals 1 is called\n        //here; 2 is stored in p_lazy (also, function double stores 2 in vc_int)\n  log(p_lazy); //will log 2 again as p_lazy is not re-evaluated\n  log(p_fuzzy);//will log 4 as function double with actual parameter vc_int equals 2 is called\n        // here (also, function double stores 4 in vc_int)\n  log(p_fuzzy) //will log 8 as function double is re-evaluated with actual parameter 4\n }\n function f_double (in integer p_in) runs on MyComp return integer{\n  p_in := 2* p_in;\n  vc_int := p_in;\n  return p_in\n }\n testcase TC_MyCalling() runs on MyComp {\n vc_int := 0;\n f_myLazyFuzzy (f_double(vc_int), f_double(vc_int) )\n }"
+    }
+   ],
+   "file": "tests/05-basic-language-elements/05.04.01.00_test_016.ttcn3",
+   "module": "M_05_04_01_00_test_016",
+   "header": "// @requirement: 5.4.1.0 -- Formal value or template parameters may be declared fuzzy using the @fuzzy modifier."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.1.0-020a",
+   "section": "5.4.1.0",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "The behaviour of fuzzy parameters is defined in clause 3.1, definition of fuzzy values or templates.",
+   "canonical": "A fuzzy formal parameter IS evaluated as specified by the definition of fuzzy values or templates in clause 3.1.",
+   "condition": null,
+   "cross_refs": [
+    "3.1"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2148,
+    2149
+   ],
+   "examples": [
+    {
+     "lines": [
+      2350,
+      2371
+     ],
+     "text": "type component MyComp { var integer vc_int }\n function f_MyLazyFuzzy(in @lazy integer p_lazy, in @fuzzy integer p_fuzzy) runs on MyComp {\n  //When called from MyCalling:\n  vc_int := 1;\n  log(p_lazy); //will log 2 as function double with actual parameter vc_int equals 1 is called\n        //here; 2 is stored in p_lazy (also, function double stores 2 in vc_int)\n  log(p_lazy); //will log 2 again as p_lazy is not re-evaluated\n  log(p_fuzzy);//will log 4 as function double with actual parameter vc_int equals 2 is called\n        // here (also, function double stores 4 in vc_int)\n  log(p_fuzzy) //will log 8 as function double is re-evaluated with actual parameter 4\n }\n function f_double (in integer p_in) runs on MyComp return integer{\n  p_in := 2* p_in;\n  vc_int := p_in;\n  return p_in\n }\n testcase TC_MyCalling() runs on MyComp {\n vc_int := 0;\n f_myLazyFuzzy (f_double(vc_int), f_double(vc_int) )\n }"
+    }
+   ],
+   "file": "tests/05-basic-language-elements/05.04.01.00_test_017.ttcn3",
+   "module": "M_05_04_01_00_test_017",
+   "header": "// @requirement: 5.4.1.0 -- The behaviour of fuzzy parameters is defined in clause 3.1, definition of fuzzy values or templates."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.1.0-022a",
+   "section": "5.4.1.0",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Formal value or template parameters that are declared lazy or fuzzy can be additionally declared deterministic using the @deterministic modifier.",
+   "canonical": "A formal value parameter or formal template parameter declared lazy or fuzzy MAY additionally be declared deterministic using the `@deterministic` modifier.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2151,
+    2152
+   ],
+   "examples": [],
+   "file": "tests/05-basic-language-elements/05.04.01.00_test_018.ttcn3",
+   "module": "M_05_04_01_00_test_018",
+   "header": "// @requirement: 5.4.1.0 -- Formal value or template parameters that are declared lazy or fuzzy can be additionally declared deterministic using the @deterministic modifier."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.1.0-023a",
+   "section": "5.4.1.0",
+   "type": "information",
+   "modality": "CAN",
+   "original": "NOTE 2: The actual values of component variables used in the delayed evaluation of a lazy or fuzzy parameter may differ from their values at the time, when the parameterized function or altstep was called.",
+   "canonical": "The value of a component variable used in the delayed evaluation of a lazy or fuzzy parameter CAN differ from its value at the time the parameterized function or altstep was called.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2154,
+    2155
+   ],
+   "examples": [
+    {
+     "lines": [
+      2350,
+      2371
+     ],
+     "text": "type component MyComp { var integer vc_int }\n function f_MyLazyFuzzy(in @lazy integer p_lazy, in @fuzzy integer p_fuzzy) runs on MyComp {\n  //When called from MyCalling:\n  vc_int := 1;\n  log(p_lazy); //will log 2 as function double with actual parameter vc_int equals 1 is called\n        //here; 2 is stored in p_lazy (also, function double stores 2 in vc_int)\n  log(p_lazy); //will log 2 again as p_lazy is not re-evaluated\n  log(p_fuzzy);//will log 4 as function double with actual parameter vc_int equals 2 is called\n        // here (also, function double stores 4 in vc_int)\n  log(p_fuzzy) //will log 8 as function double is re-evaluated with actual parameter 4\n }\n function f_double (in integer p_in) runs on MyComp return integer{\n  p_in := 2* p_in;\n  vc_int := p_in;\n  return p_in\n }\n testcase TC_MyCalling() runs on MyComp {\n vc_int := 0;\n f_myLazyFuzzy (f_double(vc_int), f_double(vc_int) )\n }"
+    }
+   ],
+   "file": "tests/05-basic-language-elements/05.04.01.00_test_019.ttcn3",
+   "module": "M_05_04_01_00_test_019",
+   "header": "// @requirement: 5.4.1.0 -- NOTE 2: The actual values of component variables used in the delayed evaluation of a lazy or fuzzy parameter may differ from their values at the time, when the parameterized function or altstep was called."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.1.0-024a",
+   "section": "5.4.1.0",
+   "type": "semantics",
+   "modality": "IS NOT",
+   "original": "Assigning default values for lazy and fuzzy formal parameters does not change the parameters' semantics: when the default values are used as actual values for the parameters, they shall be evaluated the same way (i.e. delayed) as if an actual parameter was provided.",
+   "canonical": "Assigning a default value to a lazy or fuzzy formal parameter does NOT change the semantics of the parameter.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2157,
+    2159
+   ],
+   "examples": [],
+   "file": "tests/05-basic-language-elements/05.04.01.00_test_020.ttcn3",
+   "module": "M_05_04_01_00_test_020",
+   "header": "// @requirement: 5.4.1.0 -- Assigning default values for lazy and fuzzy formal parameters does not change the parameters' semantics: when the default values are used as actual values for the parameters, they shall be evaluated the same way (i.e. delayed) as if an actual parameter was provided."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.1.0-024b",
+   "section": "5.4.1.0",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "Assigning default values for lazy and fuzzy formal parameters does not change the parameters' semantics: when the default values are used as actual values for the parameters, they shall be evaluated the same way (i.e. delayed) as if an actual parameter was provided.",
+   "canonical": "When the default value of a lazy or fuzzy formal parameter is used as the actual value, it SHALL be evaluated in the same delayed way as if an actual parameter was provided.",
+   "condition": "the default value of a lazy or fuzzy formal parameter is used",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2157,
+    2159
+   ],
+   "examples": [],
+   "file": "tests/05-basic-language-elements/05.04.01.00_test_021.ttcn3",
+   "module": "M_05_04_01_00_test_021",
+   "header": "// @requirement: 5.4.1.0 -- Assigning default values for lazy and fuzzy formal parameters does not change the parameters' semantics: when the default values are used as actual values for the parameters, they shall be evaluated the same way (i.e. delayed) as if an actual parameter was provided."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.1.0-025a",
+   "section": "5.4.1.0",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "Keyword: module; Allowed kind of Parameterization: Value parameterization; Allowed form of Parameterization: Static at start of runtime; Allowed types in formal parameter lists: all basic types, all user-defined types and address type.",
+   "canonical": "A module SHALL support value parameterization only.",
+   "condition": null,
+   "cross_refs": [
+    "8.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2163,
+    2163
+   ],
+   "examples": [],
+   "file": "tests/05-basic-language-elements/05.04.01.00_test_022.ttcn3",
+   "module": "M_05_04_01_00_test_022",
+   "header": "// @requirement: 5.4.1.0 -- Keyword: module; Allowed kind of Parameterization: Value parameterization; Allowed form of Parameterization: Static at start of runtime; Allowed types in formal parameter lists: all basic types, all user-defined types and address type."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.1.0-025b",
+   "section": "5.4.1.0",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Keyword: module; Allowed kind of Parameterization: Value parameterization; Allowed form of Parameterization: Static at start of runtime; Allowed types in formal parameter lists: all basic types, all user-defined types and address type.",
+   "canonical": "The parameterization of a module IS static at start of runtime.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2163,
+    2163
+   ],
+   "examples": [],
+   "file": "tests/05-basic-language-elements/05.04.01.00_test_023.ttcn3",
+   "module": "M_05_04_01_00_test_023",
+   "header": "// @requirement: 5.4.1.0 -- Keyword: module; Allowed kind of Parameterization: Value parameterization; Allowed form of Parameterization: Static at start of runtime; Allowed types in formal parameter lists: all basic types, all user-defined types and address type."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.1.0-025c",
+   "section": "5.4.1.0",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Keyword: module; Allowed kind of Parameterization: Value parameterization; Allowed form of Parameterization: Static at start of runtime; Allowed types in formal parameter lists: all basic types, all user-defined types and address type.",
+   "canonical": "A module parameter MAY be of any basic type, any user-defined type or the address type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "issue": "Table 2 speaks of 'formal parameter lists' for modules, but module parameters are defined in module parameter definitions, not in a formal parameter list.",
+    "improper_terms": [
+     {
+      "used": "formal parameter lists (of a module)",
+      "proper": "module parameter definitions",
+      "glossary": false
+     }
+    ]
+   },
+   "spec_lines": [
+    2163,
+    2163
+   ],
+   "examples": [],
+   "file": "tests/05-basic-language-elements/05.04.01.00_test_024.ttcn3",
+   "module": "M_05_04_01_00_test_024",
+   "header": "// @requirement: 5.4.1.0 -- Keyword: module; Allowed kind of Parameterization: Value parameterization; Allowed form of Parameterization: Static at start of runtime; Allowed types in formal parameter lists: all basic types, all user-defined types and address type."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.1.0-026a",
+   "section": "5.4.1.0",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Keyword: template; Allowed kind of Parameterization: Value and template parameterization; Allowed form of Parameterization: Dynamic at runtime; Allowed types in formal parameter lists: all basic types, all user-defined types, address type and template.",
+   "canonical": "A `template` definition MAY have value parameterization and template parameterization.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2164,
+    2164
+   ],
+   "examples": [],
+   "file": "tests/05-basic-language-elements/05.04.01.00_test_025.ttcn3",
+   "module": "M_05_04_01_00_test_025",
+   "header": "// @requirement: 5.4.1.0 -- Keyword: template; Allowed kind of Parameterization: Value and template parameterization; Allowed form of Parameterization: Dynamic at runtime; Allowed types in formal parameter lists: all basic types, all user-defined types, address type and template."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.1.0-026b",
+   "section": "5.4.1.0",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Keyword: template; Allowed kind of Parameterization: Value and template parameterization; Allowed form of Parameterization: Dynamic at runtime; Allowed types in formal parameter lists: all basic types, all user-defined types, address type and template.",
+   "canonical": "The parameterization of a `template` IS dynamic at runtime.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2164,
+    2164
+   ],
+   "examples": [],
+   "file": "tests/05-basic-language-elements/05.04.01.00_test_026.ttcn3",
+   "module": "M_05_04_01_00_test_026",
+   "header": "// @requirement: 5.4.1.0 -- Keyword: template; Allowed kind of Parameterization: Value and template parameterization; Allowed form of Parameterization: Dynamic at runtime; Allowed types in formal parameter lists: all basic types, all user-defined types, address type and template."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.1.0-026c",
+   "section": "5.4.1.0",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Keyword: template; Allowed kind of Parameterization: Value and template parameterization; Allowed form of Parameterization: Dynamic at runtime; Allowed types in formal parameter lists: all basic types, all user-defined types, address type and template.",
+   "canonical": "A formal parameter in the formal parameter list of a `template` MAY be of any basic type, any user-defined type, the address type, or be a template parameter.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2164,
+    2164
+   ],
+   "examples": [],
+   "file": "tests/05-basic-language-elements/05.04.01.00_test_027.ttcn3",
+   "module": "M_05_04_01_00_test_027",
+   "header": "// @requirement: 5.4.1.0 -- Keyword: template; Allowed kind of Parameterization: Value and template parameterization; Allowed form of Parameterization: Dynamic at runtime; Allowed types in formal parameter lists: all basic types, all user-defined types, address type and template."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.1.0-027a",
+   "section": "5.4.1.0",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Keyword: function; Allowed kind of Parameterization: Value and template parameterization; Allowed form of Parameterization: Dynamic at runtime; Allowed types in formal parameter lists: all basic types, all user-defined types, address type, component type, port type, default, template and timer.",
+   "canonical": "A `function` definition MAY have value parameterization and template parameterization.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2165,
+    2165
+   ],
+   "examples": [],
+   "file": "tests/05-basic-language-elements/05.04.01.00_test_028.ttcn3",
+   "module": "M_05_04_01_00_test_028",
+   "header": "// @requirement: 5.4.1.0 -- Keyword: function; Allowed kind of Parameterization: Value and template parameterization; Allowed form of Parameterization: Dynamic at runtime; Allowed types in formal parameter lists: all basic types, all user-defined types, address type, component type, port type, default, template and timer."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.1.0-027b",
+   "section": "5.4.1.0",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Keyword: function; Allowed kind of Parameterization: Value and template parameterization; Allowed form of Parameterization: Dynamic at runtime; Allowed types in formal parameter lists: all basic types, all user-defined types, address type, component type, port type, default, template and timer.",
+   "canonical": "The parameterization of a `function` IS dynamic at runtime.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2165,
+    2165
+   ],
+   "examples": [],
+   "file": "tests/05-basic-language-elements/05.04.01.00_test_029.ttcn3",
+   "module": "M_05_04_01_00_test_029",
+   "header": "// @requirement: 5.4.1.0 -- Keyword: function; Allowed kind of Parameterization: Value and template parameterization; Allowed form of Parameterization: Dynamic at runtime; Allowed types in formal parameter lists: all basic types, all user-defined types, address type, component type, port type, default, template and timer."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.1.0-027c",
+   "section": "5.4.1.0",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Keyword: function; Allowed kind of Parameterization: Value and template parameterization; Allowed form of Parameterization: Dynamic at runtime; Allowed types in formal parameter lists: all basic types, all user-defined types, address type, component type, port type, default, template and timer.",
+   "canonical": "A formal parameter in the formal parameter list of a `function` MAY be of any basic type, any user-defined type, the address type, a component type, a port type, the default type or the timer type, or be a template parameter.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2165,
+    2165
+   ],
+   "examples": [],
+   "file": "tests/05-basic-language-elements/05.04.01.00_test_030.ttcn3",
+   "module": "M_05_04_01_00_test_030",
+   "header": "// @requirement: 5.4.1.0 -- Keyword: function; Allowed kind of Parameterization: Value and template parameterization; Allowed form of Parameterization: Dynamic at runtime; Allowed types in formal parameter lists: all basic types, all user-defined types, address type, component type, port type, default, template and timer."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.1.0-028a",
+   "section": "5.4.1.0",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Keyword: altstep; Allowed kind of Parameterization: Value and template parameterization; Allowed form of Parameterization: Dynamic at runtime; Allowed types in formal parameter lists: all basic types, all user-defined types, address type, component type, port type, default, template and timer.",
+   "canonical": "A `altstep` definition MAY have value parameterization and template parameterization.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2166,
+    2166
+   ],
+   "examples": [],
+   "file": "tests/05-basic-language-elements/05.04.01.00_test_031.ttcn3",
+   "module": "M_05_04_01_00_test_031",
+   "header": "// @requirement: 5.4.1.0 -- Keyword: altstep; Allowed kind of Parameterization: Value and template parameterization; Allowed form of Parameterization: Dynamic at runtime; Allowed types in formal parameter lists: all basic types, all user-defined types, address type, component type, port type, default, template and timer."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.1.0-028b",
+   "section": "5.4.1.0",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Keyword: altstep; Allowed kind of Parameterization: Value and template parameterization; Allowed form of Parameterization: Dynamic at runtime; Allowed types in formal parameter lists: all basic types, all user-defined types, address type, component type, port type, default, template and timer.",
+   "canonical": "The parameterization of a `altstep` IS dynamic at runtime.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2166,
+    2166
+   ],
+   "examples": [],
+   "file": "tests/05-basic-language-elements/05.04.01.00_test_032.ttcn3",
+   "module": "M_05_04_01_00_test_032",
+   "header": "// @requirement: 5.4.1.0 -- Keyword: altstep; Allowed kind of Parameterization: Value and template parameterization; Allowed form of Parameterization: Dynamic at runtime; Allowed types in formal parameter lists: all basic types, all user-defined types, address type, component type, port type, default, template and timer."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.1.0-028c",
+   "section": "5.4.1.0",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Keyword: altstep; Allowed kind of Parameterization: Value and template parameterization; Allowed form of Parameterization: Dynamic at runtime; Allowed types in formal parameter lists: all basic types, all user-defined types, address type, component type, port type, default, template and timer.",
+   "canonical": "A formal parameter in the formal parameter list of a `altstep` MAY be of any basic type, any user-defined type, the address type, a component type, a port type, the default type or the timer type, or be a template parameter.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2166,
+    2166
+   ],
+   "examples": [],
+   "file": "tests/05-basic-language-elements/05.04.01.00_test_033.ttcn3",
+   "module": "M_05_04_01_00_test_033",
+   "header": "// @requirement: 5.4.1.0 -- Keyword: altstep; Allowed kind of Parameterization: Value and template parameterization; Allowed form of Parameterization: Dynamic at runtime; Allowed types in formal parameter lists: all basic types, all user-defined types, address type, component type, port type, default, template and timer."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.1.0-029a",
+   "section": "5.4.1.0",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Keyword: testcase; Allowed kind of Parameterization: Value and template parameterization; Allowed form of Parameterization: Dynamic at runtime; Allowed types in formal parameter lists: all basic types and of all user-defined types, address type, component type and template.",
+   "canonical": "A `testcase` definition MAY have value parameterization and template parameterization.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2167,
+    2167
+   ],
+   "examples": [],
+   "file": "tests/05-basic-language-elements/05.04.01.00_test_034.ttcn3",
+   "module": "M_05_04_01_00_test_034",
+   "header": "// @requirement: 5.4.1.0 -- Keyword: testcase; Allowed kind of Parameterization: Value and template parameterization; Allowed form of Parameterization: Dynamic at runtime; Allowed types in formal parameter lists: all basic types and of all user-defined types, address type, component type and template."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.1.0-029b",
+   "section": "5.4.1.0",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Keyword: testcase; Allowed kind of Parameterization: Value and template parameterization; Allowed form of Parameterization: Dynamic at runtime; Allowed types in formal parameter lists: all basic types and of all user-defined types, address type, component type and template.",
+   "canonical": "The parameterization of a `testcase` IS dynamic at runtime.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2167,
+    2167
+   ],
+   "examples": [],
+   "file": "tests/05-basic-language-elements/05.04.01.00_test_035.ttcn3",
+   "module": "M_05_04_01_00_test_035",
+   "header": "// @requirement: 5.4.1.0 -- Keyword: testcase; Allowed kind of Parameterization: Value and template parameterization; Allowed form of Parameterization: Dynamic at runtime; Allowed types in formal parameter lists: all basic types and of all user-defined types, address type, component type and template."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.1.0-029c",
+   "section": "5.4.1.0",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "Keyword: testcase; Allowed kind of Parameterization: Value and template parameterization; Allowed form of Parameterization: Dynamic at runtime; Allowed types in formal parameter lists: all basic types and of all user-defined types, address type, component type and template.",
+   "canonical": "A formal parameter in the formal parameter list of a `testcase` MAY be of any basic type, any user-defined type, the address type or a component type, or be a template parameter.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2167,
+    2167
+   ],
+   "examples": [],
+   "file": "tests/05-basic-language-elements/05.04.01.00_test_036.ttcn3",
+   "module": "M_05_04_01_00_test_036",
+   "header": "// @requirement: 5.4.1.0 -- Keyword: testcase; Allowed kind of Parameterization: Value and template parameterization; Allowed form of Parameterization: Dynamic at runtime; Allowed types in formal parameter lists: all basic types and of all user-defined types, address type, component type and template."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.1.0-029d",
+   "section": "5.4.1.0",
+   "type": "restriction",
+   "modality": "SHALL NOT",
+   "original": "Keyword: testcase; Allowed kind of Parameterization: Value and template parameterization; Allowed form of Parameterization: Dynamic at runtime; Allowed types in formal parameter lists: all basic types and of all user-defined types, address type, component type and template.",
+   "canonical": "A formal parameter of a `testcase` SHALL NOT be of a port type, the default type or the timer type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "Table 2 lists the allowed types for testcases without port, default and timer; the prohibition is implied by omission. Chosen reading: omission means prohibition (consistent with clause 5.4.1.1 restriction l).",
+    "readings": [
+     "A formal parameter of a testcase SHALL NOT be of a port, default or timer type.",
+     "Table 2 is not exhaustive; other types may be allowed for testcase formal parameters."
+    ]
+   },
+   "spec_lines": [
+    2167,
+    2167
+   ],
+   "examples": [],
+   "file": "tests/05-basic-language-elements/05.04.01.00_test_037.ttcn3",
+   "module": "M_05_04_01_00_test_037",
+   "header": "// @requirement: 5.4.1.0 -- Keyword: testcase; Allowed kind of Parameterization: Value and template parameterization; Allowed form of Parameterization: Dynamic at runtime; Allowed types in formal parameter lists: all basic types and of all user-defined types, address type, component type and template."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.1.0-031a",
+   "section": "5.4.1.0",
+   "type": "information",
+   "modality": "CAN",
+   "original": "The templates for the signatures can be parameterized, however.",
+   "canonical": "A template of a signature CAN be parameterized.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2168,
+    2168
+   ],
+   "examples": [],
+   "file": "tests/05-basic-language-elements/05.04.01.00_test_038.ttcn3",
+   "module": "M_05_04_01_00_test_038",
+   "header": "// @requirement: 5.4.1.0 -- The templates for the signatures can be parameterized, however."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.1.0-033a",
+   "section": "5.4.1.0",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Lazy and fuzzy properties are valid only in the scope, where the parameters' names are visible.",
+   "canonical": "The lazy or fuzzy property of a formal parameter IS valid only in the scope where the name of the parameter is visible.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2175,
+    2177
+   ],
+   "examples": [],
+   "file": "tests/05-basic-language-elements/05.04.01.00_test_039.ttcn3",
+   "module": "M_05_04_01_00_test_039",
+   "header": "// @requirement: 5.4.1.0 -- Lazy and fuzzy properties are valid only in the scope, where the parameters' names are visible."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.1.0-034a",
+   "section": "5.4.1.0",
+   "type": "semantics",
+   "modality": "IS NOT",
+   "original": "For example, if a fuzzy parameter is passed to a formal parameter declared without a modifier, it loses its fuzzy feature inside the called function.",
+   "canonical": "If a fuzzy formal parameter is passed as actual parameter to a formal parameter declared without a modifier, the parameter IS NOT fuzzy inside the called function.",
+   "condition": "a fuzzy parameter is passed to a formal parameter declared without `@lazy` or `@fuzzy`",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    2175,
+    2177
+   ],
+   "examples": [],
+   "file": "tests/05-basic-language-elements/05.04.01.00_test_040.ttcn3",
+   "module": "M_05_04_01_00_test_040",
+   "header": "// @requirement: 5.4.1.0 -- For example, if a fuzzy parameter is passed to a formal parameter declared without a modifier, it loses its fuzzy feature inside the called function."
+  },
+  {
+   "id": "TTCN3-CORE-5.4.1.0-035a",
+   "section": "5.4.1.0",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "Similarly, if it is passed to a lazy formal parameter, it becomes lazy within the called function.",
+   "canonical": "If a fuzzy formal parameter is passed as actual parameter to a lazy formal parameter, the parameter IS lazy inside the called function.",
+   "condition": "a fuzzy parameter is passed to a formal parameter declared `@lazy`",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "issue": "'it' (via 'Similarly') most likely refers to the fuzzy parameter of the preceding sentence; it could also be read as applying to any parameter passed on to a lazy formal parameter.",
+    "readings": [
+     "A fuzzy formal parameter passed to a lazy formal parameter IS lazy within the called function.",
+     "Any formal parameter (lazy, fuzzy or without modifier) passed to a lazy formal parameter IS lazy within the called function."
+    ]
+   },
+   "spec_lines": [
+    2175,
+    2177
+   ],
+   "examples": [],
+   "file": "tests/05-basic-language-elements/05.04.01.00_test_041.ttcn3",
+   "module": "M_05_04_01_00_test_041",
+   "header": "// @requirement: 5.4.1.0 -- Similarly, if it is passed to a lazy formal parameter, it becomes lazy within the called function."
+  }
+ ]
+}

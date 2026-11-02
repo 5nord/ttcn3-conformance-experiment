@@ -1,0 +1,22 @@
+// @requirement: 15.6.1 -- g) When referencing an item at the index n of a character string template to which a pattern is assigned, if the index is greater than or equal to the number of items in the pattern, first as many ? metacharacters shall be appended to the pattern as is the difference between n and the number of items in the pattern and then the item from the right hand sign of the assignment shall be appended to the pattern.
+// @id: TTCN3-CORE-15.6.1-033a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_06_01_test_032 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template charstring v_pat := pattern "abc?[a-z]";
+        v_pat[6] := pattern "x+";
+        if (match("abcZyQxxx", v_pat) and not match("abcZyxx", v_pat)
+            and not match("abcZyQ", v_pat)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,45 @@
+// @requirement: 18 -- Statement: Reply to procedure call from remote entity; Associated keyword or symbol: reply; Can be invoked by test behaviour: Yes
+// @id: TTCN3-CORE-18-054b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_18_test_118 {
+
+    signature S();
+
+    type port P procedure {
+        inout S;
+    }
+
+    type component C {
+        port P p;
+    }
+
+    function f_ptc() runs on C {
+        timer T := 1.0;
+        T.start;
+        alt {
+            [] p.getcall(S:{}) {
+                p.reply(S:{});
+            }
+            [] T.timeout {
+            }
+        }
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(self:p, v_ptc:p);
+        v_ptc.start(f_ptc());
+        p.call(S:{}, 1.0) {
+            [] p.getreply(S:{}) {
+                setverdict(pass);
+            }
+            [] p.catch(timeout) {
+                setverdict(fail);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

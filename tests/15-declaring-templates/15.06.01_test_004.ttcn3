@@ -1,0 +1,27 @@
+// @requirement: 15.6.1 -- The template is of a binary string type and it contains either a specific value, matching mechanism inside values, AnyValue or AnyValueOrNone.
+// @id: TTCN3-CORE-15.6.1-004a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_06_01_test_004 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template octetstring v_spec := 'ABCD'O, v_comb := 'AB?'O,
+            v_any := ?, v_anyOrNone := *;
+        var template octetstring v_e1, v_e2, v_e3, v_e4;
+        v_e1 := v_spec[1];
+        v_e2 := v_comb[1];
+        v_e3 := v_any[0];
+        v_e4 := v_anyOrNone[0];
+        if (match('CD'O, v_e1) and not match('AB'O, v_e1)
+            and match('FF'O, v_e2) and match('00'O, v_e3) and match('11'O, v_e4)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

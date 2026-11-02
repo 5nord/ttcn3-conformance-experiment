@@ -1,0 +1,32 @@
+// @requirement: 6.2.6 -- The effect of this is that all types of that module are imported.
+// @id: TTCN3-CORE-6.2.6-010a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_06_test_008 {
+
+    import from M_06_02_06_test_008_A { type MyAnyType };
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyAnyType v_any;
+        v_any.HelperRecord := { f1 := 7 };
+        if (ischosen(v_any.HelperRecord) and v_any.HelperRecord.f1 == 7) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_06_02_06_test_008_A {
+
+    type record HelperRecord {
+        integer f1
+    }
+
+    type anytype MyAnyType;
+}

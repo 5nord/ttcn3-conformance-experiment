@@ -1,0 +1,59 @@
+// @requirement: 22.3.5 -- This means, the argument of the to clause of a raise operation is for unicast exceptions the address of one receiving entity, for multicast exceptions a list of addresses of a set of receivers and for broadcast exceptions the all component keywords.
+// @id: TTCN3-CORE-22.3.5-013a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_03_05_test_008 {
+
+    signature S() exception(integer);
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    function f_client(integer p_first) runs on C {
+        timer T := 1.0;
+        p.call(S:{}, 1.0) {
+            [] p.catch(S, p_first) {}
+            [] p.catch { setverdict(fail); stop; }
+            [] p.catch(timeout) { setverdict(fail); stop; }
+        }
+        p.call(S:{}, 1.0) {
+            [] p.catch(S, 4) {}
+            [] p.catch { setverdict(fail); stop; }
+            [] p.catch(timeout) { setverdict(fail); stop; }
+        }
+        T.start;
+        alt {
+            [] p.catch { setverdict(fail); }
+            [] T.timeout { setverdict(pass); }
+        }
+    }
+
+    testcase TC() runs on C system C {
+        var C v_ptc[4];
+        for (var integer i := 0; i < 4; i := i + 1) {
+            v_ptc[i] := C.create;
+            connect(self:p, v_ptc[i]:p);
+        }
+        v_ptc[0].start(f_client(1));
+        v_ptc[1].start(f_client(2));
+        v_ptc[2].start(f_client(3));
+        v_ptc[3].start(f_client(3));
+        for (var integer i := 0; i < 4; i := i + 1) {
+            p.getcall(S:{});
+        }
+        p.raise(S, 1) to v_ptc[0];
+        p.raise(S, 2) to v_ptc[1];
+        p.raise(S, 3) to (v_ptc[2], v_ptc[3]);
+        for (var integer i := 0; i < 4; i := i + 1) {
+            p.getcall(S:{});
+        }
+        p.raise(S, 4) to all component;
+        all component.done;
+    }
+
+    control {
+        execute(TC(), 5.0);
+    }
+}

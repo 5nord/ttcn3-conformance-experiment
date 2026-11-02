@@ -1,0 +1,38 @@
+// @requirement: 26.1 -- Statement: Activate a default (see note); Associated keyword or symbol: activate
+// @id: TTCN3-CORE-26.1-027a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_26_01_test_027 {
+
+    type component C {}
+
+    altstep a_anyTimeout() {
+        [] any timer.timeout {
+        }
+    }
+
+    testcase TC(boolean p_ok) runs on C {
+        if (p_ok) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        var boolean v_ok := false;
+        var default v_default;
+        timer T1 := 0.1;
+        timer T2 := 5.0;
+        v_default := activate(a_anyTimeout());
+        T1.start;
+        T2.start;
+        alt {
+            [] T2.timeout {
+                v_ok := false;
+            }
+        }
+        v_ok := T2.running;
+        deactivate(v_default);
+        execute(TC(v_ok));
+    }
+}

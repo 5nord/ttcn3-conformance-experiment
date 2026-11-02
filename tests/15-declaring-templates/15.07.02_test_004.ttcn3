@@ -1,0 +1,26 @@
+// @requirement: 15.7.2 -- NOTE 1: **omit can be assigned to templates of any type as a whole or to optional fields of record and set types.** **omit can only be used for matching optional fields.**
+// @id: TTCN3-CORE-15.7.2-005b
+// @verdict: pass reject
+module M_15_07_02_test_004 {
+
+    type component C {}
+
+    type record R {
+        integer f
+    }
+
+    template R m_r := { f := omit }; // error: omit used for a mandatory field
+
+    testcase TC() runs on C {
+        var R v_r := { f := 1 };
+        if (match(v_r, m_r)) {
+            setverdict(fail);
+        } else {
+            setverdict(pass);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

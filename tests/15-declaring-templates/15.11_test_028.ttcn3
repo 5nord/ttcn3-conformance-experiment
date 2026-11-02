@@ -1,0 +1,17 @@
+// @requirement: 15.11 -- a) All operands of the concatenation operation shall be at least partially initialized.
+// @id: TTCN3-CORE-15.11-024a
+// @verdict: pass accept, ttcn3verdict:error
+module M_15_11_test_028 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template charstring v_u;
+        var template charstring v_t := "A" & v_u; // error: operand is not initialized
+        setverdict(fail);
+    }
+
+    control {
+        execute(TC());
+    }
+}

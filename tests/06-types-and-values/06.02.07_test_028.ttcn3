@@ -1,0 +1,23 @@
+// @requirement: 6.2.7 -- All elements in an array value that are not set explicitly are undefined.
+// @id: TTCN3-CORE-6.2.7-030a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_07_test_028 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_a[4] := { 10, 20, -, 30 };
+        var integer v_b[3];
+        v_b[0] := 1;
+        if (not isbound(v_a[2]) and isbound(v_a[3])
+            and not isbound(v_b[1]) and not isbound(v_b[2])) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

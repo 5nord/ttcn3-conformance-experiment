@@ -1,0 +1,29 @@
+// @requirement: 15.13 -- A template with the present restriction and with the same content as the operand, if the operand fulfils conditions of the present template restriction as described in clause 15.8.
+// @id: TTCN3-CORE-15.13-004a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_13_test_002 {
+
+    type record R {
+        integer a,
+        boolean b optional
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template R v_value := { 1, omit };
+        var template R v_any := { ?, * };
+        var template(present) R v_res1 := present(v_value);
+        var template(present) R v_res2 := present(v_any);
+        if (match({ 1, omit }, v_res1) and not match({ 1, true }, v_res1) and
+            match({ 2, omit }, v_res2) and match({ 3, false }, v_res2)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

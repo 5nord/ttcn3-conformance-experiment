@@ -1,0 +1,23 @@
+// @requirement: 12 -- A timer declared and started in scope units such as functions ceases to exist when the scope unit is left unless there is a constant, variable or parameter defined in the current or higher scope unit or in an activated altstep that contains a reference to it.
+// @id: TTCN3-CORE-12-016a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_12_test_016 {
+    type component C {}
+
+    function f_start() {
+        timer T_loc := 5.0;
+        T_loc.start;
+    }
+
+    testcase TC() runs on C {
+        f_start();
+        if (any timer.running) {
+            setverdict(fail);
+        } else {
+            setverdict(pass);
+        }
+    }
+
+    control {
+        execute(TC());
+    }}

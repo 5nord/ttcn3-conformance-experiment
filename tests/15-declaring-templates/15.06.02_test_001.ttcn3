@@ -1,0 +1,34 @@
+// @requirement: 15.6.2 -- Both templates and template variables allow referencing sub-fields inside a template definition using the dot notation.
+// @id: TTCN3-CORE-15.6.2-001a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_06_02_test_001 {
+
+    type record R2 {
+        integer g1,
+        R2 g2 optional
+    }
+
+    type record R1 {
+        integer f1 optional,
+        R2 f2 optional
+    }
+
+    template R1 m_r1 := {f1 := 1, f2 := {g1 := 2, g2 := omit}};
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template R1 v_r1 := {f1 := 1, f2 := {g1 := 2, g2 := {g1 := 3, g2 := omit}}};
+        var template R2 v_r2 := v_r1.f2.g2;
+        var template integer v_int := m_r1.f2.g1;
+        if (match({g1 := 3, g2 := omit}, v_r2) and match(2, v_int) and not match(4, v_int)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

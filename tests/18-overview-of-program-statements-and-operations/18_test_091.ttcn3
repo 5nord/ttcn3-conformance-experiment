@@ -1,0 +1,28 @@
+// @requirement: 18 -- Statement: Stop execution of test component behaviour; Associated keyword or symbol: stop; Can be invoked by test behaviour: Yes
+// @id: TTCN3-CORE-18-044b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_18_test_091 {
+
+    type component C {}
+
+    function f_ptc() runs on C {
+        timer T := 5.0;
+        T.start;
+        T.timeout;
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        v_ptc.start(f_ptc());
+        v_ptc.stop;
+        if (not v_ptc.running) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

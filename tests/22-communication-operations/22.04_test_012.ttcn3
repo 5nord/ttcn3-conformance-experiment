@@ -1,0 +1,36 @@
+// @requirement: 22.4 -- If the queue is not empty, a copy of the top element is taken and the receiving operation specified in the check operation is performed on the copy.
+// @id: TTCN3-CORE-22.4-009a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_04_test_012 {
+
+    type port MP message { inout integer; }
+
+    type component C {
+        port MP p1, p2;
+        timer T := 1.0;
+    }
+
+    testcase TC() runs on C {
+        var integer v_copy := 0;
+        connect(mtc:p1, mtc:p2);
+        p1.send(5);
+        T.start;
+        alt {
+            [] p2.check(receive(integer:?) -> value v_copy) { }
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        if (v_copy != 5) {
+            setverdict(fail);
+            stop;
+        }
+        v_copy := 6;
+        alt {
+            [] p2.receive(5) { setverdict(pass); }
+            [else] { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

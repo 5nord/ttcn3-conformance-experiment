@@ -1,0 +1,25 @@
+// @requirement: C.4.3 -- If inpar contains a reference to a template with the present restriction, a matching symbol that fulfills the requirements of the present restriction or a reference to an unrestricted template field that represents a mandatory field of a record or set or any field of a union, anytype, record `of, set` `of or array, the` returned value shall have the present restriction.
+// @id: TTCN3-CORE-C.4.3-024a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_04_03_test_025 {
+
+    type component C {}
+
+    function f_check(template (present) charstring p_t) return boolean {
+        return match("aXzd", p_t) and not match("abzd", p_t);
+    }
+
+    testcase TC() runs on C {
+        var template (present) charstring v_in := pattern "ab?d";
+        var template (present) charstring v_res := replace(v_in, 1, 1, "X");
+        if (f_check(v_res)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

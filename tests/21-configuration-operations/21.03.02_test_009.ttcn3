@@ -1,0 +1,60 @@
+// @requirement: 21.3.2 -- If a behaviour is started on an alive-type PTC after termination of a previous behaviour, it uses variable values, timers, ports, and the local verdict as they were left after termination of the previous behaviour.
+// @id: TTCN3-CORE-21.3.2-010a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_03_02_test_009 {
+
+    type port P message {
+        inout integer
+    }
+
+    type component C {
+        var integer v_x := 0;
+        timer T_t;
+        port P p;
+    }
+
+    function f_first() runs on C {
+        p.receive(integer:1);
+        v_x := 5;
+        T_t.start(0.2);
+        setverdict(pass);
+    }
+
+    function f_second() runs on C {
+        timer T_guard := 2.0;
+        if (v_x != 5 or getverdict != pass) {
+            setverdict(fail);
+            return;
+        }
+        T_guard.start;
+        alt {
+            [] p.receive(integer:2) {}
+            [] T_guard.timeout {
+                setverdict(fail);
+                return;
+            }
+        }
+        alt {
+            [] T_t.timeout {}
+            [] T_guard.timeout {
+                setverdict(fail);
+            }
+        }
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create alive;
+        connect(mtc:p, v_ptc:p);
+        p.send(integer:1);
+        p.send(integer:2);
+        v_ptc.start(f_first());
+        v_ptc.done;
+        v_ptc.start(f_second());
+        v_ptc.done;
+        v_ptc.kill;
+    }
+
+    control {
+        execute(TC());
+    }
+}

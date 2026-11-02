@@ -1,0 +1,39 @@
+// @requirement: 20.5.2 -- An activate operation if it is called with an AltstepRef will put the referenced altstep as the first element into the list of defaults and return a default reference.
+// @id: TTCN3-CORE-20.5.2-003a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_05_02_test_002 {
+
+    type component C {
+        timer T;
+        timer T_guard;
+        var charstring v_log := "";
+    }
+
+    altstep a_1() runs on C {
+        [] T.timeout { v_log := v_log & "1"; }
+    }
+
+    altstep a_2() runs on C {
+        [] T.timeout { v_log := v_log & "2"; }
+    }
+
+    altstep a_3() runs on C {
+        [] T.timeout { v_log := v_log & "3"; }
+    }
+
+    testcase TC() runs on C {
+        activate(a_1());
+        activate(a_2());
+        activate(a_3());
+        T.start(0.1);
+        T_guard.start(0.5);
+        alt {
+            [] T_guard.timeout { v_log := v_log & "g"; }
+        }
+        if (v_log == "3") { setverdict(pass); } else { setverdict(fail); }
+    }
+
+    control {
+        execute(TC());
+    }
+}

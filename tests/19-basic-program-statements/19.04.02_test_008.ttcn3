@@ -1,0 +1,22 @@
+// @requirement: 19.4.2 -- If the iteration variable is declared in the for statement header, its scope and lifetime is limited to the statement block, i.e. a new iteration variable is initialized in every iteration.
+// @id: TTCN3-CORE-19.4.2-007a
+// @verdict: pass reject
+module M_19_04_02_test_008 {
+
+    type record of integer RoI;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var RoI v_range := {1, 2, 3};
+        for (var integer x in v_range) {
+            log(x);
+        }
+        log(x); // error: x is not visible outside the statement block
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

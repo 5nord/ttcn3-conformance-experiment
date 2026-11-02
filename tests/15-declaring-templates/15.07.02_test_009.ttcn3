@@ -1,0 +1,37 @@
+// @requirement: 15.7.2 -- NOTE 2: *** can be assigned to templates of any type as a whole or to optional fields of record and set types.
+// @id: TTCN3-CORE-15.7.2-010a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_07_02_test_009 {
+
+    type component C {}
+
+    type record R {
+        integer f optional
+    }
+
+    type set S {
+        charstring f optional
+    }
+
+    template integer m_intAnyOrNone := *;
+    template R m_recWhole := *;
+    template R m_rec := { f := m_intAnyOrNone };
+    template S m_set := { f := * };
+
+    testcase TC() runs on C {
+        var R v_absent := { f := omit };
+        var R v_present := { f := 1 };
+        var S v_sAbsent := { f := omit };
+        var S v_sPresent := { f := "a" };
+        if (match(v_absent, m_rec) and match(v_present, m_rec) and
+            match(v_sAbsent, m_set) and match(v_sPresent, m_set)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

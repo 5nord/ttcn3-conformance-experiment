@@ -1,0 +1,54 @@
+// @requirement: 21.3.3 -- Similarly, if the component is stopped during re-starting an already running timer, the timer shall be left in the running state after termination of the behaviour.
+// @id: TTCN3-CORE-21.3.3-019a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_03_03_test_022 {
+
+    type port P message { inout integer; }
+
+    type component C {
+        port P p;
+        timer T_c;
+    }
+
+    function f_first() runs on C {
+        timer T_z;
+        T_c.start(10.0);
+        p.send(0);
+        while (true) {
+            T_c.start(10.0);
+            T_z.start(0.001);
+            T_z.timeout;
+        }
+    }
+
+    function f_second() runs on C {
+        if (T_c.running) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    testcase TC() runs on C {
+        timer T := 2.0;
+        timer T_d := 0.2;
+        var C v_ptc := C.create alive;
+        connect(self:p, v_ptc:p);
+        v_ptc.start(f_first());
+        T.start;
+        alt {
+            [] p.receive(0) {}
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        T_d.start;
+        T_d.timeout;
+        v_ptc.stop;
+        v_ptc.start(f_second());
+        v_ptc.done;
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

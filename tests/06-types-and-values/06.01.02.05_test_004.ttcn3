@@ -1,0 +1,14 @@
+// @requirement: 6.1.2.5 -- Constants used in the constant expressions defining the values shall meet with the restrictions in clause 10.
+// @id: TTCN3-CORE-6.1.2.5-004a
+// @verdict: pass reject
+module M_06_01_02_05_test_004 {
+
+    function f_prefix() return charstring {
+        return "abc";
+    }
+
+    const charstring c_prefix := f_prefix();
+
+    type charstring MyString (pattern "{c_prefix}*"); // error: constant initialized by a user function
+
+}

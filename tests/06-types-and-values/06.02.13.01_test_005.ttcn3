@@ -1,0 +1,24 @@
+// @requirement: 6.2.13.1 -- The value or the bounds within the brackets shall be non-negative integer values, except when the infinity keyword is used at the place of the upper bound, in which case the maximum number of the elements is not constrained.
+// @id: TTCN3-CORE-6.2.13.1-003b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_13_01_test_005 {
+
+    type record length(2..infinity) of integer RoI2up;
+    type set length(0..infinity) of integer SoI0up;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var RoI2up v_rec := { 1, 2 };
+        var SoI0up v_set := {};
+        if (lengthof(v_rec) == 2 and lengthof(v_set) == 0) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

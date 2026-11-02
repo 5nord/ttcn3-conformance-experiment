@@ -1,0 +1,22 @@
+// @requirement: C.4.1 -- If expression is not a template containing a pattern matching mechanism, it shall be processed by this predefined function as if it was a character pattern as described in clause B.1.5.
+// @id: TTCN3-CORE-C.4.1-003a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_04_01_test_003 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var charstring v_in := "abcx";
+        var charstring v_expr := "(?+)x";
+        var charstring v_res := regexp(v_in, v_expr, 0);
+        if (v_res == "abc") {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

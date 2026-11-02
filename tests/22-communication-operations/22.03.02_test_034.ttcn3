@@ -1,0 +1,18 @@
+// @requirement: 22.3.2 -- c) The ParameterIdentifiers shall be from the corresponding signature definition.
+// @id: TTCN3-CORE-22.3.2-038a
+// @verdict: pass reject
+module M_22_03_02_test_034 {
+
+    signature S(in integer p_x) noblock;
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    function f_getcall() runs on C {
+        var integer v_x;
+        p.getcall(S:{?}) -> param(v_x := p_y); // error: p_y is not a parameter of S
+    }
+}

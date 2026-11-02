@@ -1,0 +1,27 @@
+// @requirement: 15.5 -- As well as creating explicitly named modified templates, TTCN-3 allows the definition of in-line modified templates.
+// @id: TTCN3-CORE-15.5-003a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_05_test_002 {
+
+    type record R {
+        integer f1 optional,
+        charstring f2,
+        boolean f3
+    }
+
+    template R m_r1 := { f1 := 123, f2 := "A string", f3 := true };
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (match({ f1 := 76, f2 := "A string", f3 := true }, modifies m_r1 := { f1 := 76 })) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

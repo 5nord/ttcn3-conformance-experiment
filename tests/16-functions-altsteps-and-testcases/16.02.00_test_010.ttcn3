@@ -1,0 +1,36 @@
+// @requirement: 16.2.0 -- Altsteps may be parameterized as defined in clause 5.4.
+// @id: TTCN3-CORE-16.2.0-012a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_16_02_00_test_010 {
+
+    type port P message {
+        inout integer
+    }
+
+    type component C {
+        port P p1, p2;
+    }
+
+    altstep a_check(in integer p_exp, template integer p_tmpl := ?) runs on C {
+        var integer v_rcv;
+        [] p2.receive(p_tmpl) -> value v_rcv {
+            if (v_rcv == p_exp) {
+                setverdict(pass);
+            } else {
+                setverdict(fail);
+            }
+        }
+    }
+
+    testcase TC() runs on C {
+        connect(self:p1, self:p2);
+        p1.send(7);
+        a_check(7);
+        p1.send(8);
+        a_check(8, (1 .. 10));
+    }
+
+    control {
+        execute(TC());
+    }
+}

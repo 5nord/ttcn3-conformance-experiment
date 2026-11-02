@@ -1,0 +1,25 @@
+// @requirement: 6.2.12 -- If an address type is bound to a port type definition, addressing of SUT instances (i.e. to- and from-directives in communication operations) via instances of that port type shall be restricted to values of the bound address type.
+// @id: TTCN3-CORE-6.2.12-007a
+// @verdict: pass reject
+module M_06_02_12_test_005 {
+
+    type port P message {
+        address charstring;
+        inout integer;
+    }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C system C {
+        var integer v_addr := 1;
+        map(mtc:p, system:p);
+        p.send(integer:5) to v_addr; // error: integer is not the bound address type charstring
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

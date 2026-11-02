@@ -1,0 +1,22 @@
+// @requirement: 11.1 -- e) The initialization or assignment of a fuzzy or lazy variable shall not contain function calls of functions with inout or out parameters.
+// @id: TTCN3-CORE-11.1-014a
+// @verdict: pass reject
+module M_11_01_test_016 {
+
+    type component C {}
+
+    function f_inc(inout integer p_value) return integer {
+        p_value := p_value + 1;
+        return p_value;
+    }
+
+    testcase TC() runs on C {
+        var integer v_a := 1;
+        var @lazy integer v_lazy := f_inc(v_a); // error: function with inout parameter
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

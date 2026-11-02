@@ -1,0 +1,44 @@
+// @requirement: 22.1.4.2 -- In the case of procedure-based ports it is used for storing the in and inout parameters of an accepted call, for storing the return value or for storing exceptions.
+// @id: TTCN3-CORE-22.1.4.2-011a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_01_04_02_test_009 {
+
+    signature S(in integer p_a, inout integer p_b) return integer exception (charstring);
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    function f_server() runs on C {
+        var integer v_a := 0, v_b := 0;
+        p.getcall(S:{?, ?}) -> param(v_a, v_b);
+        if (v_a == 1 and v_b == 2) { setverdict(pass); } else { setverdict(fail); }
+        p.reply(S:{-, v_b + 1} value v_a + v_b);
+        p.getcall(S:{?, ?});
+        p.raise(S, charstring:"exc");
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        var integer v_ret := 0, v_b := 0;
+        var charstring v_exc := "";
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_server());
+        p.call(S:{1, 2}, 1.0) {
+            [] p.getreply(S:{-, ?}) -> value v_ret param(v_b := p_b) {}
+            [] p.catch(timeout) {}
+        }
+        p.call(S:{1, 2}, 1.0) {
+            [] p.catch(S, charstring:?) -> value v_exc {}
+            [] p.catch(timeout) {}
+        }
+        if (v_ret == 3 and v_b == 3 and v_exc == "exc") { setverdict(pass); } else { setverdict(fail); }
+        v_ptc.done;
+    }
+
+    control {
+        execute(TC());
+    }
+}

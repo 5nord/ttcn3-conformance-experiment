@@ -1,0 +1,59 @@
+// @requirement: 16.2.1 -- A successful termination may cause either the termination of the test component, i.e. the altstep ends with a stop statement, or a new snapshot and re-evaluation of the alt statement, i.e. the altstep ends with repeat (see clause 20.2) or a continuation immediately after the alt statement, i.e. the execution of the selected top alternative of the altstep ends with a break statement (see clause 19.12) or without explicit repeat or stop.
+// @id: TTCN3-CORE-16.2.1-011c
+// @verdict: pass accept, ttcn3verdict:pass
+module M_16_02_01_test_014 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p;
+        timer T;
+        var integer v_count := 0;
+    }
+
+    altstep a_break() runs on C {
+        [] p.receive(integer:1) {
+            v_count := v_count + 1;
+            break;
+        }
+    }
+
+    altstep a_plain() runs on C {
+        [] p.receive(integer:2) {
+            v_count := v_count + 1;
+        }
+    }
+
+    testcase TC() runs on C {
+        connect(self:p, self:p);
+        p.send(1);
+        p.send(2);
+        T.start(1.0);
+        alt {
+            [] a_break();
+            [] T.timeout {
+                setverdict(fail);
+            }
+        }
+        if (v_count != 1) {
+            setverdict(fail);
+        }
+        alt {
+            [] a_plain();
+            [] T.timeout {
+                setverdict(fail);
+            }
+        }
+        if (v_count == 2) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

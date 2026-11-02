@@ -1,0 +1,16 @@
+// @requirement: 11.2 -- h) Restrictions on templates in clause 15.0 shall apply.
+// @id: TTCN3-CORE-11.2-024a
+// @verdict: pass reject
+module M_11_02_test_023 {
+    type record R {
+        integer f1,
+        default f2
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template R v_t := { f1 := 1, f2 := null }; // error: template of a type containing a default field
+        setverdict(pass);
+    }
+}

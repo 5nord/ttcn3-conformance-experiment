@@ -1,0 +1,18 @@
+// @requirement: A.1.6.8.3 -- If more than one BitNotExpression exists, then the BitNotExpressions shall evaluate to specific values of compatible types
+// @id: TTCN3-CORE-A.1.6.8.3-014a
+// @verdict: pass reject
+module M_A_01_06_08_03_test_018 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var octetstring v_o := '0F'O;
+        var hexstring v_h := '0F'H;
+        var octetstring v_r := v_o and4b v_h; // error: operands of and4b have incompatible types
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,36 @@
+// @requirement: 20.5.3 -- NOTE: A suspended default can be re-activated by an activate operation.
+// @id: TTCN3-CORE-20.5.3-004a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_05_03_test_004 {
+
+    type component C {
+        timer T;
+        timer T_guard;
+        var charstring v_log := "";
+    }
+
+    altstep a_1() runs on C {
+        [] T.timeout { v_log := v_log & "1"; }
+    }
+
+    function f_wait() runs on C {
+        T.start(0.1);
+        T_guard.start(0.5);
+        alt {
+            [] T_guard.timeout { v_log := v_log & "g"; }
+        }
+        T_guard.stop;
+    }
+
+    testcase TC() runs on C {
+        var default v_def := activate(a_1());
+        deactivate(v_def, true);
+        activate(v_def);
+        f_wait();
+        if (v_log == "1") { setverdict(pass); } else { setverdict(fail); }
+    }
+
+    control {
+        execute(TC());
+    }
+}

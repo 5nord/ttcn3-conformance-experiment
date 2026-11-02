@@ -1,0 +1,43 @@
+// @requirement: 16.2.1 -- In this case, the call of the altstep can be interpreted as shorthand for an alt statement with only one alternative describing the explicit call of the altstep.
+// @id: TTCN3-CORE-16.2.1-017a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_16_02_01_test_019 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p;
+        timer T;
+        var boolean v_def_called := false;
+    }
+
+    altstep a_step() runs on C {
+        [] p.receive {
+            setverdict(fail);
+        }
+    }
+
+    altstep a_def() runs on C {
+        [] T.timeout {
+            v_def_called := true;
+        }
+    }
+
+    testcase TC() runs on C {
+        var default v_def := activate(a_def());
+        T.start(0.1);
+        a_step(); // blocks like alt { [] a_step(); } and invokes the default
+        deactivate(v_def);
+        if (v_def_called) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

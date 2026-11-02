@@ -1,0 +1,28 @@
+// @requirement: 8.2.4 -- a) Only private visibility can be defined for friend definitions as they are always private.
+// @id: TTCN3-CORE-8.2.4-010b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_02_04_test_010 {
+
+    import from M_08_02_04_test_010_A { const c_value }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (c_value == 1) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_04_test_010_A {
+
+    private friend module M_08_02_04_test_010;
+
+    friend const integer c_value := 1;
+}

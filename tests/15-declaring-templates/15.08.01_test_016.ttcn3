@@ -1,0 +1,27 @@
+// @requirement: 15.8.1 -- Such a template can be used to define a mandatory field of a record or set template.
+// @id: TTCN3-CORE-15.8.1-011a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_08_01_test_016 {
+    type record R {
+        integer a,
+        boolean b optional
+    }
+
+    template(present) integer mw_a := ?;
+    template R mw_r := {a := mw_a, b := *};
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var R v_r := {a := 7, b := omit};
+        if (match(v_r, mw_r)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

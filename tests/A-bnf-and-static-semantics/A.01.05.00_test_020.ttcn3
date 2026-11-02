@@ -1,0 +1,19 @@
+// @requirement: A.1.5.0 -- Begin/end block symbols: Decoded field reference; { }: =>
+// @id: TTCN3-CORE-A.1.5.0-024a
+// @verdict: pass accept, noexecution
+module M_A_01_05_00_test_020 {
+
+    type record Payload {
+        integer data
+    } with { encode "RAW" }
+
+    type record PDU {
+        integer header,
+        octetstring payload
+    }
+
+    function f_data(PDU p_pdu) return integer {
+        var Payload v_p := p_pdu.payload => Payload;
+        return v_p.data;
+    }
+}

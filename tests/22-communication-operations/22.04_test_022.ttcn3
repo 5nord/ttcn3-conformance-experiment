@@ -1,0 +1,30 @@
+// @requirement: 22.4 -- A check operation with no argument list allows checking whether something waits for processing in an incoming port queue. **Check any operation**
+// @id: TTCN3-CORE-22.4-020a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_04_test_022 {
+
+    type port MP message { inout integer; }
+
+    type component C {
+        port MP p1, p2;
+        timer T := 1.0;
+    }
+
+    testcase TC() runs on C {
+        connect(mtc:p1, mtc:p2);
+        alt {
+            [] p2.check { setverdict(fail); stop; }
+            [else] { }
+        }
+        p1.send(5);
+        T.start;
+        alt {
+            [] p2.check { setverdict(pass); }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

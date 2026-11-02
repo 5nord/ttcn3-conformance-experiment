@@ -1,0 +1,1516 @@
+{
+ "batch": "b098",
+ "requirements": [
+  {
+   "id": "TTCN3-CORE-C.2.1-001a",
+   "section": "C.2.1",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "lengthof(in template (present) any inpar) return integer",
+   "canonical": "The `lengthof` predefined function has the signature lengthof(in template (present) any inpar) return integer.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25572,
+    25574
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.02.01_test_001.ttcn3",
+   "module": "M_C_02_01_test_001",
+   "header": "// @requirement: C.2.1 -- lengthof(in template (present) any inpar) return integer"
+  },
+  {
+   "id": "TTCN3-CORE-C.2.1-002a",
+   "section": "C.2.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "This function returns the length of a value or template that is of type bitstring, hexstring, octetstring, charstring, universal charstring, record of, set of, array or map. The units of length for each",
+   "canonical": "The `lengthof` function SHALL return the length of a value or template of type bitstring, hexstring, octetstring, charstring, universal charstring, record of, set of, array or map.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25576,
+    25579
+   ],
+   "examples": [
+    {
+     "lines": [
+      25637,
+      25647
+     ],
+     "text": "lengthof('010'B)  // returns 3 \n  lengthof('F3'H)  // returns 2 \n  lengthof('F2'O)  // returns 1 \n  lengthof (universal charstring : \"Length_of_Example\") // returns 17\n  // Given\n  type record length(0..10) of integer MyList;\n  var MyList v_myListVar := { 0, 1, -, 2, - };\n  lengthof(v_myListVar);\n  // returns 4 without respect to the fact, that the element v_myListVar[2] is not initialized"
+    },
+    {
+     "lines": [
+      25650,
+      25662
+     ],
+     "text": "lengthof(charstring : \"HELLO\")  // returns 5 \n  lengthof(octetstring : ('12'O, '34'O)) // returns 1 \n  lengthof('1??1'B)  // returns 4 \n  lengthof(universal charstring : ? length(8)) // returns 8 \n  lengthof('1*F'H)   // shall cause an error \n  lengthof('1*F'H length (8))  // returns 8\n  lengthof(bitstring : ? length(2..infinity)) // shall cause an error \n  lengthof('00*FF'O length(1..2))    // returns 2 \n  lengthof('1*49'H length(1..2))    // shall cause an error \n  lengthof('1'B length(3))  // shall cause an error \n  lengthof('1*1'B length(10..20))    // shall cause an error"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.02.01_test_002.ttcn3",
+   "module": "M_C_02_01_test_002",
+   "header": "// @requirement: C.2.1 -- This function returns the length of a value or template that is of type bitstring, hexstring, octetstring, charstring, universal charstring, record of, set of, array or map. The units of length for each"
+  },
+  {
+   "id": "TTCN3-CORE-C.2.1-004a",
+   "section": "C.2.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "charstring, universal charstring, record of, set of, array or map. The units of length for each string type are defined in table 4 in the present document.",
+   "canonical": "The units of length used by `lengthof` for each string type ARE the units defined in table 4.",
+   "condition": null,
+   "cross_refs": [
+    "6.1.1"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25577,
+    25581
+   ],
+   "examples": [
+    {
+     "lines": [
+      25637,
+      25647
+     ],
+     "text": "lengthof('010'B)  // returns 3 \n  lengthof('F3'H)  // returns 2 \n  lengthof('F2'O)  // returns 1 \n  lengthof (universal charstring : \"Length_of_Example\") // returns 17\n  // Given\n  type record length(0..10) of integer MyList;\n  var MyList v_myListVar := { 0, 1, -, 2, - };\n  lengthof(v_myListVar);\n  // returns 4 without respect to the fact, that the element v_myListVar[2] is not initialized"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.02.01_test_003.ttcn3",
+   "module": "M_C_02_01_test_003",
+   "header": "// @requirement: C.2.1 -- charstring, universal charstring, record of, set of, array or map. The units of length for each string type are defined in table 4 in the present document."
+  },
+  {
+   "id": "TTCN3-CORE-C.2.1-005a",
+   "section": "C.2.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "For values or templates of record `of or set` `of type, the value to be returned is the maximum of the minimal length` restriction value of the type, or 0 for types with no minimal length restriction, and the index of the last initialized element plus 1.",
+   "canonical": "For a value or template of a record of or set of type, `lengthof` SHALL return the maximum of (a) the minimal length restriction value of the type, or 0 if the type has no minimal length restriction, and (b) the index of the last initialized element plus 1.",
+   "condition": "inpar is of a record of or set of type",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25583,
+    25585
+   ],
+   "examples": [
+    {
+     "lines": [
+      25637,
+      25647
+     ],
+     "text": "lengthof('010'B)  // returns 3 \n  lengthof('F3'H)  // returns 2 \n  lengthof('F2'O)  // returns 1 \n  lengthof (universal charstring : \"Length_of_Example\") // returns 17\n  // Given\n  type record length(0..10) of integer MyList;\n  var MyList v_myListVar := { 0, 1, -, 2, - };\n  lengthof(v_myListVar);\n  // returns 4 without respect to the fact, that the element v_myListVar[2] is not initialized"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.02.01_test_004.ttcn3",
+   "module": "M_C_02_01_test_004",
+   "header": "// @requirement: C.2.1 -- For values or templates of record `of or set` `of type, the value to be returned is the maximum of the minimal length` restriction value of the type, or 0 for types with no minimal length restriction, and the index of the last initialized element plus 1."
+  },
+  {
+   "id": "TTCN3-CORE-C.2.1-006a",
+   "section": "C.2.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "For values of the map type, the function returns the number of key value pairs in the map.",
+   "canonical": "For a value of a map type, `lengthof` SHALL return the number of key value pairs in the map.",
+   "condition": "inpar is a map value",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25587,
+    25587
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.02.01_test_005.ttcn3",
+   "module": "M_C_02_01_test_005",
+   "header": "// @requirement: C.2.1 -- For values of the map type, the function returns the number of key value pairs in the map."
+  },
+  {
+   "id": "TTCN3-CORE-C.2.1-007a",
+   "section": "C.2.1",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "The length value returned in case of length restricted string or list type shall be at least the minimum length according to the type definition.",
+   "canonical": "For a length restricted string or list type, the length value returned by `lengthof` SHALL be at least the minimum length according to the type definition.",
+   "condition": "the type of inpar is length restricted",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25589,
+    25592
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.02.01_test_006.ttcn3",
+   "module": "M_C_02_01_test_006",
+   "header": "// @requirement: C.2.1 -- The length value returned in case of length restricted string or list type shall be at least the minimum length according to the type definition."
+  },
+  {
+   "id": "TTCN3-CORE-C.2.1-008a",
+   "section": "C.2.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "In particular, the length of a fixed length record of or set of value will always be the fixed length according to the type definition.",
+   "canonical": "The length returned by `lengthof` for a value of a fixed length record of or set of type IS always the fixed length according to the type definition.",
+   "condition": "inpar is of a fixed length record of or set of type",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25589,
+    25592
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.02.01_test_007.ttcn3",
+   "module": "M_C_02_01_test_007",
+   "header": "// @requirement: C.2.1 -- In particular, the length of a fixed length record of or set of value will always be the fixed length according to the type definition."
+  },
+  {
+   "id": "TTCN3-CORE-C.2.1-009a",
+   "section": "C.2.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "For array values or templates, the value to be returned is the fixed length of the corresponding record `of type.`",
+   "canonical": "For an array value or template, `lengthof` SHALL return the fixed length of the corresponding record of type.",
+   "condition": "inpar is an array value or template",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25589,
+    25592
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.02.01_test_008.ttcn3",
+   "module": "M_C_02_01_test_008",
+   "header": "// @requirement: C.2.1 -- For array values or templates, the value to be returned is the fixed length of the corresponding record `of type.`"
+  },
+  {
+   "id": "TTCN3-CORE-C.2.1-011a",
+   "section": "C.2.1",
+   "type": "requirement",
+   "modality": "SHALL",
+   "original": "The length of an universal charstring shall be calculated by counting each combining character and hangul syllable character (including fillers) on its own (see ISO/IEC 10646 [2], clauses 23 and 24).",
+   "canonical": "The length of a universal charstring SHALL be calculated by counting each combining character and each hangul syllable character (including fillers) on its own.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25596,
+    25597
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.02.01_test_009.ttcn3",
+   "module": "M_C_02_01_test_009",
+   "header": "// @requirement: C.2.1 -- The length of an universal charstring shall be calculated by counting each combining character and hangul syllable character (including fillers) on its own (see ISO/IEC 10646 [2], clauses 23 and 24)."
+  },
+  {
+   "id": "TTCN3-CORE-C.2.1-012a",
+   "section": "C.2.1",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "When the function lengthof is applied to string-type templates, inpar shall only contain the following matching mechanisms: specific value, value list, complemented value list, pattern, \"?\" (AnyValue instead of value), \"*\" (AnyValueOrNone instead of value), combined template and the length restriction matching attribute.",
+   "canonical": "When `lengthof` is applied to a string-type template, `inpar` SHALL only contain the matching mechanisms specific value, template list, complemented template list, pattern, \"?\" (AnyValue), \"*\" (AnyValueOrNone), combined template and the length restriction matching attribute.",
+   "condition": "inpar is a string-type template",
+   "cross_refs": [
+    "B.1"
+   ],
+   "ambiguity": {
+    "status": "terminology",
+    "improper_terms": [
+     {
+      "used": "value list / complemented value list",
+      "proper": "template list / complemented template list",
+      "glossary": false
+     }
+    ],
+    "issue": "Clauses B.1.2.1 and B.1.2.2 name these matching mechanisms 'template list' and 'complemented template list'."
+   },
+   "spec_lines": [
+    25599,
+    25603
+   ],
+   "examples": [
+    {
+     "lines": [
+      25650,
+      25662
+     ],
+     "text": "lengthof(charstring : \"HELLO\")  // returns 5 \n  lengthof(octetstring : ('12'O, '34'O)) // returns 1 \n  lengthof('1??1'B)  // returns 4 \n  lengthof(universal charstring : ? length(8)) // returns 8 \n  lengthof('1*F'H)   // shall cause an error \n  lengthof('1*F'H length (8))  // returns 8\n  lengthof(bitstring : ? length(2..infinity)) // shall cause an error \n  lengthof('00*FF'O length(1..2))    // returns 2 \n  lengthof('1*49'H length(1..2))    // shall cause an error \n  lengthof('1'B length(3))  // shall cause an error \n  lengthof('1*1'B length(10..20))    // shall cause an error"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.02.01_test_010.ttcn3",
+   "module": "M_C_02_01_test_010",
+   "header": "// @requirement: C.2.1 -- When the function lengthof is applied to string-type templates, inpar shall only contain the following matching mechanisms: specific value, value list, complemented value list, pattern, \"?\" (AnyValue instead of value), \"*\" (AnyValueOrNone instead of value), combined template and the length restriction matching attribute."
+  },
+  {
+   "id": "TTCN3-CORE-C.2.1-013a",
+   "section": "C.2.1",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "In case of stringtype templates inpar shall match values of the same length only with the exception of specific values and patterns.",
+   "canonical": "When `lengthof` is applied to a string-type template, `inpar` SHALL match values of the same length only, with the exception of specific values and patterns.",
+   "condition": "inpar is a string-type template",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "readings": [
+     "A string-type template passed to lengthof SHALL match values of one length only, unless it is a specific value or a pattern, which MAY match values of different lengths.",
+     "A string-type template passed to lengthof SHALL match values of one length only; for specific values and patterns only the counting rule of clause 15.6.1 differs."
+    ],
+    "issue": "It is unclear what the exception exempts; the examples ('1*F'H causes an error, '00*FF'O length(1..2) returns 2) suggest that patterns with '*' still need a determinable length. The first reading follows the wording and was chosen."
+   },
+   "spec_lines": [
+    25599,
+    25603
+   ],
+   "examples": [
+    {
+     "lines": [
+      25650,
+      25662
+     ],
+     "text": "lengthof(charstring : \"HELLO\")  // returns 5 \n  lengthof(octetstring : ('12'O, '34'O)) // returns 1 \n  lengthof('1??1'B)  // returns 4 \n  lengthof(universal charstring : ? length(8)) // returns 8 \n  lengthof('1*F'H)   // shall cause an error \n  lengthof('1*F'H length (8))  // returns 8\n  lengthof(bitstring : ? length(2..infinity)) // shall cause an error \n  lengthof('00*FF'O length(1..2))    // returns 2 \n  lengthof('1*49'H length(1..2))    // shall cause an error \n  lengthof('1'B length(3))  // shall cause an error \n  lengthof('1*1'B length(10..20))    // shall cause an error"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.02.01_test_011.ttcn3",
+   "module": "M_C_02_01_test_011",
+   "header": "// @requirement: C.2.1 -- In case of stringtype templates inpar shall match values of the same length only with the exception of specific values and patterns."
+  },
+  {
+   "id": "TTCN3-CORE-C.2.1-014a",
+   "section": "C.2.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "In case of these two matching mechanisms, the lengthof function returns the number of indexable items according to the rules specified in clause 15.6.1.",
+   "canonical": "For string-type templates that are specific values or patterns, `lengthof` SHALL return the number of indexable items according to the rules of clause 15.6.1.",
+   "condition": "inpar is a specific value or a pattern",
+   "cross_refs": [
+    "15.6.1"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25599,
+    25603
+   ],
+   "examples": [
+    {
+     "lines": [
+      25650,
+      25662
+     ],
+     "text": "lengthof(charstring : \"HELLO\")  // returns 5 \n  lengthof(octetstring : ('12'O, '34'O)) // returns 1 \n  lengthof('1??1'B)  // returns 4 \n  lengthof(universal charstring : ? length(8)) // returns 8 \n  lengthof('1*F'H)   // shall cause an error \n  lengthof('1*F'H length (8))  // returns 8\n  lengthof(bitstring : ? length(2..infinity)) // shall cause an error \n  lengthof('00*FF'O length(1..2))    // returns 2 \n  lengthof('1*49'H length(1..2))    // shall cause an error \n  lengthof('1'B length(3))  // shall cause an error \n  lengthof('1*1'B length(10..20))    // shall cause an error"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.02.01_test_012.ttcn3",
+   "module": "M_C_02_01_test_012",
+   "header": "// @requirement: C.2.1 -- In case of these two matching mechanisms, the lengthof function returns the number of indexable items according to the rules specified in clause 15.6.1."
+  },
+  {
+   "id": "TTCN3-CORE-C.2.1-015a",
+   "section": "C.2.1",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "When the function lengthof is applied to templates of record of or set of types, inpar shall only contain the following matching mechanisms: specific value, value list, complemented value list, \"?\" (AnyValue instead of value), \"*\" (AnyValueOrNone instead of value), SuperSet, SubSet, combined template, permutation and the length restriction matching attribute.",
+   "canonical": "When `lengthof` is applied to a template of a record of or set of type, `inpar` SHALL only contain the matching mechanisms specific value, template list, complemented template list, \"?\" (AnyValue), \"*\" (AnyValueOrNone), SuperSet, SubSet, combined template, permutation and the length restriction matching attribute.",
+   "condition": "inpar is a record of or set of template",
+   "cross_refs": [
+    "B.1"
+   ],
+   "ambiguity": {
+    "status": "terminology",
+    "improper_terms": [
+     {
+      "used": "value list / complemented value list",
+      "proper": "template list / complemented template list",
+      "glossary": false
+     }
+    ],
+    "issue": "Clauses B.1.2.1 and B.1.2.2 name these matching mechanisms 'template list' and 'complemented template list'."
+   },
+   "spec_lines": [
+    25605,
+    25610
+   ],
+   "examples": [
+    {
+     "lines": [
+      25665,
+      25677
+     ],
+     "text": "type record of integer RoI; \n  template RoI mw_roI1 := { 1, permutation(2, 3), ? } \n  template RoI mw_roI2 := {1, *, (2, 3) } \n  template RoI mw_roI3 := { 1, *, 10 } length(5) \n  template RoI mw_roI4 := { 1, 2, 3, * } length(1..2) \n  template RoI mw_roI5 := { 1, 2, 3, * } length(1..3) \n  lengthof (mw_roI1) // returns 4 \n  lengthof (mw_roI2) // shall cause an error \n  lengthof (mw_roI3) // returns 5 \n  lengthof (mw_roI4) // shall cause an error \n  lengthof (mw_roI5) // returns 3"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.02.01_test_013.ttcn3",
+   "module": "M_C_02_01_test_013",
+   "header": "// @requirement: C.2.1 -- When the function lengthof is applied to templates of record of or set of types, inpar shall only contain the following matching mechanisms: specific value, value list, complemented value list, \"?\" (AnyValue instead of value), \"*\" (AnyValueOrNone instead of value), SuperSet, SubSet, combined template, permutation and the length restriction matching attribute."
+  },
+  {
+   "id": "TTCN3-CORE-C.2.1-016a",
+   "section": "C.2.1",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "The parameter inpar shall only match values, for which the lengthof function would give the same result.",
+   "canonical": "When `lengthof` is applied to a template of a record of or set of type, `inpar` SHALL only match values for which `lengthof` gives the same result.",
+   "condition": "inpar is a record of or set of template",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25605,
+    25610
+   ],
+   "examples": [
+    {
+     "lines": [
+      25665,
+      25677
+     ],
+     "text": "type record of integer RoI; \n  template RoI mw_roI1 := { 1, permutation(2, 3), ? } \n  template RoI mw_roI2 := {1, *, (2, 3) } \n  template RoI mw_roI3 := { 1, *, 10 } length(5) \n  template RoI mw_roI4 := { 1, 2, 3, * } length(1..2) \n  template RoI mw_roI5 := { 1, 2, 3, * } length(1..3) \n  lengthof (mw_roI1) // returns 4 \n  lengthof (mw_roI2) // shall cause an error \n  lengthof (mw_roI3) // returns 5 \n  lengthof (mw_roI4) // shall cause an error \n  lengthof (mw_roI5) // returns 3"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.02.01_test_014.ttcn3",
+   "module": "M_C_02_01_test_014",
+   "header": "// @requirement: C.2.1 -- The parameter inpar shall only match values, for which the lengthof function would give the same result."
+  },
+  {
+   "id": "TTCN3-CORE-C.2.1-017a",
+   "section": "C.2.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "If inpar contains uninitialized elements, each of them shall be counted as 1 element, i.e. they shall be matched as if they contained the \"?\" (AnyElement inside value) matching character.",
+   "canonical": "Each uninitialized element contained in the `inpar` parameter of `lengthof` SHALL be counted as 1 element.",
+   "condition": "inpar contains uninitialized elements",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25605,
+    25610
+   ],
+   "examples": [
+    {
+     "lines": [
+      25637,
+      25647
+     ],
+     "text": "lengthof('010'B)  // returns 3 \n  lengthof('F3'H)  // returns 2 \n  lengthof('F2'O)  // returns 1 \n  lengthof (universal charstring : \"Length_of_Example\") // returns 17\n  // Given\n  type record length(0..10) of integer MyList;\n  var MyList v_myListVar := { 0, 1, -, 2, - };\n  lengthof(v_myListVar);\n  // returns 4 without respect to the fact, that the element v_myListVar[2] is not initialized"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.02.01_test_015.ttcn3",
+   "module": "M_C_02_01_test_015",
+   "header": "// @requirement: C.2.1 -- If inpar contains uninitialized elements, each of them shall be counted as 1 element, i.e. they shall be matched as if they contained the \"?\" (AnyElement inside value) matching character."
+  },
+  {
+   "id": "TTCN3-CORE-C.2.1-017b",
+   "section": "C.2.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "If inpar contains uninitialized elements, each of them shall be counted as 1 element, i.e. they shall be matched as if they contained the \"?\" (AnyElement inside value) matching character.",
+   "canonical": "Each uninitialized element contained in the `inpar` parameter of `lengthof` SHALL be matched as if it contained the \"?\" (AnyElement) matching mechanism.",
+   "condition": "inpar contains uninitialized elements",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25605,
+    25610
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.02.01_test_016.ttcn3",
+   "module": "M_C_02_01_test_016",
+   "header": "// @requirement: C.2.1 -- If inpar contains uninitialized elements, each of them shall be counted as 1 element, i.e. they shall be matched as if they contained the \"?\" (AnyElement inside value) matching character."
+  },
+  {
+   "id": "TTCN3-CORE-C.2.1-018a",
+   "section": "C.2.1",
+   "type": "information",
+   "modality": "IS NOT",
+   "original": "NOTE 2: In case of record ofs and set ofs and arrays only elements of the TTCN-3 object, which is the parameter of the function are calculated; i.e. no elements of nested types are taken into account when determining the return value.",
+   "canonical": "For record of, set of and array arguments, `lengthof` counts only the elements of the object passed as parameter; elements of nested types ARE NOT taken into account.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25612,
+    25614
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.02.01_test_017.ttcn3",
+   "module": "M_C_02_01_test_017",
+   "header": "// @requirement: C.2.1 -- NOTE 2: In case of record ofs and set ofs and arrays only elements of the TTCN-3 object, which is the parameter of the function are calculated; i.e. no elements of nested types are taken into account when determining the return value."
+  },
+  {
+   "id": "TTCN3-CORE-C.2.1-019a",
+   "section": "C.2.1",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "In addition to the general error causes in clause 16.1.2, error causes are:",
+   "canonical": "The general error causes of clause 16.1.2 apply to the `lengthof` function in addition to its specific error causes.",
+   "condition": null,
+   "cross_refs": [
+    "16.1.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25616,
+    25616
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.02.01_test_018.ttcn3",
+   "module": "M_C_02_01_test_018",
+   "header": "// @requirement: C.2.1 -- In addition to the general error causes in clause 16.1.2, error causes are:"
+  },
+  {
+   "id": "TTCN3-CORE-C.2.1-020a",
+   "section": "C.2.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "`inpar is a string-type template and it can match string values with different length or the length restriction` matching attribute contradicts the number of string elements in the template body;",
+   "canonical": "Calling `lengthof` with a string-type template that can match string values of different lengths SHALL cause an error.",
+   "condition": "inpar is a string-type template that can match values of different lengths",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25616,
+    25619
+   ],
+   "examples": [
+    {
+     "lines": [
+      25650,
+      25662
+     ],
+     "text": "lengthof(charstring : \"HELLO\")  // returns 5 \n  lengthof(octetstring : ('12'O, '34'O)) // returns 1 \n  lengthof('1??1'B)  // returns 4 \n  lengthof(universal charstring : ? length(8)) // returns 8 \n  lengthof('1*F'H)   // shall cause an error \n  lengthof('1*F'H length (8))  // returns 8\n  lengthof(bitstring : ? length(2..infinity)) // shall cause an error \n  lengthof('00*FF'O length(1..2))    // returns 2 \n  lengthof('1*49'H length(1..2))    // shall cause an error \n  lengthof('1'B length(3))  // shall cause an error \n  lengthof('1*1'B length(10..20))    // shall cause an error"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.02.01_test_019.ttcn3",
+   "module": "M_C_02_01_test_019",
+   "header": "// @requirement: C.2.1 -- `inpar is a string-type template and it can match string values with different length or the length restriction` matching attribute contradicts the number of string elements in the template body;"
+  },
+  {
+   "id": "TTCN3-CORE-C.2.1-020b",
+   "section": "C.2.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "`inpar is a string-type template and it can match string values with different length or the length restriction` matching attribute contradicts the number of string elements in the template body;",
+   "canonical": "Calling `lengthof` with a string-type template whose length restriction matching attribute contradicts the number of string elements in the template body SHALL cause an error.",
+   "condition": "the length restriction contradicts the template body",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25616,
+    25619
+   ],
+   "examples": [
+    {
+     "lines": [
+      25650,
+      25662
+     ],
+     "text": "lengthof(charstring : \"HELLO\")  // returns 5 \n  lengthof(octetstring : ('12'O, '34'O)) // returns 1 \n  lengthof('1??1'B)  // returns 4 \n  lengthof(universal charstring : ? length(8)) // returns 8 \n  lengthof('1*F'H)   // shall cause an error \n  lengthof('1*F'H length (8))  // returns 8\n  lengthof(bitstring : ? length(2..infinity)) // shall cause an error \n  lengthof('00*FF'O length(1..2))    // returns 2 \n  lengthof('1*49'H length(1..2))    // shall cause an error \n  lengthof('1'B length(3))  // shall cause an error \n  lengthof('1*1'B length(10..20))    // shall cause an error"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.02.01_test_020.ttcn3",
+   "module": "M_C_02_01_test_020",
+   "header": "// @requirement: C.2.1 -- `inpar is a string-type template and it can match string values with different length or the length restriction` matching attribute contradicts the number of string elements in the template body;"
+  },
+  {
+   "id": "TTCN3-CORE-C.2.1-021a",
+   "section": "C.2.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "`inpar is a record of or set of type template and it can match values of different lengths or the length` restriction matching attribute contradicts the number of elements in the template body;",
+   "canonical": "Calling `lengthof` with a record of or set of template that can match values of different lengths SHALL cause an error.",
+   "condition": "inpar is a record of or set of template that can match values of different lengths",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25616,
+    25622
+   ],
+   "examples": [
+    {
+     "lines": [
+      25665,
+      25677
+     ],
+     "text": "type record of integer RoI; \n  template RoI mw_roI1 := { 1, permutation(2, 3), ? } \n  template RoI mw_roI2 := {1, *, (2, 3) } \n  template RoI mw_roI3 := { 1, *, 10 } length(5) \n  template RoI mw_roI4 := { 1, 2, 3, * } length(1..2) \n  template RoI mw_roI5 := { 1, 2, 3, * } length(1..3) \n  lengthof (mw_roI1) // returns 4 \n  lengthof (mw_roI2) // shall cause an error \n  lengthof (mw_roI3) // returns 5 \n  lengthof (mw_roI4) // shall cause an error \n  lengthof (mw_roI5) // returns 3"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.02.01_test_021.ttcn3",
+   "module": "M_C_02_01_test_021",
+   "header": "// @requirement: C.2.1 -- `inpar is a record of or set of type template and it can match values of different lengths or the length` restriction matching attribute contradicts the number of elements in the template body;"
+  },
+  {
+   "id": "TTCN3-CORE-C.2.1-021b",
+   "section": "C.2.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "`inpar is a record of or set of type template and it can match values of different lengths or the length` restriction matching attribute contradicts the number of elements in the template body;",
+   "canonical": "Calling `lengthof` with a record of or set of template whose length restriction matching attribute contradicts the number of elements in the template body SHALL cause an error.",
+   "condition": "the length restriction contradicts the template body",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25616,
+    25622
+   ],
+   "examples": [
+    {
+     "lines": [
+      25665,
+      25677
+     ],
+     "text": "type record of integer RoI; \n  template RoI mw_roI1 := { 1, permutation(2, 3), ? } \n  template RoI mw_roI2 := {1, *, (2, 3) } \n  template RoI mw_roI3 := { 1, *, 10 } length(5) \n  template RoI mw_roI4 := { 1, 2, 3, * } length(1..2) \n  template RoI mw_roI5 := { 1, 2, 3, * } length(1..3) \n  lengthof (mw_roI1) // returns 4 \n  lengthof (mw_roI2) // shall cause an error \n  lengthof (mw_roI3) // returns 5 \n  lengthof (mw_roI4) // shall cause an error \n  lengthof (mw_roI5) // returns 3"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.02.01_test_022.ttcn3",
+   "module": "M_C_02_01_test_022",
+   "header": "// @requirement: C.2.1 -- `inpar is a record of or set of type template and it can match values of different lengths or the length` restriction matching attribute contradicts the number of elements in the template body;"
+  },
+  {
+   "id": "TTCN3-CORE-C.2.1-022a",
+   "section": "C.2.1",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "the template passed to the invalue parameter is not of type bitstring, hexstring, octetstring, charstring, universal charstring, record of, set of, or array.",
+   "canonical": "Calling `lengthof` with an argument that is not of type bitstring, hexstring, octetstring, charstring, universal charstring, record of, set of or array SHALL cause an error.",
+   "condition": "inpar is not of one of the listed types",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "ambiguous",
+    "readings": [
+     "Calling lengthof with an argument not of a string, record of, set of, array or map type SHALL cause an error (map is allowed, as stated in C.2.1-s002/s006).",
+     "Calling lengthof with a map argument SHALL cause an error, because map is missing from the list."
+    ],
+    "improper_terms": [
+     {
+      "used": "invalue",
+      "proper": "inpar",
+      "glossary": false
+     },
+     {
+      "used": "template",
+      "proper": "value or template",
+      "glossary": true
+     }
+    ],
+    "issue": "The error list omits map although lengthof is defined for maps; the first reading was chosen. The sentence also names the parameter 'invalue' instead of 'inpar'."
+   },
+   "spec_lines": [
+    25616,
+    25624
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.02.01_test_023.ttcn3",
+   "module": "M_C_02_01_test_023",
+   "header": "// @requirement: C.2.1 -- the template passed to the invalue parameter is not of type bitstring, hexstring, octetstring, charstring, universal charstring, record of, set of, or array."
+  },
+  {
+   "id": "TTCN3-CORE-C.2.2-001a",
+   "section": "C.2.2",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "sizeof(in template (present) any inpar) return integer",
+   "canonical": "The `sizeof` predefined function has the signature sizeof(in template (present) any inpar) return integer.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25680,
+    25682
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.02.02_test_001.ttcn3",
+   "module": "M_C_02_02_test_001",
+   "header": "// @requirement: C.2.2 -- sizeof(in template (present) any inpar) return integer"
+  },
+  {
+   "id": "TTCN3-CORE-C.2.2-002a",
+   "section": "C.2.2",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "This function returns the actual number of elements of a value or template of a record or set type (see note).",
+   "canonical": "The `sizeof` function SHALL return the actual number of elements of a value or template of a record or set type.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25684,
+    25684
+   ],
+   "examples": [
+    {
+     "lines": [
+      25704,
+      25731
+     ],
+     "text": "// Given \n  type record MyPDU \n     {  boolean field1 optional,\n       integer field2\n     };\n  template MyPDU m_myTemplate :=\n     { field1 := omit,\n      field2 := 5\n     };\n  sizeof(m_myTemplate); // returns 1\n  type set S {\n    integer f1,\n    bitstring f2 optional,\n    charstring f3 optional\n  }\n  template S mw_s1 := { f1 := (0..99), f2 := omit, f3 := ? } \n  template S mw_s2 := { f3 := *, f1 := 1, f2 := '00'B ifpresent } \n  template S mw_s3 := ({ f1 := 1, f2 := omit, f3 := \"ABC\" },\n               { f1 := 2, f3 := omit, f2 := '1'B },\n               { f3 := omit, f1 := 3, f2 := '1?1'B }\n              ) \n  template S mw_s4 := ? \n  sizeof(mw_s1) // returns 2 \n  sizeof(mw_s2) // shall cause an error \n  sizeof(mw_s3) // returns 2 \n  sizeof(mw_s4) // shall cause an error"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.02.02_test_002.ttcn3",
+   "module": "M_C_02_02_test_002",
+   "header": "// @requirement: C.2.2 -- This function returns the actual number of elements of a value or template of a record or set type (see note)."
+  },
+  {
+   "id": "TTCN3-CORE-C.2.2-003a",
+   "section": "C.2.2",
+   "type": "permission",
+   "modality": "MAY",
+   "original": "The function sizeof is applicable to templates of record and set types.",
+   "canonical": "The `sizeof` function MAY be applied to templates of record and set types.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25686,
+    25687
+   ],
+   "examples": [
+    {
+     "lines": [
+      25704,
+      25731
+     ],
+     "text": "// Given \n  type record MyPDU \n     {  boolean field1 optional,\n       integer field2\n     };\n  template MyPDU m_myTemplate :=\n     { field1 := omit,\n      field2 := 5\n     };\n  sizeof(m_myTemplate); // returns 1\n  type set S {\n    integer f1,\n    bitstring f2 optional,\n    charstring f3 optional\n  }\n  template S mw_s1 := { f1 := (0..99), f2 := omit, f3 := ? } \n  template S mw_s2 := { f3 := *, f1 := 1, f2 := '00'B ifpresent } \n  template S mw_s3 := ({ f1 := 1, f2 := omit, f3 := \"ABC\" },\n               { f1 := 2, f3 := omit, f2 := '1'B },\n               { f3 := omit, f1 := 3, f2 := '1?1'B }\n              ) \n  template S mw_s4 := ? \n  sizeof(mw_s1) // returns 2 \n  sizeof(mw_s2) // shall cause an error \n  sizeof(mw_s3) // returns 2 \n  sizeof(mw_s4) // shall cause an error"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.02.02_test_003.ttcn3",
+   "module": "M_C_02_02_test_003",
+   "header": "// @requirement: C.2.2 -- The function sizeof is applicable to templates of record and set types."
+  },
+  {
+   "id": "TTCN3-CORE-C.2.2-004a",
+   "section": "C.2.2",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "The function is applicable only if the sizeof function gives the same result on all values that match the template.",
+   "canonical": "The `sizeof` function SHALL be applied to a template only if `sizeof` gives the same result on all values that match the template.",
+   "condition": "inpar is a template",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25686,
+    25687
+   ],
+   "examples": [
+    {
+     "lines": [
+      25704,
+      25731
+     ],
+     "text": "// Given \n  type record MyPDU \n     {  boolean field1 optional,\n       integer field2\n     };\n  template MyPDU m_myTemplate :=\n     { field1 := omit,\n      field2 := 5\n     };\n  sizeof(m_myTemplate); // returns 1\n  type set S {\n    integer f1,\n    bitstring f2 optional,\n    charstring f3 optional\n  }\n  template S mw_s1 := { f1 := (0..99), f2 := omit, f3 := ? } \n  template S mw_s2 := { f3 := *, f1 := 1, f2 := '00'B ifpresent } \n  template S mw_s3 := ({ f1 := 1, f2 := omit, f3 := \"ABC\" },\n               { f1 := 2, f3 := omit, f2 := '1'B },\n               { f3 := omit, f1 := 3, f2 := '1?1'B }\n              ) \n  template S mw_s4 := ? \n  sizeof(mw_s1) // returns 2 \n  sizeof(mw_s2) // shall cause an error \n  sizeof(mw_s3) // returns 2 \n  sizeof(mw_s4) // shall cause an error"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.02.02_test_004.ttcn3",
+   "module": "M_C_02_02_test_004",
+   "header": "// @requirement: C.2.2 -- The function is applicable only if the sizeof function gives the same result on all values that match the template."
+  },
+  {
+   "id": "TTCN3-CORE-C.2.2-005a",
+   "section": "C.2.2",
+   "type": "information",
+   "modality": "IS NOT",
+   "original": "NOTE: Only elements of the TTCN-3 object, which is the parameter of the function are calculated; i.e. no elements of nested types/values are taken into account at determining the return value.",
+   "canonical": "`sizeof` counts only the elements of the object passed as parameter; elements of nested types or values ARE NOT taken into account.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25689,
+    25690
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.02.02_test_005.ttcn3",
+   "module": "M_C_02_02_test_005",
+   "header": "// @requirement: C.2.2 -- NOTE: Only elements of the TTCN-3 object, which is the parameter of the function are calculated; i.e. no elements of nested types/values are taken into account at determining the return value."
+  },
+  {
+   "id": "TTCN3-CORE-C.2.2-006a",
+   "section": "C.2.2",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "In addition to the general error causes in clause 16.1.2, error causes are:",
+   "canonical": "The general error causes of clause 16.1.2 apply to the `sizeof` function in addition to its specific error causes.",
+   "condition": null,
+   "cross_refs": [
+    "16.1.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25697,
+    25697
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.02.02_test_006.ttcn3",
+   "module": "M_C_02_02_test_006",
+   "header": "// @requirement: C.2.2 -- In addition to the general error causes in clause 16.1.2, error causes are:"
+  },
+  {
+   "id": "TTCN3-CORE-C.2.2-007a",
+   "section": "C.2.2",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "when inpar is a template and it can match values of different sizes;",
+   "canonical": "Calling `sizeof` with a template that can match values of different sizes SHALL cause an error.",
+   "condition": "inpar is a template that can match values of different sizes",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25697,
+    25699
+   ],
+   "examples": [
+    {
+     "lines": [
+      25704,
+      25731
+     ],
+     "text": "// Given \n  type record MyPDU \n     {  boolean field1 optional,\n       integer field2\n     };\n  template MyPDU m_myTemplate :=\n     { field1 := omit,\n      field2 := 5\n     };\n  sizeof(m_myTemplate); // returns 1\n  type set S {\n    integer f1,\n    bitstring f2 optional,\n    charstring f3 optional\n  }\n  template S mw_s1 := { f1 := (0..99), f2 := omit, f3 := ? } \n  template S mw_s2 := { f3 := *, f1 := 1, f2 := '00'B ifpresent } \n  template S mw_s3 := ({ f1 := 1, f2 := omit, f3 := \"ABC\" },\n               { f1 := 2, f3 := omit, f2 := '1'B },\n               { f3 := omit, f1 := 3, f2 := '1?1'B }\n              ) \n  template S mw_s4 := ? \n  sizeof(mw_s1) // returns 2 \n  sizeof(mw_s2) // shall cause an error \n  sizeof(mw_s3) // returns 2 \n  sizeof(mw_s4) // shall cause an error"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.02.02_test_007.ttcn3",
+   "module": "M_C_02_02_test_007",
+   "header": "// @requirement: C.2.2 -- when inpar is a template and it can match values of different sizes;"
+  },
+  {
+   "id": "TTCN3-CORE-C.2.2-008a",
+   "section": "C.2.2",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "the template passed to the inpar parameter is not of a record or set type.",
+   "canonical": "Calling `sizeof` with an argument that is not of a record or set type SHALL cause an error.",
+   "condition": "inpar is not of a record or set type",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "terminology",
+    "improper_terms": [
+     {
+      "used": "template",
+      "proper": "value or template",
+      "glossary": true
+     }
+    ],
+    "issue": "The error case names only 'the template', although sizeof also accepts values; the rule is read as applying to any argument."
+   },
+   "spec_lines": [
+    25697,
+    25701
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.02.02_test_008.ttcn3",
+   "module": "M_C_02_02_test_008",
+   "header": "// @requirement: C.2.2 -- the template passed to the inpar parameter is not of a record or set type."
+  },
+  {
+   "id": "TTCN3-CORE-C.3.5-001a",
+   "section": "C.3.5",
+   "type": "syntax",
+   "modality": "IS",
+   "original": "istemplatekind (in template any_type invalue, in charstring kind) return boolean",
+   "canonical": "The `istemplatekind` predefined function has the signature istemplatekind(in template any_type invalue, in charstring kind) return boolean.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25744,
+    25744
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.03.05_test_001.ttcn3",
+   "module": "M_C_03_05_test_001",
+   "header": "// @requirement: C.3.5 -- istemplatekind (in template any_type invalue, in charstring kind) return boolean"
+  },
+  {
+   "id": "TTCN3-CORE-C.3.5-003a",
+   "section": "C.3.5",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "If the matching mechanism kind enquired is matching a specific value (clause B.1.1), a matching mechanism instead of values (clause B.1.2) or matching character pattern (clause B.1.5), the function shall return true if the content of the invalue parameter is of the same kind.",
+   "canonical": "If the matching mechanism kind enquired is specific value (B.1.1), a matching mechanism instead of values (B.1.2) or matching character pattern (B.1.5), `istemplatekind` SHALL return true if the content of `invalue` is of the same kind.",
+   "condition": "kind denotes specific value, a matching mechanism instead of values or a matching character pattern",
+   "cross_refs": [
+    "B.1.1",
+    "B.1.2",
+    "B.1.5"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25748,
+    25750
+   ],
+   "examples": [
+    {
+     "lines": [
+      25853,
+      25867
+     ],
+     "text": "type record of integer RoI;\n  ...\n  var template integer v_t1 := ?, v_t2 := (0,1,2) ifpresent;\n  var template RoI v_t3:= { permutation(1, 2, 3), ? };\n  var boolean v_res;\n  ...\n  v_res := istemplatekind(v_t1, \"AnyValue\");    // true\n  v_res := istemplatekind(v_t1, \"AnyValueOrNone\"); // false\n  v_res := istemplatekind(v_t2, \"complement\");   // false\n  v_res := istemplatekind(v_t2, \"list\");      // true\n  v_res := istemplatekind(v_t2, \"ifpresent\");   // true\n  v_res := istemplatekind(v_t3, \"permutation\");  // true\n  v_res := istemplatekind(v_t3, \"AnyElement\");   // true"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.03.05_test_002.ttcn3",
+   "module": "M_C_03_05_test_002",
+   "header": "// @requirement: C.3.5 -- If the matching mechanism kind enquired is matching a specific value (clause B.1.1), a matching mechanism instead of values (clause B.1.2) or matching character pattern (clause B.1.5), the function shall return true if the content of the invalue parameter is of the same kind."
+  },
+  {
+   "id": "TTCN3-CORE-C.3.5-004a",
+   "section": "C.3.5",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "If the matching mechanism kind enquired is a matching mechanism inside values (clause B.1.3), the function shall return true if the template in the invalue parameter contains this kind of matching mechanism on the first level of nesting.",
+   "canonical": "If the matching mechanism kind enquired is a matching mechanism inside values (B.1.3), `istemplatekind` SHALL return true if the template in `invalue` contains this kind of matching mechanism on the first level of nesting.",
+   "condition": "kind denotes a matching mechanism inside values",
+   "cross_refs": [
+    "B.1.3"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25757,
+    25759
+   ],
+   "examples": [
+    {
+     "lines": [
+      25853,
+      25867
+     ],
+     "text": "type record of integer RoI;\n  ...\n  var template integer v_t1 := ?, v_t2 := (0,1,2) ifpresent;\n  var template RoI v_t3:= { permutation(1, 2, 3), ? };\n  var boolean v_res;\n  ...\n  v_res := istemplatekind(v_t1, \"AnyValue\");    // true\n  v_res := istemplatekind(v_t1, \"AnyValueOrNone\"); // false\n  v_res := istemplatekind(v_t2, \"complement\");   // false\n  v_res := istemplatekind(v_t2, \"list\");      // true\n  v_res := istemplatekind(v_t2, \"ifpresent\");   // true\n  v_res := istemplatekind(v_t3, \"permutation\");  // true\n  v_res := istemplatekind(v_t3, \"AnyElement\");   // true"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.03.05_test_003.ttcn3",
+   "module": "M_C_03_05_test_003",
+   "header": "// @requirement: C.3.5 -- If the matching mechanism kind enquired is a matching mechanism inside values (clause B.1.3), the function shall return true if the template in the invalue parameter contains this kind of matching mechanism on the first level of nesting."
+  },
+  {
+   "id": "TTCN3-CORE-C.3.5-005a",
+   "section": "C.3.5",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "If the matching mechanism kind enquired is a matching attribute (clause B.1.4), the function shall return true if the template in the invalue parameter has this kind of matching attribute attached to it directly (i.e. it doesn't count if the attribute is attached to a field of invalue at any level of nesting).",
+   "canonical": "If the matching mechanism kind enquired is a matching attribute (B.1.4), `istemplatekind` SHALL return true only if the template in `invalue` has this kind of matching attribute attached to it directly, not to a field of `invalue` at any level of nesting.",
+   "condition": "kind denotes a matching attribute",
+   "cross_refs": [
+    "B.1.4"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25761,
+    25763
+   ],
+   "examples": [
+    {
+     "lines": [
+      25853,
+      25867
+     ],
+     "text": "type record of integer RoI;\n  ...\n  var template integer v_t1 := ?, v_t2 := (0,1,2) ifpresent;\n  var template RoI v_t3:= { permutation(1, 2, 3), ? };\n  var boolean v_res;\n  ...\n  v_res := istemplatekind(v_t1, \"AnyValue\");    // true\n  v_res := istemplatekind(v_t1, \"AnyValueOrNone\"); // false\n  v_res := istemplatekind(v_t2, \"complement\");   // false\n  v_res := istemplatekind(v_t2, \"list\");      // true\n  v_res := istemplatekind(v_t2, \"ifpresent\");   // true\n  v_res := istemplatekind(v_t3, \"permutation\");  // true\n  v_res := istemplatekind(v_t3, \"AnyElement\");   // true"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.03.05_test_004.ttcn3",
+   "module": "M_C_03_05_test_004",
+   "header": "// @requirement: C.3.5 -- If the matching mechanism kind enquired is a matching attribute (clause B.1.4), the function shall return true if the template in the invalue parameter has this kind of matching attribute attached to it directly (i.e. it doesn't count if the attribute is attached to a field of invalue at any level of nesting)."
+  },
+  {
+   "id": "TTCN3-CORE-C.3.5-006a",
+   "section": "C.3.5",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "In all other cases the function returns false.",
+   "canonical": "In all cases not covered by the rules for specific values, matching mechanisms instead of values, patterns, matching mechanisms inside values and matching attributes, `istemplatekind` SHALL return false.",
+   "condition": null,
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25765,
+    25765
+   ],
+   "examples": [
+    {
+     "lines": [
+      25853,
+      25867
+     ],
+     "text": "type record of integer RoI;\n  ...\n  var template integer v_t1 := ?, v_t2 := (0,1,2) ifpresent;\n  var template RoI v_t3:= { permutation(1, 2, 3), ? };\n  var boolean v_res;\n  ...\n  v_res := istemplatekind(v_t1, \"AnyValue\");    // true\n  v_res := istemplatekind(v_t1, \"AnyValueOrNone\"); // false\n  v_res := istemplatekind(v_t2, \"complement\");   // false\n  v_res := istemplatekind(v_t2, \"list\");      // true\n  v_res := istemplatekind(v_t2, \"ifpresent\");   // true\n  v_res := istemplatekind(v_t3, \"permutation\");  // true\n  v_res := istemplatekind(v_t3, \"AnyElement\");   // true"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.03.05_test_005.ttcn3",
+   "module": "M_C_03_05_test_005",
+   "header": "// @requirement: C.3.5 -- In all other cases the function returns false."
+  },
+  {
+   "id": "TTCN3-CORE-C.3.5-007a",
+   "section": "C.3.5",
+   "type": "restriction",
+   "modality": "SHALL",
+   "original": "The kind parameter shall be one of the strings listed in table C.1.",
+   "canonical": "The `kind` parameter of `istemplatekind` SHALL be one of the strings listed in table C.1.",
+   "condition": null,
+   "cross_refs": [
+    "C.3.5"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25767,
+    25767
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.03.05_test_006.ttcn3",
+   "module": "M_C_03_05_test_006",
+   "header": "// @requirement: C.3.5 -- The kind parameter shall be one of the strings listed in table C.1."
+  },
+  {
+   "id": "TTCN3-CORE-C.3.5-013a",
+   "section": "C.3.5",
+   "type": "information",
+   "modality": "IS",
+   "original": "NOTE: Clause E.2.2.5 includes the type definition TemplateKind and a constant for each of the allowed values of the kind parameter.",
+   "canonical": "Clause E.2.2.5 defines the type `TemplateKind` and a constant for each allowed value of the `kind` parameter of `istemplatekind`.",
+   "condition": null,
+   "cross_refs": [
+    "E.2.2.5"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25815,
+    25817
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.03.05_test_007.ttcn3",
+   "module": "M_C_03_05_test_007",
+   "header": "// @requirement: C.3.5 -- NOTE: Clause E.2.2.5 includes the type definition TemplateKind and a constant for each of the allowed values of the kind parameter."
+  },
+  {
+   "id": "TTCN3-CORE-C.3.5-015a",
+   "section": "C.3.5",
+   "type": "semantics",
+   "modality": "IS",
+   "original": "In addition to the general error causes given in clause 16.1.2, the following restrictions apply:",
+   "canonical": "The general error causes of clause 16.1.2 apply to the `istemplatekind` function in addition to its specific restrictions.",
+   "condition": null,
+   "cross_refs": [
+    "16.1.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25821,
+    25821
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.03.05_test_008.ttcn3",
+   "module": "M_C_03_05_test_008",
+   "header": "// @requirement: C.3.5 -- In addition to the general error causes given in clause 16.1.2, the following restrictions apply:"
+  },
+  {
+   "id": "TTCN3-CORE-C.3.5-016a",
+   "section": "C.3.5",
+   "type": "semantics",
+   "modality": "SHALL",
+   "original": "a) Calling the istemplatekind function with a different second parameter than stated in table C.1 shall lead to an error.",
+   "canonical": "Calling `istemplatekind` with a `kind` argument that is not one of the values stated in table C.1 SHALL lead to an error.",
+   "condition": "kind is not one of the values of table C.1",
+   "cross_refs": [],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25821,
+    25824
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.03.05_test_009.ttcn3",
+   "module": "M_C_03_05_test_009",
+   "header": "// @requirement: C.3.5 -- a) Calling the istemplatekind function with a different second parameter than stated in table C.1 shall lead to an error."
+  },
+  {
+   "id": "TTCN3-CORE-C.3.5-019a",
+   "section": "C.3.5",
+   "type": "definition",
+   "modality": "IS",
+   "original": "Table C.1:: \"value\"; Allowed values of kind parameter: Specific value; Col3: B.1.1",
+   "canonical": "The `kind` parameter value \"value\" of `istemplatekind` IS the selector for the specific value matching mechanism (clause B.1.1).",
+   "condition": null,
+   "cross_refs": [
+    "B.1.1"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25830,
+    25830
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.03.05_test_010.ttcn3",
+   "module": "M_C_03_05_test_010",
+   "header": "// @requirement: C.3.5 -- Table C.1:: \"value\"; Allowed values of kind parameter: Specific value; Col3: B.1.1"
+  },
+  {
+   "id": "TTCN3-CORE-C.3.5-020a",
+   "section": "C.3.5",
+   "type": "definition",
+   "modality": "IS",
+   "original": "Table C.1:: \"list\"; Allowed values of kind parameter: Template list; Col3: B.1.2.1",
+   "canonical": "The `kind` parameter value \"list\" of `istemplatekind` IS the selector for the template list matching mechanism (clause B.1.2.1).",
+   "condition": null,
+   "cross_refs": [
+    "B.1.2.1"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25831,
+    25831
+   ],
+   "examples": [
+    {
+     "lines": [
+      25853,
+      25867
+     ],
+     "text": "type record of integer RoI;\n  ...\n  var template integer v_t1 := ?, v_t2 := (0,1,2) ifpresent;\n  var template RoI v_t3:= { permutation(1, 2, 3), ? };\n  var boolean v_res;\n  ...\n  v_res := istemplatekind(v_t1, \"AnyValue\");    // true\n  v_res := istemplatekind(v_t1, \"AnyValueOrNone\"); // false\n  v_res := istemplatekind(v_t2, \"complement\");   // false\n  v_res := istemplatekind(v_t2, \"list\");      // true\n  v_res := istemplatekind(v_t2, \"ifpresent\");   // true\n  v_res := istemplatekind(v_t3, \"permutation\");  // true\n  v_res := istemplatekind(v_t3, \"AnyElement\");   // true"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.03.05_test_011.ttcn3",
+   "module": "M_C_03_05_test_011",
+   "header": "// @requirement: C.3.5 -- Table C.1:: \"list\"; Allowed values of kind parameter: Template list; Col3: B.1.2.1"
+  },
+  {
+   "id": "TTCN3-CORE-C.3.5-021a",
+   "section": "C.3.5",
+   "type": "definition",
+   "modality": "IS",
+   "original": "Table C.1:: \"complement\"; Allowed values of kind parameter: Complemented template list; Col3: B.1.2.2",
+   "canonical": "The `kind` parameter value \"complement\" of `istemplatekind` IS the selector for the complemented template list matching mechanism (clause B.1.2.2).",
+   "condition": null,
+   "cross_refs": [
+    "B.1.2.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25832,
+    25832
+   ],
+   "examples": [
+    {
+     "lines": [
+      25853,
+      25867
+     ],
+     "text": "type record of integer RoI;\n  ...\n  var template integer v_t1 := ?, v_t2 := (0,1,2) ifpresent;\n  var template RoI v_t3:= { permutation(1, 2, 3), ? };\n  var boolean v_res;\n  ...\n  v_res := istemplatekind(v_t1, \"AnyValue\");    // true\n  v_res := istemplatekind(v_t1, \"AnyValueOrNone\"); // false\n  v_res := istemplatekind(v_t2, \"complement\");   // false\n  v_res := istemplatekind(v_t2, \"list\");      // true\n  v_res := istemplatekind(v_t2, \"ifpresent\");   // true\n  v_res := istemplatekind(v_t3, \"permutation\");  // true\n  v_res := istemplatekind(v_t3, \"AnyElement\");   // true"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.03.05_test_012.ttcn3",
+   "module": "M_C_03_05_test_012",
+   "header": "// @requirement: C.3.5 -- Table C.1:: \"complement\"; Allowed values of kind parameter: Complemented template list; Col3: B.1.2.2"
+  },
+  {
+   "id": "TTCN3-CORE-C.3.5-022a",
+   "section": "C.3.5",
+   "type": "definition",
+   "modality": "IS",
+   "original": "Table C.1:: \"AnyValue\", \"?\"; Allowed values of kind parameter: Any value; Col3: B.1.2.3",
+   "canonical": "The `kind` parameter value \"AnyValue\" or \"?\" of `istemplatekind` IS the selector for the any value matching mechanism (clause B.1.2.3).",
+   "condition": null,
+   "cross_refs": [
+    "B.1.2.3"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25833,
+    25833
+   ],
+   "examples": [
+    {
+     "lines": [
+      25853,
+      25867
+     ],
+     "text": "type record of integer RoI;\n  ...\n  var template integer v_t1 := ?, v_t2 := (0,1,2) ifpresent;\n  var template RoI v_t3:= { permutation(1, 2, 3), ? };\n  var boolean v_res;\n  ...\n  v_res := istemplatekind(v_t1, \"AnyValue\");    // true\n  v_res := istemplatekind(v_t1, \"AnyValueOrNone\"); // false\n  v_res := istemplatekind(v_t2, \"complement\");   // false\n  v_res := istemplatekind(v_t2, \"list\");      // true\n  v_res := istemplatekind(v_t2, \"ifpresent\");   // true\n  v_res := istemplatekind(v_t3, \"permutation\");  // true\n  v_res := istemplatekind(v_t3, \"AnyElement\");   // true"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.03.05_test_013.ttcn3",
+   "module": "M_C_03_05_test_013",
+   "header": "// @requirement: C.3.5 -- Table C.1:: \"AnyValue\", \"?\"; Allowed values of kind parameter: Any value; Col3: B.1.2.3"
+  },
+  {
+   "id": "TTCN3-CORE-C.3.5-023a",
+   "section": "C.3.5",
+   "type": "definition",
+   "modality": "IS",
+   "original": "Table C.1:: \"AnyValueOrNone\", \"*\"; Allowed values of kind parameter: Any value or none; Col3: B.1.2.4",
+   "canonical": "The `kind` parameter value \"AnyValueOrNone\" or \"*\" of `istemplatekind` IS the selector for the any value or none matching mechanism (clause B.1.2.4).",
+   "condition": null,
+   "cross_refs": [
+    "B.1.2.4"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25834,
+    25834
+   ],
+   "examples": [
+    {
+     "lines": [
+      25853,
+      25867
+     ],
+     "text": "type record of integer RoI;\n  ...\n  var template integer v_t1 := ?, v_t2 := (0,1,2) ifpresent;\n  var template RoI v_t3:= { permutation(1, 2, 3), ? };\n  var boolean v_res;\n  ...\n  v_res := istemplatekind(v_t1, \"AnyValue\");    // true\n  v_res := istemplatekind(v_t1, \"AnyValueOrNone\"); // false\n  v_res := istemplatekind(v_t2, \"complement\");   // false\n  v_res := istemplatekind(v_t2, \"list\");      // true\n  v_res := istemplatekind(v_t2, \"ifpresent\");   // true\n  v_res := istemplatekind(v_t3, \"permutation\");  // true\n  v_res := istemplatekind(v_t3, \"AnyElement\");   // true"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.03.05_test_014.ttcn3",
+   "module": "M_C_03_05_test_014",
+   "header": "// @requirement: C.3.5 -- Table C.1:: \"AnyValueOrNone\", \"*\"; Allowed values of kind parameter: Any value or none; Col3: B.1.2.4"
+  },
+  {
+   "id": "TTCN3-CORE-C.3.5-024a",
+   "section": "C.3.5",
+   "type": "definition",
+   "modality": "IS",
+   "original": "Table C.1:: \"range\"; Allowed values of kind parameter: Value range; Col3: type map from charstring to charstring MyMap; template MyMap mw_myMessageTemplate4 := { [\"host\"] := \"::1\", [\"port\"] := * }; v_mybooleanVar := match ({ [\"host\"] := \"::1\", [\"port\"] := 80 }, mw_myMessageTemplate4); // matches and returns true v_mybooleanVar := match ({ [\"host\"] := \"::1\" }, mw_myMessageTemplate4); // matches and returns true B.1.2.5",
+   "canonical": "The `kind` parameter value \"range\" of `istemplatekind` IS the selector for the value range matching mechanism (clause B.1.2.5).",
+   "condition": null,
+   "cross_refs": [
+    "B.1.2.5"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25835,
+    25835
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.03.05_test_015.ttcn3",
+   "module": "M_C_03_05_test_015",
+   "header": "// @requirement: C.3.5 -- Table C.1:: \"range\"; Allowed values of kind parameter: Value range; Col3: type map from charstring to charstring MyMap; template MyMap mw_myMessageTemplate4 := { [\"host\"] := \"::1\", [\"port\"] := * }; v_mybooleanVar := match ({ [\"host\"] := \"::1\", [\"port\"] := 80 }, mw_myMessageTemplate4); // matches and returns true v_mybooleanVar := match ({ [\"host\"] := \"::1\" }, mw_myMessageTemplate4); // matches and returns true B.1.2.5"
+  },
+  {
+   "id": "TTCN3-CORE-C.3.5-025a",
+   "section": "C.3.5",
+   "type": "definition",
+   "modality": "IS",
+   "original": "Table C.1:: \"superset\"; Allowed values of kind parameter: SuperSet; Col3: B.1.2.6",
+   "canonical": "The `kind` parameter value \"superset\" of `istemplatekind` IS the selector for the SuperSet matching mechanism (clause B.1.2.6).",
+   "condition": null,
+   "cross_refs": [
+    "B.1.2.6"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25836,
+    25836
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.03.05_test_016.ttcn3",
+   "module": "M_C_03_05_test_016",
+   "header": "// @requirement: C.3.5 -- Table C.1:: \"superset\"; Allowed values of kind parameter: SuperSet; Col3: B.1.2.6"
+  },
+  {
+   "id": "TTCN3-CORE-C.3.5-026a",
+   "section": "C.3.5",
+   "type": "definition",
+   "modality": "IS",
+   "original": "Table C.1:: \"subset\"; Allowed values of kind parameter: SubSet; Col3: B.1.2.7",
+   "canonical": "The `kind` parameter value \"subset\" of `istemplatekind` IS the selector for the SubSet matching mechanism (clause B.1.2.7).",
+   "condition": null,
+   "cross_refs": [
+    "B.1.2.7"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25837,
+    25837
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.03.05_test_017.ttcn3",
+   "module": "M_C_03_05_test_017",
+   "header": "// @requirement: C.3.5 -- Table C.1:: \"subset\"; Allowed values of kind parameter: SubSet; Col3: B.1.2.7"
+  },
+  {
+   "id": "TTCN3-CORE-C.3.5-027a",
+   "section": "C.3.5",
+   "type": "definition",
+   "modality": "IS",
+   "original": "Table C.1:: \"omit\"; Allowed values of kind parameter: Omit; Col3: B.1.2.8",
+   "canonical": "The `kind` parameter value \"omit\" of `istemplatekind` IS the selector for the omit matching mechanism (clause B.1.2.8).",
+   "condition": null,
+   "cross_refs": [
+    "B.1.2.8"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25838,
+    25838
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.03.05_test_018.ttcn3",
+   "module": "M_C_03_05_test_018",
+   "header": "// @requirement: C.3.5 -- Table C.1:: \"omit\"; Allowed values of kind parameter: Omit; Col3: B.1.2.8"
+  },
+  {
+   "id": "TTCN3-CORE-C.3.5-028a",
+   "section": "C.3.5",
+   "type": "definition",
+   "modality": "IS",
+   "original": "Table C.1:: \"decmatch\"; Allowed values of kind parameter: Matching decoded content; Col3: B.1.2.9",
+   "canonical": "The `kind` parameter value \"decmatch\" of `istemplatekind` IS the selector for the matching decoded content matching mechanism (clause B.1.2.9).",
+   "condition": null,
+   "cross_refs": [
+    "B.1.2.9"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25839,
+    25839
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.03.05_test_019.ttcn3",
+   "module": "M_C_03_05_test_019",
+   "header": "// @requirement: C.3.5 -- Table C.1:: \"decmatch\"; Allowed values of kind parameter: Matching decoded content; Col3: B.1.2.9"
+  },
+  {
+   "id": "TTCN3-CORE-C.3.5-029a",
+   "section": "C.3.5",
+   "type": "definition",
+   "modality": "IS",
+   "original": "Table C.1:: \"AnyElement\"; Allowed values of kind parameter: Any element; Col3: B.1.3.1",
+   "canonical": "The `kind` parameter value \"AnyElement\" of `istemplatekind` IS the selector for the any element matching mechanism (clause B.1.3.1).",
+   "condition": null,
+   "cross_refs": [
+    "B.1.3.1"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25840,
+    25840
+   ],
+   "examples": [
+    {
+     "lines": [
+      25853,
+      25867
+     ],
+     "text": "type record of integer RoI;\n  ...\n  var template integer v_t1 := ?, v_t2 := (0,1,2) ifpresent;\n  var template RoI v_t3:= { permutation(1, 2, 3), ? };\n  var boolean v_res;\n  ...\n  v_res := istemplatekind(v_t1, \"AnyValue\");    // true\n  v_res := istemplatekind(v_t1, \"AnyValueOrNone\"); // false\n  v_res := istemplatekind(v_t2, \"complement\");   // false\n  v_res := istemplatekind(v_t2, \"list\");      // true\n  v_res := istemplatekind(v_t2, \"ifpresent\");   // true\n  v_res := istemplatekind(v_t3, \"permutation\");  // true\n  v_res := istemplatekind(v_t3, \"AnyElement\");   // true"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.03.05_test_020.ttcn3",
+   "module": "M_C_03_05_test_020",
+   "header": "// @requirement: C.3.5 -- Table C.1:: \"AnyElement\"; Allowed values of kind parameter: Any element; Col3: B.1.3.1"
+  },
+  {
+   "id": "TTCN3-CORE-C.3.5-030a",
+   "section": "C.3.5",
+   "type": "definition",
+   "modality": "IS",
+   "original": "Table C.1:: \"AnyElementsOrNone\"; Allowed values of kind parameter: Any number of elements or none; Col3: B.1.3.2",
+   "canonical": "The `kind` parameter value \"AnyElementsOrNone\" of `istemplatekind` IS the selector for the any number of elements or none matching mechanism (clause B.1.3.2).",
+   "condition": null,
+   "cross_refs": [
+    "B.1.3.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25841,
+    25841
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.03.05_test_021.ttcn3",
+   "module": "M_C_03_05_test_021",
+   "header": "// @requirement: C.3.5 -- Table C.1:: \"AnyElementsOrNone\"; Allowed values of kind parameter: Any number of elements or none; Col3: B.1.3.2"
+  },
+  {
+   "id": "TTCN3-CORE-C.3.5-031a",
+   "section": "C.3.5",
+   "type": "definition",
+   "modality": "IS",
+   "original": "Table C.1:: \"permutation\"; Allowed values of kind parameter: Permutation; Col3: B.1.3.3",
+   "canonical": "The `kind` parameter value \"permutation\" of `istemplatekind` IS the selector for the permutation matching mechanism (clause B.1.3.3).",
+   "condition": null,
+   "cross_refs": [
+    "B.1.3.3"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25842,
+    25842
+   ],
+   "examples": [
+    {
+     "lines": [
+      25853,
+      25867
+     ],
+     "text": "type record of integer RoI;\n  ...\n  var template integer v_t1 := ?, v_t2 := (0,1,2) ifpresent;\n  var template RoI v_t3:= { permutation(1, 2, 3), ? };\n  var boolean v_res;\n  ...\n  v_res := istemplatekind(v_t1, \"AnyValue\");    // true\n  v_res := istemplatekind(v_t1, \"AnyValueOrNone\"); // false\n  v_res := istemplatekind(v_t2, \"complement\");   // false\n  v_res := istemplatekind(v_t2, \"list\");      // true\n  v_res := istemplatekind(v_t2, \"ifpresent\");   // true\n  v_res := istemplatekind(v_t3, \"permutation\");  // true\n  v_res := istemplatekind(v_t3, \"AnyElement\");   // true"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.03.05_test_022.ttcn3",
+   "module": "M_C_03_05_test_022",
+   "header": "// @requirement: C.3.5 -- Table C.1:: \"permutation\"; Allowed values of kind parameter: Permutation; Col3: B.1.3.3"
+  },
+  {
+   "id": "TTCN3-CORE-C.3.5-032a",
+   "section": "C.3.5",
+   "type": "definition",
+   "modality": "IS",
+   "original": "Table C.1:: \"length\"; Allowed values of kind parameter: Length restriction; Col3: B.1.4.1",
+   "canonical": "The `kind` parameter value \"length\" of `istemplatekind` IS the selector for the length restriction matching mechanism (clause B.1.4.1).",
+   "condition": null,
+   "cross_refs": [
+    "B.1.4.1"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25843,
+    25843
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.03.05_test_023.ttcn3",
+   "module": "M_C_03_05_test_023",
+   "header": "// @requirement: C.3.5 -- Table C.1:: \"length\"; Allowed values of kind parameter: Length restriction; Col3: B.1.4.1"
+  },
+  {
+   "id": "TTCN3-CORE-C.3.5-033a",
+   "section": "C.3.5",
+   "type": "definition",
+   "modality": "IS",
+   "original": "Table C.1:: \"ifpresent\"; Allowed values of kind parameter: The IfPresent indicator; Col3: B.1.4.2",
+   "canonical": "The `kind` parameter value \"ifpresent\" of `istemplatekind` IS the selector for the the ifpresent indicator matching mechanism (clause B.1.4.2).",
+   "condition": null,
+   "cross_refs": [
+    "B.1.4.2"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25844,
+    25844
+   ],
+   "examples": [
+    {
+     "lines": [
+      25853,
+      25867
+     ],
+     "text": "type record of integer RoI;\n  ...\n  var template integer v_t1 := ?, v_t2 := (0,1,2) ifpresent;\n  var template RoI v_t3:= { permutation(1, 2, 3), ? };\n  var boolean v_res;\n  ...\n  v_res := istemplatekind(v_t1, \"AnyValue\");    // true\n  v_res := istemplatekind(v_t1, \"AnyValueOrNone\"); // false\n  v_res := istemplatekind(v_t2, \"complement\");   // false\n  v_res := istemplatekind(v_t2, \"list\");      // true\n  v_res := istemplatekind(v_t2, \"ifpresent\");   // true\n  v_res := istemplatekind(v_t3, \"permutation\");  // true\n  v_res := istemplatekind(v_t3, \"AnyElement\");   // true"
+    }
+   ],
+   "file": "tests/C-predefined-ttcn-3-functions/C.03.05_test_024.ttcn3",
+   "module": "M_C_03_05_test_024",
+   "header": "// @requirement: C.3.5 -- Table C.1:: \"ifpresent\"; Allowed values of kind parameter: The IfPresent indicator; Col3: B.1.4.2"
+  },
+  {
+   "id": "TTCN3-CORE-C.3.5-034a",
+   "section": "C.3.5",
+   "type": "definition",
+   "modality": "IS",
+   "original": "Table C.1:: \"pattern\"; Allowed values of kind parameter: Matching character pattern; Col3: B.1.5",
+   "canonical": "The `kind` parameter value \"pattern\" of `istemplatekind` IS the selector for the matching character pattern matching mechanism (clause B.1.5).",
+   "condition": null,
+   "cross_refs": [
+    "B.1.5"
+   ],
+   "ambiguity": {
+    "status": "clear"
+   },
+   "spec_lines": [
+    25845,
+    25845
+   ],
+   "examples": [],
+   "file": "tests/C-predefined-ttcn-3-functions/C.03.05_test_025.ttcn3",
+   "module": "M_C_03_05_test_025",
+   "header": "// @requirement: C.3.5 -- Table C.1:: \"pattern\"; Allowed values of kind parameter: Matching character pattern; Col3: B.1.5"
+  }
+ ]
+}

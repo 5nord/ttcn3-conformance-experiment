@@ -1,0 +1,30 @@
+// @requirement: B.1.4.1 -- For set of, `record of types and arrays the unit of length is the replicated type.`
+// @id: TTCN3-CORE-B.1.4.1-006a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_04_01_test_005 {
+
+    type record of charstring RoC;
+    type set of charstring SoC;
+
+    type component C {}
+
+    template RoC mw_roc := ? length(2);
+    template SoC mw_soc := ? length(2);
+
+    testcase TC() runs on C {
+        var RoC v_roc2 := {"abc", "d"};
+        var RoC v_roc4 := {"a", "b", "c", "d"};
+        var SoC v_soc2 := {"abc", "d"};
+        var SoC v_soc1 := {"ab"};
+        if (match(v_roc2, mw_roc) and not match(v_roc4, mw_roc) and
+            match(v_soc2, mw_soc) and not match(v_soc1, mw_soc)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

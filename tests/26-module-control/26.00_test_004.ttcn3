@@ -1,0 +1,30 @@
+// @requirement: 26.0 -- Statement: Select case; Associated keyword or symbol: select case (…) { case (…) {…} case else {…}}
+// @id: TTCN3-CORE-26.0-006a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_26_00_test_004 {
+
+    type component C {}
+
+    testcase TC(boolean p_ok) runs on C {
+        if (p_ok) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        var integer v_value := 2;
+        select (v_value) {
+            case (1) {
+                execute(TC(false));
+            }
+            case (2) {
+                execute(TC(true));
+            }
+            case else {
+                execute(TC(false));
+            }
+        }
+    }
+}

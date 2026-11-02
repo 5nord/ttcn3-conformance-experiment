@@ -1,0 +1,28 @@
+// @requirement: 19.0 -- Statement: Disable sending and disallow receiving operations to match new messages/calls; Associated keyword or symbol: halt; Can be invoked by test behaviour: Yes
+// @id: TTCN3-CORE-19.0-009c
+// @verdict: pass reject
+module M_19_00_test_024 {
+
+    type port M message { inout integer }
+
+    type component C {
+        port M p;
+    }
+
+    function f_guard() runs on C return boolean {
+        p.halt; // error: halt in function called from an alt guard
+        return true;
+    }
+
+    testcase TC() runs on C {
+        timer T := 0.1;
+        T.start;
+        alt {
+            [f_guard()] T.timeout { setverdict(pass); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

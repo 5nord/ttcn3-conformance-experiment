@@ -1,0 +1,23 @@
+// @requirement: 5.5 -- Direct and indirect cyclic definitions are not allowed with the exception of the following cases:
+// @id: TTCN3-CORE-5.5-001a
+// @verdict: pass reject
+module M_05_05_test_001 {
+
+    type record R {
+        integer a,
+        integer b
+    }
+
+    const R c_first := { 1, c_second.b }; // error: cyclic definition
+    const R c_second := { 1, c_first.b };
+
+    type component C {}
+
+    testcase TC() runs on C {
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

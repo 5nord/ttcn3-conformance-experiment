@@ -1,0 +1,35 @@
+// @requirement: 20.2 -- The Boolean guard is considered to be fulfilled if no Boolean guard is defined, or if the Boolean guard evaluates to true.
+// @id: TTCN3-CORE-20.2-019a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_02_test_012 {
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_count := 0;
+        timer T_1 := 0.05;
+        T_1.start;
+        alt {
+            [false] T_1.timeout {
+                setverdict(fail);
+            }
+            [true] T_1.timeout {
+                v_count := v_count + 1;
+            }
+        }
+        T_1.start;
+        alt {
+            [] T_1.timeout {
+                v_count := v_count + 1;
+            }
+        }
+        if (v_count == 2) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
