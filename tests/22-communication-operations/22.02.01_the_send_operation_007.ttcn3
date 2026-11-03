@@ -1,0 +1,48 @@
+// @requirement: 22.2.1 -- Unicast communication is specified, if the to clause addresses one communication partner only.
+// @id: TTCN3-CORE-22.2.1-009a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_02_01_the_send_operation_007 {
+
+    type port P message { inout integer }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    function f_expect(integer p_value) runs on C {
+        T.start;
+        alt {
+            [] p.receive(p_value) { T.stop; }
+            [] p.receive { setverdict(fail); stop; }
+            [] T.timeout { setverdict(fail); stop; }
+        }
+    }
+
+    function f_ptc1() runs on C {
+        f_expect(1);
+        f_expect(2);
+        setverdict(pass);
+    }
+
+    function f_ptc2() runs on C {
+        f_expect(2);
+        setverdict(pass);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc1 := C.create;
+        var C v_ptc2 := C.create;
+        connect(mtc:p, v_ptc1:p);
+        connect(mtc:p, v_ptc2:p);
+        v_ptc1.start(f_ptc1());
+        v_ptc2.start(f_ptc2());
+        p.send(1) to v_ptc1;
+        p.send(2) to (v_ptc1, v_ptc2);
+        all component.done;
+    }
+
+    control {
+        execute(TC());
+    }
+}

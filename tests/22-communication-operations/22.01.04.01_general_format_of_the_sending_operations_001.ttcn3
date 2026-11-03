@@ -1,0 +1,22 @@
+// @requirement: 22.1.4.1 -- specifies the port at which the specified operation shall take place;
+// @id: TTCN3-CORE-22.1.4.1-003a
+// @verdict: pass reject
+module M_22_01_04_01_general_format_of_the_sending_operations_001 {
+
+    type port P message { inout integer }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        send(integer:1); // error: no port specified
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,19 @@
+// @requirement: 7.1.3 -- It is not allowed to compare instances of different root types.
+// @id: TTCN3-CORE-7.1.3-004a
+// @verdict: pass reject
+module M_07_01_03_relational_operators_003 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_i := 1;
+        var float v_f := 2.0;
+        if (v_i < v_f) { // error: operands of different root types
+            setverdict(pass);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

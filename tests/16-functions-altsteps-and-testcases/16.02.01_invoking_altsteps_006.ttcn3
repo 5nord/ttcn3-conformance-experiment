@@ -1,0 +1,32 @@
+// @requirement: 16.2.1 -- For an implicit invocation of an altstep by means of the default mechanism, the altstep shall be activated as a default by means of an activate statement before the place of the invocation is reached.
+// @id: TTCN3-CORE-16.2.1-006a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_16_02_01_invoking_altsteps_006 {
+
+    type component C {
+        timer T1;
+        timer T2;
+    }
+
+    altstep a_def() runs on C {
+        [] T1.timeout {
+            setverdict(pass);
+        }
+    }
+
+    testcase TC() runs on C {
+        var default v_def := activate(a_def());
+        T1.start(0.1);
+        T2.start(5.0);
+        alt {
+            [] T2.timeout {
+                setverdict(fail);
+            }
+        }
+        deactivate(v_def);
+    }
+
+    control {
+        execute(TC());
+    }
+}

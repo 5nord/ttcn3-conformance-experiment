@@ -1,0 +1,27 @@
+// @requirement: 21.3.8 -- i) If a variable referenced in the @index clause is a lazy or fuzzy variable, the expression assigned to this variable is equal to the result produced by the killed operation i.e. later evaluation of the lazy or fuzzy variable does not lead to repeated invocation of the killed operation.
+// @id: TTCN3-CORE-21.3.8-031b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_03_08_the_killed_operation_035 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var C v_ptcs[3];
+        var @fuzzy integer v_idx;
+        for (var integer i := 0; i < 3; i := i + 1) {
+            v_ptcs[i] := C.create alive;
+        }
+        v_ptcs[2].kill;
+        any from v_ptcs.killed -> @index value v_idx;
+        v_ptcs[0].kill;
+        if (v_idx == 2 and v_idx == 2) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

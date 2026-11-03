@@ -1,0 +1,33 @@
+// @requirement: 22.3.4 -- c) Parameters or return values of responses accepted by get any reply shall not be assigned to a variable, i.e. the **param and value clause shall not be present.**
+// @id: TTCN3-CORE-22.3.4-040a
+// @verdict: pass reject
+module M_22_03_04_the_getreply_operation_037 {
+
+    signature S() return integer;
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    function f_server() runs on C {
+        p.getcall(S:{});
+        p.reply(S:{} value 1);
+    }
+
+    testcase TC() runs on C system C {
+        var C v_ptc := C.create;
+        var integer v_res;
+        connect(self:p, v_ptc:p);
+        v_ptc.start(f_server());
+        p.call(S:{}, 1.0) {
+            [] p.getreply -> value v_res { setverdict(pass); } // error: value clause in get any reply
+            [] p.catch(timeout) { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

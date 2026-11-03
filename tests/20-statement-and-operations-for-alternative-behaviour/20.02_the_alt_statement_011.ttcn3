@@ -1,0 +1,26 @@
+// @requirement: 20.2 -- The` evaluation of the Boolean guards shall be based on the snapshot.
+// @id: TTCN3-CORE-20.2-018a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_02_the_alt_statement_011 {
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_x := 0;
+        timer T_1 := 0.05;
+        T_1.start;
+        alt {
+            [v_x == 0] T_1.timeout {
+                v_x := 1;
+                T_1.start;
+                repeat;
+            }
+            [v_x == 1] T_1.timeout {
+                setverdict(pass);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

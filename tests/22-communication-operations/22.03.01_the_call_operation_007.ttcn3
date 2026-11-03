@@ -1,0 +1,35 @@
+// @requirement: 22.3.1 -- It defines a set of alternatives, describing the possible responses and exceptions to the call.
+// @id: TTCN3-CORE-22.3.1-011a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_03_01_the_call_operation_007 {
+
+    signature S(in integer p_x) return integer exception (integer, charstring);
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    function f_server() runs on C {
+        p.getcall(S:{?});
+        p.raise(S, "second");
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_server());
+        p.call(S:{1}, 1.0) {
+            [] p.getreply(S:{-} value ?) { setverdict(fail); }
+            [] p.catch(S, integer:?) { setverdict(fail); }
+            [] p.catch(S, charstring:"first") { setverdict(fail); }
+            [] p.catch(S, charstring:"second") { setverdict(pass); }
+            [] p.catch(timeout) { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

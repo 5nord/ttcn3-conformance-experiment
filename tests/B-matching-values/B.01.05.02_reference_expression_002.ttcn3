@@ -1,0 +1,25 @@
+// @requirement: B.1.5.2 -- The reference shall be enclosed within the "{" "}" characters and reference shall resolve a compatible character string type.
+// @id: TTCN3-CORE-B.1.5.2-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_05_02_reference_expression_002 {
+
+    type component C {}
+
+    const charstring c_str := "ab";
+
+    template charstring mw_ref := pattern "x{c_str}y";
+    template charstring mw_noref := pattern "xc_stry";
+
+    testcase TC() runs on C {
+        if (match("xaby", mw_ref) and not match("xc_stry", mw_ref)
+            and match("xc_stry", mw_noref) and not match("xaby", mw_noref)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

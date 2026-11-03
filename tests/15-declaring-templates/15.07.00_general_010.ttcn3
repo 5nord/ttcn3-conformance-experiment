@@ -1,0 +1,30 @@
+// @requirement: 15.7.0 -- However when matching, it shall be applied to optional fields of record and set types only (without restriction on the type of that field). NOTE 1: Can be assigned to templates of any type as a whole or to optional fields of record and set templates.
+// @id: TTCN3-CORE-15.7.0-019b
+// @verdict: pass reject
+module M_15_07_00_general_010 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p;
+    }
+
+    template integer m_int := *;
+
+    testcase TC() runs on C {
+        timer T := 1.0;
+        connect(mtc:p, mtc:p);
+        p.send(5);
+        T.start;
+        alt {
+            [] p.receive(m_int) { setverdict(pass); } // error: AnyValueOrNone applied to a whole template when matching
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,39 @@
+// @requirement: 22.4 -- The check any operation allows to distinguish between different senders (in case of one-to-many connections) by using a from clause and to retrieve the sender by using a shorthand assignment part with a sender clause.
+// @id: TTCN3-CORE-22.4-021b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_04_the_check_operation_024 {
+
+    type port MP message { inout integer; }
+
+    type component C {
+        port MP p;
+        timer T := 1.0;
+    }
+
+    function f_send(integer p_value) runs on C {
+        p.send(p_value);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc1 := C.create;
+        var C v_ptc2 := C.create;
+        var C v_sender := null;
+        connect(v_ptc1:p, mtc:p);
+        connect(v_ptc2:p, mtc:p);
+        v_ptc2.start(f_send(5));
+        T.start;
+        alt {
+            [] p.check(-> sender v_sender) { }
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        if (v_sender == v_ptc2) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

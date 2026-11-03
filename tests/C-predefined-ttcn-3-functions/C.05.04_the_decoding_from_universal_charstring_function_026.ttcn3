@@ -1,0 +1,33 @@
+// @requirement: C.5.4 -- The result of decoding is then returned to the TE, finishing the decvalue_unichar call.
+// @id: TTCN3-CORE-C.5.4-027a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_05_04_the_decoding_from_universal_charstring_function_026 {
+
+    type component C {}
+
+    type integer I with { variant "32 bit" };
+
+    type enumerated E { e_one(1), e_two(2) } with { variant "32 bit" };
+
+    testcase TC() runs on C {
+        var I v_zero := 0;
+        var universal charstring v_ok := encvalue_unichar(v_zero);
+        var universal charstring v_bad := v_ok;
+        var bitstring v_bits_ok := oct2bit(unichar2oct(v_ok, "UTF-8"));
+        var bitstring v_bits_bad := v_bits_ok;
+        var I v_dec, v_ref;
+        var E v_dec_e, v_ref_e;
+        var integer v_ref_ok := decvalue(v_bits_ok, v_ref);
+        var integer v_ref_bad := decvalue(v_bits_bad, v_ref_e);
+        if (decvalue_unichar(v_ok, v_dec) == v_ref_ok and v_ref_ok == 0 and
+            decvalue_unichar(v_bad, v_dec_e) == v_ref_bad and v_ref_bad == 1) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

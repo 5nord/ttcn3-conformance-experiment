@@ -1,0 +1,29 @@
+// @requirement: 19.3.1 -- If none of the templateInstance-s matches the value of the expression in the header and the statement contains no else branch, execution continues without executing any of the select case branches.
+// @id: TTCN3-CORE-19.3.1-015a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_03_01_the_select_case_statement_016 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_x := 42;
+        var boolean v_executed := false;
+        select (v_x) {
+            case (1) {
+                v_executed := true;
+            }
+            case (2, 3) {
+                v_executed := true;
+            }
+        }
+        if (not v_executed) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

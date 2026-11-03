@@ -1,0 +1,26 @@
+// @requirement: B.1.3.3 -- If both permutation and _AnyElementsOrNone are used in a record of template, they shall be evaluated jointly._
+// @id: TTCN3-CORE-B.1.3.3-006a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_03_03_permutation_006 {
+
+    type record of integer RoI;
+
+    type component C {}
+
+    template RoI mw_inner := {permutation(1, *), 2};
+    template RoI mw_outer := {*, permutation(1, 2), *};
+
+    testcase TC() runs on C {
+        var RoI v_inner := {3, 1, 2};
+        var RoI v_outer := {2, 3, 2, 1, 4};
+        if (match(v_inner, mw_inner) and match(v_outer, mw_outer)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

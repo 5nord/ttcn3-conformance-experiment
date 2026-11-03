@@ -1,0 +1,30 @@
+// @requirement: 6.2.10.2 -- It is not considered to be a name clash if a specific definition is contributed to the extended type via different extension paths.
+// @id: TTCN3-CORE-6.2.10.2-015a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_10_02_reuse_of_component_types_012 {
+
+    type component CB {
+        timer tc_t := 0.1;
+    }
+
+    type component CE extends CB {
+        var integer vc_i := 10;
+    }
+
+    type component CG extends CB, CE {
+    }
+
+    testcase TC() runs on CG {
+        tc_t.start;
+        tc_t.timeout;
+        if (vc_i == 10) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

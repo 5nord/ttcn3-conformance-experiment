@@ -1,0 +1,18 @@
+// @requirement: A.1.6.8.3 -- If more than one BitAndExpression exists, then the BitAndExpressions shall evaluate to specific values of compatible types
+// @id: TTCN3-CORE-A.1.6.8.3-013a
+// @verdict: pass reject
+module M_A_01_06_08_03_basic_statements_017 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var bitstring v_b := '0001'B;
+        var hexstring v_h := '1'H;
+        var bitstring v_r := v_b xor4b v_h; // error: operands of xor4b have incompatible types
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,24 @@
+// @requirement: 24.1 -- On the termination of the test component, the local verdict of the test component shall be logged together with the implicit charstring variable.
+// @id: TTCN3-CORE-24.1-039a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_24_01_the_verdict_mechanism_028 {
+
+    type component C {}
+
+    function f_ptc() runs on C {
+        var integer v_myVar := 5;
+        setverdict(pass, "Value received: ", v_myVar);
+        stop;
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        v_ptc.start(f_ptc());
+        v_ptc.done;
+        setverdict(pass, "MTC terminates");
+    }
+
+    control {
+        execute(TC());
+    }
+}

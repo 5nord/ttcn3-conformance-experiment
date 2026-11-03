@@ -1,0 +1,17 @@
+// @requirement: A.1.6.8.3 -- If more than one MulExpression exists and the AddOp does not resolve to StringOp then the MulExpression shall both resolve to type integer or float or derivatives of these types.
+// @id: TTCN3-CORE-A.1.6.8.3-016c
+// @verdict: pass reject
+module M_A_01_06_08_03_basic_statements_022 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var charstring v_s := "abc";
+        var charstring v_r := v_s + v_s; // error: operands of + are not integer or float
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

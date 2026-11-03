@@ -1,0 +1,28 @@
+// @requirement: 20.2 -- Any branch in an alt statement can be defined as an else branch by including the else keyword between the opening and closing brackets at the beginning of the alternative.
+// @id: TTCN3-CORE-20.2-053a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_02_the_alt_statement_036 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        alt {
+            [] p.receive {
+                setverdict(fail);
+            }
+            [else] {
+                setverdict(pass);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

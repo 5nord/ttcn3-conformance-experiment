@@ -1,0 +1,17 @@
+// @requirement: 22.3.2 -- a) The getcall operation shall only be used on procedure-based ports.
+// @id: TTCN3-CORE-22.3.2-035a
+// @verdict: pass reject
+module M_22_03_02_the_getcall_operation_031 {
+
+    signature S(in integer p_x) noblock;
+
+    type port PM message { inout integer }
+
+    type component C {
+        port PM p;
+    }
+
+    function f_getcall() runs on C {
+        p.getcall(S:{?}); // error: getcall on a message-based port
+    }
+}

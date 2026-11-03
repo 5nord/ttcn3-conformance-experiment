@@ -1,0 +1,23 @@
+// @requirement: 22.3.5 -- g) The ObjectReference shall be of a port type.
+// @id: TTCN3-CORE-22.3.5-025a
+// @verdict: pass reject
+module M_22_03_05_the_raise_operation_018 {
+
+    signature S() exception(integer);
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C system C {
+        var integer v_p := 0;
+        v_p.raise(S, 1); // error: v_p is not a port
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

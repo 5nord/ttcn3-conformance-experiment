@@ -1,0 +1,30 @@
+// @requirement: 21.1.2 -- The usage of a disconnect or unmap operation without any parameters is a shorthand form for using the operation with the parameter self:all port.
+// @id: TTCN3-CORE-21.1.2-009a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_01_02_the_disconnect_and_unmap_operations_011 {
+
+    type port P message { inout integer; }
+
+    type component C { port P p1, p2; }
+
+    testcase TC() runs on C system C {
+        var C v_ptc := C.create;
+        connect(self:p1, v_ptc:p1);
+        connect(self:p2, v_ptc:p2);
+        disconnect;
+        if (p1.checkstate("Connected") or p2.checkstate("Connected")) {
+            setverdict(fail, "disconnect without parameters failed");
+        }
+        map(self:p1, system:p1);
+        map(self:p2, system:p2);
+        unmap;
+        if (p1.checkstate("Mapped") or p2.checkstate("Mapped")) {
+            setverdict(fail, "unmap without parameters failed");
+        }
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

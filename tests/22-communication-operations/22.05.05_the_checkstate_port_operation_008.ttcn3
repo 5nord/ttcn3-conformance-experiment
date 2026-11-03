@@ -1,0 +1,27 @@
+// @requirement: 22.5.5 -- The checkstate port operation can be used with all port and any port.
+// @id: TTCN3-CORE-22.5.5-011a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_05_05_the_checkstate_port_operation_008 {
+
+    type port P message {
+        inout integer
+    }
+
+    type component C {
+        port P p1, p2;
+    }
+
+    testcase TC() runs on C {
+        var boolean v_all := all port.checkstate("Started");
+        var boolean v_any := any port.checkstate("Started");
+        if (v_all and v_any) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

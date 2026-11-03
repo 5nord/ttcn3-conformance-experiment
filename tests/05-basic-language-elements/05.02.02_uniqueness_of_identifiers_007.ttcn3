@@ -1,0 +1,23 @@
+// @requirement: 5.2.2 -- In addition, enumeration values shall not be used as names of value or template definitions of imported enumeration types, defining the given enumeration value (see also clause 8.2.3.1, example 5).
+// @id: TTCN3-CORE-5.2.2-005a
+// @verdict: pass reject
+module M_05_02_02_uniqueness_of_identifiers_007 {
+
+    import from M_05_02_02_uniqueness_of_identifiers_007_A all;
+
+    const E e_b := e_a; // error: e_b is an enumerated value of the imported type E
+
+    type component C {}
+
+    testcase TC() runs on C {
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_05_02_02_uniqueness_of_identifiers_007_A {
+    type enumerated E { e_a, e_b }
+}

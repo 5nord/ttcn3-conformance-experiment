@@ -1,0 +1,26 @@
+// @requirement: 7.1.3 -- Two enumerated values are equal if and only if both their identifiers and associated integer values (associated either explicitly or implicitly, see clause 6.2.4) are the same.
+// @id: TTCN3-CORE-7.1.3-015a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_07_01_03_relational_operators_016 {
+
+    type enumerated E {
+        e_a(2), e_b, e_c(0)
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var E v_a := e_a;
+        var E v_b := e_b;
+        var E v_c := e_a;
+        if (v_a == v_c and v_a != v_b and v_b == e_b and not (v_a == e_c)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

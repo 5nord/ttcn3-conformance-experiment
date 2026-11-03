@@ -1,0 +1,33 @@
+// @requirement: 5.2.1 -- That is they follow the scope rules for local definitions (see clause 5.2).
+// @id: TTCN3-CORE-5.2.1-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_02_01_scope_of_formal_parameters_002 {
+
+    type component C {}
+
+    function f_sum(integer p_x) return integer {
+        var integer v_result := 0;
+        {
+            if (p_x > 0) {
+                var integer v_i := 0;
+                while (v_i < p_x) {
+                    v_result := v_result + p_x;
+                    v_i := v_i + 1;
+                }
+            }
+        }
+        return v_result;
+    }
+
+    testcase TC() runs on C {
+        if (f_sum(3) == 9) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

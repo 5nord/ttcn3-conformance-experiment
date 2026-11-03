@@ -1,0 +1,26 @@
+// @requirement: 5.4.2 -- m) Whenever a value or template of a record, set, union, record of, set of, array and anytype type is passed as an actual parameter to an inout parameter, none of the fields or elements of this structured value or template shall be passed as an actual parameter to another inout parameter of the same parameterized TTCN-3 object.
+// @id: TTCN3-CORE-5.4.2-057a
+// @verdict: pass reject
+module M_05_04_02_actual_parameters_059 {
+
+    type record R {
+        integer a,
+        integer b
+    }
+
+    type component C {}
+
+    function f_test(inout R p_rec, inout integer p_int) {
+        p_int := p_rec.a;
+    }
+
+    testcase TC() runs on C {
+        var R v_rec := { a := 1, b := 2 };
+        f_test(v_rec, v_rec.a); // error: field of v_rec passed to another inout parameter
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

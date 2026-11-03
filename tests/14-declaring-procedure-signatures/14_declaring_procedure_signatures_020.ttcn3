@@ -1,0 +1,18 @@
+// @requirement: 14 -- This list defines all the possible different types associated with the set of possible exceptions (the meaning of exceptions themselves will usually only be distinguished by specific values of these types).
+// @id: TTCN3-CORE-14-019a
+// @verdict: pass reject
+module M_14_declaring_procedure_signatures_020 {
+
+    signature S() exception (integer);
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    function f_server() runs on C {
+        p.getcall(S:{});
+        p.raise(S, charstring:"err"); // error: charstring is not in the exception list of S
+    }
+}

@@ -1,0 +1,25 @@
+// @requirement: 8.2.3.1 -- b) Only top-level visible definitions of a module may be imported.
+// @id: TTCN3-CORE-8.2.3.1-084a
+// @verdict: pass reject
+module M_08_02_03_01_general_format_of_import_049 {
+
+    import from M_08_02_03_01_general_format_of_import_049_A {
+        const c_inComp // error: not a top-level definition of M_08_02_03_01_general_format_of_import_049_A
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_03_01_general_format_of_import_049_A {
+    type component CA {
+        const integer c_inComp := 42;
+    }
+}

@@ -1,0 +1,45 @@
+// @requirement: 22.3.2 -- It is also possible to store the index of a port in a singledimensional port array at which the operation was successful to a variable of type integer or, in case of multi-dimensional port arrays the index of the successful port to an integer array or record of integer variable.
+// @id: TTCN3-CORE-22.3.2-030a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_03_02_the_getcall_operation_026 {
+
+    signature S(in integer p_x) noblock;
+
+    type port P procedure { inout S }
+
+    type component CS {
+        port P pa[3];
+        timer T := 1.0;
+    }
+
+    type component CC {
+        port P p;
+    }
+
+    altstep a_guard() runs on CS {
+        [] T.timeout { setverdict(fail); stop; }
+    }
+
+    function f_client() runs on CC {
+        p.call(S:{1});
+    }
+
+    testcase TC() runs on CS {
+        var CC v_ptc := CC.create;
+        var integer v_idx;
+        connect(mtc:pa[1], v_ptc:p);
+        v_ptc.start(f_client());
+        activate(a_guard());
+        T.start;
+        any from pa.getcall(S:{1}) -> @index value v_idx;
+        if (v_idx == 1) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

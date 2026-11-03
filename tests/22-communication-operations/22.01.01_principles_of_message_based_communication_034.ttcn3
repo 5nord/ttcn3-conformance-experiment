@@ -1,0 +1,31 @@
+// @requirement: 22.1.1 -- Table 22: Overview of TTCN-3 communication operations: Check the state of a port; Col2: checkstate; Col3: Yes; Col4: Yes
+// @id: TTCN3-CORE-22.1.1-026b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_01_01_principles_of_message_based_communication_034 {
+
+    type port P message {
+        inout integer
+    }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        var boolean v_ok := p.checkstate("Started") and not p.checkstate("Connected");
+        connect(mtc:p, v_ptc:p);
+        v_ok := v_ok and p.checkstate("Connected") and p.checkstate("Linked");
+        p.stop;
+        v_ok := v_ok and p.checkstate("Stopped") and not p.checkstate("Started");
+        if (v_ok) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

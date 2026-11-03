@@ -1,0 +1,24 @@
+// @requirement: 22.3.1 -- b) All in and inout parameters of the signature shall have a specific value i.e. the use of matching mechanisms such as AnyValue is not allowed.
+// @id: TTCN3-CORE-22.3.1-050b
+// @verdict: pass reject
+module M_22_03_01_the_call_operation_038 {
+
+    signature S(in integer p_x) noblock;
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        p.call(S:{?}); // error: AnyValue for an in parameter
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

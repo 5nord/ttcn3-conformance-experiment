@@ -1,0 +1,21 @@
+// @requirement: 5.4.1.0 -- Formal parameters shall be in, inout or out parameters (see terms in clause 3.1).
+// @id: TTCN3-CORE-5.4.1.0-006a
+// @verdict: pass reject
+module M_05_04_01_00_general_004 {
+
+    type component C {}
+
+    function f_set(in out integer p_x) { // error: parameter kind is not in, inout or out
+        p_x := 1;
+    }
+
+    testcase TC() runs on C {
+        var integer v_x := 0;
+        f_set(v_x);
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

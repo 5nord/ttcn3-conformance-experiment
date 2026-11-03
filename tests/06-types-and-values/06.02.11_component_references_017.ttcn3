@@ -1,0 +1,23 @@
+// @requirement: 6.2.11 -- b) The ObjectReference shall be of a component type and shall not resolve to a template.
+// @id: TTCN3-CORE-6.2.11-017a
+// @verdict: pass reject
+module M_06_02_11_component_references_017 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        var integer v_ref := 0;
+        connect(self:p, v_ref:p); // error: component reference is not of a component type
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

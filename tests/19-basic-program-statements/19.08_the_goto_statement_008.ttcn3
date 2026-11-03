@@ -1,0 +1,22 @@
+// @requirement: 19.8 -- a) It is not allowed to jump out of or into functions, test cases and altsteps.
+// @id: TTCN3-CORE-19.8-006b
+// @verdict: pass reject
+module M_19_08_the_goto_statement_008 {
+
+    type component C {}
+
+    function f_target() {
+        label L_F;
+        log("in function");
+    }
+
+    testcase TC() runs on C {
+        goto L_F; // error: jump into a function
+        f_target();
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

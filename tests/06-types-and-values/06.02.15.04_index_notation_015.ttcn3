@@ -1,0 +1,19 @@
+// @requirement: 6.2.15.4 -- c) An index notation used on the right hand side with a key that has no associated value shall result in an error.
+// @id: TTCN3-CORE-6.2.15.4-015a
+// @verdict: pass accept, ttcn3verdict:error
+module M_06_02_15_04_index_notation_015 {
+
+    type map from charstring to integer MyMap;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyMap v_map := { ["a"] := 1 };
+        var integer v_value := v_map["z"]; // error: no value associated with key "z"
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,31 @@
+// @requirement: 5.3 -- Generally, the order in which declarations can be made is arbitrary.
+// @id: TTCN3-CORE-5.3-001a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_03_ordering_of_language_elements_001 {
+
+    testcase TC() runs on C {
+        if (f_get() == c_b and match(c_b, m_b)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    function f_get() return MyInt {
+        return c_b;
+    }
+
+    template MyInt m_b := c_b;
+
+    const MyInt c_b := c_a + 1;
+
+    const MyInt c_a := 1;
+
+    type integer MyInt;
+
+    type component C {}
+
+    control {
+        execute(TC());
+    }
+}

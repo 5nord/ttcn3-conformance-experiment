@@ -1,0 +1,20 @@
+// @requirement: 24.2 -- As the result of the setverdict operation, the implicit charstring variable is overwritten whenever the local verdict of a test component is overwritten (i.e. a new value, which is different to the previous one is assigned to it).
+// @id: TTCN3-CORE-24.2-013b
+// @verdict: pass accept, ttcn3verdict:fail
+module M_24_02_the_setverdict_operation_011 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        setverdict(fail, "Reason one");
+        setverdict(fail, "Reason two");
+        setverdict(pass, "Reason three");
+        if (getverdict != fail) {
+            testcase.stop("unexpected local verdict");
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,27 @@
+// @requirement: 7.1.2 -- The result type is the root type of the operands.
+// @id: TTCN3-CORE-7.1.2-004a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_07_01_02_list_operator_005 {
+
+    type charstring Str2 length(2);
+    type record length(1) of integer RI1;
+    type record of integer RI;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var Str2 v_a := "ab", v_b := "cd";
+        var charstring v_r := v_a & v_b;
+        var RI1 v_l1 := { 1 }, v_l2 := { 2 };
+        var RI v_rl := v_l1 & v_l2;
+        if (v_r == "abcd" and v_rl == { 1, 2 }) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

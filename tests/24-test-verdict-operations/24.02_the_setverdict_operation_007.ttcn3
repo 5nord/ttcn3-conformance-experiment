@@ -1,0 +1,23 @@
+// @requirement: 24.2 -- This information is composed to a string and stored in an implicit charstring variable.
+// @id: TTCN3-CORE-24.2-010b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_24_02_the_setverdict_operation_007 {
+
+    type component C {}
+
+    function f_ptc() runs on C {
+        var integer v_myVar := 5;
+        setverdict(pass, "Value received: ", v_myVar);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        v_ptc.start(f_ptc());
+        v_ptc.done;
+        setverdict(pass, "PTC done");
+    }
+
+    control {
+        execute(TC());
+    }
+}

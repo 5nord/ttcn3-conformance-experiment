@@ -1,0 +1,18 @@
+// @requirement: 14 -- The type of the return value shall be specified by means of a return clause in the corresponding signature definition.
+// @id: TTCN3-CORE-14-014b
+// @verdict: pass reject
+module M_14_declaring_procedure_signatures_016 {
+
+    signature S(in integer p_in);
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    function f_server() runs on C {
+        p.getcall(S:{ p_in := ? });
+        p.reply(S:{ p_in := 1 } value 5); // error: S has no return clause
+    }
+}

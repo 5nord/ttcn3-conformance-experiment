@@ -1,0 +1,29 @@
+// @requirement: 15.5 -- Formal value or template parameters of modified templates inherit the default value or respectively template of the corresponding parameter of their parent templates only, if this is denoted by the dash (don't change) symbol at the place of the parameters' default value or respectively template.
+// @id: TTCN3-CORE-15.5-021a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_05_modified_templates_019 {
+
+    type record R {
+        integer f1 optional,
+        charstring f2,
+        boolean f3
+    }
+
+    template R m_r1(integer p_i := 5) := { f1 := p_i, f2 := "A string", f3 := true };
+    template R m_r2(integer p_i := -) modifies m_r1 := { f2 := "B string" };
+    template R m_r3(integer p_i := 0) modifies m_r1 := { f2 := "C string" };
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (valueof(m_r2()).f1 == 5 and valueof(m_r3()).f1 == 0) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

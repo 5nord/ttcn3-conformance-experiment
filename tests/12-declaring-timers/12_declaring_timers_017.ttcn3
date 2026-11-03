@@ -1,0 +1,35 @@
+// @requirement: 12 -- In this case, the timer is kept as long as at least one constant, variable or parameter of the current or higher scope unit or an activated altstep contain a reference to it.
+// @id: TTCN3-CORE-12-017a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_12_declaring_timers_017 {
+    type component C {
+        var timer vc_t := null;
+    }
+
+    function f_start() runs on C {
+        timer T_loc := 0.1;
+        T_loc.start;
+        vc_t := T_loc;
+    }
+
+    testcase TC() runs on C {
+        timer T_guard := 2.0;
+        f_start();
+        if (not vc_t.running) {
+            setverdict(fail);
+            stop;
+        }
+        T_guard.start;
+        alt {
+            [] vc_t.timeout {
+                setverdict(pass);
+            }
+            [] T_guard.timeout {
+                setverdict(fail);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }}

@@ -1,0 +1,25 @@
+// @requirement: 15.8.2 -- Referenced field, alternative or element: Optional field of a record or set; Restriction of the parent template, field, alternative or element: template (omit); Col3: template (omit); Col4: template; Col5: template
+// @id: TTCN3-CORE-15.8.2-012a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_08_02_implicit_restrictions_for_template_fields_alternatives_and_elements_012 {
+
+    type record R { integer a, integer b optional }
+
+    const R c_r := { a := 1, b := omit };
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template(value) R v_t := { a := 1, b := 2 };
+        v_t.b := omit;
+        if (match(c_r, v_t)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

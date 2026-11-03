@@ -1,0 +1,24 @@
+// @requirement: B.1.5.0 -- NOTE 1: Metacharacters ? and * are able to match any characters of the character set of the root type of the template or template field in which they are used (i.e. not considering type constraints applied).
+// @id: TTCN3-CORE-B.1.5.0-042a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_05_00_general_032 {
+
+    type component C {}
+
+    type charstring Abc ("a".."c");
+
+    template Abc mw_any := pattern "?*";
+
+    testcase TC() runs on C {
+        var template charstring v_root := mw_any;
+        if (match("xyz", v_root) and match("b", mw_any)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

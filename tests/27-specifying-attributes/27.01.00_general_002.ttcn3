@@ -1,0 +1,33 @@
+// @requirement: 27.1.0 -- The with statement can be applied to modules, global module definitions and to local definitions in control, test cases, functions, altsteps, statement blocks and in component type definitions.
+// @id: TTCN3-CORE-27.1.0-002a
+// @verdict: pass accept, noexecution
+module M_27_01_00_general_002 {
+
+    type component C {
+        var integer vc_value := 0 with { display "component variable" }
+    }
+
+    const integer c_global := 1 with { display "global constant" }
+
+    function f_local() {
+        var integer v_function := 1 with { display "function variable" }
+    }
+
+    altstep a_local() {
+        var integer v_altstep := 1 with { display "altstep variable" }
+        [] any timer.timeout {}
+    }
+
+    testcase TC() runs on C {
+        var integer v_testcase := 1 with { display "test case variable" }
+        if (v_testcase == 1) {
+            var integer v_block := 2 with { display "block variable" }
+        }
+        setverdict(pass);
+    }
+
+    control {
+        var integer v_control := 1 with { display "control variable" }
+        execute(TC());
+    }
+} with { display "module" }

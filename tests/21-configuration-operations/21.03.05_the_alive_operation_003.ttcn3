@@ -1,0 +1,29 @@
+// @requirement: 21.3.5 -- Applied on a normal parallel test component, the alive operation returns true if the component is inactive or running a behaviour and false otherwise.
+// @id: TTCN3-CORE-21.3.5-003a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_03_05_the_alive_operation_003 {
+
+    type component C {}
+
+    function f_wait() runs on C {
+        timer T := 5.0;
+        T.start;
+        T.timeout;
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        var boolean v_inactive := v_ptc.alive;
+        v_ptc.start(f_wait());
+        var boolean v_running := v_ptc.alive;
+        if (v_inactive and v_running) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

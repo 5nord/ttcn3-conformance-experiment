@@ -1,0 +1,32 @@
+// @requirement: 22.1.1 -- Table 22: Overview of TTCN-3 communication operations: Clear queue and enable sending and receiving at a port; Col2: start; Col3: Yes; Col4: Yes
+// @id: TTCN3-CORE-22.1.1-023a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_01_01_principles_of_message_based_communication_027 {
+
+    signature S(in integer p_x) noblock;
+
+    type port P message {
+        inout integer
+    }
+
+    type port PP procedure {
+        inout S
+    }
+
+    type component C {
+        port P pm;
+        port PP pp;
+    }
+
+    testcase TC() runs on C {
+        pm.stop;
+        pp.stop;
+        pm.start;
+        pp.start;
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

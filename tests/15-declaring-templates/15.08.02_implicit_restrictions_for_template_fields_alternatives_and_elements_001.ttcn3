@@ -1,0 +1,19 @@
+// @requirement: 15.8.2 -- When referencing template fields, alternatives and elements using dot notation, indexes and by modifying templates, the referenced item shall have an implicit template restriction according to the table 13c.
+// @id: TTCN3-CORE-15.8.2-001a
+// @verdict: pass reject
+module M_15_08_02_implicit_restrictions_for_template_fields_alternatives_and_elements_001 {
+
+    type record R { integer a, integer b optional }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template(value) R v_t := { a := 1, b := omit };
+        v_t.a := ?; // error: field has implicit template(value) restriction
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

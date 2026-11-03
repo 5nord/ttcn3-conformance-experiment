@@ -1,0 +1,45 @@
+// @requirement: 21.3.1 -- Components can be created at any point in a behaviour definition providing full flexibility with regard to dynamic configurations (i.e. any component can create any other PTC).
+// @id: TTCN3-CORE-21.3.1-021a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_03_01_the_create_operation_026 {
+
+    type component C {
+        var C v_comp := null;
+    }
+
+    function f_ptc() runs on C {
+        setverdict(pass);
+    }
+
+    function f_create() runs on C return C {
+        return C.create;
+    }
+
+    altstep a_create() runs on C {
+        [] any timer.timeout {
+            v_comp := C.create;
+            v_comp.start(f_ptc());
+        }
+    }
+
+    testcase TC() runs on C {
+        timer T := 0.1;
+        var C v_ptc := f_create();
+        v_ptc.start(f_ptc());
+        for (var integer i := 0; i < 2; i := i + 1) {
+            var C v_loop := C.create;
+            v_loop.start(f_ptc());
+        }
+        if (true) {
+            var C v_if := C.create alive;
+            v_if.start(f_ptc());
+        }
+        T.start;
+        a_create();
+        all component.done;
+    }
+
+    control {
+        execute(TC());
+    }
+}

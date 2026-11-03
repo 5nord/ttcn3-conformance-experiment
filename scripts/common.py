@@ -4,6 +4,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 SENT = ROOT / "sentences"
+SENTENCES_SKIP = {"chapters.json", "parts.json"}
 PARTS_OUT = ROOT / "parts"
 REQ = ROOT / "requirements"
 GLOSSARY = ROOT / "ttcn3-terms-3.1.json"
@@ -54,3 +55,43 @@ def combine(fragments):
                 raise ValueError(f"{f}: '{k}' must be a list")
             out[k].extend(v)
     return out
+
+
+def pad_section(section):
+    """15.4.1 -> 15.04.01, A.1.2a -> A.01.02a, 10 -> 10."""
+    out = []
+    for part in section.split("."):
+        m = re.fullmatch(r"(\d+)([a-z]*)", part)
+        out.append(f"{int(m.group(1)):02d}{m.group(2)}" if m else part)
+    return ".".join(out)
+
+
+def slug_title(title):
+    """Sub-clause title to a filename segment (spaces -> underscore, etc.)."""
+    s = re.sub(r"[^a-z0-9]+", "_", title.lower())
+    return re.sub(r"_+", "_", s).strip("_")
+
+
+def section_titles():
+    titles = {}
+    for path in sorted(SENT.glob("*.json")):
+        if path.name in SENTENCES_SKIP:
+            continue
+        for sec, info in load(path).get("sections", {}).items():
+            titles[sec] = info["title"]
+    return titles
+
+
+def section_slug(section, titles=None):
+    titles = titles if titles is not None else section_titles()
+    return slug_title(titles[section])
+
+
+def test_basename(section, n, titles=None):
+    return f"{pad_section(section)}_{section_slug(section, titles)}_{n:03d}"
+
+
+def test_module(section, n, titles=None):
+    padded = pad_section(section)
+    slug = section_slug(section, titles)
+    return "M_" + re.sub(r"\W", "_", padded) + f"_{slug}_{n:03d}"

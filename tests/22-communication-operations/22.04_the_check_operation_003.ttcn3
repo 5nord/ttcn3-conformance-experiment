@@ -1,0 +1,35 @@
+// @requirement: 22.4 -- NOTE 1: _Address may be an AddressRef, a list of AddressRef-s or "any component"._ [ @nodefault ] ( ObjectReference | any port | any from PortArrayRef ) "." check [ "(" ( PortReceiveOp | PortGetCallOp | PortGetReplyOp | PortCatchOp ) | ( [ from Address ] [ "->" [ sender ValueRef] [ @index value ValueRef] ] ) ")" ]
+// @id: TTCN3-CORE-22.4-003a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_04_the_check_operation_003 {
+
+    type port MP message { inout integer; }
+
+    type component C {
+        port MP p1, p2;
+        timer T := 1.0;
+    }
+
+    testcase TC() runs on C {
+        var C v_other := C.create;
+        connect(mtc:p1, mtc:p2);
+        p1.send(5);
+        T.start;
+        alt {
+            [] p2.check(from mtc) { }
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        alt {
+            [] p2.check(from (v_other, mtc)) { }
+            [else] { setverdict(fail); stop; }
+        }
+        alt {
+            [] p2.check(from any component) { setverdict(pass); }
+            [else] { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

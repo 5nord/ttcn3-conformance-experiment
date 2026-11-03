@@ -1,0 +1,23 @@
+// @requirement: 19.7 -- but not as the first statement of an alternative or top alternative in an alt statement, interleave statement or altstep.
+// @id: TTCN3-CORE-19.7-006c
+// @verdict: pass reject
+module M_19_07_the_label_statement_006 {
+
+    type component C {
+        timer T;
+    }
+
+    testcase TC() runs on C {
+        T.start(0.1);
+        alt {
+            label L_1; // error: label as first statement of a top alternative
+            [] T.timeout {
+                setverdict(pass);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,18 @@
+// @requirement: 26.1 -- All variables (if any) visible in the scope unit where the execute statement is used shall be passed into the test case by parameterization if they are to be used in the behaviour definition of that test case, i.e. TTCN-3 does not support global variables of any kind.
+// @id: TTCN3-CORE-26.1-016a
+// @verdict: pass reject
+module M_26_01_the_execute_statement_016 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (v_value == 1) { // error: control variable not passed as parameter
+            setverdict(pass);
+        }
+    }
+
+    control {
+        var integer v_value := 1;
+        execute(TC());
+    }
+}

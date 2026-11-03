@@ -1,0 +1,35 @@
+// @requirement: 18 -- Statement: Next iteration of a loop; Associated keyword or symbol: continue; Can be invoked by control behaviour: Yes; Can be invoked by test behaviour: Yes; Can be directly or indirectly invoked from specific places (see note 1): Yes
+// @id: TTCN3-CORE-18-026c
+// @verdict: pass accept, ttcn3verdict:pass
+module M_18_overview_of_program_statements_and_operations_044 {
+
+    type component C {}
+
+    function f_check() return boolean {
+        var integer v_sum := 0;
+        for (var integer i := 0; i < 4; i := i + 1) {
+            if (i mod 2 == 0) {
+                continue;
+            }
+            v_sum := v_sum + i;
+        }
+        return v_sum == 4;
+    }
+
+    testcase TC() runs on C {
+        timer T := 0.1;
+        T.start;
+        alt {
+            [f_check()] T.timeout {
+                setverdict(pass);
+            }
+            [] T.timeout {
+                setverdict(fail);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

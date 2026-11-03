@@ -1,0 +1,23 @@
+// @requirement: 21.1.1 -- All checks, which could not be made at compile-time, shall be made at runtime and shall lead to a test case error when failing.
+// @id: TTCN3-CORE-21.1.1-034b
+// @verdict: pass accept, ttcn3verdict:error
+module M_21_01_01_the_connect_and_map_operations_032 {
+
+    type port P message { inout integer; }
+
+    type component C { port P p; }
+
+    function f_map(C p_comp) runs on C {
+        map(self:p, p_comp:p);
+    }
+
+    testcase TC() runs on C system C {
+        var C v_ptc := C.create;
+        f_map(v_ptc); // runtime check fails: no operand is a system port
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

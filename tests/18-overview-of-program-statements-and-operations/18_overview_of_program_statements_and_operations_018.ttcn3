@@ -1,0 +1,23 @@
+// @requirement: 18 -- Statement: For loop; Associated keyword or symbol: for (…) {…}; Can be invoked by control behaviour: Yes; Can be invoked by test behaviour: Yes; Can be directly or indirectly invoked from specific places (see note 1): Yes
+// @id: TTCN3-CORE-18-019a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_18_overview_of_program_statements_and_operations_018 {
+
+    type component C {}
+
+    testcase TC(integer p_sum) runs on C {
+        if (p_sum == 6) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        var integer v_sum := 0;
+        for (var integer i := 1; i <= 3; i := i + 1) {
+            v_sum := v_sum + i;
+        }
+        execute(TC(v_sum));
+    }
+}

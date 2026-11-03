@@ -1,0 +1,26 @@
+// @requirement: D.5 -- The __SCOPE__ preprocessing macro denotes the unqualified name of the lowest named basic scope unit in which the macro is used.
+// @id: TTCN3-CORE-D.5-001a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_D_05_preprocessing_macro_scope_001 {
+
+    type component C {}
+
+    const charstring c_moduleScope := __SCOPE__;
+
+    function f_scope() return charstring {
+        return __SCOPE__;
+    }
+
+    testcase TC() runs on C {
+        if (c_moduleScope == "M_D_05_preprocessing_macro_scope_001" and f_scope() == "f_scope"
+            and __SCOPE__ == "TC") {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

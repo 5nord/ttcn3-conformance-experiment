@@ -1,0 +1,21 @@
+// @requirement: 21.0 -- **Operation** **Explanation** **Syntax Examples** **Test Component Operations** Create Creation of a normal or alive test Non-alive test components: component, the distinction between `var PTCType c := PTCType.create;` normal and alive test components is Alive test components: made during creation `var PTCType c := PTCType.create` `alive;` (MTC behaves as a normal test component)
+// @id: TTCN3-CORE-21.0-017a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_00_general_013 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var C v_normal := C.create;
+        var C v_alive := C.create alive;
+        if (v_normal.alive and v_alive.alive) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,28 @@
+// @requirement: 11.2 -- j) If a lazy or fuzzy template variable is used in deterministic contexts (i.e. during the evaluation of a snapshot or initialization of global non-fuzzy templates), it shall be declared @deterministic and the template body assigned to the variable shall fulfill the restrictions imposed on content of functions used in special places given in clause 16.1.4.
+// @id: TTCN3-CORE-11.2-027a
+// @verdict: pass reject
+module M_11_02_template_variables_026 {
+    type port P message {
+        inout integer
+    }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        var template @fuzzy integer v_t := 1;
+        timer T_guard := 1.0;
+        connect(mtc:p, mtc:p);
+        p.send(1);
+        T_guard.start;
+        alt {
+            [] p.receive(v_t) { // error: fuzzy template variable not declared @deterministic
+                setverdict(pass);
+            }
+            [] T_guard.timeout {
+                setverdict(fail);
+            }
+        }
+    }
+}

@@ -1,0 +1,33 @@
+// @requirement: 8.2.3.3 -- [ Visibility ] import from ModuleId "{" { ( group { QualifiedIdentifier [ except "{" ExceptSpec "}" ] [ "," ] } ) [ ";" ] } "}" [ ";" ]
+// @id: TTCN3-CORE-8.2.3.3-007a
+// @verdict: pass accept, noexecution
+module M_08_02_03_03_importing_groups_008 {
+
+    private import from M_08_02_03_03_importing_groups_008_A {
+        group g_a except { type MyType1; template all }, g_b.g_sub;
+        group g_b except { const c_value2 }
+        group g_c
+    };
+
+    import from M_08_02_03_03_importing_groups_008_A {
+        group g_a
+    }
+
+}
+
+module M_08_02_03_03_importing_groups_008_A {
+    group g_a {
+        type integer MyType1;
+        template integer m_value := 1;
+        const integer c_value1 := 1;
+    }
+    group g_b {
+        const integer c_value2 := 2;
+        group g_sub {
+            const integer c_value3 := 3;
+        }
+    }
+    group g_c {
+        const integer c_value4 := 4;
+    }
+}

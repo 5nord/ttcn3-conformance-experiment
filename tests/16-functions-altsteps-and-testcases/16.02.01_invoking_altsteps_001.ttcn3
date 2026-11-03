@@ -1,0 +1,45 @@
+// @requirement: 16.2.1 -- The invocation may be done either implicitly by the default mechanism (see clause C.5) or explicitly by a direct call within an alt statement (see clause 20.2).
+// @id: TTCN3-CORE-16.2.1-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_16_02_01_invoking_altsteps_001 {
+
+    type component C {
+        timer T1;
+        timer T2;
+        var integer v_count := 0;
+    }
+
+    altstep a_step() runs on C {
+        [] T1.timeout {
+            v_count := v_count + 1;
+        }
+    }
+
+    testcase TC() runs on C {
+        T1.start(0.1);
+        T2.start(5.0);
+        alt {
+            [] a_step(); // explicit invocation
+            [] T2.timeout {
+                setverdict(fail);
+            }
+        }
+        var default v_def := activate(a_step());
+        T1.start(0.1);
+        alt {
+            [] T2.timeout { // a_step is invoked implicitly as default
+                setverdict(fail);
+            }
+        }
+        deactivate(v_def);
+        if (v_count == 2) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

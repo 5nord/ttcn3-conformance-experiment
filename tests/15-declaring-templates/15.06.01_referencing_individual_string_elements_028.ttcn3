@@ -1,0 +1,22 @@
+// @requirement: 15.6.1 -- e) In all other cases of referencing an item of a character string template to which a specific value is assigned using a non-negative index (i.e. the index is greater than the string length or the item on the right hand side of the assignment is a pattern), the specific value shall be converted into a pattern that matches precisely the specific value (i.e. automatically escaping the characters that would otherwise have a metacharacter meaning by prefixing them with a backslash symbol).
+// @id: TTCN3-CORE-15.6.1-029a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_06_01_referencing_individual_string_elements_028 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template charstring v_char := "a?c";
+        v_char[4] := "x";
+        if (match("a?czx", v_char) and not match("abczx", v_char)
+            and not match("a?cx", v_char)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

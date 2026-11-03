@@ -1,0 +1,21 @@
+// @requirement: 15.11 -- If it is necessary to concatenate a pattern definition with a following character string according to the template concatenation rules (thus automatically escaping the string), the pattern definition shall be enclosed into parentheses.
+// @id: TTCN3-CORE-15.11-020a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_11_concatenating_templates_of_string_and_list_types_023 {
+
+    template charstring mw_t := (pattern "ABC") & "?EF";
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (match("ABC?EF", mw_t) and not match("ABCxEF", mw_t)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

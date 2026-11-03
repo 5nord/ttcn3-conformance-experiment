@@ -1,0 +1,34 @@
+// @requirement: 9.0 -- The actual configuration of components and the connections between them is achieved by performing create and connect operations within the test case behaviour.
+// @id: TTCN3-CORE-9.0-020a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_09_00_general_012 {
+
+    type port P message { inout integer; }
+
+    type component C {
+        port P p;
+    }
+
+    function f_echo() runs on C {
+        p.receive(integer:?);
+        p.send(2);
+    }
+
+    testcase TC() runs on C {
+        timer T := 1.0;
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_echo());
+        p.send(1);
+        T.start;
+        alt {
+            [] p.receive(2) { setverdict(pass); }
+            [] T.timeout { setverdict(fail); }
+        }
+        v_ptc.done;
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,28 @@
+// @requirement: 16.1.4 -- j) Calling functions and deterministic external functions with out or inout parameters (see notes 7 and 8).
+// @id: TTCN3-CORE-16.1.4-013a
+// @verdict: pass reject
+module M_16_01_04_invoking_functions_from_specific_places_013 {
+
+    type component C {
+        timer T := 0.1;
+    }
+
+    function f_out(out integer p_x) return boolean {
+        p_x := 1;
+        return true;
+    }
+
+    testcase TC() runs on C {
+        var integer v_x;
+        T.start;
+        alt {
+            [f_out(v_x)] T.timeout { // error: function with out parameter called in a guard
+                setverdict(pass);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

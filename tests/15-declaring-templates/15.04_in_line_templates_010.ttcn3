@@ -1,0 +1,23 @@
+// @requirement: 15.4 -- In the case where there is an ambiguity between the listed type and the type of the value provided (e.g. through subtyping) then the type name of the in-line template shall be included in the communication operation.
+// @id: TTCN3-CORE-15.4-016a
+// @verdict: pass reject
+module M_15_04_in_line_templates_010 {
+
+    type integer I1 (0..10);
+    type integer I2 (0..100);
+
+    type port P message { inout I1, I2 }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        p.send(5); // error: ambiguous between I1 and I2, type name missing
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

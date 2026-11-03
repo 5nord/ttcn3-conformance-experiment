@@ -1,0 +1,26 @@
+// @requirement: A.1.5.0 -- Begin/end block symbols: List element separator symbol; { }: ,
+// @id: TTCN3-CORE-A.1.5.0-022a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_A_01_05_00_general_018 {
+
+    type record of integer RoI;
+
+    type component C {}
+
+    function f_sub(integer p_a, integer p_b) return integer {
+        return p_a - p_b;
+    }
+
+    testcase TC() runs on C {
+        var RoI v_l := { 1, 2, 3 };
+        if (lengthof(v_l) == 3 and f_sub(5, 2) == 3) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

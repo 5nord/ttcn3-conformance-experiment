@@ -1,0 +1,26 @@
+// @requirement: 7.1.3 -- In the case of different enumerated types, expression "b" of type "B" can be compared with expression "a" of type "A" if the two types "A" and "B" can be merged to a consistent larger enumerated type (i.e. where numbers are not associated with different identifiers, see also clause 6.3.2.1).
+// @id: TTCN3-CORE-7.1.3-014a
+// @verdict: pass reject
+module M_07_01_03_relational_operators_015 {
+
+    type enumerated EWeekDays {
+        Mon, Tue, Wed, Thu, Fri, Sat, Sun
+    }
+    type enumerated EDesWeekDays {
+        Tue, Wed, Thu, Fri, Sat, Sun, Mon
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var EWeekDays v_weekMon := Mon;
+        var EDesWeekDays v_desMon := Mon;
+        if (v_desMon == v_weekMon) { // error: types cannot be merged consistently
+            setverdict(pass);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,27 @@
+// @requirement: 5.4.1.2 -- Formal template parameters of modified templates may inherit their default templates from the corresponding parameters of their parent templates; this shall explicitly be denoted by using a dash (don't change) symbol at the place of the modified template parameter's default template.
+// @id: TTCN3-CORE-5.4.1.2-009a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_04_01_02_formal_parameters_of_kind_template_008 {
+    type record R {
+        integer f1,
+        integer f2
+    }
+    type component C {}
+
+    template R m_base(template integer p_x := (1 .. 10)) := { f1 := p_x, f2 := 0 };
+    template R m_mod(template integer p_x := -) modifies m_base := { f2 := 1 };
+
+    testcase TC() runs on C {
+        var R v_in := { f1 := 5, f2 := 1 };
+        var R v_out := { f1 := 20, f2 := 1 };
+        if (match(v_in, m_mod()) and not match(v_out, m_mod())) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,23 @@
+// @requirement: 11.2 -- A template or value can be assigned several times to a template variable.
+// @id: TTCN3-CORE-11.2-010a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_11_02_template_variables_010 {
+    type component C {}
+
+    template integer m_range := (1 .. 5);
+
+    testcase TC() runs on C {
+        var template integer v_t := 0;
+        v_t := m_range;
+        v_t := 7;
+        v_t := 8;
+        if (match(8, v_t) and not match(7, v_t)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }}

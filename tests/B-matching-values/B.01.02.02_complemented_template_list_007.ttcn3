@@ -1,0 +1,20 @@
+// @requirement: B.1.2.2 -- b) The template in the all from clause shall resolve either into a specific value or combined template.
+// @id: TTCN3-CORE-B.1.2.2-008a
+// @verdict: pass reject
+module M_B_01_02_02_complemented_template_list_007 {
+
+    type component C {}
+
+    type record of integer RoI;
+
+    template RoI mw_roI := ?;
+    template integer mw_c := complement(0, all from mw_roI); // error: mw_roI resolves into a matching mechanism
+
+    testcase TC() runs on C {
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

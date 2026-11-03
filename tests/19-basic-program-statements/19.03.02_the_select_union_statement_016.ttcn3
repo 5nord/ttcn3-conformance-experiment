@@ -1,0 +1,29 @@
+// @requirement: 19.3.2 -- It shall be at least partially initialized.
+// @id: TTCN3-CORE-19.3.2-015a
+// @verdict: pass accept, ttcn3verdict:error
+module M_19_03_02_the_select_union_statement_016 {
+
+    type component C {}
+
+    type union U {
+        integer a,
+        boolean b
+    }
+
+    testcase TC() runs on C {
+        var U v_u;
+        setverdict(pass);
+        select union (v_u) { // error: header value is uninitialized
+            case (a) {
+                setverdict(pass);
+            }
+            case else {
+                setverdict(pass);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

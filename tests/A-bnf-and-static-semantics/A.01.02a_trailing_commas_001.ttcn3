@@ -1,0 +1,33 @@
+// @requirement: A.1.2a -- In TTCN-3, all comma-separated lists are terminated with a right hand brace (")"), a right-hand curly brace ("}"), a left-hand curly brace ("{") or a semi-colon (";").
+// @id: TTCN3-CORE-A.1.2a-001a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_A_01_02a_trailing_commas_001 {
+
+    type record of integer RoI;
+
+    type component C1 {
+        var integer v_c1 := 1;
+    }
+    type component C2 {
+        var integer v_c2 := 2;
+    }
+    type component C extends C1, C2 {}
+
+    function f_add(integer p_a, integer p_b) return integer {
+        return p_a + p_b;
+    }
+
+    testcase TC() runs on C {
+        var integer v_a := 1, v_b := 2;
+        var RoI v_l := { 3, 4 };
+        if (f_add(v_a, v_b) + v_l[0] + v_l[1] + v_c1 + v_c2 == 13) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

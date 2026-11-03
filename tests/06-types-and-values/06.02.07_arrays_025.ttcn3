@@ -1,0 +1,20 @@
+// @requirement: 6.2.7 -- If the value of the element indicated by the index at the right-hand of an assignment is undefined or if the index notation is applied to an uninitialized or omitted array value on the right hand side of an assignment, error shall be caused.
+// @id: TTCN3-CORE-6.2.7-028a
+// @verdict: pass accept, ttcn3verdict:error
+module M_06_02_07_arrays_025 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_a[3];
+        v_a[0] := 1;
+        v_a[2] := 3;
+        setverdict(pass);
+        var integer v_i := v_a[1]; // error: element 1 is undefined
+        log(v_i);
+    }
+
+    control {
+        execute(TC());
+    }
+}

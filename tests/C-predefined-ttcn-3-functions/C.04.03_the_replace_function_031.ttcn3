@@ -1,0 +1,17 @@
+// @requirement: C.4.3 -- `len is less than 0 or greater than lengthof(inpar);`
+// @id: TTCN3-CORE-C.4.3-031a
+// @verdict: pass accept, ttcn3verdict:error
+module M_C_04_03_the_replace_function_031 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_len := -1;
+        var charstring v_res := replace("abcdef", 2, v_len, "xx"); // error: len less than 0
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

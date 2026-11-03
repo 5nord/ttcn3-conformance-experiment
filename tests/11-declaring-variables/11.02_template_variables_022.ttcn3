@@ -1,0 +1,24 @@
+// @requirement: 11.2 -- g) Template variables, similarly to global and local templates, shall be fully specified in order to be used in sending and receiving operations.
+// @id: TTCN3-CORE-11.2-023a
+// @verdict: pass reject
+module M_11_02_template_variables_022 {
+    type record R {
+        integer f1,
+        integer f2
+    }
+
+    type port P message {
+        inout R
+    }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        var template R v_t := { f1 := ?, f2 := - };
+        connect(mtc:p, mtc:p);
+        p.receive(v_t); // error: v_t is not completely initialized
+        setverdict(pass);
+    }
+}

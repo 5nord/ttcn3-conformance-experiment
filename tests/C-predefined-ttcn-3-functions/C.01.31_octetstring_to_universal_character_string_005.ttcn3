@@ -1,0 +1,21 @@
+// @requirement: C.1.31 -- If the optional string_encoding parameter is omitted, the default value "UTF-8".
+// @id: TTCN3-CORE-C.1.31-004a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_01_31_octetstring_to_universal_character_string_005 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var octetstring v_in := 'C384E282AC'O;
+        if (oct2unichar(v_in) == char(0, 0, 0, 196) & char(0, 0, 32, 172) and
+            oct2unichar(v_in) == oct2unichar(v_in, "UTF-8")) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

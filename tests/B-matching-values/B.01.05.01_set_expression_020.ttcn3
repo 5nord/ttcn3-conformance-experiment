@@ -1,0 +1,37 @@
+// @requirement: B.1.5.1 -- "\", "\d", "\t", "\w", "\r", "\n", "\s" and "\b";
+// @id: TTCN3-CORE-B.1.5.1-025a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_05_01_set_expression_020 {
+
+    type component C {}
+
+    const charstring c_tab := char(0, 0, 0, 9);
+    const charstring c_cr := char(0, 0, 0, 13);
+    const charstring c_lf := char(0, 0, 0, 10);
+
+    template charstring mw_esc := pattern "[x\]]";
+    template charstring mw_d := pattern "[x\d]";
+    template charstring mw_w := pattern "[-\w]";
+    template charstring mw_s := pattern "[x\s]";
+    template charstring mw_t := pattern "[x\t]";
+    template charstring mw_r := pattern "[x\r]";
+    template charstring mw_n := pattern "[x\n]";
+
+    testcase TC() runs on C {
+        if (match("]", mw_esc) and not match("a", mw_esc)
+            and match("7", mw_d) and not match("d", mw_d)
+            and match("Q", mw_w) and match("z", mw_w) and not match(".", mw_w)
+            and match(" ", mw_s) and not match("s", mw_s)
+            and match(c_tab, mw_t) and not match("t", mw_t)
+            and match(c_cr, mw_r) and not match("r", mw_r)
+            and match(c_lf, mw_n) and not match("n", mw_n)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

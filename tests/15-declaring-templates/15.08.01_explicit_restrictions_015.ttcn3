@@ -1,0 +1,28 @@
+// @requirement: 15.8.1 -- (present) ... (i.e. its fields may contain any of the matching mechanisms or matching attributes).
+// @id: TTCN3-CORE-15.8.1-010b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_08_01_explicit_restrictions_015 {
+    type record R {
+        integer a,
+        boolean b optional
+    }
+
+    template(present) R mw_r1 := {a := (1 .. 5), b := *};
+    template(present) R mw_r2 := {a := complement(0), b := true ifpresent};
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var R v_omit := {a := 3, b := omit};
+        var R v_true := {a := 3, b := true};
+        if (match(v_omit, mw_r1) and match(v_true, mw_r1) and match(v_omit, mw_r2) and match(v_true, mw_r2)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

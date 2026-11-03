@@ -1,0 +1,23 @@
+// @requirement: 19.0 -- Statement: Read elapsed time; Associated keyword or symbol: read; Can be invoked by control behaviour: Yes; Can be invoked by test behaviour: Yes
+// @id: TTCN3-CORE-19.0-014a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_00_general_034 {
+
+    type component C {}
+
+    testcase TC(boolean p_ok) runs on C {
+        if (p_ok) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        timer T;
+        var float v_elapsed;
+        T.start(5.0);
+        v_elapsed := T.read;
+        execute(TC(v_elapsed >= 0.0 and v_elapsed <= 5.0));
+    }
+}

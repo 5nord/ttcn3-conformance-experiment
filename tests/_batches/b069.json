@@ -26,8 +26,8 @@
      "text": "type port MyPort message { inout integer }\n  type component MyComponent {\n    port MyPort p[10][10];\n  }\n  var integer v_i[2];\n  any from p.receive(mw_myMessage) -> @index value v_i; \n  // checking receiving mw_myMessage on any port of the port array p and storing the index of the\n  // port on which the matching was successful first; if, for example MyMessage is matched first\n  // on p[4,2], the content of i will be {4,2}"
     }
    ],
-   "file": "tests/22-communication-operations/22.02.02_test_041.ttcn3",
-   "module": "M_22_02_02_test_041",
+   "file": "tests/22-communication-operations/22.02.02_the_receive_operation_041.ttcn3",
+   "module": "M_22_02_02_the_receive_operation_041",
    "header": "// @requirement: 22.2.2 -- It is also possible to store the index of a port in a singledimensional port array at which the operation was successful to a variable of type integer or, in case of multi-dimensional port arrays the index of the successful port to an integer array or record of integer variable."
   },
   {
@@ -47,8 +47,8 @@
     17853
    ],
    "examples": [],
-   "file": "tests/22-communication-operations/22.02.02_test_042.ttcn3",
-   "module": "M_22_02_02_test_042",
+   "file": "tests/22-communication-operations/22.02.02_the_receive_operation_042.ttcn3",
+   "module": "M_22_02_02_the_receive_operation_042",
    "header": "// @requirement: 22.2.2 -- When checking the port array for matching messages, the port indices to be checked are iterated from lowest to highest."
   },
   {
@@ -73,8 +73,8 @@
     17853
    ],
    "examples": [],
-   "file": "tests/22-communication-operations/22.02.02_test_043.ttcn3",
-   "module": "M_22_02_02_test_043",
+   "file": "tests/22-communication-operations/22.02.02_the_receive_operation_043.ttcn3",
+   "module": "M_22_02_02_the_receive_operation_043",
    "header": "// @requirement: 22.2.2 -- If the port array is multi-dimensional, then the ports are iterated over from innermost to outermost array dimension from lowest to highest index for each dimension, e.g. [0][0], [0][1], [1][0], [1][1]."
   },
   {
@@ -94,8 +94,8 @@
     17853
    ],
    "examples": [],
-   "file": "tests/22-communication-operations/22.02.02_test_044.ttcn3",
-   "module": "M_22_02_02_test_044",
+   "file": "tests/22-communication-operations/22.02.02_the_receive_operation_044.ttcn3",
+   "module": "M_22_02_02_the_receive_operation_044",
    "header": "// @requirement: 22.2.2 -- The first port which matches all the criteria will cause the operation to be successful even if other ports in the array would also meet the criteria."
   },
   {
@@ -115,8 +115,8 @@
     17859
    ],
    "examples": [],
-   "file": "tests/22-communication-operations/22.02.02_test_045.ttcn3",
-   "module": "M_22_02_02_test_045",
+   "file": "tests/22-communication-operations/22.02.02_the_receive_operation_045.ttcn3",
+   "module": "M_22_02_02_the_receive_operation_045",
    "header": "// @requirement: 22.2.2 -- The receive operation can be used as a stand-alone statement in a behaviour description."
   },
   {
@@ -136,8 +136,8 @@
     17859
    ],
    "examples": [],
-   "file": "tests/22-communication-operations/22.02.02_test_046.ttcn3",
-   "module": "M_22_02_02_test_046",
+   "file": "tests/22-communication-operations/22.02.02_the_receive_operation_046.ttcn3",
+   "module": "M_22_02_02_the_receive_operation_046",
    "header": "// @requirement: 22.2.2 -- In this latter case the receive operation is considered to be shorthand for an alt statement with the receive operation as the only alternative."
   },
   {
@@ -172,8 +172,8 @@
      "text": "type MyPayloadType record {\n    integer messageId,\n   ContentType content\n  }\n  type MyType2 record {\n   Header header,\n    octetstring payload\n  }\n  template MyType mw_myTemplate := {\n   messageId := 42,\n   content := ?\n  }\n  ...\n  var MyPayloadType v_myVar;\n  var integer v_myMessageIdVar, v_myIntegerVar;\n  var charstring v_myCharstringVar;\n  var address v_myPeer;\n  var octetstring v_myVarOne := '00ff'O;\n  MyPort.receive(charstring:\"Hello\")from v_myPeer; // Matches charstring \"Hello\" from MyPeer\n  MyPort.receive(MyType:?) -> value v_myVar; // The value of the received message is\n                             // assigned to v_myVar.\n  MyPort.receive(MyType:?) -> value (v_myVar, v_myMessageIdVar:= messageId)\n                   // The value of the received message is stored in the variable\n                   // v_myVar and the value of the messageId field of the received\n                   // message is stored in the variable v_myMessageIdVar.\n  MyPort.receive(anytype:?) -> value (v_myIntegerVar:= integer)\n                   // If the received value is an integer, it is stored in the variable\n                   // v_myIntegerVar, a test case error otherwise.\n  MyPort.receive(charstring:?) -> value (v_myCharstringVar)\n                   // The received value is stored in the variable v_myCharstringVar;\n                   // Note that it is the same as to write \"value v_myCharstringVar\"\n  MyPort.receive(A<B) -> sender v_myPeer;  // The address of the sender is assigned to v_myPeer"
     }
    ],
-   "file": "tests/22-communication-operations/22.02.02_test_047.ttcn3",
-   "module": "M_22_02_02_test_047",
+   "file": "tests/22-communication-operations/22.02.02_the_receive_operation_047.ttcn3",
+   "module": "M_22_02_02_the_receive_operation_047",
    "header": "// @requirement: 22.2.2 -- a) When defining the message in-line, the optional type part shall be present whenever the type of the message being received is ambiguous."
   },
   {
@@ -193,8 +193,8 @@
     17870
    ],
    "examples": [],
-   "file": "tests/22-communication-operations/22.02.02_test_048.ttcn3",
-   "module": "M_22_02_02_test_048",
+   "file": "tests/22-communication-operations/22.02.02_the_receive_operation_048.ttcn3",
+   "module": "M_22_02_02_the_receive_operation_048",
    "header": "// @requirement: 22.2.2 -- b) The receive operation shall only be used on message-based ports and the type of the value to be received shall be included in the list of incoming types of the port type definition."
   },
   {
@@ -214,8 +214,8 @@
     17870
    ],
    "examples": [],
-   "file": "tests/22-communication-operations/22.02.02_test_049.ttcn3",
-   "module": "M_22_02_02_test_049",
+   "file": "tests/22-communication-operations/22.02.02_the_receive_operation_049.ttcn3",
+   "module": "M_22_02_02_the_receive_operation_049",
    "header": "// @requirement: 22.2.2 -- b) The receive operation shall only be used on message-based ports and the type of the value to be received shall be included in the list of incoming types of the port type definition."
   },
   {
@@ -240,8 +240,8 @@
     17872
    ],
    "examples": [],
-   "file": "tests/22-communication-operations/22.02.02_test_050.ttcn3",
-   "module": "M_22_02_02_test_050",
+   "file": "tests/22-communication-operations/22.02.02_the_receive_operation_050.ttcn3",
+   "module": "M_22_02_02_the_receive_operation_050",
    "header": "// @requirement: 22.2.2 -- c) No binding of the incoming values to the terms of the expression or to the template shall occur."
   },
   {
@@ -261,8 +261,8 @@
     17874
    ],
    "examples": [],
-   "file": "tests/22-communication-operations/22.02.02_test_051.ttcn3",
-   "module": "M_22_02_02_test_051",
+   "file": "tests/22-communication-operations/22.02.02_the_receive_operation_051.ttcn3",
+   "module": "M_22_02_02_the_receive_operation_051",
    "header": "// @requirement: 22.2.2 -- d) A message received by receive any message shall not be stored, i.e. the value clause shall not be present."
   },
   {
@@ -287,8 +287,8 @@
     17877
    ],
    "examples": [],
-   "file": "tests/22-communication-operations/22.02.02_test_052.ttcn3",
-   "module": "M_22_02_02_test_052",
+   "file": "tests/22-communication-operations/22.02.02_the_receive_operation_052.ttcn3",
+   "module": "M_22_02_02_the_receive_operation_052",
    "header": "// @requirement: 22.2.2 -- e) Type mismatch at storing the received value or parts of the received value and storing the sender shall cause an error."
   },
   {
@@ -313,8 +313,8 @@
     17877
    ],
    "examples": [],
-   "file": "tests/22-communication-operations/22.02.02_test_053.ttcn3",
-   "module": "M_22_02_02_test_053",
+   "file": "tests/22-communication-operations/22.02.02_the_receive_operation_053.ttcn3",
+   "module": "M_22_02_02_the_receive_operation_053",
    "header": "// @requirement: 22.2.2 -- e) Type mismatch at storing the received value or parts of the received value and storing the sender shall cause an error."
   },
   {
@@ -334,8 +334,8 @@
     17881
    ],
    "examples": [],
-   "file": "tests/22-communication-operations/22.02.02_test_054.ttcn3",
-   "module": "M_22_02_02_test_054",
+   "file": "tests/22-communication-operations/22.02.02_the_receive_operation_054.ttcn3",
+   "module": "M_22_02_02_the_receive_operation_054",
    "header": "// @requirement: 22.2.2 -- NOTE 6: An error due to a type mismatch may happen if the types in the receive part are not compatible to the types in the assignment part or, if the from clause is missing, but the type of the sender can be determined and it is not type compatible with the type in the sender clause."
   },
   {
@@ -357,8 +357,8 @@
     17884
    ],
    "examples": [],
-   "file": "tests/22-communication-operations/22.02.02_test_055.ttcn3",
-   "module": "M_22_02_02_test_055",
+   "file": "tests/22-communication-operations/22.02.02_the_receive_operation_055.ttcn3",
+   "module": "M_22_02_02_the_receive_operation_055",
    "header": "// @requirement: 22.2.2 -- f) All AddressRef items in the from clause and all ValueRef items in the sender clause shall be of type address, component or of the address type bound to the port type (see clause C.5) of the port instance referenced in the receive operation."
   },
   {
@@ -380,8 +380,8 @@
     17884
    ],
    "examples": [],
-   "file": "tests/22-communication-operations/22.02.02_test_056.ttcn3",
-   "module": "M_22_02_02_test_056",
+   "file": "tests/22-communication-operations/22.02.02_the_receive_operation_056.ttcn3",
+   "module": "M_22_02_02_the_receive_operation_056",
    "header": "// @requirement: 22.2.2 -- f) All AddressRef items in the from clause and all ValueRef items in the sender clause shall be of type address, component or of the address type bound to the port type (see clause C.5) of the port instance referenced in the receive operation."
   },
   {
@@ -401,8 +401,8 @@
     17884
    ],
    "examples": [],
-   "file": "tests/22-communication-operations/22.02.02_test_057.ttcn3",
-   "module": "M_22_02_02_test_057",
+   "file": "tests/22-communication-operations/22.02.02_the_receive_operation_057.ttcn3",
+   "module": "M_22_02_02_the_receive_operation_057",
    "header": "// @requirement: 22.2.2 -- No AddressRef in the from clause shall contain the special value null at the time of the operation."
   },
   {
@@ -422,8 +422,8 @@
     17886
    ],
    "examples": [],
-   "file": "tests/22-communication-operations/22.02.02_test_058.ttcn3",
-   "module": "M_22_02_02_test_058",
+   "file": "tests/22-communication-operations/22.02.02_the_receive_operation_058.ttcn3",
+   "module": "M_22_02_02_the_receive_operation_058",
    "header": "// @requirement: 22.2.2 -- g) The PortArrayRef shall be a reference to a completely initialized port array."
   },
   {
@@ -443,8 +443,8 @@
     17888
    ],
    "examples": [],
-   "file": "tests/22-communication-operations/22.02.02_test_059.ttcn3",
-   "module": "M_22_02_02_test_059",
+   "file": "tests/22-communication-operations/22.02.02_the_receive_operation_059.ttcn3",
+   "module": "M_22_02_02_the_receive_operation_059",
    "header": "// @requirement: 22.2.2 -- h) The index redirection shall only be used when the operation is used on an any from port array construct."
   },
   {
@@ -464,8 +464,8 @@
     17891
    ],
    "examples": [],
-   "file": "tests/22-communication-operations/22.02.02_test_060.ttcn3",
-   "module": "M_22_02_02_test_060",
+   "file": "tests/22-communication-operations/22.02.02_the_receive_operation_060.ttcn3",
+   "module": "M_22_02_02_the_receive_operation_060",
    "header": "// @requirement: 22.2.2 -- i) If the index redirection is used for single-dimensional port arrays, the type of the integer variable shall allow storing the highest index of the respective array."
   },
   {
@@ -493,8 +493,8 @@
      "text": "type port MyPort message { inout integer }\n  type component MyComponent {\n    port MyPort p[10][10];\n  }\n  var integer v_i[2];\n  any from p.receive(mw_myMessage) -> @index value v_i; \n  // checking receiving mw_myMessage on any port of the port array p and storing the index of the\n  // port on which the matching was successful first; if, for example MyMessage is matched first\n  // on p[4,2], the content of i will be {4,2}"
     }
    ],
-   "file": "tests/22-communication-operations/22.02.02_test_061.ttcn3",
-   "module": "M_22_02_02_test_061",
+   "file": "tests/22-communication-operations/22.02.02_the_receive_operation_061.ttcn3",
+   "module": "M_22_02_02_the_receive_operation_061",
    "header": "// @requirement: 22.2.2 -- j) If the index redirection is used for multi-dimensional port arrays, the size of the integer array or record of integer type shall exactly be the same as the dimension of the respective array, and its type shall allow storing the highest index (from all dimensions) of the array."
   },
   {
@@ -514,8 +514,8 @@
     17895
    ],
    "examples": [],
-   "file": "tests/22-communication-operations/22.02.02_test_062.ttcn3",
-   "module": "M_22_02_02_test_062",
+   "file": "tests/22-communication-operations/22.02.02_the_receive_operation_062.ttcn3",
+   "module": "M_22_02_02_the_receive_operation_062",
    "header": "// @requirement: 22.2.2 -- j) If the index redirection is used for multi-dimensional port arrays, the size of the integer array or record of integer type shall exactly be the same as the dimension of the respective array, and its type shall allow storing the highest index (from all dimensions) of the array."
   },
   {
@@ -535,8 +535,8 @@
     17904
    ],
    "examples": [],
-   "file": "tests/22-communication-operations/22.02.02_test_063.ttcn3",
-   "module": "M_22_02_02_test_063",
+   "file": "tests/22-communication-operations/22.02.02_the_receive_operation_063.ttcn3",
+   "module": "M_22_02_02_the_receive_operation_063",
    "header": "// @requirement: 22.2.2 -- k) If a variable referenced in the value, sender or @index clause is a lazy or fuzzy variable, the expression assigned to this variable is equal to the result produced by the receive operation i.e. later evaluation of the lazy or fuzzy variable does not lead to repeated invocation of the receive operation."
   },
   {
@@ -556,8 +556,8 @@
     17904
    ],
    "examples": [],
-   "file": "tests/22-communication-operations/22.02.02_test_064.ttcn3",
-   "module": "M_22_02_02_test_064",
+   "file": "tests/22-communication-operations/22.02.02_the_receive_operation_064.ttcn3",
+   "module": "M_22_02_02_the_receive_operation_064",
    "header": "// @requirement: 22.2.2 -- k) If a variable referenced in the value, sender or @index clause is a lazy or fuzzy variable, the expression assigned to this variable is equal to the result produced by the receive operation i.e. later evaluation of the lazy or fuzzy variable does not lead to repeated invocation of the receive operation."
   },
   {
@@ -590,8 +590,8 @@
     17907
    ],
    "examples": [],
-   "file": "tests/22-communication-operations/22.02.02_test_065.ttcn3",
-   "module": "M_22_02_02_test_065",
+   "file": "tests/22-communication-operations/22.02.02_the_receive_operation_065.ttcn3",
+   "module": "M_22_02_02_the_receive_operation_065",
    "header": "// @requirement: 22.2.2 -- l) If the receive operation contains both from and sender clause, the variable or parameter referenced in the sender clause shall be type compatible with the template in the from clause."
   },
   {
@@ -619,8 +619,8 @@
      "text": "type MyPayloadType record {\n    integer messageId,\n   ContentType content\n  }\n  type MyType2 record {\n   Header header,\n    octetstring payload\n  }\n  template MyType mw_myTemplate := {\n   messageId := 42,\n   content := ?\n  }\n  ...\n  var MyPayloadType v_myVar;\n  var integer v_myMessageIdVar, v_myIntegerVar;\n  var charstring v_myCharstringVar;\n  var address v_myPeer;\n  var octetstring v_myVarOne := '00ff'O;\n  MyPort.receive(charstring:\"Hello\")from v_myPeer; // Matches charstring \"Hello\" from MyPeer\n  MyPort.receive(MyType:?) -> value v_myVar; // The value of the received message is\n                             // assigned to v_myVar.\n  MyPort.receive(MyType:?) -> value (v_myVar, v_myMessageIdVar:= messageId)\n                   // The value of the received message is stored in the variable\n                   // v_myVar and the value of the messageId field of the received\n                   // message is stored in the variable v_myMessageIdVar.\n  MyPort.receive(anytype:?) -> value (v_myIntegerVar:= integer)\n                   // If the received value is an integer, it is stored in the variable\n                   // v_myIntegerVar, a test case error otherwise.\n  MyPort.receive(charstring:?) -> value (v_myCharstringVar)\n                   // The received value is stored in the variable v_myCharstringVar;\n                   // Note that it is the same as to write \"value v_myCharstringVar\"\n  MyPort.receive(A<B) -> sender v_myPeer;  // The address of the sender is assigned to v_myPeer"
     }
    ],
-   "file": "tests/22-communication-operations/22.02.02_test_066.ttcn3",
-   "module": "M_22_02_02_test_066",
+   "file": "tests/22-communication-operations/22.02.02_the_receive_operation_066.ttcn3",
+   "module": "M_22_02_02_the_receive_operation_066",
    "header": "// @requirement: 22.2.2 -- m) When assigning implicitly decoded message fields (by using the @decoded modifier) in cases where the value or template to be matched uses the MatchDecodedContent (decmatch) matching for the field to be stored, the type of the template in the MatchDecodedContent matching shall be type-compatible to the type of the variable the decoded field is stored into."
   },
   {
@@ -648,8 +648,8 @@
     17915
    ],
    "examples": [],
-   "file": "tests/22-communication-operations/22.02.02_test_067.ttcn3",
-   "module": "M_22_02_02_test_067",
+   "file": "tests/22-communication-operations/22.02.02_the_receive_operation_067.ttcn3",
+   "module": "M_22_02_02_the_receive_operation_067",
    "header": "// @requirement: 22.2.2 -- n) The referenced value associated with ValueRef or the return type associated with FunctionInstance followed by the receive keyword, shall be of a port type."
   },
   {
@@ -669,8 +669,8 @@
     17919
    ],
    "examples": [],
-   "file": "tests/22-communication-operations/22.02.02_test_068.ttcn3",
-   "module": "M_22_02_02_test_068",
+   "file": "tests/22-communication-operations/22.02.02_the_receive_operation_068.ttcn3",
+   "module": "M_22_02_02_the_receive_operation_068",
    "header": "// @requirement: 22.2.2 -- o) TemplateInstance shall be of a data type."
   },
   {
@@ -690,8 +690,8 @@
     17919
    ],
    "examples": [],
-   "file": "tests/22-communication-operations/22.02.02_test_069.ttcn3",
-   "module": "M_22_02_02_test_069",
+   "file": "tests/22-communication-operations/22.02.02_the_receive_operation_069.ttcn3",
+   "module": "M_22_02_02_the_receive_operation_069",
    "header": "// @requirement: 22.2.2 -- p) The @nodefault modifier is allowed only in stand-alone receive statements."
   },
   {
@@ -740,8 +740,8 @@
      "text": "type port MyPort message { inout integer }\n  type component MyComponent {\n    port MyPort p[10][10];\n  }\n  var integer v_i[2];\n  any from p.trigger(mw_myMessage) -> @index value v_i; \n  // Checking if mw_myMessage has been received on any port of the port array p; if yes, the index\n  // of the port on which the matching was first successful is stored in the array v_i; if no port\n  // succeeds, the top messages are removed and the port array is re-checked."
     }
    ],
-   "file": "tests/22-communication-operations/22.02.03_test_001.ttcn3",
-   "module": "M_22_02_03_test_001",
+   "file": "tests/22-communication-operations/22.02.03_the_trigger_operation_001.ttcn3",
+   "module": "M_22_02_03_the_trigger_operation_001",
    "header": "// @requirement: 22.2.3 -- [ @nodefault ] ( ObjectReference | any port | any from PortArrayRef ) \".\" trigger [ \"(\" TemplateInstance \")\" ] [ from Address ] [ \"->\" [ value ( ValueRef| ( \"(\" { ValueRef[ \":=\" [ @decoded [ \"(\" Expression \")\" ] ] FieldOrTypeReference ][\",\"] } \")\" ) ) ] [ sender ValueRef] [ @index value ValueRef] ]"
   },
   {
@@ -761,8 +761,8 @@
     18020
    ],
    "examples": [],
-   "file": "tests/22-communication-operations/22.02.03_test_002.ttcn3",
-   "module": "M_22_02_03_test_002",
+   "file": "tests/22-communication-operations/22.02.03_the_trigger_operation_002.ttcn3",
+   "module": "M_22_02_03_the_trigger_operation_002",
    "header": "// @requirement: 22.2.3 -- NOTE 1: _Address may be an AddressRef, a list of AddressRef-s or \"any component\"._"
   },
   {
@@ -790,8 +790,8 @@
      "text": "myPort.trigger(MyType:?);\n  // Specifies that the operation will trigger on the reception of the first message observed of\n  // the type MyType with an arbitrary value at port myPort."
     }
    ],
-   "file": "tests/22-communication-operations/22.02.03_test_003.ttcn3",
-   "module": "M_22_02_03_test_003",
+   "file": "tests/22-communication-operations/22.02.03_the_trigger_operation_003.ttcn3",
+   "module": "M_22_02_03_the_trigger_operation_003",
    "header": "// @requirement: 22.2.3 -- The trigger operation removes the top message from the associated incoming port queue."
   },
   {
@@ -819,8 +819,8 @@
      "text": "myPort.trigger(MyType:?);\n  // Specifies that the operation will trigger on the reception of the first message observed of\n  // the type MyType with an arbitrary value at port myPort."
     }
    ],
-   "file": "tests/22-communication-operations/22.02.03_test_004.ttcn3",
-   "module": "M_22_02_03_test_004",
+   "file": "tests/22-communication-operations/22.02.03_the_trigger_operation_004.ttcn3",
+   "module": "M_22_02_03_the_trigger_operation_004",
    "header": "// @requirement: 22.2.3 -- If that top message meets the matching criteria, the trigger operation behaves in the same manner as a receive operation."
   },
   {
@@ -840,8 +840,8 @@
     18026
    ],
    "examples": [],
-   "file": "tests/22-communication-operations/22.02.03_test_005.ttcn3",
-   "module": "M_22_02_03_test_005",
+   "file": "tests/22-communication-operations/22.02.03_the_trigger_operation_005.ttcn3",
+   "module": "M_22_02_03_the_trigger_operation_005",
    "header": "// @requirement: 22.2.3 -- If that top message does not fulfil the matching criteria, it shall be removed from the queue without any further action."
   },
   {
@@ -866,8 +866,8 @@
     18030
    ],
    "examples": [],
-   "file": "tests/22-communication-operations/22.02.03_test_006.ttcn3",
-   "module": "M_22_02_03_test_006",
+   "file": "tests/22-communication-operations/22.02.03_the_trigger_operation_006.ttcn3",
+   "module": "M_22_02_03_the_trigger_operation_006",
    "header": "// @requirement: 22.2.3 -- The trigger operation requires the port name, matching criteria for type and value, an optional from restriction (i.e. selection of communication partner) and an optional assignment of the matching message and sender component to variables."
   },
   {
@@ -887,8 +887,8 @@
     18030
    ],
    "examples": [],
-   "file": "tests/22-communication-operations/22.02.03_test_007.ttcn3",
-   "module": "M_22_02_03_test_007",
+   "file": "tests/22-communication-operations/22.02.03_the_trigger_operation_007.ttcn3",
+   "module": "M_22_02_03_the_trigger_operation_007",
    "header": "// @requirement: 22.2.3 -- The trigger operation requires the port name, matching criteria for type and value, an optional from restriction (i.e. selection of communication partner) and an optional assignment of the matching message and sender component to variables."
   },
   {
@@ -916,8 +916,8 @@
      "text": "myPort.trigger(MyType:?) from myPartner;\n  // Triggers on the reception of the first message of type MyType at port myPort\n  // received from myPartner.\n  myPort.trigger(MyType:?) from myPartner -> value v_myRecMessage;\n  // This example is almost identical to the previous example. In addition, the message which\n  // triggers i.e. all matching criteria are met, is stored in the variable v_myRecMessage.\n  myPort.trigger(MyType:?) -> sender myPartner;\n  // This example is almost identical to the first example. In addition, the reference of the\n  // sender component will be retrieved and stored in variable myPartner.\n  myPort.trigger(integer:?) -> value v_myVar sender v_myPartner;\n  // Trigger on the reception of an arbitrary integer value which afterwards is stored in\n  // variable v_myVar. The reference of the sender component will be stored in variable MyPartner."
     }
    ],
-   "file": "tests/22-communication-operations/22.02.03_test_008.ttcn3",
-   "module": "M_22_02_03_test_008",
+   "file": "tests/22-communication-operations/22.02.03_the_trigger_operation_008.ttcn3",
+   "module": "M_22_02_03_the_trigger_operation_008",
    "header": "// @requirement: 22.2.3 -- The trigger operation requires the port name, matching criteria for type and value, an optional from restriction (i.e. selection of communication partner) and an optional assignment of the matching message and sender component to variables."
   },
   {
@@ -939,8 +939,8 @@
     18034
    ],
    "examples": [],
-   "file": "tests/22-communication-operations/22.02.03_test_009.ttcn3",
-   "module": "M_22_02_03_test_009",
+   "file": "tests/22-communication-operations/22.02.03_the_trigger_operation_009.ttcn3",
+   "module": "M_22_02_03_the_trigger_operation_009",
    "header": "// @requirement: 22.2.3 -- The matching criteria as defined in clause 22.2.2 apply also to the trigger operation."
   },
   {
@@ -968,8 +968,8 @@
      "text": "myPort.trigger(MyType:?) from myPartner;\n  // Triggers on the reception of the first message of type MyType at port myPort\n  // received from myPartner.\n  myPort.trigger(MyType:?) from myPartner -> value v_myRecMessage;\n  // This example is almost identical to the previous example. In addition, the message which\n  // triggers i.e. all matching criteria are met, is stored in the variable v_myRecMessage.\n  myPort.trigger(MyType:?) -> sender myPartner;\n  // This example is almost identical to the first example. In addition, the reference of the\n  // sender component will be retrieved and stored in variable myPartner.\n  myPort.trigger(integer:?) -> value v_myVar sender v_myPartner;\n  // Trigger on the reception of an arbitrary integer value which afterwards is stored in\n  // variable v_myVar. The reference of the sender component will be stored in variable MyPartner."
     }
    ],
-   "file": "tests/22-communication-operations/22.02.03_test_010.ttcn3",
-   "module": "M_22_02_03_test_010",
+   "file": "tests/22-communication-operations/22.02.03_the_trigger_operation_010.ttcn3",
+   "module": "M_22_02_03_the_trigger_operation_010",
    "header": "// @requirement: 22.2.3 -- In the case of one-to-many connections the trigger operation may be restricted to a certain communication partner."
   },
   {
@@ -1004,8 +1004,8 @@
      "text": "myPort.trigger;\n  myPort.trigger from myPartner;\n  myPort.trigger -> sender v_mySenderVar;"
     }
    ],
-   "file": "tests/22-communication-operations/22.02.03_test_011.ttcn3",
-   "module": "M_22_02_03_test_011",
+   "file": "tests/22-communication-operations/22.02.03_the_trigger_operation_011.ttcn3",
+   "module": "M_22_02_03_the_trigger_operation_011",
    "header": "// @requirement: 22.2.3 -- This restriction shall be denoted using the from keyword followed by a specification of an address or component reference, a list of address or component references or any component."
   },
   {
@@ -1025,8 +1025,8 @@
     18048
    ],
    "examples": [],
-   "file": "tests/22-communication-operations/22.02.03_test_012.ttcn3",
-   "module": "M_22_02_03_test_012",
+   "file": "tests/22-communication-operations/22.02.03_the_trigger_operation_012.ttcn3",
+   "module": "M_22_02_03_the_trigger_operation_012",
    "header": "// @requirement: 22.2.3 -- NOTE 2: The one-to-one connection is considered to be a simple case of the one-to-many connections and allows the usage of the from-clause."
   },
   {
@@ -1062,8 +1062,8 @@
      "text": "myPort.trigger;\n  myPort.trigger from myPartner;\n  myPort.trigger -> sender v_mySenderVar;"
     }
    ],
-   "file": "tests/22-communication-operations/22.02.03_test_013.ttcn3",
-   "module": "M_22_02_03_test_013",
+   "file": "tests/22-communication-operations/22.02.03_the_trigger_operation_013.ttcn3",
+   "module": "M_22_02_03_the_trigger_operation_013",
    "header": "// @requirement: 22.2.3 -- A trigger operation with no argument list shall trigger on the receipt of any message."
   },
   {
@@ -1083,8 +1083,8 @@
     18053
    ],
    "examples": [],
-   "file": "tests/22-communication-operations/22.02.03_test_014.ttcn3",
-   "module": "M_22_02_03_test_014",
+   "file": "tests/22-communication-operations/22.02.03_the_trigger_operation_014.ttcn3",
+   "module": "M_22_02_03_the_trigger_operation_014",
    "header": "// @requirement: 22.2.3 -- Thus, its meaning is identical to the meaning of receive any message."
   },
   {
@@ -1112,8 +1112,8 @@
      "text": "any port.trigger"
     }
    ],
-   "file": "tests/22-communication-operations/22.02.03_test_015.ttcn3",
-   "module": "M_22_02_03_test_015",
+   "file": "tests/22-communication-operations/22.02.03_the_trigger_operation_015.ttcn3",
+   "module": "M_22_02_03_the_trigger_operation_015",
    "header": "// @requirement: 22.2.3 -- To trigger on a message at any port, use the any port keywords."
   },
   {
@@ -1141,8 +1141,8 @@
      "text": "type port MyPort message { inout integer }\n  type component MyComponent {\n    port MyPort p[10][10];\n  }\n  var integer v_i[2];\n  any from p.trigger(mw_myMessage) -> @index value v_i; \n  // Checking if mw_myMessage has been received on any port of the port array p; if yes, the index\n  // of the port on which the matching was first successful is stored in the array v_i; if no port\n  // succeeds, the top messages are removed and the port array is re-checked."
     }
    ],
-   "file": "tests/22-communication-operations/22.02.03_test_016.ttcn3",
-   "module": "M_22_02_03_test_016",
+   "file": "tests/22-communication-operations/22.02.03_the_trigger_operation_016.ttcn3",
+   "module": "M_22_02_03_the_trigger_operation_016",
    "header": "// @requirement: 22.2.3 -- To trigger on a message at any port from a specific port array, use the any from PortArrayRef syntax where PortArrayRef shall be a reference to a port array identifier."
   },
   {
@@ -1162,8 +1162,8 @@
     18068
    ],
    "examples": [],
-   "file": "tests/22-communication-operations/22.02.03_test_017.ttcn3",
-   "module": "M_22_02_03_test_017",
+   "file": "tests/22-communication-operations/22.02.03_the_trigger_operation_017.ttcn3",
+   "module": "M_22_02_03_the_trigger_operation_017",
    "header": "// @requirement: 22.2.3 -- To trigger on a message at any port from a specific port array, use the any from PortArrayRef syntax where PortArrayRef shall be a reference to a port array identifier."
   },
   {
@@ -1183,8 +1183,8 @@
     18068
    ],
    "examples": [],
-   "file": "tests/22-communication-operations/22.02.03_test_018.ttcn3",
-   "module": "M_22_02_03_test_018",
+   "file": "tests/22-communication-operations/22.02.03_the_trigger_operation_018.ttcn3",
+   "module": "M_22_02_03_the_trigger_operation_018",
    "header": "// @requirement: 22.2.3 -- It is also possible to store the index of a port in a single-dimensional port array at which the operation was successful to a variable of type integer or, in case of multi-dimensional port arrays the index of the successful port to an integer array or record of integer variable."
   },
   {
@@ -1212,8 +1212,8 @@
      "text": "type port MyPort message { inout integer }\n  type component MyComponent {\n    port MyPort p[10][10];\n  }\n  var integer v_i[2];\n  any from p.trigger(mw_myMessage) -> @index value v_i; \n  // Checking if mw_myMessage has been received on any port of the port array p; if yes, the index\n  // of the port on which the matching was first successful is stored in the array v_i; if no port\n  // succeeds, the top messages are removed and the port array is re-checked."
     }
    ],
-   "file": "tests/22-communication-operations/22.02.03_test_019.ttcn3",
-   "module": "M_22_02_03_test_019",
+   "file": "tests/22-communication-operations/22.02.03_the_trigger_operation_019.ttcn3",
+   "module": "M_22_02_03_the_trigger_operation_019",
    "header": "// @requirement: 22.2.3 -- It is also possible to store the index of a port in a single-dimensional port array at which the operation was successful to a variable of type integer or, in case of multi-dimensional port arrays the index of the successful port to an integer array or record of integer variable."
   },
   {
@@ -1233,8 +1233,8 @@
     18068
    ],
    "examples": [],
-   "file": "tests/22-communication-operations/22.02.03_test_020.ttcn3",
-   "module": "M_22_02_03_test_020",
+   "file": "tests/22-communication-operations/22.02.03_the_trigger_operation_020.ttcn3",
+   "module": "M_22_02_03_the_trigger_operation_020",
    "header": "// @requirement: 22.2.3 -- When checking the port array for matching messages, the port indices to be checked are iterated from lowest to highest."
   },
   {
@@ -1262,8 +1262,8 @@
      "text": "type port MyPort message { inout integer }\n  type component MyComponent {\n    port MyPort p[10][10];\n  }\n  var integer v_i[2];\n  any from p.trigger(mw_myMessage) -> @index value v_i; \n  // Checking if mw_myMessage has been received on any port of the port array p; if yes, the index\n  // of the port on which the matching was first successful is stored in the array v_i; if no port\n  // succeeds, the top messages are removed and the port array is re-checked."
     }
    ],
-   "file": "tests/22-communication-operations/22.02.03_test_021.ttcn3",
-   "module": "M_22_02_03_test_021",
+   "file": "tests/22-communication-operations/22.02.03_the_trigger_operation_021.ttcn3",
+   "module": "M_22_02_03_the_trigger_operation_021",
    "header": "// @requirement: 22.2.3 -- If the port array is multi-dimensional, then the ports are iterated over from innermost to outermost array dimension from lowest to highest index for each dimension, e.g. [0][0], [0][1], [1][0], [1][1]."
   },
   {
@@ -1291,8 +1291,8 @@
      "text": "type port MyPort message { inout integer }\n  type component MyComponent {\n    port MyPort p[10][10];\n  }\n  var integer v_i[2];\n  any from p.trigger(mw_myMessage) -> @index value v_i; \n  // Checking if mw_myMessage has been received on any port of the port array p; if yes, the index\n  // of the port on which the matching was first successful is stored in the array v_i; if no port\n  // succeeds, the top messages are removed and the port array is re-checked."
     }
    ],
-   "file": "tests/22-communication-operations/22.02.03_test_022.ttcn3",
-   "module": "M_22_02_03_test_022",
+   "file": "tests/22-communication-operations/22.02.03_the_trigger_operation_022.ttcn3",
+   "module": "M_22_02_03_the_trigger_operation_022",
    "header": "// @requirement: 22.2.3 -- The first port which matches all the criteria will cause the operation to be successful even if other ports in the array would also meet the criteria."
   },
   {
@@ -1320,8 +1320,8 @@
      "text": "type port MyPort message { inout integer }\n  type component MyComponent {\n    port MyPort p[10][10];\n  }\n  var integer v_i[2];\n  any from p.trigger(mw_myMessage) -> @index value v_i; \n  // Checking if mw_myMessage has been received on any port of the port array p; if yes, the index\n  // of the port on which the matching was first successful is stored in the array v_i; if no port\n  // succeeds, the top messages are removed and the port array is re-checked."
     }
    ],
-   "file": "tests/22-communication-operations/22.02.03_test_023.ttcn3",
-   "module": "M_22_02_03_test_023",
+   "file": "tests/22-communication-operations/22.02.03_the_trigger_operation_023.ttcn3",
+   "module": "M_22_02_03_the_trigger_operation_023",
    "header": "// @requirement: 22.2.3 -- If any port in the port array which is checked for matching contains a message that does not match, this message is removed and the containing alt statement is re-evaluated, regardless of whether or not other ports in the port array would meet the trigger criteria."
   },
   {
@@ -1349,8 +1349,8 @@
      "text": "type port MyPort message { inout integer }\n  type component MyComponent {\n    port MyPort p[10][10];\n  }\n  var integer v_i[2];\n  any from p.trigger(mw_myMessage) -> @index value v_i; \n  // Checking if mw_myMessage has been received on any port of the port array p; if yes, the index\n  // of the port on which the matching was first successful is stored in the array v_i; if no port\n  // succeeds, the top messages are removed and the port array is re-checked."
     }
    ],
-   "file": "tests/22-communication-operations/22.02.03_test_024.ttcn3",
-   "module": "M_22_02_03_test_024",
+   "file": "tests/22-communication-operations/22.02.03_the_trigger_operation_024.ttcn3",
+   "module": "M_22_02_03_the_trigger_operation_024",
    "header": "// @requirement: 22.2.3 -- If any port in the port array which is checked for matching contains a message that does not match, this message is removed and the containing alt statement is re-evaluated, regardless of whether or not other ports in the port array would meet the trigger criteria."
   },
   {
@@ -1392,8 +1392,8 @@
      "text": "myPort.trigger;\n  myPort.trigger from myPartner;\n  myPort.trigger -> sender v_mySenderVar;"
     }
    ],
-   "file": "tests/22-communication-operations/22.02.03_test_025.ttcn3",
-   "module": "M_22_02_03_test_025",
+   "file": "tests/22-communication-operations/22.02.03_the_trigger_operation_025.ttcn3",
+   "module": "M_22_02_03_the_trigger_operation_025",
    "header": "// @requirement: 22.2.3 -- The trigger operation can be used as a stand-alone statement in a behaviour description."
   },
   {
@@ -1413,8 +1413,8 @@
     18082
    ],
    "examples": [],
-   "file": "tests/22-communication-operations/22.02.03_test_026.ttcn3",
-   "module": "M_22_02_03_test_026",
+   "file": "tests/22-communication-operations/22.02.03_the_trigger_operation_026.ttcn3",
+   "module": "M_22_02_03_the_trigger_operation_026",
    "header": "// @requirement: 22.2.3 -- In this latter case the trigger operation is considered to be shorthand for an alt statement with two alternatives (one alternative expecting the message and another alternative consuming all other messages and repeating the alt statement, see ETSI ES 201 873-4 [1])."
   },
   {
@@ -1444,8 +1444,8 @@
      "text": "myPort.trigger(MyType:?) from myPartner;\n  // Triggers on the reception of the first message of type MyType at port myPort\n  // received from myPartner.\n  myPort.trigger(MyType:?) from myPartner -> value v_myRecMessage;\n  // This example is almost identical to the previous example. In addition, the message which\n  // triggers i.e. all matching criteria are met, is stored in the variable v_myRecMessage.\n  myPort.trigger(MyType:?) -> sender myPartner;\n  // This example is almost identical to the first example. In addition, the reference of the\n  // sender component will be retrieved and stored in variable myPartner.\n  myPort.trigger(integer:?) -> value v_myVar sender v_myPartner;\n  // Trigger on the reception of an arbitrary integer value which afterwards is stored in\n  // variable v_myVar. The reference of the sender component will be stored in variable MyPartner."
     }
    ],
-   "file": "tests/22-communication-operations/22.02.03_test_027.ttcn3",
-   "module": "M_22_02_03_test_027",
+   "file": "tests/22-communication-operations/22.02.03_the_trigger_operation_027.ttcn3",
+   "module": "M_22_02_03_the_trigger_operation_027",
    "header": "// @requirement: 22.2.3 -- Rules in clause 22.2.2 shall apply."
   },
   {
@@ -1465,8 +1465,8 @@
     18094
    ],
    "examples": [],
-   "file": "tests/22-communication-operations/22.02.03_test_028.ttcn3",
-   "module": "M_22_02_03_test_028",
+   "file": "tests/22-communication-operations/22.02.03_the_trigger_operation_028.ttcn3",
+   "module": "M_22_02_03_the_trigger_operation_028",
    "header": "// @requirement: 22.2.3 -- a) The trigger operation shall only be used on message-based ports and the type of the value to be received shall be included in the list of incoming types of the port type definition."
   },
   {
@@ -1494,8 +1494,8 @@
      "text": "type port MyPort message { inout integer }\n  type component MyComponent {\n    port MyPort p[10][10];\n  }\n  var integer v_i[2];\n  any from p.trigger(mw_myMessage) -> @index value v_i; \n  // Checking if mw_myMessage has been received on any port of the port array p; if yes, the index\n  // of the port on which the matching was first successful is stored in the array v_i; if no port\n  // succeeds, the top messages are removed and the port array is re-checked."
     }
    ],
-   "file": "tests/22-communication-operations/22.02.03_test_029.ttcn3",
-   "module": "M_22_02_03_test_029",
+   "file": "tests/22-communication-operations/22.02.03_the_trigger_operation_029.ttcn3",
+   "module": "M_22_02_03_the_trigger_operation_029",
    "header": "// @requirement: 22.2.3 -- a) The trigger operation shall only be used on message-based ports and the type of the value to be received shall be included in the list of incoming types of the port type definition."
   },
   {
@@ -1523,8 +1523,8 @@
      "text": "myPort.trigger;\n  myPort.trigger from myPartner;\n  myPort.trigger -> sender v_mySenderVar;"
     }
    ],
-   "file": "tests/22-communication-operations/22.02.03_test_030.ttcn3",
-   "module": "M_22_02_03_test_030",
+   "file": "tests/22-communication-operations/22.02.03_the_trigger_operation_030.ttcn3",
+   "module": "M_22_02_03_the_trigger_operation_030",
    "header": "// @requirement: 22.2.3 -- b) A message received by TriggerOnAnyMessage shall not be assigned to a variable."
   },
   {
@@ -1544,8 +1544,8 @@
     18099
    ],
    "examples": [],
-   "file": "tests/22-communication-operations/22.02.03_test_031.ttcn3",
-   "module": "M_22_02_03_test_031",
+   "file": "tests/22-communication-operations/22.02.03_the_trigger_operation_031.ttcn3",
+   "module": "M_22_02_03_the_trigger_operation_031",
    "header": "// @requirement: 22.2.3 -- c) Type mismatch at storing the received value or parts of the received value and storing the sender shall cause an error."
   }
  ]

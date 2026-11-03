@@ -1,0 +1,23 @@
+// @requirement: 7.1.3 -- This implies that instances of types not mentioned below shall not be operands of equality and non-equality: The values or field references being compared shall obey the following rules.
+// @id: TTCN3-CORE-7.1.3-008a
+// @verdict: pass reject
+module M_07_01_03_relational_operators_008 {
+
+    type function F_t();
+
+    function f_a() {}
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var F_t v_a := refers(f_a);
+        var F_t v_b := refers(f_a);
+        if (v_a == v_b) { // error: no equality defined for behaviour types
+            setverdict(pass);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

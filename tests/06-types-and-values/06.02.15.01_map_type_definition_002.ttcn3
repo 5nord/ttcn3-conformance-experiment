@@ -1,0 +1,24 @@
+// @requirement: 6.2.15.1 -- The Type following the from keyword is the type of the keys of the map type.
+// @id: TTCN3-CORE-6.2.15.1-003a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_15_01_map_type_definition_002 {
+
+    type map from charstring to integer MyMap;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyMap v_map := { ["key"] := 1 };
+        var MyMap.from v_keys := v_map.from;
+        var charstring v_key := v_keys[0];
+        if (lengthof(v_keys) == 1 and v_key == "key") {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

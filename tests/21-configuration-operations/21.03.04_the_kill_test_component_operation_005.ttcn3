@@ -1,0 +1,31 @@
+// @requirement: 21.3.4 -- The kill operation applied on a test component stops the execution of the currently running behaviour - if any - of that component and frees all resources associated to it (including all port connections of the killed component) and removes the component from the test system.
+// @id: TTCN3-CORE-21.3.4-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_03_04_the_kill_test_component_operation_005 {
+
+    type component C {}
+
+    function f_failLater() runs on C {
+        timer T_w := 0.5;
+        T_w.start;
+        T_w.timeout;
+        setverdict(fail);
+    }
+
+    testcase TC() runs on C {
+        timer T := 1.0;
+        var C v_ptc := C.create alive;
+        v_ptc.start(f_failLater());
+        v_ptc.kill;
+        if (v_ptc.running) {
+            setverdict(fail);
+        }
+        T.start;
+        T.timeout;
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

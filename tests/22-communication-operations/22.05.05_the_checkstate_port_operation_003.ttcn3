@@ -1,0 +1,27 @@
+// @requirement: 22.5.5 -- If the port is not in the specified state, the checkstate operation returns the Boolean value false.
+// @id: TTCN3-CORE-22.5.5-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_05_05_the_checkstate_port_operation_003 {
+
+    type port P message {
+        inout integer
+    }
+
+    type component C {
+        port P p1;
+    }
+
+    testcase TC() runs on C {
+        if (p1.checkstate("Stopped") == false and p1.checkstate("Halted") == false
+            and p1.checkstate("Connected") == false and p1.checkstate("Mapped") == false
+            and p1.checkstate("Linked") == false) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

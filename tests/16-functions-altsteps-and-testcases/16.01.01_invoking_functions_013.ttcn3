@@ -1,0 +1,26 @@
+// @requirement: 16.1.1 -- g) Invoking a function that returns an uninitialized value is allowed only if the function is invoked directly as a statement of a statement block or as the return value of a return statement.
+// @id: TTCN3-CORE-16.1.1-016a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_16_01_01_invoking_functions_013 {
+
+    type component C {}
+
+    function f_uninit() return integer {
+        var integer v_uninit;
+        return v_uninit;
+    }
+
+    function f_wrapper() return integer {
+        return f_uninit();
+    }
+
+    testcase TC() runs on C {
+        f_uninit();
+        f_wrapper();
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,19 @@
+// @requirement: 7.1.3 -- Operands of equality (==) and non-equality (!=) shall be completely initialized values or field references, and with the exception of enumerated types, shall be of compatible root types.
+// @id: TTCN3-CORE-7.1.3-006b
+// @verdict: pass reject
+module M_07_01_03_relational_operators_007 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_i := 1;
+        var charstring v_s := "1";
+        if (v_i == v_s) { // error: operands of incompatible root types
+            setverdict(pass);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

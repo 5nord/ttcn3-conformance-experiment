@@ -1,0 +1,36 @@
+// @requirement: 14 -- In the latter case, a procedure may either be invoked in the SUT (i.e. the test system performs the call) or in the test system (i.e. the SUT performs the call).
+// @id: TTCN3-CORE-14-003a
+// @verdict: pass accept, noexecution
+module M_14_declaring_procedure_signatures_004 {
+
+    signature S_inSut(in integer p_in) return integer;
+    signature S_inTs(in integer p_in) return integer;
+
+    type port P procedure { out S_inSut; in S_inTs }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    type component SystemC {
+        port P p;
+    }
+
+    testcase TC() runs on C system SystemC {
+        var integer v_in;
+        map(mtc:p, system:p);
+        p.call(S_inSut:{ p_in := 1 }, 1.0) {
+            [] p.getreply(S_inSut:{ p_in := ? } value ?) {}
+            [] p.catch(timeout) { setverdict(fail); stop; }
+        }
+        T.start;
+        alt {
+            [] p.getcall(S_inTs:{ p_in := ? }) -> param(v_in) {
+                p.reply(S_inTs:{ p_in := v_in } value v_in);
+                setverdict(pass);
+            }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+}

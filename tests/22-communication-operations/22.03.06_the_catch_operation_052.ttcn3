@@ -1,0 +1,20 @@
+// @requirement: 22.3.6 -- j) If the index redirection is used for single-dimensional arrays, the type of the integer variable shall allow storing the highest index of the respective port array.
+// @id: TTCN3-CORE-22.3.6-056a
+// @verdict: pass reject
+module M_22_03_06_the_catch_operation_052 {
+
+    signature S() exception (integer);
+
+    type port P procedure { inout S }
+
+    type integer Index (0..1);
+
+    type component C {
+        port P pa[3];
+    }
+
+    function f_catch() runs on C {
+        var Index v_idx;
+        any from pa.catch(S, integer:?) -> @index value v_idx; // error: Index cannot store the highest index 2
+    }
+}

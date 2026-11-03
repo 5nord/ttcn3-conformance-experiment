@@ -1,0 +1,25 @@
+// @requirement: 27.7 -- When no value of the optional attribute is explicitly specified for a definition (either directly or inherited from the surrounding scope), the value of the optional attribute is implicitly set to "explicit omit" for that definition.
+// @id: TTCN3-CORE-27.7-006a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_27_07_optional_attributes_005 {
+
+    type component C {}
+
+    type record R {
+        integer a,
+        boolean b optional
+    }
+
+    testcase TC() runs on C {
+        var R v_r := { a := 1 };
+        if (isbound(v_r.a) and not isbound(v_r.b)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

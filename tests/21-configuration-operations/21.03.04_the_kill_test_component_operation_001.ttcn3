@@ -1,0 +1,35 @@
+// @requirement: 21.3.4 -- Kill and stop on a non-alive component have the same results, while they differ for alive components: stopping an alive components stops the test behaviour only, the test component continues to exist.
+// @id: TTCN3-CORE-21.3.4-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_03_04_the_kill_test_component_operation_001 {
+
+    type component C {}
+
+    function f_wait() runs on C {
+        timer T_w := 5.0;
+        T_w.start;
+        T_w.timeout;
+    }
+
+    testcase TC() runs on C {
+        timer T := 2.0;
+        var C v_ptc1 := C.create;
+        var C v_ptc2 := C.create;
+        v_ptc1.start(f_wait());
+        v_ptc2.start(f_wait());
+        v_ptc1.stop;
+        v_ptc2.kill;
+        T.start;
+        alt {
+            [] all component.killed { setverdict(pass); }
+            [] T.timeout { setverdict(fail); }
+        }
+        if (v_ptc1.alive != v_ptc2.alive or v_ptc1.running != v_ptc2.running) {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

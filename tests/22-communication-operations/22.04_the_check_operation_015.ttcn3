@@ -1,0 +1,27 @@
+// @requirement: 22.4 -- In this case the copy of the top element of the queue is discarded and test execution continues in the normal manner, i.e. the statement or alternative next to the check operation is evaluated. The check operation fails if the receiving operation fails i.e. the matching criteria are not fulfilled.
+// @id: TTCN3-CORE-22.4-011b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_04_the_check_operation_015 {
+
+    type port MP message { inout integer; }
+
+    type component C {
+        port MP p1, p2;
+        timer T := 1.0;
+    }
+
+    testcase TC() runs on C {
+        connect(mtc:p1, mtc:p2);
+        p1.send(5);
+        T.start;
+        alt {
+            [] p2.check(receive(6)) { setverdict(fail); }
+            [] p2.receive(5) { setverdict(pass); }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

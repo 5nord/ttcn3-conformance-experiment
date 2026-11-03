@@ -1,0 +1,21 @@
+// @requirement: 15.11 -- In case all operands are specific values, the result of concatenation will be a specific value.
+// @id: TTCN3-CORE-15.11-011a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_11_concatenating_templates_of_string_and_list_types_016 {
+
+    template charstring m_t := "ABC" & "DE*" & "F?";
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (match("ABCDE*F?", m_t) and not match("ABCDExFy", m_t) and valueof(m_t) == "ABCDE*F?") {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

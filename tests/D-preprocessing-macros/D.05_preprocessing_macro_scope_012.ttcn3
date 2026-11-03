@@ -1,0 +1,23 @@
+// @requirement: D.5 -- NOTE: The __SCOPE__ preprocessing macro cannot be used to retrieve the names of other kinds of definitions, like for example names of groups of definitions or names of global constants.
+// @id: TTCN3-CORE-D.5-012a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_D_05_preprocessing_macro_scope_012 {
+
+    type component C {}
+
+    group G_defs {
+        const charstring c_scope := __SCOPE__;
+    }
+
+    testcase TC() runs on C {
+        if (c_scope == "M_D_05_preprocessing_macro_scope_012") {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

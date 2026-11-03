@@ -1,0 +1,23 @@
+// @requirement: 20.5.3 -- b) The optional Expression shall be of boolean type and shall not resolve to a template.
+// @id: TTCN3-CORE-20.5.3-012a
+// @verdict: pass reject
+module M_20_05_03_the_deactivate_operation_011 {
+
+    type component C {
+        timer T;
+    }
+
+    altstep a_1() runs on C {
+        [] T.timeout {}
+    }
+
+    testcase TC() runs on C {
+        var default v_def := activate(a_1());
+        deactivate(v_def, 1); // error: Expression is not of boolean type
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

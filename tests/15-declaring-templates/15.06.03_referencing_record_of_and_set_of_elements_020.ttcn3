@@ -1,0 +1,24 @@
+// @requirement: 15.6.3 -- The lower bound of this restriction is zero and the upper bound is the difference between the lower and upper bound of the original restriction. If the lower bound is greater than the upper bound, the sequence shall be followed by a single AnyElementsOrNone symbol with a length restriction.
+// @id: TTCN3-CORE-15.6.3-029a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_06_03_referencing_record_of_and_set_of_elements_020 {
+
+    type record of integer RoI;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template RoI v_roI := {1, * length (1 .. 3), 5};
+        v_roI[1] := 7;
+        if (match({1, 7, 5}, v_roI) and match({1, 7, 0, 0, 5}, v_roI) and
+            not match({1, 7, 0, 0, 0, 5}, v_roI)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

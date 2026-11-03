@@ -1,0 +1,31 @@
+// @requirement: 20.0 -- Interleaved behaviour; Col2: interleave { … }
+// @id: TTCN3-CORE-20.0-010a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_00_general_004 {
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_count := 0;
+        timer T_1 := 0.2;
+        timer T_2 := 0.1;
+        T_1.start;
+        T_2.start;
+        interleave {
+            [] T_1.timeout {
+                v_count := v_count + 1;
+            }
+            [] T_2.timeout {
+                v_count := v_count + 1;
+            }
+        }
+        if (v_count == 2) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

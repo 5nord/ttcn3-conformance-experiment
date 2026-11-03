@@ -1,0 +1,32 @@
+// @requirement: 15.8.2 -- Restriction of base template: template(value); Allowed restrictions of modified template: Yes; Col3: Yes; Col4: Yes; Col5: Yes
+// @id: TTCN3-CORE-15.8.2-006a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_08_02_implicit_restrictions_for_template_fields_alternatives_and_elements_005 {
+
+    type record R { integer a, integer b optional }
+
+    const R c_r2 := { a := 2, b := omit };
+    const R c_r3 := { a := 3, b := omit };
+    const R c_r4 := { a := 4, b := omit };
+    const R c_r5 := { a := 5, b := omit };
+
+    template(value) R m_base := { a := 1, b := omit };
+    template(omit) R m_modOmit modifies m_base := { a := 2 };
+    template(value) R m_modValue modifies m_base := { a := 3 };
+    template(present) R mw_modPresent modifies m_base := { a := (4, 6) };
+    template R mw_modAny modifies m_base := { a := ? };
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (match(c_r2, m_modOmit) and match(c_r3, m_modValue) and match(c_r4, mw_modPresent) and match(c_r5, mw_modAny)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,25 @@
+// @requirement: 15.8.1 -- Col1: template(value); ... Template (present): No; Template: No
+// @id: TTCN3-CORE-15.8.1-046c
+// @verdict: pass reject
+module M_15_08_01_explicit_restrictions_038 {
+    type record R {
+        integer a,
+        boolean b optional
+    }
+
+    template(present) R mw_r := {a := ?, b := true};
+
+    function f_check(template(value) R p_r) {
+        setverdict(pass);
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        f_check(mw_r); // error: present restricted actual for value restricted formal parameter
+    }
+
+    control {
+        execute(TC());
+    }
+}

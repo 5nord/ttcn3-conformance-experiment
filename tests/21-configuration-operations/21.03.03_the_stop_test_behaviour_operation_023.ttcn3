@@ -1,0 +1,22 @@
+// @requirement: 21.3.3 -- The all keyword can be used by the MTC only in order to stop all running PTCs but the MTC itself.
+// @id: TTCN3-CORE-21.3.3-020a
+// @verdict: pass reject
+module M_21_03_03_the_stop_test_behaviour_operation_023 {
+
+    type component C {}
+
+    function f_stopAll() runs on C {
+        all component.stop; // error: all component.stop used outside the MTC
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        v_ptc.start(f_stopAll());
+        v_ptc.done;
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

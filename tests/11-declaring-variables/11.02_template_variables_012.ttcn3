@@ -1,0 +1,24 @@
+// @requirement: 11.2 -- The content of a template variable can be restricted to the matching mechanisms specific value and omit in the same way as formal template parameters, see clause 5.4.1.2.
+// @id: TTCN3-CORE-11.2-012a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_11_02_template_variables_012 {
+    type record R {
+        integer f1,
+        integer f2 optional
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template(value) integer v_val := 5;
+        var template(omit) R v_omit := { f1 := 1, f2 := omit };
+        if (match(5, v_val) and match({ f1 := 1, f2 := omit }, v_omit)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }}

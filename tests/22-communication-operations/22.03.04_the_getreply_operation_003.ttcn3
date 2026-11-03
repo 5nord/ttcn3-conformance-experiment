@@ -1,0 +1,49 @@
+// @requirement: 22.3.4 -- The getreply operation shall remove the top reply from the incoming port queue, if, and only if, the matching criteria associated to the getreply operation are fulfilled.
+// @id: TTCN3-CORE-22.3.4-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_03_04_the_getreply_operation_003 {
+
+    signature S(out integer p_y);
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    altstep a_guard() runs on C {
+        [] T.timeout { setverdict(fail); stop; }
+    }
+
+    function f_server() runs on C {
+        p.getcall(S:{-});
+        p.reply(S:{2});
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_server());
+        activate(a_guard());
+        T.start;
+        p.call(S:{-}, nowait);
+        p.check(getreply);
+        alt {
+            [] p.getreply(S:{3}) { setverdict(fail); }
+            [else] {}
+        }
+        alt {
+            [] p.getreply(S:{2}) {} // not removed by the failed match before
+            [else] { setverdict(fail); stop; }
+        }
+        alt {
+            [] p.check(getreply) { setverdict(fail); } // removed by the successful match
+            [else] { setverdict(pass); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

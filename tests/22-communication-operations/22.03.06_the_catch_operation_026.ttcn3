@@ -1,0 +1,30 @@
+// @requirement: 22.3.6 -- CatchAnyException will also catch the timeout exception.
+// @id: TTCN3-CORE-22.3.6-030a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_03_06_the_catch_operation_026 {
+
+    signature S() exception (integer);
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    function f_server() runs on C {
+        p.getcall(S:{});
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_server());
+        p.call(S:{}, 0.1) {
+            [] p.catch { setverdict(pass); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

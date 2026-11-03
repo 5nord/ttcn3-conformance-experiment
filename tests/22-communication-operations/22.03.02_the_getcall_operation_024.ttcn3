@@ -1,0 +1,37 @@
+// @requirement: 22.3.2 -- To getcall on any port from a specific port array, use the any from PortArrayRef syntax where PortArrayRef shall be a reference to a port array identifier.
+// @id: TTCN3-CORE-22.3.2-029a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_03_02_the_getcall_operation_024 {
+
+    signature S(in integer p_x) noblock;
+
+    type port P procedure { inout S }
+
+    type component CS {
+        port P pa[3];
+        timer T := 1.0;
+    }
+
+    type component CC {
+        port P p;
+    }
+
+    function f_client() runs on CC {
+        p.call(S:{1});
+    }
+
+    testcase TC() runs on CS {
+        var CC v_ptc := CC.create;
+        connect(mtc:pa[1], v_ptc:p);
+        v_ptc.start(f_client());
+        T.start;
+        alt {
+            [] any from pa.getcall(S:{1}) { setverdict(pass); }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

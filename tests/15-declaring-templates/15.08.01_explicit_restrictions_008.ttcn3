@@ -1,0 +1,48 @@
+// @requirement: 15.8.1 -- Such a template can be used to define a field of a record and set template and the latter one could still be used in a send statement.
+// @id: TTCN3-CORE-15.8.1-007b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_08_01_explicit_restrictions_008 {
+    type record R {
+        integer a,
+        boolean b optional
+    }
+
+    template(omit) boolean m_b := omit;
+    template R m_r := {a := 1, b := m_b};
+
+    type port P message {
+        inout R
+    }
+
+    type component C {
+        port P p
+    }
+
+    function f_receiver() runs on C {
+        timer T := 1.0;
+        T.start;
+        alt {
+            [] p.receive(R:{a := 1, b := omit}) {
+                setverdict(pass);
+            }
+            [] p.receive {
+                setverdict(fail);
+            }
+            [] T.timeout {
+                setverdict(fail);
+            }
+        }
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_receiver());
+        p.send(m_r);
+        v_ptc.done;
+    }
+
+    control {
+        execute(TC());
+    }
+}

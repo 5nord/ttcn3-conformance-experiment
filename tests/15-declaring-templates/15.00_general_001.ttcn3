@@ -1,0 +1,22 @@
+// @requirement: 15.0 -- Templates can be defined globally or locally.
+// @id: TTCN3-CORE-15.0-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_00_general_001 {
+
+    type component C {}
+
+    template integer m_global := (1 .. 5);
+
+    testcase TC() runs on C {
+        template integer m_local := (6 .. 10);
+        if (match(3, m_global) and match(8, m_local)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

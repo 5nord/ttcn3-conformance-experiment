@@ -1,0 +1,34 @@
+// @requirement: 6.2.10.1 -- Component instances are object references and follow specific rules for this kind of values.
+// @id: TTCN3-CORE-6.2.10.1-023a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_10_01_component_type_definition_015 {
+
+    type component C {
+    }
+
+    function f_wait() runs on C {
+        timer T := 5.0;
+        T.start;
+        T.timeout;
+    }
+
+    testcase TC() runs on C {
+        var C v_ref1 := C.create;
+        var C v_ref2 := v_ref1;
+        v_ref2.start(f_wait());
+        if (v_ref1 == v_ref2 and v_ref1.running) {
+            v_ref2.stop;
+            if (not v_ref1.running) {
+                setverdict(pass);
+            } else {
+                setverdict(fail);
+            }
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

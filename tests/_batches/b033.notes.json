@@ -1,21 +1,95 @@
-{"batch": "b033",
+{
+ "batch": "b033",
  "notes": [
-  {"id": "TTCN3-CORE-11.2-002a", "file": "tests/11-declaring-variables/11.02_test_001.ttcn3", "note": "Tests the basic form 'var template <Type> <id> := ...'; the initialization is included because the syntactical structure requires it."},
-  {"id": "TTCN3-CORE-11.2-003a", "file": "tests/11-declaring-variables/11.02_test_002.ttcn3", "note": "Ambiguity: the syntax block makes ':=' TemplateBody mandatory, so the test only shows that an initial content is assigned at declaration and used; it does not test omitting the initialization."},
-  {"id": "TTCN3-CORE-11.2-007a", "file": "tests/11-declaring-variables/11.02_test_008.ttcn3", "note": "Titan warning is wrong: Titan rejects @deterministic on template variables and a template variable declaration without TypeOrNestedTypeDef ('var template v_e := 5;'), but both are allowed by the 11.2 syntactical structure."},
-  {"id": "TTCN3-CORE-11.2-014a", "file": "tests/11-declaring-variables/11.02_test_014.ttcn3", "note": "Titan warning is wrong: Titan does not implement concatenation of charstring templates containing AnyValue (clause 15.11 allows it; \"ab\" & ? produces a pattern)."},
-  {"id": "TTCN3-CORE-11.2-017b", "file": "tests/11-declaring-variables/11.02_test_017.ttcn3", "note": "Ambiguity: literal reading chosen; the test assigns a template variable to a plain value variable."},
-  {"id": "TTCN3-CORE-11.2-020a", "file": "tests/11-declaring-variables/11.02_test_020.ttcn3", "note": "Because the declaration syntax requires initialization, an uninitialized template variable is represented by a field left uninitialized with '-' (the template variable as a whole is partially initialized). Using that field in match() is the error. Treated as a runtime error (ttcn3verdict:error)."},
-  {"id": "TTCN3-CORE-11.2-023a", "file": "tests/11-declaring-variables/11.02_test_022.ttcn3", "note": "Titan warning: Titan does not check that a template variable used in receive is completely initialized. The violation (field left uninitialized with '-') can be determined statically, so this is a reject test; a tool might detect it only at runtime."},
-  {"id": "TTCN3-CORE-11.2-024a", "file": "tests/11-declaring-variables/11.02_test_023.ttcn3", "note": "Uses restriction 15.0 a), following the 15.0 example: a template for a type that contains a default field. Titan does not implement this check."},
-  {"id": "TTCN3-CORE-11.2-027a", "file": "tests/11-declaring-variables/11.02_test_026.ttcn3", "note": "Titan warning: Titan does not implement @fuzzy/@deterministic checks for template variables used in a snapshot (receive in alt)."},
-  {"id": "TTCN3-CORE-11.2-028a", "file": "tests/11-declaring-variables/11.02_test_028.ttcn3", "note": "Applied to a template variable of a structured address type initialized with null; the field reference on the right hand side causes a runtime error."},
-  {"id": "TTCN3-CORE-11.2-030a", "file": "tests/11-declaring-variables/11.02_test_030.ttcn3", "note": "Titan warning: Titan does not detect initialization from an unbound variable at compile time. The violation is statically determinable, so this is a reject test; a tool might detect it only at runtime."},
-  {"id": "TTCN3-CORE-11.2-031b", "file": "tests/11-declaring-variables/11.02_test_032.ttcn3", "note": "The general syntax already makes ':=' mandatory, so this test also violates the syntactical structure; the test cannot isolate restriction n)."},
-  {"id": "TTCN3-CORE-12-004a", "file": "tests/12-declaring-timers/12_test_003.ttcn3", "note": "Ambiguity: literal reading chosen (runs on the same component type; extended component types are not tested)."},
-  {"id": "TTCN3-CORE-12-007a", "file": "tests/12-declaring-timers/12_test_006.ttcn3", "note": "Ambiguity: the general reading covers start values too, but the test uses a negative default duration in the declaration because that is statically checkable. A negative start value is not covered."},
-  {"id": "TTCN3-CORE-12-016a", "file": "tests/12-declaring-timers/12_test_016.ttcn3", "note": "The timer ceasing to exist is observed indirectly: after the function returns, 'any timer.running' is false."},
-  {"id": "TTCN3-CORE-12-017a", "file": "tests/12-declaring-timers/12_test_017.ttcn3", "note": "Titan warning is wrong: Titan does not support operations through timer references (timer type, clause 6.2.14) such as vc_t.running."},
-  {"id": "TTCN3-CORE-12-018a", "file": "tests/12-declaring-timers/12_test_018.ttcn3", "note": "A timer that no longer exists cannot be referenced, so 'stops running' is observed only through 'any timer.running' being false."},
-  {"id": "TTCN3-CORE-12-023a", "file": "tests/12-declaring-timers/12_test_024.ttcn3", "note": "Ambiguity: elements skipped with '-' are excluded; the test uses a negative element value."}
- ]}
+  {
+   "id": "TTCN3-CORE-11.2-002a",
+   "file": "tests/11-declaring-variables/11.02_template_variables_001.ttcn3",
+   "note": "Tests the basic form 'var template <Type> <id> := ...'; the initialization is included because the syntactical structure requires it."
+  },
+  {
+   "id": "TTCN3-CORE-11.2-003a",
+   "file": "tests/11-declaring-variables/11.02_template_variables_002.ttcn3",
+   "note": "Ambiguity: the syntax block makes ':=' TemplateBody mandatory, so the test only shows that an initial content is assigned at declaration and used; it does not test omitting the initialization."
+  },
+  {
+   "id": "TTCN3-CORE-11.2-007a",
+   "file": "tests/11-declaring-variables/11.02_template_variables_008.ttcn3",
+   "note": "Titan warning is wrong: Titan rejects @deterministic on template variables and a template variable declaration without TypeOrNestedTypeDef ('var template v_e := 5;'), but both are allowed by the 11.2 syntactical structure."
+  },
+  {
+   "id": "TTCN3-CORE-11.2-014a",
+   "file": "tests/11-declaring-variables/11.02_template_variables_014.ttcn3",
+   "note": "Titan warning is wrong: Titan does not implement concatenation of charstring templates containing AnyValue (clause 15.11 allows it; \"ab\" & ? produces a pattern)."
+  },
+  {
+   "id": "TTCN3-CORE-11.2-017b",
+   "file": "tests/11-declaring-variables/11.02_template_variables_017.ttcn3",
+   "note": "Ambiguity: literal reading chosen; the test assigns a template variable to a plain value variable."
+  },
+  {
+   "id": "TTCN3-CORE-11.2-020a",
+   "file": "tests/11-declaring-variables/11.02_template_variables_020.ttcn3",
+   "note": "Because the declaration syntax requires initialization, an uninitialized template variable is represented by a field left uninitialized with '-' (the template variable as a whole is partially initialized). Using that field in match() is the error. Treated as a runtime error (ttcn3verdict:error)."
+  },
+  {
+   "id": "TTCN3-CORE-11.2-023a",
+   "file": "tests/11-declaring-variables/11.02_template_variables_022.ttcn3",
+   "note": "Titan warning: Titan does not check that a template variable used in receive is completely initialized. The violation (field left uninitialized with '-') can be determined statically, so this is a reject test; a tool might detect it only at runtime."
+  },
+  {
+   "id": "TTCN3-CORE-11.2-024a",
+   "file": "tests/11-declaring-variables/11.02_template_variables_023.ttcn3",
+   "note": "Uses restriction 15.0 a), following the 15.0 example: a template for a type that contains a default field. Titan does not implement this check."
+  },
+  {
+   "id": "TTCN3-CORE-11.2-027a",
+   "file": "tests/11-declaring-variables/11.02_template_variables_026.ttcn3",
+   "note": "Titan warning: Titan does not implement @fuzzy/@deterministic checks for template variables used in a snapshot (receive in alt)."
+  },
+  {
+   "id": "TTCN3-CORE-11.2-028a",
+   "file": "tests/11-declaring-variables/11.02_template_variables_028.ttcn3",
+   "note": "Applied to a template variable of a structured address type initialized with null; the field reference on the right hand side causes a runtime error."
+  },
+  {
+   "id": "TTCN3-CORE-11.2-030a",
+   "file": "tests/11-declaring-variables/11.02_template_variables_030.ttcn3",
+   "note": "Titan warning: Titan does not detect initialization from an unbound variable at compile time. The violation is statically determinable, so this is a reject test; a tool might detect it only at runtime."
+  },
+  {
+   "id": "TTCN3-CORE-11.2-031b",
+   "file": "tests/11-declaring-variables/11.02_template_variables_032.ttcn3",
+   "note": "The general syntax already makes ':=' mandatory, so this test also violates the syntactical structure; the test cannot isolate restriction n)."
+  },
+  {
+   "id": "TTCN3-CORE-12-004a",
+   "file": "tests/12-declaring-timers/12_declaring_timers_003.ttcn3",
+   "note": "Ambiguity: literal reading chosen (runs on the same component type; extended component types are not tested)."
+  },
+  {
+   "id": "TTCN3-CORE-12-007a",
+   "file": "tests/12-declaring-timers/12_declaring_timers_006.ttcn3",
+   "note": "Ambiguity: the general reading covers start values too, but the test uses a negative default duration in the declaration because that is statically checkable. A negative start value is not covered."
+  },
+  {
+   "id": "TTCN3-CORE-12-016a",
+   "file": "tests/12-declaring-timers/12_declaring_timers_016.ttcn3",
+   "note": "The timer ceasing to exist is observed indirectly: after the function returns, 'any timer.running' is false."
+  },
+  {
+   "id": "TTCN3-CORE-12-017a",
+   "file": "tests/12-declaring-timers/12_declaring_timers_017.ttcn3",
+   "note": "Titan warning is wrong: Titan does not support operations through timer references (timer type, clause 6.2.14) such as vc_t.running."
+  },
+  {
+   "id": "TTCN3-CORE-12-018a",
+   "file": "tests/12-declaring-timers/12_declaring_timers_018.ttcn3",
+   "note": "A timer that no longer exists cannot be referenced, so 'stops running' is observed only through 'any timer.running' being false."
+  },
+  {
+   "id": "TTCN3-CORE-12-023a",
+   "file": "tests/12-declaring-timers/12_declaring_timers_024.ttcn3",
+   "note": "Ambiguity: elements skipped with '-' are excluded; the test uses a negative element value."
+  }
+ ]
+}

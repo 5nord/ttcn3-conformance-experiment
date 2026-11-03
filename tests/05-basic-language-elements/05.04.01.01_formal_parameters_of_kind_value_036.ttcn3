@@ -1,0 +1,16 @@
+// @requirement: 5.4.1.1 -- m) Only function, altstep and testcase definitions may have formal parameters of a component type or of a type that contains a direct or indirect element or field of a component type.
+// @id: TTCN3-CORE-5.4.1.1-032a
+// @verdict: pass reject
+module M_05_04_01_01_formal_parameters_of_kind_value_036 {
+    type component C {}
+
+    template boolean m_value(C p_comp) := true; // error: template parameter of component type
+
+    testcase TC() runs on C {
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

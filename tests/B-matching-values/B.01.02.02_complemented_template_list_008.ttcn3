@@ -1,0 +1,26 @@
+// @requirement: B.1.2.2 -- Elements of the combined template may contain any of the matching mechanisms or matching attributes with the exception of those described in the following restriction.
+// @id: TTCN3-CORE-B.1.2.2-009a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_02_02_complemented_template_list_008 {
+
+    type component C {}
+
+    type record of integer RoI;
+
+    template RoI mw_roI := { 1, (6 .. 9), (20, 21), complement(-1, 0, 3) };
+    template integer mw_c := complement(all from mw_roI);
+
+    testcase TC() runs on C {
+        if (match(0, mw_c) and match(3, mw_c)
+            and not match(1, mw_c) and not match(7, mw_c) and not match(21, mw_c)
+            and not match(5, mw_c)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

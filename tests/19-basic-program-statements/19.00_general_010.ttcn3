@@ -1,0 +1,20 @@
+// @requirement: 19.0 -- Statement: Check (current) message/call received; Associated keyword or symbol: check; Can be invoked by test behaviour: Yes
+// @id: TTCN3-CORE-19.0-005a
+// @verdict: pass reject
+module M_19_00_general_010 {
+
+    type port M message { inout integer }
+
+    type component C {
+        port M p;
+    }
+
+    testcase TC() runs on C {
+        setverdict(pass);
+    }
+
+    control {
+        any port.check; // error: check in control part
+        execute(TC());
+    }
+}

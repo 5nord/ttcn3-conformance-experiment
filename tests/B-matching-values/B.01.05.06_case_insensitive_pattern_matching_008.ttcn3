@@ -1,0 +1,22 @@
+// @requirement: B.1.5.6 -- The whole resulting pattern is always evaluated according to the casesensitivity of the referencing pattern.
+// @id: TTCN3-CORE-B.1.5.6-007a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_05_06_case_insensitive_pattern_matching_008 {
+
+    template charstring m_ref := pattern "ab";
+
+    type component C {}
+
+    testcase TC() runs on C {
+        template charstring m_p := pattern @nocase "{m_ref}c";
+        if (match("abc", m_p) and match("ABC", m_p) and match("aBC", m_p)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

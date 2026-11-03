@@ -1,0 +1,43 @@
+// @requirement: 22.3.6 -- The keyword value is used to retrieve the value of an exception and/or the parts of it and the keyword sender is used when it is required to retrieve the address of the sender.
+// @id: TTCN3-CORE-22.3.6-012b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_03_06_the_catch_operation_010 {
+
+    signature S() exception (integer);
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    altstep a_guard() runs on C {
+        [] T.timeout { setverdict(fail); stop; }
+    }
+
+    function f_server() runs on C {
+        p.getcall(S:{});
+        p.raise(S, integer:1);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        var C v_sender := null;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_server());
+        activate(a_guard());
+        T.start;
+        p.call(S:{}, nowait);
+        p.catch(S, integer:1) -> sender v_sender;
+        if (v_sender == v_ptc) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

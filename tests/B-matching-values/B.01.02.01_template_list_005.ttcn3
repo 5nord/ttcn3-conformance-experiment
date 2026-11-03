@@ -1,0 +1,38 @@
+// @requirement: B.1.2.1 -- A template field that uses a template list matches the corresponding field if, and only if, the field value matches any one of the values or templates in the template list, after resolving all all from clauses.
+// @id: TTCN3-CORE-B.1.2.1-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_02_01_template_list_005 {
+
+    type component C {}
+
+    type record of integer RoI;
+
+    type record R {
+        integer f1,
+        charstring f2
+    }
+
+    template RoI mw_roI := { 10, (20 .. 22) };
+
+    template R mw_r := {
+        f1 := (2, 4, all from mw_roI),
+        f2 := ("String1", "String2")
+    }
+
+    testcase TC() runs on C {
+        var R v_m1 := { f1 := 4, f2 := "String1" };
+        var R v_m2 := { f1 := 21, f2 := "String2" };
+        var R v_n1 := { f1 := 3, f2 := "String1" };
+        var R v_n2 := { f1 := 10, f2 := "String3" };
+        if (match(v_m1, mw_r) and match(v_m2, mw_r)
+            and not match(v_n1, mw_r) and not match(v_n2, mw_r)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

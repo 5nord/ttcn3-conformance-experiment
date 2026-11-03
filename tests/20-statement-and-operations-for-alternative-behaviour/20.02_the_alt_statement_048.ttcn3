@@ -1,0 +1,45 @@
+// @requirement: 20.2 -- Behaviour execution continues with the statement following the alt statement when one of the branches of the alt or invoked defaults is selected and completely executed, or a branch of an altstep used in an altsteps-branch is selected and the branch and the optional statement block following the invoked altstep are completely executed.
+// @id: TTCN3-CORE-20.2-067b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_02_the_alt_statement_048 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p1, p2;
+        var charstring v_trace := "";
+    }
+
+    altstep a_step() runs on C {
+        [] p2.receive(integer:1) {
+            v_trace := v_trace & "a";
+        }
+    }
+
+    testcase TC() runs on C {
+        timer T := 1.0;
+        connect(self:p1, self:p2);
+        p1.send(integer:1);
+        T.start;
+        alt {
+            [] a_step() {
+                v_trace := v_trace & "b";
+            }
+            [] T.timeout {
+                v_trace := v_trace & "t";
+            }
+        }
+        v_trace := v_trace & "c";
+        if (v_trace == "abc") {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

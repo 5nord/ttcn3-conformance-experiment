@@ -1,0 +1,26 @@
+// @requirement: 6.2.7 -- They may be specified also at the point of a variable, formal parameter or function return value declaration.
+// @id: TTCN3-CORE-6.2.7-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_07_arrays_002 {
+
+    type component C {}
+
+    function f_double(integer p_in[2]) return integer[2] {
+        var integer v_res[2] := { p_in[0] * 2, p_in[1] * 2 };
+        return v_res;
+    }
+
+    testcase TC() runs on C {
+        var integer v_a[2] := { 1, 2 };
+        var integer v_b[2] := f_double(v_a);
+        if (v_b[0] == 2 and v_b[1] == 4) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

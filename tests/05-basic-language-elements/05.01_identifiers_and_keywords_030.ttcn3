@@ -1,0 +1,20 @@
+// @requirement: 5.1 -- Language element: Altstep definitions; Associated keyword: altstep; Specified in module definitions: Yes
+// @id: TTCN3-CORE-5.1-020b
+// @verdict: pass reject
+module M_05_01_identifiers_and_keywords_030 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        altstep a_timeout(timer p_timer) { // error: altstep definition inside a test case
+            [] p_timer.timeout {
+                setverdict(pass);
+            }
+        }
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

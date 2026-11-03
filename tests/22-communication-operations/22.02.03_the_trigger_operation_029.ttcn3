@@ -1,0 +1,20 @@
+// @requirement: 22.2.3 -- a) The trigger operation shall only be used on message-based ports and the type of the value to be received shall be included in the list of incoming types of the port type definition.
+// @id: TTCN3-CORE-22.2.3-034b
+// @verdict: pass reject
+module M_22_02_03_the_trigger_operation_029 {
+
+    type port P message { in integer; out charstring }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        p.trigger(charstring:?); // error: charstring is not an incoming type of P
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

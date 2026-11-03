@@ -1,0 +1,23 @@
+// @requirement: B.1.5.6 -- I.e. - after dereferencing, possibly recursively - only the resulting string part of the referenced pattern is inserted into the referencing pattern.
+// @id: TTCN3-CORE-B.1.5.6-006a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_05_06_case_insensitive_pattern_matching_007 {
+
+    template charstring m_ref1 := pattern @nocase "ab?";
+    template charstring m_ref2 := pattern @nocase "{m_ref1}c";
+
+    type component C {}
+
+    testcase TC() runs on C {
+        template charstring m_p := pattern "{m_ref2}d";
+        if (match("abxcd", m_p) and not match("Abxcd", m_p) and not match("abxCd", m_p)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

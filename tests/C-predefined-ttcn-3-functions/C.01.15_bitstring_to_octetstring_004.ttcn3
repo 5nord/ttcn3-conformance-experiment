@@ -1,0 +1,23 @@
+// @requirement: C.1.15 -- For the conversion the following holds: bit2oct(value)=hex2oct(bit2hex(value)).
+// @id: TTCN3-CORE-C.1.15-004a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_01_15_bitstring_to_octetstring_004 {
+
+    type component C {}
+
+    type record of bitstring BitList;
+
+    testcase TC() runs on C {
+        var BitList v_list := { '1'B, '10110'B, '111010111'B, '0000000011111111'B, '10101010101'B };
+        for (var integer i := 0; i < lengthof(v_list); i := i + 1) {
+            if (bit2oct(v_list[i]) != hex2oct(bit2hex(v_list[i]))) {
+                setverdict(fail);
+            }
+        }
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

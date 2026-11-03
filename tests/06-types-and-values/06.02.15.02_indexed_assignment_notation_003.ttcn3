@@ -1,0 +1,18 @@
+// @requirement: 6.2.15.2 -- Values of the map type can be denoted with the indexed assignment notation where the indices are values of the key type of the map type and the right hand sides are values of the value type.
+// @id: TTCN3-CORE-6.2.15.2-002b
+// @verdict: pass reject
+module M_06_02_15_02_indexed_assignment_notation_003 {
+
+    type map from charstring to integer MyMap;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyMap v_map := { ["a"] := 1, [2] := 2 }; // error: index is not a value of the key type
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

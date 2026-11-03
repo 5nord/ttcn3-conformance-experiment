@@ -1,0 +1,20 @@
+// @requirement: 20.0 -- Alternative behaviour; Col2: alt { … }
+// @id: TTCN3-CORE-20.0-008a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_00_general_002 {
+    type component C {}
+
+    testcase TC() runs on C {
+        timer T_1 := 0.1;
+        T_1.start;
+        alt {
+            [] T_1.timeout {
+                setverdict(pass);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

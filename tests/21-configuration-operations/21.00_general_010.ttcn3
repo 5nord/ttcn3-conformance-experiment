@@ -1,0 +1,25 @@
+// @requirement: 21.0 -- Operation: Map; Explanation: Maps the port of one test component to the port of the test system interface; Syntax Examples: map(ptc1:q, system:sutPort1);
+// @id: TTCN3-CORE-21.0-014b
+// @verdict: pass accept, noexecution
+module M_21_00_general_010 {
+
+    type port P message { inout integer; }
+
+    type component C {
+        port P q;
+    }
+
+    type component S {
+        port P sutPort1;
+    }
+
+    testcase TC() runs on C system S {
+        var C ptc1 := C.create;
+        map(ptc1:q, system:sutPort1);
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

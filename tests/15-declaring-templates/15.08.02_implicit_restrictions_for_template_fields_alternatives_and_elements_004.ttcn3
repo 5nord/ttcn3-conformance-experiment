@@ -1,0 +1,20 @@
+// @requirement: 15.8.2 -- Restriction of base template: template(omit); Allowed restrictions of modified template: Yes; Col3: No; Col4: No; Col5: Yes
+// @id: TTCN3-CORE-15.8.2-005b
+// @verdict: pass reject
+module M_15_08_02_implicit_restrictions_for_template_fields_alternatives_and_elements_004 {
+
+    type record R { integer a, integer b optional }
+
+    template(omit) R m_base := { a := 1, b := omit };
+    template(value) R m_mod modifies m_base := { a := 2 }; // error: value restriction not allowed for omit base
+
+    type component C {}
+
+    testcase TC() runs on C {
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

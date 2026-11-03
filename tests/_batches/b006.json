@@ -26,8 +26,8 @@
      "text": "function f_myFunction(inout boolean p_myReferenceParameter){ … };\n  // p_myReferenceParameter is an inout parameter\n  // A function call with an actual parameter\n  f_myFunction(v_myBooleanVariable);\n  // The actual parameter can be read and set within the function \n  function f_myFunction(out template boolean p_myReferenceParameter){ … };\n  // p_myReferenceParameter is an out parameter\n  // A function call with an actual parameter\n  f_myFunction(v_myBooleanVariable);\n  // The actual parameter is initially unbound, but can be set and read within the function.\n  f_myFunction(-); // the outcoming value is not assigned to a variable\n  type record of integer RoI;\n  function f_swapElements (inout integer p_int1, inout integer p_int2) {\n    var integer v_tmp := p_int1;\n   p_int1 := p_int2;\n   p_int2 := v_tmp;\n  }\n  function f_testReferences (inout RoI p_roi, inout integer p_elem) { … }\n  :\n  var RoI v_roi := { 0, 1, 2, 3, 4, 5 }; \n  f_swapElements(v_roi[0], v_roi[5]); // after the function call, v_roi is { 5, 1, 2, 3, 4, 0 }\n  f_testReferences(v_roi, v_roi[2]); // produces an error as elements of v_roi are not allowed\n     // to be passed by reference if the parent structure (v_roi) is passed by reference too.\n  function f_changeAndIncrement(out integer p_e, in integer p_v, inout integer p_i) {\n     p_i := p_i + 1;\n     p_e := p_v;\n  }\n  :\n  var integer v_i := 0;\n  f_changeAndIncrement(v_roi[v_i], 3, v_i); // increments p_i, but still assigns 3 to v_roi[0]"
     }
    ],
-   "file": "tests/05-basic-language-elements/05.04.02_test_059.ttcn3",
-   "module": "M_05_04_02_test_059",
+   "file": "tests/05-basic-language-elements/05.04.02_actual_parameters_059.ttcn3",
+   "module": "M_05_04_02_actual_parameters_059",
    "header": "// @requirement: 5.4.2 -- m) Whenever a value or template of a record, set, union, record of, set of, array and anytype type is passed as an actual parameter to an inout parameter, none of the fields or elements of this structured value or template shall be passed as an actual parameter to another inout parameter of the same parameterized TTCN-3 object."
   },
   {
@@ -47,8 +47,8 @@
     2672
    ],
    "examples": [],
-   "file": "tests/05-basic-language-elements/05.04.02_test_060.ttcn3",
-   "module": "M_05_04_02_test_060",
+   "file": "tests/05-basic-language-elements/05.04.02_actual_parameters_060.ttcn3",
+   "module": "M_05_04_02_actual_parameters_060",
    "header": "// @requirement: 5.4.2 -- This restriction applies recursively to all sub-elements of the structured value or template in any level of nesting."
   },
   {
@@ -68,8 +68,8 @@
     2675
    ],
    "examples": [],
-   "file": "tests/05-basic-language-elements/05.04.02_test_061.ttcn3",
-   "module": "M_05_04_02_test_061",
+   "file": "tests/05-basic-language-elements/05.04.02_actual_parameters_061.ttcn3",
+   "module": "M_05_04_02_actual_parameters_061",
    "header": "// @requirement: 5.4.2 -- n) If two or more actual parameters passed to inout parameters of the same parameterized TTCN-3 object contain a reference to distinct alternatives of the same union or anytype value, an error shall be produced."
   },
   {
@@ -97,8 +97,8 @@
      "text": "// variadic parameter definitions\n  function f1(integer a...); // type of a is record of integer\n  function f2(integer a[3]...); // type of a is record of integer[3]\n  function f3(integer a, integer b...);\n  function f4(integer a..., integer b...); // ERROR: two variadic parameters\n  function f5(integer a..., integer b); // ERROR: variadic parameter is not at final position\n  function f6(integer a := 10, integer b... := {1,2,3});\n  external function printf(universal charstring format, any args ...);\n  // invoking functions with variadic parameters\n  f1(); // value of a: {}\n  f1(1); // value of a: {1}\n  f1(1,2,3); // value of a: {1,2,3}\n  f3(); // ERROR: f3 requires a value for parameter a\n  f3(100); // value of b: {}\n  f3(100,1,2,3); // value of b: {1,2,3}\n  f3(a := 10, b := {1,2,3}); // assignment notation\n  f3(b := {1,2,3}, a := 10); // assignment notation\n  f3(10, b := {1,2,3}); // mixed notation\n  f6(); // value of a: 10, value of b: {1,2,3}\n  f6(1); // value of a: 1, value of b: {1,2,3}\n  f6(1,2); // value of a: 1, value of b: {2}\n  f6(-) // value of a: 10, value of b: {1,2,3}\n  f6(-,1) // value of a: 10, value of b: {1}\n  f6(-,-) // value of a: 10, value of b: {1,2,3}\n  f6(-,-,-) // ERROR: f6 has only two formal parameters to skip.\n  var record of integer a := {1,2,3};\n  f1(a...); // passing a record of parameter directly"
     }
    ],
-   "file": "tests/05-basic-language-elements/05.04.02_test_062.ttcn3",
-   "module": "M_05_04_02_test_062",
+   "file": "tests/05-basic-language-elements/05.04.02_actual_parameters_062.ttcn3",
+   "module": "M_05_04_02_actual_parameters_062",
    "header": "// @requirement: 5.4.2 -- o) If the mixed notation is used, no value list notation shall be used following the first assignment notation and the parameters given in assignment notation shall not assign parameters that already have an actual parameter given in list notation."
   },
   {
@@ -134,8 +134,8 @@
      "text": "function f_mixed (out integer p_par1, in integer p_par2 := 2, inout integer p_par3) {\n   p_par1 := 1 + p_par2;\n  }\n  function f_f(){\n     var integer v := 0;\n     // the following statements all have the same semantics:\n     f_mixed(-,2,v);\n     f_mixed(-,p_par2 := 2, p_par3 := v);\n     f_mixed(-,-,p_par3 := v);\n     f_mixed(-,p_par3 := v, p_par2 := 2);\n     // not allowed:\n     f_mixed(-,2,p_par3 := v, p_par2 := 5); // p_par2 is already assigned in list notation\n  }"
     }
    ],
-   "file": "tests/05-basic-language-elements/05.04.02_test_063.ttcn3",
-   "module": "M_05_04_02_test_063",
+   "file": "tests/05-basic-language-elements/05.04.02_actual_parameters_063.ttcn3",
+   "module": "M_05_04_02_actual_parameters_063",
    "header": "// @requirement: 5.4.2 -- o) If the mixed notation is used, no value list notation shall be used following the first assignment notation and the parameters given in assignment notation shall not assign parameters that already have an actual parameter given in list notation."
   },
   {
@@ -157,8 +157,8 @@
     2682
    ],
    "examples": [],
-   "file": "tests/05-basic-language-elements/05.04.02_test_064.ttcn3",
-   "module": "M_05_04_02_test_064",
+   "file": "tests/05-basic-language-elements/05.04.02_actual_parameters_064.ttcn3",
+   "module": "M_05_04_02_actual_parameters_064",
    "header": "// @requirement: 5.4.2 -- p) Actual parameters passed to @deterministic fuzzy or lazy formal parameters shall fulfill the restrictions imposed on content of functions used in special places given in clause 16.1.4."
   },
   {
@@ -186,8 +186,8 @@
      "text": "// variadic parameter definitions\n  function f1(integer a...); // type of a is record of integer\n  function f2(integer a[3]...); // type of a is record of integer[3]\n  function f3(integer a, integer b...);\n  function f4(integer a..., integer b...); // ERROR: two variadic parameters\n  function f5(integer a..., integer b); // ERROR: variadic parameter is not at final position\n  function f6(integer a := 10, integer b... := {1,2,3});\n  external function printf(universal charstring format, any args ...);\n  // invoking functions with variadic parameters\n  f1(); // value of a: {}\n  f1(1); // value of a: {1}\n  f1(1,2,3); // value of a: {1,2,3}\n  f3(); // ERROR: f3 requires a value for parameter a\n  f3(100); // value of b: {}\n  f3(100,1,2,3); // value of b: {1,2,3}\n  f3(a := 10, b := {1,2,3}); // assignment notation\n  f3(b := {1,2,3}, a := 10); // assignment notation\n  f3(10, b := {1,2,3}); // mixed notation\n  f6(); // value of a: 10, value of b: {1,2,3}\n  f6(1); // value of a: 1, value of b: {1,2,3}\n  f6(1,2); // value of a: 1, value of b: {2}\n  f6(-) // value of a: 10, value of b: {1,2,3}\n  f6(-,1) // value of a: 10, value of b: {1}\n  f6(-,-) // value of a: 10, value of b: {1,2,3}\n  f6(-,-,-) // ERROR: f6 has only two formal parameters to skip.\n  var record of integer a := {1,2,3};\n  f1(a...); // passing a record of parameter directly"
     }
    ],
-   "file": "tests/05-basic-language-elements/05.04.03_test_001.ttcn3",
-   "module": "M_05_04_03_test_001",
+   "file": "tests/05-basic-language-elements/05.04.03_variadic_parameters_001.ttcn3",
+   "module": "M_05_04_03_variadic_parameters_001",
    "header": "// @requirement: 5.4.3 -- The final formal parameter of a template, function, external `function, altstep or testcase may` have a suffix with … (ellipsis)."
   },
   {
@@ -215,8 +215,8 @@
      "text": "// variadic parameter definitions\n  function f1(integer a...); // type of a is record of integer\n  function f2(integer a[3]...); // type of a is record of integer[3]\n  function f3(integer a, integer b...);\n  function f4(integer a..., integer b...); // ERROR: two variadic parameters\n  function f5(integer a..., integer b); // ERROR: variadic parameter is not at final position\n  function f6(integer a := 10, integer b... := {1,2,3});\n  external function printf(universal charstring format, any args ...);\n  // invoking functions with variadic parameters\n  f1(); // value of a: {}\n  f1(1); // value of a: {1}\n  f1(1,2,3); // value of a: {1,2,3}\n  f3(); // ERROR: f3 requires a value for parameter a\n  f3(100); // value of b: {}\n  f3(100,1,2,3); // value of b: {1,2,3}\n  f3(a := 10, b := {1,2,3}); // assignment notation\n  f3(b := {1,2,3}, a := 10); // assignment notation\n  f3(10, b := {1,2,3}); // mixed notation\n  f6(); // value of a: 10, value of b: {1,2,3}\n  f6(1); // value of a: 1, value of b: {1,2,3}\n  f6(1,2); // value of a: 1, value of b: {2}\n  f6(-) // value of a: 10, value of b: {1,2,3}\n  f6(-,1) // value of a: 10, value of b: {1}\n  f6(-,-) // value of a: 10, value of b: {1,2,3}\n  f6(-,-,-) // ERROR: f6 has only two formal parameters to skip.\n  var record of integer a := {1,2,3};\n  f1(a...); // passing a record of parameter directly"
     }
    ],
-   "file": "tests/05-basic-language-elements/05.04.03_test_002.ttcn3",
-   "module": "M_05_04_03_test_002",
+   "file": "tests/05-basic-language-elements/05.04.03_variadic_parameters_002.ttcn3",
+   "module": "M_05_04_03_variadic_parameters_002",
    "header": "// @requirement: 5.4.3 -- Such formal parameter is called variadic parameter and accepts zero or more values of the specified type."
   },
   {
@@ -244,8 +244,8 @@
      "text": "// variadic parameter definitions\n  function f1(integer a...); // type of a is record of integer\n  function f2(integer a[3]...); // type of a is record of integer[3]\n  function f3(integer a, integer b...);\n  function f4(integer a..., integer b...); // ERROR: two variadic parameters\n  function f5(integer a..., integer b); // ERROR: variadic parameter is not at final position\n  function f6(integer a := 10, integer b... := {1,2,3});\n  external function printf(universal charstring format, any args ...);\n  // invoking functions with variadic parameters\n  f1(); // value of a: {}\n  f1(1); // value of a: {1}\n  f1(1,2,3); // value of a: {1,2,3}\n  f3(); // ERROR: f3 requires a value for parameter a\n  f3(100); // value of b: {}\n  f3(100,1,2,3); // value of b: {1,2,3}\n  f3(a := 10, b := {1,2,3}); // assignment notation\n  f3(b := {1,2,3}, a := 10); // assignment notation\n  f3(10, b := {1,2,3}); // mixed notation\n  f6(); // value of a: 10, value of b: {1,2,3}\n  f6(1); // value of a: 1, value of b: {1,2,3}\n  f6(1,2); // value of a: 1, value of b: {2}\n  f6(-) // value of a: 10, value of b: {1,2,3}\n  f6(-,1) // value of a: 10, value of b: {1}\n  f6(-,-) // value of a: 10, value of b: {1,2,3}\n  f6(-,-,-) // ERROR: f6 has only two formal parameters to skip.\n  var record of integer a := {1,2,3};\n  f1(a...); // passing a record of parameter directly"
     }
    ],
-   "file": "tests/05-basic-language-elements/05.04.03_test_003.ttcn3",
-   "module": "M_05_04_03_test_003",
+   "file": "tests/05-basic-language-elements/05.04.03_variadic_parameters_003.ttcn3",
+   "module": "M_05_04_03_variadic_parameters_003",
    "header": "// @requirement: 5.4.3 -- Inside the parameterized scope, the type of the formal variadic parameter is a record of the specified type."
   },
   {
@@ -273,8 +273,8 @@
      "text": "// variadic parameter definitions\n  function f1(integer a...); // type of a is record of integer\n  function f2(integer a[3]...); // type of a is record of integer[3]\n  function f3(integer a, integer b...);\n  function f4(integer a..., integer b...); // ERROR: two variadic parameters\n  function f5(integer a..., integer b); // ERROR: variadic parameter is not at final position\n  function f6(integer a := 10, integer b... := {1,2,3});\n  external function printf(universal charstring format, any args ...);\n  // invoking functions with variadic parameters\n  f1(); // value of a: {}\n  f1(1); // value of a: {1}\n  f1(1,2,3); // value of a: {1,2,3}\n  f3(); // ERROR: f3 requires a value for parameter a\n  f3(100); // value of b: {}\n  f3(100,1,2,3); // value of b: {1,2,3}\n  f3(a := 10, b := {1,2,3}); // assignment notation\n  f3(b := {1,2,3}, a := 10); // assignment notation\n  f3(10, b := {1,2,3}); // mixed notation\n  f6(); // value of a: 10, value of b: {1,2,3}\n  f6(1); // value of a: 1, value of b: {1,2,3}\n  f6(1,2); // value of a: 1, value of b: {2}\n  f6(-) // value of a: 10, value of b: {1,2,3}\n  f6(-,1) // value of a: 10, value of b: {1}\n  f6(-,-) // value of a: 10, value of b: {1,2,3}\n  f6(-,-,-) // ERROR: f6 has only two formal parameters to skip.\n  var record of integer a := {1,2,3};\n  f1(a...); // passing a record of parameter directly"
     }
    ],
-   "file": "tests/05-basic-language-elements/05.04.03_test_004.ttcn3",
-   "module": "M_05_04_03_test_004",
+   "file": "tests/05-basic-language-elements/05.04.03_variadic_parameters_004.ttcn3",
+   "module": "M_05_04_03_variadic_parameters_004",
    "header": "// @requirement: 5.4.3 -- The actual parameter is not present in the list of actual parameters or skipped by using the dash symbol."
   },
   {
@@ -307,8 +307,8 @@
      "text": "// variadic parameter definitions\n  function f1(integer a...); // type of a is record of integer\n  function f2(integer a[3]...); // type of a is record of integer[3]\n  function f3(integer a, integer b...);\n  function f4(integer a..., integer b...); // ERROR: two variadic parameters\n  function f5(integer a..., integer b); // ERROR: variadic parameter is not at final position\n  function f6(integer a := 10, integer b... := {1,2,3});\n  external function printf(universal charstring format, any args ...);\n  // invoking functions with variadic parameters\n  f1(); // value of a: {}\n  f1(1); // value of a: {1}\n  f1(1,2,3); // value of a: {1,2,3}\n  f3(); // ERROR: f3 requires a value for parameter a\n  f3(100); // value of b: {}\n  f3(100,1,2,3); // value of b: {1,2,3}\n  f3(a := 10, b := {1,2,3}); // assignment notation\n  f3(b := {1,2,3}, a := 10); // assignment notation\n  f3(10, b := {1,2,3}); // mixed notation\n  f6(); // value of a: 10, value of b: {1,2,3}\n  f6(1); // value of a: 1, value of b: {1,2,3}\n  f6(1,2); // value of a: 1, value of b: {2}\n  f6(-) // value of a: 10, value of b: {1,2,3}\n  f6(-,1) // value of a: 10, value of b: {1}\n  f6(-,-) // value of a: 10, value of b: {1,2,3}\n  f6(-,-,-) // ERROR: f6 has only two formal parameters to skip.\n  var record of integer a := {1,2,3};\n  f1(a...); // passing a record of parameter directly"
     }
    ],
-   "file": "tests/05-basic-language-elements/05.04.03_test_005.ttcn3",
-   "module": "M_05_04_03_test_005",
+   "file": "tests/05-basic-language-elements/05.04.03_variadic_parameters_005.ttcn3",
+   "module": "M_05_04_03_variadic_parameters_005",
    "header": "// @requirement: 5.4.3 -- The actual parameter is equal to an empty record of value or template in this case."
   },
   {
@@ -336,8 +336,8 @@
      "text": "// variadic parameter definitions\n  function f1(integer a...); // type of a is record of integer\n  function f2(integer a[3]...); // type of a is record of integer[3]\n  function f3(integer a, integer b...);\n  function f4(integer a..., integer b...); // ERROR: two variadic parameters\n  function f5(integer a..., integer b); // ERROR: variadic parameter is not at final position\n  function f6(integer a := 10, integer b... := {1,2,3});\n  external function printf(universal charstring format, any args ...);\n  // invoking functions with variadic parameters\n  f1(); // value of a: {}\n  f1(1); // value of a: {1}\n  f1(1,2,3); // value of a: {1,2,3}\n  f3(); // ERROR: f3 requires a value for parameter a\n  f3(100); // value of b: {}\n  f3(100,1,2,3); // value of b: {1,2,3}\n  f3(a := 10, b := {1,2,3}); // assignment notation\n  f3(b := {1,2,3}, a := 10); // assignment notation\n  f3(10, b := {1,2,3}); // mixed notation\n  f6(); // value of a: 10, value of b: {1,2,3}\n  f6(1); // value of a: 1, value of b: {1,2,3}\n  f6(1,2); // value of a: 1, value of b: {2}\n  f6(-) // value of a: 10, value of b: {1,2,3}\n  f6(-,1) // value of a: 10, value of b: {1}\n  f6(-,-) // value of a: 10, value of b: {1,2,3}\n  f6(-,-,-) // ERROR: f6 has only two formal parameters to skip.\n  var record of integer a := {1,2,3};\n  f1(a...); // passing a record of parameter directly"
     }
    ],
-   "file": "tests/05-basic-language-elements/05.04.03_test_006.ttcn3",
-   "module": "M_05_04_03_test_006",
+   "file": "tests/05-basic-language-elements/05.04.03_variadic_parameters_006.ttcn3",
+   "module": "M_05_04_03_variadic_parameters_006",
    "header": "// @requirement: 5.4.3 -- Using 1..N comma-separated values of the specified type as the actual parameter."
   },
   {
@@ -373,8 +373,8 @@
      "text": "// variadic parameter definitions\n  function f1(integer a...); // type of a is record of integer\n  function f2(integer a[3]...); // type of a is record of integer[3]\n  function f3(integer a, integer b...);\n  function f4(integer a..., integer b...); // ERROR: two variadic parameters\n  function f5(integer a..., integer b); // ERROR: variadic parameter is not at final position\n  function f6(integer a := 10, integer b... := {1,2,3});\n  external function printf(universal charstring format, any args ...);\n  // invoking functions with variadic parameters\n  f1(); // value of a: {}\n  f1(1); // value of a: {1}\n  f1(1,2,3); // value of a: {1,2,3}\n  f3(); // ERROR: f3 requires a value for parameter a\n  f3(100); // value of b: {}\n  f3(100,1,2,3); // value of b: {1,2,3}\n  f3(a := 10, b := {1,2,3}); // assignment notation\n  f3(b := {1,2,3}, a := 10); // assignment notation\n  f3(10, b := {1,2,3}); // mixed notation\n  f6(); // value of a: 10, value of b: {1,2,3}\n  f6(1); // value of a: 1, value of b: {1,2,3}\n  f6(1,2); // value of a: 1, value of b: {2}\n  f6(-) // value of a: 10, value of b: {1,2,3}\n  f6(-,1) // value of a: 10, value of b: {1}\n  f6(-,-) // value of a: 10, value of b: {1,2,3}\n  f6(-,-,-) // ERROR: f6 has only two formal parameters to skip.\n  var record of integer a := {1,2,3};\n  f1(a...); // passing a record of parameter directly"
     }
    ],
-   "file": "tests/05-basic-language-elements/05.04.03_test_007.ttcn3",
-   "module": "M_05_04_03_test_007",
+   "file": "tests/05-basic-language-elements/05.04.03_variadic_parameters_007.ttcn3",
+   "module": "M_05_04_03_variadic_parameters_007",
    "header": "// @requirement: 5.4.3 -- The actual parameter is equal to a record of value or template that contains all the comma-separated values in their declaration order."
   },
   {
@@ -402,8 +402,8 @@
      "text": "// variadic parameter definitions\n  function f1(integer a...); // type of a is record of integer\n  function f2(integer a[3]...); // type of a is record of integer[3]\n  function f3(integer a, integer b...);\n  function f4(integer a..., integer b...); // ERROR: two variadic parameters\n  function f5(integer a..., integer b); // ERROR: variadic parameter is not at final position\n  function f6(integer a := 10, integer b... := {1,2,3});\n  external function printf(universal charstring format, any args ...);\n  // invoking functions with variadic parameters\n  f1(); // value of a: {}\n  f1(1); // value of a: {1}\n  f1(1,2,3); // value of a: {1,2,3}\n  f3(); // ERROR: f3 requires a value for parameter a\n  f3(100); // value of b: {}\n  f3(100,1,2,3); // value of b: {1,2,3}\n  f3(a := 10, b := {1,2,3}); // assignment notation\n  f3(b := {1,2,3}, a := 10); // assignment notation\n  f3(10, b := {1,2,3}); // mixed notation\n  f6(); // value of a: 10, value of b: {1,2,3}\n  f6(1); // value of a: 1, value of b: {1,2,3}\n  f6(1,2); // value of a: 1, value of b: {2}\n  f6(-) // value of a: 10, value of b: {1,2,3}\n  f6(-,1) // value of a: 10, value of b: {1}\n  f6(-,-) // value of a: 10, value of b: {1,2,3}\n  f6(-,-,-) // ERROR: f6 has only two formal parameters to skip.\n  var record of integer a := {1,2,3};\n  f1(a...); // passing a record of parameter directly"
     }
    ],
-   "file": "tests/05-basic-language-elements/05.04.03_test_008.ttcn3",
-   "module": "M_05_04_03_test_008",
+   "file": "tests/05-basic-language-elements/05.04.03_variadic_parameters_008.ttcn3",
+   "module": "M_05_04_03_variadic_parameters_008",
    "header": "// @requirement: 5.4.3 -- Using a single parameter of a compatible record of the specified type followed by ...."
   },
   {
@@ -431,8 +431,8 @@
      "text": "// variadic parameter definitions\n  function f1(integer a...); // type of a is record of integer\n  function f2(integer a[3]...); // type of a is record of integer[3]\n  function f3(integer a, integer b...);\n  function f4(integer a..., integer b...); // ERROR: two variadic parameters\n  function f5(integer a..., integer b); // ERROR: variadic parameter is not at final position\n  function f6(integer a := 10, integer b... := {1,2,3});\n  external function printf(universal charstring format, any args ...);\n  // invoking functions with variadic parameters\n  f1(); // value of a: {}\n  f1(1); // value of a: {1}\n  f1(1,2,3); // value of a: {1,2,3}\n  f3(); // ERROR: f3 requires a value for parameter a\n  f3(100); // value of b: {}\n  f3(100,1,2,3); // value of b: {1,2,3}\n  f3(a := 10, b := {1,2,3}); // assignment notation\n  f3(b := {1,2,3}, a := 10); // assignment notation\n  f3(10, b := {1,2,3}); // mixed notation\n  f6(); // value of a: 10, value of b: {1,2,3}\n  f6(1); // value of a: 1, value of b: {1,2,3}\n  f6(1,2); // value of a: 1, value of b: {2}\n  f6(-) // value of a: 10, value of b: {1,2,3}\n  f6(-,1) // value of a: 10, value of b: {1}\n  f6(-,-) // value of a: 10, value of b: {1,2,3}\n  f6(-,-,-) // ERROR: f6 has only two formal parameters to skip.\n  var record of integer a := {1,2,3};\n  f1(a...); // passing a record of parameter directly"
     }
    ],
-   "file": "tests/05-basic-language-elements/05.04.03_test_009.ttcn3",
-   "module": "M_05_04_03_test_009",
+   "file": "tests/05-basic-language-elements/05.04.03_variadic_parameters_009.ttcn3",
+   "module": "M_05_04_03_variadic_parameters_009",
    "header": "// @requirement: 5.4.3 -- The actual parameter is passed directly to the formal variadic parameter in this case."
   },
   {
@@ -460,8 +460,8 @@
      "text": "// variadic parameter definitions\n  function f1(integer a...); // type of a is record of integer\n  function f2(integer a[3]...); // type of a is record of integer[3]\n  function f3(integer a, integer b...);\n  function f4(integer a..., integer b...); // ERROR: two variadic parameters\n  function f5(integer a..., integer b); // ERROR: variadic parameter is not at final position\n  function f6(integer a := 10, integer b... := {1,2,3});\n  external function printf(universal charstring format, any args ...);\n  // invoking functions with variadic parameters\n  f1(); // value of a: {}\n  f1(1); // value of a: {1}\n  f1(1,2,3); // value of a: {1,2,3}\n  f3(); // ERROR: f3 requires a value for parameter a\n  f3(100); // value of b: {}\n  f3(100,1,2,3); // value of b: {1,2,3}\n  f3(a := 10, b := {1,2,3}); // assignment notation\n  f3(b := {1,2,3}, a := 10); // assignment notation\n  f3(10, b := {1,2,3}); // mixed notation\n  f6(); // value of a: 10, value of b: {1,2,3}\n  f6(1); // value of a: 1, value of b: {1,2,3}\n  f6(1,2); // value of a: 1, value of b: {2}\n  f6(-) // value of a: 10, value of b: {1,2,3}\n  f6(-,1) // value of a: 10, value of b: {1}\n  f6(-,-) // value of a: 10, value of b: {1,2,3}\n  f6(-,-,-) // ERROR: f6 has only two formal parameters to skip.\n  var record of integer a := {1,2,3};\n  f1(a...); // passing a record of parameter directly"
     }
    ],
-   "file": "tests/05-basic-language-elements/05.04.03_test_010.ttcn3",
-   "module": "M_05_04_03_test_010",
+   "file": "tests/05-basic-language-elements/05.04.03_variadic_parameters_010.ttcn3",
+   "module": "M_05_04_03_variadic_parameters_010",
    "header": "// @requirement: 5.4.3 -- When using the assignment notation for an actual variadic parameter, the actual parameter shall be a value or template of a compatible record of the specified type without any additional ellipsis."
   },
   {
@@ -489,8 +489,8 @@
      "text": "// variadic parameter definitions\n  function f1(integer a...); // type of a is record of integer\n  function f2(integer a[3]...); // type of a is record of integer[3]\n  function f3(integer a, integer b...);\n  function f4(integer a..., integer b...); // ERROR: two variadic parameters\n  function f5(integer a..., integer b); // ERROR: variadic parameter is not at final position\n  function f6(integer a := 10, integer b... := {1,2,3});\n  external function printf(universal charstring format, any args ...);\n  // invoking functions with variadic parameters\n  f1(); // value of a: {}\n  f1(1); // value of a: {1}\n  f1(1,2,3); // value of a: {1,2,3}\n  f3(); // ERROR: f3 requires a value for parameter a\n  f3(100); // value of b: {}\n  f3(100,1,2,3); // value of b: {1,2,3}\n  f3(a := 10, b := {1,2,3}); // assignment notation\n  f3(b := {1,2,3}, a := 10); // assignment notation\n  f3(10, b := {1,2,3}); // mixed notation\n  f6(); // value of a: 10, value of b: {1,2,3}\n  f6(1); // value of a: 1, value of b: {1,2,3}\n  f6(1,2); // value of a: 1, value of b: {2}\n  f6(-) // value of a: 10, value of b: {1,2,3}\n  f6(-,1) // value of a: 10, value of b: {1}\n  f6(-,-) // value of a: 10, value of b: {1,2,3}\n  f6(-,-,-) // ERROR: f6 has only two formal parameters to skip.\n  var record of integer a := {1,2,3};\n  f1(a...); // passing a record of parameter directly"
     }
    ],
-   "file": "tests/05-basic-language-elements/05.04.03_test_011.ttcn3",
-   "module": "M_05_04_03_test_011",
+   "file": "tests/05-basic-language-elements/05.04.03_variadic_parameters_011.ttcn3",
+   "module": "M_05_04_03_variadic_parameters_011",
    "header": "// @requirement: 5.4.3 -- The actual parameter is passed directly to the formal variadic parameter in this case."
   },
   {
@@ -510,8 +510,8 @@
     2923
    ],
    "examples": [],
-   "file": "tests/05-basic-language-elements/05.04.03_test_012.ttcn3",
-   "module": "M_05_04_03_test_012",
+   "file": "tests/05-basic-language-elements/05.04.03_variadic_parameters_012.ttcn3",
+   "module": "M_05_04_03_variadic_parameters_012",
    "header": "// @requirement: 5.4.3 -- a) The variadic formal parameter shall be an in parameter."
   },
   {
@@ -531,8 +531,8 @@
     2923
    ],
    "examples": [],
-   "file": "tests/05-basic-language-elements/05.04.03_test_013.ttcn3",
-   "module": "M_05_04_03_test_013",
+   "file": "tests/05-basic-language-elements/05.04.03_variadic_parameters_013.ttcn3",
+   "module": "M_05_04_03_variadic_parameters_013",
    "header": "// @requirement: 5.4.3 -- Using of inout or out kind of parameterization for variadic parameters is forbidden."
   },
   {
@@ -560,8 +560,8 @@
      "text": "// variadic parameter definitions\n  function f1(integer a...); // type of a is record of integer\n  function f2(integer a[3]...); // type of a is record of integer[3]\n  function f3(integer a, integer b...);\n  function f4(integer a..., integer b...); // ERROR: two variadic parameters\n  function f5(integer a..., integer b); // ERROR: variadic parameter is not at final position\n  function f6(integer a := 10, integer b... := {1,2,3});\n  external function printf(universal charstring format, any args ...);\n  // invoking functions with variadic parameters\n  f1(); // value of a: {}\n  f1(1); // value of a: {1}\n  f1(1,2,3); // value of a: {1,2,3}\n  f3(); // ERROR: f3 requires a value for parameter a\n  f3(100); // value of b: {}\n  f3(100,1,2,3); // value of b: {1,2,3}\n  f3(a := 10, b := {1,2,3}); // assignment notation\n  f3(b := {1,2,3}, a := 10); // assignment notation\n  f3(10, b := {1,2,3}); // mixed notation\n  f6(); // value of a: 10, value of b: {1,2,3}\n  f6(1); // value of a: 1, value of b: {1,2,3}\n  f6(1,2); // value of a: 1, value of b: {2}\n  f6(-) // value of a: 10, value of b: {1,2,3}\n  f6(-,1) // value of a: 10, value of b: {1}\n  f6(-,-) // value of a: 10, value of b: {1,2,3}\n  f6(-,-,-) // ERROR: f6 has only two formal parameters to skip.\n  var record of integer a := {1,2,3};\n  f1(a...); // passing a record of parameter directly"
     }
    ],
-   "file": "tests/05-basic-language-elements/05.04.03_test_014.ttcn3",
-   "module": "M_05_04_03_test_014",
+   "file": "tests/05-basic-language-elements/05.04.03_variadic_parameters_014.ttcn3",
+   "module": "M_05_04_03_variadic_parameters_014",
    "header": "// @requirement: 5.4.3 -- b) Using the ellipsis in a declaration of a formal parameter that is not the last in the list of parameters shall produce an error."
   },
   {
@@ -589,8 +589,8 @@
      "text": "module MyModule {\n     :\n     type record ARecordType { integer a, integer b };\n     :\n  // The following two lines include a cycle that is not allowed\n     const ARecordType c_cConst := { 1, c_dConst.b}; // c_cConst refers to c_dConst\n     const ARecordType c_dConst := { 1, c_cConst.b}; // c_dConst refers to c_cConst\n  }"
     }
    ],
-   "file": "tests/05-basic-language-elements/05.05_test_001.ttcn3",
-   "module": "M_05_05_test_001",
+   "file": "tests/05-basic-language-elements/05.05_cyclic_definitions_001.ttcn3",
+   "module": "M_05_05_cyclic_definitions_001",
    "header": "// @requirement: 5.5 -- Direct and indirect cyclic definitions are not allowed with the exception of the following cases:"
   },
   {
@@ -612,8 +612,8 @@
     2963
    ],
    "examples": [],
-   "file": "tests/05-basic-language-elements/05.05_test_002.ttcn3",
-   "module": "M_05_05_test_002",
+   "file": "tests/05-basic-language-elements/05.05_cyclic_definitions_002.ttcn3",
+   "module": "M_05_05_cyclic_definitions_002",
    "header": "// @requirement: 5.5 -- a) for recursive type definitions (see clause 6.2);"
   },
   {
@@ -633,8 +633,8 @@
     2965
    ],
    "examples": [],
-   "file": "tests/05-basic-language-elements/05.05_test_003.ttcn3",
-   "module": "M_05_05_test_003",
+   "file": "tests/05-basic-language-elements/05.05_cyclic_definitions_003.ttcn3",
+   "module": "M_05_05_cyclic_definitions_003",
    "header": "// @requirement: 5.5 -- b) function and altstep definitions (i.e. recursive function or altstep calls);"
   },
   {
@@ -662,8 +662,8 @@
      "text": "module MyModuleA {\n       import from MyModuleB { type MyInteger }\n       type record of MyInteger MyIntegerList;\n  }\n  module MyModuleB {\n       type integer MyInteger;\n       import from MyModuleA { type MyIntegerList }\n  }"
     }
    ],
-   "file": "tests/05-basic-language-elements/05.05_test_004.ttcn3",
-   "module": "M_05_05_test_004",
+   "file": "tests/05-basic-language-elements/05.05_cyclic_definitions_004.ttcn3",
+   "module": "M_05_05_cyclic_definitions_004",
    "header": "// @requirement: 5.5 -- c) cyclic import definitions, if the imported definitions only form allowed cyclic definitions."
   },
   {
@@ -683,8 +683,8 @@
     2973
    ],
    "examples": [],
-   "file": "tests/05-basic-language-elements/05.05_test_005.ttcn3",
-   "module": "M_05_05_test_005",
+   "file": "tests/05-basic-language-elements/05.05_cyclic_definitions_005.ttcn3",
+   "module": "M_05_05_cyclic_definitions_005",
    "header": "// @requirement: 5.5 -- NOTE 2: For the detection of cycles only the main identifiers of the definition are used."
   },
   {
@@ -704,8 +704,8 @@
     2973
    ],
    "examples": [],
-   "file": "tests/05-basic-language-elements/05.05_test_006.ttcn3",
-   "module": "M_05_05_test_006",
+   "file": "tests/05-basic-language-elements/05.05_cyclic_definitions_006.ttcn3",
+   "module": "M_05_05_cyclic_definitions_006",
    "header": "// @requirement: 5.5 -- For example, field identifiers are not used."
   },
   {
@@ -725,8 +725,8 @@
     3008
    ],
    "examples": [],
-   "file": "tests/06-types-and-values/06.00_test_001.ttcn3",
-   "module": "M_06_00_test_001",
+   "file": "tests/06-types-and-values/06.00_general_001.ttcn3",
+   "module": "M_06_00_general_001",
    "header": "// @requirement: 6.0 -- Structured types such as record types, set types and union types can be constructed from these basic types. enumerated types are specific structured types being constructed of enumerated values."
   },
   {
@@ -754,8 +754,8 @@
     3012
    ],
    "examples": [],
-   "file": "tests/06-types-and-values/06.00_test_002.ttcn3",
-   "module": "M_06_00_test_002",
+   "file": "tests/06-types-and-values/06.00_general_002.ttcn3",
+   "module": "M_06_00_general_002",
    "header": "// @requirement: 6.0 -- The special data type anytype is defined as the union of all known data types and the address type defined within a TTCN-3 module."
   },
   {
@@ -775,8 +775,8 @@
     3012
    ],
    "examples": [],
-   "file": "tests/06-types-and-values/06.00_test_003.ttcn3",
-   "module": "M_06_00_test_003",
+   "file": "tests/06-types-and-values/06.00_general_003.ttcn3",
+   "module": "M_06_00_general_003",
    "header": "// @requirement: 6.0 -- In any specific module context, only the known types can be accessed in a value or template of type anytype."
   },
   {
@@ -796,8 +796,8 @@
     3063
    ],
    "examples": [],
-   "file": "tests/06-types-and-values/06.01.00_test_001.ttcn3",
-   "module": "M_06_01_00_test_001",
+   "file": "tests/06-types-and-values/06.01.00_simple_basic_types_and_values_001.ttcn3",
+   "module": "M_06_01_00_simple_basic_types_and_values_001",
    "header": "// @requirement: 6.1.0 -- a) `integer: a type with distinguished values which are the positive and negative whole numbers, including` zero:"
   },
   {
@@ -817,8 +817,8 @@
     3066
    ],
    "examples": [],
-   "file": "tests/06-types-and-values/06.01.00_test_002.ttcn3",
-   "module": "M_06_01_00_test_002",
+   "file": "tests/06-types-and-values/06.01.00_simple_basic_types_and_values_002.ttcn3",
+   "module": "M_06_01_00_simple_basic_types_and_values_002",
    "header": "// @requirement: 6.1.0 -- Values of integer type shall be denoted by one or more digits; the first digit shall not be zero unless the value is 0; the value zero shall be represented by a single zero."
   },
   {
@@ -838,8 +838,8 @@
     3066
    ],
    "examples": [],
-   "file": "tests/06-types-and-values/06.01.00_test_003.ttcn3",
-   "module": "M_06_01_00_test_003",
+   "file": "tests/06-types-and-values/06.01.00_simple_basic_types_and_values_003.ttcn3",
+   "module": "M_06_01_00_simple_basic_types_and_values_003",
    "header": "// @requirement: 6.1.0 -- Values of integer type shall be denoted by one or more digits; the first digit shall not be zero unless the value is 0; the value zero shall be represented by a single zero."
   },
   {
@@ -859,8 +859,8 @@
     3066
    ],
    "examples": [],
-   "file": "tests/06-types-and-values/06.01.00_test_004.ttcn3",
-   "module": "M_06_01_00_test_004",
+   "file": "tests/06-types-and-values/06.01.00_simple_basic_types_and_values_004.ttcn3",
+   "module": "M_06_01_00_simple_basic_types_and_values_004",
    "header": "// @requirement: 6.1.0 -- Values of integer type shall be denoted by one or more digits; the first digit shall not be zero unless the value is 0; the value zero shall be represented by a single zero."
   },
   {
@@ -880,8 +880,8 @@
     3068
    ],
    "examples": [],
-   "file": "tests/06-types-and-values/06.01.00_test_005.ttcn3",
-   "module": "M_06_01_00_test_005",
+   "file": "tests/06-types-and-values/06.01.00_simple_basic_types_and_values_005.ttcn3",
+   "module": "M_06_01_00_simple_basic_types_and_values_005",
    "header": "// @requirement: 6.1.0 -- b) `float: a type to describe floating-point numbers and special float values:`"
   },
   {
@@ -901,8 +901,8 @@
     3076
    ],
    "examples": [],
-   "file": "tests/06-types-and-values/06.01.00_test_006.ttcn3",
-   "module": "M_06_01_00_test_006",
+   "file": "tests/06-types-and-values/06.01.00_simple_basic_types_and_values_006.ttcn3",
+   "module": "M_06_01_00_simple_basic_types_and_values_006",
    "header": "// @requirement: 6.1.0 -- In TTCN-3, the floating-point number value notation is restricted to a base with the value of 10."
   },
   {
@@ -922,8 +922,8 @@
     3114
    ],
    "examples": [],
-   "file": "tests/06-types-and-values/06.01.00_test_007.ttcn3",
-   "module": "M_06_01_00_test_007",
+   "file": "tests/06-types-and-values/06.01.00_simple_basic_types_and_values_007.ttcn3",
+   "module": "M_06_01_00_simple_basic_types_and_values_007",
    "header": "// @requirement: 6.1.0 -- Floating point values can be expressed by using two forms of value notations:"
   },
   {
@@ -948,8 +948,8 @@
     3079
    ],
    "examples": [],
-   "file": "tests/06-types-and-values/06.01.00_test_008.ttcn3",
-   "module": "M_06_01_00_test_008",
+   "file": "tests/06-types-and-values/06.01.00_simple_basic_types_and_values_008.ttcn3",
+   "module": "M_06_01_00_simple_basic_types_and_values_008",
    "header": "// @requirement: 6.1.0 -- the decimal notation with a dot in a sequence of numbers like, 1,23 (which represents 123 × 10[-2]), 2,783 (i.e. 2 783 × 10[-3]) or -123,456789 (which represents -123 456 789 × 10[-6]); or"
   },
   {
@@ -971,8 +971,8 @@
     3083
    ],
    "examples": [],
-   "file": "tests/06-types-and-values/06.01.00_test_009.ttcn3",
-   "module": "M_06_01_00_test_009",
+   "file": "tests/06-types-and-values/06.01.00_simple_basic_types_and_values_009.ttcn3",
+   "module": "M_06_01_00_simple_basic_types_and_values_009",
    "header": "// @requirement: 6.1.0 -- Class of type: Simple basic types; Keyword: integer; Subtype: range, list"
   },
   {
@@ -994,8 +994,8 @@
     3084
    ],
    "examples": [],
-   "file": "tests/06-types-and-values/06.01.00_test_010.ttcn3",
-   "module": "M_06_01_00_test_010",
+   "file": "tests/06-types-and-values/06.01.00_simple_basic_types_and_values_010.ttcn3",
+   "module": "M_06_01_00_simple_basic_types_and_values_010",
    "header": "// @requirement: 6.1.0 -- Class of type: float; Keyword: range, list"
   },
   {
@@ -1017,8 +1017,8 @@
     3085
    ],
    "examples": [],
-   "file": "tests/06-types-and-values/06.01.00_test_011.ttcn3",
-   "module": "M_06_01_00_test_011",
+   "file": "tests/06-types-and-values/06.01.00_simple_basic_types_and_values_011.ttcn3",
+   "module": "M_06_01_00_simple_basic_types_and_values_011",
    "header": "// @requirement: 6.1.0 -- Class of type: boolean; Keyword: List"
   },
   {
@@ -1040,8 +1040,8 @@
     3086
    ],
    "examples": [],
-   "file": "tests/06-types-and-values/06.01.00_test_012.ttcn3",
-   "module": "M_06_01_00_test_012",
+   "file": "tests/06-types-and-values/06.01.00_simple_basic_types_and_values_012.ttcn3",
+   "module": "M_06_01_00_simple_basic_types_and_values_012",
    "header": "// @requirement: 6.1.0 -- Class of type: verdicttype; Keyword: List"
   },
   {
@@ -1063,8 +1063,8 @@
     3087
    ],
    "examples": [],
-   "file": "tests/06-types-and-values/06.01.00_test_013.ttcn3",
-   "module": "M_06_01_00_test_013",
+   "file": "tests/06-types-and-values/06.01.00_simple_basic_types_and_values_013.ttcn3",
+   "module": "M_06_01_00_simple_basic_types_and_values_013",
    "header": "// @requirement: 6.1.0 -- Class of type: Basic string types; Keyword: bitstring; Subtype: list, length"
   },
   {
@@ -1086,8 +1086,8 @@
     3088
    ],
    "examples": [],
-   "file": "tests/06-types-and-values/06.01.00_test_014.ttcn3",
-   "module": "M_06_01_00_test_014",
+   "file": "tests/06-types-and-values/06.01.00_simple_basic_types_and_values_014.ttcn3",
+   "module": "M_06_01_00_simple_basic_types_and_values_014",
    "header": "// @requirement: 6.1.0 -- Class of type: hexstring; Keyword: list, length"
   },
   {
@@ -1109,8 +1109,8 @@
     3089
    ],
    "examples": [],
-   "file": "tests/06-types-and-values/06.01.00_test_015.ttcn3",
-   "module": "M_06_01_00_test_015",
+   "file": "tests/06-types-and-values/06.01.00_simple_basic_types_and_values_015.ttcn3",
+   "module": "M_06_01_00_simple_basic_types_and_values_015",
    "header": "// @requirement: 6.1.0 -- Class of type: octetstring; Keyword: list, length"
   },
   {
@@ -1132,8 +1132,8 @@
     3090
    ],
    "examples": [],
-   "file": "tests/06-types-and-values/06.01.00_test_016.ttcn3",
-   "module": "M_06_01_00_test_016",
+   "file": "tests/06-types-and-values/06.01.00_simple_basic_types_and_values_016.ttcn3",
+   "module": "M_06_01_00_simple_basic_types_and_values_016",
    "header": "// @requirement: 6.1.0 -- Class of type: charstring; Keyword: range, list, length, pattern"
   },
   {
@@ -1155,8 +1155,8 @@
     3091
    ],
    "examples": [],
-   "file": "tests/06-types-and-values/06.01.00_test_017.ttcn3",
-   "module": "M_06_01_00_test_017",
+   "file": "tests/06-types-and-values/06.01.00_simple_basic_types_and_values_017.ttcn3",
+   "module": "M_06_01_00_simple_basic_types_and_values_017",
    "header": "// @requirement: 6.1.0 -- Class of type: universal charstring; Keyword: range, list, length, pattern"
   },
   {
@@ -1178,8 +1178,8 @@
     3105
    ],
    "examples": [],
-   "file": "tests/06-types-and-values/06.01.00_test_018.ttcn3",
-   "module": "M_06_01_00_test_018",
+   "file": "tests/06-types-and-values/06.01.00_simple_basic_types_and_values_018.ttcn3",
+   "module": "M_06_01_00_simple_basic_types_and_values_018",
    "header": "// @requirement: 6.1.0 -- Class of type: Structured types; Keyword: record; Subtype: list (see note)"
   },
   {
@@ -1201,8 +1201,8 @@
     3105
    ],
    "examples": [],
-   "file": "tests/06-types-and-values/06.01.00_test_019.ttcn3",
-   "module": "M_06_01_00_test_019",
+   "file": "tests/06-types-and-values/06.01.00_simple_basic_types_and_values_019.ttcn3",
+   "module": "M_06_01_00_simple_basic_types_and_values_019",
    "header": "// @requirement: 6.1.0 -- Class of type: record of; Keyword: list (see note), length"
   },
   {
@@ -1224,8 +1224,8 @@
     3105
    ],
    "examples": [],
-   "file": "tests/06-types-and-values/06.01.00_test_020.ttcn3",
-   "module": "M_06_01_00_test_020",
+   "file": "tests/06-types-and-values/06.01.00_simple_basic_types_and_values_020.ttcn3",
+   "module": "M_06_01_00_simple_basic_types_and_values_020",
    "header": "// @requirement: 6.1.0 -- Class of type: set; Keyword: list (see note)"
   },
   {
@@ -1247,8 +1247,8 @@
     3105
    ],
    "examples": [],
-   "file": "tests/06-types-and-values/06.01.00_test_021.ttcn3",
-   "module": "M_06_01_00_test_021",
+   "file": "tests/06-types-and-values/06.01.00_simple_basic_types_and_values_021.ttcn3",
+   "module": "M_06_01_00_simple_basic_types_and_values_021",
    "header": "// @requirement: 6.1.0 -- Class of type: set of; Keyword: list (see note), length"
   },
   {
@@ -1270,8 +1270,8 @@
     3105
    ],
    "examples": [],
-   "file": "tests/06-types-and-values/06.01.00_test_022.ttcn3",
-   "module": "M_06_01_00_test_022",
+   "file": "tests/06-types-and-values/06.01.00_simple_basic_types_and_values_022.ttcn3",
+   "module": "M_06_01_00_simple_basic_types_and_values_022",
    "header": "// @requirement: 6.1.0 -- Class of type: enumerated; Keyword: list (see note)"
   },
   {
@@ -1293,8 +1293,8 @@
     3105
    ],
    "examples": [],
-   "file": "tests/06-types-and-values/06.01.00_test_023.ttcn3",
-   "module": "M_06_01_00_test_023",
+   "file": "tests/06-types-and-values/06.01.00_simple_basic_types_and_values_023.ttcn3",
+   "module": "M_06_01_00_simple_basic_types_and_values_023",
    "header": "// @requirement: 6.1.0 -- Class of type: union; Keyword: list (see note)"
   },
   {
@@ -1316,8 +1316,8 @@
     3105
    ],
    "examples": [],
-   "file": "tests/06-types-and-values/06.01.00_test_024.ttcn3",
-   "module": "M_06_01_00_test_024",
+   "file": "tests/06-types-and-values/06.01.00_simple_basic_types_and_values_024.ttcn3",
+   "module": "M_06_01_00_simple_basic_types_and_values_024",
    "header": "// @requirement: 6.1.0 -- Class of type: map; Keyword: list (see note)"
   },
   {
@@ -1339,8 +1339,8 @@
     3099
    ],
    "examples": [],
-   "file": "tests/06-types-and-values/06.01.00_test_025.ttcn3",
-   "module": "M_06_01_00_test_025",
+   "file": "tests/06-types-and-values/06.01.00_simple_basic_types_and_values_025.ttcn3",
+   "module": "M_06_01_00_simple_basic_types_and_values_025",
    "header": "// @requirement: 6.1.0 -- Class of type: Special data type; Keyword: anytype; Subtype: list"
   },
   {
@@ -1367,8 +1367,8 @@
     3100
    ],
    "examples": [],
-   "file": "tests/06-types-and-values/06.01.00_test_026.ttcn3",
-   "module": "M_06_01_00_test_026",
+   "file": "tests/06-types-and-values/06.01.00_simple_basic_types_and_values_026.ttcn3",
+   "module": "M_06_01_00_simple_basic_types_and_values_026",
    "header": "// @requirement: 6.1.0 -- Class of type: Special configuration types; Keyword: address"
   },
   {
@@ -1395,8 +1395,8 @@
     3101
    ],
    "examples": [],
-   "file": "tests/06-types-and-values/06.01.00_test_027.ttcn3",
-   "module": "M_06_01_00_test_027",
+   "file": "tests/06-types-and-values/06.01.00_simple_basic_types_and_values_027.ttcn3",
+   "module": "M_06_01_00_simple_basic_types_and_values_027",
    "header": "// @requirement: 6.1.0 -- Class of type: port"
   },
   {
@@ -1423,8 +1423,8 @@
     3102
    ],
    "examples": [],
-   "file": "tests/06-types-and-values/06.01.00_test_028.ttcn3",
-   "module": "M_06_01_00_test_028",
+   "file": "tests/06-types-and-values/06.01.00_simple_basic_types_and_values_028.ttcn3",
+   "module": "M_06_01_00_simple_basic_types_and_values_028",
    "header": "// @requirement: 6.1.0 -- Class of type: component"
   },
   {
@@ -1451,8 +1451,8 @@
     3103
    ],
    "examples": [],
-   "file": "tests/06-types-and-values/06.01.00_test_029.ttcn3",
-   "module": "M_06_01_00_test_029",
+   "file": "tests/06-types-and-values/06.01.00_simple_basic_types_and_values_029.ttcn3",
+   "module": "M_06_01_00_simple_basic_types_and_values_029",
    "header": "// @requirement: 6.1.0 -- Class of type: Special default type; Keyword: default"
   },
   {
@@ -1474,8 +1474,8 @@
     3105
    ],
    "examples": [],
-   "file": "tests/06-types-and-values/06.01.00_test_030.ttcn3",
-   "module": "M_06_01_00_test_030",
+   "file": "tests/06-types-and-values/06.01.00_simple_basic_types_and_values_030.ttcn3",
+   "module": "M_06_01_00_simple_basic_types_and_values_030",
    "header": "// @requirement: 6.1.0 -- Class of type: Array notation; Keyword: []; Subtype: list (see note)"
   },
   {
@@ -1495,8 +1495,8 @@
     3105
    ],
    "examples": [],
-   "file": "tests/06-types-and-values/06.01.00_test_031.ttcn3",
-   "module": "M_06_01_00_test_031",
+   "file": "tests/06-types-and-values/06.01.00_simple_basic_types_and_values_031.ttcn3",
+   "module": "M_06_01_00_simple_basic_types_and_values_031",
    "header": "// @requirement: 6.1.0 -- NOTE: List subtyping of these types is possible when defining a new constrained type from an already existing parent type but not directly at the declaration of the first parent type."
   }
  ]

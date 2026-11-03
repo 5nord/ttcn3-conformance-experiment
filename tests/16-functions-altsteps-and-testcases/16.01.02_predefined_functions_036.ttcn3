@@ -1,0 +1,32 @@
+// @requirement: 16.1.2 -- Col1: Return the number of elements in a value or a template of a record or set; Table 15: List of TTCN-3 predefined functions: sizeof
+// @id: TTCN3-CORE-16.1.2-045a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_16_01_02_predefined_functions_036 {
+
+    type component C {}
+
+    type record R {
+        integer f1,
+        integer f2 optional
+    }
+
+    type set S {
+        integer f1,
+        boolean f2,
+        charstring f3 optional
+    }
+
+    testcase TC() runs on C {
+        var R v_r := { f1 := 1, f2 := omit };
+        var template S m_s := { f1 := ?, f2 := true, f3 := "a" };
+        if (sizeof(v_r) == 1 and sizeof(m_s) == 3) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

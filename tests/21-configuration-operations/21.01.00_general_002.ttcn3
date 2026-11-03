@@ -1,0 +1,21 @@
+// @requirement: 21.1.0 -- In the case of connections between two test components, the connect operation shall be used.
+// @id: TTCN3-CORE-21.1.0-002a
+// @verdict: pass reject
+module M_21_01_00_general_002 {
+
+    type port P message { inout integer; }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C system C {
+        var C v_ptc := C.create;
+        map(self:p, v_ptc:p); // error: map used between two test components
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,32 @@
+// @requirement: B.1.4.2 -- NOTE: _AnyValueOrNone has exactly the same meaning as ? ifpresent._
+// @id: TTCN3-CORE-B.1.4.2-007a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_04_02_the_ifpresent_indicator_005 {
+
+    type component C {}
+
+    type record R {
+        integer f1,
+        integer f2 optional
+    }
+
+    template R mw_star := { f1 := 1, f2 := * };
+    template R mw_qifp := { f1 := 1, f2 := ? ifpresent };
+
+    testcase TC() runs on C {
+        var R v_r1 := { f1 := 1, f2 := 7 };
+        var R v_r2 := { f1 := 1, f2 := omit };
+        var R v_r3 := { f1 := 2, f2 := omit };
+        if (match(v_r1, mw_star) == match(v_r1, mw_qifp) and match(v_r1, mw_star) and
+            match(v_r2, mw_star) == match(v_r2, mw_qifp) and match(v_r2, mw_star) and
+            match(v_r3, mw_star) == match(v_r3, mw_qifp) and not match(v_r3, mw_star)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

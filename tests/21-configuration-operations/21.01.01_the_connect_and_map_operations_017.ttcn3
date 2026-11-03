@@ -1,0 +1,25 @@
+// @requirement: 21.1.1 -- a) For both the connect and map operations, only consistent connections are allowed.
+// @id: TTCN3-CORE-21.1.1-015a
+// @verdict: pass reject
+module M_21_01_01_the_connect_and_map_operations_017 {
+
+    type port PI message { inout integer; }
+    type port PC message { inout charstring; }
+
+    type component C {
+        port PI p;
+    }
+
+    type component S {
+        port PC p;
+    }
+
+    testcase TC() runs on C system S {
+        map(mtc:p, system:p); // error: inconsistent mapping, no common message type
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

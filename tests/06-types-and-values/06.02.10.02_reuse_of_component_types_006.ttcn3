@@ -1,0 +1,43 @@
+// @requirement: 6.2.10.2 -- The effective component type definition of the extended type is obtained as the collection of all constant, variable, template, timer and port definitions contributed by the supertypes (determined recursively if a supertype is also defined by means of an extension) and the definitions declared in the extended type directly.
+// @id: TTCN3-CORE-6.2.10.2-008a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_10_02_reuse_of_component_types_006 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component CA {
+        const integer cc_a := 1;
+        port P p1;
+    }
+
+    type component CB extends CA {
+        var integer vc_b := 2;
+        timer tc_t := 1.0;
+    }
+
+    type component CC {
+        template integer m_c := 3;
+    }
+
+    type component CExt extends CB, CC {
+        var integer vc_ext := 4;
+        port P p2;
+    }
+
+    testcase TC() runs on CExt {
+        connect(self:p1, self:p2);
+        tc_t.start;
+        p1.send(cc_a + vc_b + valueof(m_c) + vc_ext);
+        alt {
+            [] p2.receive(10) { setverdict(pass); }
+            [] p2.receive { setverdict(fail); }
+            [] tc_t.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

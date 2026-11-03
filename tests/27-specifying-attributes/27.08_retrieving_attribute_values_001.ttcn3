@@ -1,0 +1,30 @@
+// @requirement: 27.8 -- TTCN-3 provides a set of operations that can be used for retrieving attribute values associated with a type, template, variable, constant or module parameter.
+// @id: TTCN3-CORE-27.8-001a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_27_08_retrieving_attribute_values_001 {
+
+    type component C {}
+
+    type integer MyInt with { display "type" }
+
+    modulepar MyInt PX_INT := 1 with { display "module parameter" }
+
+    const MyInt c_int := 1 with { display "constant" }
+
+    template MyInt m_int := 1 with { display "template" }
+
+    testcase TC() runs on C {
+        var MyInt v_int := 1 with { display "variable" }
+        if (MyInt.display == "type" and PX_INT.display == "module parameter"
+            and c_int.display == "constant" and m_int.display == "template"
+            and v_int.display == "variable") {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

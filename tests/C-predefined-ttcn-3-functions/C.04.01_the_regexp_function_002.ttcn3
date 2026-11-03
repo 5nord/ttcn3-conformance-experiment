@@ -1,0 +1,22 @@
+// @requirement: C.4.1 -- This function first matches the parameter inpar (or in case inpar is a template, its value equivalent) against the expression in the second parameter according to the pattern matching specified in clause B.1.5.
+// @id: TTCN3-CORE-C.4.1-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_04_01_the_regexp_function_002 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template charstring v_in := "abc123";
+        var template charstring v_expr := pattern "([a-z]+)(\d+)";
+        var charstring v_res := regexp(v_in, v_expr, 1);
+        if (v_res == "123") {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

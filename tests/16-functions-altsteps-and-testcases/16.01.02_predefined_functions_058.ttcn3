@@ -1,0 +1,30 @@
+// @requirement: 16.1.2 -- any parameters of the functions lengthof, substr and replace may be partially initialized;
+// @id: TTCN3-CORE-16.1.2-069a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_16_01_02_predefined_functions_058 {
+
+    type component C {}
+
+    type record of integer RoI;
+
+    testcase TC() runs on C {
+        var RoI v_list;
+        var RoI v_new := { 5 };
+        var RoI v_sub;
+        var RoI v_rep;
+        v_list[0] := 1;
+        v_list[2] := 3;
+        v_sub := substr(v_list, 0, 1);
+        v_rep := replace(v_list, 0, 1, v_new);
+        if (lengthof(v_list) == 3 and v_sub == { 1 }
+            and lengthof(v_rep) == 3 and v_rep[0] == 5 and v_rep[2] == 3) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,21 @@
+// @requirement: C.5.3 -- In addition to the general error causes in clause 16.1.2, error causes are: Encoding fails due to a runtime system problem (i.e. no encoding function exists for the actual type of inpar).
+// @id: TTCN3-CORE-C.5.3-020a
+// @verdict: pass accept, ttcn3verdict:error
+module M_C_05_03_the_encoding_to_universal_charstring_function_019 {
+
+    type component C {}
+
+    type integer I with { encode "NonExistingCodec" };
+
+    const I c_val := 65;
+
+    testcase TC() runs on C {
+        setverdict(pass);
+        var universal charstring v_enc := encvalue_unichar(c_val); // error: no encoding function for I
+        setverdict(fail);
+    }
+
+    control {
+        execute(TC());
+    }
+}

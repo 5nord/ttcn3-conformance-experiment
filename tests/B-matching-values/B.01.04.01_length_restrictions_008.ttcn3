@@ -1,0 +1,21 @@
+// @requirement: B.1.4.1 -- In the case of a single length value the length attribute matches only if the length of the received field is exactly the specified value.
+// @id: TTCN3-CORE-B.1.4.1-009a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_04_01_length_restrictions_008 {
+
+    type component C {}
+
+    template charstring mw_str := ? length(3);
+
+    testcase TC() runs on C {
+        if (not match("ab", mw_str) and match("abc", mw_str) and not match("abcd", mw_str)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

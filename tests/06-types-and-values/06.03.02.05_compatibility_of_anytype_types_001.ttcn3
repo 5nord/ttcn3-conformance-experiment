@@ -1,0 +1,20 @@
+// @requirement: 6.3.2.5 -- **anytype types are only compatible with other anytype types.
+// @id: TTCN3-CORE-6.3.2.5-001a
+// @verdict: pass reject
+module M_06_03_02_05_compatibility_of_anytype_types_001 {
+
+    type component C {}
+
+    type integer I;
+    type union U { I I }
+
+    testcase TC() runs on C {
+        var U v_u := { I := 1 };
+        var anytype v_a := v_u; // error: union value is not compatible with anytype
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

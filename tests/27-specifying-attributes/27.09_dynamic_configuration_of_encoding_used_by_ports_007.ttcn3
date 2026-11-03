@@ -1,0 +1,38 @@
+// @requirement: 27.9 -- If the referenced type contains multiple encode attributes and the expression provided in the setencode operation is equal to one of these encode attribute values, the statement reduces the list of encode attributes to the selected one.
+// @id: TTCN3-CORE-27.9-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_27_09_dynamic_configuration_of_encoding_used_by_ports_007 {
+
+    type record PDU {
+        charstring source,
+        integer data
+    } with { encode "PduCodec1"; encode "PduCodec2"; encode "PduCodec3" }
+
+    type port P message {
+        inout PDU;
+    }
+
+    type component C {
+        port P p1;
+        port P p2;
+    }
+
+    template PDU m_msg := { source := "source address", data := 1 }
+
+    testcase TC() runs on C {
+        timer T_guard := 1.0;
+        connect(self:p1, self:p2);
+        p1.setencode(PDU, "PduCodec3");
+        p2.setencode(PDU, "PduCodec3");
+        p1.send(m_msg);
+        T_guard.start;
+        alt {
+            [] p2.receive(m_msg) { setverdict(pass); }
+            [] T_guard.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

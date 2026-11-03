@@ -1,0 +1,36 @@
+// @requirement: 27.7 -- For variables and template variables associated with an "implicit omit" optional attribute, recursive procedure is applied to their optional fields after each assignment or usage as out or inout actual parameter in the scope of their declaration (e.g. after re-assigning parts or all of a variable's value) setting all optional fields that have no assigned value definition to omit.
+// @id: TTCN3-CORE-27.7-013b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_27_07_optional_attributes_011 {
+
+    type component C {}
+
+    type record R {
+        integer a,
+        boolean b optional
+    }
+
+    function f_out(out R p_par) {
+        p_par := { a := 1 };
+    }
+
+    function f_inout(inout R p_par) {
+        p_par := { a := 2 };
+    }
+
+    testcase TC() runs on C {
+        var R v_out with { optional "implicit omit" }
+        var R v_inout := { a := 0, b := true } with { optional "implicit omit" }
+        f_out(v_out);
+        f_inout(v_inout);
+        if (v_out == { a := 1, b := omit } and v_inout == { a := 2, b := omit }) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

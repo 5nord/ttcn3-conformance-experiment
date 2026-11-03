@@ -1,0 +1,35 @@
+// @requirement: 15.5 -- NOTE 2: If a fuzzy modified template modifies a non-fuzzy unparameterized template, the inherited fields before modification will be the same for every evaluation of the fuzzy template.
+// @id: TTCN3-CORE-15.5-027a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_05_modified_templates_024 {
+
+    type record R2 {
+        integer num,
+        charstring str
+    }
+
+    type component C {
+        var integer v_count := 0;
+    }
+
+    function f_next() runs on C return integer {
+        v_count := v_count + 1;
+        return v_count;
+    }
+
+    testcase TC() runs on C {
+        template R2 m_base := { num := f_next(), str := "a" };
+        template @fuzzy R2 m_mod modifies m_base := { str := "b" };
+        var integer v_a := valueof(m_mod).num;
+        var integer v_b := valueof(m_mod).num;
+        if (v_a == 1 and v_b == 1) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

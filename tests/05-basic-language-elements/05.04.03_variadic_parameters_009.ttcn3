@@ -1,0 +1,26 @@
+// @requirement: 5.4.3 -- The actual parameter is passed directly to the formal variadic parameter in this case.
+// @id: TTCN3-CORE-5.4.3-010a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_04_03_variadic_parameters_009 {
+
+    type record of integer RoI;
+
+    type component C {}
+
+    function f_test(integer p_values...) return RoI {
+        return p_values;
+    }
+
+    testcase TC() runs on C {
+        var RoI v_list := { 4, 5, 6 };
+        if (f_test(v_list...) == v_list) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

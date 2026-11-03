@@ -1,0 +1,23 @@
+// @requirement: 22.2.3 -- g) If the index redirection is used for single-dimensional port arrays, the type of the integer variable shall allow storing the highest index of the respective array.
+// @id: TTCN3-CORE-22.2.3-042a
+// @verdict: pass reject
+module M_22_02_03_the_trigger_operation_040 {
+
+    type port P message { inout integer }
+
+    type integer Idx (0..1);
+
+    type component C {
+        port P p[4];
+    }
+
+    testcase TC() runs on C {
+        var Idx v_i;
+        any from p.trigger(integer:?) -> @index value v_i; // error: Idx cannot store index 3
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,21 @@
+// @requirement: 19.11 -- Used in a log statement: self, mtc, system or component type variable identifier; What is logged: actual value and if assigned the component instance name otherwise "UNINITIALIZED"; Comment: On logging actual values see notes 2 to 4. Actual component states shall be logged according to note 5.
+// @id: TTCN3-CORE-19.11-009a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_11_the_log_statement_007 {
+    type component C {}
+
+    testcase TC() runs on C system C {
+        var C v_ptc := C.create;
+        var C v_uninit;
+        log(self);
+        log(mtc);
+        log(system);
+        log(v_ptc);
+        log(v_uninit);
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,23 @@
+// @requirement: C.3.5 -- Table C.1:: "decmatch"; Allowed values of kind parameter: Matching decoded content; Col3: B.1.2.9
+// @id: TTCN3-CORE-C.3.5-028a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_03_05_matching_mechanism_detection_019 {
+
+    type component C {}
+    type record R {
+        integer f1
+    } with { encode "RAW" }
+
+    testcase TC() runs on C {
+        var template octetstring v_t := decmatch R : { f1 := ? };
+        if (istemplatekind(v_t, "decmatch")) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,31 @@
+// @requirement: 5.4.1.0 -- Keyword: module; Allowed kind of Parameterization: Value parameterization; Allowed form of Parameterization: Static at start of runtime; Allowed types in formal parameter lists: all basic types, all user-defined types and address type.
+// @id: TTCN3-CORE-5.4.1.0-025c
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_04_01_00_general_024 {
+
+    type integer address;
+
+    type record R {
+        integer a,
+        charstring b
+    }
+
+    modulepar boolean PX_BOOL := true;
+    modulepar charstring PX_STR := "abc";
+    modulepar R PX_REC := { a := 1, b := "x" };
+    modulepar address PX_ADDR := 7;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (PX_BOOL and PX_STR == "abc" and PX_REC.a == 1 and PX_ADDR == 7) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

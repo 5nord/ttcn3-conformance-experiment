@@ -1,0 +1,25 @@
+// @requirement: 22.2.2 -- o) TemplateInstance shall be of a data type.
+// @id: TTCN3-CORE-22.2.2-072a
+// @verdict: pass reject
+module M_22_02_02_the_receive_operation_068 {
+
+    type class MyClass {
+        var integer v_a := 0;
+    }
+
+    type port P message { inout integer }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        var MyClass v_obj := MyClass.create();
+        p.receive(v_obj); // error: template instance is of a class type, not a data type
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,21 @@
+// @requirement: 6.2.1.0 -- The omit keyword shall only be used for optional fields.
+// @id: TTCN3-CORE-6.2.1.0-035a
+// @verdict: pass reject
+module M_06_02_01_00_general_024 {
+
+    type component C {}
+
+    type record R {
+        integer f1,
+        integer f2 optional
+    }
+
+    testcase TC() runs on C {
+        var R v_r := { omit, 2 }; // error: omit used for mandatory field f1
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

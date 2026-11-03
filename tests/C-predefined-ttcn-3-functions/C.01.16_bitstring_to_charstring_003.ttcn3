@@ -1,0 +1,23 @@
+// @requirement: C.1.16 -- The resulting charstring has the same length as the bitstring and contains only the characters '0' and '1'.
+// @id: TTCN3-CORE-C.1.16-003a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_01_16_bitstring_to_charstring_003 {
+
+    type component C {}
+
+    type record of bitstring BitList;
+
+    testcase TC() runs on C {
+        var BitList v_list := { ''B, '0'B, '1110101'B, '0000000011111111'B };
+        for (var integer i := 0; i < lengthof(v_list); i := i + 1) {
+            if (lengthof(bit2str(v_list[i])) != lengthof(v_list[i])) {
+                setverdict(fail);
+            }
+        }
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

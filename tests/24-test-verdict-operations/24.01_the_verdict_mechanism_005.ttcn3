@@ -1,0 +1,31 @@
+// @requirement: 24.1 -- The value of this verdict shall be returned by the test case when it terminates execution.
+// @id: TTCN3-CORE-24.1-006a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_24_01_the_verdict_mechanism_005 {
+
+    type component C {}
+
+    function f_ptc() runs on C {
+        setverdict(inconc);
+    }
+
+    testcase TC_first() runs on C {
+        var C v_ptc := C.create;
+        v_ptc.start(f_ptc());
+        v_ptc.done;
+        setverdict(pass);
+    }
+
+    testcase TC(verdicttype p_res) runs on C {
+        if (p_res == inconc) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        var verdicttype v_res := execute(TC_first());
+        execute(TC(v_res));
+    }
+}

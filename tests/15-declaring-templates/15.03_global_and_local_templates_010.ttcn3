@@ -1,0 +1,28 @@
+// @requirement: 15.3 -- This means, all template fields which are not affected by parameterization shall receive a value or matching mechanism. Both global and local templates are initialized at the place of their declaration.
+// @id: TTCN3-CORE-15.3-011a
+// @verdict: pass reject
+module M_15_03_global_and_local_templates_010 {
+
+    type record MyMessageType {
+        integer field1,
+        charstring field2,
+        boolean field3
+    }
+
+    type component C {}
+
+    template MyMessageType mw_myTemplate(integer p_value) := { // error: field3 receives no value or matching mechanism
+        field1 := p_value,
+        field2 := "abc"
+    }
+
+    testcase TC() runs on C {
+        if (match({ field1 := 1, field2 := "abc", field3 := true }, mw_myTemplate(1))) {
+            setverdict(pass);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

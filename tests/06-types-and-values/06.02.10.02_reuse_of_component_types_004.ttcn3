@@ -1,0 +1,32 @@
+// @requirement: 6.2.10.2 -- It is allowed to have one component type extending several supertypes in one definition, which have to be specified as a comma-separated list of types in the definition.
+// @id: TTCN3-CORE-6.2.10.2-006a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_10_02_reuse_of_component_types_004 {
+
+    type component CA {
+        var integer vc_a := 1;
+    }
+
+    type component CB {
+        var integer vc_b := 2;
+    }
+
+    type component CC {
+        const integer cc_c := 3;
+    }
+
+    type component CExt extends CA, CB, CC {
+    }
+
+    testcase TC() runs on CExt {
+        if (vc_a == 1 and vc_b == 2 and cc_c == 3) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

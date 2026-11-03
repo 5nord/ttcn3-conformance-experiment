@@ -1,0 +1,14 @@
+// @requirement: 15.8.1 -- NOTE 1: It is allowed to use the matching mechanism in fields of the template, but the template as a whole shall not resolve to this matching mechanism.
+// @id: TTCN3-CORE-15.8.1-041a
+// @verdict: pass reject
+module M_15_08_01_explicit_restrictions_032 {
+    type record R {
+        integer a,
+        boolean b optional
+    }
+
+    template(present) R mw_field := {a := 1, b := *};
+    template(present) R mw_whole := *; // error: whole present restricted template is AnyValueOrNone
+
+    type component C {}
+}

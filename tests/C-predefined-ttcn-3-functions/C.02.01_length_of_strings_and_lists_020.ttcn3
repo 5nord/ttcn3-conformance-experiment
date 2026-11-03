@@ -1,0 +1,21 @@
+// @requirement: C.2.1 -- `inpar is a string-type template and it can match string values with different length or the length restriction` matching attribute contradicts the number of string elements in the template body;
+// @id: TTCN3-CORE-C.2.1-020b
+// @verdict: pass accept, ttcn3verdict:error
+module M_C_02_01_length_of_strings_and_lists_020 {
+
+    type component C {}
+
+    function f_len(template (present) bitstring p_t) return integer {
+        return lengthof(p_t);
+    }
+
+    testcase TC() runs on C {
+        var integer v_n := 3;
+        var integer v_len := f_len('1'B length(v_n)); // error: length restriction contradicts the template body
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

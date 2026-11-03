@@ -1,0 +1,26 @@
+// @requirement: 6.2.9 -- Values of this type may be used for addressing purposes in communication operations (see clause 22.1) and be stored in variables.
+// @id: TTCN3-CORE-6.2.9-020a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_09_communication_port_types_019 {
+
+    type port P message {
+        address integer;
+        inout charstring;
+    }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C system C {
+        var P.address v_addr := 5;
+        map(self:p, system:p);
+        p.send(charstring:"hello") to v_addr;
+        unmap(self:p, system:p);
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

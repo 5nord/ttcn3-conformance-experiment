@@ -1,0 +1,23 @@
+// @requirement: 5.2.2 -- The rules of identifier uniqueness shall also apply to identifiers of formal parameters.
+// @id: TTCN3-CORE-5.2.2-006a
+// @verdict: pass reject
+module M_05_02_02_uniqueness_of_identifiers_008 {
+
+    const integer c_a := 1;
+
+    type component C {}
+
+    function f_get(integer c_a) return integer { // error: formal parameter clashes with constant c_a
+        return c_a;
+    }
+
+    testcase TC() runs on C {
+        if (f_get(2) == 2) {
+            setverdict(pass);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

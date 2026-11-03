@@ -1,0 +1,22 @@
+// @requirement: 8.2.1 -- If the test system does not provide an actual runtime value or template for a module parameter, the given default value or template shall be used during test execution, otherwise the actual value or template provided by the test system.
+// @id: TTCN3-CORE-8.2.1-009a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_02_01_module_parameters_009 {
+
+    modulepar integer mp_value := 7;
+    modulepar template integer mp_template := (5 .. 9);
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (mp_value == 7 and match(5, mp_template) and not match(10, mp_template)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

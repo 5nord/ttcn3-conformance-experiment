@@ -1,0 +1,27 @@
+// @requirement: 6.1.0 -- Class of type: record of; Keyword: list (see note), length
+// @id: TTCN3-CORE-6.1.0-019b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_01_00_simple_basic_types_and_values_019 {
+
+    type record of integer RoI;
+
+    type RoI RoIList ({ 1 }, { 1, 2 });
+
+    type RoI RoILength length(2);
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var RoIList v_list := { 1, 2 };
+        var RoILength v_len := { 3, 4 };
+        if (v_list == { 1, 2 } and lengthof(v_len) == 2) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,27 @@
+// @requirement: 15.6.1 -- a) A specific value containing a single element if the referenced template is of a binary or character string type to which a specific value is assigned and the index in non-negative and less than the number of items in the specific value.
+// @id: TTCN3-CORE-15.6.1-010a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_06_01_referencing_individual_string_elements_010 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template octetstring v_oct := '0123'O, v_e1;
+        var template charstring v_char := "abc", v_e2;
+        var template bitstring v_bit := '100'B, v_e3;
+        v_e1 := v_oct[1];
+        v_e2 := v_char[2];
+        v_e3 := v_bit[0];
+        if (match('23'O, v_e1) and not match('01'O, v_e1) and not match('0123'O, v_e1)
+            and match("c", v_e2) and not match("abc", v_e2)
+            and match('1'B, v_e3) and not match('0'B, v_e3)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

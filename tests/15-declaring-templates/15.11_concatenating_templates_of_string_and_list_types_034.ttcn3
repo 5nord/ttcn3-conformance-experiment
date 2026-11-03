@@ -1,0 +1,22 @@
+// @requirement: 15.11 -- Concatenation operand: ? length(n) or * length(n); Transformed string: "?#(n)"
+// @id: TTCN3-CORE-15.11-030a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_11_concatenating_templates_of_string_and_list_types_034 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template charstring v_t1 := "AB" & ? length(2) & "C";
+        var template charstring v_t2 := "AB" & * length(2) & "C";
+        if (match("ABxyC", v_t1) and not match("ABxC", v_t1) and not match("ABxyzC", v_t1) and
+            match("ABxyC", v_t2) and not match("ABxC", v_t2) and not match("ABxyzC", v_t2)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

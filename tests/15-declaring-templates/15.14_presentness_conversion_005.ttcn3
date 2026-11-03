@@ -1,0 +1,28 @@
+// @requirement: 15.14 -- Matching mechanism without the ifpresent attribute if the referenced template had this attribute attached to it.
+// @id: TTCN3-CORE-15.14-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_14_presentness_conversion_005 {
+
+    type record R {
+        integer a,
+        boolean b optional
+    }
+
+    type component C {}
+
+    template R m_example := { 1, true ifpresent };
+
+    testcase TC() runs on C {
+        var template R v_check := { 1, m_example.b.present };
+        if (match({ 1, true }, v_check) and not match({ 1, false }, v_check) and
+            not match({ 1, omit }, v_check)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

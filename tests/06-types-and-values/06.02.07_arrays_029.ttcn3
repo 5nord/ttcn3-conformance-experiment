@@ -1,0 +1,30 @@
+// @requirement: 6.2.7 -- When referencing an element of an uninitialized array value or field or omitted field on the left hand side of an assignment, the rules for record of values specified in clause 6.2.2.4 apply.
+// @id: TTCN3-CORE-6.2.7-031a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_07_arrays_029 {
+
+    type integer MyArray[3];
+
+    type record R {
+        MyArray arr optional
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyArray v_a;
+        var R v_r := { arr := omit };
+        v_a[1] := 5;
+        v_r.arr[2] := 7;
+        if (not isbound(v_a[0]) and v_a[1] == 5 and not isbound(v_a[2])
+            and ispresent(v_r.arr) and not isbound(v_r.arr[0]) and v_r.arr[2] == 7) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

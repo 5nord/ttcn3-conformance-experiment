@@ -1,0 +1,48 @@
+// @requirement: 16.2.0 -- However, the start test component operation may be invoked within behaviour without a runs on clause.
+// @id: TTCN3-CORE-16.2.0-032a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_16_02_00_general_031 {
+
+    type port P message {
+        inout integer
+    }
+
+    type component C {
+        port P p;
+        timer T_guard := 1.0;
+    }
+
+    altstep a_ptc() runs on C {
+        [] p.receive(integer:1) {
+            p.send(2);
+        }
+    }
+
+    altstep a_starter(C p_ptc, timer p_timer) {
+        [] p_timer.timeout {
+            p_ptc.start(a_ptc());
+        }
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        timer T_start := 0.01;
+        connect(self:p, v_ptc:p);
+        T_start.start;
+        a_starter(v_ptc, T_start);
+        p.send(1);
+        T_guard.start;
+        alt {
+            [] p.receive(integer:2) {
+                setverdict(pass);
+            }
+            [] T_guard.timeout {
+                setverdict(fail);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

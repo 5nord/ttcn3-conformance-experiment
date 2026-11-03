@@ -1,0 +1,33 @@
+// @requirement: 15.6.2 -- b) _AnyValue: when referencing a subfield within a structured field to which AnyValue is assigned, at the right_ hand side of an assignment, AnyValue shall be returned for mandatory subfields and AnyValueOrNone shall be returned for optional subfields.
+// @id: TTCN3-CORE-15.6.2-011a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_06_02_referencing_record_and_set_fields_008 {
+
+    type record R {
+        integer a,
+        integer b optional
+    }
+
+    type record Outer {
+        R r
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template Outer v_o := {r := ?};
+        var template integer v_a := v_o.r.a;
+        var template integer v_b := v_o.r.b;
+        var template Outer v_chk := {r := {a := 0, b := v_b}};
+        if (match(-3, v_a) and match(42, v_a) and
+            match({r := {a := 0, b := omit}}, v_chk) and match({r := {a := 0, b := 7}}, v_chk)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

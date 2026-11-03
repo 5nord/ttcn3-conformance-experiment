@@ -1,0 +1,24 @@
+// @requirement: D.5 -- g) a template name, if the lowest named scope is a template definition (local or global); or h) the type name, if the lowest named scope is a user defined named type definition.
+// @id: TTCN3-CORE-D.5-011b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_D_05_preprocessing_macro_scope_011 {
+
+    type component C {}
+
+    type record MyRecord {
+        charstring field1 ("a", __SCOPE__)
+    }
+
+    testcase TC() runs on C {
+        var MyRecord v_rec := { field1 := "MyRecord" };
+        if (v_rec.field1 == "MyRecord") {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

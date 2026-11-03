@@ -1,0 +1,41 @@
+// @requirement: 22.3.4 -- If GetAnyReply is used in the response and exception handling part of a call operation, it shall only treat replies from the procedure invoked by the call operation.
+// @id: TTCN3-CORE-22.3.4-027a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_03_04_the_getreply_operation_025 {
+
+    signature S1(out integer p_y);
+    signature S2(out integer p_y);
+
+    type port P procedure { inout S1, S2 }
+
+    type component C {
+        port P p;
+    }
+
+    function f_server() runs on C {
+        p.getcall(S2:{-});
+        p.getcall(S1:{-});
+        p.reply(S2:{2});
+        p.reply(S1:{1});
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        var boolean v_ok := false;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_server());
+        p.call(S2:{-}, nowait);
+        p.call(S1:{-}, 0.5) {
+            [] p.getreply { setverdict(fail); } // must not treat the S2 reply on top of the queue
+            [] p.catch(timeout) { v_ok := true; }
+        }
+        alt {
+            [v_ok] p.getreply(S2:{2}) { setverdict(pass); }
+            [else] { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

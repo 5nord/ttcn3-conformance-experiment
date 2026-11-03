@@ -1,0 +1,30 @@
+// @requirement: 20.2 -- NOTE 4: It is also possible to use else in altsteps.
+// @id: TTCN3-CORE-20.2-058a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_02_the_alt_statement_040 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p;
+    }
+
+    altstep a_step() runs on C {
+        [] p.receive {
+            setverdict(fail);
+        }
+        [else] {
+            setverdict(pass);
+        }
+    }
+
+    testcase TC() runs on C {
+        a_step();
+    }
+
+    control {
+        execute(TC());
+    }
+}

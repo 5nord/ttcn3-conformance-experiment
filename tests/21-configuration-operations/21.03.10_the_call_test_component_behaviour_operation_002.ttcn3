@@ -1,0 +1,44 @@
+// @requirement: 21.3.10 -- Similar to the start operation on test components which is not blocking, the blocking call operation implicitly uses a start operation, but waits until either the started behaviour has terminated or some timeout has occurred.
+// @id: TTCN3-CORE-21.3.10-003a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_03_10_the_call_test_component_behaviour_operation_002 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p;
+    }
+
+    function f_ptc() runs on C {
+        timer T := 0.5;
+        T.start;
+        T.timeout;
+        p.send(1);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        timer T := 1.0;
+        connect(self:p, v_ptc:p);
+        v_ptc.call(f_ptc());
+        if (v_ptc.running) {
+            setverdict(fail);
+            stop;
+        }
+        T.start;
+        alt {
+            [] p.receive(1) {
+                setverdict(pass);
+            }
+            [] T.timeout {
+                setverdict(fail);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

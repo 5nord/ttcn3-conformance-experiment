@@ -1,0 +1,24 @@
+// @requirement: 5.4.2 -- Furthermore it is allowed to use the dash symbol "-" as an actual out parameter, signifying that a possible result for that parameter will not be passed back.
+// @id: TTCN3-CORE-5.4.2-011a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_04_02_actual_parameters_014 {
+
+    type component C {}
+
+    function f(out template integer p_t, in integer p_i) return integer {
+        p_t := (1..5);
+        return p_i + 1;
+    }
+
+    testcase TC() runs on C {
+        if (f(-, 1) == 2) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

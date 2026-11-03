@@ -1,0 +1,25 @@
+// @requirement: 8.2.3.1 -- Importable Definition: External function; Possible Local Definitions: Parameter names; Possible Referenced Definitions: Parameter types, return type
+// @id: TTCN3-CORE-8.2.3.1-055b
+// @verdict: pass accept, noexecution
+module M_08_02_03_01_general_format_of_import_024 {
+
+    import from M_08_02_03_01_general_format_of_import_024_B { function fx_inc }
+
+    function f_use() return integer {
+        return fx_inc({ x := 1 }).y;
+    }
+}
+
+module M_08_02_03_01_general_format_of_import_024_B {
+    import from M_08_02_03_01_general_format_of_import_024_A all;
+    external function fx_inc(MyPar p_par) return MyResult;
+}
+
+module M_08_02_03_01_general_format_of_import_024_A {
+    type record MyPar {
+        integer x
+    }
+    type record MyResult {
+        integer y
+    }
+}

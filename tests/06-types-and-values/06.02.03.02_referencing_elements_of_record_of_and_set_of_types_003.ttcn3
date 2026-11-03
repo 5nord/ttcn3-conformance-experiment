@@ -1,0 +1,28 @@
+// @requirement: 6.2.3.2 -- If the type definition restricts the element type of the record of or set of type, referencing the inner type of that type yields a type which contains all values from the constrained type.
+// @id: TTCN3-CORE-6.2.3.2-003a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_03_02_referencing_elements_of_record_of_and_set_of_types_003 {
+
+    type component C {}
+
+    type record of integer ConstrainedRecordOfInt (1 .. 10);
+    type ConstrainedRecordOfInt[-] ConstrainedInt;
+
+    testcase TC() runs on C {
+        var ConstrainedInt v_elem;
+        var ConstrainedRecordOfInt v_ro := {};
+        for (var integer i := 1; i <= 10; i := i + 1) {
+            v_elem := i;
+            v_ro[i - 1] := v_elem;
+        }
+        if (lengthof(v_ro) == 10 and v_ro[0] == 1 and v_ro[9] == 10) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

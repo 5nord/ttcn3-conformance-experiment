@@ -1,0 +1,36 @@
+// @requirement: 21.3.2 -- This means only variable values and timers declared in the component type definition of an alive-type PTC can be accessed by a behaviour with a corresponding runs on-clause that is started on an alive-type PTC.
+// @id: TTCN3-CORE-21.3.2-016a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_03_02_the_start_test_component_operation_012 {
+
+    type component C {
+        var integer v_comp := 0;
+    }
+
+    function f_first() runs on C {
+        var integer v_local := 7;
+        v_comp := v_local;
+    }
+
+    function f_second() runs on C {
+        var integer v_local;
+        if (v_comp == 7 and not isbound(v_local)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create alive;
+        v_ptc.start(f_first());
+        v_ptc.done;
+        v_ptc.start(f_second());
+        v_ptc.done;
+        v_ptc.kill;
+    }
+
+    control {
+        execute(TC());
+    }
+}

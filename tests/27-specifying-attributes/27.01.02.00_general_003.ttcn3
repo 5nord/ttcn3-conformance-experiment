@@ -1,0 +1,31 @@
+// @requirement: 27.1.2.0 -- Attributes inherited from a type reference will override general attributes from a higher scope unit containing the type reference.
+// @id: TTCN3-CORE-27.1.2.0-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_27_01_02_00_general_003 {
+
+    type component C {}
+
+    type record of universal charstring RUC;
+
+    type record MyRecordA {
+        integer field1
+    } with { encode "RuleA" }
+
+    type record MyRecordB {
+        MyRecordA field
+    } with { encode "RuleB" }
+
+    testcase TC() runs on C {
+        var MyRecordB v_rec;
+        var RUC v_enc := v_rec.field.encode;
+        if (v_enc == { "RuleA" }) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,24 @@
+// @requirement: 20.5.2 -- activate "(" AltstepRef "(" [ { ActualPar [","] } ] ")" | ObjectReference ")"
+// @id: TTCN3-CORE-20.5.2-002a
+// @verdict: pass accept, noexecution
+module M_20_05_02_the_activate_operation_001 {
+
+    type component C {
+        timer T;
+    }
+
+    altstep a_0() runs on C {
+        [] T.timeout {}
+    }
+
+    altstep a_2(integer p_x, boolean p_y) runs on C {
+        [] T.timeout {}
+    }
+
+    testcase TC() runs on C {
+        var default v_def := activate(a_0());
+        activate(a_2(1, true));
+        deactivate(v_def, true);
+        v_def := activate(v_def);
+    }
+}

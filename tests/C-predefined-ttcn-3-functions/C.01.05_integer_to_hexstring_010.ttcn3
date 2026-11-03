@@ -1,0 +1,17 @@
+// @requirement: C.1.5 -- invalue is less than zero; the conversion yields a return value with more hexadecimal characters than specified by length. In addition to the general error causes in clause 16.1.2, error causes are:
+// @id: TTCN3-CORE-C.1.5-009a
+// @verdict: pass accept, ttcn3verdict:error
+module M_C_01_05_integer_to_hexstring_010 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_in := -1;
+        var hexstring v_res := int2hex(v_in, 2); // error: invalue less than zero
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

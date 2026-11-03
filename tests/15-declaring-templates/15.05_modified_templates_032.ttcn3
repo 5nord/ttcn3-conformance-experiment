@@ -1,0 +1,32 @@
+// @requirement: 15.5 -- c) Restrictions on referencing elements of templates or template fields are described in clause 15.6: for modified templates the rules for the left hand side of assignments apply.
+// @id: TTCN3-CORE-15.5-036a
+// @verdict: pass reject
+module M_15_05_modified_templates_032 {
+
+    type record Inner {
+        integer a,
+        integer b
+    }
+
+    type record Outer {
+        Inner g,
+        integer x
+    }
+
+    template Outer mw_o1 := { g := ({ a := 1, b := 2 }, { a := 3, b := 4 }), x := 1 };
+    template Outer mw_o2 modifies mw_o1 := { g := { a := 5 } }; // error: subfield of a template list referenced
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (match({ g := { a := 5, b := 2 }, x := 1 }, mw_o2)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

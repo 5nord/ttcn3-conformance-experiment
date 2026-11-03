@@ -1,0 +1,20 @@
+// @requirement: C.6.2 -- Coding scheme: UTF-16; initial octet sequence: FE FF FF FE; comments: signature (default FE FF)
+// @id: TTCN3-CORE-C.6.2-006b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_06_02_the_testcasename_function_010 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (oct2unichar('00680069'O, "UTF-16") == "hi" and
+            oct2unichar(remove_bom('FEFF00680069'O), "UTF-16") == "hi") {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

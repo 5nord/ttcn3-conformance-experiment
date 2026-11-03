@@ -1,0 +1,24 @@
+// @requirement: 15.6.1 -- When the reference occurs on the right hand side of an assignment, the result of the reference is always a template with the following content:
+// @id: TTCN3-CORE-15.6.1-009a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_06_01_referencing_individual_string_elements_009 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template octetstring v_oct := 'AB?'O, v_e1;
+        var template charstring v_char := pattern "a?", v_e2;
+        v_e1 := v_oct[1];
+        v_e2 := v_char[1];
+        if (match('00'O, v_e1) and match('FF'O, v_e1)
+            and match("z", v_e2) and match("a", v_e2)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

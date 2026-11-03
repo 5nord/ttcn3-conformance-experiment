@@ -1,0 +1,29 @@
+// @requirement: 20.2 -- The selection causes the execution of the statement block following the killed operation.
+// @id: TTCN3-CORE-20.2-029a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_02_the_alt_statement_021 {
+    type component C {}
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create alive;
+        var boolean v_blockExecuted := false;
+        timer T_guard := 1.0;
+        v_ptc.kill;
+        T_guard.start;
+        alt {
+            [] v_ptc.killed {
+                v_blockExecuted := true;
+            }
+            [] T_guard.timeout {}
+        }
+        if (v_blockExecuted) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

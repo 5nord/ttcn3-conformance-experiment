@@ -1,0 +1,32 @@
+// @requirement: 6.2.15.6 -- The set of values will contain one value for each key value pair in the map.
+// @id: TTCN3-CORE-6.2.15.6-007a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_15_06_accessing_the_values_of_a_map_007 {
+
+    type map from charstring to integer MapType;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MapType v_map := { ["a"] := 1, ["b"] := 2, ["c"] := 2 };
+        var MapType.to v_values := v_map.to;
+        var integer v_ones := 0;
+        var integer v_twos := 0;
+        for (var integer i := 0; i < lengthof(v_values); i := i + 1) {
+            if (v_values[i] == 1) {
+                v_ones := v_ones + 1;
+            } else if (v_values[i] == 2) {
+                v_twos := v_twos + 1;
+            }
+        }
+        if (lengthof(v_values) == 3 and v_ones == 1 and v_twos == 2) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,33 @@
+// @requirement: 16.1.0 -- f) Template return can be restricted to the matching mechanisms specific value and omit, see clause 5.4.1.2.
+// @id: TTCN3-CORE-16.1.0-029a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_16_01_00_general_027 {
+
+    type component C {}
+
+    function f_omit(boolean p_present) return template(omit) integer {
+        if (p_present) {
+            return 5;
+        }
+        return omit;
+    }
+
+    function f_value() return template(value) integer {
+        return 7;
+    }
+
+    testcase TC() runs on C {
+        var template(omit) integer v_t1 := f_omit(true);
+        var template(omit) integer v_t2 := f_omit(false);
+        var template(value) integer v_t3 := f_value();
+        if (match(5, v_t1) and not isvalue(v_t2) and match(7, v_t3)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

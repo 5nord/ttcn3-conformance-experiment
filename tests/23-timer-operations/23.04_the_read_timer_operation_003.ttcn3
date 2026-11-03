@@ -1,0 +1,19 @@
+// @requirement: 23.4 -- The returned value shall be of type float.
+// @id: TTCN3-CORE-23.4-004a
+// @verdict: pass reject
+module M_23_04_the_read_timer_operation_003 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        timer T := 5.0;
+        var integer v_elapsed;
+        T.start;
+        v_elapsed := T.read; // error: read returns float, not integer
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

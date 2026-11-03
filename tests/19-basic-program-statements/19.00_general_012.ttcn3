@@ -1,0 +1,31 @@
+// @requirement: 19.0 -- Statement: Check (current) message/call received; Associated keyword or symbol: check; Can be invoked by test behaviour: Yes
+// @id: TTCN3-CORE-19.0-005c
+// @verdict: pass reject
+module M_19_00_general_012 {
+
+    type port M message { inout integer }
+
+    type component C {
+        port M p;
+    }
+
+    function f_guard() runs on C return boolean {
+        alt {
+            [] p.check {} // error: check in function called from an alt guard
+            [else] {}
+        }
+        return true;
+    }
+
+    testcase TC() runs on C {
+        timer T := 0.1;
+        T.start;
+        alt {
+            [f_guard()] T.timeout { setverdict(pass); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

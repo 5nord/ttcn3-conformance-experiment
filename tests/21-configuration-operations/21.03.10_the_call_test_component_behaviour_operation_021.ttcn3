@@ -1,0 +1,21 @@
+// @requirement: 21.3.10 -- Operation: done; Allowed: Yes but from MTC only; Col3: Yes but from MTC only; Example: any component.done; all component.done;; Comment: Is there any PTC that completed execution? Did all PTCs complete their execution?
+// @id: TTCN3-CORE-21.3.10-017a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_03_10_the_call_test_component_behaviour_operation_021 {
+
+    type component C {}
+
+    function f() runs on C {}
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        v_ptc.start(f());
+        any component.done;
+        all component.done;
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

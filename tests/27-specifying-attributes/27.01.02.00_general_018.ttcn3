@@ -1,0 +1,29 @@
+// @requirement: 27.1.2.0 -- An attribute definition directly attached to a field or element of a structured type overrides the corresponding attribute of the structured type, as regards the identified field or element.
+// @id: TTCN3-CORE-27.1.2.0-027a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_27_01_02_00_general_018 {
+
+    type component C {}
+
+    type record of universal charstring RUC;
+
+    type record MyRec {
+        integer field1,
+        integer field2
+    } with { encode "RuleRec"; encode (field1) "RuleField" }
+
+    testcase TC() runs on C {
+        var MyRec v_rec;
+        var RUC v_f1 := v_rec.field1.encode;
+        var RUC v_f2 := v_rec.field2.encode;
+        if (v_f1 == { "RuleField" } and v_f2 == { "RuleRec" }) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

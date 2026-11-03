@@ -1,0 +1,26 @@
+// @requirement: 7.1.8.1 -- the value true if the operand fulfils the (present) template restriction as described in clause 15.8; The ispresent operator returns:
+// @id: TTCN3-CORE-7.1.8.1-004a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_07_01_08_01_the_ispresent_operator_002 {
+
+    type record R { integer f1 optional, integer f2 optional }
+
+    type component C {}
+
+    template R mw_t1 := { f1 := 1, f2 := (2 .. 4) };
+    template R mw_t3 := { f1 := *, f2 := ? };
+
+    testcase TC() runs on C {
+        var R v_r := { f1 := 1, f2 := omit };
+        if (ispresent(v_r.f1) and ispresent(mw_t1.f1) and ispresent(mw_t1.f2) and
+            ispresent(mw_t3.f2)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

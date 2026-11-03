@@ -1,0 +1,23 @@
+// @requirement: B.1.5.1 -- If the first character in the list is the caret "^", then the characters "-" and "]" also match themselves when they immediately follow that caret.
+// @id: TTCN3-CORE-B.1.5.1-034a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_05_01_set_expression_029 {
+
+    type component C {}
+
+    template charstring mw_hyphen := pattern "[^-a]";
+    template charstring mw_bracket := pattern "[^]a]";
+
+    testcase TC() runs on C {
+        if (not match("-", mw_hyphen) and not match("a", mw_hyphen) and match("b", mw_hyphen)
+            and match("]", mw_bracket) and match("a", mw_bracket)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

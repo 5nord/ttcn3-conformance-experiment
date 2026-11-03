@@ -1,0 +1,36 @@
+// @requirement: 8.2.3.1 -- Importable Definition: • structured type; Possible Local Definitions: Field names, nested type definitions; Possible Referenced Definitions: Field types
+// @id: TTCN3-CORE-8.2.3.1-047b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_02_03_01_general_format_of_import_011 {
+
+    import from M_08_02_03_01_general_format_of_import_011_B { type MyOuter }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyOuter v_outer := { f := { x := 1, y := true } };
+        if (v_outer.f.x == 1 and v_outer.f.y) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_03_01_general_format_of_import_011_B {
+    import from M_08_02_03_01_general_format_of_import_011_A all;
+    type record MyOuter {
+        MyInner f
+    }
+}
+
+module M_08_02_03_01_general_format_of_import_011_A {
+    type record MyInner {
+        integer x,
+        boolean y
+    }
+}

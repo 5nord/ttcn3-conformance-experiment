@@ -1,0 +1,32 @@
+// @requirement: 21.3.10 -- Operation: killed; Allowed: Yes but from MTC only; Col3: Yes but from MTC only; Example: any component.killed; all component.killed;; Comment: Is there any PTC that ceased to exist? Did all PTCs cease to exist?
+// @id: TTCN3-CORE-21.3.10-018c
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_03_10_the_call_test_component_behaviour_operation_027 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var C v_ptc1 := C.create alive;
+        var C v_ptc2 := C.create alive;
+        alt {
+            [] any component.killed {
+                setverdict(fail);
+                stop;
+            }
+            [else] {}
+        }
+        v_ptc1.kill;
+        alt {
+            [] any component.killed {
+                setverdict(pass);
+            }
+            [else] {
+                setverdict(fail);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

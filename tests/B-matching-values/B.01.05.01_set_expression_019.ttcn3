@@ -1,0 +1,23 @@
+// @requirement: B.1.5.1 -- "^" at the first position in the list except when immediately followed by a closing square bracket;
+// @id: TTCN3-CORE-B.1.5.1-024a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_05_01_set_expression_019 {
+
+    type component C {}
+
+    template charstring mw_first := pattern "[^ab]";
+    template charstring mw_second := pattern "[a^b]";
+
+    testcase TC() runs on C {
+        if (match("c", mw_first) and not match("a", mw_first) and not match("^", mw_first)
+            and match("^", mw_second) and not match("c", mw_second)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

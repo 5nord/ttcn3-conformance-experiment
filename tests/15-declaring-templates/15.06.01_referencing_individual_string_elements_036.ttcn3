@@ -1,0 +1,22 @@
+// @requirement: 15.6.1 -- j) When referencing an item of a character string template to which the AnyValue or AnyValueOrNone matching symbol is assigned using a non-negative index, a pattern with length 0 is assigned to the referenced template and procedures described in the point g are applied to finish the assignment.
+// @id: TTCN3-CORE-15.6.1-037a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_06_01_referencing_individual_string_elements_036 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template charstring v_char := ?;
+        v_char[2] := "x";
+        if (match("abx", v_char) and not match("x", v_char)
+            and not match("abxy", v_char)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,49 @@
+// @requirement: 22.3.2 -- When checking the port array for matching calls, the port indices to be checked are iterated from lowest to highest.
+// @id: TTCN3-CORE-22.3.2-031a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_03_02_the_getcall_operation_028 {
+
+    signature S(in integer p_x) noblock;
+
+    type port P procedure { inout S }
+
+    type component CS {
+        port P pa[3];
+        timer T := 1.0;
+    }
+
+    type component CC {
+        port P p;
+    }
+
+    altstep a_guard() runs on CS {
+        [] T.timeout { setverdict(fail); stop; }
+    }
+
+    function f_client() runs on CC {
+        p.call(S:{1});
+    }
+
+    testcase TC() runs on CS {
+        var CC v_ptc1 := CC.create, v_ptc2 := CC.create;
+        var integer v_idx;
+        connect(mtc:pa[2], v_ptc1:p);
+        connect(mtc:pa[1], v_ptc2:p);
+        activate(a_guard());
+        T.start;
+        v_ptc1.start(f_client());
+        pa[2].check(getcall);
+        v_ptc2.start(f_client());
+        pa[1].check(getcall);
+        any from pa.getcall(S:{1}) -> @index value v_idx;
+        if (v_idx == 1) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

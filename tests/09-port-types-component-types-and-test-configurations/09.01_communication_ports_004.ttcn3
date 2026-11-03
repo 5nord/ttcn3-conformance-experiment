@@ -1,0 +1,42 @@
+// @requirement: 9.1 -- There are no restrictions on the number of connections a component may maintain.
+// @id: TTCN3-CORE-9.1-008a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_09_01_communication_ports_004 {
+
+    type port P message { inout integer; }
+
+    type component C {
+        port P p;
+    }
+
+    type component M {
+        port P p[10];
+    }
+
+    function f(integer p_i) runs on C {
+        p.send(p_i);
+    }
+
+    testcase TC() runs on M {
+        timer T := 1.0;
+        var C v_ptc[10];
+        for (var integer i := 0; i < 10; i := i + 1) {
+            v_ptc[i] := C.create;
+            connect(mtc:p[i], v_ptc[i]:p);
+            v_ptc[i].start(f(i));
+        }
+        for (var integer i := 0; i < 10; i := i + 1) {
+            T.start;
+            alt {
+                [] p[i].receive(i) { setverdict(pass); }
+                [] T.timeout { setverdict(fail); }
+            }
+            T.stop;
+        }
+        all component.done;
+    }
+
+    control {
+        execute(TC());
+    }
+}

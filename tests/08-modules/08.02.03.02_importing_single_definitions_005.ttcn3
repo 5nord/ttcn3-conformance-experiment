@@ -1,0 +1,27 @@
+// @requirement: 8.2.3.2 -- a) The definition to be imported shall be defined in the module from which it is to be imported and shall be visible to the importing module.
+// @id: TTCN3-CORE-8.2.3.2-007a
+// @verdict: pass reject
+module M_08_02_03_02_importing_single_definitions_005 {
+
+    import from M_08_02_03_02_importing_single_definitions_005_A {
+        const c_valueB // error: c_valueB is defined in M_08_02_03_02_importing_single_definitions_005_B
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_03_02_importing_single_definitions_005_A {
+    const integer c_valueA := 1;
+}
+
+module M_08_02_03_02_importing_single_definitions_005_B {
+    const integer c_valueB := 2;
+}

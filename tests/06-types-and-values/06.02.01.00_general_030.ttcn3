@@ -1,0 +1,27 @@
+// @requirement: 6.2.1.0 -- When using value list notation in a scope where the optional attribute is set to "implicit omit", optional fields wished to be omitted by the implicit mechanism, but followed by fields to which a value or template is assigned explicitly, shall be skipped by using the not used symbol "-".
+// @id: TTCN3-CORE-6.2.1.0-040a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_01_00_general_030 {
+
+    type component C {}
+
+    type record R {
+        integer f1,
+        integer f2 optional,
+        integer f3
+    }
+
+    const R c_x := { 1, -, 2 } with { optional "implicit omit" }
+
+    testcase TC() runs on C {
+        if (c_x.f1 == 1 and not ispresent(c_x.f2) and c_x.f3 == 2) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

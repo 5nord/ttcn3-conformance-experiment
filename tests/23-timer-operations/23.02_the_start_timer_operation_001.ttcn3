@@ -1,0 +1,27 @@
+// @requirement: 23.2 -- ObjectReference "." start [ "(" ObjectReference ")" ]
+// @id: TTCN3-CORE-23.2-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_23_02_the_start_timer_operation_001 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        timer T1 := 1.0;
+        timer T2;
+        timer T3[2];
+        var float v_duration := 0.5;
+        T1.start;
+        T2.start(20E-3);
+        T3[0].start(v_duration);
+        T3[1].start(v_duration * 2.0);
+        if (T1.running and T3[0].running and T3[1].running) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

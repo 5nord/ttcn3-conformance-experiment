@@ -1,0 +1,22 @@
+// @requirement: C.1.20 -- Each hex digit of the hexstring is converted into a character '0' to '9' and 'A' to 'F' depending on the value 0 to 9 or A to F of the hex digit.
+// @id: TTCN3-CORE-C.1.20-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_01_20_hexstring_to_charstring_006 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var hexstring v_digits := '0123456789ABCDEF'H;
+        var charstring v_chars := "0123456789ABCDEF";
+        for (var integer i := 0; i < 16; i := i + 1) {
+            if (hex2str(v_digits[i]) != v_chars[i]) {
+                setverdict(fail);
+            }
+        }
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,23 @@
+// @requirement: B.1.5.1 -- All metacharacters, except those listed below, lose their special meaning inside the list:
+// @id: TTCN3-CORE-B.1.5.1-021a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_05_01_set_expression_016 {
+
+    type component C {}
+
+    template charstring mw_set := pattern "[?*|(+#]";
+
+    testcase TC() runs on C {
+        if (match("?", mw_set) and match("*", mw_set) and match("|", mw_set)
+            and match("(", mw_set) and match("+", mw_set) and match("#", mw_set)
+            and not match("a", mw_set) and not match("??", mw_set)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

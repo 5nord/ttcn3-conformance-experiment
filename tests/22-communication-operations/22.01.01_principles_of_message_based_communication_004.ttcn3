@@ -1,0 +1,49 @@
+// @requirement: 22.1.1 -- Messages at the top of the queue that do not fulfil the matching criteria are removed from the port without any further action.
+// @id: TTCN3-CORE-22.1.1-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_01_01_principles_of_message_based_communication_004 {
+
+    type port P message {
+        inout integer
+    }
+
+    type component C {
+        port P p;
+    }
+
+    function f_send() runs on C {
+        p.send(1);
+        p.send(2);
+        p.send(3);
+    }
+
+    testcase TC() runs on C {
+        timer T := 1.0;
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_send());
+        T.start;
+        alt {
+            [] p.trigger(2) {}
+            [] T.timeout {
+                setverdict(fail);
+                stop;
+            }
+        }
+        alt {
+            [] p.receive(3) {
+                setverdict(pass);
+            }
+            [] p.receive {
+                setverdict(fail);
+            }
+            [] T.timeout {
+                setverdict(fail);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

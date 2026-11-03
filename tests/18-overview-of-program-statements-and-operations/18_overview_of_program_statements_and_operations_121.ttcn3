@@ -1,0 +1,48 @@
+// @requirement: 18 -- Statement: Raise exception (to an accepted call); Associated keyword or symbol: raise; Can be invoked by test behaviour: Yes
+// @id: TTCN3-CORE-18-055b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_18_overview_of_program_statements_and_operations_121 {
+
+    signature S() exception (integer);
+
+    type port P procedure {
+        inout S;
+    }
+
+    type component C {
+        port P p;
+    }
+
+    function f_ptc() runs on C {
+        timer T := 1.0;
+        T.start;
+        alt {
+            [] p.getcall(S:{}) {
+                p.raise(S, 1);
+            }
+            [] T.timeout {
+            }
+        }
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(self:p, v_ptc:p);
+        v_ptc.start(f_ptc());
+        p.call(S:{}, 1.0) {
+            [] p.catch(S, integer:1) {
+                setverdict(pass);
+            }
+            [] p.getreply(S:{}) {
+                setverdict(fail);
+            }
+            [] p.catch(timeout) {
+                setverdict(fail);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

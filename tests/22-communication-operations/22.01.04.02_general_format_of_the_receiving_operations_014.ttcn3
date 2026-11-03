@@ -1,0 +1,27 @@
+// @requirement: 22.1.4.2 -- If a receiving operation is used as a stand-alone statement, the @nodefault modifier can be placed before it to indicate that the implicit alt statement containing the operation as an alternative shall have the @nodefault modifier.
+// @id: TTCN3-CORE-22.1.4.2-016a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_01_04_02_general_format_of_the_receiving_operations_014 {
+
+    type port P message { inout integer }
+
+    type component C {
+        port P p;
+    }
+
+    function f_ptc() runs on C {
+        p.send(integer:1);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_ptc());
+        @nodefault p.receive(integer:1);
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

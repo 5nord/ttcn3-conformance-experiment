@@ -1,0 +1,35 @@
+// @requirement: 8.2.3.1 -- NOTE 3: If the module has global attributes they are associated to definitions without these attributes.
+// @id: TTCN3-CORE-8.2.3.1-067a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_02_03_01_general_format_of_import_031 {
+
+    import from M_08_02_03_01_general_format_of_import_031_A {
+        type MyRec;
+        template m_rec
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyRec v_rec := { a := 1, b := omit };
+        if (match(v_rec, m_rec)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_03_01_general_format_of_import_031_A {
+
+    type record MyRec {
+        integer a,
+        integer b optional
+    }
+
+    template MyRec m_rec := { a := 1 }
+} with { optional "implicit omit" }

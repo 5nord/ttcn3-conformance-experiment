@@ -1,0 +1,23 @@
+// @requirement: 15.6.1 -- The result of the reference shall be without the length attribute.
+// @id: TTCN3-CORE-15.6.1-018a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_06_01_referencing_individual_string_elements_018 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template octetstring v_oct := ? length(2..3), v_e;
+        var template charstring v_char := "abc" length(3), v_e2;
+        v_e := v_oct[0];
+        v_e2 := v_char[1];
+        if (match('AA'O, v_e) and match("b", v_e2)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,23 @@
+// @requirement: 16.1.2 -- Col1: Convert enumerated value to integer value; Table 15: List of TTCN-3 predefined functions: enum2int
+// @id: TTCN3-CORE-16.1.2-042a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_16_01_02_predefined_functions_033 {
+
+    type component C {}
+
+    type enumerated E { e_first(0), e_second(1), e_third(5) }
+
+    testcase TC() runs on C {
+        var E v_enum := e_third;
+        var integer v_res := enum2int(v_enum);
+        if (v_res == 5) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,63 @@
+// @requirement: 15.1 -- A template used in a receive, trigger or check operation defines a data template against which an incoming message is to be matched.
+// @id: TTCN3-CORE-15.1-006a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_01_declaring_message_templates_004 {
+
+    type record MyMessageType {
+        integer field1 optional,
+        charstring field2,
+        boolean field3
+    }
+
+    type port P message {
+        inout MyMessageType;
+    }
+
+    type component C {
+        port P p1;
+        port P p2;
+    }
+
+    template MyMessageType mw_myTemplate := {
+        field1 := ?,
+        field2 := pattern "abc*xyz",
+        field3 := true
+    }
+
+    testcase TC() runs on C {
+        timer T := 1.0;
+        var MyMessageType v_msg;
+        connect(self:p1, self:p2);
+        p1.send(MyMessageType:{ field1 := 1, field2 := "abcxyz", field3 := false });
+        p1.send(MyMessageType:{ field1 := 2, field2 := "abc123xyz", field3 := true });
+        p1.send(MyMessageType:{ field1 := 3, field2 := "abcxyz", field3 := false });
+        p1.send(MyMessageType:{ field1 := 4, field2 := "abcxyz", field3 := true });
+        T.start;
+        alt {
+            [] p2.check(receive(mw_myTemplate)) { setverdict(fail); }
+            [] p2.receive(mw_myTemplate) { setverdict(fail); }
+            [] p2.receive { }
+            [] T.timeout { setverdict(fail); }
+        }
+        alt {
+            [] p2.check(receive(mw_myTemplate)) { }
+            [] T.timeout { setverdict(fail); }
+        }
+        alt {
+            [] p2.receive(mw_myTemplate) -> value v_msg {
+                if (v_msg.field1 == 2) { setverdict(pass); } else { setverdict(fail); }
+            }
+            [] T.timeout { setverdict(fail); }
+        }
+        alt {
+            [] p2.trigger(mw_myTemplate) -> value v_msg {
+                if (v_msg.field1 != 4) { setverdict(fail); }
+            }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

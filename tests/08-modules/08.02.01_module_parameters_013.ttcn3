@@ -1,0 +1,18 @@
+// @requirement: 8.2.1 -- When automatic typing is used, the TypeOrNestedParDef part is missing and the type is equal to the type of the expression on the right-hand side of the assignment.
+// @id: TTCN3-CORE-8.2.1-011b
+// @verdict: pass reject
+module M_08_02_01_module_parameters_013 {
+
+    modulepar mp_value := "abc";
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_value := mp_value; // error: mp_value is of type charstring
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

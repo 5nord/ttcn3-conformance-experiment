@@ -1,0 +1,23 @@
+// @requirement: 19.1.1 -- This is indicated by the symbol ":=". Values or templates may be assigned to variables or template variables (see clause 11).
+// @id: TTCN3-CORE-19.1.1-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_01_01_basic_assignments_002 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_int := 0;
+        var template charstring v_tmpl;
+        v_int := 3;
+        v_tmpl := pattern "a*";
+        if (v_int == 3 and match("abc", v_tmpl)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

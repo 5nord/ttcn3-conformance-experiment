@@ -1,0 +1,36 @@
+// @requirement: 22.2.2 -- When checking the port array for matching messages, the port indices to be checked are iterated from lowest to highest.
+// @id: TTCN3-CORE-22.2.2-049a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_02_02_the_receive_operation_042 {
+
+    type port P message { inout integer }
+
+    type component C {
+        port P p[3];
+        port P q[3];
+        timer T := 1.0;
+        timer T_wait := 0.2;
+    }
+
+    testcase TC() runs on C {
+        var integer v_i;
+        for (var integer i := 0; i < 3; i := i + 1) {
+            connect(mtc:p[i], mtc:q[i]);
+        }
+        q[2].send(2);
+        q[1].send(1);
+        T_wait.start;
+        T_wait.timeout;
+        T.start;
+        alt {
+            [] any from p.receive(integer:?) -> @index value v_i {
+                if (v_i == 1) { setverdict(pass); } else { setverdict(fail); }
+            }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

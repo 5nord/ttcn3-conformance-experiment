@@ -1,0 +1,26 @@
+// @requirement: 16.1.2 -- the invalue parameter of the any2unistr function may be uninitialized or partially initialized;
+// @id: TTCN3-CORE-16.1.2-070a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_16_01_02_predefined_functions_059 {
+
+    type component C {}
+
+    type record R {
+        integer f1,
+        integer f2
+    }
+
+    testcase TC() runs on C {
+        var integer v_uninit;
+        var R v_partial;
+        var universal charstring v_s1, v_s2;
+        v_partial.f1 := 1;
+        v_s1 := any2unistr(v_uninit);
+        v_s2 := any2unistr(v_partial);
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

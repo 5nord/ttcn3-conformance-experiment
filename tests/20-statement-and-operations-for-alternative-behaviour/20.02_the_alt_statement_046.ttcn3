@@ -1,0 +1,42 @@
+// @requirement: 20.2 -- When an altstep is explicitly invoked as an alternative, the optional statement block following the altstep call shall also be executed.
+// @id: TTCN3-CORE-20.2-065a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_02_the_alt_statement_046 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p1, p2;
+    }
+
+    altstep a_step() runs on C {
+        [] p2.receive(integer:1) {}
+    }
+
+    testcase TC() runs on C {
+        var boolean v_block := false;
+        timer T := 1.0;
+        connect(self:p1, self:p2);
+        p1.send(integer:1);
+        T.start;
+        alt {
+            [] a_step() {
+                v_block := true;
+            }
+            [] T.timeout {
+                setverdict(fail);
+            }
+        }
+        if (v_block) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

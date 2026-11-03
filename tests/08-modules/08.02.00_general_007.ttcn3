@@ -1,0 +1,38 @@
+// @requirement: 8.2.0 -- Such definitions, i.e. top-level definitions outside of other scope units, are globally visible within the module.
+// @id: TTCN3-CORE-8.2.0-012a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_02_00_general_007 {
+
+    const integer c_value := 7;
+
+    type component C {
+        var integer v_comp := c_value;
+    }
+
+    template integer m_value := c_value;
+
+    function f_get() return integer {
+        return c_value;
+    }
+
+    altstep a_check() runs on C {
+        [v_comp == c_value] any timer.timeout {}
+    }
+
+    group g_group {
+        const integer c_inGroup := c_value;
+    }
+
+    testcase TC(integer p_value) runs on C {
+        if (p_value == c_value and f_get() == c_value and v_comp == c_value
+            and match(c_value, m_value) and c_inGroup == c_value) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC(c_value));
+    }
+}

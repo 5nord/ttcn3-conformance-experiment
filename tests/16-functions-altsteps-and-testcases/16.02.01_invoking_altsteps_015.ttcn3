@@ -1,0 +1,36 @@
+// @requirement: 16.2.1 -- NOTE 2: Due to the possibility of defining dynamic test configurations, an alternative in an explicitly invoked altstep may refer to a disconnected or unmapped port at the time of its evaluation.
+// @id: TTCN3-CORE-16.2.1-012a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_16_02_01_invoking_altsteps_015 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p;
+        timer T;
+    }
+
+    altstep a_step() runs on C {
+        [] p.receive {
+            setverdict(fail);
+        }
+    }
+
+    testcase TC() runs on C {
+        connect(self:p, self:p);
+        disconnect(self:p, self:p);
+        T.start(0.1);
+        alt {
+            [] a_step(); // p is disconnected here
+            [] T.timeout {
+                setverdict(pass);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

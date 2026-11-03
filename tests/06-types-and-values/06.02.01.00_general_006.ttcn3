@@ -1,0 +1,22 @@
+// @requirement: 6.2.1.0 -- Records may be defined with no fields, i.e. as empty records.
+// @id: TTCN3-CORE-6.2.1.0-007a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_01_00_general_006 {
+
+    type record MyEmptyRecord {}
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyEmptyRecord v_r := {};
+        if (isvalue(v_r) and v_r == {}) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,18 @@
+// @requirement: 22.3.2 -- n) The ObjectReference shall be of a port type.
+// @id: TTCN3-CORE-22.3.2-052a
+// @verdict: pass reject
+module M_22_03_02_the_getcall_operation_051 {
+
+    signature S(in integer p_x) noblock;
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+        var integer v_i := 0;
+    }
+
+    function f_getcall() runs on C {
+        v_i.getcall(S:{?}); // error: v_i is not a port
+    }
+}

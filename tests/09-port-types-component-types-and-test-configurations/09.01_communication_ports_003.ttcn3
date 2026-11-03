@@ -1,0 +1,45 @@
+// @requirement: 9.1 -- Each port is modelled as an infinite FIFO queue which stores the incoming messages or procedure calls until they are processed by the component owning that port (see figure 5).
+// @id: TTCN3-CORE-9.1-002b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_09_01_communication_ports_003 {
+
+    signature S(in integer p_x);
+
+    type port P message { inout integer; }
+    type port Q procedure { inout S; }
+
+    type component C {
+        port P p;
+        port Q q;
+    }
+
+    function f() runs on C {
+        p.send(1);
+        q.call(S:{2}, nowait);
+    }
+
+    testcase TC() runs on C {
+        timer T := 1.0;
+        timer T_wait := 0.5;
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        connect(mtc:q, v_ptc:q);
+        v_ptc.start(f());
+        T_wait.start;
+        T_wait.timeout;
+        T.start;
+        alt {
+            [] p.receive(1) { setverdict(pass); }
+            [] T.timeout { setverdict(fail); }
+        }
+        alt {
+            [] q.getcall(S:{2}) { setverdict(pass); }
+            [] T.timeout { setverdict(fail); }
+        }
+        v_ptc.done;
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,26 @@
+// @requirement: 6.2.1.0 -- Fields not mentioned are implicitly left uninitialized.
+// @id: TTCN3-CORE-6.2.1.0-022a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_01_00_general_014 {
+
+    type record MyRecordType {
+        bitstring field1,
+        boolean field2 optional,
+        charstring field3
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyRecordType v_r := { field1 := '111'B };
+        if (isbound(v_r.field1) and not isbound(v_r.field2) and not isbound(v_r.field3)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

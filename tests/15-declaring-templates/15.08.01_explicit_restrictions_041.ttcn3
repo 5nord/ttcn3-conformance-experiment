@@ -1,0 +1,39 @@
+// @requirement: 15.8.1 -- Col1: Template; Value: Yes; Template (omit): Yes; Template (value): Yes; Template (present): Yes; Template: Yes
+// @id: TTCN3-CORE-15.8.1-048a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_08_01_explicit_restrictions_041 {
+    type record R {
+        integer a,
+        boolean b optional
+    }
+
+    template(omit) R m_omit := omit;
+    template(value) R m_value := {a := 1, b := true};
+    template(present) R mw_present := {a := ?, b := *};
+    template R mw_any := *;
+
+    function f_check(template R p_r) {
+        setverdict(pass);
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var R v_r := {a := 1, b := true};
+        var template R vt_r;
+        vt_r := v_r;
+        vt_r := m_omit;
+        vt_r := m_value;
+        vt_r := mw_present;
+        vt_r := mw_any;
+        f_check(v_r);
+        f_check(m_omit);
+        f_check(m_value);
+        f_check(mw_present);
+        f_check(mw_any);
+    }
+
+    control {
+        execute(TC());
+    }
+}

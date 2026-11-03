@@ -1,0 +1,35 @@
+// @requirement: 22.4 -- If check is used as a stand-alone statement, it is considered to be a shorthand for an alt statement with the check operation as the only alternative.
+// @id: TTCN3-CORE-22.4-014a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_04_the_check_operation_018 {
+
+    type port MP message { inout integer; }
+
+    type component C {
+        port MP p1, p2;
+        timer T := 1.0;
+        var boolean v_default_run := false;
+    }
+
+    altstep a_default() runs on C {
+        [] p2.receive(5) { v_default_run := true; }
+        [] T.timeout { setverdict(fail); stop; }
+    }
+
+    testcase TC() runs on C {
+        connect(mtc:p1, mtc:p2);
+        activate(a_default());
+        p1.send(5);
+        T.start;
+        p2.check(receive(6));
+        if (v_default_run) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

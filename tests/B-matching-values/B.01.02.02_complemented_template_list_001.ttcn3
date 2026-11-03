@@ -1,0 +1,41 @@
+// @requirement: B.1.2.2 -- It can be used on all values of all types.
+// @id: TTCN3-CORE-B.1.2.2-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_02_02_complemented_template_list_001 {
+
+    type component C {}
+
+    type enumerated E { e_a, e_b, e_c }
+    type record R { integer f }
+    type record of integer RoI;
+    type union U { integer i, boolean b }
+
+    template integer mw_int := complement(1, 2);
+    template float mw_float := complement(1.0, 2.5);
+    template boolean mw_bool := complement(true);
+    template bitstring mw_bit := complement('01'B, '10'B);
+    template charstring mw_char := complement("a", "b");
+    template E mw_enum := complement(e_a, e_c);
+    template R mw_rec := complement({ f := 1 }, { f := 2 });
+    template RoI mw_roi := complement({ 1 }, { 1, 2 });
+    template U mw_union := complement({ i := 1 }, { b := true });
+    template verdicttype mw_verdict := complement(pass, inconc);
+
+    testcase TC() runs on C {
+        var R v_rec := { f := 3 };
+        var RoI v_roi := { 2, 1 };
+        var U v_union := { b := false };
+        if (match(3, mw_int) and match(0.5, mw_float) and match(false, mw_bool)
+            and match('11'B, mw_bit) and match("c", mw_char) and match(e_b, mw_enum)
+            and match(v_rec, mw_rec) and match(v_roi, mw_roi) and match(v_union, mw_union)
+            and match(fail, mw_verdict)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

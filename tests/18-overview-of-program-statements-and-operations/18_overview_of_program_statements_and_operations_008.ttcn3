@@ -1,0 +1,30 @@
+// @requirement: 18 -- Statement: Expressions; Associated keyword or symbol: (…); Can be invoked by control behaviour: Yes; Can be invoked by test behaviour: Yes; Can be directly or indirectly invoked from specific places (see note 1): Yes
+// @id: TTCN3-CORE-18-014c
+// @verdict: pass accept, ttcn3verdict:pass
+module M_18_overview_of_program_statements_and_operations_008 {
+
+    type component C {
+        timer T;
+    }
+
+    function f_check(integer p_a) return boolean {
+        return (p_a + 4) * 2 == 14;
+    }
+
+    testcase TC() runs on C {
+        var integer v_a := 3;
+        T.start(0.1);
+        alt {
+            [(v_a + 4) * 2 == 14 and f_check(v_a)] T.timeout {
+                setverdict(pass);
+            }
+            [] T.timeout {
+                setverdict(fail);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

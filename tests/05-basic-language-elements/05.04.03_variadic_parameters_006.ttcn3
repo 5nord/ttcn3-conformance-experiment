@@ -1,0 +1,27 @@
+// @requirement: 5.4.3 -- Using 1..N comma-separated values of the specified type as the actual parameter.
+// @id: TTCN3-CORE-5.4.3-007a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_04_03_variadic_parameters_006 {
+
+    type component C {}
+
+    function f_sum(integer p_values...) return integer {
+        var integer v_sum := 0;
+        for (var integer i := 0; i < lengthof(p_values); i := i + 1) {
+            v_sum := v_sum + p_values[i];
+        }
+        return v_sum;
+    }
+
+    testcase TC() runs on C {
+        if (f_sum(1) == 1 and f_sum(1, 2, 3) == 6) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,28 @@
+// @requirement: 26.1 -- As the result of the execution of a test case, a test case verdict of either none, pass, inconc, fail or error shall be returned and may be assigned to a variable for further processing.
+// @id: TTCN3-CORE-26.1-011a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_26_01_the_execute_statement_012 {
+
+    type component C {}
+
+    testcase TC_none() runs on C {
+    }
+
+    testcase TC_pass() runs on C {
+        setverdict(pass);
+    }
+
+    testcase TC_check(verdicttype p_none, verdicttype p_pass) runs on C {
+        if (p_none == none and p_pass == pass) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        var verdicttype v_none := execute(TC_none());
+        var verdicttype v_pass := execute(TC_pass());
+        execute(TC_check(v_none, v_pass));
+    }
+}

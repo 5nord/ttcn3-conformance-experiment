@@ -1,0 +1,23 @@
+// @requirement: 6.2.3.0 -- If an indexing operator at the left-hand side of an assignment refers to a non-existent element, the value at the right-hand side is assigned to the element and all elements with an index smaller than the actual index and without assigned value are created with an uninitialized value.
+// @id: TTCN3-CORE-6.2.3.0-025a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_03_00_general_024 {
+
+    type record of integer MyRecordOf;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyRecordOf v_ro := { 0, 1 };
+        v_ro[2] := 5;
+        if (v_ro == { 0, 1, 5 }) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,25 @@
+// @requirement: 20.2 -- An altstep-branch may contain an optional statement block.
+// @id: TTCN3-CORE-20.2-023a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_02_the_alt_statement_015 {
+    type component C {
+        timer T_step := 0.1;
+    }
+
+    altstep a_step() runs on C {
+        [] T_step.timeout {}
+    }
+
+    testcase TC() runs on C {
+        T_step.start;
+        alt {
+            [] a_step() {
+                setverdict(pass);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

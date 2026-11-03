@@ -1,0 +1,24 @@
+// @requirement: 6.2.15.7 -- a) When expanding a value or value field of map type, the element referenced by the index notation shall be set to present.
+// @id: TTCN3-CORE-6.2.15.7-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_15_07_referencing_of_elements_of_a_map_002 {
+
+    type map from charstring to map from charstring to integer MapType;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MapType v_map;
+        v_map["x"]["y"] := 1;
+        if (isbound(v_map["x"]) and lengthof(v_map) == 1 and lengthof(v_map["x"]) == 1
+            and isbound(v_map["x"]["y"])) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,22 @@
+// @requirement: 5.4.1.1 -- [ ( in | inout | out ) ] [ ( @lazy | @fuzzy ) [@deterministic] ] TypeOrNestedTypeDef ValueParIdentifier [ArrayDef] [ ":=" ( Expression | "-" ) ]
+// @id: TTCN3-CORE-5.4.1.1-002a
+// @verdict: pass accept, noexecution
+module M_05_04_01_01_formal_parameters_of_kind_value_002 {
+    type integer A[2];
+
+    function f_params(in integer p_in,
+                      inout integer p_inout,
+                      out integer p_out,
+                      integer p_noKind,
+                      in @lazy integer p_lazy,
+                      @fuzzy @deterministic integer p_fuzzy,
+                      record of integer p_nested,
+                      integer p_array[2],
+                      integer p_default := 1 + 2) {
+        p_out := p_in + p_inout + p_noKind + p_lazy + p_fuzzy + lengthof(p_nested)
+            + p_array[0] + p_default;
+    }
+
+    template integer m_base(integer p_x := 5) := p_x;
+    template integer m_mod(integer p_x := -) modifies m_base := p_x;
+}

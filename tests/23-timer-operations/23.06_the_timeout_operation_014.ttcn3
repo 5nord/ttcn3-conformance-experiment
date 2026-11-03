@@ -1,0 +1,22 @@
+// @requirement: 23.6 -- b) TimerArrayRef shall be a reference to a completely initialized timer array.
+// @id: TTCN3-CORE-23.6-016a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_23_06_the_timeout_operation_014 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        timer TA[3] := { 0.01, 0.01, 0.01 };
+        timer T_guard := 2.0;
+        TA[1].start;
+        T_guard.start;
+        alt {
+            [] any from TA.timeout { setverdict(pass); }
+            [] T_guard.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

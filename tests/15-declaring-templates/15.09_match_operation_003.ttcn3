@@ -1,0 +1,20 @@
+// @requirement: 15.9 -- It matches an expression, which shall denote a value or a field of a value against a template instance.
+// @id: TTCN3-CORE-15.9-004a
+// @verdict: pass reject
+module M_15_09_match_operation_003 {
+
+    type record R { integer a, integer b optional }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template R v_t := { a := 1, b := omit };
+        if (match(v_t.a, 1)) { // error: expression is a field of a template, not of a value
+            setverdict(pass);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

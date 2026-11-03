@@ -1,0 +1,32 @@
+// @requirement: 8.2.3.1 -- g) The language specification (see clause 8.1) of the import statement shall not override the language specification of the importing module.
+// @id: TTCN3-CORE-8.2.3.1-096a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_02_03_01_general_format_of_import_060 language "TTCN-3:2023" {
+
+    import from M_08_02_03_01_general_format_of_import_060_A language "TTCN-3:2003" all;
+
+    type component C {}
+
+    function f_check(integer p_value) return integer {
+        select (p_value) {
+            case (42) { return 1; }
+            case else { return 0; }
+        }
+    }
+
+    testcase TC() runs on C {
+        if (f_check(c_value) == 1) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_03_01_general_format_of_import_060_A language "TTCN-3:2003" {
+    const integer c_value := 42;
+}

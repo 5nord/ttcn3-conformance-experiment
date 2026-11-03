@@ -1,0 +1,32 @@
+// @requirement: 8.2.1 -- For module parameterization, TTCN-3 only supports value parameterization which has to be resolved static at start of runtime.
+// @id: TTCN3-CORE-8.2.1-006b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_02_01_module_parameters_007 {
+
+    modulepar integer mp_value := 2 * 21;
+
+    type component C {}
+
+    function f_ptc() runs on C {
+        if (mp_value == 42) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    testcase TC(integer p_fromControl) runs on C {
+        var C v_ptc := C.create;
+        v_ptc.start(f_ptc());
+        v_ptc.done;
+        if (p_fromControl == 42 and mp_value == 42) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC(mp_value));
+    }
+}

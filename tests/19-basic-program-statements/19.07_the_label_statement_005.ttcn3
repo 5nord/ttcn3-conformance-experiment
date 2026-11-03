@@ -1,0 +1,25 @@
+// @requirement: 19.7 -- It can be used before or after a TTCN-3 statement
+// @id: TTCN3-CORE-19.7-006b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_07_the_label_statement_005 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_i := 0;
+        label L_Before;
+        v_i := v_i + 1;
+        label L_Between;
+        v_i := v_i + 1;
+        if (v_i == 2) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+        label L_After;
+    }
+
+    control {
+        execute(TC());
+    }
+}

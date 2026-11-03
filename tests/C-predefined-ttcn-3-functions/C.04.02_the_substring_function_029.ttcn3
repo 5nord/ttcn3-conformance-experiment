@@ -1,0 +1,22 @@
+// @requirement: C.4.2 -- `inpar is a template of a sequence type or array and it contains other matching mechanism as specific value or` combined template; or if the elements of combined template are any other matching mechanisms than specific values, and AnyElement or combined templates;
+// @id: TTCN3-CORE-C.4.2-030a
+// @verdict: pass accept, ttcn3verdict:error
+module M_C_04_02_the_substring_function_029 {
+
+    type record of integer RoI;
+
+    type component C {}
+
+    function f_substr(in template RoI p_in) return template RoI {
+        return substr(p_in, 0, 1); // error: element is a value list
+    }
+
+    testcase TC() runs on C {
+        var template RoI v_res := f_substr({ 1, (2, 3), 4 });
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

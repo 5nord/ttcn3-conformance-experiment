@@ -1,0 +1,23 @@
+// @requirement: 6.2.3.2 -- //Provided the definitions below type record of integer MyRecordOfInt; type record of record { integer f1, set { integer s1, boolean s2 } f2 } MyRecordOfRecord; type record of record of integer MyRecordOfRecordOfInt; type record of record { integer f1, record of boolean f2 } MyRecordOfRecord2; // Referencing the inner integer type type MyRecordOfInt[-] MyInteger; const MyRecordOfInt[-] c_MyInteger:= 5; // Referencing the nested record type type MyRecordOfRecord[-] MyInnerRecord; const MyRecordOfRecord[-] c_MyRecord := { f1 = 5; f2 := { s1 := 0; s2 := true }} // Referencing the set type nested in the inner record type MyRecordOfRecord[-].f2 MyNestedSet; const MyRecordOfRecord[-].f2 c_MySet := { s1 := 0; s2 := true } // Referencing the innermost boolean type MyRecordOfRecord[-].f2.s2 MyBoolean; const MyRecordOfRecord[-].f2.s2 c_MyBool := false; // Referencing the inner record of type MyRecordOfRecordOfInt[-] MyInnerRecordOfInt; const MyRecordOfRecordOfInt[-] c_MyInnerRecordOfInt := { 0, 1, 2, 3 }; // Referencing the integer type within the inner record of type MyRecordOfRecordOfInt[-][-] MyInteger2; const MyRecordOfRecordOfInt[-][-] c_MyInteger2 := 1; // Referencing the boolean type within the nested record type MyRecordOfRecord2[-].f2[-] MyInnermostBoolean; const MyRecordOfRecord2[-].f2[-] c_MyInnermostBoolean := true ; type record length (5) of record of integer ConstrainedRecordOfInt (1 .. 10); type ConstrainedRecordOfInt[-] ConstrainedInt; // defines the type record of integer, where the integer values are restricted // to the range 1 .. 10 but the record of has no length restriction
+// @id: TTCN3-CORE-6.2.3.2-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_03_02_referencing_elements_of_record_of_and_set_of_types_004 {
+
+    type component C {}
+
+    type record length (2) of record of integer ConstrainedRecordOfInt;
+    type ConstrainedRecordOfInt[-] InnerRecordOfInt;
+
+    testcase TC() runs on C {
+        var InnerRecordOfInt v_inner := { 1, 2, 3, 4, 5, 6 };
+        if (lengthof(v_inner) == 6) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

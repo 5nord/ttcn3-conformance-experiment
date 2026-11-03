@@ -1,0 +1,58 @@
+// @requirement: 6.2.9 -- TTCN-3 allows to define constants, variables and parameters of a port type.
+// @id: TTCN3-CORE-6.2.9-026a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_09_communication_port_types_023 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p;
+    }
+
+    const P c_noPort := null;
+
+    function f_send(P p_port) {
+        p_port.send(1);
+    }
+
+    function f_echo() runs on C {
+        timer T_guard := 1.0;
+        var integer v_x;
+        T_guard.start;
+        alt {
+            [] p.receive(integer:?) -> value v_x {
+                p.send(v_x);
+            }
+            [] T_guard.timeout {}
+        }
+    }
+
+    testcase TC() runs on C {
+        timer T_guard := 1.0;
+        var P v_port := p;
+        var C v_ptc := C.create;
+        connect(self:p, v_ptc:p);
+        v_ptc.start(f_echo());
+        f_send(v_port);
+        T_guard.start;
+        alt {
+            [] p.receive(integer:1) {
+                if (c_noPort == null) {
+                    setverdict(pass);
+                } else {
+                    setverdict(fail);
+                }
+            }
+            [] T_guard.timeout {
+                setverdict(fail);
+            }
+        }
+        v_ptc.done;
+    }
+
+    control {
+        execute(TC());
+    }
+}

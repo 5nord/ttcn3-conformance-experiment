@@ -1,0 +1,18 @@
+// @requirement: C.1.30 -- The actual parameter passed to inpar always shall be a typed object (see clause 6.2.4 and the definition "type context" in clause 3.1).
+// @id: TTCN3-CORE-C.1.30-003a
+// @verdict: pass reject
+module M_C_01_30_enumerated_to_integer_004 {
+
+    type enumerated E { e_a, e_b }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_res := enum2int(e_b); // error: enumerated value without type context
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

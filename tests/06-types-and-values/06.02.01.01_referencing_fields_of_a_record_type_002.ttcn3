@@ -1,0 +1,21 @@
+// @requirement: 6.2.1.1 -- Elements of a record shall be referenced by the dot notation TypeIdOrExpression.ElementId, where TypeIdOrExpression resolves to the name of a structured type or an expression of a structured type such as variable, formal parameter, module parameter, constant, template, or function invocation.
+// @id: TTCN3-CORE-6.2.1.1-001b
+// @verdict: pass reject
+module M_06_02_01_01_referencing_fields_of_a_record_type_002 {
+
+    type component C {}
+
+    type record R {
+        integer f1
+    }
+
+    testcase TC() runs on C {
+        var integer v_i := 1;
+        var integer v_x := v_i.f1; // error: v_i is not of a structured type
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

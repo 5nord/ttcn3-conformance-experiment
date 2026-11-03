@@ -1,0 +1,38 @@
+// @requirement: 22.3.4 -- j) If the getreply operation contains both from and sender clause, the variable or parameter referenced in the sender clause shall be type compatible with the template in the from clause.
+// @id: TTCN3-CORE-22.3.4-047a
+// @verdict: pass reject
+module M_22_03_04_the_getreply_operation_046 {
+
+    signature S() return integer;
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    type component D {
+        var charstring vc_str;
+        port P px;
+    }
+
+    function f_server() runs on C {
+        p.getcall(S:{});
+        p.reply(S:{} value 1);
+    }
+
+    testcase TC() runs on C system C {
+        var C v_ptc := C.create;
+        var C v_sender;
+        connect(self:p, v_ptc:p);
+        v_ptc.start(f_server());
+        p.call(S:{}, 1.0) {
+            [] p.getreply(S:{} value 1) from D:? -> sender v_sender { setverdict(pass); } // error: C is not compatible with D
+            [] p.catch(timeout) { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

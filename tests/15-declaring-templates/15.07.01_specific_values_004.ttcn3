@@ -1,0 +1,43 @@
+// @requirement: 15.7.1 -- Col1: boolean; Col2: Yes; Table 11: TTCN-3 Matching Mechanisms: Yes1; Col4: Yes; Col5: Yes; Col6: Yes; Col7: Yes1; Col17: Yes1
+// @id: TTCN3-CORE-15.7.1-010a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_07_01_specific_values_004 {
+
+    type component C {}
+
+    type record R {
+        boolean f optional
+    }
+
+    template boolean m_spec := true;
+    template boolean m_omit := omit;
+    template boolean m_compl := complement(true);
+    template boolean m_list := (true, false);
+    template boolean m_any := ?;
+    template boolean m_anyOrNone := *;
+    template R m_rOmit := { f := omit };
+    template R m_rAnyOrNone := { f := * };
+    template R m_rIfPresent := { f := true ifpresent };
+
+    testcase TC() runs on C {
+        var R v_absent := { f := omit };
+        var R v_true := { f := true };
+        var R v_false := { f := false };
+        if (match(true, m_spec) and not match(false, m_spec) and
+            match(false, m_compl) and not match(true, m_compl) and
+            match(true, m_list) and match(false, m_list) and
+            match(false, m_any) and
+            match(v_absent, m_rOmit) and not match(v_true, m_rOmit) and
+            match(v_absent, m_rAnyOrNone) and match(v_true, m_rAnyOrNone) and
+            match(v_absent, m_rIfPresent) and match(v_true, m_rIfPresent) and
+            not match(v_false, m_rIfPresent)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

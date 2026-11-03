@@ -1,0 +1,27 @@
+// @requirement: 22.3.4 -- l) The ObjectReference shall be of a port type.
+// @id: TTCN3-CORE-22.3.4-051a
+// @verdict: pass reject
+module M_22_03_04_the_getreply_operation_050 {
+
+    signature S() return integer;
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C system C {
+        var integer v_p := 0;
+        timer T := 1.0;
+        T.start;
+        alt {
+            [] v_p.getreply(S:{} value 1) { setverdict(pass); } // error: v_p is not a port
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

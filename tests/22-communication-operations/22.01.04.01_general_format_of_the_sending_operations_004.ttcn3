@@ -1,0 +1,24 @@
+// @requirement: 22.1.4.1 -- The port name, operation name and value shall be present in all sending operations.
+// @id: TTCN3-CORE-22.1.4.1-006a
+// @verdict: pass reject
+module M_22_01_04_01_general_format_of_the_sending_operations_004 {
+
+    signature S(in integer p_x) noblock;
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        p.call(); // error: no signature template given
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

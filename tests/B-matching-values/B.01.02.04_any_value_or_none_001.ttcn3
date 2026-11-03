@@ -1,0 +1,32 @@
+// @requirement: B.1.2.4 -- The matching symbol "*" (AnyValueOrNone) is used to indicate that any valid value and the omission of the given optional field are acceptable.
+// @id: TTCN3-CORE-B.1.2.4-001a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_02_04_any_value_or_none_001 {
+
+    type component C {}
+
+    type record R {
+        integer f1,
+        boolean f2 optional
+    }
+
+    template R mw_r := {
+        f1 := 1,
+        f2 := *
+    }
+
+    testcase TC() runs on C {
+        var R v_true := { f1 := 1, f2 := true };
+        var R v_false := { f1 := 1, f2 := false };
+        var R v_omit := { f1 := 1, f2 := omit };
+        if (match(v_true, mw_r) and match(v_false, mw_r) and match(v_omit, mw_r)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

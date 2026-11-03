@@ -1,0 +1,30 @@
+// @requirement: 21.3.8 -- Otherwise, the match is unsuccessful.
+// @id: TTCN3-CORE-21.3.8-018a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_03_08_the_killed_operation_020 {
+
+    type component C {}
+
+    function f_ptc() runs on C {}
+
+    testcase TC() runs on C {
+        var C v_ptc1 := C.create alive;
+        var C v_ptc2 := C.create alive;
+        v_ptc1.start(f_ptc());
+        v_ptc2.start(f_ptc());
+        all component.done;
+        alt {
+            [] any component.killed {
+                setverdict(fail);
+            }
+            [else] {
+                setverdict(pass);
+            }
+        }
+        all component.kill;
+    }
+
+    control {
+        execute(TC());
+    }
+}

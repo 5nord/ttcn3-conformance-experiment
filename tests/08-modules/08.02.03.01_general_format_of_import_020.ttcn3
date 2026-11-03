@@ -1,0 +1,40 @@
+// @requirement: 8.2.3.1 -- Importable Definition: Signature template; Possible Referenced Definitions: Signature definition, constants, module parameters functions
+// @id: TTCN3-CORE-8.2.3.1-053a
+// @verdict: pass accept, noexecution
+module M_08_02_03_01_general_format_of_import_020 {
+
+    import from M_08_02_03_01_general_format_of_import_020_B {
+        template s_call;
+        type P
+    }
+
+    type component C {
+        port P p;
+    }
+
+    function f_client() runs on C {
+        p.call(s_call, nowait);
+    }
+}
+
+module M_08_02_03_01_general_format_of_import_020_B {
+
+    signature S(in integer p_a, in integer p_b, in integer p_c);
+
+    type port P procedure {
+        inout S;
+    }
+
+    const integer c_value := 1;
+    modulepar integer mp_value := 2;
+
+    function f_value() return integer {
+        return 3;
+    }
+
+    template S s_call := {
+        p_a := c_value,
+        p_b := mp_value,
+        p_c := f_value()
+    }
+}

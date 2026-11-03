@@ -1,0 +1,26 @@
+// @requirement: 6.1.0 -- d) `verdicttype: a type for use with test verdicts consisting of 5 distinguished values.
+// @id: TTCN3-CORE-6.1.0-040a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_01_00_simple_basic_types_and_values_038 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var verdicttype v_n := none;
+        var verdicttype v_p := pass;
+        var verdicttype v_i := inconc;
+        var verdicttype v_f := fail;
+        var verdicttype v_e := error;
+        if (v_n != v_p and v_n != v_i and v_n != v_f and v_n != v_e and
+            v_p != v_i and v_p != v_f and v_p != v_e and
+            v_i != v_f and v_i != v_e and v_f != v_e) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

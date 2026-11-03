@@ -1,0 +1,33 @@
+// @requirement: 22.3.1 -- In order to avoid unexpected side effects, the same rules as for the Boolean guards in alt statements shall be applied (see clause 20.2).
+// @id: TTCN3-CORE-22.3.1-062a
+// @verdict: pass reject
+module M_22_03_01_the_call_operation_051 {
+
+    signature S(in integer p_x);
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+        var integer v_cnt := 0;
+    }
+
+    function f_guard() runs on C return boolean {
+        v_cnt := v_cnt + 1;
+        return true;
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        p.call(S:{1}, 1.0) {
+            [f_guard()] p.getreply(S:{-}) {} // error: guard changes a component variable
+            [] p.catch(timeout) {}
+        }
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

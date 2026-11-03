@@ -1,0 +1,20 @@
+// @requirement: 6.2.7 -- NOTE: It is not possible to define an array type with a variable amount of elements.
+// @id: TTCN3-CORE-6.2.7-020a
+// @verdict: pass reject
+module M_06_02_07_arrays_017 {
+
+    type component C {}
+
+    function f_make(integer p_n) {
+        var integer v_a[p_n]; // error: number of array elements is not fixed
+    }
+
+    testcase TC() runs on C {
+        f_make(3);
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

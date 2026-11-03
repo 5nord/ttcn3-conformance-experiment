@@ -1,0 +1,34 @@
+// @requirement: 22.2.2 -- The parameter shall be of the charstring type and it shall contain one of the strings allowed for the decvalue_unichar function (specified in clause C.5.4).
+// @id: TTCN3-CORE-22.2.2-032a
+// @verdict: pass reject
+module M_22_02_02_the_receive_operation_029 {
+
+    type record Inner {
+        integer x
+    } with {
+        encode "JSON"
+    }
+
+    type record Msg {
+        integer id,
+        universal charstring payload
+    }
+
+    type port P message { inout Msg }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        var Inner v_inner;
+        connect(mtc:p, v_ptc:p);
+        p.receive(Msg:?) -> value (v_inner := @decoded(8) payload); // error: encoding format is not a charstring
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

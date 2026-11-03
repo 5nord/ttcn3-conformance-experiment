@@ -1,0 +1,30 @@
+// @requirement: 22.5.5 -- 5) "Mapped"
+// @id: TTCN3-CORE-22.5.5-020a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_05_05_the_checkstate_port_operation_017 {
+
+    type port P message {
+        inout integer
+    }
+
+    type component C {
+        port P p1;
+    }
+
+    type component S {
+        port P sp;
+    }
+
+    testcase TC() runs on C system S {
+        map(mtc:p1, system:sp);
+        if (p1.checkstate("Mapped")) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

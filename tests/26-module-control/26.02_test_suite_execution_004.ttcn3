@@ -1,0 +1,25 @@
+// @requirement: 26.2 -- When the control function is started, the TE creates a test component called control component.
+// @id: TTCN3-CORE-26.2-006a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_26_02_test_suite_execution_004 {
+
+    type component C {}
+
+    testcase TC(boolean p_ok) runs on C {
+        if (p_ok) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        const integer c_limit := 2;
+        var integer v_count := 0;
+        timer T_wait := 0.1;
+        T_wait.start;
+        T_wait.timeout;
+        v_count := v_count + c_limit;
+        execute(TC(v_count == 2 and not T_wait.running));
+    }
+}

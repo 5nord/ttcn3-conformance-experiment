@@ -1,0 +1,31 @@
+// @requirement: 8.2.3.1 -- For the usage, the identifier of a_ referenced definition is not required and therefore not imported automatically.
+// @id: TTCN3-CORE-8.2.3.1-062a
+// @verdict: pass reject
+module M_08_02_03_01_general_format_of_import_029 {
+
+    import from M_08_02_03_01_general_format_of_import_029_B { const c_rec }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyRec v_rec := c_rec; // error: identifier MyRec of the referenced type is not imported
+        if (v_rec.a == 1) {
+            setverdict(pass);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_03_01_general_format_of_import_029_B {
+    import from M_08_02_03_01_general_format_of_import_029_A all;
+    const MyRec c_rec := { a := 1 };
+}
+
+module M_08_02_03_01_general_format_of_import_029_A {
+    type record MyRec {
+        integer a
+    }
+}

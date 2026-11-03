@@ -1,0 +1,32 @@
+// @requirement: 18 -- Statement: Receive message; Associated keyword or symbol: receive; Can be invoked by test behaviour: Yes
+// @id: TTCN3-CORE-18-056c
+// @verdict: pass reject
+module M_18_overview_of_program_statements_and_operations_125 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p;
+    }
+
+    function f_guard() runs on C return boolean {
+        p.receive; // error: receive in function called from a guard
+        return true;
+    }
+
+    testcase TC() runs on C {
+        timer T := 0.1;
+        T.start;
+        alt {
+            [f_guard()] T.timeout {
+                setverdict(pass);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

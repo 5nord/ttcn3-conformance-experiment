@@ -1,0 +1,35 @@
+// @requirement: 20.0 -- An interleaving operator allows the specification of interleaved sequences or alternatives.
+// @id: TTCN3-CORE-20.0-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_00_general_001 {
+    type component C {}
+
+    testcase TC() runs on C {
+        var charstring v_trace := "";
+        timer T_1 := 0.1;
+        timer T_2 := 0.6;
+        timer T_3 := 0.3;
+        T_1.start;
+        T_2.start;
+        T_3.start;
+        interleave {
+            [] T_2.timeout {
+                v_trace := v_trace & "2";
+            }
+            [] T_1.timeout {
+                v_trace := v_trace & "1";
+                T_3.timeout;
+                v_trace := v_trace & "3";
+            }
+        }
+        if (v_trace == "132") {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

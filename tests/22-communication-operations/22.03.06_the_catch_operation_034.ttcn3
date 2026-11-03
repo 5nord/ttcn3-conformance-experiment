@@ -1,0 +1,52 @@
+// @requirement: 22.3.6 -- If the port array is multi-dimensional, then the ports are iterated over from innermost to outermost array dimension from lowest to highest index for each dimension, e.g. [0][0], [0][1], [1][0], [1][1].
+// @id: TTCN3-CORE-22.3.6-039a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_03_06_the_catch_operation_034 {
+
+    signature S() exception (integer);
+
+    type port P procedure { inout S }
+
+    type component CS {
+        port P pa[2][2];
+        timer T := 1.0;
+    }
+
+    type component CC {
+        port P p;
+    }
+
+    altstep a_guard() runs on CS {
+        [] T.timeout { setverdict(fail); stop; }
+    }
+
+    function f_server() runs on CC {
+        p.getcall(S:{});
+        p.raise(S, integer:1);
+    }
+
+    testcase TC() runs on CS {
+        var CC v_ptc1 := CC.create, v_ptc2 := CC.create;
+        var integer v_idx[2];
+        connect(mtc:pa[0][1], v_ptc1:p);
+        connect(mtc:pa[1][0], v_ptc2:p);
+        v_ptc1.start(f_server());
+        v_ptc2.start(f_server());
+        activate(a_guard());
+        T.start;
+        pa[1][0].call(S:{}, nowait);
+        pa[0][1].call(S:{}, nowait);
+        pa[1][0].check(catch);
+        pa[0][1].check(catch);
+        any from pa.catch(S, integer:1) -> @index value v_idx;
+        if (v_idx == {0, 1}) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,20 @@
+// @requirement: 5.4.2 -- For in formal template parameters, the template restriction of the actual parameter shall not be less restrictive than the one of the formal parameter.
+// @id: TTCN3-CORE-5.4.2-043a
+// @verdict: pass reject
+module M_05_04_02_actual_parameters_047 {
+
+    type component C {}
+
+    function f(in template(value) integer p_t) {
+    }
+
+    testcase TC() runs on C {
+        var template integer v_t := 1;
+        f(v_t); // error: unrestricted actual template for template(value) formal parameter
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

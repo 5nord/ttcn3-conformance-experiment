@@ -1,0 +1,43 @@
+// @requirement: 21.3.7 -- The index of the matched component can optionally be assigned to an integer variable for single-dimensional arrays or to an integer array or record of integer variable for multi-dimensional component arrays.
+// @id: TTCN3-CORE-21.3.7-023a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_03_07_the_done_operation_026 {
+
+    type component C {}
+
+    type record of integer IntList;
+
+    function f_ptc() runs on C {}
+
+    testcase TC() runs on C {
+        var C v_arr1[2];
+        var C v_arr2[2][2];
+        var integer v_idx1 := -1;
+        var integer v_idx2[2] := { -1, -1 };
+        var IntList v_idx3 := {};
+        v_arr1[0] := C.create;
+        v_arr1[1] := C.create;
+        for (var integer i := 0; i < 2; i := i + 1) {
+            for (var integer j := 0; j < 2; j := j + 1) {
+                v_arr2[i][j] := C.create;
+            }
+        }
+        v_arr1[1].start(f_ptc());
+        v_arr2[1][0].start(f_ptc());
+        v_arr1[1].done;
+        v_arr2[1][0].done;
+        any from v_arr1.done -> @index value v_idx1;
+        any from v_arr2.done -> @index value v_idx2;
+        any from v_arr2.done -> @index value v_idx3;
+        if (v_idx1 == 1 and v_idx2 == { 1, 0 } and v_idx3 == { 1, 0 }) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+        all component.kill;
+    }
+
+    control {
+        execute(TC());
+    }
+}

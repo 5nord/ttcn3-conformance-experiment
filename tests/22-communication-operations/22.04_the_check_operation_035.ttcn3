@@ -1,0 +1,27 @@
+// @requirement: 22.4 -- b) All AddressRef items in the from clause and all ValueRef items in the sender clause shall be of type address, component or of the address type bound to the port type (see clause C.5) of the port instance referenced in the check operation.
+// @id: TTCN3-CORE-22.4-032b
+// @verdict: pass reject
+module M_22_04_the_check_operation_035 {
+
+    type port MP message { inout integer; }
+
+    type component C {
+        port MP p1, p2;
+        timer T := 1.0;
+    }
+
+    testcase TC() runs on C {
+        var charstring v_sender;
+        connect(mtc:p1, mtc:p2);
+        p1.send(5);
+        T.start;
+        alt {
+            [] p2.check(receive(5) -> sender v_sender) { setverdict(pass); } // error: sender ValueRef of type charstring
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,33 @@
+// @requirement: 18 -- Statement: For loop; Associated keyword or symbol: for (…) {…}; Can be invoked by control behaviour: Yes; Can be invoked by test behaviour: Yes; Can be directly or indirectly invoked from specific places (see note 1): Yes
+// @id: TTCN3-CORE-18-019c
+// @verdict: pass accept, ttcn3verdict:pass
+module M_18_overview_of_program_statements_and_operations_020 {
+
+    type component C {
+        timer T;
+    }
+
+    function f_sum(integer p_n) return integer {
+        var integer v_sum := 0;
+        for (var integer i := 1; i <= p_n; i := i + 1) {
+            v_sum := v_sum + i;
+        }
+        return v_sum;
+    }
+
+    testcase TC() runs on C {
+        T.start(0.1);
+        alt {
+            [f_sum(3) == 6] T.timeout {
+                setverdict(pass);
+            }
+            [] T.timeout {
+                setverdict(fail);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

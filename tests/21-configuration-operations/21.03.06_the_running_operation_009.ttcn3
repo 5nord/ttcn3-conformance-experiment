@@ -1,0 +1,28 @@
+// @requirement: 21.3.6 -- NOTE: The difference between the running operation applied to a single ptc and the usage of the all keyword leads to the situation that ptc.running is false if the ptc has never been started but all component.running is true at the same time as it considers only those components that ever have been started.
+// @id: TTCN3-CORE-21.3.6-011a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_03_06_the_running_operation_009 {
+
+    type component C {}
+
+    function f_wait() runs on C {
+        timer T := 5.0;
+        T.start;
+        T.timeout;
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc1 := C.create;
+        var C v_ptc2 := C.create;
+        v_ptc2.start(f_wait());
+        if (not v_ptc1.running and all component.running) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

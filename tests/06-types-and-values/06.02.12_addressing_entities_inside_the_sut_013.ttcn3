@@ -1,0 +1,25 @@
+// @requirement: 6.2.12 -- TemplateInstance shall be of type address or of the type of the address declaration in a port type definition.
+// @id: TTCN3-CORE-6.2.12-017a
+// @verdict: pass reject
+module M_06_02_12_addressing_entities_inside_the_sut_013 {
+
+    type integer address;
+
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C system C {
+        map(mtc:p, system:p);
+        p.receive(integer:?) from boolean:true; // error: template instance is not of type address
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

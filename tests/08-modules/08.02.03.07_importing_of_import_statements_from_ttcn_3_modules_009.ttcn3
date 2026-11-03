@@ -1,0 +1,29 @@
+// @requirement: 8.2.3.7 -- c) Importing of import statements is only possible from other TTCN-3 modules, i.e. the language specification (see clause 8.1) shall denote a TTCN-3 edition only, not a non-TTCN-3 language.
+// @id: TTCN3-CORE-8.2.3.7-011b
+// @verdict: pass reject
+module M_08_02_03_07_importing_of_import_statements_from_ttcn_3_modules_009 {
+
+    import from M_08_02_03_07_importing_of_import_statements_from_ttcn_3_modules_009_B language "XSD" { // error: language specification does not denote a TTCN-3 edition
+        import all
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_03_07_importing_of_import_statements_from_ttcn_3_modules_009_A {
+    type integer T1;
+}
+
+module M_08_02_03_07_importing_of_import_statements_from_ttcn_3_modules_009_B {
+    public import from M_08_02_03_07_importing_of_import_statements_from_ttcn_3_modules_009_A {
+        type T1
+    }
+}

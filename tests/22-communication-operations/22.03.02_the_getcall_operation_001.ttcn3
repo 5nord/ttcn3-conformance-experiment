@@ -1,0 +1,26 @@
+// @requirement: 22.3.2 -- [ @nodefault ] ( ObjectReference | any port | any from PortArrayRef ) "." getcall [ "(" TemplateInstance ")" ] [ from Address ] [ "->" [ param "(" { ( ValueRef":=" [ @decoded [ "(" Expression ")" ] ] ParameterIdentifier ) "," } | { ( ValueRef| "-" ) "," } ")" ] [ sender ValueRef] [ @index value ValueRef] ]
+// @id: TTCN3-CORE-22.3.2-002a
+// @verdict: pass accept, noexecution
+module M_22_03_02_the_getcall_operation_001 {
+
+    signature S(in integer p_x, in octetstring p_enc, in universal charstring p_str) noblock;
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+        port P pa[2];
+    }
+
+    function f_getcall(C p_peer) runs on C {
+        var integer v_x, v_dec, v_dec2, v_idx;
+        var C v_sender;
+        @nodefault p.getcall(S:{?, ?, ?}) from p_peer -> param(v_x, -, -) sender v_sender;
+        p.getcall(S:{?, ?, ?}) -> param(v_x := p_x, v_dec := @decoded p_enc, v_dec2 := @decoded("UTF-8") p_str);
+        p.getcall(S:{?, ?, ?}) from (p_peer, mtc);
+        p.getcall from any component -> sender v_sender;
+        any port.getcall(S:{?, ?, ?});
+        any from pa.getcall(S:{?, ?, ?}) -> @index value v_idx;
+        p.getcall;
+    }
+}

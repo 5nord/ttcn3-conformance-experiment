@@ -1,0 +1,26 @@
+// @requirement: 24.1 -- Each test component of the active configuration shall maintain its own local verdict.
+// @id: TTCN3-CORE-24.1-001a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_24_01_the_verdict_mechanism_001 {
+
+    type component C {}
+
+    function f_ptc() runs on C {
+        setverdict(pass);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        v_ptc.start(f_ptc());
+        v_ptc.done;
+        if (getverdict == none) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,39 @@
+// @requirement: 22.3.5 -- ObjectReference "." raise "(" Signature "," TemplateInstance ")" [ to Address ]
+// @id: TTCN3-CORE-22.3.5-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_03_05_the_raise_operation_001 {
+
+    signature S() exception(integer);
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    function f_client() runs on C {
+        for (var integer i := 1; i <= 2; i := i + 1) {
+            p.call(S:{}, 1.0) {
+                [] p.catch(S, i) {}
+                [] p.catch { setverdict(fail); stop; }
+                [] p.catch(timeout) { setverdict(fail); stop; }
+            }
+        }
+        setverdict(pass);
+    }
+
+    testcase TC() runs on C system C {
+        var C v_ptc := C.create;
+        connect(self:p, v_ptc:p);
+        v_ptc.start(f_client());
+        p.getcall(S:{});
+        p.raise(S, 1);
+        p.getcall(S:{});
+        p.raise(S, 2) to v_ptc;
+        v_ptc.done;
+    }
+
+    control {
+        execute(TC(), 5.0);
+    }
+}

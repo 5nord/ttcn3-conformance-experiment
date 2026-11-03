@@ -1,0 +1,25 @@
+// @requirement: 19.3.1 -- NOTE 2: When more than one branch could be selected (the templateInstances overlap) the textually first will be selected.
+// @id: TTCN3-CORE-19.3.1-020a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_03_01_the_select_case_statement_017 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_x := 3;
+        var template integer v_small := (1 .. 5);
+        var template integer v_odd := (1, 3, 5, 7);
+        select (v_x) {
+            case (v_small) {
+                setverdict(pass);
+            }
+            case (v_odd) {
+                setverdict(fail);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,23 @@
+// @requirement: 19.9 -- When executed in a control behaviour, it terminates the execution of the control component.
+// @id: TTCN3-CORE-19.9-004a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_09_the_stop_execution_statement_003 {
+    type component C {}
+
+    testcase TC() runs on C {
+        setverdict(pass);
+    }
+
+    testcase TC_Fail() runs on C {
+        setverdict(fail);
+    }
+
+    control {
+        var boolean v_stop := true;
+        execute(TC());
+        if (v_stop) {
+            stop;
+        }
+        execute(TC_Fail());
+    }
+}

@@ -1,0 +1,52 @@
+// @requirement: 6.2.11 -- A component reference includes component type information.
+// @id: TTCN3-CORE-6.2.11-010a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_11_component_references_011 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component CMain {
+        port P p;
+    }
+
+    type component CA {
+        var integer vc_a := 1;
+        port P p;
+    }
+
+    type component CB {
+        var float vc_b := 1.0;
+        port P p;
+    }
+
+    function f_send() runs on CB {
+        p.send(1);
+    }
+
+    testcase TC() runs on CMain {
+        timer T := 1.0;
+        var CB v_ptc := CB.create;
+        var CB v_sender := null;
+        connect(self:p, v_ptc:p);
+        v_ptc.start(f_send());
+        T.start;
+        alt {
+            [] p.receive(integer:?) from CA:? { setverdict(fail); }
+            [] p.receive(integer:?) from CB:? -> sender v_sender {
+                if (v_sender == v_ptc) {
+                    setverdict(pass);
+                } else {
+                    setverdict(fail);
+                }
+            }
+            [] T.timeout { setverdict(fail); }
+        }
+        v_ptc.done;
+    }
+
+    control {
+        execute(TC());
+    }
+}

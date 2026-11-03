@@ -1,0 +1,25 @@
+// @requirement: 8.2.3.8 -- If the module, within which the definitions or the import statements are defined, and the import statement for these definitions or import statements provide both a language specification, then they shall be identical.
+// @id: TTCN3-CORE-8.2.3.8-006a
+// @verdict: pass reject
+module M_08_02_03_08_compatibility_of_language_specifications_in_imports_005 {
+
+    import from M_08_02_03_08_compatibility_of_language_specifications_in_imports_005_A language "TTCN-3:2010" { const c_value } // error: differs from the language of the source module
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (c_value == 1) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_03_08_compatibility_of_language_specifications_in_imports_005_A language "TTCN-3:2023" {
+    const integer c_value := 1;
+}

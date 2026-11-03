@@ -1,0 +1,21 @@
+// @requirement: C.4.3 -- NOTE 2: Since the substr function removes length matching attributes, the template returned using the concatenation formula will be without any length matching attribute.
+// @id: TTCN3-CORE-C.4.3-026a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_04_03_the_replace_function_027 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template charstring v_in := ? length(3);
+        var template charstring v_res := replace(v_in, 0, 1, "XY");
+        if (match("XYab", v_res) and not match("XYa", v_res)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

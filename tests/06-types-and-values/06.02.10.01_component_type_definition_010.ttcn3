@@ -1,0 +1,26 @@
+// @requirement: 6.2.10.1 -- Constants used in the constant expressions of type declarations for variables, constants or ports shall meet with the restrictions in clause 10, however constants used in the constant expressions of initial values for variables, constants, templates or timers do not have to obey these restrictions.
+// @id: TTCN3-CORE-6.2.10.1-018b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_10_01_component_type_definition_010 {
+
+    const float c_r := rnd();
+
+    type component C {
+        var float vc_f := c_r;
+        const float cc_f := c_r;
+        template float mw_f := c_r;
+        timer tc_t := c_r + 1.0;
+    }
+
+    testcase TC() runs on C {
+        if (vc_f >= 0.0 and vc_f < 1.0 and cc_f == vc_f and match(vc_f, mw_f)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

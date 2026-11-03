@@ -1,0 +1,28 @@
+// @requirement: B.1.2.6 -- SuperSet matches a set of values if, and only if, the set of values_ contains at least all of the elements defined within the SuperSet, and may contain more.
+// @id: TTCN3-CORE-B.1.2.6-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_02_06_superset_002 {
+
+    type component C {}
+
+    type set of integer SoI;
+
+    template SoI mw_superset := superset (1, 2, 3);
+
+    testcase TC() runs on C {
+        var SoI v_exact := { 3, 1, 2 };
+        var SoI v_more := { 4, 2, 5, 3, 1 };
+        var SoI v_missing := { 1, 2, 4 };
+        var SoI v_fewer := { 1, 2 };
+        if (match(v_exact, mw_superset) and match(v_more, mw_superset)
+            and not match(v_missing, mw_superset) and not match(v_fewer, mw_superset)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

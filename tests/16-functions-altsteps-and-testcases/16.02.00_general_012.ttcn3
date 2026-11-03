@@ -1,0 +1,32 @@
+// @requirement: 16.2.0 -- If an altstep has an mtc clause, the type referenced by this clause shall be mtccompatible (see clause 6.3.2.7) with the type of the mtc component reference.
+// @id: TTCN3-CORE-16.2.0-014a
+// @verdict: pass reject
+module M_16_02_00_general_012 {
+
+    type port P message {
+        inout integer
+    }
+
+    type component C {
+        timer T_guard := 0.1;
+    }
+
+    type component CM {
+        port P p_extra;
+    }
+
+    altstep a_step() mtc CM {
+        [] any timer.timeout {
+            setverdict(pass);
+        }
+    }
+
+    testcase TC() runs on C {
+        T_guard.start;
+        a_step(); // error: CM is not mtc-compatible with C
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,30 @@
+// @requirement: 15.5 -- In case that the BaseTemplateBody on the right hand side of the modified template contains references to variables, these are evaluated before the modification and any uninitialized fields or elements in these variables are treated as unspecified, i.e. as if specified with the not used symbol "-" for the following modification algorithm.
+// @id: TTCN3-CORE-15.5-011a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_05_modified_templates_007 {
+
+    type record R {
+        integer f1 optional,
+        charstring f2,
+        boolean f3
+    }
+
+    template R m_r1 := { f1 := 1, f2 := "a", f3 := true };
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template R v_modification := { f1 := 7, f2 := "G string", f3 := false };
+        var template R v_t := modifies m_r1 := v_modification;
+        v_modification.f2 := "H string";
+        if (match({ f1 := 7, f2 := "G string", f3 := false }, v_t) and not match({ f1 := 7, f2 := "H string", f3 := false }, v_t)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

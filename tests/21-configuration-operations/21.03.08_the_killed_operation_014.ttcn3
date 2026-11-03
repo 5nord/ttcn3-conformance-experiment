@@ -1,0 +1,35 @@
+// @requirement: 21.3.8 -- Consecutive killed operations applied to the same test component will give the same result as long as the test component does not change its state (see clause F.1.2).
+// @id: TTCN3-CORE-21.3.8-012a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_03_08_the_killed_operation_014 {
+
+    type component C {}
+
+    function f_ptc() runs on C {}
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create alive;
+        v_ptc.start(f_ptc());
+        v_ptc.kill;
+        alt {
+            [] v_ptc.killed {
+                setverdict(pass);
+            }
+            [else] {
+                setverdict(fail);
+            }
+        }
+        alt {
+            [] v_ptc.killed {
+                setverdict(pass);
+            }
+            [else] {
+                setverdict(fail);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

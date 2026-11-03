@@ -1,0 +1,24 @@
+// @requirement: 22.3.1 -- l) The call operation for a non-blocking procedure shall have no response and exception handling part, shall raise no timeout exception and shall not use the nowait keyword.
+// @id: TTCN3-CORE-22.3.1-065c
+// @verdict: pass reject
+module M_22_03_01_the_call_operation_056 {
+
+    signature S(in integer p_x) noblock;
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        p.call(S:{1}, nowait); // error: nowait for a non-blocking procedure
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

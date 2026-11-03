@@ -1,0 +1,40 @@
+// @requirement: 6.0 -- Structured types such as record types, set types and union types can be constructed from these basic types. enumerated types are specific structured types being constructed of enumerated values.
+// @id: TTCN3-CORE-6.0-003a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_00_general_001 {
+
+    type record MyRecord {
+        integer a,
+        boolean b
+    }
+
+    type set MySet {
+        charstring c,
+        float d
+    }
+
+    type union MyUnion {
+        integer i,
+        bitstring bs
+    }
+
+    type enumerated MyEnum { e_first, e_second }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyRecord v_rec := { a := 1, b := true };
+        var MySet v_set := { c := "x", d := 1.0 };
+        var MyUnion v_union := { bs := '1'B };
+        var MyEnum v_enum := e_second;
+        if (v_rec.a == 1 and v_set.c == "x" and ischosen(v_union.bs) and v_enum == e_second) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

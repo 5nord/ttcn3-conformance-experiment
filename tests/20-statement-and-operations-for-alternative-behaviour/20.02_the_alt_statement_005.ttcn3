@@ -1,0 +1,31 @@
+// @requirement: 20.2 -- If the alt statement contains local definitions before its first branch, these are evaluated before the snapshot is taken.
+// @id: TTCN3-CORE-20.2-009a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_02_the_alt_statement_005 {
+    type component C {
+        var integer vc_evaluations := 0;
+    }
+
+    function f_next() runs on C return integer {
+        vc_evaluations := vc_evaluations + 1;
+        return vc_evaluations;
+    }
+
+    testcase TC() runs on C {
+        timer T_1 := 0.1;
+        T_1.start;
+        alt {
+            var integer v_x := f_next();
+            [v_x == 1] T_1.timeout {
+                setverdict(pass);
+            }
+            [v_x != 1] T_1.timeout {
+                setverdict(fail);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

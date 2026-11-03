@@ -1,0 +1,24 @@
+// @requirement: 18 -- Statement: Connect component port to component port; Associated keyword or symbol: connect; Can be invoked by test behaviour: Yes
+// @id: TTCN3-CORE-18-036a
+// @verdict: pass reject
+module M_18_overview_of_program_statements_and_operations_066 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        setverdict(pass);
+    }
+
+    control {
+        var C v_a;
+        var C v_b;
+        connect(v_a:p, v_b:p); // error: connect in control behaviour
+        execute(TC());
+    }
+}

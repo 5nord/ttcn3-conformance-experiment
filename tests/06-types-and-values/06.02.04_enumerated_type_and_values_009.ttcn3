@@ -1,0 +1,19 @@
+// @requirement: 6.2.4 -- The identifiers of enumerated values shall be unique within the enumerated type (but do not have to be globally unique) and are consequently visible in the context of the given type only.
+// @id: TTCN3-CORE-6.2.4-008c
+// @verdict: pass reject
+module M_06_02_04_enumerated_type_and_values_009 {
+
+    type component C {}
+
+    type enumerated E1 { e_a, e_b };
+    type enumerated E2 { e_c, e_d };
+
+    testcase TC() runs on C {
+        var E2 v_e := e_a; // error: e_a is not visible in the context of E2
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

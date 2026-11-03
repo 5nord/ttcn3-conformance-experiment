@@ -1,0 +1,28 @@
+// @requirement: 15.6.5 -- After this expansion the value or matching mechanism at the right hand side of the assignment shall be assigned to the referenced subfield. When referencing an alternative of a union template or template field to which AnyValue is assigned, at the left hand side of an assignment, the referenced alternative becomes the chosen one.
+// @id: TTCN3-CORE-15.6.5-014a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_06_05_referencing_union_alternatives_011 {
+
+    type union U {
+        integer c1,
+        charstring c2
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template U v_t3 := ?;
+        var U v_ok := { c1 := 2 };
+        var U v_nok := { c1 := 3 };
+        v_t3.c1 := (1, 2);
+        if (match(v_ok, v_t3) and not match(v_nok, v_t3)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

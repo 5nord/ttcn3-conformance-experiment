@@ -1,0 +1,65 @@
+// @requirement: 6.2.10.1 -- Component type definitions specify the creation, declaration and initialization of ports and component constants, variables, templates and timers during the creation of an instance of a component type.
+// @id: TTCN3-CORE-6.2.10.1-020a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_10_01_component_type_definition_012 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p;
+        const integer cc_i := 3;
+        var integer vc_i := 4;
+        template integer m_i := 5;
+        timer tc_t := 1.0;
+    }
+
+    function f_report() runs on C {
+        tc_t.start;
+        p.send(cc_i);
+        p.send(vc_i);
+        p.send(m_i);
+        if (tc_t.running) {
+            p.send(1);
+        } else {
+            p.send(0);
+        }
+    }
+
+    testcase TC() runs on C {
+        timer T := 1.0;
+        var C v_ptc := C.create;
+        connect(self:p, v_ptc:p);
+        v_ptc.start(f_report());
+        T.start;
+        alt {
+            [] p.receive(3) {
+                alt {
+                    [] p.receive(4) {
+                        alt {
+                            [] p.receive(5) {
+                                alt {
+                                    [] p.receive(1) { setverdict(pass); }
+                                    [] p.receive { setverdict(fail); }
+                                    [] T.timeout { setverdict(fail); }
+                                }
+                            }
+                            [] p.receive { setverdict(fail); }
+                            [] T.timeout { setverdict(fail); }
+                        }
+                    }
+                    [] p.receive { setverdict(fail); }
+                    [] T.timeout { setverdict(fail); }
+                }
+            }
+            [] p.receive { setverdict(fail); }
+            [] T.timeout { setverdict(fail); }
+        }
+        v_ptc.done;
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,27 @@
+// @requirement: C.5.4 -- The decvalue_unichar function first converts the universal charstring value passed in the encoded_value parameter into an octetstring using the unichar2oct function.
+// @id: TTCN3-CORE-C.5.4-021a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_05_04_the_decoding_from_universal_charstring_function_020 {
+
+    type component C {}
+
+    type integer I with { variant "32 bit" };
+
+    testcase TC() runs on C {
+        var universal charstring v_enc := char(0, 0, 65, 66) & char(0, 0, 67, 68);
+        var octetstring v_oct := unichar2oct(v_enc, "UTF-16BE");
+        var bitstring v_bits := oct2bit(v_oct);
+        var I v_dec, v_ref;
+        var integer v_res_ref := decvalue(v_bits, v_ref);
+        var integer v_res := decvalue_unichar(v_enc, v_dec, "UTF-16BE");
+        if (v_oct == '41424344'O and v_res_ref == 0 and v_res == 0 and v_dec == v_ref) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

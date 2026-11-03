@@ -1,0 +1,46 @@
+// @requirement: 22.4 -- g) If a variable referenced in the sender or @index clause is a lazy or fuzzy variable, the expression assigned to this variable is equal to the result produced by the check operation, i.e. later evaluation of the lazy or fuzzy variable does not lead to repeated invocation of the check operation.
+// @id: TTCN3-CORE-22.4-038a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_04_the_check_operation_042 {
+
+    type port MP message { inout integer; }
+
+    type component C {
+        port MP src[3];
+        port MP pa[3];
+        timer T := 1.0;
+    }
+
+    testcase TC() runs on C {
+        var @lazy integer v_lazy;
+        var @fuzzy integer v_fuzzy;
+        connect(mtc:src[1], mtc:pa[1]);
+        connect(mtc:src[2], mtc:pa[2]);
+        src[1].send(5);
+        T.start;
+        alt {
+            [] any from pa.check(receive(5) -> @index value v_lazy) { }
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        alt {
+            [] any from pa.check(receive(5) -> @index value v_fuzzy) { }
+            [else] { setverdict(fail); stop; }
+        }
+        pa[1].receive(5);
+        src[2].send(5);
+        T.start;
+        alt {
+            [] pa[2].check { }
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        if (v_lazy == 1 and v_fuzzy == 1) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

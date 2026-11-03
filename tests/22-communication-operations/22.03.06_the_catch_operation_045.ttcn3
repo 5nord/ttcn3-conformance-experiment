@@ -1,0 +1,18 @@
+// @requirement: 22.3.6 -- e) Exception values accepted by catch any exception shall not be assigned to a variable, i.e. the value clause shall not be present.
+// @id: TTCN3-CORE-22.3.6-050a
+// @verdict: pass reject
+module M_22_03_06_the_catch_operation_045 {
+
+    signature S() exception (integer);
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    function f_catch() runs on C {
+        var integer v_i;
+        p.catch -> value v_i; // error: value clause in catch any exception
+    }
+}

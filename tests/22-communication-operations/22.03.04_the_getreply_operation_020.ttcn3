@@ -1,0 +1,18 @@
+// @requirement: 22.3.4 -- The parameter shall be of the charstring type and it shall contain one of the strings allowed for the decvalue_unichar function (specified in clause C.5.4).
+// @id: TTCN3-CORE-22.3.4-022a
+// @verdict: pass reject
+module M_22_03_04_the_getreply_operation_020 {
+
+    signature S(out universal charstring p_enc);
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    function f_getreply() runs on C {
+        var integer v_i;
+        p.getreply(S:{?}) -> param(v_i := @decoded(8) p_enc); // error: encoding format is not a charstring
+    }
+}

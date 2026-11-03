@@ -1,0 +1,19 @@
+// @requirement: 21.3.5 -- ( ObjectReference | any component | all component | any from ComponentArrayRef ) "." alive [ "->" @index value ValueRef ]
+// @id: TTCN3-CORE-21.3.5-002a
+// @verdict: pass accept, noexecution
+module M_21_03_05_the_alive_operation_002 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        var C v_arr[2] := { C.create, C.create };
+        var integer v_idx;
+        var boolean v_b;
+        v_b := v_ptc.alive;
+        v_b := any component.alive;
+        v_b := all component.alive;
+        v_b := any from v_arr.alive;
+        v_b := any from v_arr.alive -> @index value v_idx;
+    }
+}

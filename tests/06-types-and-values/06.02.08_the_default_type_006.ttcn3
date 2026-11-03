@@ -1,0 +1,28 @@
+// @requirement: 6.2.8 -- The special value null represents an unspecific default reference, e.g. can be used for the initialization of variables of default type.
+// @id: TTCN3-CORE-6.2.8-006a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_08_the_default_type_006 {
+
+    type component C {
+        timer T;
+    }
+
+    altstep a_def() runs on C {
+        [] T.timeout {}
+    }
+
+    testcase TC() runs on C {
+        var default v_none := null;
+        var default v_d := activate(a_def());
+        if (v_none == null and v_d != null and v_d != v_none) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+        deactivate(v_d);
+    }
+
+    control {
+        execute(TC());
+    }
+}

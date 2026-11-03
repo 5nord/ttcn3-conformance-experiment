@@ -1,0 +1,28 @@
+// @requirement: 26.2 -- Program statements specify such things like the order in which test cases are to be executed or the number of times a test case should run.
+// @id: TTCN3-CORE-26.2-011a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_26_02_test_suite_execution_007 {
+
+    type component C {}
+
+    testcase TC_Repeated() runs on C {
+        setverdict(pass);
+    }
+
+    testcase TC_Check(integer p_runs) runs on C {
+        if (p_runs == 3) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        var integer v_count := 0;
+        while (v_count < 3) {
+            execute(TC_Repeated());
+            v_count := v_count + 1;
+        }
+        execute(TC_Check(v_count));
+    }
+}

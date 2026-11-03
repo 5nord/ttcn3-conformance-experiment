@@ -1,0 +1,37 @@
+// @requirement: 6.2.10.1 -- Each new instance of a component type will thus have its own set of constants, variables, templates and timers as specified in the component type definition (including any initial values, if stated).
+// @id: TTCN3-CORE-6.2.10.1-017a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_10_01_component_type_definition_008 {
+
+    type component C {
+        const integer cc_i := 1;
+        var integer vc_i := 1;
+        var template integer vt_i := 1;
+        timer tc_t := 1.0;
+    }
+
+    function f_checkAndModify() runs on C {
+        if (vc_i == cc_i and match(1, vt_i) and not tc_t.running) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+        vc_i := 2;
+        vt_i := 2;
+        tc_t.start;
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc1 := C.create;
+        var C v_ptc2 := C.create;
+        v_ptc1.start(f_checkAndModify());
+        v_ptc1.done;
+        v_ptc2.start(f_checkAndModify());
+        v_ptc2.done;
+        f_checkAndModify();
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,40 @@
+// @requirement: 21.1.0 -- Operation: Alive; Explanation: Returns true if the test component has been created and is ready to execute or is already executingbehaviour; otherwise returns false; Syntax Examples: if (c.alive) …
+// @id: TTCN3-CORE-21.1.0-011a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_01_00_general_016 {
+
+    type port P message { inout integer; }
+
+    type component C {
+        port P p;
+    }
+
+    function f_wait() runs on C {
+        timer T := 1.0;
+        T.start;
+        alt {
+            [] p.receive(1) {}
+            [] T.timeout {}
+        }
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        var boolean v_created, v_executing;
+        connect(mtc:p, v_ptc:p);
+        v_created := v_ptc.alive;
+        v_ptc.start(f_wait());
+        v_executing := v_ptc.alive;
+        p.send(1);
+        v_ptc.done;
+        if (v_created and v_executing) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

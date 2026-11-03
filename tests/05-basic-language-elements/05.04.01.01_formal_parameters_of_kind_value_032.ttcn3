@@ -1,0 +1,20 @@
+// @requirement: 5.4.1.1 -- j) Only in parameters can be declared lazy or fuzzy.
+// @id: TTCN3-CORE-5.4.1.1-029a
+// @verdict: pass reject
+module M_05_04_01_01_formal_parameters_of_kind_value_032 {
+    type component C {}
+
+    function f_inc(inout @lazy integer p_x) { // error: lazy parameter is not in
+        p_x := p_x + 1;
+    }
+
+    testcase TC() runs on C {
+        var integer v_x := 0;
+        f_inc(v_x);
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

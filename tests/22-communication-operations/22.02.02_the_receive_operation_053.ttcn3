@@ -1,0 +1,33 @@
+// @requirement: 22.2.2 -- e) Type mismatch at storing the received value or parts of the received value and storing the sender shall cause an error.
+// @id: TTCN3-CORE-22.2.2-060b
+// @verdict: pass accept, ttcn3verdict:error
+module M_22_02_02_the_receive_operation_053 {
+
+    type port P message { inout integer }
+
+    type component C {
+        port P p;
+    }
+
+    type component D {
+        port P p;
+        var integer v_extra;
+    }
+
+    function f_send() runs on C {
+        p.send(1);
+    }
+
+    testcase TC() runs on C {
+        var D v_sender;
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_send());
+        p.receive(integer:1) -> sender v_sender; // error: sender of type C stored in variable of type D
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

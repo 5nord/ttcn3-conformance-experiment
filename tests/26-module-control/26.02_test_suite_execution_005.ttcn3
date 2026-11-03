@@ -1,0 +1,28 @@
+// @requirement: 26.2 -- The created control component is of the type specified in the runs `on clause of the` module control function.
+// @id: TTCN3-CORE-26.2-008a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_26_02_test_suite_execution_005 {
+
+    type component C {}
+
+    type component CtrlC {
+        var integer vc_value := 7;
+    }
+
+    testcase TC(integer p_value) runs on C {
+        if (p_value == 8) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    function f_increment() runs on CtrlC {
+        vc_value := vc_value + 1;
+    }
+
+    function control() runs on CtrlC {
+        f_increment();
+        execute(TC(vc_value));
+    }
+}

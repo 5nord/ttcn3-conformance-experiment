@@ -1,0 +1,35 @@
+// @requirement: 23.2 -- When a timer duration is overridden, the new value applies only to the current instance of the timer, any later start operations for this timer, which do not specify a duration, shall use the default duration.
+// @id: TTCN3-CORE-23.2-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_23_02_the_start_timer_operation_005 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        timer T := 5.0;
+        timer T_guard := 1.0;
+        T.start(0.1);
+        T_guard.start;
+        alt {
+            [] T.timeout {}
+            [] T_guard.timeout {
+                setverdict(fail);
+            }
+        }
+        T_guard.stop;
+        T.start;
+        T_guard.start(0.5);
+        alt {
+            [] T.timeout {
+                setverdict(fail);
+            }
+            [] T_guard.timeout {
+                setverdict(pass);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

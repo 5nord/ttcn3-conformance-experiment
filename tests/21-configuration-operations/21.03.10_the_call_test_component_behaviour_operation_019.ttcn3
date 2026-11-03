@@ -1,0 +1,27 @@
+// @requirement: 21.3.10 -- Operation: alive; Allowed: Yes but from MTC only; Col3: Yes but from MTC only; Example: any component.alive; all component.alive;; Comment: Is there any alive PTC? Are all PTCs alive?
+// @id: TTCN3-CORE-21.3.10-016c
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_03_10_the_call_test_component_behaviour_operation_019 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var C v_ptc1 := C.create alive;
+        var C v_ptc2 := C.create alive;
+        v_ptc1.kill;
+        if (not any component.alive) {
+            setverdict(fail);
+            stop;
+        }
+        v_ptc2.kill;
+        if (any component.alive) {
+            setverdict(fail);
+        } else {
+            setverdict(pass);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

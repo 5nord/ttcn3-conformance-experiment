@@ -1,0 +1,24 @@
+// @requirement: 21.0 -- Done Checks whether the function running on a test component has terminated
+// @id: TTCN3-CORE-21.0-023a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_00_general_030 {
+
+    type component C {}
+
+    function f_behaviour() runs on C {}
+
+    testcase TC() runs on C {
+        timer T := 1.0;
+        var C c := C.create;
+        c.start(f_behaviour());
+        T.start;
+        alt {
+            [] c.done { setverdict(pass); }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

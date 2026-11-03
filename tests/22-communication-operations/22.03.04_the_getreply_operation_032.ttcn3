@@ -1,0 +1,54 @@
+// @requirement: 22.3.4 -- If the port array is multi-dimensional, then the ports are iterated over from innermost to outermost array dimension from lowest to highest index for each dimension, e.g. [0][0], [0][1], [1][0], [1][1].
+// @id: TTCN3-CORE-22.3.4-034a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_03_04_the_getreply_operation_032 {
+
+    signature S() return integer;
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p[2][2];
+    }
+
+    function f_server() runs on C {
+        p[1][0].getcall(S:{});
+        p[1][0].reply(S:{} value 10);
+        p[0][1].getcall(S:{});
+        p[0][1].reply(S:{} value 1);
+    }
+
+    testcase TC() runs on C system C {
+        var C v_ptc := C.create;
+        var integer v_i[2];
+        var integer v_res;
+        timer T := 1.0;
+        for (var integer i := 0; i < 2; i := i + 1) {
+            for (var integer j := 0; j < 2; j := j + 1) {
+                connect(self:p[i][j], v_ptc:p[i][j]);
+            }
+        }
+        v_ptc.start(f_server());
+        p[1][0].call(S:{}, nowait);
+        p[0][1].call(S:{}, nowait);
+        T.start;
+        alt {
+            [] p[1][0].check(getreply) {}
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        alt {
+            [] p[0][1].check(getreply) {}
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        alt {
+            [] any from p.getreply(S:{} value ?) -> value v_res @index value v_i {
+                if (v_i == { 0, 1 } and v_res == 1) { setverdict(pass); } else { setverdict(fail); }
+            }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

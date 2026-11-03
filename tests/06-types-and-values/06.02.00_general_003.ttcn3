@@ -1,0 +1,41 @@
+// @requirement: 6.2.0 -- The assignment and the mixed notation can be used for record, record of, set, set `of and map value` notations and for arrays.
+// @id: TTCN3-CORE-6.2.0-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_00_general_003 {
+
+    type record MyRecord { integer f1, integer f2 }
+    type record of integer MyRecordOf;
+    type set MySet { integer f1, integer f2 }
+    type set of integer MySetOf;
+    type map from charstring to integer MyMap;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyRecord v_r1 := { f1 := 1, f2 := 2 };
+        var MyRecord v_r2 := { 1, f2 := 2 };
+        var MyRecordOf v_ro1 := { [0] := 1, [1] := 2 };
+        var MyRecordOf v_ro2 := { 1, [1] := 2 };
+        var MySet v_s1 := { f2 := 2, f1 := 1 };
+        var MySet v_s2 := { 1, f2 := 2 };
+        var MySetOf v_so1 := { [0] := 1, [1] := 2 };
+        var MySetOf v_so2 := { 1, [1] := 2 };
+        var MyMap v_m := { ["a"] := 1, ["b"] := 2 };
+        var integer v_a1[2] := { [0] := 1, [1] := 2 };
+        var integer v_a2[2] := { 1, [1] := 2 };
+        if (v_r1 == v_r2 and v_r1.f2 == 2
+            and v_ro1 == v_ro2 and v_ro1[1] == 2
+            and v_s1 == v_s2 and v_s1.f1 == 1
+            and v_so1 == v_so2 and v_so1[1] == 2
+            and v_m["a"] == 1 and v_m["b"] == 2
+            and v_a1 == v_a2 and v_a1[1] == 2) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

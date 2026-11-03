@@ -1,0 +1,32 @@
+// @requirement: 6.0 -- The special data type anytype is defined as the union of all known data types and the address type defined within a TTCN-3 module.
+// @id: TTCN3-CORE-6.0-004a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_00_general_002 {
+
+    type integer address;
+
+    type record MyRecord {
+        integer a
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var anytype v_any1, v_any2, v_any3;
+        v_any1.integer := 1;
+        v_any2.MyRecord := { a := 2 };
+        v_any3.address := 3;
+        if (v_any1.integer == 1 and v_any2.MyRecord.a == 2 and v_any3.address == 3) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+with {
+    extension "anytype integer, MyRecord, address"
+}

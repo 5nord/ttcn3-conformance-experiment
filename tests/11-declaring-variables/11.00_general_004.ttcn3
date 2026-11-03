@@ -1,0 +1,17 @@
+// @requirement: 11.0 -- When automatic typing is used, the TypeOrNestedParDef part of the declaration is missing and the type of the variable is equal to the type of the expression or template body on the right-hand side of the assignment.
+// @id: TTCN3-CORE-11.0-005b
+// @verdict: pass reject
+module M_11_00_general_004 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var v_int := 1;
+        v_int := 1.0; // error: v_int is of type integer, float value assigned
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

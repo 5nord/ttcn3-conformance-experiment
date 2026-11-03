@@ -1,0 +1,58 @@
+// @requirement: 8.2.3.1 -- Importable Definition: Altstep; Possible Local Definitions: Parameter names; Possible Referenced Definitions: Parameter types, component type (runs on clause)
+// @id: TTCN3-CORE-8.2.3.1-056b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_02_03_01_general_format_of_import_026 {
+
+    import from M_08_02_03_01_general_format_of_import_026_B {
+        altstep a_check;
+        function f_create, f_behaviour
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        timer T_guard := 0.1;
+        T_guard.start;
+        a_check({ x := 1 }, T_guard);
+        f_create().start(f_behaviour());
+        all component.done;
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_03_01_general_format_of_import_026_B {
+    import from M_08_02_03_01_general_format_of_import_026_A all;
+
+    altstep a_check(MyPar p_par, timer p_timer) {
+        [p_par.x == 1] p_timer.timeout {
+            setverdict(pass);
+        }
+    }
+
+    altstep a_component() runs on MyComp {
+        [] T_comp.timeout {
+            setverdict(pass);
+        }
+    }
+
+    function f_create() return MyComp {
+        return MyComp.create;
+    }
+
+    function f_behaviour() runs on MyComp {
+        T_comp.start;
+        a_component();
+    }
+}
+
+module M_08_02_03_01_general_format_of_import_026_A {
+    type record MyPar {
+        integer x
+    }
+    type component MyComp {
+        timer T_comp := 0.1;
+    }
+}

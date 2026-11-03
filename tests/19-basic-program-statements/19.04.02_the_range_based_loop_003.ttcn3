@@ -1,0 +1,26 @@
+// @requirement: 19.4.2 -- The range expression is evaluated once before beginning the loop and may be partially initialized.
+// @id: TTCN3-CORE-19.4.2-003b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_04_02_the_range_based_loop_003 {
+
+    type record of charstring RoC;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var RoC v_range := {"a", -, "c"};
+        var integer v_count := 0;
+        for (var charstring e in v_range) {
+            v_count := v_count + 1;
+        }
+        if (v_count == 3) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

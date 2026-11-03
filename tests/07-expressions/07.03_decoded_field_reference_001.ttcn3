@@ -1,0 +1,21 @@
+// @requirement: 7.3 -- Decoded field reference is a specific notation called decoding notation that can be applied to expressions of bitstring, hexstring, octetstring, charstring or universal charstring types.
+// @id: TTCN3-CORE-7.3-001b
+// @verdict: pass reject
+module M_07_03_decoded_field_reference_001 {
+
+    type component C {}
+
+    type record R {
+        integer f1
+    }
+
+    testcase TC() runs on C {
+        var integer v_int := 5;
+        var R v_dec := v_int => R; // error: operand is not of a string type
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

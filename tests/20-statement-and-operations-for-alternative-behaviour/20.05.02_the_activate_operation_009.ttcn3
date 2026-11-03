@@ -1,0 +1,24 @@
+// @requirement: 20.5.2 -- In this case the referenced default shall remain in the same place in the list of defaults as it was before the activate operation, and the activate operation shall return with the same _ObjectReference as it received at calling._
+// @id: TTCN3-CORE-20.5.2-008b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_05_02_the_activate_operation_009 {
+
+    type component C {
+        timer T;
+    }
+
+    altstep a_1() runs on C {
+        [] T.timeout {}
+    }
+
+    testcase TC() runs on C {
+        var default v_def1 := activate(a_1());
+        deactivate(v_def1, true);
+        var default v_def2 := activate(v_def1);
+        if (v_def2 == v_def1) { setverdict(pass); } else { setverdict(fail); }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,37 @@
+// @requirement: 22.2.2 -- This is denoted by the symbol '->' and the keyword value.
+// @id: TTCN3-CORE-22.2.2-019a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_02_02_the_receive_operation_016 {
+
+    type port P message { inout integer }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    function f_send() runs on C {
+        p.send(42);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        var integer v_x := 0;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_send());
+        T.start;
+        alt {
+            [] p.receive(integer:?) -> value v_x { }
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        if (v_x == 42) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,25 @@
+// @requirement: 26.0 -- Statement: Label and Goto; Associated keyword or symbol: label / goto
+// @id: TTCN3-CORE-26.0-010b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_26_00_general_009 {
+
+    type component C {}
+
+    testcase TC(integer p_count) runs on C {
+        if (p_count == 3) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        var integer v_count := 0;
+        label L_loop;
+        v_count := v_count + 1;
+        if (v_count < 3) {
+            goto L_loop;
+        }
+        execute(TC(v_count));
+    }
+}

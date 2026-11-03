@@ -1,0 +1,17 @@
+// @requirement: 22.3.3 -- A return value or template shall be explicitly stated with the value keyword and is first evaluated before returning.
+// @id: TTCN3-CORE-22.3.3-013a
+// @verdict: pass reject
+module M_22_03_03_the_reply_operation_011 {
+
+    signature S(out integer p_y) return integer;
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    function f_reply() runs on C {
+        p.reply(S:{1}); // error: return value of S not stated with the value keyword
+    }
+}

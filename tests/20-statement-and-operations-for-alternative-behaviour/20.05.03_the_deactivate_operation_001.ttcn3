@@ -1,0 +1,23 @@
+// @requirement: 20.5.3 -- deactivate [ "(" ObjectReference [ "," Expression ] ")" ]
+// @id: TTCN3-CORE-20.5.3-002a
+// @verdict: pass accept, noexecution
+module M_20_05_03_the_deactivate_operation_001 {
+
+    type component C {
+        timer T;
+    }
+
+    altstep a_1() runs on C {
+        [] T.timeout {}
+    }
+
+    testcase TC() runs on C {
+        var default v_def1 := activate(a_1());
+        var default v_def2 := activate(a_1());
+        var boolean v_suspend := true;
+        deactivate(v_def1, v_suspend);
+        deactivate(v_def1, false);
+        deactivate(v_def2);
+        deactivate;
+    }
+}

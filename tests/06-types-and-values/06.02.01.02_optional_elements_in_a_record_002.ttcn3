@@ -1,0 +1,27 @@
+// @requirement: 6.2.1.2 -- Optional fields shall be omitted using the omit symbol.
+// @id: TTCN3-CORE-6.2.1.2-004a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_01_02_optional_elements_in_a_record_002 {
+
+    type component C {}
+
+    type record R {
+        integer f1,
+        integer f2 optional,
+        charstring f3
+    }
+
+    testcase TC() runs on C {
+        var R v_r := { 1, 2, "A string" };
+        v_r.f2 := omit;
+        if (isbound(v_r.f2) and not ispresent(v_r.f2)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

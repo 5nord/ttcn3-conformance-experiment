@@ -1,0 +1,22 @@
+// @requirement: 7.1.6 -- For each shift unit shifted to the right, a zero ('0'B, '0'H, or '00'O determined according to the type of the left-hand operand) is inserted from the left-hand side of the left operand.
+// @id: TTCN3-CORE-7.1.6-017a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_07_01_06_shift_operators_012 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var bitstring v_b := '1111'B;
+        var hexstring v_h := 'FFFF'H;
+        var octetstring v_o := 'FFFF'O;
+        if ((v_b >> 3) == '0001'B and (v_h >> 3) == '000F'H and (v_o >> 1) == '00FF'O) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

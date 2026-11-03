@@ -1,0 +1,45 @@
+// @requirement: 15.7.1 -- Col1: integer; Col2: Yes; Table 11: TTCN-3 Matching Mechanisms: Yes1; Col4: Yes; Col5: Yes; Col6: Yes; Col7: Yes1; Col8: Yes; Col17: Yes1
+// @id: TTCN3-CORE-15.7.1-011a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_07_01_specific_values_005 {
+
+    type component C {}
+
+    type record R {
+        integer f optional
+    }
+
+    template integer m_spec := 1;
+    template integer m_omit := omit;
+    template integer m_compl := complement(1, 2);
+    template integer m_list := (1, 2);
+    template integer m_any := ?;
+    template integer m_anyOrNone := *;
+    template integer m_range := (1 .. 5);
+    template R m_rOmit := { f := omit };
+    template R m_rAnyOrNone := { f := * };
+    template R m_rIfPresent := { f := 1 ifpresent };
+
+    testcase TC() runs on C {
+        var R v_absent := { f := omit };
+        var R v_one := { f := 1 };
+        var R v_two := { f := 2 };
+        if (match(1, m_spec) and not match(2, m_spec) and
+            match(3, m_compl) and not match(2, m_compl) and
+            match(2, m_list) and not match(3, m_list) and
+            match(-7, m_any) and
+            match(5, m_range) and not match(6, m_range) and
+            match(v_absent, m_rOmit) and not match(v_one, m_rOmit) and
+            match(v_absent, m_rAnyOrNone) and match(v_one, m_rAnyOrNone) and
+            match(v_absent, m_rIfPresent) and match(v_one, m_rIfPresent) and
+            not match(v_two, m_rIfPresent)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,32 @@
+// @requirement: 6.3.2.3 -- NOTE 1: This implies that though the order of elements at sending and receipt is unknown, when determining type compatibility for set types, the textual order of the fields in the type definition is decisive.
+// @id: TTCN3-CORE-6.3.2.3-003a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_03_02_03_compatibility_of_set_and_set_of_types_005 {
+
+    type component C {}
+
+    type set FType {
+        integer a,
+        integer b,
+        boolean c
+    }
+    type set HType {
+        integer b,
+        integer a,
+        boolean c
+    }
+
+    testcase TC() runs on C {
+        var HType v_myVarH := { a := 2, b := 1, c := true };
+        var FType v_myVarF := v_myVarH;
+        if (v_myVarF.a == 1 and v_myVarF.b == 2 and v_myVarF.c == true) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

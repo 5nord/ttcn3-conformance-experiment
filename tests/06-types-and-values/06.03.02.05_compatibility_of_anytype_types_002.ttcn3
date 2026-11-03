@@ -1,0 +1,25 @@
+// @requirement: 6.3.2.5 -- An anytype value "b" of anytype type "B" is compatible** with anytype type "A" if the alternative selected in "b" is also contained in "A".
+// @id: TTCN3-CORE-6.3.2.5-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_03_02_05_compatibility_of_anytype_types_002 {
+
+    type component C {}
+
+    type anytype AType ({ integer := ? }, { float := ? });
+    type anytype BType ({ integer := ? }, { boolean := ? });
+
+    testcase TC() runs on C {
+        var BType v_b := { integer := 1 };
+        var AType v_a := { float := 1.0 };
+        v_a := v_b;
+        if (ischosen(v_a.integer) and v_a.integer == 1) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

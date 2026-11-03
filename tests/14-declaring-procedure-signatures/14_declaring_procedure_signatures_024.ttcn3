@@ -1,0 +1,35 @@
+// @requirement: 14 -- a) Signature definitions for non-blocking communication shall use the noblock keyword, shall only have in parameters and shall have no return value but may raise exceptions.
+// @id: TTCN3-CORE-14-021d
+// @verdict: pass accept, ttcn3verdict:pass
+module M_14_declaring_procedure_signatures_024 {
+
+    signature S(in integer p_in) noblock exception (integer);
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    function f_server() runs on C {
+        p.getcall(S:{ p_in := ? });
+        p.raise(S, integer:1);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_server());
+        p.call(S:{ p_in := 1 });
+        T.start;
+        alt {
+            [] p.catch(S, integer:1) { setverdict(pass); }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

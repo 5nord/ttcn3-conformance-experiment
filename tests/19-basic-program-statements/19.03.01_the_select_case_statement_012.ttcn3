@@ -1,0 +1,27 @@
+// @requirement: 19.3.1 -- A list branch is selected and the statement block of the selected branch is executed only, if any of the templateInstance matches the value of the expression in the header of the statement.
+// @id: TTCN3-CORE-19.3.1-011a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_03_01_the_select_case_statement_012 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var charstring v_x := "abc";
+        setverdict(fail);
+        select (v_x) {
+            case ("x", "y") {
+                setverdict(fail);
+            }
+            case (pattern "z*") {
+                setverdict(fail);
+            }
+            case ("q", pattern "a?c", "r") {
+                setverdict(pass);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

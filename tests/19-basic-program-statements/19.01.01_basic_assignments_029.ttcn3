@@ -1,0 +1,44 @@
+// @requirement: 19.1.1 -- NOTE: If a sub-field or sub-element of a fuzzy variable is assigned that has an ancestor which was formerly assigned a function call, this function call will be evaluated once before the assignment and replaced by its result inside the variable.
+// @id: TTCN3-CORE-19.1.1-031a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_01_01_basic_assignments_029 {
+
+    type component C {
+        var integer v_calls := 0;
+    }
+
+    type record Point {
+        float x,
+        float y
+    }
+
+    type record MyRecord {
+        Point c,
+        integer a
+    }
+
+    function f_computeC() runs on C return Point {
+        v_calls := v_calls + 1;
+        return { x := 1.0, y := 2.0 };
+    }
+
+    testcase TC() runs on C {
+        var @fuzzy MyRecord v_r := { c := f_computeC(), a := 1 };
+        var float v_y;
+        v_r.c.x := 5.0;
+        if (v_calls != 1) {
+            setverdict(fail);
+        }
+        v_y := v_r.c.y;
+        v_y := v_r.c.y;
+        if (v_calls == 1 and v_y == 2.0 and v_r.c.x == 5.0) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

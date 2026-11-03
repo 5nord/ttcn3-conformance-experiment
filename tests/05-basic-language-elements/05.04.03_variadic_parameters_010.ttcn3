@@ -1,0 +1,23 @@
+// @requirement: 5.4.3 -- When using the assignment notation for an actual variadic parameter, the actual parameter shall be a value or template of a compatible record of the specified type without any additional ellipsis.
+// @id: TTCN3-CORE-5.4.3-011a
+// @verdict: pass reject
+module M_05_04_03_variadic_parameters_010 {
+
+    type record of integer RoI;
+
+    type component C {}
+
+    function f_count(integer p_values...) return integer {
+        return lengthof(p_values);
+    }
+
+    testcase TC() runs on C {
+        var RoI v_list := { 1, 2, 3 };
+        var integer v_res := f_count(p_values := v_list...); // error: ellipsis in assignment notation
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

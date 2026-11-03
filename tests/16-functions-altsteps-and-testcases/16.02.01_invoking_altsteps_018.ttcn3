@@ -1,0 +1,24 @@
+// @requirement: 16.2.1 -- An altstep can also be called as a stand-alone statement in a TTCN-3 behaviour description.
+// @id: TTCN3-CORE-16.2.1-016a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_16_02_01_invoking_altsteps_018 {
+
+    type component C {
+        timer T;
+    }
+
+    altstep a_step() runs on C {
+        [] T.timeout {
+            setverdict(pass);
+        }
+    }
+
+    testcase TC() runs on C {
+        T.start(0.1);
+        a_step();
+    }
+
+    control {
+        execute(TC());
+    }
+}

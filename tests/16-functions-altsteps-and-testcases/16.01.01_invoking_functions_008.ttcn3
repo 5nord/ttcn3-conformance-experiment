@@ -1,0 +1,28 @@
+// @requirement: 16.1.1 -- Functions that return values may be invoked directly or inside expressions.
+// @id: TTCN3-CORE-16.1.1-009a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_16_01_01_invoking_functions_008 {
+
+    type component C {
+        var integer v_calls := 0;
+    }
+
+    function f_count(integer p_val) runs on C return integer {
+        v_calls := v_calls + 1;
+        return p_val;
+    }
+
+    testcase TC() runs on C {
+        f_count(1);
+        var integer v_res := f_count(2) + f_count(3);
+        if (v_calls == 3 and v_res == 5) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

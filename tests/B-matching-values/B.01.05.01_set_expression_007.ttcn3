@@ -1,0 +1,23 @@
+// @requirement: B.1.5.1 -- Negation takes precedence over character ranges.
+// @id: TTCN3-CORE-B.1.5.1-007a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_05_01_set_expression_007 {
+
+    type component C {}
+
+    template charstring mw_neg := pattern "[^-z]";
+
+    testcase TC() runs on C {
+        // "^" negates and is not the start of a range "^"-"z"
+        if (match("a", mw_neg) and match("_", mw_neg)
+            and not match("-", mw_neg) and not match("z", mw_neg)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

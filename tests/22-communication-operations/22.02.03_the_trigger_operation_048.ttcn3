@@ -1,0 +1,24 @@
+// @requirement: 22.2.3 -- m) The @nodefault modifier is allowed only in stand-alone trigger statements.
+// @id: TTCN3-CORE-22.2.3-047b
+// @verdict: pass reject
+module M_22_02_03_the_trigger_operation_048 {
+
+    type port P message { inout integer }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    testcase TC() runs on C {
+        T.start;
+        alt {
+            [] @nodefault p.trigger(integer:?) { setverdict(pass); } // error: @nodefault inside an alt statement
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

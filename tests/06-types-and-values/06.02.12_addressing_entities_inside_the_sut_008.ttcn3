@@ -1,0 +1,32 @@
+// @requirement: 6.2.12 -- If both a global address type definition and port definitions with an address type definition exist in a module, the global address type shall only affect ports without an explicit address type definition.
+// @id: TTCN3-CORE-6.2.12-010a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_12_addressing_entities_inside_the_sut_008 {
+
+    type integer address;
+
+    type port P1 message {
+        inout integer;
+    }
+
+    type port P2 message {
+        address charstring;
+        inout integer;
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var P1.address v_addr1 := 10;
+        var P2.address v_addr2 := "abc";
+        if (v_addr1 * 2 == 20 and v_addr2 & "d" == "abcd") {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,25 @@
+// @requirement: 6.2.12 -- If a port type definition includes the declaration of a type that shall be used for addressing SUT entities, only values of that type shall be used in to, from and sender parts of receive and send operations of port instances of that type mapped to the test system interface.
+// @id: TTCN3-CORE-6.2.12-015a
+// @verdict: pass reject
+module M_06_02_12_addressing_entities_inside_the_sut_012 {
+
+    type port P message {
+        address charstring;
+        inout integer;
+    }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C system C {
+        var integer v_sender;
+        map(mtc:p, system:p);
+        p.receive(integer:?) -> sender v_sender; // error: sender variable is not of the declared address type
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

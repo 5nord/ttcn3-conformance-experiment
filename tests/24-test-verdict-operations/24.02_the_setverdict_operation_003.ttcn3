@@ -1,0 +1,22 @@
+// @requirement: 24.2 -- The value of the local verdict is changed with the setverdict operation.
+// @id: TTCN3-CORE-24.2-003a
+// @verdict: pass accept, ttcn3verdict:inconc
+module M_24_02_the_setverdict_operation_003 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        setverdict(pass);
+        if (getverdict != pass) {
+            testcase.stop("verdict not changed to pass");
+        }
+        setverdict(inconc);
+        if (getverdict != inconc) {
+            testcase.stop("verdict not changed to inconc");
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

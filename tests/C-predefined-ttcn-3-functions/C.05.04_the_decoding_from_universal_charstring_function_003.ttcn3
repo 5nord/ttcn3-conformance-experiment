@@ -1,0 +1,33 @@
+// @requirement: C.5.4 -- The optional dynamic_encoding parameter is used for dynamic selection of encode attribute of the decoded_value parameter for this single decvalue_unichar call.
+// @id: TTCN3-CORE-C.5.4-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_05_04_the_decoding_from_universal_charstring_function_003 {
+
+    type component C {}
+
+    type integer I
+    with {
+        encode "Codec1"; variant "Codec1"."32 bit";
+        encode "Codec2"; variant "Codec2"."16 bit"
+    };
+
+    const I c_val := 65;
+
+    testcase TC() runs on C {
+        var universal charstring v_enc1 := encvalue_unichar(c_val, "UTF-8", "", "Codec1");
+        var universal charstring v_enc2 := encvalue_unichar(c_val, "UTF-8", "", "Codec2");
+        var I v_dec1, v_dec2;
+        var integer v_res2 := decvalue_unichar(v_enc2, v_dec2, "UTF-8", "", "Codec2");
+        var integer v_res1 := decvalue_unichar(v_enc1, v_dec1, "UTF-8", "", "Codec1");
+        if (v_res2 == 0 and v_dec2 == c_val and lengthof(v_enc2) == 0 and
+            v_res1 == 0 and v_dec1 == c_val and lengthof(v_enc1) == 0) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

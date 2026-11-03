@@ -1,0 +1,30 @@
+// @requirement: 20.0 -- Re-evaluation of alt statements; Col2: repeat
+// @id: TTCN3-CORE-20.0-009a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_00_general_003 {
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_count := 0;
+        timer T_1 := 0.05;
+        T_1.start;
+        alt {
+            [] T_1.timeout {
+                v_count := v_count + 1;
+                if (v_count < 3) {
+                    T_1.start;
+                    repeat;
+                }
+            }
+        }
+        if (v_count == 3) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

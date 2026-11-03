@@ -1,0 +1,31 @@
+// @requirement: 7.3 -- The ReferencedValue preceding the => symbol in a decoding notation shall be decoded into a value of the type following the => symbol.
+// @id: TTCN3-CORE-7.3-004a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_07_03_decoded_field_reference_003 {
+
+    type component C {}
+
+    type record R {
+        integer f1,
+        charstring f2
+    }
+
+    type record P {
+        bitstring payload
+    }
+
+    testcase TC() runs on C {
+        var R v_rec := { f1 := 7, f2 := "abc" };
+        var P v_pdu := { payload := encvalue(v_rec) };
+        var R v_dec := v_pdu.payload => R;
+        if (v_dec == v_rec) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,22 @@
+// @requirement: B.1.4.1 -- Alternatively, the keyword infinity can be used as a value for the upper boundary in order to indicate that there is no upper limit of length.
+// @id: TTCN3-CORE-B.1.4.1-017a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_04_01_length_restrictions_018 {
+
+    type component C {}
+
+    template charstring mw_str := ? length(2 .. infinity);
+
+    testcase TC() runs on C {
+        if (not match("a", mw_str) and match("ab", mw_str) and
+            match("abcdefghijklmnopqrstuvwxyz", mw_str)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

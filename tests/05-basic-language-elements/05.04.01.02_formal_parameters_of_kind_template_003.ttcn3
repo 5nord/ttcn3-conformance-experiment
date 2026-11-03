@@ -1,0 +1,23 @@
+// @requirement: 5.4.1.2 -- This makes the parameter a template parameter and in effect extends the allowed actual parameters for the associated type to include the appropriate set of matching attributes (see annex B) as well as the normal set of values.
+// @id: TTCN3-CORE-5.4.1.2-004b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_04_01_02_formal_parameters_of_kind_template_003 {
+    type component C {}
+
+    function f_match(template integer p_t) return boolean {
+        return match(5, p_t);
+    }
+
+    testcase TC() runs on C {
+        if (f_match(5) and f_match(?) and f_match((1 .. 10)) and f_match((4, 5))
+            and not f_match(6)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,24 @@
+// @requirement: B.1.5.1 -- The range consist of the character immediately before the separator, the character immediately after it and all characters with a character code between the codes of the two bordering characters.
+// @id: TTCN3-CORE-B.1.5.1-004a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_05_01_set_expression_004 {
+
+    type component C {}
+
+    template charstring mw_range := pattern "[b-e]";
+    template charstring mw_codes := pattern "[0-B]";
+
+    testcase TC() runs on C {
+        if (match("b", mw_range) and match("c", mw_range) and match("d", mw_range)
+            and match("e", mw_range) and not match("a", mw_range) and not match("f", mw_range)
+            and match(":", mw_codes) and match("@", mw_codes) and not match("C", mw_codes)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

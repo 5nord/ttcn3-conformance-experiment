@@ -1,0 +1,26 @@
+// @requirement: 5.3 -- However inside test case definitions, functions, altsteps, and statement blocks, all required declarations shall be given before their first place of usage.
+// @id: TTCN3-CORE-5.3-006a
+// @verdict: pass reject
+module M_05_03_ordering_of_language_elements_005 {
+
+    type component C {
+        timer T := 0.1;
+    }
+
+    altstep a_wait() runs on C {
+        var integer v_a := v_b; // error: v_b is used before its declaration
+        var integer v_b := 1;
+        [] T.timeout {
+            setverdict(pass);
+        }
+    }
+
+    testcase TC() runs on C {
+        T.start;
+        a_wait();
+    }
+
+    control {
+        execute(TC());
+    }
+}

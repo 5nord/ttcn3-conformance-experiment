@@ -1,0 +1,20 @@
+// @requirement: 15.9 -- a) The expression-parameter of the match operation shall evaluate to a value or shall denote an omitted optional field, i.e. the match operation cannot be used to compare two templates.
+// @id: TTCN3-CORE-15.9-010a
+// @verdict: pass reject
+module M_15_09_match_operation_009 {
+
+    function f(template integer p_t) {
+        if (match(p_t, 1)) {} // error: expression is a template, not a value
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        f(?);
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,35 @@
+// @requirement: 19.3.2 -- Otherwise, the select union statement has no effect.
+// @id: TTCN3-CORE-19.3.2-013a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_03_02_the_select_union_statement_014 {
+
+    type component C {}
+
+    type union U {
+        integer a,
+        boolean b,
+        charstring c
+    }
+
+    testcase TC() runs on C {
+        var U v_u := { c := "x" };
+        var integer v_x := 0;
+        select union (v_u) {
+            case (a) {
+                v_x := 1;
+            }
+            case (b) {
+                v_x := 2;
+            }
+        }
+        if (v_x == 0 and v_u == { c := "x" }) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

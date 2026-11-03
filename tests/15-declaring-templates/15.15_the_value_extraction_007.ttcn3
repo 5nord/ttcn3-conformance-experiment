@@ -1,0 +1,20 @@
+// @requirement: 15.15 -- a) Applying the value extraction to a template that contains neither a pattern nor a value template with an ifpresent matching attribute nor a value shall result in an error.
+// @id: TTCN3-CORE-15.15-007a
+// @verdict: pass accept, ttcn3verdict:error
+module M_15_15_the_value_extraction_007 {
+
+    type component C {}
+
+    function f_extract(template charstring p_t) return charstring {
+        return p_t.value; // error: operand is AnyValue
+    }
+
+    testcase TC() runs on C {
+        var charstring v_str := f_extract(?);
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

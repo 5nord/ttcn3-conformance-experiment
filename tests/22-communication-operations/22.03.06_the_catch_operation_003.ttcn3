@@ -1,0 +1,43 @@
+// @requirement: 22.3.6 -- Exceptions are specified as types and thus, can be treated like messages, e.g. templates can be used to distinguish between different values of the same exception type.
+// @id: TTCN3-CORE-22.3.6-005b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_03_06_the_catch_operation_003 {
+
+    signature S() exception (integer);
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    template integer m_two := 2;
+    template integer m_one := 1;
+
+    altstep a_guard() runs on C {
+        [] T.timeout { setverdict(fail); stop; }
+    }
+
+    function f_server() runs on C {
+        p.getcall(S:{});
+        p.raise(S, integer:1);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_server());
+        activate(a_guard());
+        T.start;
+        p.call(S:{}, nowait);
+        alt {
+            [] p.catch(S, m_two) { setverdict(fail); }
+            [] p.catch(S, m_one) { setverdict(pass); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

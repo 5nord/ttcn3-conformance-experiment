@@ -1,0 +1,37 @@
+// @requirement: 19.1.1 -- ValueRef ":=" ( Expression | TemplateBody )
+// @id: TTCN3-CORE-19.1.1-003a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_01_01_basic_assignments_003 {
+
+    type component C {}
+
+    type record R {
+        integer f1,
+        integer f2
+    }
+
+    const integer c_x := 1, c_y := 2, c_z := 3;
+
+    function f_increment(integer p_value) return integer {
+        return p_value + 1;
+    }
+
+    testcase TC() runs on C {
+        var integer v_myVariable;
+        var R v_rec;
+        var template R v_tmpl;
+        v_myVariable := (c_x + c_y - f_increment(c_z)) * 3;
+        v_rec.f1 := 7;
+        v_tmpl := { f1 := ?, f2 := (1 .. 5) };
+        v_rec.f2 := 4;
+        if (v_myVariable == -3 and match(v_rec, v_tmpl)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

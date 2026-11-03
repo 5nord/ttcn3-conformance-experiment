@@ -1,0 +1,42 @@
+// @requirement: 20.2 -- This means none of the alternatives can be chosen, no relevant test component is running, no relevant timer is running and all relevant ports contain at least one message, call, reply or exception that do not match.
+// @id: TTCN3-CORE-20.2-047a
+// @verdict: pass accept, ttcn3verdict:error
+module M_20_02_the_alt_statement_034 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p1, p2;
+    }
+
+    function f_ptc() runs on C {}
+
+    testcase TC() runs on C system C {
+        timer T;
+        var C v_ptc := C.create alive;
+        connect(self:p1, self:p2);
+        p1.send(integer:1);
+        p2.check(receive(integer:1));
+        disconnect(self:p1, self:p2);
+        v_ptc.start(f_ptc());
+        v_ptc.done;
+        setverdict(pass);
+        alt {
+            [] p2.receive(integer:2) { // completely blocked: dynamic error
+                setverdict(fail);
+            }
+            [] T.timeout {
+                setverdict(fail);
+            }
+            [] v_ptc.killed {
+                setverdict(fail);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,23 @@
+// @requirement: 6.2.3.0 -- Already initialized elements left without a corresponding list member in a value list notation (i.e. at the end of a list) are becoming uninitialized.
+// @id: TTCN3-CORE-6.2.3.0-017a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_03_00_general_015 {
+
+    type record of integer MyRecordOf;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyRecordOf v_ro := { 1, 2, 3, 4 };
+        v_ro := { 5, 6 };
+        if (v_ro[0] == 5 and v_ro[1] == 6 and not isbound(v_ro[2]) and not isbound(v_ro[3])) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,17 @@
+// @requirement: 15.4 -- c) In-line templates containing instead of values or inside values matching mechanisms (see clause 15.7) can only be defined in arguments of receiving communication operations (i.e. receive, `trigger`, `check`, `getcall`, `getreply` and `catch`), in arguments of the match and select case operations, in actual template parameters, at the right hand side of assignments (when there is a template variable at the left hand side of the assignment) and in return statements of template returning functions.
+// @id: TTCN3-CORE-15.4-013a
+// @verdict: pass reject
+module M_15_04_in_line_templates_007 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_i;
+        v_i := integer:(1..10); // error: matching mechanism assigned to a value variable
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

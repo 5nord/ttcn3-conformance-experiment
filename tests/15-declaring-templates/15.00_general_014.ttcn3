@@ -1,0 +1,26 @@
+// @requirement: 15.0 -- A modified template declaration (see clause 15.5) specifies only the fields to be changed from the base template, i.e. it is a partial specification.
+// @id: TTCN3-CORE-15.0-016a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_00_general_014 {
+
+    type record R { integer a, integer b, charstring c }
+
+    type component C {}
+
+    template R m_base := { a := 1, b := 2, c := "abc" }
+    template R m_modified modifies m_base := { b := 3 }
+
+    const R c_expected := { a := 1, b := 3, c := "abc" }
+
+    testcase TC() runs on C {
+        if (match(c_expected, m_modified)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,22 @@
+// @requirement: 15.3 -- Both global and local templates are initialized at the place of their declaration.
+// @id: TTCN3-CORE-15.3-010a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_03_global_and_local_templates_009 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_value := 1;
+        template integer m_local := v_value;
+        v_value := 2;
+        if (match(1, m_local) and not match(2, m_local)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

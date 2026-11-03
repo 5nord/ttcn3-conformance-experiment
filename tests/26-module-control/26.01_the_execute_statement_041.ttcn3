@@ -1,0 +1,29 @@
+// @requirement: 26.1 -- If the test case does not end within this duration, the result of the test case execution shall be an error verdict and the test system shall terminate the test case.
+// @id: TTCN3-CORE-26.1-045b
+// @verdict: pass accept, ttcn3verdict:error
+module M_26_01_the_execute_statement_041 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        timer T := 10.0;
+        T.start;
+        T.timeout;
+        setverdict(pass);
+    }
+
+    testcase TC_check(boolean p_ok) runs on C {
+        if (p_ok) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        timer T_measure := 20.0;
+        T_measure.start;
+        execute(TC(), 0.5);
+        execute(TC_check(T_measure.read < 5.0));
+    }
+}

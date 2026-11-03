@@ -1,0 +1,22 @@
+// @requirement: 24.1 -- Additionally, there is a global test case verdict instantiated and handled by the test system that is updated when each test component (i.e. the MTC and each and every PTC) terminates execution (see figure 14).
+// @id: TTCN3-CORE-24.1-004b
+// @verdict: pass accept, ttcn3verdict:fail
+module M_24_01_the_verdict_mechanism_003 {
+
+    type component C {}
+
+    function f_ptc() runs on C {
+        setverdict(fail);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        v_ptc.start(f_ptc());
+        v_ptc.done;
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

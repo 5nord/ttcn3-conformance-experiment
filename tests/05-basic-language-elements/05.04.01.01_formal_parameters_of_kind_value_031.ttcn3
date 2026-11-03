@@ -1,0 +1,20 @@
+// @requirement: 5.4.1.1 -- i) For formal value parameters of templates the restrictions specified in clause 15.0 shall apply.
+// @id: TTCN3-CORE-5.4.1.1-028a
+// @verdict: pass reject
+module M_05_04_01_01_formal_parameters_of_kind_value_031 {
+    type record R {
+        integer f1,
+        default f2
+    }
+    type component C {}
+
+    template integer m_value(R p_rec) := p_rec.f1; // error: type of template parameter contains default
+
+    testcase TC() runs on C {
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

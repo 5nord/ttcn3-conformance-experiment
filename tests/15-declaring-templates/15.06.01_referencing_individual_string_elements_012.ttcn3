@@ -1,0 +1,25 @@
+// @requirement: 15.6.1 -- b) A pattern containing either a single character or a single metacharacter, if the referenced template is of a character sting type to which a pattern is assigned and the index is non-negative and less than the number of characters and indexable metacharacters inside the pattern.
+// @id: TTCN3-CORE-15.6.1-012a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_06_01_referencing_individual_string_elements_012 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template charstring v_pat := pattern "x*y[0-3]", v_e1, v_e2, v_e3;
+        v_e1 := v_pat[0];
+        v_e2 := v_pat[1];
+        v_e3 := v_pat[3];
+        if (match("x", v_e1) and not match("y", v_e1)
+            and match("", v_e2) and match("abc", v_e2)
+            and match("2", v_e3) and not match("5", v_e3)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

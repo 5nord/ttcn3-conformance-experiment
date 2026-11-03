@@ -1,0 +1,43 @@
+// @requirement: 5.2.2 -- Identifiers for fields of structured types, enumerated values and groups do not have to be globally unique, however in the case of enumerated values the identifiers, within the same module, they shall only be reused for enumerated values within other enumerated types or as identifiers for fields of structured types.
+// @id: TTCN3-CORE-5.2.2-004a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_02_02_uniqueness_of_identifiers_005 {
+
+    group g_a {
+        group g_sub {
+            type enumerated E1 { e_x, e_y }
+        }
+    }
+
+    group g_b {
+        group g_sub {
+            type enumerated E2 { e_y, e_z }
+        }
+    }
+
+    type record R1 {
+        integer f_a,
+        E1 e_x
+    }
+
+    type record R2 {
+        integer f_a,
+        E2 e_y
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var R1 v_r1 := { f_a := 1, e_x := e_y };
+        var R2 v_r2 := { f_a := 2, e_y := e_y };
+        if (v_r1.e_x == e_y and v_r2.e_y == e_y and v_r1.f_a + v_r2.f_a == 3) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

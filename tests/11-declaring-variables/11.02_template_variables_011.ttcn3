@@ -1,0 +1,19 @@
+// @requirement: 11.2 -- The template variable can be referenced multiple times in a TTCN-3 module.
+// @id: TTCN3-CORE-11.2-011a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_11_02_template_variables_011 {
+    type component C {}
+
+    testcase TC() runs on C {
+        var template integer v_t := (1 .. 5);
+        var template integer v_copy := v_t;
+        if (match(1, v_t) and match(5, v_t) and not match(6, v_t) and match(3, v_copy)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }}

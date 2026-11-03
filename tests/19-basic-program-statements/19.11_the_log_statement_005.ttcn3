@@ -1,0 +1,29 @@
+// @requirement: 19.11 -- Used in a log statement: template instance; What is logged: actual template or field values and matching symbols
+// @id: TTCN3-CORE-19.11-007a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_11_the_log_statement_005 {
+    type component C {}
+
+    type record R {
+        integer f1,
+        charstring f2
+    }
+
+    template integer t_range := (1 .. 5);
+
+    template R m_r(integer p_x) := {
+        f1 := p_x,
+        f2 := ?
+    }
+
+    testcase TC() runs on C {
+        log(t_range);
+        log(m_r(1));
+        log(integer:?);
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

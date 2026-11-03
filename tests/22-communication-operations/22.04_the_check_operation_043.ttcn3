@@ -1,0 +1,41 @@
+// @requirement: 22.4 -- h) If the check operation contains both from and sender clause, the variable or parameter referenced in the sender clause shall be type compatible with the template in the from clause.
+// @id: TTCN3-CORE-22.4-039a
+// @verdict: pass reject
+module M_22_04_the_check_operation_043 {
+
+    type port MP message { inout integer; }
+
+    type component C {
+        port MP p;
+        timer T := 1.0;
+    }
+
+    type component P {
+        port MP q;
+    }
+
+    type component D {
+        port MP x;
+        var integer v_d;
+    }
+
+    function f_send() runs on P {
+        q.send(5);
+    }
+
+    testcase TC() runs on C {
+        var P v_ptc := P.create;
+        var D v_sender;
+        connect(v_ptc:q, mtc:p);
+        v_ptc.start(f_send());
+        T.start;
+        alt {
+            [] p.check(receive(5) from v_ptc -> sender v_sender) { setverdict(pass); } // error: D is not compatible with P
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,55 @@
+// @requirement: 22.4 -- The check operation has to handle values of a certain type at message-based ports and to distinguish between calls to be accepted, exceptions to be caught and replies from previous calls at procedure-based ports.
+// @id: TTCN3-CORE-22.4-005b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_04_the_check_operation_007 {
+
+    signature S(inout integer p_x) return integer exception (charstring);
+
+    type port PP procedure { inout S; }
+
+    type component C {
+        port PP q1, q2;
+        timer T := 1.0;
+    }
+
+    testcase TC() runs on C {
+        connect(mtc:q1, mtc:q2);
+        q1.call(S:{1}, nowait);
+        q1.call(S:{2}, nowait);
+        T.start;
+        alt {
+            [] q2.check(getreply) { setverdict(fail); stop; }
+            [] q2.check(catch) { setverdict(fail); stop; }
+            [] q2.check(getcall(S:{1})) { }
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        q2.getcall(S:{1});
+        q2.raise(S, charstring:"e");
+        T.start;
+        alt {
+            [] q2.check(getcall(S:{2})) { }
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        q2.getcall(S:{2});
+        q2.reply(S:{2} value 7);
+        T.start;
+        alt {
+            [] q1.check(getcall) { setverdict(fail); stop; }
+            [] q1.check(getreply) { setverdict(fail); stop; }
+            [] q1.check(catch(S, charstring:"e")) { }
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        q1.catch(S, charstring:"e");
+        T.start;
+        alt {
+            [] q1.check(getcall) { setverdict(fail); }
+            [] q1.check(catch) { setverdict(fail); }
+            [] q1.check(getreply(S:{2} value 7)) { setverdict(pass); }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,22 @@
+// @requirement: 19.0 -- Statement: Handle response from a previous call; Associated keyword or symbol: getreply; Can be invoked by test behaviour: Yes
+// @id: TTCN3-CORE-19.0-003a
+// @verdict: pass reject
+module M_19_00_general_004 {
+
+    signature S();
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        setverdict(pass);
+    }
+
+    control {
+        any port.getreply; // error: getreply in control part
+        execute(TC());
+    }
+}

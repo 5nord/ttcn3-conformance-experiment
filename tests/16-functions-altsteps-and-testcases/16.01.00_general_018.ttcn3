@@ -1,0 +1,23 @@
+// @requirement: 16.1.0 -- a) A function without runs on clause shall never invoke a function or altstep or activate an altstep as default with a runs on clause locally.
+// @id: TTCN3-CORE-16.1.0-022a
+// @verdict: pass reject
+module M_16_01_00_general_018 {
+
+    type component C {}
+
+    function f_runsOn() runs on C {
+    }
+
+    function f_noRunsOn() {
+        f_runsOn(); // error: invoking a function with runs on clause
+    }
+
+    testcase TC() runs on C {
+        f_noRunsOn();
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

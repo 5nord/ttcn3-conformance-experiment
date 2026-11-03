@@ -1,0 +1,21 @@
+// @requirement: 6.3.6 -- For variables, constants and parameters of port types, the reference to a port "b" of type "B" is compatible to type "A" if type "B" and type "A" are equal or synonym types.
+// @id: TTCN3-CORE-6.3.6-001a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_03_06_type_compatibility_of_port_types_001 {
+    type port P1 message { inout integer }
+    type P1 P2;
+    type component C { port P2 p }
+
+    function f_use(P1 p_port) {
+        p_port.clear;
+        setverdict(pass);
+    }
+
+    testcase TC() runs on C {
+        f_use(p);
+    }
+
+    control {
+        execute(TC());
+    }
+}

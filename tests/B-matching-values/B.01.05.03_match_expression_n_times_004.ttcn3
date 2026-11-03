@@ -1,0 +1,20 @@
+// @requirement: B.1.5.3 -- The metacharacter postfix "#(n, )" specifies that the preceding expression shall be matched at least n times while "#(, m)" indicates that the preceding expression shall be matched not more than m times.
+// @id: TTCN3-CORE-B.1.5.3-003b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_05_03_match_expression_n_times_004 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        template charstring m_p := pattern "[a-z]#(, 2)";
+        if (match("", m_p) and match("a", m_p) and match("ab", m_p) and not match("abc", m_p)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

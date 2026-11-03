@@ -1,0 +1,42 @@
+// @requirement: 20.1 -- Any test component, timer and port which is referenced in at least one alternative in the alt statement, or in a top alternative of an altstep that is invoked as an alternative in the alt statement or activated as default is considered to be relevant.
+// @id: TTCN3-CORE-20.1-011b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_01_the_snapshot_mechanism_007 {
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p;
+    }
+
+    function f_send() runs on C {
+        p.send(1);
+        p.send(2);
+    }
+
+    altstep a_receive() runs on C {
+        [] p.receive(1) {
+            setverdict(pass);
+        }
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(self:p, v_ptc:p);
+        v_ptc.start(f_send());
+        v_ptc.done;
+        timer T_guard := 1.0;
+        T_guard.start;
+        alt {
+            [] a_receive() {}
+            [] T_guard.timeout {
+                setverdict(fail);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,18 @@
+// @requirement: 5.4.1.1 -- n) If a lazy or fuzzy value parameter is used in deterministic contexts (i.e. during the evaluation of a snapshot or initialization of global non-fuzzy templates), it shall be declared @deterministic.
+// @id: TTCN3-CORE-5.4.1.1-033a
+// @verdict: pass reject
+module M_05_04_01_01_formal_parameters_of_kind_value_037 {
+    type component C {}
+
+    template integer m_value(@fuzzy integer p_x) := p_x; // error: fuzzy parameter not @deterministic
+
+    testcase TC() runs on C {
+        if (match(1, m_value(1))) {
+            setverdict(pass);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,22 @@
+// @requirement: C.1.28 -- **lengthof (see clause C.2.1 for the resulting octetstring) will return half of lengthof of the incoming charstring.
+// @id: TTCN3-CORE-C.1.28-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_01_28_character_string_to_octetstring_005 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var charstring v_even := "54696E6B79";
+        var charstring v_odd := "1D7";
+        if (lengthof(str2oct(v_even)) == lengthof(v_even) / 2 and
+            lengthof(str2oct(v_odd)) == (lengthof(v_odd) + 1) / 2) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

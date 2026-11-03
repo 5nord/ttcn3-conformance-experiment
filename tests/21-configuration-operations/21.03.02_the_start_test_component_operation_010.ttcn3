@@ -1,0 +1,53 @@
+// @requirement: 21.3.2 -- In contrast to that, all active defaults are deactivated when the behaviour of an alive-type PTC is stopped.
+// @id: TTCN3-CORE-21.3.2-012a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_03_02_the_start_test_component_operation_010 {
+
+    type port P message {
+        inout integer
+    }
+
+    type component C {
+        port P p;
+    }
+
+    altstep a_default() runs on C {
+        [] p.receive {
+            setverdict(fail);
+        }
+    }
+
+    function f_first() runs on C {
+        timer T_long := 30.0;
+        var default v_def := activate(a_default());
+        p.send(integer:0);
+        T_long.start;
+        T_long.timeout;
+    }
+
+    function f_second() runs on C {
+        timer T := 0.5;
+        T.start;
+        alt {
+            [] T.timeout {
+                setverdict(pass);
+            }
+        }
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create alive;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_first());
+        p.receive(integer:0);
+        v_ptc.stop;
+        p.send(integer:1);
+        v_ptc.start(f_second());
+        v_ptc.done;
+        v_ptc.kill;
+    }
+
+    control {
+        execute(TC());
+    }
+}

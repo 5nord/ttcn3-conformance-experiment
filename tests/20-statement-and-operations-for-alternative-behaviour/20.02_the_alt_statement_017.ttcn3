@@ -1,0 +1,40 @@
+// @requirement: 20.2 -- A done-branch is selected if the Boolean guard is fulfilled and if the specified test component is in the list of stopped components of the snapshot.
+// @id: TTCN3-CORE-20.2-025a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_02_the_alt_statement_017 {
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p;
+    }
+
+    function f_send() runs on C {
+        p.send(1);
+        p.send(2);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        timer T_guard := 1.0;
+        connect(self:p, v_ptc:p);
+        v_ptc.start(f_send());
+        T_guard.start;
+        alt {
+            [false] v_ptc.done {
+                setverdict(fail);
+            }
+            [] v_ptc.done {
+                setverdict(pass);
+            }
+            [] T_guard.timeout {
+                setverdict(fail);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

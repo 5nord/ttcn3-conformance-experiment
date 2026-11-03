@@ -1,0 +1,28 @@
+// @requirement: 7.1.3 -- Two values of union types are equal if and only if in both values the name of the selected alternative is identical, they are compatible with the type of the other value, and the actual values of the chosen fields are equal.
+// @id: TTCN3-CORE-7.1.3-031a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_07_01_03_relational_operators_032 {
+
+    type component C {}
+
+    type union U {
+        integer d1,
+        integer d2
+    }
+
+    testcase TC() runs on C {
+        var U v_u := { d1 := 0 };
+        var U v_same := { d1 := 0 };
+        var U v_otherName := { d2 := 0 };
+        var U v_otherValue := { d1 := 1 };
+        if (v_u == v_same and v_u != v_otherName and v_u != v_otherValue) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

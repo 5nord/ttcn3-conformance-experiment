@@ -1,0 +1,32 @@
+// @requirement: 22.3.4 -- [ @nodefault ] ( ObjectReference | any port | any from PortArrayRef ) "." getreply [ "(" TemplateInstance [ value TemplateInstance ]")" ] [ from Address ] [ "->" [ value ... ] [ param ... ] [ sender ValueRef] [ @index value ValueRef] ]
+// @id: TTCN3-CORE-22.3.4-002a
+// @verdict: pass accept, noexecution
+module M_22_03_04_the_getreply_operation_001 {
+
+    type record R {
+        octetstring f
+    }
+
+    signature S(out integer p_y, out octetstring p_enc) return R;
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+        port P pa[2];
+    }
+
+    function f_getreply(C p_peer) runs on C {
+        var integer v_y, v_i, v_d;
+        var R v_r;
+        var C v_sender;
+        p.getreply(S:{?, ?} value ?);
+        p.getreply(S:{?, ?} value ?) from p_peer -> value v_r param(v_y, -) sender v_sender;
+        p.getreply(S:{?, ?} value ?) -> value (v_d := @decoded f) param(v_y := p_y, v_i := @decoded p_enc);
+        @nodefault p.getreply(S:{?, ?});
+        any port.getreply(S:{?, ?}) -> sender v_sender;
+        any from pa.getreply(S:{?, ?}) -> param(v_y, -) @index value v_i;
+        p.getreply;
+        p.getreply from p_peer -> sender v_sender;
+    }
+}

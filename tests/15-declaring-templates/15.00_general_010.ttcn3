@@ -1,0 +1,29 @@
+// @requirement: 15.0 -- NOTE: Using a fuzzy template from a non-fuzzy template causes evaluation of the fuzzy template.
+// @id: TTCN3-CORE-15.0-012a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_00_general_010 {
+
+    type component C {
+        var integer v_count := 0;
+    }
+
+    function f_next() runs on C return integer {
+        v_count := v_count + 1;
+        return v_count;
+    }
+
+    testcase TC() runs on C {
+        template @fuzzy integer m_fuzzy := f_next();
+        var integer v_before := v_count;
+        template integer m_nonFuzzy := m_fuzzy;
+        if (v_before == 0 and v_count == 1 and match(1, m_nonFuzzy)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

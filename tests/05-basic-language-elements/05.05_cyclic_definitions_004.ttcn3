@@ -1,0 +1,31 @@
+// @requirement: 5.5 -- c) cyclic import definitions, if the imported definitions only form allowed cyclic definitions.
+// @id: TTCN3-CORE-5.5-004a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_05_cyclic_definitions_004 {
+
+    import from M_05_05_cyclic_definitions_004_A { type MyInteger };
+
+    type record of MyInteger MyIntegerList;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (c_list == { 1, 2 }) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_05_05_cyclic_definitions_004_A {
+    import from M_05_05_cyclic_definitions_004 { type MyIntegerList };
+
+    type integer MyInteger;
+
+    const MyIntegerList c_list := { 1, 2 };
+}

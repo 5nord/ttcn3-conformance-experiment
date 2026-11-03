@@ -1,0 +1,20 @@
+// @requirement: 14 -- signature SignatureIdentifier "(" { [ in | inout | out ] Type ValueParIdentifier [ ","] } ")" [ ( return TypeOrNestedTypeDef ) | noblock ] [ exception "(" ExceptionTypeList ")" ]
+// @id: TTCN3-CORE-14-004a
+// @verdict: pass accept, noexecution
+module M_14_declaring_procedure_signatures_005 {
+
+    type record ExceptionType1 { integer code }
+    type charstring ExceptionType2;
+
+    signature S_one();
+    signature S_two() noblock;
+    signature S_three(in integer p_par1, out float p_par2, inout integer p_par3);
+    signature S_four(integer p_par1) return integer;
+    signature S_five(inout float p_par1) return integer
+        exception (ExceptionType1, ExceptionType2);
+    signature S_six(in integer p_par1) noblock
+        exception (integer, float);
+    signature S_seven()
+        exception (record { integer id, charstring description });
+    signature S_eight() return record { integer a, boolean b };
+}

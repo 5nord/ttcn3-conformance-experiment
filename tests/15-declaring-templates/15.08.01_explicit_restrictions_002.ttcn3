@@ -1,0 +1,18 @@
+// @requirement: 15.8.1 -- Template restrictions can be applied equally to message and signature templates.
+// @id: TTCN3-CORE-15.8.1-003a
+// @verdict: pass accept, noexecution
+module M_15_08_01_explicit_restrictions_002 {
+    type record R {
+        integer a,
+        boolean b optional
+    }
+
+    signature S(in integer p_i) return integer;
+
+    template(value) R m_msg := {a := 1, b := true};
+    template(present) R mw_msg := {a := ?, b := *};
+    template(value) S s_call := {p_i := 1};
+    template(present) S s_callAny := {p_i := ?};
+
+    type component C {}
+}

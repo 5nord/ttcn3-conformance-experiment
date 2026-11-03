@@ -1,0 +1,45 @@
+// @requirement: 16.2.1 -- When an altstep is called explicitly within an alt statement, the next alternative to be checked is the first alternative of the altstep.
+// @id: TTCN3-CORE-16.2.1-008a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_16_02_01_invoking_altsteps_008 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p;
+        timer T;
+    }
+
+    altstep a_step() runs on C {
+        [] p.receive(integer:1) {
+            setverdict(pass);
+        }
+        [] p.receive {
+            setverdict(fail);
+        }
+    }
+
+    testcase TC() runs on C {
+        connect(self:p, self:p);
+        p.send(1);
+        T.start(1.0);
+        alt {
+            [] p.receive(integer:2) {
+                setverdict(fail);
+            }
+            [] a_step();
+            [] p.receive {
+                setverdict(fail);
+            }
+            [] T.timeout {
+                setverdict(fail);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

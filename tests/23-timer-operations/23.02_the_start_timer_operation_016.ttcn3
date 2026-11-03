@@ -1,0 +1,17 @@
+// @requirement: 23.2 -- a) The SingleExpression representing the timer value shall be a non-negative numerical float number (i.e. the value shall be greater than or equal to 0.0; infinity and not_a_number are disallowed).
+// @id: TTCN3-CORE-23.2-012b
+// @verdict: pass reject
+module M_23_02_the_start_timer_operation_016 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        timer T;
+        T.start(infinity); // error: infinity is not allowed as timer value
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

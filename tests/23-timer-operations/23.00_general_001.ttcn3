@@ -1,0 +1,42 @@
+// @requirement: 23.0 -- These operations may be used in test cases, functions and altsteps.
+// @id: TTCN3-CORE-23.0-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_23_00_general_001 {
+
+    type component C {
+        timer T_c := 0.1;
+    }
+
+    function f_start() runs on C {
+        T_c.start;
+    }
+
+    altstep a_timeout() runs on C {
+        [] T_c.timeout {
+            T_c.start(0.0);
+            T_c.stop;
+            if (not T_c.running and T_c.read == 0.0) {
+                setverdict(pass);
+            } else {
+                setverdict(fail);
+            }
+        }
+    }
+
+    testcase TC() runs on C {
+        timer T := 1.0;
+        T.start;
+        f_start();
+        alt {
+            [] a_timeout();
+            [] T.timeout {
+                setverdict(fail);
+            }
+        }
+        T.stop;
+    }
+
+    control {
+        execute(TC());
+    }
+}

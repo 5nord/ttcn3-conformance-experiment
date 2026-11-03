@@ -1,0 +1,25 @@
+// @requirement: 5.4.1.2 -- b) Formal template parameters of templates and of altsteps activated as defaults (see clause 20.5.2) shall always be in parameters.
+// @id: TTCN3-CORE-5.4.1.2-016b
+// @verdict: pass reject
+module M_05_04_01_02_formal_parameters_of_kind_template_015 {
+    type component C {
+        timer T;
+    }
+
+    altstep a_default(out template integer p_x) runs on C {
+        [] T.timeout {
+            p_x := ?;
+        }
+    }
+
+    testcase TC() runs on C {
+        var template integer vt_x;
+        var default v_def := activate(a_default(vt_x)); // error: out parameter of activated altstep
+        deactivate(v_def);
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

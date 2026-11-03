@@ -1,0 +1,21 @@
+// @requirement: 6.2.4 -- Enumerated names with an associated value list shall only be used as values together with a specific integer value, which shall be one from the associated list, in parenthesis after the name.
+// @id: TTCN3-CORE-6.2.4-023a
+// @verdict: pass reject
+module M_06_02_04_enumerated_type_and_values_025 {
+
+    type component C {}
+
+    type enumerated E {
+        e_a,
+        e_list (5, 7 .. 9)
+    };
+
+    testcase TC() runs on C {
+        var E v_e := e_list; // error: value list enumerated value used without integer value
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

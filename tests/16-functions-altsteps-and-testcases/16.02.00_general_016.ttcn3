@@ -1,0 +1,31 @@
+// @requirement: 16.2.0 -- If the system clause is not present, the type of the system component reference is unknown in the scope of this altstep.
+// @id: TTCN3-CORE-16.2.0-018a
+// @verdict: pass reject
+module M_16_02_00_general_016 {
+
+    type port P message {
+        inout integer
+    }
+
+    type component C {
+        port P p1, p2;
+    }
+
+    altstep a_step() runs on C {
+        [] p2.receive {
+            map(self:p1, system:p1); // error: type of system unknown, port p1 of system cannot be referenced
+        }
+    }
+
+    testcase TC() runs on C system C {
+        connect(self:p1, self:p2);
+        p1.send(1);
+        disconnect(self:p1, self:p2);
+        a_step();
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

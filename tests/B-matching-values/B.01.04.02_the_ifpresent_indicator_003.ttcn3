@@ -1,0 +1,30 @@
+// @requirement: B.1.4.2 -- a) This IfPresent indicator shall be used only for matching mechanisms in templates of any type as a whole or for optional fields of set or record templates or for values associated with keys of map templates.
+// @id: TTCN3-CORE-B.1.4.2-004a
+// @verdict: pass reject
+module M_B_01_04_02_the_ifpresent_indicator_003 {
+
+    type component C {}
+
+    type record R {
+        integer f1,
+        integer f2 optional
+    }
+
+    template R mw_rec := {
+        f1 := 1 ifpresent, // error: ifpresent on a mandatory field
+        f2 := omit
+    };
+
+    testcase TC() runs on C {
+        var R v_r := { f1 := 1, f2 := omit };
+        if (match(v_r, mw_rec)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

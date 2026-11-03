@@ -1,0 +1,21 @@
+// @requirement: 21.1.1 -- 2) neither PORT1 nor PORT2 are system port references; and
+// @id: TTCN3-CORE-21.1.1-025a
+// @verdict: pass reject
+module M_21_01_01_the_connect_and_map_operations_021 {
+
+    type port P message { inout integer; }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C system C {
+        var C v_ptc := C.create;
+        connect(v_ptc:p, system:p); // error: system port reference in connect
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

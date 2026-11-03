@@ -1,0 +1,41 @@
+// @requirement: 22.5.4 -- Messages and procedure call elements that were already in the queue before the halt operation can still be processed with receiving operations.
+// @id: TTCN3-CORE-22.5.4-004a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_05_04_the_halt_port_operation_004 {
+
+    signature S(in integer p_x) noblock;
+
+    type port P procedure {
+        inout S
+    }
+
+    type component C {
+        port P p1, p2;
+        timer T := 1.0;
+    }
+
+    testcase TC() runs on C {
+        var integer v_x := 0;
+        connect(self:p1, self:p2);
+        p1.call(S:{7});
+        T.start;
+        alt {
+            [] p2.check(getcall) { T.stop; }
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        p2.halt;
+        alt {
+            [] p2.getcall(S:{?}) -> param(v_x) { }
+            [else] { setverdict(fail); stop; }
+        }
+        if (v_x == 7) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

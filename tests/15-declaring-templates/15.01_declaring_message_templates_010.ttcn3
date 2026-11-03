@@ -1,0 +1,37 @@
+// @requirement: 15.1 -- At the time of a receiving operation, the matching template shall be completely initialized.
+// @id: TTCN3-CORE-15.1-011a
+// @verdict: pass accept, ttcn3verdict:error
+module M_15_01_declaring_message_templates_010 {
+
+    type record MyMessageType {
+        integer field1,
+        charstring field2
+    }
+
+    type port P message {
+        inout MyMessageType;
+    }
+
+    type component C {
+        port P p1;
+        port P p2;
+    }
+
+    testcase TC() runs on C {
+        timer T := 1.0;
+        var template MyMessageType v_mw;
+        connect(self:p1, self:p2);
+        v_mw.field1 := 1;
+        p1.send(MyMessageType:{ field1 := 1, field2 := "a" });
+        setverdict(pass);
+        T.start;
+        alt {
+            [] p2.receive(v_mw) { } // error: field2 of the matching template is uninitialized
+            [] T.timeout { }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

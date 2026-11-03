@@ -1,0 +1,17 @@
+// @requirement: 6.2.5.1 -- AlternativeId shall resolve to the name of an alternative in the union type or in case of an anytype value or template AlternativeId shall resolve to a known type name or a known type name qualified with a module name.
+// @id: TTCN3-CORE-6.2.5.1-002b
+// @verdict: pass reject
+module M_06_02_05_01_referencing_fields_of_a_union_type_004 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var anytype v_any;
+        v_any.UnknownType := 1; // error: UnknownType is not a known type name
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

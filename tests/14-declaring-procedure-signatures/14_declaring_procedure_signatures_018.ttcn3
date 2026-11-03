@@ -1,0 +1,36 @@
+// @requirement: 14 -- Therefore templates and matching mechanisms can be used to specify or check return values of remote procedures.
+// @id: TTCN3-CORE-14-016a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_14_declaring_procedure_signatures_018 {
+
+    signature S() exception (integer);
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    template integer mw_exc := (1 .. 10);
+
+    function f_server() runs on C {
+        p.getcall(S:{});
+        p.raise(S, integer:5);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_server());
+        p.call(S:{}, 1.0) {
+            [] p.getreply(S:{}) { setverdict(fail); }
+            [] p.catch(S, mw_exc) { setverdict(pass); }
+            [] p.catch { setverdict(fail); }
+            [] p.catch(timeout) { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

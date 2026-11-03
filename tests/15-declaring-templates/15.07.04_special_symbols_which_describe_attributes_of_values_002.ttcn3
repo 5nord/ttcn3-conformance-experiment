@@ -1,0 +1,30 @@
+// @requirement: 15.7.4 -- **length:** restrictions for string length of string types and the number of elements for record of, set of and arrays;
+// @id: TTCN3-CORE-15.7.4-004a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_07_04_special_symbols_which_describe_attributes_of_values_002 {
+    type record of integer RoI;
+    type set of integer SoI;
+    type integer A3[3];
+
+    template charstring mw_str := ? length (2 .. 3);
+    template RoI mw_ro := ? length (2);
+    template SoI mw_so := ? length (1 .. 2);
+    template A3 mw_arr := ? length (3);
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var RoI v_ro := {1, 2};
+        var SoI v_so := {1};
+        var A3 v_arr := {1, 2, 3};
+        if (match("ab", mw_str) and not match("abcd", mw_str) and match(v_ro, mw_ro) and not match({1, 2, 3}, mw_ro) and match(v_so, mw_so) and not match({1, 2, 3}, mw_so) and match(v_arr, mw_arr)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

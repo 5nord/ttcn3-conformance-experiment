@@ -1,0 +1,20 @@
+// @requirement: B.1.2.1 -- a) The type of the template list and the member type of the template in the all from clause shall be compatible.
+// @id: TTCN3-CORE-B.1.2.1-007a
+// @verdict: pass reject
+module M_B_01_02_01_template_list_007 {
+
+    type component C {}
+
+    type record of integer RoI;
+
+    template RoI mw_roI1 := { 1, 2, (6 .. 9) };
+    template RoI mw_roI2 := (all from mw_roI1); // error: member type integer is not compatible with RoI
+
+    testcase TC() runs on C {
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,22 @@
+// @requirement: 16.1.2 -- Col1: Returns the specified portion of the input string/list value or template; Table 15: List of TTCN-3 predefined functions: substr
+// @id: TTCN3-CORE-16.1.2-048a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_16_01_02_predefined_functions_039 {
+
+    type component C {}
+
+    type record of integer RoI;
+
+    testcase TC() runs on C {
+        var RoI v_list := { 4, 5, 6 };
+        if (substr('01AB23CD'O, 1, 2) == 'AB23'O and substr(v_list, 1, 2) == { 5, 6 }) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

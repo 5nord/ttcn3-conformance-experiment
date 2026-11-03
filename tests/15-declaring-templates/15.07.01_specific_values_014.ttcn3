@@ -1,0 +1,51 @@
+// @requirement: 15.7.1 -- Col1: set; Col2: Yes; Table 11: TTCN-3 Matching Mechanisms: Yes1; Col4: Yes; Col5: Yes; Col6: Yes; Col7: Yes1; Col17: Yes1
+// @id: TTCN3-CORE-15.7.1-020a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_07_01_specific_values_014 {
+
+    type component C {}
+
+    type set S {
+        integer a,
+        boolean b
+    }
+
+    type set R {
+        S f optional
+    }
+
+    template S m_spec := { a := 1, b := true };
+    template S m_omit := omit;
+    template S m_compl := complement({ a := 1, b := true });
+    template S m_list := ({ a := 1, b := true }, { a := 2, b := false });
+    template S m_any := ?;
+    template S m_anyOrNone := *;
+    template R m_rOmit := { f := omit };
+    template R m_rAnyOrNone := { f := * };
+    template R m_rIfPresent := { f := { a := 1, b := true } ifpresent };
+
+    testcase TC() runs on C {
+        var S v_s1 := { a := 1, b := true };
+        var S v_s2 := { a := 2, b := false };
+        var S v_s3 := { b := true, a := 3 };
+        var R v_absent := { f := omit };
+        var R v_present := { f := v_s1 };
+        var R v_other := { f := v_s2 };
+        if (match(v_s1, m_spec) and not match(v_s2, m_spec) and
+            match(v_s2, m_compl) and not match(v_s1, m_compl) and
+            match(v_s2, m_list) and not match(v_s3, m_list) and
+            match(v_s3, m_any) and
+            match(v_absent, m_rOmit) and not match(v_present, m_rOmit) and
+            match(v_absent, m_rAnyOrNone) and match(v_present, m_rAnyOrNone) and
+            match(v_absent, m_rIfPresent) and match(v_present, m_rIfPresent) and
+            not match(v_other, m_rIfPresent)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

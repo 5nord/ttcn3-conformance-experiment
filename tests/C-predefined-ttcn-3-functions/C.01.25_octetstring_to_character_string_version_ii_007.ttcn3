@@ -1,0 +1,20 @@
+// @requirement: C.1.25 -- NOTE: The character string returned may contain non-graphical characters, which cannot be presented between the double quotes.
+// @id: TTCN3-CORE-C.1.25-009a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_01_25_octetstring_to_character_string_version_ii_007 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var charstring v_c := oct2char('0A07'O);
+        if (lengthof(v_c) == 2 and char2int(v_c[0]) == 10 and char2int(v_c[1]) == 7) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

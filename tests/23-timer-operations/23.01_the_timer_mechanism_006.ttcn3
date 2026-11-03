@@ -1,0 +1,32 @@
+// @requirement: 23.1 -- A timeout event is placed in the timeout-list and the timer is removed from the running-timer list of the component for which the timer has been declared.
+// @id: TTCN3-CORE-23.1-012a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_23_01_the_timer_mechanism_006 {
+
+    type component C {
+        timer T_comp := 0.05;
+    }
+
+    function f_start() runs on C {
+        T_comp.start;
+    }
+
+    testcase TC() runs on C {
+        timer T_wait := 0.3;
+        f_start();
+        T_wait.start;
+        T_wait.timeout;
+        alt {
+            [] T_comp.timeout {
+                setverdict(pass);
+            }
+            [else] {
+                setverdict(fail);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

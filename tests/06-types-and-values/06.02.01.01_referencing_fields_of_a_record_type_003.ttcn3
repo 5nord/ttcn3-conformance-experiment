@@ -1,0 +1,21 @@
+// @requirement: 6.2.1.1 -- ElementId shall resolve to the name of a field in the structured type.
+// @id: TTCN3-CORE-6.2.1.1-002a
+// @verdict: pass reject
+module M_06_02_01_01_referencing_fields_of_a_record_type_003 {
+
+    type component C {}
+
+    type record R {
+        integer f1
+    }
+
+    testcase TC() runs on C {
+        var R v_r := { f1 := 1 };
+        var integer v_x := v_r.f2; // error: f2 is not a field of R
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

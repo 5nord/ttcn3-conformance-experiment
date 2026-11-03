@@ -1,0 +1,26 @@
+// @requirement: 15.7.2 -- **pattern: a charstring or universal charstring that matches this format;**
+// @id: TTCN3-CORE-15.7.2-015a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_07_02_special_symbols_that_can_be_used_instead_of_values_014 {
+
+    type component C {}
+
+    template charstring m_cs := pattern "ab?d*";
+    template universal charstring m_ucs := pattern "x[0-9]#(2)y";
+
+    testcase TC() runs on C {
+        var universal charstring v_ucsOk := "x12y";
+        var universal charstring v_ucsNok := "x1y";
+        if (match("abcd", m_cs) and match("abxdzzz", m_cs) and
+            not match("abd", m_cs) and not match("zabcd", m_cs) and
+            match(v_ucsOk, m_ucs) and not match(v_ucsNok, m_ucs)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

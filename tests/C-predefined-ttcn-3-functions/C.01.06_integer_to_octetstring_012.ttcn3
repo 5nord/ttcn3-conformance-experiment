@@ -1,0 +1,17 @@
+// @requirement: C.1.6 -- invalue is less than zero; the conversion yields a return value with more octets than specified by length. In addition to the general error causes in clause 16.1.2, error causes are:
+// @id: TTCN3-CORE-C.1.6-010b
+// @verdict: pass accept, ttcn3verdict:error
+module M_C_01_06_integer_to_octetstring_012 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_in := 256;
+        var octetstring v_res := int2oct(v_in, 1); // error: needs more than 1 octet
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

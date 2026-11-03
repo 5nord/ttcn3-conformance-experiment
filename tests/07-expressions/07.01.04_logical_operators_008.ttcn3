@@ -1,0 +1,22 @@
+// @requirement: 7.1.4 -- Short circuit evaluation for boolean expressions is used, i.e. the evaluation of operands of logical operators is stopped once the overall result is known: in the case of the and operator, if the left argument evaluates to false, then the right argument is not evaluated and the whole expression evaluates to false.
+// @id: TTCN3-CORE-7.1.4-008b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_07_01_04_logical_operators_008 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_arr[2] := { 1, 2 };
+        var integer v_i := 5;
+        // evaluating v_arr[v_i] would cause an index overflow error
+        if (v_i < 2 and v_arr[v_i] == 1) {
+            setverdict(fail);
+        } else {
+            setverdict(pass);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

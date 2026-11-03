@@ -1,0 +1,36 @@
+// @requirement: 6.2.10.2 -- NOTE 2: For component type compatibility, this means that a component reference c of type CT1, which extends CT2, is compatible with CT2, and test cases, functions and altsteps specifying CT2 in their runs `on` clauses can be executed on c (see clause 6.3.2.7).
+// @id: TTCN3-CORE-6.2.10.2-012a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_10_02_reuse_of_component_types_010 {
+
+    type component CT2 {
+        var integer vc_i := 1;
+    }
+
+    type component CT1 extends CT2 {
+        var float vc_f := 1.0;
+    }
+
+    function f_check() runs on CT2 {
+        if (vc_i == 1) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    testcase TC() runs on CT1 {
+        var CT1 v_c := CT1.create;
+        var CT2 v_base := v_c;
+        v_c.start(f_check());
+        v_c.done;
+        if (v_base != v_c) {
+            setverdict(fail);
+        }
+        f_check();
+    }
+
+    control {
+        execute(TC());
+    }
+}

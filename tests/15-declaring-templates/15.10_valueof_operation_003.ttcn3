@@ -1,0 +1,32 @@
+// @requirement: 15.10 -- The valueof operation returns the value of a template instance.
+// @id: TTCN3-CORE-15.10-004a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_10_valueof_operation_003 {
+
+    type record ExampleType {
+        integer field1,
+        boolean field2
+    }
+
+    template ExampleType m_setupTemplate := {
+        field1 := 1,
+        field2 := true
+    }
+
+    const ExampleType c_expected := { field1 := 1, field2 := true };
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var ExampleType v_rxValue := valueof(m_setupTemplate);
+        if (v_rxValue == c_expected) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

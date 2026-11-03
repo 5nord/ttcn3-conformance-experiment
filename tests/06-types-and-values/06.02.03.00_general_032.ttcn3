@@ -1,0 +1,42 @@
+// @requirement: 6.2.3.0 -- Uninitialized elements are permitted only in transient states (while the value remains invisible).
+// @id: TTCN3-CORE-6.2.3.0-031a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_03_00_general_032 {
+
+    type record of integer MyRecordOf;
+
+    type port P message {
+        inout MyRecordOf
+    }
+
+    type component C {
+        port P p1;
+        port P p2;
+    }
+
+    testcase TC() runs on C {
+        var MyRecordOf v_ro;
+        timer T := 1.0;
+        connect(mtc:p1, mtc:p2);
+        v_ro[2] := 3;
+        v_ro[0] := 1;
+        v_ro[1] := 2;
+        p1.send(v_ro);
+        T.start;
+        alt {
+            [] p2.receive(MyRecordOf:{ 1, 2, 3 }) {
+                setverdict(pass);
+            }
+            [] p2.receive {
+                setverdict(fail);
+            }
+            [] T.timeout {
+                setverdict(fail);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

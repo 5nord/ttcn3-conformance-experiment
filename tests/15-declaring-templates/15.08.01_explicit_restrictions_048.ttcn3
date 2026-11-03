@@ -1,0 +1,14 @@
+// @requirement: 15.8.1 -- Parameter restriction in base template: template(present); Allowed parameter restrictions in modified template: No; Col3: Yes; Col4: Yes; Col5: No
+// @id: TTCN3-CORE-15.8.1-054b
+// @verdict: pass reject
+module M_15_08_01_explicit_restrictions_048 {
+    type record R {
+        integer a,
+        boolean b optional
+    }
+
+    template R m_base(template(present) integer p_a) := {a := p_a, b := omit};
+    template R m_mod(template integer p_a) modifies m_base := {b := true}; // error: unrestricted not allowed for present base parameter
+
+    type component C {}
+}

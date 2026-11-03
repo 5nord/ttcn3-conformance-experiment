@@ -1,0 +1,21 @@
+// @requirement: 21.3.10 -- If the called component is not created alive and has already been started or called once or if it has been killed, additional call operations are not allowed.
+// @id: TTCN3-CORE-21.3.10-026a
+// @verdict: pass accept, ttcn3verdict:error
+module M_21_03_10_the_call_test_component_behaviour_operation_042 {
+
+    type component C {}
+
+    function f() runs on C {}
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        v_ptc.call(f());
+        setverdict(pass);
+        v_ptc.call(f()); // second call on a non-alive component
+        setverdict(fail);
+    }
+
+    control {
+        execute(TC());
+    }
+}

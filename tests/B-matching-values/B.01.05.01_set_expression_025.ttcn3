@@ -1,0 +1,23 @@
+// @requirement: B.1.5.1 -- The pattern will match character strings containing two elements, with the first element equal to "a", "b", "[" or anything in the range "r"-"z" and the second character equal to "]".
+// @id: TTCN3-CORE-B.1.5.1-030a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_05_01_set_expression_025 {
+
+    type component C {}
+
+    template charstring mw_set := pattern "[ab[r-z]]";
+
+    testcase TC() runs on C {
+        if (match("a]", mw_set) and match("b]", mw_set) and match("[]", mw_set)
+            and match("r]", mw_set) and match("z]", mw_set)
+            and not match("c]", mw_set) and not match("ab", mw_set) and not match("a", mw_set)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,26 @@
+// @requirement: 22.4 -- The check operation is successful if the receiving operation is successful.
+// @id: TTCN3-CORE-22.4-012a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_04_the_check_operation_016 {
+
+    type port MP message { inout integer; }
+
+    type component C {
+        port MP p1, p2;
+        timer T := 1.0;
+    }
+
+    testcase TC() runs on C {
+        connect(mtc:p1, mtc:p2);
+        p1.send(5);
+        T.start;
+        alt {
+            [] p2.check(receive(5)) { setverdict(pass); }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

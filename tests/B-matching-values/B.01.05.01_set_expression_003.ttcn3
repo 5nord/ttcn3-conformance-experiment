@@ -1,0 +1,22 @@
+// @requirement: B.1.5.1 -- In addition to character literals, it is possible to specify character ranges using the hyphen "-" as separator.
+// @id: TTCN3-CORE-B.1.5.1-003a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_05_01_set_expression_003 {
+
+    type component C {}
+
+    template charstring mw_set := pattern "[xa-cz]";
+
+    testcase TC() runs on C {
+        if (match("x", mw_set) and match("b", mw_set) and match("z", mw_set)
+            and not match("-", mw_set) and not match("d", mw_set)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,32 @@
+// @requirement: 22.3.6 -- The catch operation may be part of the response and exception handling part of a call operation or be used to determine an alternative in an alt statement.
+// @id: TTCN3-CORE-22.3.6-021a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_03_06_the_catch_operation_020 {
+
+    signature S() exception (integer);
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    function f_server() runs on C {
+        p.getcall(S:{});
+        p.raise(S, integer:1);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_server());
+        p.call(S:{}, 1.0) {
+            [] p.catch(S, integer:1) { setverdict(pass); }
+            [] p.catch(timeout) { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

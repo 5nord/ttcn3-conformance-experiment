@@ -1,0 +1,41 @@
+// @requirement: 19.3.2 -- Never more than one of the branches is executed.
+// @id: TTCN3-CORE-19.3.2-004a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_03_02_the_select_union_statement_003 {
+
+    type component C {}
+
+    type union U {
+        integer a,
+        boolean b,
+        charstring c
+    }
+
+    testcase TC() runs on C {
+        var U v_u := { b := false };
+        var integer v_count := 0;
+        select union (v_u) {
+            case (a) {
+                v_count := v_count + 1;
+            }
+            case (b) {
+                v_count := v_count + 1;
+            }
+            case (c) {
+                v_count := v_count + 1;
+            }
+            case else {
+                v_count := v_count + 1;
+            }
+        }
+        if (v_count == 1) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

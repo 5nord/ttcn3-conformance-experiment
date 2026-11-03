@@ -1,0 +1,27 @@
+// @requirement: 15.6.1 -- The template is of a character string type and it contains either a specific value, pattern or AnyValue or when occurring on the left hand AnyValueOrNone.
+// @id: TTCN3-CORE-15.6.1-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_06_01_referencing_individual_string_elements_002 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template charstring v_spec := "abc", v_pat := pattern "a[0-9]c",
+            v_any := ?, v_anyOrNone := *;
+        var template charstring v_e1, v_e2, v_e3;
+        v_e1 := v_spec[1];
+        v_e2 := v_pat[1];
+        v_e3 := v_any[0];
+        v_anyOrNone[0] := "x";
+        if (match("b", v_e1) and match("5", v_e2) and not match("b", v_e2)
+            and match("z", v_e3) and match("x", v_anyOrNone)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

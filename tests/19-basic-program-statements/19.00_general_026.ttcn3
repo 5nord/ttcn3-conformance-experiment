@@ -1,0 +1,23 @@
+// @requirement: 19.0 -- Statement: Check the state of a port; Associated keyword or symbol: checkstate; Can be invoked by test behaviour: Yes
+// @id: TTCN3-CORE-19.0-010b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_00_general_026 {
+
+    type port M message { inout integer }
+
+    type component C {
+        port M p;
+    }
+
+    testcase TC() runs on C {
+        if (p.checkstate("Started")) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

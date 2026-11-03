@@ -1,0 +1,18 @@
+// @requirement: 5.3 -- This means in particular, local variables, local timers, and local constants shall never be used before they are declared.
+// @id: TTCN3-CORE-5.3-007a
+// @verdict: pass reject
+module M_05_03_ordering_of_language_elements_006 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        T_local.start; // error: local timer used before its declaration
+        timer T_local := 0.1;
+        T_local.timeout;
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,27 @@
+// @requirement: 7.1.7 -- Excess shift units (bits, hexadecimal digits, octets, characters, or elements) are re-inserted into the left-hand operand from its left-hand side.
+// @id: TTCN3-CORE-7.1.7-019a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_07_01_07_rotate_operators_017 {
+
+    type record of integer RoI;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var bitstring v_b := '000011'B;
+        var hexstring v_h := '000AB'H;
+        var octetstring v_o := '0000FF'O;
+        var charstring v_c := "---xy";
+        var RoI v_r := { 0, 0, 7 };
+        if (v_b @> 2 == '110000'B and v_h @> 2 == 'AB000'H and v_o @> 1 == 'FF0000'O and
+            v_c @> 2 == "xy---" and v_r @> 1 == { 7, 0, 0 }) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

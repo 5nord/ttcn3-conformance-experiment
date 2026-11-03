@@ -1,0 +1,43 @@
+// @requirement: 20.2 -- The re-evaluation of an alt statement can be specified by using a repeat statement (see clause 20.3).
+// @id: TTCN3-CORE-20.2-062a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_02_the_alt_statement_044 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p1, p2;
+    }
+
+    testcase TC() runs on C {
+        var integer v_count := 0;
+        timer T := 1.0;
+        connect(self:p1, self:p2);
+        p1.send(integer:1);
+        p1.send(integer:2);
+        p1.send(integer:3);
+        T.start;
+        alt {
+            [] p2.receive {
+                v_count := v_count + 1;
+                if (v_count < 3) {
+                    repeat;
+                }
+            }
+            [] T.timeout {
+                setverdict(fail);
+            }
+        }
+        if (v_count == 3) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

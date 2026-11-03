@@ -1,0 +1,25 @@
+// @requirement: 19.0 -- Statement: Read elapsed time; Associated keyword or symbol: read; Can be invoked by control behaviour: Yes; Can be invoked by test behaviour: Yes
+// @id: TTCN3-CORE-19.0-014c
+// @verdict: pass reject
+module M_19_00_general_036 {
+
+    type component C {
+        timer T_c;
+    }
+
+    function f_guard() runs on C return boolean {
+        return T_c.read >= 0.0; // error: timer read in function called from an alt guard
+    }
+
+    testcase TC() runs on C {
+        timer T := 0.1;
+        T.start;
+        alt {
+            [f_guard()] T.timeout { setverdict(pass); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

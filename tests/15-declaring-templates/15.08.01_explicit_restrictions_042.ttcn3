@@ -1,0 +1,27 @@
+// @requirement: 15.8.1 -- Rule: Not allowed with one exception: a template with an omit restriction is allowed to be used on the right hand side of an assignment if the left hand side resolves into an optional field of a template with a value restriction.
+// @id: TTCN3-CORE-15.8.1-049a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_08_01_explicit_restrictions_042 {
+    type record R {
+        integer a,
+        boolean b optional
+    }
+
+    template(omit) boolean m_omit := omit;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template(value) R vt_r := {a := 1, b := true};
+        vt_r.b := m_omit;
+        if (match({a := 1, b := omit}, vt_r)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

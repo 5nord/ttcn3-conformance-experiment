@@ -1,0 +1,29 @@
+// @requirement: 15.5 -- If not, this shall cause an error.
+// @id: TTCN3-CORE-15.5-035a
+// @verdict: pass reject
+module M_15_05_modified_templates_031 {
+
+    type record R {
+        integer f1 optional,
+        charstring f2,
+        boolean f3
+    }
+
+    template R m_r1(integer p_i := 5) := { f1 := p_i, f2 := "A string", f3 := true };
+    template R m_r2(integer p_i) modifies m_r1 := { };
+    template R m_r3(integer p_i := -) modifies m_r2 := { f2 := "B string" }; // error: no default in parent m_r2
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (match({ f1 := 1, f2 := "B string", f3 := true }, m_r3(1))) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

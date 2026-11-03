@@ -1,0 +1,20 @@
+// @requirement: 6.1.1.0 -- e) The character string type preceded by the keyword universal denotes types whose distinguished values are zero, one, or more characters from ISO/IEC 10646 [2]. universal charstring values can also be denoted by an arbitrary number (possibly zero) of characters from the relevant character set, preceded and followed by double quote ("), calculated using a predefined conversion function (see clause C.1.2) with the positive integer value of their encoding as argument, by a "quadruple" or using the USI-like notation.
+// @id: TTCN3-CORE-6.1.1.0-035c
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_01_01_00_general_025 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var universal charstring v_u := int2unichar(369);
+        if (v_u == char(0, 0, 1, 113) and lengthof(v_u) == 1) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,21 @@
+// @requirement: 15.11 -- The length matching attribute shall not follow a template or template field produced by concatenation directly, but in this case the concatenation shall be placed within a pair of parentheses.
+// @id: TTCN3-CORE-15.11-022b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_11_concatenating_templates_of_string_and_list_types_027 {
+
+    template octetstring mw_t := ('ABCD'O & ? length(2)) length(4);
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (match('ABCD0102'O, mw_t) and not match('ABCD01'O, mw_t)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

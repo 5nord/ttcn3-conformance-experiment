@@ -1,0 +1,32 @@
+// @requirement: 18 -- NOTE 4: Can be used in functions and altsteps but not in test cases.
+// @id: TTCN3-CORE-18-072a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_18_overview_of_program_statements_and_operations_132 {
+
+    type component C {
+        timer T := 0.1;
+    }
+
+    function f_value() return integer {
+        return 1;
+    }
+
+    altstep a_timeout() runs on C {
+        [] T.timeout {
+            if (f_value() == 1) {
+                setverdict(pass);
+                return;
+            }
+            setverdict(fail);
+        }
+    }
+
+    testcase TC() runs on C {
+        T.start;
+        a_timeout();
+    }
+
+    control {
+        execute(TC());
+    }
+}

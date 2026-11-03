@@ -1,0 +1,37 @@
+// @requirement: 8.2.1 -- For implicit initialization of the optional fields of a module parameter or a module parameter field, an optional attribute with the value "implicit omit" (see clause 27.7) shall be associated with it either directly or via the attribute distribution (scoping) mechanism (see clause 27.1.1).
+// @id: TTCN3-CORE-8.2.1-016a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_02_01_module_parameters_016 {
+
+    type record Inner {
+        integer x,
+        integer y optional
+    }
+
+    type record R {
+        integer a,
+        integer b optional,
+        Inner c
+    }
+
+    group g_params {
+        modulepar R mp_viaGroup := { a := 1, c := { x := 2 } };
+    } with { optional "implicit omit" }
+
+    modulepar R mp_direct := { a := 1, c := { x := 2 } } with { optional "implicit omit" }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (not ispresent(mp_viaGroup.b) and not ispresent(mp_viaGroup.c.y)
+            and not ispresent(mp_direct.b) and not ispresent(mp_direct.c.y)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

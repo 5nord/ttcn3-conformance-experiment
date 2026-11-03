@@ -1,0 +1,18 @@
+// @requirement: C.2.1 -- When the function lengthof is applied to string-type templates, inpar shall only contain the following matching mechanisms: specific value, value list, complemented value list, pattern, "?" (AnyValue instead of value), "*" (AnyValueOrNone instead of value), combined template and the length restriction matching attribute.
+// @id: TTCN3-CORE-C.2.1-012a
+// @verdict: pass reject
+module M_C_02_01_length_of_strings_and_lists_010 {
+
+    type component C {}
+
+    template charstring mw_range := ("a" .. "c") length(2);
+
+    testcase TC() runs on C {
+        var integer v_len := lengthof(mw_range); // error: value range not allowed in inpar
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

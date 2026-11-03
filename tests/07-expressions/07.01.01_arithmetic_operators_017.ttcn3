@@ -1,0 +1,21 @@
+// @requirement: 7.1.1 -- x rem y = x - y * (x/y) x mod y = x rem |y| when x >= 0 = 0 when x < 0 and x rem |y| = 0 = |y| + x rem |y| when x < 0 and x rem |y| < 0
+// @id: TTCN3-CORE-7.1.1-017c
+// @verdict: pass accept, ttcn3verdict:pass
+module M_07_01_01_arithmetic_operators_017 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_x := -6;
+        var integer v_y := 3;
+        if (v_x rem v_y == 0 and v_x mod v_y == 0 and v_x mod (-v_y) == 0) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

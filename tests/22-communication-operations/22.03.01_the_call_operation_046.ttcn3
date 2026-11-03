@@ -1,0 +1,27 @@
+// @requirement: 22.3.1 -- g) CallTimerValue shall be of type float.
+// @id: TTCN3-CORE-22.3.1-058a
+// @verdict: pass reject
+module M_22_03_01_the_call_operation_046 {
+
+    signature S(in integer p_x);
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        p.call(S:{1}, 5) { // error: CallTimerValue of type integer
+            [] p.getreply(S:{-}) {}
+            [] p.catch(timeout) {}
+        }
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

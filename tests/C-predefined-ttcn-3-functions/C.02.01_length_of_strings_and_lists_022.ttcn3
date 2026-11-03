@@ -1,0 +1,22 @@
+// @requirement: C.2.1 -- `inpar is a record of or set of type template and it can match values of different lengths or the length` restriction matching attribute contradicts the number of elements in the template body;
+// @id: TTCN3-CORE-C.2.1-021b
+// @verdict: pass accept, ttcn3verdict:error
+module M_C_02_01_length_of_strings_and_lists_022 {
+
+    type component C {}
+    type record of integer RoI;
+
+    function f_len(template (present) RoI p_t) return integer {
+        return lengthof(p_t);
+    }
+
+    testcase TC() runs on C {
+        var integer v_max := 2;
+        var integer v_len := f_len({ 1, 2, 3, * } length(1 .. v_max)); // error: length restriction contradicts the template body
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

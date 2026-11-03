@@ -1,0 +1,22 @@
+// @requirement: 22.3.6 -- In case the referenced field is not a universal **charstring, the optional** parameter shall not be present.
+// @id: TTCN3-CORE-22.3.6-020a
+// @verdict: pass reject
+module M_22_03_06_the_catch_operation_019 {
+
+    type record E {
+        octetstring payload
+    }
+
+    signature S() exception (E);
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    function f_catch() runs on C {
+        var integer v_i;
+        p.catch(S, E:?) -> value (v_i := @decoded("UTF-8") payload); // error: format parameter for octetstring field
+    }
+}

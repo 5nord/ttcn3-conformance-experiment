@@ -1,0 +1,25 @@
+// @requirement: 6.2.1.0 -- When optional fields of variables are not assigned explicitly, they are uninitialized (i.e. the optional attribute shall not have any effect on variables as described in clause 27.7 restriction a)).
+// @id: TTCN3-CORE-6.2.1.0-030b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_01_00_general_020 {
+
+    type record MyRecordType {
+        integer field1,
+        boolean field2 optional
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyRecordType v_r;
+        if (not isbound(v_r) and not isbound(v_r.field2)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    } with { optional "implicit omit" }
+
+    control {
+        execute(TC());
+    }
+}

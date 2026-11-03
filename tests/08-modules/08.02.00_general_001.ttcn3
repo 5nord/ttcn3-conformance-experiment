@@ -1,0 +1,25 @@
+// @requirement: 8.2.0 -- The module definitions part specifies the top-level definitions of the module and may import visible identifiers from other modules.
+// @id: TTCN3-CORE-8.2.0-001b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_02_00_general_001 {
+
+    import from M_08_02_00_general_001_A { const c_value };
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (c_value == 42) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_00_general_001_A {
+    const integer c_value := 42;
+}

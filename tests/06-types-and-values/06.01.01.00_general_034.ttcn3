@@ -1,0 +1,21 @@
+// @requirement: 6.1.1.0 -- The UCS sequence identifier-like (USI-like) notation (see also clause 6.6 of ISO/IEC 10646 [2]) can be used to denote 1..N characters, using their short identifiers of code point (similar to UIDs described in clause 6.5 of ISO/IEC 10646 [2]).
+// @id: TTCN3-CORE-6.1.1.0-044a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_01_01_00_general_034 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var universal charstring v_u1 := char(U0171);
+        var universal charstring v_u3 := char(U4E2D, U56FD, U0171);
+        if (lengthof(v_u1) == 1 and lengthof(v_u3) == 3) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

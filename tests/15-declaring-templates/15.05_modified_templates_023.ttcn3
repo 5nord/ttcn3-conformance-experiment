@@ -1,0 +1,35 @@
+// @requirement: 15.5 -- A modified field without the @fuzzy modifier that was marked @fuzzy in the base template loses fuzzy evaluation and the template on the right hand side of and assignment shall be evaluated just once when the assignment is evaluated for the first time.
+// @id: TTCN3-CORE-15.5-026a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_05_modified_templates_023 {
+
+    type record R2 {
+        integer num,
+        charstring str
+    }
+
+    type component C {
+        var integer v_count := 0;
+    }
+
+    function f_next() runs on C return integer {
+        v_count := v_count + 1;
+        return v_count;
+    }
+
+    testcase TC() runs on C {
+        template R2 m_base := { @fuzzy num := f_next(), str := "a" };
+        template R2 m_mod modifies m_base := { num := f_next() };
+        var integer v_a := valueof(m_mod).num;
+        var integer v_b := valueof(m_mod).num;
+        if (v_a == v_b) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,25 @@
+// @requirement: 16.1.0 -- However, the start test component operation may be invoked within behaviour without a runs `on clause.`
+// @id: TTCN3-CORE-16.1.0-023a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_16_01_00_general_022 {
+
+    type component C {}
+
+    function f_behaviour() runs on C {
+        setverdict(pass);
+    }
+
+    function f_starter(C p_ptc) {
+        p_ptc.start(f_behaviour());
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        f_starter(v_ptc);
+        v_ptc.done;
+    }
+
+    control {
+        execute(TC());
+    }
+}

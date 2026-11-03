@@ -1,0 +1,24 @@
+// @requirement: 22.3.1 -- a) The call operation shall only be used on procedure-based ports.
+// @id: TTCN3-CORE-22.3.1-048a
+// @verdict: pass reject
+module M_22_03_01_the_call_operation_035 {
+
+    signature S(in integer p_x) noblock;
+
+    type port P message { inout integer }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        p.call(S:{1}); // error: call on a message-based port
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

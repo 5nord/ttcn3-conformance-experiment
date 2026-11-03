@@ -1,0 +1,25 @@
+// @requirement: 6.2.7 -- Array dimensions may also be specified using ranges (with inclusive boundaries only).
+// @id: TTCN3-CORE-6.2.7-014a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_07_arrays_012 {
+
+    type integer MyArrayType[2 .. 5];
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyArrayType v_a := { 1, 2, 3, 4 };
+        var integer v_b[1 .. 5][2 .. 3];
+        v_b[1][2] := 10;
+        v_b[5][3] := 50;
+        if (v_a[2] == 1 and v_a[5] == 4 and v_b[1][2] == 10 and v_b[5][3] == 50) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

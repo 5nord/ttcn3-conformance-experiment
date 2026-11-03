@@ -1,0 +1,24 @@
+// @requirement: C.4.3 -- To pattern "*" if inpar is of a character string type
+// @id: TTCN3-CORE-C.4.3-019a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_04_03_the_replace_function_022 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var universal charstring v_in := "abc";
+        var universal charstring v_long := "abcxyz";
+        var universal charstring v_short := "ab";
+        var template universal charstring v_repl := ?;
+        var template universal charstring v_res := replace(v_in, 3, 0, v_repl);
+        if (match(v_in, v_res) and match(v_long, v_res) and not match(v_short, v_res)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

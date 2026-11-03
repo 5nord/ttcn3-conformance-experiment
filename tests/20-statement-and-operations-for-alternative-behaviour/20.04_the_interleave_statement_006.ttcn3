@@ -1,0 +1,36 @@
+// @requirement: 20.4 -- This means, according to the semantics of the default mechanism, the actual snapshot will be used to evaluate those altsteps that have been activated before entering the `interleave` statement.
+// @id: TTCN3-CORE-20.4-011a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_04_the_interleave_statement_006 {
+
+    type component C {
+        timer T_def := 0.1;
+        var boolean v_def := false;
+    }
+
+    altstep a_def() runs on C {
+        [] T_def.timeout {
+            v_def := true;
+            repeat;
+        }
+    }
+
+    testcase TC() runs on C {
+        timer T := 0.5;
+        activate(a_def());
+        T_def.start;
+        T.start;
+        interleave {
+            [] T.timeout {}
+        }
+        if (v_def) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,23 @@
+// @requirement: C.4.1 -- The type of the character string returned is the root type of inpar.
+// @id: TTCN3-CORE-C.4.1-013a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_04_01_the_regexp_function_013 {
+
+    type universal charstring UStr3 length(3);
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var UStr3 v_in := "a" & char(0, 0, 1, 0) & "c";
+        var universal charstring v_res := regexp(v_in, universal charstring:"a(?)c", 0);
+        if (lengthof(v_res) == 1 and v_res == char(0, 0, 1, 0)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

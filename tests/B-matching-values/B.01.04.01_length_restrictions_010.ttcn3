@@ -1,0 +1,31 @@
+// @requirement: B.1.4.1 -- It is allowed to use a length restriction in conjunction with the special value omit, however in this case the length attribute has no effect (i.e. with omit it is redundant).
+// @id: TTCN3-CORE-B.1.4.1-010b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_04_01_length_restrictions_010 {
+
+    type record R {
+        charstring f optional
+    }
+
+    type component C {}
+
+    template R mw_withLength := { f := omit length(2) };
+    template R mw_plain := { f := omit };
+
+    testcase TC() runs on C {
+        var R v_omit := { f := omit };
+        var R v_len2 := { f := "ab" };
+        var R v_len3 := { f := "abc" };
+        if (match(v_omit, mw_withLength) and match(v_omit, mw_plain) and
+            not match(v_len2, mw_withLength) and not match(v_len2, mw_plain) and
+            not match(v_len3, mw_withLength) and not match(v_len3, mw_plain)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

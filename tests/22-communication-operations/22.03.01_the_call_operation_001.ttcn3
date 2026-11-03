@@ -1,0 +1,41 @@
+// @requirement: 22.3.1 -- ObjectReference "." call "(" TemplateInstance [ "," ( CallTimerValue | nowait ) ] ")" [ to Address ]
+// @id: TTCN3-CORE-22.3.1-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_03_01_the_call_operation_001 {
+
+    signature S(in integer p_x) return integer;
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    function f_server() runs on C {
+        var integer v_x;
+        alt {
+            [] p.getcall(S:{?}) -> param(v_x) { p.reply(S:{-} value v_x); repeat; }
+        }
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_server());
+        p.call(S:{1}, 1.0) to v_ptc {
+            [] p.getreply(S:{-} value 1) { setverdict(pass); }
+            [] p.catch(timeout) { setverdict(fail); }
+        }
+        p.call(S:{2}, nowait);
+        T.start;
+        alt {
+            [] p.getreply(S:{-} value 2) { setverdict(pass); }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

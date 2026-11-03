@@ -1,0 +1,31 @@
+// @requirement: 6.2.1.0 -- When the assignment notation is used in a scope, where the optional attribute is set to "implicit `omit",` optional fields, not directly referred to in the notation, shall implicitly be set to omit, while mandatory fields shall remain unchanged (see also clause 27.7).
+// @id: TTCN3-CORE-6.2.1.0-031a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_01_00_general_021 {
+
+    type record MyRecordType {
+        bitstring field1,
+        boolean field2 optional,
+        charstring field3
+    }
+
+    const MyRecordType c_myConst2 := {
+        field1 := '111'B,
+        field3 := "A string"
+    } with { optional "implicit omit" }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (isbound(c_myConst2.field2) and not ispresent(c_myConst2.field2)
+            and c_myConst2 == { '111'B, omit, "A string" }) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

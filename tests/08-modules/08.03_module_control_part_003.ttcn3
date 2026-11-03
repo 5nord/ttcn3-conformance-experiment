@@ -1,0 +1,25 @@
+// @requirement: 8.3 -- Visibility of module definition: public; Module definition importable directly by a non-friend module: yes; Module definition importable directly by a friend module: yes; Module definition importable via group import by a non-friend module: yes; Module definition importable via group import by a friend module: yes
+// @id: TTCN3-CORE-8.3-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_03_module_control_part_003 {
+
+    import from M_08_03_module_control_part_003_A { const c_value };
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (c_value == 1) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_03_module_control_part_003_A {
+    public const integer c_value := 1;
+}

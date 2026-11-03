@@ -1,0 +1,46 @@
+// @requirement: 22.2.2 -- When the keyword value is followed by a list enframed by a pair of parentheses, the whole received message and/or one or more parts of it can be stored.
+// @id: TTCN3-CORE-22.2.2-022a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_02_02_the_receive_operation_019 {
+
+    type record R {
+        integer a,
+        charstring b
+    }
+
+    type port P message { inout R }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    const R c_r := { 1, "x" };
+
+    function f_send() runs on C {
+        p.send(c_r);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        var R v_r;
+        var integer v_a;
+        var charstring v_b;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_send());
+        T.start;
+        alt {
+            [] p.receive(R:?) -> value (v_r, v_a := a, v_b := b) { }
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        if (v_r == c_r and v_a == 1 and v_b == "x") {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

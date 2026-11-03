@@ -1,0 +1,30 @@
+// @requirement: 11.1 -- The called functions may use other functions with inout or out parameters internally.
+// @id: TTCN3-CORE-11.1-015a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_11_01_value_variables_017 {
+
+    type component C {}
+
+    function f_set(out integer p_value) {
+        p_value := 5;
+    }
+
+    function f_get() return integer {
+        var integer v_result;
+        f_set(v_result);
+        return v_result;
+    }
+
+    testcase TC() runs on C {
+        var @lazy integer v_lazy := f_get();
+        if (v_lazy == 5) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

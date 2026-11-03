@@ -1,0 +1,31 @@
+// @requirement: 21.0 -- Alive Returns true if the test component has `if (c.alive) …` been created and is ready to execute or is already executingbehaviour; otherwise returns false
+// @id: TTCN3-CORE-21.0-021a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_00_general_024 {
+
+    type component C {}
+
+    function f_behaviour() runs on C {
+        timer T := 1.0;
+        T.start;
+        T.timeout;
+    }
+
+    testcase TC() runs on C {
+        var C c := C.create;
+        if (not c.alive) {
+            setverdict(fail);
+        }
+        c.start(f_behaviour());
+        if (c.alive) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+        c.stop;
+    }
+
+    control {
+        execute(TC());
+    }
+}

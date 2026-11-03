@@ -1,0 +1,27 @@
+// @requirement: 7.1.8.3 -- If the operand is of record or set type, omitted optional fields shall be considered as initialized, i.e. the operator shall also yield true if optional fields of the operand are set to omit.
+// @id: TTCN3-CORE-7.1.8.3-004a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_07_01_08_03_the_isvalue_operator_003 {
+
+    type component C {}
+
+    type record R {
+        integer f1,
+        integer f2 optional
+    }
+
+    testcase TC() runs on C {
+        var R v_rec;
+        v_rec.f1 := 5;
+        v_rec.f2 := omit;
+        if (isvalue(v_rec)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

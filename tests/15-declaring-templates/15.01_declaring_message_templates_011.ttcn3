@@ -1,0 +1,39 @@
+// @requirement: 15.1 -- b) Optional fields of record and set templates or template fields can be initialized explicitly or implicitly.
+// @id: TTCN3-CORE-15.1-012a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_01_declaring_message_templates_011 {
+
+    type record MyRecord {
+        integer field1 optional,
+        charstring field2
+    }
+
+    type set MySet {
+        integer field1 optional,
+        charstring field2
+    }
+
+    type component C {}
+
+    template MyRecord m_recExplicit := { field1 := omit, field2 := "a" }
+    template MyRecord m_recImplicit := { field2 := "a" } with { optional "implicit omit" }
+    template MySet m_setExplicit := { field1 := omit, field2 := "a" }
+    template MySet m_setImplicit := { field2 := "a" } with { optional "implicit omit" }
+
+    testcase TC() runs on C {
+        var MyRecord v_rec1 := valueof(m_recExplicit);
+        var MyRecord v_rec2 := valueof(m_recImplicit);
+        var MySet v_set1 := valueof(m_setExplicit);
+        var MySet v_set2 := valueof(m_setImplicit);
+        if (not ispresent(v_rec1.field1) and not ispresent(v_rec2.field1) and
+            not ispresent(v_set1.field1) and not ispresent(v_set2.field1)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

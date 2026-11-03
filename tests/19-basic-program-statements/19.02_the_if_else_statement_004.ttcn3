@@ -1,0 +1,27 @@
+// @requirement: 19.2 -- The branching of the control flow is decided upon the value of the Boolean expressions - the condition.
+// @id: TTCN3-CORE-19.2-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_02_the_if_else_statement_004 {
+
+    type component C {}
+
+    function f_branch(boolean p_cond) return charstring {
+        if (p_cond) {
+            return "then";
+        } else {
+            return "else";
+        }
+    }
+
+    testcase TC() runs on C {
+        if (f_branch(true) == "then" and f_branch(false) == "else") {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

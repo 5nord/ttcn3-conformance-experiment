@@ -1,0 +1,22 @@
+// @requirement: 6.2.10.1 -- This shall be explicitly stated using the runs on keyword (see clause 15.12) in the testcase, function or altstep header.
+// @id: TTCN3-CORE-6.2.10.1-015a
+// @verdict: pass reject
+module M_06_02_10_01_component_type_definition_006 {
+
+    type component C {
+        var integer vc_i := 0;
+    }
+
+    function f_inc() {
+        vc_i := vc_i + 1; // error: component variable used without runs on clause
+    }
+
+    testcase TC() runs on C {
+        f_inc();
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

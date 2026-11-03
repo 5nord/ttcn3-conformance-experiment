@@ -1,0 +1,37 @@
+// @requirement: 20.2 -- If several defaults are active, the reverse order of their activation determines the evaluation order of the top alternatives in the defaults.
+// @id: TTCN3-CORE-20.2-012a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_02_the_alt_statement_008 {
+    type component C {
+        timer T_def := 0.1;
+    }
+
+    altstep a_first() runs on C {
+        [] T_def.timeout {
+            setverdict(fail);
+        }
+    }
+
+    altstep a_second() runs on C {
+        [] T_def.timeout {
+            setverdict(pass);
+        }
+    }
+
+    testcase TC() runs on C {
+        var default v_def1 := activate(a_first());
+        var default v_def2 := activate(a_second());
+        timer T_guard := 1.0;
+        T_def.start;
+        T_guard.start;
+        alt {
+            [] T_guard.timeout {
+                setverdict(fail);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,27 @@
+// @requirement: 18 -- Statement: Wait a PTC cease to exist; Associated keyword or symbol: killed; Can be invoked by test behaviour: Yes
+// @id: TTCN3-CORE-18-050c
+// @verdict: pass reject
+module M_18_overview_of_program_statements_and_operations_110 {
+
+    type component C {}
+
+    function f_guard(C p_c) runs on C return boolean {
+        p_c.killed; // error: killed in function called from a guard
+        return true;
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        timer T := 0.1;
+        T.start;
+        alt {
+            [f_guard(v_ptc)] T.timeout {
+                setverdict(pass);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

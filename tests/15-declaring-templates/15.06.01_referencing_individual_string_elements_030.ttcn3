@@ -1,0 +1,22 @@
+// @requirement: 15.6.1 -- The modified pattern is then assigned to the referenced template.
+// @id: TTCN3-CORE-15.6.1-031a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_06_01_referencing_individual_string_elements_030 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template charstring v_char := "abc";
+        v_char[5] := "z";
+        if (match("abcXYz", v_char) and not match("abcz", v_char)
+            and not match("abc", v_char)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

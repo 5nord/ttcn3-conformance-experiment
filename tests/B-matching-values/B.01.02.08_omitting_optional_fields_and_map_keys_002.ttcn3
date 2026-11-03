@@ -1,0 +1,28 @@
+// @requirement: B.1.2.8 -- a) It can be assigned to templates of any type as a whole or to optional fields of set or record templates or to values associated with keys of map templates.
+// @id: TTCN3-CORE-B.1.2.8-003a
+// @verdict: pass accept, noexecution
+module M_B_01_02_08_omitting_optional_fields_and_map_keys_002 {
+
+    type component C {}
+
+    type record R {
+        integer f1,
+        boolean f2 optional
+    }
+
+    type set S {
+        integer f1,
+        charstring f2 optional
+    }
+
+    type record of integer RoI;
+
+    type map from charstring to integer MyMap;
+
+    template boolean m_bool := omit;
+    template RoI m_roI := omit;
+    template R m_recWhole := omit;
+    template R m_recField := { f1 := 1, f2 := omit };
+    template S m_setField := { f1 := 1, f2 := omit };
+    template MyMap m_map := { ["host"] := 1, ["port"] := omit };
+}

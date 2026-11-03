@@ -1,0 +1,25 @@
+// @requirement: 5.4.1.0 -- Keyword: testcase; Allowed kind of Parameterization: Value and template parameterization; Allowed form of Parameterization: Dynamic at runtime; Allowed types in formal parameter lists: all basic types and of all user-defined types, address type, component type and template.
+// @id: TTCN3-CORE-5.4.1.0-029c
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_04_01_00_general_036 {
+
+    type integer address;
+
+    type record R {
+        integer a
+    }
+
+    type component C {}
+
+    testcase TC(boolean p_bool, R p_rec, address p_addr, C p_comp, template integer p_t) runs on C {
+        if (p_bool and p_rec.a == 1 and p_addr == 2 and p_comp == null and match(3, p_t)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC(true, { a := 1 }, 2, null, ?));
+    }
+}

@@ -1,0 +1,18 @@
+// @requirement: 22.3.6 -- k) If the index redirection is used for multi-dimensional arrays, the size of the integer array or record of integer type shall exactly be the same as the dimension of the respective port array, and the its type shall allow storing the highest index (from all dimensions) of the port array.
+// @id: TTCN3-CORE-22.3.6-057a
+// @verdict: pass reject
+module M_22_03_06_the_catch_operation_053 {
+
+    signature S() exception (integer);
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P pa[2][2];
+    }
+
+    function f_catch() runs on C {
+        var integer v_idx[3];
+        any from pa.catch(S, integer:?) -> @index value v_idx; // error: index array size differs from port array dimension
+    }
+}

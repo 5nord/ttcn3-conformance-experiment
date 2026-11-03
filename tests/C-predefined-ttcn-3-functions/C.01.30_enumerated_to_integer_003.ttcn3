@@ -1,0 +1,37 @@
+// @requirement: C.1.30 -- This function accepts an enumerated value and returns the integer value associated to the enumerated value (see also clause 6.2.4).
+// @id: TTCN3-CORE-C.1.30-002b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_01_30_enumerated_to_integer_003 {
+
+    type enumerated MyFirstEnumType {
+        Monday, Tuesday, Wednesday, Thursday, Friday, Weekend(5..6)
+    }
+    type enumerated MySecondEnumType {
+        Saturday(-3), Sunday(0), Monday
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyFirstEnumType v_firstEnum := Monday;
+        var MySecondEnumType v_secondEnum := Monday;
+        var boolean v_ok := enum2int(v_firstEnum) == 0 and enum2int(v_secondEnum) == 1;
+        v_firstEnum := Wednesday;
+        v_secondEnum := Saturday;
+        v_ok := v_ok and enum2int(v_firstEnum) == 2 and enum2int(v_secondEnum) == -3;
+        v_firstEnum := Friday;
+        v_secondEnum := Sunday;
+        v_ok := v_ok and enum2int(v_firstEnum) == 4 and enum2int(v_secondEnum) == 0;
+        v_firstEnum := Weekend(6);
+        v_ok := v_ok and enum2int(v_firstEnum) == 6;
+        if (v_ok) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

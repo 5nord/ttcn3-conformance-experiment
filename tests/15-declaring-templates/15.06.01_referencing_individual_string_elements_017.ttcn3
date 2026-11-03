@@ -1,0 +1,18 @@
+// @requirement: 15.6.1 -- g) If the referenced template contains a length matching attribute, the reference shall be resolved only if the referenced element is less than the maximum allowed length.
+// @id: TTCN3-CORE-15.6.1-017a
+// @verdict: pass accept, ttcn3verdict:error
+module M_15_06_01_referencing_individual_string_elements_017 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template octetstring v_oct := ? length(2), v_e;
+        v_e := v_oct[1];
+        v_e := v_oct[2]; // error: index not less than the maximum allowed length
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

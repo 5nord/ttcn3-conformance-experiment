@@ -1,0 +1,19 @@
+// @requirement: 7.1.8.2 -- This operator is allowed for data objects of all data types that are a union-field-reference or a type alternative of an anytype.
+// @id: TTCN3-CORE-7.1.8.2-003a
+// @verdict: pass reject
+module M_07_01_08_02_the_ischosen_operator_002 {
+
+    type record R { integer f1, octetstring f2 }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var R v_r := { f1 := 1, f2 := 'AB'O };
+        var boolean v_res := ischosen(v_r.f1); // error: operand is a record field, not a union alternative
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

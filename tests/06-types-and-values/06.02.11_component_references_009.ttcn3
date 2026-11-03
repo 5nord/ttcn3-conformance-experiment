@@ -1,0 +1,45 @@
+// @requirement: 6.2.11 -- Component references are used in the configuration operations such as connect, map and start (see clause 21) to set-up test configurations and in the from, to and sender parts of communication operations of ports connected to test components other than the test system interface for addressing purposes (see clause 22 and figure 6).
+// @id: TTCN3-CORE-6.2.11-006b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_11_component_references_009 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p;
+    }
+
+    function f_echo() runs on C {
+        var C v_sender;
+        var integer v_i;
+        timer T := 1.0;
+        T.start;
+        alt {
+            [] p.receive(integer:?) from mtc -> value v_i sender v_sender {
+                p.send(v_i) to v_sender;
+            }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    testcase TC() runs on C {
+        timer T := 1.0;
+        var C v_ptc := C.create;
+        connect(self:p, v_ptc:p);
+        v_ptc.start(f_echo());
+        p.send(3) to v_ptc;
+        T.start;
+        alt {
+            [] p.receive(3) from v_ptc { setverdict(pass); }
+            [] p.receive { setverdict(fail); }
+            [] T.timeout { setverdict(fail); }
+        }
+        v_ptc.done;
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,27 @@
+// @requirement: B.1.2.6 -- Elements of the combined template may contain any of the matching mechanisms or matching attributes with the exception of those described in the following restriction.
+// @id: TTCN3-CORE-B.1.2.6-011a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_02_06_superset_012 {
+
+    type component C {}
+
+    type record of integer RoI;
+    type set of integer SoI;
+
+    template RoI mw_roI := { (1, 2), complement ((0 .. 9)), (20 .. 30) };
+    template SoI mw_superset := superset (all from mw_roI);
+
+    testcase TC() runs on C {
+        var SoI v_match := { 25, 0, 2, 11 };
+        var SoI v_noMatch := { 25, 0, 2, 5 };
+        if (match(v_match, mw_superset) and not match(v_noMatch, mw_superset)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,58 @@
+// @requirement: 5.4.0 -- **altstep** Value and template Dynamic at runtime all basic types, all user-defined types, address parameterization type, component type, port type, default, template and timer.
+// @id: TTCN3-CORE-5.4.0-011c
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_04_00_general_018 {
+
+    type integer address;
+
+    type record R {
+        integer f_a
+    }
+
+    type port P message {
+        inout integer
+    }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    altstep a_dummy() {
+        [] any timer.timeout {}
+    }
+
+    altstep a_all(
+        boolean p_bool,
+        R p_rec,
+        address p_addr,
+        C p_comp,
+        P p_port,
+        default p_def,
+        template integer p_tmpl,
+        timer p_timer
+    ) {
+        [p_bool and p_addr == 3 and p_comp == self and p_def != null] p_port.receive(p_tmpl) {
+            setverdict(pass);
+        }
+        [] p_port.receive {
+            setverdict(fail);
+        }
+        [] p_timer.timeout {
+            setverdict(fail);
+        }
+    }
+
+    testcase TC() runs on C {
+        var default v_def := activate(a_dummy());
+        var R v_rec := { f_a := 1 };
+        connect(self:p, self:p);
+        p.send(v_rec.f_a);
+        T.start;
+        a_all(true, v_rec, 3, self, p, v_def, 1, T);
+    }
+
+    control {
+        execute(TC());
+    }
+}

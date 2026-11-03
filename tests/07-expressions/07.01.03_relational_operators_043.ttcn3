@@ -1,0 +1,26 @@
+// @requirement: 7.1.3 -- Two maps are equal if and only if they are mutually compatible with the type of the other operand (see clause 6.3.2.2), they have the same number of key-value pairs and for each key-value pair in both maps there is a key-value pair in the other map where the key from one pair is equal to the key from the other pair and the value from one pair is equal to the value from the other pair.
+// @id: TTCN3-CORE-7.1.3-038a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_07_01_03_relational_operators_043 {
+
+    type component C {}
+
+    type map from charstring to integer TMap;
+
+    testcase TC() runs on C {
+        var TMap v_m1 := { ["a"] := 1, ["b"] := 2 };
+        var TMap v_m2 := { ["b"] := 2, ["a"] := 1 };
+        var TMap v_m3 := { ["a"] := 1 };
+        var TMap v_m4 := { ["a"] := 1, ["b"] := 3 };
+        var TMap v_m5 := { ["a"] := 1, ["c"] := 2 };
+        if (v_m1 == v_m2 and v_m1 != v_m3 and v_m1 != v_m4 and v_m1 != v_m5) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

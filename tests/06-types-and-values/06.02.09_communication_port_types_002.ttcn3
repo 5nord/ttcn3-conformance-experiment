@@ -1,0 +1,38 @@
+// @requirement: 6.2.9 -- Message-based ports shall be identified by the keyword message and procedure-based ports shall be identified by the keyword `procedure` within the associated port type definition.
+// @id: TTCN3-CORE-6.2.9-004a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_09_communication_port_types_002 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p;
+    }
+
+    function f_send() runs on C {
+        p.send(1);
+    }
+
+    testcase TC() runs on C {
+        timer T_guard := 1.0;
+        var C v_ptc := C.create;
+        connect(self:p, v_ptc:p);
+        v_ptc.start(f_send());
+        T_guard.start;
+        alt {
+            [] p.receive(1) {
+                setverdict(pass);
+            }
+            [] T_guard.timeout {
+                setverdict(fail);
+            }
+        }
+        v_ptc.done;
+    }
+
+    control {
+        execute(TC());
+    }
+}

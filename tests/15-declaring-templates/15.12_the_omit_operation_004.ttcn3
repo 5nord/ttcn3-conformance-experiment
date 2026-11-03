@@ -1,0 +1,25 @@
+// @requirement: 15.12 -- NOTE: This means that the result of omit(m_myTemplate) can be safely assigned to templates with the omit restriction.
+// @id: TTCN3-CORE-15.12-006a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_12_the_omit_operation_004 {
+
+    type component C {}
+
+    function f_check(template(omit) integer p_t) return boolean {
+        return match(5, p_t);
+    }
+
+    testcase TC() runs on C {
+        var template integer v_t := 5;
+        var template(omit) integer v_res := omit(v_t);
+        if (match(5, v_res) and f_check(omit(v_t))) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

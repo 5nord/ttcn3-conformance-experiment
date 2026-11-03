@@ -1,0 +1,51 @@
+// @requirement: 16.2.0 -- The altstep body defines an optional set of local definitions and a set of alternatives, the so-called top alternatives, that form the altstep body.
+// @id: TTCN3-CORE-16.2.0-004a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_16_02_00_general_002 {
+
+    type port P message {
+        inout integer
+    }
+
+    type component C {
+        port P p1, p2;
+        var integer v_sum := 0;
+    }
+
+    altstep a_withDefs() runs on C {
+        var integer v_loc := 10;
+        const integer c_add := 1;
+        [] p2.receive(integer:1) {
+            v_sum := v_sum + v_loc + c_add;
+        }
+        [] p2.receive {
+            setverdict(fail);
+        }
+    }
+
+    altstep a_withoutDefs() runs on C {
+        [] p2.receive(integer:2) {
+            v_sum := v_sum + 100;
+        }
+        [] p2.receive {
+            setverdict(fail);
+        }
+    }
+
+    testcase TC() runs on C {
+        connect(self:p1, self:p2);
+        p1.send(1);
+        p1.send(2);
+        a_withDefs();
+        a_withoutDefs();
+        if (v_sum == 111) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

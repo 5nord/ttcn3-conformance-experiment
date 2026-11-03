@@ -1,0 +1,22 @@
+// @requirement: 15.6.1 -- i) When referencing an item of a binary string template to which the AnyValue or AnyValueOrNone matching symbol is assigned using a non-negative index, a binary string with length 0 is assigned to the referenced template and procedures described in the point b are applied to finish the assignment.
+// @id: TTCN3-CORE-15.6.1-035a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_06_01_referencing_individual_string_elements_034 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template octetstring v_oct := ?;
+        v_oct[2] := 'FF'O;
+        if (match('0102FF'O, v_oct) and not match('FF'O, v_oct)
+            and not match('0102FF03'O, v_oct)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

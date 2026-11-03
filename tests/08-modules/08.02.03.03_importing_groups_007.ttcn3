@@ -1,0 +1,28 @@
+// @requirement: 8.2.3.3 -- The all keyword is also allowed to be used in the exception list; this will exclude all definitions of the same kind from the import statement.
+// @id: TTCN3-CORE-8.2.3.3-006b
+// @verdict: pass reject
+module M_08_02_03_03_importing_groups_007 {
+
+    import from M_08_02_03_03_importing_groups_007_A {
+        group g_group except { const all }
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyType v_value := c_value2; // error: all constants of g_group are excluded
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_03_03_importing_groups_007_A {
+    group g_group {
+        type integer MyType;
+        const integer c_value1 := 1;
+        const integer c_value2 := 2;
+    }
+}

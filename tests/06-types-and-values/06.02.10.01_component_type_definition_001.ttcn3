@@ -1,0 +1,43 @@
+// @requirement: 6.2.10.1 -- The port names in a component type definition are local to that component type, i.e. another component type may have ports with the same names.
+// @id: TTCN3-CORE-6.2.10.1-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_10_01_component_type_definition_001 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p;
+    }
+
+    type component C2 {
+        var integer vc_i := 0;
+        port P p;
+    }
+
+    function f_echo() runs on C2 {
+        var integer v_i;
+        p.receive(integer:?) -> value v_i;
+        p.send(v_i);
+    }
+
+    testcase TC() runs on C {
+        timer T := 1.0;
+        var C2 v_ptc := C2.create;
+        connect(self:p, v_ptc:p);
+        v_ptc.start(f_echo());
+        p.send(5);
+        T.start;
+        alt {
+            [] p.receive(5) { setverdict(pass); }
+            [] p.receive { setverdict(fail); }
+            [] T.timeout { setverdict(fail); }
+        }
+        v_ptc.done;
+    }
+
+    control {
+        execute(TC());
+    }
+}

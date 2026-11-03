@@ -1,0 +1,39 @@
+// @requirement: 5.4.1.0 -- TTCN-3 modules, structured types, templates, functions, altsteps, and testcases may be defined incompletely, i.e. some entities (variables, templates, ports, timers, etc.) used by the above objects may not be resolved in the definition of the object.
+// @id: TTCN3-CORE-5.4.1.0-001a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_04_01_00_general_001 {
+
+    type component C {
+        timer T;
+    }
+
+    type record R {
+        integer a
+    }
+
+    template R m_r(integer p_a) := {
+        a := p_a
+    }
+
+    function f_add(integer p_x, integer p_y) return integer {
+        return p_x + p_y;
+    }
+
+    altstep a_timeout(timer p_t) {
+        [] p_t.timeout {
+            setverdict(pass);
+        }
+    }
+
+    testcase TC(integer p_v) runs on C {
+        if (f_add(p_v, 1) != 2 or not match(valueof(m_r(p_v)), m_r(1))) {
+            setverdict(fail);
+        }
+        T.start(0.01);
+        a_timeout(T);
+    }
+
+    control {
+        execute(TC(1));
+    }
+}

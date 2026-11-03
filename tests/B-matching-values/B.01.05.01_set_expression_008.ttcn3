@@ -1,0 +1,22 @@
+// @requirement: B.1.5.1 -- Therefore a hyphen "-" immediately following a negating caret "^" shall be processed as a literal character.
+// @id: TTCN3-CORE-B.1.5.1-008a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_05_01_set_expression_008 {
+
+    type component C {}
+
+    template charstring mw_neg := pattern "[^-a]";
+
+    testcase TC() runs on C {
+        if (not match("-", mw_neg) and not match("a", mw_neg)
+            and match("b", mw_neg) and match("^", mw_neg)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

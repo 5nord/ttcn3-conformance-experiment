@@ -1,0 +1,35 @@
+// @requirement: 6.2.1.0 -- The field identifiers are local to the record and shall be unique within the record (but do not have to be globally unique).
+// @id: TTCN3-CORE-6.2.1.0-004c
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_01_00_general_005 {
+
+    type record MyRecordType {
+        integer field1,
+        MyOtherRecordType field2 optional,
+        charstring field3
+    }
+
+    type record MyOtherRecordType {
+        bitstring field1,
+        boolean field2
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyRecordType v_r := {
+            field1 := 1,
+            field2 := { field1 := '11001'B, field2 := true },
+            field3 := "A string"
+        };
+        if (v_r.field1 == 1 and v_r.field2.field1 == '11001'B and v_r.field2.field2) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

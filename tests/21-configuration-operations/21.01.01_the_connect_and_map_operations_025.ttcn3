@@ -1,0 +1,30 @@
+// @requirement: 21.1.1 -- 2) outlist-PORT1 ⊆ outlist-PORT2 and inlist-PORT2 ⊆ inlist-PORT1; and
+// @id: TTCN3-CORE-21.1.1-029a
+// @verdict: pass reject
+module M_21_01_01_the_connect_and_map_operations_025 {
+
+    type port PComp message {
+        out integer, charstring;
+    }
+
+    type port PSys message {
+        out integer;
+    }
+
+    type component C {
+        port PComp p;
+    }
+
+    type component S {
+        port PSys p;
+    }
+
+    testcase TC() runs on C system S {
+        map(mtc:p, system:p); // error: outlist of mtc:p is not a subset of outlist of system:p
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

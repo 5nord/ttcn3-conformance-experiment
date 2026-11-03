@@ -1,0 +1,29 @@
+// @requirement: 15.7.3 -- **permutation: all of the elements listed but in an arbitrary order (note, that ? and * are also allowed as** elements of the permutation list and all elements of a template can be added to permutation using the all from clause).
+// @id: TTCN3-CORE-15.7.3-007a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_07_03_special_symbols_that_can_be_used_inside_values_004 {
+
+    type component C {}
+
+    type record of integer RoI;
+
+    template RoI m_perm := { permutation(1, 2, 3) };
+
+    testcase TC() runs on C {
+        var RoI v_123 := { 1, 2, 3 };
+        var RoI v_312 := { 3, 1, 2 };
+        var RoI v_12 := { 1, 2 };
+        var RoI v_1234 := { 1, 2, 3, 4 };
+        var RoI v_122 := { 1, 2, 2 };
+        if (match(v_123, m_perm) and match(v_312, m_perm) and
+            not match(v_12, m_perm) and not match(v_1234, m_perm) and not match(v_122, m_perm)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

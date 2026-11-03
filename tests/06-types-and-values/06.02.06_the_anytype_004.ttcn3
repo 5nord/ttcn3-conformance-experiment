@@ -1,0 +1,28 @@
+// @requirement: 6.2.6 -- NOTE 1: As a result of this requirement imported types with clashing names (either with an identifier of a definition in the importing module or with an identifier imported from a third module) cannot be reached via the anytype of the importing module.
+// @id: TTCN3-CORE-6.2.6-005a
+// @verdict: pass reject
+module M_06_02_06_the_anytype_004 {
+
+    import from M_06_02_06_the_anytype_004_A { type T }
+    import from M_06_02_06_the_anytype_004_B { type T }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var anytype v_any;
+        v_any.T := 1; // error: T clashes between the two imported modules
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_06_02_06_the_anytype_004_A {
+    type integer T;
+}
+
+module M_06_02_06_the_anytype_004_B {
+    type integer T;
+}

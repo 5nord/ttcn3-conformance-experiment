@@ -1,0 +1,26 @@
+// @requirement: 19.4.2 -- In each iteration the appropriate element is assigned to the iteration variable and the statement block is executed.
+// @id: TTCN3-CORE-19.4.2-006a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_04_02_the_range_based_loop_006 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var octetstring v_range := '12DE'O;
+        var integer v_i := 0;
+        setverdict(pass);
+        for (var octetstring e in v_range) {
+            if (e != v_range[v_i]) {
+                setverdict(fail);
+            }
+            v_i := v_i + 1;
+        }
+        if (v_i != 2) {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

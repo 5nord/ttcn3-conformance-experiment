@@ -1,0 +1,41 @@
+// @requirement: 22.1.2 -- If the execution is not successful, the CALLEE may raise an exception to inform the CALLER.
+// @id: TTCN3-CORE-22.1.2-018a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_01_02_principles_of_procedure_based_communication_012 {
+
+    signature S(in integer p_x) noblock exception (charstring);
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    altstep a_guard() runs on C {
+        [] T.timeout { setverdict(fail); stop; }
+    }
+
+    function f_server() runs on C {
+        var integer v_x;
+        p.getcall(S:{?}) -> param(v_x);
+        if (v_x < 0) {
+            p.raise(S, charstring:"negative");
+        }
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_server());
+        activate(a_guard());
+        T.start;
+        p.call(S:{-1});
+        p.catch(S, charstring:"negative");
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

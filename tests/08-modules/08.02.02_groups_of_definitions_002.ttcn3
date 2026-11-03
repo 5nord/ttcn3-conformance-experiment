@@ -1,0 +1,38 @@
+// @requirement: 8.2.2 -- If necessary, the dot notation shall be used to identify sub-groups within the group hierarchy uniquely, e.g. for the import of a specific sub-group.
+// @id: TTCN3-CORE-8.2.2-003a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_02_02_groups_of_definitions_002 {
+
+    import from M_08_02_02_groups_of_definitions_002_A {
+        group g_second.g_sub
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (c_second == 2) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_02_groups_of_definitions_002_A {
+
+    group g_first {
+        group g_sub {
+            const integer c_first := 1;
+        }
+    }
+
+    group g_second {
+        group g_sub {
+            const integer c_second := 2;
+        }
+    }
+}

@@ -1,0 +1,26 @@
+// @requirement: C.5.2 -- The decvalue function decodes a bitstring into a value.
+// @id: TTCN3-CORE-C.5.2-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_05_02_the_decoding_function_002 {
+
+    type component C {}
+
+    type integer I with { variant "32 bit" };
+
+    const I c_val := 1094861636;
+
+    testcase TC() runs on C {
+        var bitstring v_enc := encvalue(c_val);
+        var I v_dec;
+        var integer v_res := decvalue(v_enc, v_dec);
+        if (v_res == 0 and isbound(v_dec) and v_dec == c_val) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

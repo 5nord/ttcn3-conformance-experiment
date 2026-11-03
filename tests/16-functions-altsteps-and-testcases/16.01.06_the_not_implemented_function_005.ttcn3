@@ -1,0 +1,23 @@
+// @requirement: 16.1.6 -- The parameter shall be of the universal charstring type.
+// @id: TTCN3-CORE-16.1.6-005a
+// @verdict: pass reject
+module M_16_01_06_the_not_implemented_function_005 {
+
+    type component C {}
+
+    function f_setup() {
+        ???(42); // error: parameter is not of universal charstring type
+    }
+
+    testcase TC() runs on C {
+        var boolean v_flag := false;
+        if (v_flag) {
+            f_setup();
+        }
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

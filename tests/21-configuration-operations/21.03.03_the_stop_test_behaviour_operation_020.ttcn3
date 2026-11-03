@@ -1,0 +1,43 @@
+// @requirement: 21.3.3 -- In contrast to that, all active defaults are automatically deactivated when the alive-type component is stopped.
+// @id: TTCN3-CORE-21.3.3-016a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_03_03_the_stop_test_behaviour_operation_020 {
+
+    type port P message { inout integer; }
+
+    type component C {
+        port P p;
+    }
+
+    altstep a_def() runs on C {
+        [] p.receive { setverdict(fail); }
+    }
+
+    function f_first() runs on C {
+        var default v_def := activate(a_def());
+        stop;
+    }
+
+    function f_second() runs on C {
+        timer T_w := 1.0;
+        T_w.start;
+        alt {
+            [] T_w.timeout { setverdict(pass); }
+        }
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create alive;
+        connect(self:p, v_ptc:p);
+        v_ptc.start(f_first());
+        v_ptc.done;
+        v_ptc.start(f_second());
+        p.send(1);
+        v_ptc.done;
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

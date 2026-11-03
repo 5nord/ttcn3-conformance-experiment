@@ -1,0 +1,42 @@
+// @requirement: 12 -- If a timer ceases to exist, it stops running, will never timeout and cannot be referenced via the any timer or all timer constructs.
+// @id: TTCN3-CORE-12-018b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_12_declaring_timers_019 {
+    type port P message {
+        inout integer
+    }
+
+    type component C {
+        port P p;
+    }
+
+    function f_start() {
+        timer T_loc := 0.1;
+        T_loc.start;
+    }
+
+    function f_ptc() runs on C {
+        timer T_w := 1.0;
+        T_w.start;
+        T_w.timeout;
+        p.send(1);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_ptc());
+        f_start();
+        alt {
+            [] any timer.timeout {
+                setverdict(fail);
+            }
+            [] p.receive(1) {
+                setverdict(pass);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }}

@@ -1,0 +1,26 @@
+// @requirement: 16.2.1 -- An explicit call of an altstep within an alt statement looks syntactically like a function invocation as an alternative.
+// @id: TTCN3-CORE-16.2.1-007a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_16_02_01_invoking_altsteps_007 {
+
+    type component C {
+        timer T;
+    }
+
+    altstep a_step(float p_dummy) runs on C {
+        [] T.timeout {
+            setverdict(pass);
+        }
+    }
+
+    testcase TC() runs on C {
+        T.start(0.1);
+        alt {
+            [] a_step(1.0);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

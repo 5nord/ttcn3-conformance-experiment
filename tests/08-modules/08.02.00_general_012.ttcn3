@@ -1,0 +1,36 @@
+// @requirement: 8.2.0 -- However, variables defined in a test component type may be used by all test cases, functions, etc. running on components of that component type.
+// @id: TTCN3-CORE-8.2.0-017a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_02_00_general_012 {
+
+    type component C {
+        var integer v_count := 0;
+        timer T_guard := 0.1;
+    }
+
+    function f_increment() runs on C {
+        v_count := v_count + 1;
+    }
+
+    altstep a_increment() runs on C {
+        [] T_guard.timeout {
+            v_count := v_count + 10;
+        }
+    }
+
+    testcase TC() runs on C {
+        f_increment();
+        T_guard.start;
+        a_increment();
+        v_count := v_count + 100;
+        if (v_count == 111) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

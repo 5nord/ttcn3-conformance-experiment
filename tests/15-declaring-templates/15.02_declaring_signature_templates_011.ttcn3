@@ -1,0 +1,34 @@
+// @requirement: 15.2 -- Matching mechanisms, as defined in annex B, may be used in any templates used by this operation.
+// @id: TTCN3-CORE-15.2-010a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_02_declaring_signature_templates_011 {
+
+    signature RemoteProc(in integer Par1, out integer Par2, inout integer Par3) return integer;
+
+    type port P procedure {
+        inout RemoteProc;
+    }
+
+    type component C {
+        port P p1;
+        port P p2;
+    }
+
+    template RemoteProc s_matching := { Par1 := (0 .. 10), Par2 := ?, Par3 := (1, 3, 5) }
+
+    testcase TC() runs on C {
+        timer T := 1.0;
+        connect(self:p1, self:p2);
+        p1.call(RemoteProc:{ Par1 := 7, Par2 := -, Par3 := 5 }, nowait);
+        T.start;
+        alt {
+            [] p2.getcall(s_matching) { setverdict(pass); }
+            [] p2.getcall { setverdict(fail); }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

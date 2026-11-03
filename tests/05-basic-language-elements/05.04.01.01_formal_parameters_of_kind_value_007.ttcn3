@@ -1,0 +1,29 @@
+// @requirement: 5.4.1.1 -- Using of inout or out kind of parameterization shall be specified by the keywords inout or out respectively.
+// @id: TTCN3-CORE-5.4.1.1-006a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_04_01_01_formal_parameters_of_kind_value_007 {
+    type component C {}
+
+    function f_inout(inout integer p_x) {
+        p_x := p_x + 1;
+    }
+
+    function f_out(out integer p_x) {
+        p_x := 3;
+    }
+
+    testcase TC() runs on C {
+        var integer v_a := 1, v_b := 1;
+        f_inout(v_a);
+        f_out(v_b);
+        if (v_a == 2 and v_b == 3) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

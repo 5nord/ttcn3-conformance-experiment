@@ -1,0 +1,41 @@
+// @requirement: 6.3.2.6 -- The rules defined in this clause for structured types compatibility are also valid for the sub-structure of such types.
+// @id: TTCN3-CORE-6.3.2.6-001a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_03_02_06_compatibility_between_sub_structures_001 {
+
+    type component C {}
+
+    type record AType {
+        integer a(0..10) optional,
+        integer b(0..10) optional,
+        boolean c
+    }
+    type record BType {
+        integer a optional,
+        integer b(0..10) optional,
+        boolean c
+    }
+    type record JType {
+        AType a,
+        integer b optional,
+        integer c
+    }
+
+    testcase TC() runs on C {
+        var BType v_myVarB := { omit, 2, true };
+        var JType v_myVarJ := { a := { 1, 1, false }, b := omit, c := 0 };
+        v_myVarJ.a := v_myVarB;
+        v_myVarB := { 9, 9, false };
+        v_myVarB := v_myVarJ.a;
+        if (not ispresent(v_myVarJ.a.a) and v_myVarJ.a.b == 2 and v_myVarJ.a.c == true
+            and v_myVarB == { omit, 2, true }) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

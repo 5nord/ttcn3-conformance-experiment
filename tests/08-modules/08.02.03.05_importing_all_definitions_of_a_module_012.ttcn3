@@ -1,0 +1,26 @@
+// @requirement: 8.2.3.5 -- b) In the set of except statements for an all import, only one except statement per kind of definition (i.e. for a group, type, etc.) is allowed.
+// @id: TTCN3-CORE-8.2.3.5-012a
+// @verdict: pass reject
+module M_08_02_03_05_importing_all_definitions_of_a_module_012 {
+
+    import from M_08_02_03_05_importing_all_definitions_of_a_module_012_A all except {
+        const c_a;
+        const c_b // error: second except entry for kind const
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_03_05_importing_all_definitions_of_a_module_012_A {
+    const integer c_a := 1;
+    const integer c_b := 2;
+    const integer c_c := 3;
+}

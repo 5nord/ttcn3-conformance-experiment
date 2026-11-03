@@ -1,0 +1,41 @@
+// @requirement: 20.2 -- This repetitive procedure shall continue until either an alternative branch is selected and executed, or the test case is stopped by another component or by the test system (e.g. because the MTC is stopped) or with a dynamic error.
+// @id: TTCN3-CORE-20.2-045a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_02_the_alt_statement_032 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p;
+    }
+
+    function f_ptc() runs on C {
+        alt {
+            [] p.receive {
+                setverdict(fail);
+            }
+        }
+    }
+
+    testcase TC() runs on C system C {
+        timer T := 0.5;
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_ptc());
+        T.start;
+        T.timeout;
+        if (v_ptc.running) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+        v_ptc.stop;
+        v_ptc.done;
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,31 @@
+// @requirement: 7.1.8.0 -- All remaining parts of the ExtendedFieldReference that are located right from the operation that would normally produce an error up to the end of the presence checking operator are not evaluated. In these cases, if resolving dot notation, index notation (see clause 7.2) or decoded field references (see clause 7.3) included in the _ExtendedFieldReference would produce an error (e.g. if an index is out of range, when referencing a sub-field of an_ omitted field etc.), the following happens:
+// @id: TTCN3-CORE-7.1.8.0-008a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_07_01_08_00_general_006 {
+
+    type record of integer RoI;
+    type record of RoI RoRoI;
+
+    type component C {
+        var integer vc_calls := 0;
+    }
+
+    function f_index() runs on C return integer {
+        vc_calls := vc_calls + 1;
+        return 0;
+    }
+
+    testcase TC() runs on C {
+        var RoRoI v_l := { { 1 } };
+        var boolean v_res := isbound(v_l[4][f_index()]);
+        if (not v_res and vc_calls == 0) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

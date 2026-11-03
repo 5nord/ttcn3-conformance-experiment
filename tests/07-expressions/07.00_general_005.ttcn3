@@ -1,0 +1,28 @@
+// @requirement: 7.0 -- Expressions may be built from other (simple) expressions.
+// @id: TTCN3-CORE-7.0-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_07_00_general_005 {
+
+    type component C {}
+
+    const integer c_a := 4;
+
+    function f_two() return integer {
+        return 2;
+    }
+
+    testcase TC() runs on C {
+        var integer v_x := c_a - f_two();
+        var integer v_y := v_x * (c_a + 1);
+        var boolean v_b := (v_y > v_x) and not (v_x == 0);
+        if (v_y == 10 and v_b) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

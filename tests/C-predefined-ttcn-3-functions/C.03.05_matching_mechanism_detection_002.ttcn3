@@ -1,0 +1,28 @@
+// @requirement: C.3.5 -- If the matching mechanism kind enquired is matching a specific value (clause B.1.1), a matching mechanism instead of values (clause B.1.2) or matching character pattern (clause B.1.5), the function shall return true if the content of the invalue parameter is of the same kind.
+// @id: TTCN3-CORE-C.3.5-003a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_03_05_matching_mechanism_detection_002 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template integer v_value := 5;
+        var template integer v_any := ?;
+        var template integer v_list := (1, 2);
+        var template charstring v_pattern := pattern "a*b";
+        if (istemplatekind(v_value, "value") and
+            istemplatekind(v_any, "AnyValue") and
+            istemplatekind(v_list, "list") and
+            istemplatekind(v_pattern, "pattern") and
+            not istemplatekind(v_value, "AnyValue") and
+            not istemplatekind(v_any, "value")) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

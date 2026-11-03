@@ -1,0 +1,11 @@
+// @requirement: 6.1.2.0 -- Values of a subtype shall fulfil conditions specified by its constraint and all constraints existing in all its direct and indirect parent types up to the core type.
+// @id: TTCN3-CORE-6.1.2.0-003b
+// @verdict: pass reject
+module M_06_01_02_00_general_004 {
+
+    type charstring MyShortString length(1 .. 3);
+    type MyShortString MyLetters ("a" .. "z");
+    type MyLetters MyLowerLetters;
+
+    const MyLowerLetters c_value := "abcd"; // error: value violates the length constraint of an indirect parent type
+}

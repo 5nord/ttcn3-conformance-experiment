@@ -1,0 +1,28 @@
+// @requirement: 15.6.1 -- Then, if the referenced template contained the AnyValueOrNone matching symbol, the ifpresent matching attribute shall be added to the referenced template if it does not contain it.
+// @id: TTCN3-CORE-15.6.1-036a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_06_01_referencing_individual_string_elements_035 {
+
+    type component C {}
+
+    type record R {
+        octetstring f optional
+    }
+
+    const R c_omit := { f := omit };
+
+    testcase TC() runs on C {
+        var template octetstring v_oct := *;
+        v_oct[1] := 'AB'O;
+        var template R v_r := { f := v_oct };
+        if (match('00AB'O, v_oct) and not match('AB'O, v_oct) and match(c_omit, v_r)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

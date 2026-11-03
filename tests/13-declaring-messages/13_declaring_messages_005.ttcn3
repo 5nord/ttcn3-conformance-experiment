@@ -1,0 +1,39 @@
+// @requirement: 13 -- Instances of messages can be declared by global, local or in-line templates (see clause 15.0) or being constructed and passed via variables or template variables (see clause 11) and parameters or template parameters (see clause 5.4).
+// @id: TTCN3-CORE-13-006a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_13_declaring_messages_005 {
+
+    type record R { integer i, float f }
+
+    type port P message { inout R }
+
+    type component C {
+        port P p1;
+        port P p2;
+        timer T := 1.0;
+    }
+
+    template R m_global := { i := 1, f := 1.0 }
+
+    altstep a_guard() runs on C {
+        [] T.timeout { setverdict(fail); stop; }
+    }
+
+    testcase TC() runs on C {
+        template R m_local := { i := 2, f := 2.0 }
+        connect(self:p1, self:p2);
+        activate(a_guard());
+        T.start;
+        p1.send(m_global);
+        p1.send(m_local);
+        p1.send(R:{ i := 3, f := 3.0 });
+        p2.receive(R:{ i := 1, f := 1.0 });
+        p2.receive(R:{ i := 2, f := 2.0 });
+        p2.receive(R:{ i := 3, f := 3.0 });
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

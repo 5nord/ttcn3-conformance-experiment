@@ -1,0 +1,26 @@
+// @requirement: 22.3.6 -- q) The @nodefault modifier is allowed only in stand-alone catch statements.
+// @id: TTCN3-CORE-22.3.6-065a
+// @verdict: pass reject
+module M_22_03_06_the_catch_operation_063 {
+
+    signature S() exception (integer);
+
+    type port P procedure { inout S; }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    testcase TC() runs on C {
+        T.start;
+        alt {
+            [] @nodefault p.catch { } // error: @nodefault in an alt branch
+            [] T.timeout { }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,23 @@
+// @requirement: A.1.6.8.3 -- If only one RelExpression exists, it shall not derive to a CompoundExpression.
+// @id: TTCN3-CORE-A.1.6.8.3-009b
+// @verdict: pass reject
+module M_A_01_06_08_03_basic_statements_011 {
+
+    type record of integer RoI;
+
+    const RoI c_list := {1, 2};
+
+    type component C {}
+
+    testcase TC() runs on C {
+        select ({1, 2}) { // error: single expression is a compound expression
+            case (c_list) {
+                setverdict(pass);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,41 @@
+// @requirement: 20.5.1 -- Furthermore, the restrictions imposed on interleave statements in clause 20.4 do not apply to altsteps that are activated as default behaviour for interleave statements.
+// @id: TTCN3-CORE-20.5.1-007a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_05_01_the_default_mechanism_005 {
+
+    type component C {
+        timer T;
+        timer T_a;
+        timer T_b;
+        var integer v_count := 0;
+    }
+
+    function f_inc() runs on C {
+        v_count := v_count + 1;
+    }
+
+    altstep a_1() runs on C {
+        [] T.timeout {
+            for (var integer i := 0; i < 2; i := i + 1) {
+                f_inc();
+            }
+            repeat;
+        }
+    }
+
+    testcase TC() runs on C {
+        activate(a_1());
+        T.start(0.1);
+        T_a.start(0.3);
+        T_b.start(0.4);
+        interleave {
+            [] T_a.timeout {}
+            [] T_b.timeout {}
+        }
+        if (v_count == 2) { setverdict(pass); } else { setverdict(fail); }
+    }
+
+    control {
+        execute(TC());
+    }
+}

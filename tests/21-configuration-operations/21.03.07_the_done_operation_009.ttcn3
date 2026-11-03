@@ -1,0 +1,33 @@
+// @requirement: 21.3.7 -- If the @nodefault modifier is placed before a stand-alone done operation, the implicit alt statement also contains the @nodefault modifier.
+// @id: TTCN3-CORE-21.3.7-007a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_03_07_the_done_operation_009 {
+
+    type component C {
+        timer T;
+    }
+
+    function f_ptc() runs on C {
+        T.start(0.5);
+        T.timeout;
+    }
+
+    altstep a_default() runs on C {
+        [] T.timeout {
+            setverdict(fail);
+        }
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        v_ptc.start(f_ptc());
+        T.start(0.1);
+        activate(a_default());
+        @nodefault v_ptc.done;
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,25 @@
+// @requirement: 19.1.2 -- The statement "v_integer++" is a shorthand form of "v_integer ;= v_integer + 1" and the statement "v_integer--" is a shorthand form of "v_integer := v_integer – 1".
+// @id: TTCN3-CORE-19.1.2-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_01_02_shorthand_assignments_002 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_short := -1;
+        var integer v_long := -1;
+        v_short++;
+        v_long := v_long + 1;
+        v_short++;
+        v_long := v_long + 1;
+        if (v_short == v_long and v_short == 1) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

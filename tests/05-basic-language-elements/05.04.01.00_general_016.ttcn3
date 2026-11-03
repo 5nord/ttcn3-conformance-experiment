@@ -1,0 +1,23 @@
+// @requirement: 5.4.1.0 -- Formal value or template parameters may be declared fuzzy using the @fuzzy modifier.
+// @id: TTCN3-CORE-5.4.1.0-019a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_04_01_00_general_016 {
+
+    type component C {}
+
+    function f_fuzzy(in @fuzzy integer p_v, in template @fuzzy integer p_t) return boolean {
+        return match(p_v, p_t);
+    }
+
+    testcase TC() runs on C {
+        if (f_fuzzy(1, (0 .. 2))) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

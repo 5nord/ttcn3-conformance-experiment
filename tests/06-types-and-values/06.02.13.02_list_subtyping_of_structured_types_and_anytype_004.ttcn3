@@ -1,0 +1,30 @@
+// @requirement: 6.2.13.2 -- In case of list subtyping of `record`, `set`, `record of`, `set of`, `union`, `map` and `anytype` types, and arrays, the list may contain both subtypes and possibly partial templates of the core type.
+// @id: TTCN3-CORE-6.2.13.2-003a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_13_02_list_subtyping_of_structured_types_and_anytype_004 {
+
+    type record R {
+        integer f1 optional,
+        charstring f2
+    }
+
+    type R R_Sub1 ({ f1 := 1, f2 := "a" });
+    type R R_Sub2 (R_Sub1, { f2 := "b" });
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var R_Sub2 v_r1 := { f1 := 1, f2 := "a" };
+        var R_Sub2 v_r2 := { f1 := 99, f2 := "b" };
+        var R_Sub2 v_r3 := { f1 := omit, f2 := "b" };
+        if (v_r1.f1 == 1 and v_r2.f1 == 99 and not ispresent(v_r3.f1)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

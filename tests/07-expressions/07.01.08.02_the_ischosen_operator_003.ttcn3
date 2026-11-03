@@ -1,0 +1,26 @@
+// @requirement: 7.1.8.2 -- the value true if and only if the data object reference specifies the variant of the union type or the type alternative of the anytype that is actually selected for the given data object; The operator returns:
+// @id: TTCN3-CORE-7.1.8.2-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_07_01_08_02_the_ischosen_operator_003 {
+
+    type union U { integer f1, octetstring f2 }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var U v_u := { f2 := 'AB'O };
+        var anytype v_a := { integer := 1 };
+        if (ischosen(v_u.f2) and not ischosen(v_u.f1) and
+            ischosen(v_a.integer) and not ischosen(v_a.U)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+} with {
+    extension "anytype integer, U"
+}

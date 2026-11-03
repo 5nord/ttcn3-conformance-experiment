@@ -1,0 +1,24 @@
+// @requirement: 5.4.1.1 -- The default for value formal parameters is in parameterization which may optionally be denoted by the keyword in.
+// @id: TTCN3-CORE-5.4.1.1-005b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_04_01_01_formal_parameters_of_kind_value_006 {
+    type component C {}
+
+    function f_set(in integer p_x) {
+        p_x := 5;
+    }
+
+    testcase TC() runs on C {
+        var integer v_x := 1;
+        f_set(v_x);
+        if (v_x == 1) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,25 @@
+// @requirement: B.1.5.0 -- Metacharacter: ?; Description: Match any character (see notes 1 and 2)
+// @id: TTCN3-CORE-B.1.5.0-014a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_05_00_general_008 {
+
+    type component C {}
+
+    template charstring mw_pattern := pattern "a?c";
+
+    testcase TC() runs on C {
+        if (match("abc", mw_pattern) and
+            match("a c", mw_pattern) and
+            match("a?c", mw_pattern) and
+            not match("ac", mw_pattern) and
+            not match("abbc", mw_pattern)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

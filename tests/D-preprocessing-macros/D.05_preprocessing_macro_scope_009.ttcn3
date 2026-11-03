@@ -1,0 +1,24 @@
+// @requirement: D.5 -- f) a function name, if the lowest named scope is a function definition;
+// @id: TTCN3-CORE-D.5-010a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_D_05_preprocessing_macro_scope_009 {
+
+    type component C {}
+
+    function f_scope() return charstring {
+        var charstring v_scope := __SCOPE__;
+        return v_scope;
+    }
+
+    testcase TC() runs on C {
+        if (f_scope() == "f_scope") {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

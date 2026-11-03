@@ -1,0 +1,29 @@
+// @requirement: 27.8 -- The operation for getting a variant attribute value may be followed by an optional parameter.
+// @id: TTCN3-CORE-27.8-010a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_27_08_retrieving_attribute_values_010 {
+
+    type component C {}
+
+    type record of universal charstring RUC;
+
+    type integer MyInt with {
+        encode "Codec1";
+        encode "Codec2";
+        variant "Codec1"."Rule1";
+        variant "Codec2"."Rule2"
+    }
+
+    testcase TC() runs on C {
+        var RUC v_variant := MyInt.variant("Codec2");
+        if (v_variant == { "Rule2" }) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

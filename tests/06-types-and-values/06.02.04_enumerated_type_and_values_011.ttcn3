@@ -1,0 +1,29 @@
+// @requirement: 6.2.4 -- NOTE 1: For example, if the enumerated type is an element or field of a user defined structured type, the enumerated type is implicitly referenced via the given element/field (i.e. by the identifier of the field or the position of the value in a value list notation) at value assignment, instantiation, etc. Another example is passing an enumerated value as actual parameter, in which case the type of the corresponding formal parameter establishes the type context needed to make the enumeration value visible.
+// @id: TTCN3-CORE-6.2.4-010a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_04_enumerated_type_and_values_011 {
+
+    type component C {}
+
+    type enumerated E { e_a, e_b };
+
+    type record R {
+        E f1,
+        integer f2
+    };
+
+    testcase TC() runs on C {
+        var R v_list := { e_b, 0 };
+        var R v_assign := { f1 := e_b, f2 := 0 };
+        v_assign.f1 := e_a;
+        if (v_list.f1 == e_b and v_assign.f1 == e_a) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

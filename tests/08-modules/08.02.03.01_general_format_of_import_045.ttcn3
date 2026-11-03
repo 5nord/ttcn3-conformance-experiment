@@ -1,0 +1,25 @@
+// @requirement: 8.2.3.1 -- It is allowed to rename a module name during its import.
+// @id: TTCN3-CORE-8.2.3.1-080a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_02_03_01_general_format_of_import_045 {
+
+    import from M_08_02_03_01_general_format_of_import_045_VeryLongName -> M_Short all;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (M_Short.c_value == 42) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_03_01_general_format_of_import_045_VeryLongName {
+    const integer c_value := 42;
+}

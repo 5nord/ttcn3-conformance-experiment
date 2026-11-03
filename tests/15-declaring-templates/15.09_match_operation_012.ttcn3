@@ -1,0 +1,21 @@
+// @requirement: 15.9 -- c) The type of the template instance-parameter shall be unambiguously identified.
+// @id: TTCN3-CORE-15.9-012a
+// @verdict: pass reject
+module M_15_09_match_operation_012 {
+
+    type enumerated MyFirstEnumType { Monday, Tuesday, Wednesday, Thursday, Friday };
+    type enumerated MySecondEnumType { Saturday, Sunday, Monday };
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyFirstEnumType v_today := Tuesday;
+        if (match(v_today, Sunday)) { // error: type of template instance is not identified
+            setverdict(pass);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

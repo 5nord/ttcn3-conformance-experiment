@@ -1,0 +1,21 @@
+// @requirement: 6.5 -- j) Field assignment notation where all values fulfil requirements for automatic typing shall provide an automatic record type with the same number and order of fields as in the field assignment notation.
+// @id: TTCN3-CORE-6.5-016a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_05_automatic_type_018 {
+    type record R { charstring description, integer val }
+    type component C {}
+
+    testcase TC() runs on C {
+        var v_auto := { description := "description", val := 23 };
+        var R v_r := v_auto;
+        if (v_r.description == "description" and v_r.val == 23) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

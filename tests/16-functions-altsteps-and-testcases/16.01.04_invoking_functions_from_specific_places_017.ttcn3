@@ -1,0 +1,34 @@
+// @requirement: 16.1.4 -- NOTE 2: The use of operations send, call, reply, raise, and action causes an error, i.e. all communication are to be made explicit and not as a side effect of another communication operation or the evaluation of a snapshot.
+// @id: TTCN3-CORE-16.1.4-019a
+// @verdict: pass reject
+module M_16_01_04_invoking_functions_from_specific_places_017 {
+
+    signature S() noblock;
+
+    type port P procedure {
+        out S
+    }
+
+    type component C {
+        port P p;
+        timer T := 0.1;
+    }
+
+    function f_guard() runs on C return boolean {
+        p.call(S:{}); // error: call operation in a function called in a guard
+        return true;
+    }
+
+    testcase TC() runs on C {
+        T.start;
+        alt {
+            [f_guard()] T.timeout {
+                setverdict(pass);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

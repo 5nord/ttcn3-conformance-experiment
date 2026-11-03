@@ -1,0 +1,26 @@
+// @requirement: 11.1 -- The value variable can be referenced multiple times in a TTCN-3 module.
+// @id: TTCN3-CORE-11.1-009a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_11_01_value_variables_010 {
+
+    type component C {
+        var integer vc_a := 2;
+    }
+
+    function f_double() runs on C return integer {
+        return vc_a * 2;
+    }
+
+    testcase TC() runs on C {
+        var integer v_b := vc_a + vc_a;
+        if (v_b == f_double() and vc_a == 2) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

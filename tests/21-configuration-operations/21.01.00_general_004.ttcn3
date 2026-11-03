@@ -1,0 +1,38 @@
+// @requirement: 21.1.0 -- The connect operation directly connects one port to another with the in side connected to the out side and vice versa.
+// @id: TTCN3-CORE-21.1.0-004a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_01_00_general_004 {
+
+    type port P message { inout integer; }
+
+    type component C {
+        port P p;
+    }
+
+    function f_echo() runs on C {
+        timer T := 1.0;
+        T.start;
+        alt {
+            [] p.receive(1) { p.send(2); }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    testcase TC() runs on C {
+        timer T := 1.0;
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_echo());
+        p.send(1);
+        T.start;
+        alt {
+            [] p.receive(2) { setverdict(pass); }
+            [] T.timeout { setverdict(fail); }
+        }
+        v_ptc.done;
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,36 @@
+// @requirement: 5.5 -- b) function and altstep definitions (i.e. recursive function or altstep calls);
+// @id: TTCN3-CORE-5.5-003a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_05_cyclic_definitions_003 {
+
+    type component C {
+        timer T := 0.1;
+    }
+
+    function f_factorial(integer p_n) return integer {
+        if (p_n <= 1) {
+            return 1;
+        }
+        return p_n * f_factorial(p_n - 1);
+    }
+
+    altstep a_countdown(integer p_n) runs on C {
+        [p_n > 0] a_countdown(p_n - 1) {
+        }
+        [p_n == 0] T.timeout {
+            setverdict(pass);
+        }
+    }
+
+    testcase TC() runs on C {
+        if (f_factorial(5) != 120) {
+            setverdict(fail);
+        }
+        T.start;
+        a_countdown(3);
+    }
+
+    control {
+        execute(TC());
+    }
+}

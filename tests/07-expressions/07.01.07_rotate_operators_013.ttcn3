@@ -1,0 +1,19 @@
+// @requirement: 7.1.7 -- a) When the rotate operator is used for record of-s, set of-s and arrays, its left hand operand shall be at least partially initialized.
+// @id: TTCN3-CORE-7.1.7-013a
+// @verdict: pass accept, ttcn3verdict:error
+module M_07_01_07_rotate_operators_013 {
+
+    type record of integer RoI;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var RoI v_r;
+        var RoI v_res := v_r <@ 1; // error: left-hand operand is uninitialized
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

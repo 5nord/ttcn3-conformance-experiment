@@ -1,0 +1,24 @@
+// @requirement: 5.4.2 -- If no value is assigned, the actual parameter remains unchanged when the invoked object completes.
+// @id: TTCN3-CORE-5.4.2-017a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_04_02_actual_parameters_021 {
+
+    type component C {}
+
+    function f(out integer p_o) {
+    }
+
+    testcase TC() runs on C {
+        var integer v_i := 10;
+        f(v_i);
+        if (isbound(v_i) and v_i == 10) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

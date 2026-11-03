@@ -1,0 +1,22 @@
+// @requirement: 22.3.5 -- The type definition of the port shall include in its in or inout list the name of the procedure to which the exception belongs.
+// @id: TTCN3-CORE-22.3.5-019a
+// @verdict: pass reject
+module M_22_03_05_the_raise_operation_012 {
+
+    signature S() exception(integer);
+
+    type port P procedure { out S }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C system C {
+        p.raise(S, 1); // error: S is only in the out list of the port type
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

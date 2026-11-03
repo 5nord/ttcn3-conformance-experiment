@@ -1,0 +1,33 @@
+// @requirement: 23.1 -- All running timers shall automatically be cancelled when a test component is explicitly or implicitly stopped.
+// @id: TTCN3-CORE-23.1-014a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_23_01_the_timer_mechanism_008 {
+
+    type component C {
+        timer T_comp := 5.0;
+    }
+
+    function f_start_timer() runs on C {
+        T_comp.start;
+    }
+
+    function f_check_timer() runs on C {
+        if (not T_comp.running and not any timer.running) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create alive;
+        v_ptc.start(f_start_timer());
+        v_ptc.done;
+        v_ptc.start(f_check_timer());
+        v_ptc.done;
+    }
+
+    control {
+        execute(TC());
+    }
+}

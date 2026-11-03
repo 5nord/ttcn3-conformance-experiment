@@ -1,0 +1,49 @@
+// @requirement: 22.2.3 -- This restriction shall be denoted using the from keyword followed by a specification of an address or component reference, a list of address or component references or any component.
+// @id: TTCN3-CORE-22.2.3-012a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_02_03_the_trigger_operation_011 {
+
+    type port P message { inout integer }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    function f_send(integer p_value) runs on C {
+        p.send(p_value);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc1 := C.create;
+        var C v_ptc2 := C.create;
+        var C v_ptc3 := C.create;
+        connect(mtc:p, v_ptc1:p);
+        connect(mtc:p, v_ptc2:p);
+        connect(mtc:p, v_ptc3:p);
+        v_ptc1.start(f_send(1));
+        v_ptc2.start(f_send(2));
+        v_ptc3.start(f_send(3));
+        T.start;
+        alt {
+            [] p.trigger(integer:1) from v_ptc1 {}
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        T.stop;
+        T.start;
+        alt {
+            [] p.trigger(integer:2) from (v_ptc2, v_ptc3) {}
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        T.stop;
+        T.start;
+        alt {
+            [] p.trigger(integer:3) from any component { setverdict(pass); }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

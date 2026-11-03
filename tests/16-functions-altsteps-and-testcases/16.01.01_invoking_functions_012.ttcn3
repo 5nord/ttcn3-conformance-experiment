@@ -1,0 +1,24 @@
+// @requirement: 16.1.1 -- f) When invoking a function, the mtc and system compatibility of the mtc and system components of the invoked function with the actual mtc and system types of the running test case as described in clause 6.3.2.7 need to be fulfilled.
+// @id: TTCN3-CORE-16.1.1-015a
+// @verdict: pass reject
+module M_16_01_01_invoking_functions_012 {
+
+    type component C {}
+
+    type component MtcType {
+        var integer v_mtcVar := 0;
+    }
+
+    function f_withMtc() runs on C mtc MtcType {
+        log("mtc clause");
+    }
+
+    testcase TC() runs on C system C {
+        f_withMtc(); // error: mtc type C is not mtc-compatible with MtcType
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

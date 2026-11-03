@@ -1,0 +1,37 @@
+// @requirement: 5.4.1.0 -- Formal parameters of parameterized templates, functions, altsteps, and testcases are defined in formal parameter lists.
+// @id: TTCN3-CORE-5.4.1.0-004a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_04_01_00_general_002 {
+
+    type component C {
+        timer T;
+    }
+
+    template integer m_int(integer p_v) := p_v;
+
+    function f_inc(integer p_v) return integer {
+        return p_v + 1;
+    }
+
+    altstep a_timeout(timer p_t, integer p_v) {
+        [] p_t.timeout {
+            if (p_v == 2) {
+                setverdict(pass);
+            } else {
+                setverdict(fail);
+            }
+        }
+    }
+
+    testcase TC(integer p_v) runs on C {
+        if (not match(f_inc(p_v), m_int(2))) {
+            setverdict(fail);
+        }
+        T.start(0.01);
+        a_timeout(T, f_inc(p_v));
+    }
+
+    control {
+        execute(TC(1));
+    }
+}

@@ -1,0 +1,25 @@
+// @requirement: 5.4.2 -- An actual parameter can also be skipped by just leaving it out if no other actual parameter follows in the actual parameter list - either because the parameter is last or because all following formal parameters are out parameters or have default values and are left out.
+// @id: TTCN3-CORE-5.4.2-033a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_04_02_actual_parameters_038 {
+
+    type component C {}
+
+    function f_skip(in integer p_par1, out integer p_par2, in integer p_par3 := 2) return integer {
+        p_par2 := p_par1;
+        return p_par1 + p_par3;
+    }
+
+    testcase TC() runs on C {
+        var integer v_i;
+        if (f_skip(1, v_i) == 3 and v_i == 1 and f_skip(1) == 3) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

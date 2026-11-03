@@ -1,0 +1,23 @@
+// @requirement: 6.2.15.4 -- Presence of a mapping for a key can be checked by using the isbound, isvalue or ispresent operation with an index notation as its argument.
+// @id: TTCN3-CORE-6.2.15.4-007a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_15_04_index_notation_007 {
+
+    type map from charstring to integer MyMap;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyMap v_map := { ["a"] := 1 };
+        if (isbound(v_map["a"]) and isvalue(v_map["a"]) and ispresent(v_map["a"]) and
+            not isbound(v_map["z"]) and not isvalue(v_map["z"]) and not ispresent(v_map["z"])) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,26 @@
+// @requirement: 23.5 -- The any keyword may be used to check if any timer started on a test component or control component is running.
+// @id: TTCN3-CORE-23.5-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_23_05_the_running_timer_operation_004 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        timer T := 5.0;
+        var boolean v_before, v_during, v_after;
+        v_before := any timer.running;
+        T.start;
+        v_during := any timer.running;
+        T.stop;
+        v_after := any timer.running;
+        if (not v_before and v_during and not v_after) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

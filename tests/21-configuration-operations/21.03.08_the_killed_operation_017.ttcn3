@@ -1,0 +1,35 @@
+// @requirement: 21.3.8 -- When the killed operation is applied to a PTC and matches, the final local verdict of that PTC can be retrieved and stored in a variable of the type verdicttype.
+// @id: TTCN3-CORE-21.3.8-015a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_03_08_the_killed_operation_017 {
+
+    type component C {}
+
+    function f_ptc() runs on C {
+        setverdict(pass);
+    }
+
+    testcase TC() runs on C {
+        timer T := 1.0;
+        var verdicttype v_verdict := none;
+        var C v_ptc := C.create;
+        v_ptc.start(f_ptc());
+        T.start;
+        alt {
+            [] v_ptc.killed -> value v_verdict {
+                if (v_verdict == pass) {
+                    setverdict(pass);
+                } else {
+                    setverdict(fail);
+                }
+            }
+            [] T.timeout {
+                setverdict(fail);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,19 @@
+// @requirement: 5.4.2 -- For each formal inout parameter and for each in parameter without a default there shall be an actual parameter.
+// @id: TTCN3-CORE-5.4.2-031a
+// @verdict: pass reject
+module M_05_04_02_actual_parameters_035 {
+
+    type component C {}
+
+    function f(integer p_i, inout integer p_io) {
+    }
+
+    testcase TC() runs on C {
+        f(1); // error: no actual parameter for inout parameter p_io
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

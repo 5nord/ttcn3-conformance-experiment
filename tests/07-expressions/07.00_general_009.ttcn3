@@ -1,0 +1,47 @@
+// @requirement: 7.0 -- Assignment or list notations are used for expressions of record, set, record of, set of, array, union and anytype types.
+// @id: TTCN3-CORE-7.0-008a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_07_00_general_009 {
+
+    type component C {}
+
+    type record R {
+        integer a,
+        boolean b
+    }
+
+    type set S {
+        integer a,
+        boolean b
+    }
+
+    type record of integer RoI;
+    type set of integer SoI;
+    type integer A[2];
+
+    type union U {
+        integer i,
+        boolean b
+    }
+
+    testcase TC() runs on C {
+        var R v_r1 := { a := 1, b := true };
+        var R v_r2 := { 1, true };
+        var S v_s := { b := true, a := 1 };
+        var RoI v_ro := { 1, 2 };
+        var SoI v_so := { 2, 1 };
+        var A v_a := { 1, 2 };
+        var U v_u := { i := 1 };
+        var anytype v_any := { integer := 1 };
+        if (v_r1 == v_r2 and v_s.a == 1 and v_ro[1] == 2 and lengthof(v_so) == 2 and v_a[0] == 1
+            and ischosen(v_u.i) and v_any.integer == 1) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

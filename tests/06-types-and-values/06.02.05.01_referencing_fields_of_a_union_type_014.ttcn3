@@ -1,0 +1,30 @@
+// @requirement: 6.2.5.1 -- c) At the end of the expansion, the value at the right hand side of the assignment shall be assigned to the referenced alternative.
+// @id: TTCN3-CORE-6.2.5.1-015a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_05_01_referencing_fields_of_a_union_type_014 {
+
+    type union U {
+        integer choice1,
+        charstring choice2
+    }
+
+    type record R {
+        U field1 optional
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var R v_r := { field1 := omit };
+        v_r.field1.choice2 := "Hello!";
+        if (v_r.field1.choice2 == "Hello!") {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,24 @@
+// @requirement: B.1.2.10 -- To match an enumerated value with an associated value list in its definition, the enumerated value name shall be referenced followed by a non-empty list of integer templates in parenthesis.
+// @id: TTCN3-CORE-B.1.2.10-001a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_02_10_matching_enumerated_value_with_value_list_001 {
+
+    type enumerated Days { Christmas(0), Easter(1), Other(2..365) }
+
+    type component C {}
+
+    template integer mw_greater20 := complement(0 .. 20);
+    template Days mw_days := Other(5..6, mw_greater20);
+
+    testcase TC() runs on C {
+        if (match(Other(5), mw_days)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

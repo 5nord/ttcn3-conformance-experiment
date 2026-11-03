@@ -1,0 +1,50 @@
+// @requirement: 22.2.2 -- When assigning individual fields of a message, encoded payload fields can be decoded prior to assignment using the @decoded modifier.
+// @id: TTCN3-CORE-22.2.2-027a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_02_02_the_receive_operation_024 {
+
+    type record Inner {
+        integer x
+    } with {
+        encode "JSON"
+    }
+
+    type record Msg {
+        integer id,
+        octetstring payload
+    }
+
+    type port P message { inout Msg }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    const Inner c_inner := { x := 5 };
+
+    function f_send() runs on C {
+        p.send(Msg:{ id := 1, payload := bit2oct(encvalue(c_inner)) });
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        var Inner v_inner;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_send());
+        T.start;
+        alt {
+            [] p.receive(Msg:?) -> value (v_inner := @decoded payload) { }
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        if (v_inner == c_inner) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

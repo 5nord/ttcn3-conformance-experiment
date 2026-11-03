@@ -1,0 +1,19 @@
+// @requirement: 6.2.15.2 -- a) In the index assignment notation, every index expression shall evaluate to a different value than all the other ones.
+// @id: TTCN3-CORE-6.2.15.2-007a
+// @verdict: pass reject
+module M_06_02_15_02_indexed_assignment_notation_011 {
+
+    type map from charstring to integer MyMap;
+
+    const MyMap c_map := { ["a"] := 1, ["a"] := 2 }; // error: duplicate index "a"
+
+    type component C {}
+
+    testcase TC() runs on C {
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,23 @@
+// @requirement: 15.6.3 -- When referencing an element within a record of or set of template or field to which AnyValue is assigned (without a length attribute), at the left hand side of an assignment, the value or matching mechanism at the right hand side of the assignment shall be assigned to the referenced element, AnyElement shall be assigned to all elements before the referenced one (if any) and a single AnyElementsOrNone shall be added at the end.
+// @id: TTCN3-CORE-15.6.3-010b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_06_03_referencing_record_of_and_set_of_elements_007 {
+
+    type record of integer RoI;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template RoI v_roI := ?;
+        v_roI[2] := 7;
+        if (match({1, 2, 7}, v_roI) and match({-1, -2, 7}, v_roI) and not match({7}, v_roI) and not match({1, 7}, v_roI)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

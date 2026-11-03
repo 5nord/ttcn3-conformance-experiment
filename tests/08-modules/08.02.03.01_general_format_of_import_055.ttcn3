@@ -1,0 +1,38 @@
+// @requirement: 8.2.3.1 -- NOTE 6: If module C imports a definition from module B that uses a type reference defined in module A, the corresponding information necessary for the usage of that type is automatically imported into module C (see example 6 below in this clause).
+// @id: TTCN3-CORE-8.2.3.1-090a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_02_03_01_general_format_of_import_055 {
+
+    import from M_08_02_03_01_general_format_of_import_055_B all;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyRec2 v_rec := { myField1 := { field1 := 5, field2 := "A" }, myField2 := true };
+        if (v_rec.myField1.field1 == 5 and c_rec2.myField1.field2 == "B") {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_03_01_general_format_of_import_055_B {
+    import from M_08_02_03_01_general_format_of_import_055_A all;
+    type record MyRec2 {
+        MyRec1 myField1,
+        boolean myField2
+    }
+    const MyRec2 c_rec2 := { myField1 := { field1 := 1, field2 := "B" }, myField2 := false };
+}
+
+module M_08_02_03_01_general_format_of_import_055_A {
+    type record MyRec1 {
+        integer field1,
+        charstring field2
+    }
+}

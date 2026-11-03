@@ -1,0 +1,35 @@
+// @requirement: 22.2.3 -- Thus, its meaning is identical to the meaning of receive any message.
+// @id: TTCN3-CORE-22.2.3-016a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_02_03_the_trigger_operation_014 {
+
+    type port P message { inout integer }
+
+    type component C {
+        port P p;
+        port P q;
+        timer T := 1.0;
+    }
+
+    testcase TC() runs on C {
+        var C v_sender;
+        connect(mtc:p, mtc:q);
+        q.send(1);
+        q.send(2);
+        T.start;
+        alt {
+            [] p.trigger -> sender v_sender {}
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        if (v_sender != mtc) { setverdict(fail); stop; }
+        alt {
+            [] p.receive(integer:2) { setverdict(pass); }
+            [] p.receive { setverdict(fail); }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

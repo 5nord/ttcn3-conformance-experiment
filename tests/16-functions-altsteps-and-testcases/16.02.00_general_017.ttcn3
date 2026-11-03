@@ -1,0 +1,25 @@
+// @requirement: 16.2.0 -- Altsteps with the @control modifier are allowed to be executed only on the control component (see clause 26).
+// @id: TTCN3-CORE-16.2.0-019a
+// @verdict: pass reject
+module M_16_02_00_general_017 {
+
+    type component C {
+        timer T_guard := 0.1;
+    }
+
+    altstep @control a_ctrl() {
+        [] any timer.timeout {
+            log("timeout");
+        }
+    }
+
+    testcase TC() runs on C {
+        T_guard.start;
+        a_ctrl(); // error: @control altstep invoked in test behaviour
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

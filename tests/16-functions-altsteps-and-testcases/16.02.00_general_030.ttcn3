@@ -1,0 +1,45 @@
+// @requirement: 16.2.0 -- f) Altsteps started by using the start test component operation shall always have a runs on clause (see clause 22.5) and are considered to be invoked in the component to be started, i.e. not locally.
+// @id: TTCN3-CORE-16.2.0-031b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_16_02_00_general_030 {
+
+    type port P message {
+        inout integer
+    }
+
+    type component C {
+        port P p;
+        var integer v_id := 0;
+        timer T_guard := 1.0;
+    }
+
+    altstep a_ptc() runs on C {
+        [] p.receive(integer:1) {
+            p.send(v_id);
+        }
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        v_id := 1;
+        connect(self:p, v_ptc:p);
+        v_ptc.start(a_ptc());
+        p.send(1);
+        T_guard.start;
+        alt {
+            [] p.receive(integer:0) {
+                setverdict(pass);
+            }
+            [] p.receive {
+                setverdict(fail);
+            }
+            [] T_guard.timeout {
+                setverdict(fail);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,18 @@
+// @requirement: 6.2.3.0 -- The first member of the list is assigned to the first element, the second list member is assigned to the second element, etc. No empty assignment is allowed (e.g. two commas, the second immediately following the first or only with white space between them).
+// @id: TTCN3-CORE-6.2.3.0-015b
+// @verdict: pass reject
+module M_06_02_03_00_general_013 {
+
+    type record of integer MyRecordOf;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyRecordOf v_ro := { 1, , 3 }; // error: empty assignment
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

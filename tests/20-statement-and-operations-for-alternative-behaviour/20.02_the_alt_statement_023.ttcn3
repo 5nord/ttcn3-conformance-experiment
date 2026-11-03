@@ -1,0 +1,28 @@
+// @requirement: 20.2 -- A timeout-branch is selected if the Boolean guard is fulfilled and if the specified timeout event is in the timeout-list of the snapshot.
+// @id: TTCN3-CORE-20.2-031a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_02_the_alt_statement_023 {
+    type component C {}
+
+    testcase TC() runs on C {
+        timer T_1 := 0.1;
+        timer T_guard := 1.0;
+        T_1.start;
+        T_guard.start;
+        alt {
+            [false] T_1.timeout {
+                setverdict(fail);
+            }
+            [] T_1.timeout {
+                setverdict(pass);
+            }
+            [] T_guard.timeout {
+                setverdict(fail);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

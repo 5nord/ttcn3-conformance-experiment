@@ -1,0 +1,13 @@
+// @requirement: 15.7.4 -- NOTE 1: **ifpresent can be assigned to templates of any type as a whole or to optional fields of record and set types.** **ifpresent can only be used for matching optional fields.**
+// @id: TTCN3-CORE-15.7.4-006b
+// @verdict: pass reject
+module M_15_07_04_special_symbols_which_describe_attributes_of_values_005 {
+    type record R {
+        integer a,
+        boolean b optional
+    }
+
+    template R mw_r := {a := 1 ifpresent, b := omit}; // error: ifpresent on a mandatory field
+
+    type component C {}
+}

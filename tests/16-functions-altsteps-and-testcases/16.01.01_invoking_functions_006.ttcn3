@@ -1,0 +1,35 @@
+// @requirement: 16.1.1 -- If the function returns (upon termination and potentially with a return value), the test components continues its behaviour right after the function invocation.
+// @id: TTCN3-CORE-16.1.1-006a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_16_01_01_invoking_functions_006 {
+
+    type component C {
+        var integer v_step := 0;
+    }
+
+    function f_noReturn() runs on C {
+        v_step := v_step * 10 + 2;
+    }
+
+    function f_withReturn() runs on C return integer {
+        v_step := v_step * 10 + 4;
+        return 0;
+    }
+
+    testcase TC() runs on C {
+        v_step := 1;
+        f_noReturn();
+        v_step := v_step * 10 + 3;
+        var integer v_res := f_withReturn();
+        v_step := v_step * 10 + 5 + v_res;
+        if (v_step == 12345) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

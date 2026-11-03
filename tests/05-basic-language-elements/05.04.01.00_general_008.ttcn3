@@ -1,0 +1,31 @@
+// @requirement: 5.4.1.0 -- If parameters are passed by value (i.e. in case of in and out parameters), type compatibility rules specified in clause 6.3 apply.
+// @id: TTCN3-CORE-5.4.1.0-010a
+// @verdict: pass reject
+module M_05_04_01_00_general_008 {
+
+    type component C {}
+
+    type record R1 {
+        integer a
+    }
+
+    type record R2 {
+        integer a,
+        integer b
+    }
+
+    function f_get(in R1 p_r) return integer {
+        return p_r.a;
+    }
+
+    testcase TC() runs on C {
+        var R2 v_r := { a := 1, b := 2 };
+        if (f_get(v_r) == 1) { // error: R2 is not type compatible with R1
+            setverdict(pass);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

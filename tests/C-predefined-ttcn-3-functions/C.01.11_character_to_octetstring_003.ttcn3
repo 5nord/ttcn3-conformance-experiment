@@ -1,0 +1,21 @@
+// @requirement: C.1.11 -- Each octet of the octetstring will contain the Recommendation ITU-T T.50 [4] codes (according to the IRV) of the appropriate characters of invalue.
+// @id: TTCN3-CORE-C.1.11-003a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_01_11_character_to_octetstring_003 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var charstring v_in := "0a~" & char(0, 0, 0, 127);
+        var octetstring v_res := char2oct(v_in);
+        if (v_res == '30617E7F'O and lengthof(v_res) == lengthof(v_in)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

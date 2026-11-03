@@ -1,0 +1,37 @@
+// @requirement: 20.4 -- The goto statement can be used for defining jumps with statements blocks that do not contain reception statements and for specifying jumps out of interleave statements.
+// @id: TTCN3-CORE-20.4-026a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_04_the_interleave_statement_018 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p1, p2;
+    }
+
+    testcase TC() runs on C {
+        var integer v_x := 0;
+        connect(self:p1, self:p2);
+        p1.send(integer:1);
+        interleave {
+            [] p2.receive(integer:1) {
+                v_x := 1;
+                goto L_skip;
+                v_x := 100;
+                label L_skip;
+                v_x := v_x + 1;
+            }
+        }
+        if (v_x == 2) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

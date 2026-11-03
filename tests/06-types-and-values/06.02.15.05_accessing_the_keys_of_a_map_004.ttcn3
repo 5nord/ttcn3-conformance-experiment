@@ -1,0 +1,34 @@
+// @requirement: 6.2.15.5 -- If the MapValue is a value of type MapValueType defined as map from _A_ to _B_ then MapValue.from yields a result compatible with type set of A that contains all the key values from MapValue.
+// @id: TTCN3-CORE-6.2.15.5-004a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_15_05_accessing_the_keys_of_a_map_004 {
+
+    type map from charstring to integer MapType;
+    type set of charstring CharSet;
+
+    type component C {}
+
+    function f_contains(CharSet p_set, charstring p_item) return boolean {
+        for (var integer i := 0; i < lengthof(p_set); i := i + 1) {
+            if (p_set[i] == p_item) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    testcase TC() runs on C {
+        var MapType v_map := { ["a"] := 1, ["b"] := 2, ["c"] := 3 };
+        var CharSet v_keys := v_map.from;
+        if (lengthof(v_keys) == 3 and f_contains(v_keys, "a") and f_contains(v_keys, "b")
+            and f_contains(v_keys, "c")) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

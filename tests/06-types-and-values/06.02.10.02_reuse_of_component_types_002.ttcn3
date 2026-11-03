@@ -1,0 +1,32 @@
+// @requirement: 6.2.10.2 -- type component ComponentTypeIdentifier extends ComponentTypeIdentifier { "," ComponentTypeIdentifier} "{" { ( PortInstance | VarInstance | TimerInstance | ConstDef | TemplateDef ) } "}"
+// @id: TTCN3-CORE-6.2.10.2-002a
+// @verdict: pass accept, noexecution
+module M_06_02_10_02_reuse_of_component_types_002 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component CA {
+        var integer vc_a;
+    }
+
+    type component CB {
+        timer tc_b;
+    }
+
+    type component CC {
+        const integer cc_c := 3;
+    }
+
+    type component CExt1 extends CA {
+    }
+
+    type component CExt2 extends CA, CB, CC {
+        port P p;
+        var integer vc_i := 1;
+        timer tc_t := 1.0;
+        const integer cc_i := 2;
+        template integer mw_i := ?;
+    }
+}

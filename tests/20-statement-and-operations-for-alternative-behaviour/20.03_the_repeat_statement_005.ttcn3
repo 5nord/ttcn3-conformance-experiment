@@ -1,0 +1,56 @@
+// @requirement: 20.3 -- The call of the altstep may either be done implicitly by the default mechanism (see clause 20.5.1) or explicitly in the alt statement (see clause 20.2).
+// @id: TTCN3-CORE-20.3-006a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_03_the_repeat_statement_005 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p1, p2;
+        var integer v_count := 0;
+    }
+
+    altstep a_step() runs on C {
+        [] p2.receive(integer:1) {
+            v_count := v_count + 1;
+            repeat;
+        }
+    }
+
+    testcase TC() runs on C {
+        var default v_def;
+        timer T := 1.0;
+        connect(self:p1, self:p2);
+        p1.send(integer:1);
+        p1.send(integer:2);
+        T.start;
+        alt {
+            [] p2.receive(integer:2) {}
+            [] a_step();
+            [] T.timeout {
+                setverdict(fail);
+            }
+        }
+        v_def := activate(a_step());
+        p1.send(integer:1);
+        p1.send(integer:2);
+        alt {
+            [] p2.receive(integer:2) {}
+            [] T.timeout {
+                setverdict(fail);
+            }
+        }
+        deactivate(v_def);
+        if (v_count == 2) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

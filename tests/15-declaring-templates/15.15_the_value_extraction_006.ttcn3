@@ -1,0 +1,26 @@
+// @requirement: 15.15 -- Applying this extraction to a template that contains a value will yield that value.
+// @id: TTCN3-CORE-15.15-006a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_15_the_value_extraction_006 {
+
+    type record R {
+        integer a,
+        boolean b optional
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template R v_t := { 5, true };
+        var R v_val := v_t.value;
+        if (v_val == { 5, true }) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

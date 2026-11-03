@@ -1,0 +1,34 @@
+// @requirement: 16.2.1 -- If the @nodefault modifier is placed before a stand-alone altstep call, the implicit alt statement also contains the @nodefault modifier.
+// @id: TTCN3-CORE-16.2.1-018a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_16_02_01_invoking_altsteps_020 {
+
+    type component C {
+        timer T1;
+        timer T2;
+    }
+
+    altstep a_step() runs on C {
+        [] T2.timeout {
+            setverdict(pass);
+        }
+    }
+
+    altstep a_def() runs on C {
+        [] T1.timeout {
+            setverdict(fail);
+        }
+    }
+
+    testcase TC() runs on C {
+        var default v_def := activate(a_def());
+        T1.start(0.1);
+        T2.start(0.5);
+        @nodefault a_step();
+        deactivate(v_def);
+    }
+
+    control {
+        execute(TC());
+    }
+}

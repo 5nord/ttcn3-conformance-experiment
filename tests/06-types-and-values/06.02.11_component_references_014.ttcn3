@@ -1,0 +1,23 @@
+// @requirement: 6.2.11 -- Instead a specific element of the array shall be provided as the parameter to these operations.
+// @id: TTCN3-CORE-6.2.11-013a
+// @verdict: pass reject
+module M_06_02_11_component_references_014 {
+
+    type component C {
+    }
+
+    function f_empty() runs on C {
+    }
+
+    testcase TC() runs on C {
+        var C v_ptcs[2];
+        v_ptcs[0] := C.create;
+        v_ptcs[1] := C.create;
+        v_ptcs.start(f_empty()); // error: start requires a specific array element
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

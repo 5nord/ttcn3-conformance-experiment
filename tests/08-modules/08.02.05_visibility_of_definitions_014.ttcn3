@@ -1,0 +1,29 @@
+// @requirement: 8.2.5 -- NOTE: As specified in restriction e) of clause 8.2.3.1, this means that importable definitions are imported together with all information of referenced definitions that are necessary for the usage of the importable definition, even if the referenced definition is private.
+// @id: TTCN3-CORE-8.2.5-012a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_02_05_visibility_of_definitions_014 {
+
+    import from M_08_02_05_visibility_of_definitions_014_A { const c_record };
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (c_record.field1 == 5 and c_record.field2 == "abc") {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_05_visibility_of_definitions_014_A {
+    private type record MyRecord {
+        integer field1,
+        charstring field2
+    }
+    public const MyRecord c_record := { field1 := 5, field2 := "abc" };
+}

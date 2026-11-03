@@ -1,0 +1,24 @@
+// @requirement: 22.5.3 -- The stop operation disables sending and disallow receiving operations to match at the port(s).
+// @id: TTCN3-CORE-22.5.3-001a
+// @verdict: pass accept, ttcn3verdict:error
+module M_22_05_03_the_stop_port_operation_001 {
+
+    type port P message {
+        inout integer
+    }
+
+    type component C {
+        port P p1, p2;
+    }
+
+    testcase TC() runs on C {
+        connect(self:p1, self:p2);
+        setverdict(pass);
+        p1.stop;
+        p1.send(1); // error: sending on a stopped port
+    }
+
+    control {
+        execute(TC());
+    }
+}

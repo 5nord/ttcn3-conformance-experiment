@@ -1,0 +1,22 @@
+// @requirement: 5.3 -- Declarations in the module definitions part and in a component type definition may be made in any order.
+// @id: TTCN3-CORE-5.3-005b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_03_ordering_of_language_elements_004 {
+
+    type component C {
+        var integer vc_a := cc_b + 1;
+        const integer cc_b := 1;
+    }
+
+    testcase TC() runs on C {
+        if (vc_a == 2) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,29 @@
+// @requirement: 15.7.2 -- **EnumValueIdentifier with list of templates: used for matching of enumerated values with associated value** list.
+// @id: TTCN3-CORE-15.7.2-017a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_07_02_special_symbols_that_can_be_used_instead_of_values_016 {
+
+    type component C {}
+
+    type enumerated Days { Christmas(0), Easter(1), Other(2 .. 365) }
+
+    template integer m_greater20 := complement(0 .. 20);
+    template Days m_days := Other(5 .. 6, m_greater20);
+
+    testcase TC() runs on C {
+        var Days v_o5 := Other(5);
+        var Days v_o21 := Other(21);
+        var Days v_o10 := Other(10);
+        var Days v_easter := Easter;
+        if (match(v_o5, m_days) and match(v_o21, m_days) and
+            not match(v_o10, m_days) and not match(v_easter, m_days)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

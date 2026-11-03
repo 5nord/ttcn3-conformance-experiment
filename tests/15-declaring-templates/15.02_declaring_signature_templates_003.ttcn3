@@ -1,0 +1,46 @@
+// @requirement: 15.2 -- A signature template defines the values and matching mechanisms of the procedure parameters only, but not the return value.
+// @id: TTCN3-CORE-15.2-004a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_02_declaring_signature_templates_003 {
+
+    signature RemoteProc(in integer Par1, out integer Par2, inout integer Par3) return integer;
+
+    type port P procedure {
+        inout RemoteProc;
+    }
+
+    type component C {
+        port P p1;
+        port P p2;
+    }
+
+    template RemoteProc s_template1 := {
+        Par1 := 1,
+        Par2 := 2,
+        Par3 := 3
+    }
+
+    testcase TC() runs on C {
+        timer T := 1.0;
+        var integer v_return;
+        connect(self:p1, self:p2);
+        p1.call(s_template1, nowait);
+        T.start;
+        alt {
+            [] p2.getcall(s_template1) { }
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        p2.reply(s_template1 value 5);
+        alt {
+            [] p1.getreply(s_template1 value 4) { setverdict(fail); }
+            [] p1.getreply(s_template1 value ?) -> value v_return {
+                if (v_return == 5) { setverdict(pass); } else { setverdict(fail); }
+            }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

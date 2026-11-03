@@ -1,0 +1,21 @@
+// @requirement: 5.4.2 -- For inout formal template parameters, the template restriction of the actual and the formal parameter shall be the same.
+// @id: TTCN3-CORE-5.4.2-045a
+// @verdict: pass reject
+module M_05_04_02_actual_parameters_049 {
+
+    type component C {}
+
+    function f(inout template(omit) integer p_t) {
+        p_t := omit;
+    }
+
+    testcase TC() runs on C {
+        var template(value) integer v_t := 1;
+        f(v_t); // error: template(value) actual for template(omit) inout formal parameter
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

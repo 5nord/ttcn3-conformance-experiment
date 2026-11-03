@@ -1,0 +1,26 @@
+// @requirement: 6.3.2.3 -- set types are only compatible with other set types and set of types are only compatible with other set of types.
+// @id: TTCN3-CORE-6.3.2.3-001a
+// @verdict: pass reject
+module M_06_03_02_03_compatibility_of_set_and_set_of_types_001 {
+
+    type component C {}
+
+    type set FType {
+        integer a optional,
+        boolean c
+    }
+    type record RType {
+        integer a optional,
+        boolean c
+    }
+
+    testcase TC() runs on C {
+        var RType v_myVarR := { a := 1, c := true };
+        var FType v_myVarF := v_myVarR; // error: record value is not compatible with a set type
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

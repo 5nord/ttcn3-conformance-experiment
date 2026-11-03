@@ -1,0 +1,23 @@
+// @requirement: 15.7.2 -- **(…): a list of values or templates;**
+// @id: TTCN3-CORE-15.7.2-006a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_07_02_special_symbols_that_can_be_used_instead_of_values_005 {
+
+    type component C {}
+
+    template integer m_range := (10 .. 20);
+    template integer m_list := (1, 2, m_range);
+
+    testcase TC() runs on C {
+        if (match(1, m_list) and match(2, m_list) and match(15, m_list) and
+            not match(3, m_list) and not match(21, m_list)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

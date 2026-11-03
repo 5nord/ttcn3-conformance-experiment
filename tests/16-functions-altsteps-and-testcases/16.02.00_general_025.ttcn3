@@ -1,0 +1,32 @@
+// @requirement: 16.2.0 -- d) An altstep without a `runs on` clause shall never invoke a function or altstep or activate an altstep as default with a `runs on` clause locally.
+// @id: TTCN3-CORE-16.2.0-027b
+// @verdict: pass reject
+module M_16_02_00_general_025 {
+
+    type component C {
+        timer T_guard := 0.1;
+        timer T_other := 0.2;
+    }
+
+    altstep a_def() runs on C {
+        [] T_other.timeout {
+            setverdict(pass);
+        }
+    }
+
+    altstep a_step(timer p_timer) {
+        [] p_timer.timeout {
+            var default v_d := activate(a_def()); // error: altstep with runs on activated from altstep without runs on
+        }
+    }
+
+    testcase TC() runs on C {
+        T_guard.start;
+        a_step(T_guard);
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

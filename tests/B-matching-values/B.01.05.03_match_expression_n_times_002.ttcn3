@@ -1,0 +1,20 @@
+// @requirement: B.1.5.3 -- The form "#(n, m)" specifies that the preceding expression shall be matched at least n times but not more than m times.
+// @id: TTCN3-CORE-B.1.5.3-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_05_03_match_expression_n_times_002 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        template charstring m_p := pattern "[a-z]#(2, 3)";
+        if (not match("a", m_p) and match("ab", m_p) and match("abc", m_p) and not match("abcd", m_p)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

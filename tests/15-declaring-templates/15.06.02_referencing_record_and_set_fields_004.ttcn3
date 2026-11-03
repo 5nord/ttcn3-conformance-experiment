@@ -1,0 +1,34 @@
+// @requirement: 15.6.2 -- When referencing a subfield within a structured field to which AnyValueOrNone or omit is assigned, at the left hand side of an assignment, the structured field is implicitly set to be present, it is expanded recursively up to and including the depth of the referenced subfield.
+// @id: TTCN3-CORE-15.6.2-005b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_06_02_referencing_record_and_set_fields_004 {
+
+    type record R2 {
+        integer g1,
+        R2 g2 optional
+    }
+
+    type record R1 {
+        integer f1 optional,
+        R2 f2 optional
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template R1 v_r1 := {f1 := 5, f2 := *};
+        v_r1.f2.g2.g1 := 3;
+        if (match({f1 := 5, f2 := {g1 := 0, g2 := {g1 := 3, g2 := omit}}}, v_r1) and
+            match({f1 := 5, f2 := {g1 := 7, g2 := {g1 := 3, g2 := {g1 := 1, g2 := omit}}}}, v_r1) and
+            not match({f1 := 5, f2 := {g1 := 0, g2 := omit}}, v_r1) and
+            not match({f1 := 5, f2 := omit}, v_r1)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

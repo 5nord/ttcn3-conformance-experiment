@@ -1,0 +1,25 @@
+// @requirement: 6.2.5.0 -- TTCN-3 supports the union type.
+// @id: TTCN3-CORE-6.2.5.0-001a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_05_00_general_001 {
+
+    type component C {}
+
+    type union U {
+        integer number,
+        charstring string
+    };
+
+    testcase TC() runs on C {
+        var U v_u := { string := "abc" };
+        if (ischosen(v_u.string) and v_u.string == "abc") {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

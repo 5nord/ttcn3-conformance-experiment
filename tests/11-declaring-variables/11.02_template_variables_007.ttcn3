@@ -1,0 +1,32 @@
+// @requirement: 11.2 -- It is also allowed to assign a template instance to a template variable or a template variable field.
+// @id: TTCN3-CORE-11.2-006a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_11_02_template_variables_007 {
+    type record R {
+        integer f1,
+        integer f2
+    }
+
+    type component C {}
+
+    template R m_r(integer p_i) := {
+        f1 := p_i,
+        f2 := ?
+    }
+
+    template integer m_range := (10 .. 20);
+
+    testcase TC() runs on C {
+        var template R v_t := { f1 := 0, f2 := 0 };
+        v_t := m_r(1);
+        v_t.f2 := m_range;
+        if (match({ f1 := 1, f2 := 15 }, v_t) and not match({ f1 := 1, f2 := 5 }, v_t)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }}

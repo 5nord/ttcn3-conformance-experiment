@@ -1,0 +1,32 @@
+// @requirement: 20.2 -- The killed operation itself has no further effect.
+// @id: TTCN3-CORE-20.2-030a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_02_the_alt_statement_022 {
+    type component C {}
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create alive;
+        timer T_guard := 1.0;
+        v_ptc.kill;
+        T_guard.start;
+        alt {
+            [] v_ptc.killed {}
+            [] T_guard.timeout {
+                setverdict(fail);
+                stop;
+            }
+        }
+        alt {
+            [] v_ptc.killed {
+                setverdict(pass);
+            }
+            [] T_guard.timeout {
+                setverdict(fail);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,26 @@
+// @requirement: 22.1.1 -- Table 22: Overview of TTCN-3 communication operations: Send message; Col2: send; Col3: Yes
+// @id: TTCN3-CORE-22.1.1-009b
+// @verdict: pass reject
+module M_22_01_01_principles_of_message_based_communication_006 {
+
+    signature S(in integer p_x) noblock;
+
+    type port PP procedure {
+        inout S
+    }
+
+    type component C {
+        port PP p;
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        p.send(1); // error: send used at a procedure-based port
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

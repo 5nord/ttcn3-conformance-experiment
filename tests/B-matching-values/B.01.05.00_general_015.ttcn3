@@ -1,0 +1,26 @@
+// @requirement: B.1.5.0 -- Metacharacter: ^; Indexing: No effect, the surrounding set is indexed; Description: Has a metacharacter meaning in a set expression. It causes to match any character complementing the set of characters following this metacharacter; see clause B.1.5.1 for more details
+// @id: TTCN3-CORE-B.1.5.0-019a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_05_00_general_015 {
+
+    type component C {}
+
+    template charstring mw_complement := pattern "[^abc]";
+    template charstring mw_outside := pattern "x^y";
+
+    testcase TC() runs on C {
+        if (match("d", mw_complement) and
+            match("1", mw_complement) and
+            not match("a", mw_complement) and
+            not match("c", mw_complement) and
+            match("x^y", mw_outside)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

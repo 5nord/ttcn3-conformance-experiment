@@ -1,0 +1,23 @@
+// @requirement: 6.2.4 -- The fourth example is the match operation, where the type of the template parameter establishes the type context for the operation, if the type of the value parameter is not identified (see example 2 in clause 15.8.2).
+// @id: TTCN3-CORE-6.2.4-012a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_04_enumerated_type_and_values_014 {
+
+    type component C {}
+
+    type enumerated E { e_a, e_b, e_c };
+
+    template E m_bc := (e_b, e_c);
+
+    testcase TC() runs on C {
+        if (match(e_b, m_bc) and not match(e_a, m_bc)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

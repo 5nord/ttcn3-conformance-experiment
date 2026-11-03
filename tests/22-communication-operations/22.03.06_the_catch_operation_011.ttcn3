@@ -1,0 +1,23 @@
+// @requirement: 22.3.6 -- When assigning individual fields of an exception, encoded payload fields can be decoded prior to assignment using the @decoded modifier.
+// @id: TTCN3-CORE-22.3.6-013a
+// @verdict: pass accept, noexecution
+module M_22_03_06_the_catch_operation_011 {
+
+    type record E {
+        integer id,
+        octetstring payload
+    }
+
+    signature S() exception (E);
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    function f_catch() runs on C {
+        var integer v_i;
+        p.catch(S, E:?) -> value (v_i := @decoded payload);
+    }
+}

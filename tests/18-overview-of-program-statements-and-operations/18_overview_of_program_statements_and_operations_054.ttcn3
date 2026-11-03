@@ -1,0 +1,32 @@
+// @requirement: 18 -- Statement: Interleaved behaviour; Associated keyword or symbol: interleave {…}; Can be invoked by control behaviour: Yes (see note 2); Can be invoked by test behaviour: Yes
+// @id: TTCN3-CORE-18-031a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_18_overview_of_program_statements_and_operations_054 {
+
+    type component C {}
+
+    testcase TC(integer p_count) runs on C {
+        if (p_count == 2) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        var integer v_count := 0;
+        timer T1 := 0.05;
+        timer T2 := 0.1;
+        T1.start;
+        T2.start;
+        interleave {
+            [] T2.timeout {
+                v_count := v_count + 1;
+            }
+            [] T1.timeout {
+                v_count := v_count + 1;
+            }
+        }
+        execute(TC(v_count));
+    }
+}

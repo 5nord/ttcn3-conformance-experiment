@@ -1,0 +1,22 @@
+// @requirement: 15.6.1 -- b) When referencing an item at the index n of a binary string template to which a specific value is assigned, if the index is greater than or equal to the number of items in the specific value, first as many AnyElement matching symbols shall be appended to the specific value as is the difference between n and the number of items in the specific value and then the item from the right hand side of the assignment shall be appended to the specific value on the left hand side.
+// @id: TTCN3-CORE-15.6.1-026a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_06_01_referencing_individual_string_elements_025 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template octetstring v_oct := '0123'O;
+        v_oct[4] := 'FF'O;
+        if (match('0123AABBFF'O, v_oct) and not match('0123FF'O, v_oct)
+            and not match('0123AAFF'O, v_oct)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

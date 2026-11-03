@@ -1,0 +1,38 @@
+// @requirement: 21.3.1 -- The component instance name is used for logging purposes (see clause 19.11) only and shall not be used to refer to the component instance (the component reference shall be used for this purpose) and has no effect on matching.
+// @id: TTCN3-CORE-21.3.1-018c
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_03_01_the_create_operation_022 {
+
+    type port P message {
+        inout integer
+    }
+
+    type component C {
+        port P p;
+    }
+
+    function f_ptc() runs on C {
+        p.send(integer:1);
+    }
+
+    testcase TC() runs on C {
+        timer T := 1.0;
+        var C v_ptc := C.create("MyPTC");
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_ptc());
+        T.start;
+        alt {
+            [] p.receive(integer:1) from v_ptc {
+                setverdict(pass);
+            }
+            [] T.timeout {
+                setverdict(fail);
+            }
+        }
+        v_ptc.done;
+    }
+
+    control {
+        execute(TC());
+    }
+}

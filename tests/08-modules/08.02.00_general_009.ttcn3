@@ -1,0 +1,33 @@
+// @requirement: 8.2.0 -- This includes identifiers imported from other modules. Such definitions, i.e. top-level definitions outside of other scope units, are globally visible within the module.
+// @id: TTCN3-CORE-8.2.0-014a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_02_00_general_009 {
+
+    type component C {
+        var integer v_comp := c_imported;
+    }
+
+    function f_get() return integer {
+        return c_imported;
+    }
+
+    testcase TC() runs on C {
+        if (f_get() == 42 and v_comp == 42 and c_imported == 42) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    import from M_08_02_00_general_009_A { const c_imported };
+
+    control {
+        if (c_imported == 42) {
+            execute(TC());
+        }
+    }
+}
+
+module M_08_02_00_general_009_A {
+    const integer c_imported := 42;
+}

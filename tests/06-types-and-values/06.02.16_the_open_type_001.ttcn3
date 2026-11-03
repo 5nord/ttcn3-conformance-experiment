@@ -1,0 +1,23 @@
+// @requirement: 6.2.16 -- Values of all types can be directly passed as actual parameters to formal parameters of the open type without the need to explicitly specify a type context.
+// @id: TTCN3-CORE-6.2.16-003a
+// @verdict: pass accept, noexecution
+module M_06_02_16_the_open_type_001 {
+
+    type record R {
+        integer f1,
+        charstring f2
+    }
+
+    external function fx_printf(charstring p_format, any p_data);
+
+    function f_test() {
+        var R v_rec := { f1 := 1, f2 := "a" };
+        fx_printf("%d", 1);
+        fx_printf("%f", 1.0);
+        fx_printf("%s", "abc");
+        fx_printf("%b", true);
+        fx_printf("%v", pass);
+        fx_printf("%x", '0A'O);
+        fx_printf("%r", v_rec);
+    }
+}

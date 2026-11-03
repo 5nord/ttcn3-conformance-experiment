@@ -1,0 +1,31 @@
+// @requirement: 6.3.3 -- a) For port instances, both the type and the identifier shall be identical.
+// @id: TTCN3-CORE-6.3.3-009a
+// @verdict: pass reject
+module M_06_03_03_compatibility_of_component_types_007 {
+
+    type port P1 message {
+        inout integer;
+    }
+    type port P2 message {
+        inout integer;
+    }
+
+    type component CA {
+        port P1 p;
+    }
+    type component CB {
+        port P2 p;
+    }
+
+    function f() runs on CA {
+        setverdict(pass);
+    }
+
+    testcase TC() runs on CB {
+        f(); // error: port p has different types in CA and CB
+    }
+
+    control {
+        execute(TC());
+    }
+}

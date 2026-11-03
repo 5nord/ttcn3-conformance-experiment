@@ -1,0 +1,33 @@
+// @requirement: 8.2.3.1 -- Importable Definition: Constant; Possible Referenced Definitions: Constant type
+// @id: TTCN3-CORE-8.2.3.1-051a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_02_03_01_general_format_of_import_017 {
+
+    import from M_08_02_03_01_general_format_of_import_017_B { const c_rec }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (c_rec.a == 1 and c_rec.b == "x") {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_03_01_general_format_of_import_017_B {
+    import from M_08_02_03_01_general_format_of_import_017_A all;
+    const MyRec c_rec := { a := 1, b := "x" };
+}
+
+module M_08_02_03_01_general_format_of_import_017_A {
+    type record MyRec {
+        integer a,
+        charstring b
+    }
+}

@@ -1,0 +1,25 @@
+// @requirement: 5.4.1.0 -- Keyword: function; Allowed kind of Parameterization: Value and template parameterization; Allowed form of Parameterization: Dynamic at runtime; Allowed types in formal parameter lists: all basic types, all user-defined types, address type, component type, port type, default, template and timer.
+// @id: TTCN3-CORE-5.4.1.0-027b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_04_01_00_general_029 {
+
+    type component C {}
+
+    function f_match(integer p_v, template integer p_t) return boolean {
+        return match(p_v, p_t);
+    }
+
+    testcase TC() runs on C {
+        var integer v_i;
+        for (v_i := 0; v_i < 3; v_i := v_i + 1) {
+            if (not f_match(v_i, v_i) or f_match(v_i + 1, v_i)) {
+                setverdict(fail);
+            }
+        }
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

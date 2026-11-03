@@ -1,0 +1,23 @@
+// @requirement: 7.0 -- This means also that all fields and elements of structured types referenced in an expression shall contain completely initialized values, while other fields and elements, not used in the expression, may be uninitialized or contain omit.
+// @id: TTCN3-CORE-7.0-013a
+// @verdict: pass accept, ttcn3verdict:error
+module M_07_00_general_013 {
+
+    type component C {}
+
+    type record R {
+        integer a,
+        integer b
+    }
+
+    testcase TC() runs on C {
+        var R v_r;
+        v_r.a := 1;
+        var integer v_i := v_r.b + 1; // referenced field uninitialized: error
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

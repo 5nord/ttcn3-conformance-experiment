@@ -1,0 +1,21 @@
+// @requirement: C.1.16 -- The consecutive order of characters in the resulting charstring is the same as the order of bits in the bitstring.
+// @id: TTCN3-CORE-C.1.16-006a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_01_16_bitstring_to_charstring_006 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var bitstring v_b := '1100010'B;
+        var charstring v_s := bit2str(v_b);
+        if (v_s == "1100010" and bit2str('001'B) == "001" and bit2str('100'B) == "100") {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

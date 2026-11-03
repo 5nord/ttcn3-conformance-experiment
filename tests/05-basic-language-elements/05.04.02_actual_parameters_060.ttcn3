@@ -1,0 +1,29 @@
+// @requirement: 5.4.2 -- This restriction applies recursively to all sub-elements of the structured value or template in any level of nesting.
+// @id: TTCN3-CORE-5.4.2-058a
+// @verdict: pass reject
+module M_05_04_02_actual_parameters_060 {
+
+    type record Inner {
+        integer x
+    }
+
+    type record Outer {
+        Inner inner
+    }
+
+    type component C {}
+
+    function f_test(inout Outer p_outer, inout integer p_int) {
+        p_int := p_outer.inner.x;
+    }
+
+    testcase TC() runs on C {
+        var Outer v_outer := { inner := { x := 1 } };
+        f_test(v_outer, v_outer.inner.x); // error: nested sub-element of v_outer passed to another inout parameter
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

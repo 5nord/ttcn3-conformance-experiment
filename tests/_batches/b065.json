@@ -18,8 +18,8 @@
     17033
    ],
    "examples": [],
-   "file": "tests/21-configuration-operations/21.03.08_test_022.ttcn3",
-   "module": "M_21_03_08_test_022",
+   "file": "tests/21-configuration-operations/21.03.08_the_killed_operation_022.ttcn3",
+   "module": "M_21_03_08_the_killed_operation_022",
    "header": "// @requirement: 21.3.8 -- The first component to be found killed causes the killed operation to succeed."
   },
   {
@@ -39,8 +39,8 @@
     17033
    ],
    "examples": [],
-   "file": "tests/21-configuration-operations/21.03.08_test_023.ttcn3",
-   "module": "M_21_03_08_test_023",
+   "file": "tests/21-configuration-operations/21.03.08_the_killed_operation_023.ttcn3",
+   "module": "M_21_03_08_the_killed_operation_023",
    "header": "// @requirement: 21.3.8 -- The index of the matched component can optionally be assigned to an integer variable for single-dimensional component arrays or to an integer array or record of integer variable for multi-dimensional component arrays."
   },
   {
@@ -68,8 +68,8 @@
     17040
    ],
    "examples": [],
-   "file": "tests/21-configuration-operations/21.03.08_test_024.ttcn3",
-   "module": "M_21_03_08_test_024",
+   "file": "tests/21-configuration-operations/21.03.08_the_killed_operation_024.ttcn3",
+   "module": "M_21_03_08_the_killed_operation_024",
    "header": "// @requirement: 21.3.8 -- a) The killed operation can be used for PTCs only."
   },
   {
@@ -97,8 +97,8 @@
      "text": "var MyPTCType v_ptc := MyPTCType.create alive; // create an alive-type test component\n  timer t_T:= 10.0; // create a timer\n  t_T.start;  // start the timer\n  v_ptc.start(f_myTestBehavior()); // start executing a function on the PTC\n  alt {\n  [] v_ptc.killed { // if the PTC was killed during execution …\n     t_T.stop; // … stop the timer and …\n     setverdict(inconc);  // … set the verdict to 'inconclusive'\n    }\n  [] v_ptc.done {  // if the PTC terminated regularly …\n     t_T.stop; // … stop the timer and …\n     v_ptc.start(f_anotherFunction()); // … start another function on the PTC\n    }\n  [] t_T.timeout { // if the timeout occurs before the PTC stopped\n     v_ptc.kill;  // … kill the PTC and …\n     setverdict(fail); // … set the verdict to 'fail'\n    }\n  }\n  // Retrieving and using the final local verdict of a killed PTC\n  var MyComp v_myPTC := MyPTC.create alive;\n  var verdicttype v_myPTCverdict := none;\n  v_myPTC.start(f_myPTCBehaviour());\n  :\n  alt {\n     [] v_myPTC.done {  // expected termination\n            setverdict (pass);\n          }\n       }\n     [] v_myPTC.killed -> value v_myPTCverdict {\n          if (v_MyPTCverdict == none) { // v_myPTC killed before verdict assignment\n            setverdict(fail);\n            stop;\n          }\n          else {\n            setverdict (inconc); // further analysis is needed\n            stop;\n          }\n       }\n     [] any port.receive {\n          repeat\n       }\n  }"
     }
    ],
-   "file": "tests/21-configuration-operations/21.03.08_test_025.ttcn3",
-   "module": "M_21_03_08_test_025",
+   "file": "tests/21-configuration-operations/21.03.08_the_killed_operation_025.ttcn3",
+   "module": "M_21_03_08_the_killed_operation_025",
    "header": "// @requirement: 21.3.8 -- b) The ObjectReference followed by the killed keyword, i.e. used for identifying a specific PTC, shall be of a component type and shall not resolve to a template."
   },
   {
@@ -118,8 +118,8 @@
     17043
    ],
    "examples": [],
-   "file": "tests/21-configuration-operations/21.03.08_test_026.ttcn3",
-   "module": "M_21_03_08_test_026",
+   "file": "tests/21-configuration-operations/21.03.08_the_killed_operation_026.ttcn3",
+   "module": "M_21_03_08_the_killed_operation_026",
    "header": "// @requirement: 21.3.8 -- b) The ObjectReference followed by the killed keyword, i.e. used for identifying a specific PTC, shall be of a component type and shall not resolve to a template."
   },
   {
@@ -139,8 +139,8 @@
     17045
    ],
    "examples": [],
-   "file": "tests/21-configuration-operations/21.03.08_test_027.ttcn3",
-   "module": "M_21_03_08_test_027",
+   "file": "tests/21-configuration-operations/21.03.08_the_killed_operation_027.ttcn3",
+   "module": "M_21_03_08_the_killed_operation_027",
    "header": "// @requirement: 21.3.8 -- c) The ComponentArrayRef shall be a reference to a completely initialized component array."
   },
   {
@@ -168,8 +168,8 @@
      "text": "var MyPTCType v_ptc := MyPTCType.create alive; // create an alive-type test component\n  timer t_T:= 10.0; // create a timer\n  t_T.start;  // start the timer\n  v_ptc.start(f_myTestBehavior()); // start executing a function on the PTC\n  alt {\n  [] v_ptc.killed { // if the PTC was killed during execution …\n     t_T.stop; // … stop the timer and …\n     setverdict(inconc);  // … set the verdict to 'inconclusive'\n    }\n  [] v_ptc.done {  // if the PTC terminated regularly …\n     t_T.stop; // … stop the timer and …\n     v_ptc.start(f_anotherFunction()); // … start another function on the PTC\n    }\n  [] t_T.timeout { // if the timeout occurs before the PTC stopped\n     v_ptc.kill;  // … kill the PTC and …\n     setverdict(fail); // … set the verdict to 'fail'\n    }\n  }\n  // Retrieving and using the final local verdict of a killed PTC\n  var MyComp v_myPTC := MyPTC.create alive;\n  var verdicttype v_myPTCverdict := none;\n  v_myPTC.start(f_myPTCBehaviour());\n  :\n  alt {\n     [] v_myPTC.done {  // expected termination\n            setverdict (pass);\n          }\n       }\n     [] v_myPTC.killed -> value v_myPTCverdict {\n          if (v_MyPTCverdict == none) { // v_myPTC killed before verdict assignment\n            setverdict(fail);\n            stop;\n          }\n          else {\n            setverdict (inconc); // further analysis is needed\n            stop;\n          }\n       }\n     [] any port.receive {\n          repeat\n       }\n  }"
     }
    ],
-   "file": "tests/21-configuration-operations/21.03.08_test_028.ttcn3",
-   "module": "M_21_03_08_test_028",
+   "file": "tests/21-configuration-operations/21.03.08_the_killed_operation_028.ttcn3",
+   "module": "M_21_03_08_the_killed_operation_028",
    "header": "// @requirement: 21.3.8 -- d) The variable used in the (optional) value clause for storing the final local verdict of a PTC shall be of the type verdicttype."
   },
   {
@@ -189,8 +189,8 @@
     17055
    ],
    "examples": [],
-   "file": "tests/21-configuration-operations/21.03.08_test_029.ttcn3",
-   "module": "M_21_03_08_test_029",
+   "file": "tests/21-configuration-operations/21.03.08_the_killed_operation_029.ttcn3",
+   "module": "M_21_03_08_the_killed_operation_029",
    "header": "// @requirement: 21.3.8 -- e) The (optional) value clause for storing the final local verdict of a PTC shall not be used in combination with all component or any component."
   },
   {
@@ -210,8 +210,8 @@
     17058
    ],
    "examples": [],
-   "file": "tests/21-configuration-operations/21.03.08_test_030.ttcn3",
-   "module": "M_21_03_08_test_030",
+   "file": "tests/21-configuration-operations/21.03.08_the_killed_operation_030.ttcn3",
+   "module": "M_21_03_08_the_killed_operation_030",
    "header": "// @requirement: 21.3.8 -- f) The index redirection shall only be used when the operation is used on an any from component array construct."
   },
   {
@@ -231,8 +231,8 @@
     17061
    ],
    "examples": [],
-   "file": "tests/21-configuration-operations/21.03.08_test_031.ttcn3",
-   "module": "M_21_03_08_test_031",
+   "file": "tests/21-configuration-operations/21.03.08_the_killed_operation_031.ttcn3",
+   "module": "M_21_03_08_the_killed_operation_031",
    "header": "// @requirement: 21.3.8 -- g) If the index redirection is used for single-dimensional component arrays, the type of the integer variable shall allow storing the highest index of the respective array."
   },
   {
@@ -257,8 +257,8 @@
     17065
    ],
    "examples": [],
-   "file": "tests/21-configuration-operations/21.03.08_test_032.ttcn3",
-   "module": "M_21_03_08_test_032",
+   "file": "tests/21-configuration-operations/21.03.08_the_killed_operation_032.ttcn3",
+   "module": "M_21_03_08_the_killed_operation_032",
    "header": "// @requirement: 21.3.8 -- h) If the index redirection is used for multi-dimensional component arrays, the size of the integer array or record of integer type shall exactly be the same as the dimension of the respective array, and its type shall allow storing the highest index (from all dimensions) of the array."
   },
   {
@@ -278,8 +278,8 @@
     17065
    ],
    "examples": [],
-   "file": "tests/21-configuration-operations/21.03.08_test_033.ttcn3",
-   "module": "M_21_03_08_test_033",
+   "file": "tests/21-configuration-operations/21.03.08_the_killed_operation_033.ttcn3",
+   "module": "M_21_03_08_the_killed_operation_033",
    "header": "// @requirement: 21.3.8 -- h) If the index redirection is used for multi-dimensional component arrays, the size of the integer array or record of integer type shall exactly be the same as the dimension of the respective array, and its type shall allow storing the highest index (from all dimensions) of the array."
   },
   {
@@ -299,8 +299,8 @@
     17069
    ],
    "examples": [],
-   "file": "tests/21-configuration-operations/21.03.08_test_034.ttcn3",
-   "module": "M_21_03_08_test_034",
+   "file": "tests/21-configuration-operations/21.03.08_the_killed_operation_034.ttcn3",
+   "module": "M_21_03_08_the_killed_operation_034",
    "header": "// @requirement: 21.3.8 -- i) If a variable referenced in the @index clause is a lazy or fuzzy variable, the expression assigned to this variable is equal to the result produced by the killed operation i.e. later evaluation of the lazy or fuzzy variable does not lead to repeated invocation of the killed operation."
   },
   {
@@ -320,8 +320,8 @@
     17069
    ],
    "examples": [],
-   "file": "tests/21-configuration-operations/21.03.08_test_035.ttcn3",
-   "module": "M_21_03_08_test_035",
+   "file": "tests/21-configuration-operations/21.03.08_the_killed_operation_035.ttcn3",
+   "module": "M_21_03_08_the_killed_operation_035",
    "header": "// @requirement: 21.3.8 -- i) If a variable referenced in the @index clause is a lazy or fuzzy variable, the expression assigned to this variable is equal to the result produced by the killed operation i.e. later evaluation of the lazy or fuzzy variable does not lead to repeated invocation of the killed operation."
   },
   {
@@ -349,8 +349,8 @@
      "text": "var MyPTCType v_ptc := MyPTCType.create alive; // create an alive-type test component\n  timer t_T:= 10.0; // create a timer\n  t_T.start;  // start the timer\n  v_ptc.start(f_myTestBehavior()); // start executing a function on the PTC\n  alt {\n  [] v_ptc.killed { // if the PTC was killed during execution …\n     t_T.stop; // … stop the timer and …\n     setverdict(inconc);  // … set the verdict to 'inconclusive'\n    }\n  [] v_ptc.done {  // if the PTC terminated regularly …\n     t_T.stop; // … stop the timer and …\n     v_ptc.start(f_anotherFunction()); // … start another function on the PTC\n    }\n  [] t_T.timeout { // if the timeout occurs before the PTC stopped\n     v_ptc.kill;  // … kill the PTC and …\n     setverdict(fail); // … set the verdict to 'fail'\n    }\n  }\n  // Retrieving and using the final local verdict of a killed PTC\n  var MyComp v_myPTC := MyPTC.create alive;\n  var verdicttype v_myPTCverdict := none;\n  v_myPTC.start(f_myPTCBehaviour());\n  :\n  alt {\n     [] v_myPTC.done {  // expected termination\n            setverdict (pass);\n          }\n       }\n     [] v_myPTC.killed -> value v_myPTCverdict {\n          if (v_MyPTCverdict == none) { // v_myPTC killed before verdict assignment\n            setverdict(fail);\n            stop;\n          }\n          else {\n            setverdict (inconc); // further analysis is needed\n            stop;\n          }\n       }\n     [] any port.receive {\n          repeat\n       }\n  }"
     }
    ],
-   "file": "tests/21-configuration-operations/21.03.08_test_036.ttcn3",
-   "module": "M_21_03_08_test_036",
+   "file": "tests/21-configuration-operations/21.03.08_the_killed_operation_036.ttcn3",
+   "module": "M_21_03_08_the_killed_operation_036",
    "header": "// @requirement: 21.3.8 -- j) The @nodefault modifier is allowed only in stand-alone killed statements."
   },
   {
@@ -372,8 +372,8 @@
     17126
    ],
    "examples": [],
-   "file": "tests/21-configuration-operations/21.03.09_test_001.ttcn3",
-   "module": "M_21_03_09_test_001",
+   "file": "tests/21-configuration-operations/21.03.09_summary_of_the_use_of_any_and_all_with_components_001.ttcn3",
+   "module": "M_21_03_09_summary_of_the_use_of_any_and_all_with_components_001",
    "header": "// @requirement: 21.3.9 -- The keywords any and all may be used with configuration operations as indicated in table 21."
   },
   {
@@ -401,8 +401,8 @@
      "text": "function f_myFirstBehaviour() runs on MyComponentType { … }\n   function f_mySecondBehaviour() runs on MyComponentType { … }\n   function f_myThirdBehaviour(out integer p_p1, inout integer p_p2) \n   runs on MyComponentType \n   return integer { … }\n   altstep a_myFourthBehaviour() runs on MyComponentType { ... }\n  :\n  var MyComponentType v_myNewPTC;\n  var MyComponentType v_myAlivePTC;\n  var integer v_out, v_inout := 0, v_result;\n  :\n  v_myNewPTC := MyComponentType.create; // Creation of a new non-alive test component.\n  v_myAlivePTC := MyComponentType.create alive; // Creation of a new alive-type test component\n  :\n  v_myNewPTC.call(f_myFirstBehaviour());  // Call to the non-alive component.\n  v_myNewPTC.call(f_mySecondBehaviour());  // Test case error\n  :\n  v_myAlivePTC.call(f_myFirstBehaviour()); // Call to the alive-type component\n  v_myAlivePTC.call(f_mySecondBehaviour()); // Another call to the same component\n  :\n  v_myAlivePTC.call(f_myThirdBehaviour(v_out,v_inout)) // v_out/v_inout can be changed\n   -> value v_result verdict v_verdict; // v_result/v_verdict are assigned on successful\n                     // termination\n  v_myAlivePTC.call(a_myFourthBehaviour()); // Direct call of an altstep behaviour"
     }
    ],
-   "file": "tests/21-configuration-operations/21.03.10_test_001.ttcn3",
-   "module": "M_21_03_10_test_001",
+   "file": "tests/21-configuration-operations/21.03.10_the_call_test_component_behaviour_operation_001.ttcn3",
+   "module": "M_21_03_10_the_call_test_component_behaviour_operation_001",
    "header": "// @requirement: 21.3.10 -- ObjectReference \".\" call \"(\" ( FunctionInstance | AltstepInstance ) [\",\" SimpleExpression ] \")\" [ \"->\" [value Ref] [verdict Ref] ] [ catch \"(\" timeout \")\" StatementBlock ] [ catch \"(\" stop \")\" StatementBlock ]"
   },
   {
@@ -424,8 +424,8 @@
     17175
    ],
    "examples": [],
-   "file": "tests/21-configuration-operations/21.03.10_test_002.ttcn3",
-   "module": "M_21_03_10_test_002",
+   "file": "tests/21-configuration-operations/21.03.10_the_call_test_component_behaviour_operation_002.ttcn3",
+   "module": "M_21_03_10_the_call_test_component_behaviour_operation_002",
    "header": "// @requirement: 21.3.10 -- Similar to the start operation on test components which is not blocking, the blocking call operation implicitly uses a start operation, but waits until either the started behaviour has terminated or some timeout has occurred."
   },
   {
@@ -445,8 +445,8 @@
     17175
    ],
    "examples": [],
-   "file": "tests/21-configuration-operations/21.03.10_test_003.ttcn3",
-   "module": "M_21_03_10_test_003",
+   "file": "tests/21-configuration-operations/21.03.10_the_call_test_component_behaviour_operation_003.ttcn3",
+   "module": "M_21_03_10_the_call_test_component_behaviour_operation_003",
    "header": "// @requirement: 21.3.10 -- Similar to the start operation on test components which is not blocking, the blocking call operation implicitly uses a start operation, but waits until either the started behaviour has terminated or some timeout has occurred."
   },
   {
@@ -466,8 +466,8 @@
     17178
    ],
    "examples": [],
-   "file": "tests/21-configuration-operations/21.03.10_test_004.ttcn3",
-   "module": "M_21_03_10_test_004",
+   "file": "tests/21-configuration-operations/21.03.10_the_call_test_component_behaviour_operation_004.ttcn3",
+   "module": "M_21_03_10_the_call_test_component_behaviour_operation_004",
    "header": "// @requirement: 21.3.10 -- A timeout duration in seconds can be given explicitly in the form of a SimpleExpression as an additional parameter to the call operation."
   },
   {
@@ -487,8 +487,8 @@
     17178
    ],
    "examples": [],
-   "file": "tests/21-configuration-operations/21.03.10_test_005.ttcn3",
-   "module": "M_21_03_10_test_005",
+   "file": "tests/21-configuration-operations/21.03.10_the_call_test_component_behaviour_operation_005.ttcn3",
+   "module": "M_21_03_10_the_call_test_component_behaviour_operation_005",
    "header": "// @requirement: 21.3.10 -- If no timeout duration is given, an infinite timeout duration is used."
   },
   {
@@ -513,8 +513,8 @@
     17183
    ],
    "examples": [],
-   "file": "tests/21-configuration-operations/21.03.10_test_006.ttcn3",
-   "module": "M_21_03_10_test_006",
+   "file": "tests/21-configuration-operations/21.03.10_the_call_test_component_behaviour_operation_006.ttcn3",
+   "module": "M_21_03_10_the_call_test_component_behaviour_operation_006",
    "header": "// @requirement: 21.3.10 -- Complete execution occurs when the started function is terminated by executing a return statement or if it reaches the end of the function body."
   },
   {
@@ -534,8 +534,8 @@
     17186
    ],
    "examples": [],
-   "file": "tests/21-configuration-operations/21.03.10_test_007.ttcn3",
-   "module": "M_21_03_10_test_007",
+   "file": "tests/21-configuration-operations/21.03.10_the_call_test_component_behaviour_operation_007.ttcn3",
+   "module": "M_21_03_10_the_call_test_component_behaviour_operation_007",
    "header": "// @requirement: 21.3.10 -- If the incomplete execution occurs because the called component was stopped or killed and a catch stop clause is added to the call operation, the StatementBlock of that clause is executed before the call operation terminates."
   },
   {
@@ -563,8 +563,8 @@
     17190
    ],
    "examples": [],
-   "file": "tests/21-configuration-operations/21.03.10_test_008.ttcn3",
-   "module": "M_21_03_10_test_008",
+   "file": "tests/21-configuration-operations/21.03.10_the_call_test_component_behaviour_operation_008.ttcn3",
+   "module": "M_21_03_10_the_call_test_component_behaviour_operation_008",
    "header": "// @requirement: 21.3.10 -- If the started behaviour does not terminate in the given timeout duration and a catch timout clause is added to the call operation, the called component is implicitly stopped and the StatementBlock of the catch timeout clause is executed before the call operation terminates."
   },
   {
@@ -592,8 +592,8 @@
     17190
    ],
    "examples": [],
-   "file": "tests/21-configuration-operations/21.03.10_test_009.ttcn3",
-   "module": "M_21_03_10_test_009",
+   "file": "tests/21-configuration-operations/21.03.10_the_call_test_component_behaviour_operation_009.ttcn3",
+   "module": "M_21_03_10_the_call_test_component_behaviour_operation_009",
    "header": "// @requirement: 21.3.10 -- If the started behaviour does not terminate in the given timeout duration and a catch timout clause is added to the call operation, the called component is implicitly stopped and the StatementBlock of the catch timeout clause is executed before the call operation terminates."
   },
   {
@@ -621,8 +621,8 @@
      "text": "function f_myFirstBehaviour() runs on MyComponentType { … }\n   function f_mySecondBehaviour() runs on MyComponentType { … }\n   function f_myThirdBehaviour(out integer p_p1, inout integer p_p2) \n   runs on MyComponentType \n   return integer { … }\n   altstep a_myFourthBehaviour() runs on MyComponentType { ... }\n  :\n  var MyComponentType v_myNewPTC;\n  var MyComponentType v_myAlivePTC;\n  var integer v_out, v_inout := 0, v_result;\n  :\n  v_myNewPTC := MyComponentType.create; // Creation of a new non-alive test component.\n  v_myAlivePTC := MyComponentType.create alive; // Creation of a new alive-type test component\n  :\n  v_myNewPTC.call(f_myFirstBehaviour());  // Call to the non-alive component.\n  v_myNewPTC.call(f_mySecondBehaviour());  // Test case error\n  :\n  v_myAlivePTC.call(f_myFirstBehaviour()); // Call to the alive-type component\n  v_myAlivePTC.call(f_mySecondBehaviour()); // Another call to the same component\n  :\n  v_myAlivePTC.call(f_myThirdBehaviour(v_out,v_inout)) // v_out/v_inout can be changed\n   -> value v_result verdict v_verdict; // v_result/v_verdict are assigned on successful\n                     // termination\n  v_myAlivePTC.call(a_myFourthBehaviour()); // Direct call of an altstep behaviour"
     }
    ],
-   "file": "tests/21-configuration-operations/21.03.10_test_010.ttcn3",
-   "module": "M_21_03_10_test_010",
+   "file": "tests/21-configuration-operations/21.03.10_the_call_test_component_behaviour_operation_010.ttcn3",
+   "module": "M_21_03_10_the_call_test_component_behaviour_operation_010",
    "header": "// @requirement: 21.3.10 -- In all other cases when the execution is incomplete, the call operation ends with a test case error."
   },
   {
@@ -644,8 +644,8 @@
     17197
    ],
    "examples": [],
-   "file": "tests/21-configuration-operations/21.03.10_test_011.ttcn3",
-   "module": "M_21_03_10_test_011",
+   "file": "tests/21-configuration-operations/21.03.10_the_call_test_component_behaviour_operation_011.ttcn3",
+   "module": "M_21_03_10_the_call_test_component_behaviour_operation_011",
    "header": "// @requirement: 21.3.10 -- Operation: create"
   },
   {
@@ -667,8 +667,8 @@
     17198
    ],
    "examples": [],
-   "file": "tests/21-configuration-operations/21.03.10_test_012.ttcn3",
-   "module": "M_21_03_10_test_012",
+   "file": "tests/21-configuration-operations/21.03.10_the_call_test_component_behaviour_operation_012.ttcn3",
+   "module": "M_21_03_10_the_call_test_component_behaviour_operation_012",
    "header": "// @requirement: 21.3.10 -- Operation: start"
   },
   {
@@ -690,8 +690,8 @@
     17199
    ],
    "examples": [],
-   "file": "tests/21-configuration-operations/21.03.10_test_013.ttcn3",
-   "module": "M_21_03_10_test_013",
+   "file": "tests/21-configuration-operations/21.03.10_the_call_test_component_behaviour_operation_013.ttcn3",
+   "module": "M_21_03_10_the_call_test_component_behaviour_operation_013",
    "header": "// @requirement: 21.3.10 -- Operation: running; Allowed: Yes but from MTC only; Col3: Yes but from MTC only; Example: any component.running; all component.running;; Comment: Is there any PTC performing test behaviour? Are all PTCs performing test behaviour?"
   },
   {
@@ -713,8 +713,8 @@
     17199
    ],
    "examples": [],
-   "file": "tests/21-configuration-operations/21.03.10_test_014.ttcn3",
-   "module": "M_21_03_10_test_014",
+   "file": "tests/21-configuration-operations/21.03.10_the_call_test_component_behaviour_operation_014.ttcn3",
+   "module": "M_21_03_10_the_call_test_component_behaviour_operation_014",
    "header": "// @requirement: 21.3.10 -- Operation: running; Allowed: Yes but from MTC only; Col3: Yes but from MTC only; Example: any component.running; all component.running;; Comment: Is there any PTC performing test behaviour? Are all PTCs performing test behaviour?"
   },
   {
@@ -736,8 +736,8 @@
     17205
    ],
    "examples": [],
-   "file": "tests/21-configuration-operations/21.03.10_test_015.ttcn3",
-   "module": "M_21_03_10_test_015",
+   "file": "tests/21-configuration-operations/21.03.10_the_call_test_component_behaviour_operation_015.ttcn3",
+   "module": "M_21_03_10_the_call_test_component_behaviour_operation_015",
    "header": "// @requirement: 21.3.10 -- Operation: running; Allowed: Yes but from MTC only; Col3: Yes but from MTC only; Example: any component.running; all component.running;; Comment: Is there any PTC performing test behaviour? Are all PTCs performing test behaviour?"
   },
   {
@@ -759,8 +759,8 @@
     17205
    ],
    "examples": [],
-   "file": "tests/21-configuration-operations/21.03.10_test_016.ttcn3",
-   "module": "M_21_03_10_test_016",
+   "file": "tests/21-configuration-operations/21.03.10_the_call_test_component_behaviour_operation_016.ttcn3",
+   "module": "M_21_03_10_the_call_test_component_behaviour_operation_016",
    "header": "// @requirement: 21.3.10 -- Operation: running; Allowed: Yes but from MTC only; Col3: Yes but from MTC only; Example: any component.running; all component.running;; Comment: Is there any PTC performing test behaviour? Are all PTCs performing test behaviour?"
   },
   {
@@ -782,8 +782,8 @@
     17200
    ],
    "examples": [],
-   "file": "tests/21-configuration-operations/21.03.10_test_017.ttcn3",
-   "module": "M_21_03_10_test_017",
+   "file": "tests/21-configuration-operations/21.03.10_the_call_test_component_behaviour_operation_017.ttcn3",
+   "module": "M_21_03_10_the_call_test_component_behaviour_operation_017",
    "header": "// @requirement: 21.3.10 -- Operation: alive; Allowed: Yes but from MTC only; Col3: Yes but from MTC only; Example: any component.alive; all component.alive;; Comment: Is there any alive PTC? Are all PTCs alive?"
   },
   {
@@ -805,8 +805,8 @@
     17200
    ],
    "examples": [],
-   "file": "tests/21-configuration-operations/21.03.10_test_018.ttcn3",
-   "module": "M_21_03_10_test_018",
+   "file": "tests/21-configuration-operations/21.03.10_the_call_test_component_behaviour_operation_018.ttcn3",
+   "module": "M_21_03_10_the_call_test_component_behaviour_operation_018",
    "header": "// @requirement: 21.3.10 -- Operation: alive; Allowed: Yes but from MTC only; Col3: Yes but from MTC only; Example: any component.alive; all component.alive;; Comment: Is there any alive PTC? Are all PTCs alive?"
   },
   {
@@ -828,8 +828,8 @@
     17205
    ],
    "examples": [],
-   "file": "tests/21-configuration-operations/21.03.10_test_019.ttcn3",
-   "module": "M_21_03_10_test_019",
+   "file": "tests/21-configuration-operations/21.03.10_the_call_test_component_behaviour_operation_019.ttcn3",
+   "module": "M_21_03_10_the_call_test_component_behaviour_operation_019",
    "header": "// @requirement: 21.3.10 -- Operation: alive; Allowed: Yes but from MTC only; Col3: Yes but from MTC only; Example: any component.alive; all component.alive;; Comment: Is there any alive PTC? Are all PTCs alive?"
   },
   {
@@ -851,8 +851,8 @@
     17205
    ],
    "examples": [],
-   "file": "tests/21-configuration-operations/21.03.10_test_020.ttcn3",
-   "module": "M_21_03_10_test_020",
+   "file": "tests/21-configuration-operations/21.03.10_the_call_test_component_behaviour_operation_020.ttcn3",
+   "module": "M_21_03_10_the_call_test_component_behaviour_operation_020",
    "header": "// @requirement: 21.3.10 -- Operation: alive; Allowed: Yes but from MTC only; Col3: Yes but from MTC only; Example: any component.alive; all component.alive;; Comment: Is there any alive PTC? Are all PTCs alive?"
   },
   {
@@ -874,8 +874,8 @@
     17201
    ],
    "examples": [],
-   "file": "tests/21-configuration-operations/21.03.10_test_021.ttcn3",
-   "module": "M_21_03_10_test_021",
+   "file": "tests/21-configuration-operations/21.03.10_the_call_test_component_behaviour_operation_021.ttcn3",
+   "module": "M_21_03_10_the_call_test_component_behaviour_operation_021",
    "header": "// @requirement: 21.3.10 -- Operation: done; Allowed: Yes but from MTC only; Col3: Yes but from MTC only; Example: any component.done; all component.done;; Comment: Is there any PTC that completed execution? Did all PTCs complete their execution?"
   },
   {
@@ -897,8 +897,8 @@
     17201
    ],
    "examples": [],
-   "file": "tests/21-configuration-operations/21.03.10_test_022.ttcn3",
-   "module": "M_21_03_10_test_022",
+   "file": "tests/21-configuration-operations/21.03.10_the_call_test_component_behaviour_operation_022.ttcn3",
+   "module": "M_21_03_10_the_call_test_component_behaviour_operation_022",
    "header": "// @requirement: 21.3.10 -- Operation: done; Allowed: Yes but from MTC only; Col3: Yes but from MTC only; Example: any component.done; all component.done;; Comment: Is there any PTC that completed execution? Did all PTCs complete their execution?"
   },
   {
@@ -920,8 +920,8 @@
     17205
    ],
    "examples": [],
-   "file": "tests/21-configuration-operations/21.03.10_test_023.ttcn3",
-   "module": "M_21_03_10_test_023",
+   "file": "tests/21-configuration-operations/21.03.10_the_call_test_component_behaviour_operation_023.ttcn3",
+   "module": "M_21_03_10_the_call_test_component_behaviour_operation_023",
    "header": "// @requirement: 21.3.10 -- Operation: done; Allowed: Yes but from MTC only; Col3: Yes but from MTC only; Example: any component.done; all component.done;; Comment: Is there any PTC that completed execution? Did all PTCs complete their execution?"
   },
   {
@@ -943,8 +943,8 @@
     17205
    ],
    "examples": [],
-   "file": "tests/21-configuration-operations/21.03.10_test_024.ttcn3",
-   "module": "M_21_03_10_test_024",
+   "file": "tests/21-configuration-operations/21.03.10_the_call_test_component_behaviour_operation_024.ttcn3",
+   "module": "M_21_03_10_the_call_test_component_behaviour_operation_024",
    "header": "// @requirement: 21.3.10 -- Operation: done; Allowed: Yes but from MTC only; Col3: Yes but from MTC only; Example: any component.done; all component.done;; Comment: Is there any PTC that completed execution? Did all PTCs complete their execution?"
   },
   {
@@ -966,8 +966,8 @@
     17202
    ],
    "examples": [],
-   "file": "tests/21-configuration-operations/21.03.10_test_025.ttcn3",
-   "module": "M_21_03_10_test_025",
+   "file": "tests/21-configuration-operations/21.03.10_the_call_test_component_behaviour_operation_025.ttcn3",
+   "module": "M_21_03_10_the_call_test_component_behaviour_operation_025",
    "header": "// @requirement: 21.3.10 -- Operation: killed; Allowed: Yes but from MTC only; Col3: Yes but from MTC only; Example: any component.killed; all component.killed;; Comment: Is there any PTC that ceased to exist? Did all PTCs cease to exist?"
   },
   {
@@ -989,8 +989,8 @@
     17202
    ],
    "examples": [],
-   "file": "tests/21-configuration-operations/21.03.10_test_026.ttcn3",
-   "module": "M_21_03_10_test_026",
+   "file": "tests/21-configuration-operations/21.03.10_the_call_test_component_behaviour_operation_026.ttcn3",
+   "module": "M_21_03_10_the_call_test_component_behaviour_operation_026",
    "header": "// @requirement: 21.3.10 -- Operation: killed; Allowed: Yes but from MTC only; Col3: Yes but from MTC only; Example: any component.killed; all component.killed;; Comment: Is there any PTC that ceased to exist? Did all PTCs cease to exist?"
   },
   {
@@ -1012,8 +1012,8 @@
     17205
    ],
    "examples": [],
-   "file": "tests/21-configuration-operations/21.03.10_test_027.ttcn3",
-   "module": "M_21_03_10_test_027",
+   "file": "tests/21-configuration-operations/21.03.10_the_call_test_component_behaviour_operation_027.ttcn3",
+   "module": "M_21_03_10_the_call_test_component_behaviour_operation_027",
    "header": "// @requirement: 21.3.10 -- Operation: killed; Allowed: Yes but from MTC only; Col3: Yes but from MTC only; Example: any component.killed; all component.killed;; Comment: Is there any PTC that ceased to exist? Did all PTCs cease to exist?"
   },
   {
@@ -1035,8 +1035,8 @@
     17205
    ],
    "examples": [],
-   "file": "tests/21-configuration-operations/21.03.10_test_028.ttcn3",
-   "module": "M_21_03_10_test_028",
+   "file": "tests/21-configuration-operations/21.03.10_the_call_test_component_behaviour_operation_028.ttcn3",
+   "module": "M_21_03_10_the_call_test_component_behaviour_operation_028",
    "header": "// @requirement: 21.3.10 -- Operation: killed; Allowed: Yes but from MTC only; Col3: Yes but from MTC only; Example: any component.killed; all component.killed;; Comment: Is there any PTC that ceased to exist? Did all PTCs cease to exist?"
   },
   {
@@ -1058,8 +1058,8 @@
     17203
    ],
    "examples": [],
-   "file": "tests/21-configuration-operations/21.03.10_test_029.ttcn3",
-   "module": "M_21_03_10_test_029",
+   "file": "tests/21-configuration-operations/21.03.10_the_call_test_component_behaviour_operation_029.ttcn3",
+   "module": "M_21_03_10_the_call_test_component_behaviour_operation_029",
    "header": "// @requirement: 21.3.10 -- Operation: stop; Col3: Yes but from MTC only; Example: all component.stop;; Comment: Stop the behaviour on all PTCs."
   },
   {
@@ -1081,8 +1081,8 @@
     17203
    ],
    "examples": [],
-   "file": "tests/21-configuration-operations/21.03.10_test_030.ttcn3",
-   "module": "M_21_03_10_test_030",
+   "file": "tests/21-configuration-operations/21.03.10_the_call_test_component_behaviour_operation_030.ttcn3",
+   "module": "M_21_03_10_the_call_test_component_behaviour_operation_030",
    "header": "// @requirement: 21.3.10 -- Operation: stop; Col3: Yes but from MTC only; Example: all component.stop;; Comment: Stop the behaviour on all PTCs."
   },
   {
@@ -1104,8 +1104,8 @@
     17203
    ],
    "examples": [],
-   "file": "tests/21-configuration-operations/21.03.10_test_031.ttcn3",
-   "module": "M_21_03_10_test_031",
+   "file": "tests/21-configuration-operations/21.03.10_the_call_test_component_behaviour_operation_031.ttcn3",
+   "module": "M_21_03_10_the_call_test_component_behaviour_operation_031",
    "header": "// @requirement: 21.3.10 -- Operation: stop; Col3: Yes but from MTC only; Example: all component.stop;; Comment: Stop the behaviour on all PTCs."
   },
   {
@@ -1127,8 +1127,8 @@
     17203
    ],
    "examples": [],
-   "file": "tests/21-configuration-operations/21.03.10_test_032.ttcn3",
-   "module": "M_21_03_10_test_032",
+   "file": "tests/21-configuration-operations/21.03.10_the_call_test_component_behaviour_operation_032.ttcn3",
+   "module": "M_21_03_10_the_call_test_component_behaviour_operation_032",
    "header": "// @requirement: 21.3.10 -- Operation: stop; Col3: Yes but from MTC only; Example: all component.stop;; Comment: Stop the behaviour on all PTCs."
   },
   {
@@ -1150,8 +1150,8 @@
     17204
    ],
    "examples": [],
-   "file": "tests/21-configuration-operations/21.03.10_test_033.ttcn3",
-   "module": "M_21_03_10_test_033",
+   "file": "tests/21-configuration-operations/21.03.10_the_call_test_component_behaviour_operation_033.ttcn3",
+   "module": "M_21_03_10_the_call_test_component_behaviour_operation_033",
    "header": "// @requirement: 21.3.10 -- Operation: kill; Col3: Yes but from MTC only; Example: all component.kill;; Comment: Kill all PTCs, i.e. they cease to exist."
   },
   {
@@ -1173,8 +1173,8 @@
     17204
    ],
    "examples": [],
-   "file": "tests/21-configuration-operations/21.03.10_test_034.ttcn3",
-   "module": "M_21_03_10_test_034",
+   "file": "tests/21-configuration-operations/21.03.10_the_call_test_component_behaviour_operation_034.ttcn3",
+   "module": "M_21_03_10_the_call_test_component_behaviour_operation_034",
    "header": "// @requirement: 21.3.10 -- Operation: kill; Col3: Yes but from MTC only; Example: all component.kill;; Comment: Kill all PTCs, i.e. they cease to exist."
   },
   {
@@ -1196,8 +1196,8 @@
     17204
    ],
    "examples": [],
-   "file": "tests/21-configuration-operations/21.03.10_test_035.ttcn3",
-   "module": "M_21_03_10_test_035",
+   "file": "tests/21-configuration-operations/21.03.10_the_call_test_component_behaviour_operation_035.ttcn3",
+   "module": "M_21_03_10_the_call_test_component_behaviour_operation_035",
    "header": "// @requirement: 21.3.10 -- Operation: kill; Col3: Yes but from MTC only; Example: all component.kill;; Comment: Kill all PTCs, i.e. they cease to exist."
   },
   {
@@ -1219,8 +1219,8 @@
     17204
    ],
    "examples": [],
-   "file": "tests/21-configuration-operations/21.03.10_test_036.ttcn3",
-   "module": "M_21_03_10_test_036",
+   "file": "tests/21-configuration-operations/21.03.10_the_call_test_component_behaviour_operation_036.ttcn3",
+   "module": "M_21_03_10_the_call_test_component_behaviour_operation_036",
    "header": "// @requirement: 21.3.10 -- Operation: kill; Col3: Yes but from MTC only; Example: all component.kill;; Comment: Kill all PTCs, i.e. they cease to exist."
   },
   {
@@ -1242,8 +1242,8 @@
     17205
    ],
    "examples": [],
-   "file": "tests/21-configuration-operations/21.03.10_test_037.ttcn3",
-   "module": "M_21_03_10_test_037",
+   "file": "tests/21-configuration-operations/21.03.10_the_call_test_component_behaviour_operation_037.ttcn3",
+   "module": "M_21_03_10_the_call_test_component_behaviour_operation_037",
    "header": "// @requirement: 21.3.10 -- NOTE: any and all refer to PTCs only, i.e. the MTC is not considered."
   },
   {
@@ -1271,8 +1271,8 @@
      "text": "function f_myFirstBehaviour() runs on MyComponentType { … }\n   function f_mySecondBehaviour() runs on MyComponentType { … }\n   function f_myThirdBehaviour(out integer p_p1, inout integer p_p2) \n   runs on MyComponentType \n   return integer { … }\n   altstep a_myFourthBehaviour() runs on MyComponentType { ... }\n  :\n  var MyComponentType v_myNewPTC;\n  var MyComponentType v_myAlivePTC;\n  var integer v_out, v_inout := 0, v_result;\n  :\n  v_myNewPTC := MyComponentType.create; // Creation of a new non-alive test component.\n  v_myAlivePTC := MyComponentType.create alive; // Creation of a new alive-type test component\n  :\n  v_myNewPTC.call(f_myFirstBehaviour());  // Call to the non-alive component.\n  v_myNewPTC.call(f_mySecondBehaviour());  // Test case error\n  :\n  v_myAlivePTC.call(f_myFirstBehaviour()); // Call to the alive-type component\n  v_myAlivePTC.call(f_mySecondBehaviour()); // Another call to the same component\n  :\n  v_myAlivePTC.call(f_myThirdBehaviour(v_out,v_inout)) // v_out/v_inout can be changed\n   -> value v_result verdict v_verdict; // v_result/v_verdict are assigned on successful\n                     // termination\n  v_myAlivePTC.call(a_myFourthBehaviour()); // Direct call of an altstep behaviour"
     }
    ],
-   "file": "tests/21-configuration-operations/21.03.10_test_038.ttcn3",
-   "module": "M_21_03_10_test_038",
+   "file": "tests/21-configuration-operations/21.03.10_the_call_test_component_behaviour_operation_038.ttcn3",
+   "module": "M_21_03_10_the_call_test_component_behaviour_operation_038",
    "header": "// @requirement: 21.3.10 -- After complete execution of the started behaviour, the out and inout actual parameters given to the actual parameter list of the called function or altstep instance will be updated in the same manner as if it was a normal function/altstep invocation."
   },
   {
@@ -1300,8 +1300,8 @@
      "text": "function f_myFirstBehaviour() runs on MyComponentType { … }\n   function f_mySecondBehaviour() runs on MyComponentType { … }\n   function f_myThirdBehaviour(out integer p_p1, inout integer p_p2) \n   runs on MyComponentType \n   return integer { … }\n   altstep a_myFourthBehaviour() runs on MyComponentType { ... }\n  :\n  var MyComponentType v_myNewPTC;\n  var MyComponentType v_myAlivePTC;\n  var integer v_out, v_inout := 0, v_result;\n  :\n  v_myNewPTC := MyComponentType.create; // Creation of a new non-alive test component.\n  v_myAlivePTC := MyComponentType.create alive; // Creation of a new alive-type test component\n  :\n  v_myNewPTC.call(f_myFirstBehaviour());  // Call to the non-alive component.\n  v_myNewPTC.call(f_mySecondBehaviour());  // Test case error\n  :\n  v_myAlivePTC.call(f_myFirstBehaviour()); // Call to the alive-type component\n  v_myAlivePTC.call(f_mySecondBehaviour()); // Another call to the same component\n  :\n  v_myAlivePTC.call(f_myThirdBehaviour(v_out,v_inout)) // v_out/v_inout can be changed\n   -> value v_result verdict v_verdict; // v_result/v_verdict are assigned on successful\n                     // termination\n  v_myAlivePTC.call(a_myFourthBehaviour()); // Direct call of an altstep behaviour"
     }
    ],
-   "file": "tests/21-configuration-operations/21.03.10_test_039.ttcn3",
-   "module": "M_21_03_10_test_039",
+   "file": "tests/21-configuration-operations/21.03.10_the_call_test_component_behaviour_operation_039.ttcn3",
+   "module": "M_21_03_10_the_call_test_component_behaviour_operation_039",
    "header": "// @requirement: 21.3.10 -- Additionally, a redirect clause can be added to the operation which allows assignment of the return result (in case that the called function has a return clause) to a variable via the value clause and also the assignment of the termination verdict of the called component via the verdict clause."
   },
   {
@@ -1329,8 +1329,8 @@
      "text": "function f_myFirstBehaviour() runs on MyComponentType { … }\n   function f_mySecondBehaviour() runs on MyComponentType { … }\n   function f_myThirdBehaviour(out integer p_p1, inout integer p_p2) \n   runs on MyComponentType \n   return integer { … }\n   altstep a_myFourthBehaviour() runs on MyComponentType { ... }\n  :\n  var MyComponentType v_myNewPTC;\n  var MyComponentType v_myAlivePTC;\n  var integer v_out, v_inout := 0, v_result;\n  :\n  v_myNewPTC := MyComponentType.create; // Creation of a new non-alive test component.\n  v_myAlivePTC := MyComponentType.create alive; // Creation of a new alive-type test component\n  :\n  v_myNewPTC.call(f_myFirstBehaviour());  // Call to the non-alive component.\n  v_myNewPTC.call(f_mySecondBehaviour());  // Test case error\n  :\n  v_myAlivePTC.call(f_myFirstBehaviour()); // Call to the alive-type component\n  v_myAlivePTC.call(f_mySecondBehaviour()); // Another call to the same component\n  :\n  v_myAlivePTC.call(f_myThirdBehaviour(v_out,v_inout)) // v_out/v_inout can be changed\n   -> value v_result verdict v_verdict; // v_result/v_verdict are assigned on successful\n                     // termination\n  v_myAlivePTC.call(a_myFourthBehaviour()); // Direct call of an altstep behaviour"
     }
    ],
-   "file": "tests/21-configuration-operations/21.03.10_test_040.ttcn3",
-   "module": "M_21_03_10_test_040",
+   "file": "tests/21-configuration-operations/21.03.10_the_call_test_component_behaviour_operation_040.ttcn3",
+   "module": "M_21_03_10_the_call_test_component_behaviour_operation_040",
    "header": "// @requirement: 21.3.10 -- Additionally, a redirect clause can be added to the operation which allows assignment of the return result (in case that the called function has a return clause) to a variable via the value clause and also the assignment of the termination verdict of the called component via the verdict clause."
   },
   {
@@ -1358,8 +1358,8 @@
      "text": "function f_myFirstBehaviour() runs on MyComponentType { … }\n   function f_mySecondBehaviour() runs on MyComponentType { … }\n   function f_myThirdBehaviour(out integer p_p1, inout integer p_p2) \n   runs on MyComponentType \n   return integer { … }\n   altstep a_myFourthBehaviour() runs on MyComponentType { ... }\n  :\n  var MyComponentType v_myNewPTC;\n  var MyComponentType v_myAlivePTC;\n  var integer v_out, v_inout := 0, v_result;\n  :\n  v_myNewPTC := MyComponentType.create; // Creation of a new non-alive test component.\n  v_myAlivePTC := MyComponentType.create alive; // Creation of a new alive-type test component\n  :\n  v_myNewPTC.call(f_myFirstBehaviour());  // Call to the non-alive component.\n  v_myNewPTC.call(f_mySecondBehaviour());  // Test case error\n  :\n  v_myAlivePTC.call(f_myFirstBehaviour()); // Call to the alive-type component\n  v_myAlivePTC.call(f_mySecondBehaviour()); // Another call to the same component\n  :\n  v_myAlivePTC.call(f_myThirdBehaviour(v_out,v_inout)) // v_out/v_inout can be changed\n   -> value v_result verdict v_verdict; // v_result/v_verdict are assigned on successful\n                     // termination\n  v_myAlivePTC.call(a_myFourthBehaviour()); // Direct call of an altstep behaviour"
     }
    ],
-   "file": "tests/21-configuration-operations/21.03.10_test_041.ttcn3",
-   "module": "M_21_03_10_test_041",
+   "file": "tests/21-configuration-operations/21.03.10_the_call_test_component_behaviour_operation_041.ttcn3",
+   "module": "M_21_03_10_the_call_test_component_behaviour_operation_041",
    "header": "// @requirement: 21.3.10 -- In all cases of incomplete execution, the variables referenced in the value and verdict clause or in out and inout actual parameters will stay unchanged and no assignment will be made."
   },
   {
@@ -1392,8 +1392,8 @@
      "text": "function f_myFirstBehaviour() runs on MyComponentType { … }\n   function f_mySecondBehaviour() runs on MyComponentType { … }\n   function f_myThirdBehaviour(out integer p_p1, inout integer p_p2) \n   runs on MyComponentType \n   return integer { … }\n   altstep a_myFourthBehaviour() runs on MyComponentType { ... }\n  :\n  var MyComponentType v_myNewPTC;\n  var MyComponentType v_myAlivePTC;\n  var integer v_out, v_inout := 0, v_result;\n  :\n  v_myNewPTC := MyComponentType.create; // Creation of a new non-alive test component.\n  v_myAlivePTC := MyComponentType.create alive; // Creation of a new alive-type test component\n  :\n  v_myNewPTC.call(f_myFirstBehaviour());  // Call to the non-alive component.\n  v_myNewPTC.call(f_mySecondBehaviour());  // Test case error\n  :\n  v_myAlivePTC.call(f_myFirstBehaviour()); // Call to the alive-type component\n  v_myAlivePTC.call(f_mySecondBehaviour()); // Another call to the same component\n  :\n  v_myAlivePTC.call(f_myThirdBehaviour(v_out,v_inout)) // v_out/v_inout can be changed\n   -> value v_result verdict v_verdict; // v_result/v_verdict are assigned on successful\n                     // termination\n  v_myAlivePTC.call(a_myFourthBehaviour()); // Direct call of an altstep behaviour"
     }
    ],
-   "file": "tests/21-configuration-operations/21.03.10_test_042.ttcn3",
-   "module": "M_21_03_10_test_042",
+   "file": "tests/21-configuration-operations/21.03.10_the_call_test_component_behaviour_operation_042.ttcn3",
+   "module": "M_21_03_10_the_call_test_component_behaviour_operation_042",
    "header": "// @requirement: 21.3.10 -- If the called component is not created alive and has already been started or called once or if it has been killed, additional call operations are not allowed."
   },
   {
@@ -1413,8 +1413,8 @@
     17231
    ],
    "examples": [],
-   "file": "tests/21-configuration-operations/21.03.10_test_043.ttcn3",
-   "module": "M_21_03_10_test_043",
+   "file": "tests/21-configuration-operations/21.03.10_the_call_test_component_behaviour_operation_043.ttcn3",
+   "module": "M_21_03_10_the_call_test_component_behaviour_operation_043",
    "header": "// @requirement: 21.3.10 -- a) The ObjectReference shall be of a component type."
   },
   {
@@ -1449,8 +1449,8 @@
     17234
    ],
    "examples": [],
-   "file": "tests/21-configuration-operations/21.03.10_test_044.ttcn3",
-   "module": "M_21_03_10_test_044",
+   "file": "tests/21-configuration-operations/21.03.10_the_call_test_component_behaviour_operation_044.ttcn3",
+   "module": "M_21_03_10_the_call_test_component_behaviour_operation_044",
    "header": "// @requirement: 21.3.10 -- b) The function or altstep invoked in a call test component operation shall have a runs `on definition` referencing a component type to which the called component is compatible (see clause 6.3.2.7)."
   }
  ]

@@ -1,0 +1,23 @@
+// @requirement: 22.2.1 -- e) All AddressRef items in the to clause shall be of type address, component or of the address type bound to the port type (see clause 6.2.9) of the port instance referenced in the send operation.
+// @id: TTCN3-CORE-22.2.1-025a
+// @verdict: pass reject
+module M_22_02_01_the_send_operation_016 {
+
+    type port P message { inout integer }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        var integer v_addr := 1;
+        connect(mtc:p, v_ptc:p);
+        p.send(1) to v_addr; // error: AddressRef of type integer
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

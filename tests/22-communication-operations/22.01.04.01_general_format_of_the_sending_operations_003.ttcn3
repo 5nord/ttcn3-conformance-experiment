@@ -1,0 +1,37 @@
+// @requirement: 22.1.4.1 -- gives an (optional) address part that uniquely identifies one or more communication partners to which a message, call, reply or exception shall be sent.
+// @id: TTCN3-CORE-22.1.4.1-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_01_04_01_general_format_of_the_sending_operations_003 {
+
+    type port P message { inout integer }
+
+    type component C {
+        port P p;
+        timer T := 0.5;
+    }
+
+    function f_ptc(integer p_expected) runs on C {
+        T.start;
+        alt {
+            [] p.receive(p_expected) { setverdict(pass); }
+            [] p.receive { setverdict(fail); }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc1 := C.create, v_ptc2 := C.create;
+        connect(mtc:p, v_ptc1:p);
+        connect(mtc:p, v_ptc2:p);
+        v_ptc1.start(f_ptc(1));
+        v_ptc2.start(f_ptc(2));
+        p.send(integer:1) to v_ptc1;
+        p.send(integer:2) to v_ptc2;
+        all component.done;
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

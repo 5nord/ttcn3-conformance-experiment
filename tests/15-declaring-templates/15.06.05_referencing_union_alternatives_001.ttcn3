@@ -1,0 +1,29 @@
+// @requirement: 15.6.5 -- Both templates and template variables allow referencing alternatives inside a union template definition using the dot notation.
+// @id: TTCN3-CORE-15.6.5-001a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_06_05_referencing_union_alternatives_001 {
+
+    type union U {
+        integer c1,
+        charstring c2
+    }
+
+    type component C {}
+
+    template U t_u := { c1 := 1 };
+    template integer t_c1 := t_u.c1;
+
+    testcase TC() runs on C {
+        var template U v_u := { c1 := 2 };
+        var template integer v_c1 := v_u.c1;
+        if (match(1, t_c1) and match(2, v_c1)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

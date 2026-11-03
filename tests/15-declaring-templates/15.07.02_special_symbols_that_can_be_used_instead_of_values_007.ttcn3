@@ -1,0 +1,32 @@
+// @requirement: 15.7.2 -- **?: wildcard for any value;**
+// @id: TTCN3-CORE-15.7.2-008a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_07_02_special_symbols_that_can_be_used_instead_of_values_007 {
+
+    type component C {}
+
+    type record R {
+        integer a,
+        integer f optional
+    }
+
+    template integer m_anyInt := ?;
+    template charstring m_anyStr := ?;
+    template R m_rec := { a := ?, f := ? };
+
+    testcase TC() runs on C {
+        var R v_present := { a := 1, f := 2 };
+        var R v_absent := { a := 1, f := omit };
+        if (match(0, m_anyInt) and match(-12345, m_anyInt) and
+            match("", m_anyStr) and match("xyz", m_anyStr) and
+            match(v_present, m_rec) and not match(v_absent, m_rec)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

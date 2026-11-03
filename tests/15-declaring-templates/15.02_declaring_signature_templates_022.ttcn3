@@ -1,0 +1,44 @@
+// @requirement: 15.2 -- // Templates never return values. In the case of Par2 and Par3 the values returned by the // call operation shall be retrieved using an assignment clause at the end of the call statement
+// @id: TTCN3-CORE-15.2-026a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_02_declaring_signature_templates_022 {
+
+    signature RemoteProc(in integer Par1, out integer Par2, inout integer Par3) return integer;
+
+    type port P procedure {
+        inout RemoteProc;
+    }
+
+    type component C {
+        port P p1;
+    }
+
+    template RemoteProc s_template1 := { Par1 := 1, Par2 := 2, Par3 := 3 }
+
+    function f_server() runs on C {
+        p1.getcall(RemoteProc:{ Par1 := ?, Par2 := -, Par3 := ? });
+        p1.reply(RemoteProc:{ Par1 := -, Par2 := 20, Par3 := 30 } value 40);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        var integer v_par2, v_par3;
+        connect(self:p1, v_ptc:p1);
+        v_ptc.start(f_server());
+        p1.call(s_template1, 1.0) {
+            [] p1.getreply(RemoteProc:{ Par1 := ?, Par2 := ?, Par3 := ? } value ?) -> param(v_par2 := Par2, v_par3 := Par3) {
+                if (v_par2 == 20 and v_par3 == 30) {
+                    setverdict(pass);
+                } else {
+                    setverdict(fail);
+                }
+            }
+            [] p1.catch(timeout) { setverdict(fail); }
+        }
+        v_ptc.done;
+    }
+
+    control {
+        execute(TC());
+    }
+}

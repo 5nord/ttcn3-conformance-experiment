@@ -1,0 +1,23 @@
+// @requirement: B.1.4.1 -- e) When both the complement and the length restriction matching mechanisms are used for a template or template field, restrictions implied by them shall apply to the template or template field independently.
+// @id: TTCN3-CORE-B.1.4.1-019a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_04_01_length_restrictions_020 {
+
+    type component C {}
+
+    template charstring mw_str := complement("ab", "abcd") length(2 .. 3);
+
+    testcase TC() runs on C {
+        if (not match("ab", mw_str) and match("xy", mw_str) and match("xyz", mw_str) and
+            not match("x", mw_str) and not match("abcd", mw_str) and
+            not match("wxyz", mw_str)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

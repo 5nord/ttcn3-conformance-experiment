@@ -1,0 +1,19 @@
+// @requirement: 5.4.2 -- e) Actual parameters passed to restricted formal template parameters shall obey the restrictions given in clause 15.8.
+// @id: TTCN3-CORE-5.4.2-046a
+// @verdict: pass reject
+module M_05_04_02_actual_parameters_050 {
+
+    type component C {}
+
+    function f(in template(value) integer p_t) {
+    }
+
+    testcase TC() runs on C {
+        f(?); // error: AnyValue is not allowed by the value restriction
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

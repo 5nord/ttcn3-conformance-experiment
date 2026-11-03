@@ -1,0 +1,50 @@
+// @requirement: 22.2.2 -- In case the referenced field is of the universal `charstring type, the @decoded` clause can contain an optional parameter defining the encoding format.
+// @id: TTCN3-CORE-22.2.2-031a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_02_02_the_receive_operation_028 {
+
+    type record Inner {
+        integer x
+    } with {
+        encode "JSON"
+    }
+
+    type record Msg {
+        integer id,
+        universal charstring payload
+    }
+
+    type port P message { inout Msg }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    const Inner c_inner := { x := 5 };
+
+    function f_send() runs on C {
+        p.send(Msg:{ id := 1, payload := encvalue_unichar(c_inner, "UTF-16") });
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        var Inner v_inner;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_send());
+        T.start;
+        alt {
+            [] p.receive(Msg:?) -> value (v_inner := @decoded("UTF-16") payload) { }
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        if (v_inner == c_inner) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

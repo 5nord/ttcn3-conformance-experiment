@@ -1,0 +1,29 @@
+// @requirement: 21.1.1 -- The map operation are used to setup connections to the SUT.
+// @id: TTCN3-CORE-21.1.1-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_01_01_the_connect_and_map_operations_002 {
+
+    type port P message { inout integer; }
+
+    type component C {
+        port P p;
+    }
+
+    type component S {
+        port P p;
+    }
+
+    testcase TC() runs on C system S {
+        var boolean v_before := p.checkstate("Mapped");
+        map(mtc:p, system:p);
+        if (not v_before and p.checkstate("Mapped")) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

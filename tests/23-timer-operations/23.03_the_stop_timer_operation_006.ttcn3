@@ -1,0 +1,25 @@
+// @requirement: 23.3 -- Stopping an expired timer causes the entry for this timer in the timeout-list to be removed.
+// @id: TTCN3-CORE-23.3-006a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_23_03_the_stop_timer_operation_006 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        timer T := 0.01;
+        timer T_wait := 0.5;
+        T.start;
+        T_wait.start;
+        T_wait.timeout;
+        T.stop;
+        alt {
+            [] T.timeout { setverdict(fail); }
+            [] any timer.timeout { setverdict(fail); }
+            [else] { setverdict(pass); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

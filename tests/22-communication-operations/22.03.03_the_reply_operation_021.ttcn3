@@ -1,0 +1,17 @@
+// @requirement: 22.3.3 -- g) The TemplateBody in the value clause shall conform to the template(value) restriction and it shall be type-compatible with the return type specified in the signature of the procedure to which the reply operation belongs.
+// @id: TTCN3-CORE-22.3.3-023a
+// @verdict: pass reject
+module M_22_03_03_the_reply_operation_021 {
+
+    signature S(out integer p_y) return integer;
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    function f_reply() runs on C {
+        p.reply(S:{1} value ?); // error: return template is not template(value)
+    }
+}

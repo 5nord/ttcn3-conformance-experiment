@@ -1,0 +1,27 @@
+// @requirement: 19.14 -- Statement blocks can be used like basic program statements to introduce a local scope in the flow of control of TTCN-3 behaviour.
+// @id: TTCN3-CORE-19.14-001a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_14_statement_block_001 {
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_result := 0;
+        {
+            var integer v_local := 2;
+            v_result := v_local + 1;
+        }
+        {
+            var integer v_local := 10;
+            v_result := v_result + v_local;
+        }
+        if (v_result == 13) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

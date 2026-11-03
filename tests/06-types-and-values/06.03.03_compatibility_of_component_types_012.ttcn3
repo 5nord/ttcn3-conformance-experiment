@@ -1,0 +1,24 @@
+// @requirement: 6.3.3 -- d) For local template definitions, the identifiers, the types, the formal parameter lists and the assigned template or template field values shall be identical.
+// @id: TTCN3-CORE-6.3.3-012a
+// @verdict: pass reject
+module M_06_03_03_compatibility_of_component_types_012 {
+
+    type component CA {
+        template integer t_x := 1;
+    }
+    type component CB {
+        template integer t_x := 2;
+    }
+
+    function f() runs on CA {
+        setverdict(pass);
+    }
+
+    testcase TC() runs on CB {
+        f(); // error: template t_x has different values in CA and CB
+    }
+
+    control {
+        execute(TC());
+    }
+}

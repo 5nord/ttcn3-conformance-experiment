@@ -1,0 +1,40 @@
+// @requirement: 21.3.2 -- This behaviour is defined by reference to an already defined function or altstep.
+// @id: TTCN3-CORE-21.3.2-007a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_03_02_the_start_test_component_operation_005 {
+
+    type port P message {
+        inout integer
+    }
+
+    type component C {
+        port P p;
+    }
+
+    function f_ptc() runs on C {
+        p.receive(integer:1);
+        setverdict(pass);
+    }
+
+    altstep a_ptc() runs on C {
+        [] p.receive(integer:2) {
+            setverdict(pass);
+        }
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc1 := C.create;
+        var C v_ptc2 := C.create;
+        connect(mtc:p, v_ptc1:p);
+        connect(mtc:p, v_ptc2:p);
+        v_ptc1.start(f_ptc());
+        v_ptc2.start(a_ptc());
+        p.send(integer:1) to v_ptc1;
+        p.send(integer:2) to v_ptc2;
+        all component.done;
+    }
+
+    control {
+        execute(TC());
+    }
+}

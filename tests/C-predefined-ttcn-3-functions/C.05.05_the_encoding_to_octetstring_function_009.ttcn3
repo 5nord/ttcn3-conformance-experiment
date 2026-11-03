@@ -1,0 +1,38 @@
+// @requirement: C.5.5 -- The optional dynamic_encoding parameter is used for dynamic selection of encode attribute of the inpar value for this single encvalue_o call.
+// @id: TTCN3-CORE-C.5.5-008a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_05_05_the_encoding_to_octetstring_function_009 {
+
+    type component C {}
+
+    type record R {
+        integer f1,
+        integer f2
+    } with { encode "JSON"; encode "XML" }
+
+    type record RJ {
+        integer f1,
+        integer f2
+    } with { encode "JSON" }
+
+    type record RX {
+        integer f1,
+        integer f2
+    } with { encode "XML" }
+
+    testcase TC() runs on C {
+        var integer v_len;
+        var octetstring v_json := encvalue_o(R:{ f1 := 1, f2 := 2 }, "", "JSON", v_len);
+        var octetstring v_xml := encvalue_o(R:{ f1 := 1, f2 := 2 }, "", "XML", v_len);
+        if (v_json == encvalue_o(RJ:{ f1 := 1, f2 := 2 }, "", "", v_len) and
+            v_xml == encvalue_o(RX:{ f1 := 1, f2 := 2 }, "", "", v_len)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

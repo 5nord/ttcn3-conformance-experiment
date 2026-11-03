@@ -1,0 +1,24 @@
+// @requirement: 6.3.3 -- b) For timer instances, identifiers shall be identical and either both shall have identical initial durations or both shall have no initial duration.
+// @id: TTCN3-CORE-6.3.3-010a
+// @verdict: pass reject
+module M_06_03_03_compatibility_of_component_types_008 {
+
+    type component CA {
+        timer T1 := 1.0;
+    }
+    type component CB {
+        timer T2 := 1.0;
+    }
+
+    function f() runs on CA {
+        setverdict(pass);
+    }
+
+    testcase TC() runs on CB {
+        f(); // error: timer T1 of CA has no identical definition in CB
+    }
+
+    control {
+        execute(TC());
+    }
+}

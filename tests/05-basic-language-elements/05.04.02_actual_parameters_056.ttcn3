@@ -1,0 +1,27 @@
+// @requirement: 5.4.2 -- k) Functions, called by actual parameters passed to fuzzy or lazy formal parameters of the calling function, shall not have inout or out formal parameters.
+// @id: TTCN3-CORE-5.4.2-054a
+// @verdict: pass reject
+module M_05_04_02_actual_parameters_056 {
+
+    type component C {}
+
+    function f_out(out integer p_o) return integer {
+        p_o := 1;
+        return 2;
+    }
+
+    function f_lazy(@lazy integer p_i) return integer {
+        return p_i;
+    }
+
+    testcase TC() runs on C {
+        var integer v_i;
+        if (f_lazy(f_out(v_i)) == 2) { // error: function with out parameter called for a lazy parameter
+            setverdict(pass);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

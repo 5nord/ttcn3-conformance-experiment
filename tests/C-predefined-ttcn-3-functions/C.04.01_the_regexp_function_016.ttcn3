@@ -1,0 +1,20 @@
+// @requirement: C.4.1 -- when inpar is a template, it contains other matching mechanism than specific value or character pattern;
+// @id: TTCN3-CORE-C.4.1-018a
+// @verdict: pass accept, ttcn3verdict:error
+module M_C_04_01_the_regexp_function_016 {
+
+    type component C {}
+
+    function f_regexp(in template charstring p_in) return charstring {
+        return regexp(p_in, charstring:"(?+)", 0); // error: inpar contains a value list
+    }
+
+    testcase TC() runs on C {
+        var charstring v_res := f_regexp(("abc", "abd"));
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

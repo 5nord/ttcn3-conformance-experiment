@@ -1,0 +1,25 @@
+// @requirement: 12 -- A component can start and stop a timer, check if a timer is running, read the elapsed time of a running timer and process timeout events after timer expiration.
+// @id: TTCN3-CORE-12-014a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_12_declaring_timers_014 {
+    type component C {}
+
+    testcase TC() runs on C {
+        timer T_t := 5.0;
+        var boolean v_ok := true;
+        T_t.start;
+        v_ok := v_ok and T_t.running and T_t.read >= 0.0 and T_t.read <= 5.0;
+        T_t.stop;
+        v_ok := v_ok and not T_t.running;
+        T_t.start(0.05);
+        T_t.timeout;
+        if (v_ok) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }}

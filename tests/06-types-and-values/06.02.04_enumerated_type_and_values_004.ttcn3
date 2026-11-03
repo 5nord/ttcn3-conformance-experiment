@@ -1,0 +1,23 @@
+// @requirement: 6.2.4 -- References to enumerated values can occur in two forms: unqualified and qualified.
+// @id: TTCN3-CORE-6.2.4-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_04_enumerated_type_and_values_004 {
+
+    type component C {}
+
+    type enumerated E { e_a, e_b };
+
+    testcase TC() runs on C {
+        var E v_unqualified := e_b;
+        var E v_qualified := E.e_b;
+        if (v_unqualified == v_qualified) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

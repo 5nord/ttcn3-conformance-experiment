@@ -1,0 +1,30 @@
+// @requirement: 20.2 -- If the alt statement contains the @nodefault modifier, all active default alternatives are ignored for the execution of this alt statement.
+// @id: TTCN3-CORE-20.2-014a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_02_the_alt_statement_009 {
+    type component C {
+        timer T_def := 0.1;
+    }
+
+    altstep a_default() runs on C {
+        [] T_def.timeout {
+            setverdict(fail);
+        }
+    }
+
+    testcase TC() runs on C {
+        var default v_def := activate(a_default());
+        timer T_guard := 0.5;
+        T_def.start;
+        T_guard.start;
+        alt @nodefault {
+            [] T_guard.timeout {
+                setverdict(pass);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,30 @@
+// @requirement: 20.5.2 -- The default reference is a unique identifier for the default and may be used in a deactivate operation for the deactivation of the default.
+// @id: TTCN3-CORE-20.5.2-004b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_05_02_the_activate_operation_004 {
+
+    type component C {
+        timer T;
+        timer T_guard;
+        var charstring v_log := "";
+    }
+
+    altstep a_1() runs on C {
+        [] T.timeout { v_log := v_log & "1"; }
+    }
+
+    testcase TC() runs on C {
+        var default v_def := activate(a_1());
+        deactivate(v_def);
+        T.start(0.1);
+        T_guard.start(0.5);
+        alt {
+            [] T_guard.timeout { v_log := v_log & "g"; }
+        }
+        if (v_log == "g") { setverdict(pass); } else { setverdict(fail); }
+    }
+
+    control {
+        execute(TC());
+    }
+}

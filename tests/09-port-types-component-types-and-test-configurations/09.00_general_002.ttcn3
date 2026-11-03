@@ -1,0 +1,23 @@
+// @requirement: 9.0 -- The MTC shall be created by the system automatically at the start of each test case execution.
+// @id: TTCN3-CORE-9.0-012a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_09_00_general_002 {
+
+    type component C {
+        var integer vc_x := 1;
+    }
+
+    testcase TC() runs on C {
+        if (mtc != null and self == mtc and vc_x == 1) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+        vc_x := 2;
+    }
+
+    control {
+        execute(TC());
+        execute(TC());
+    }
+}

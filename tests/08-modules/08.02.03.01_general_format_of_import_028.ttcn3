@@ -1,0 +1,33 @@
+// @requirement: 8.2.3.1 -- Importable Definition: Test case; Possible Local Definitions: Parameter names; Possible Referenced Definitions: Parameter types, component types (runs on- and system clause)
+// @id: TTCN3-CORE-8.2.3.1-057b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_02_03_01_general_format_of_import_028 {
+
+    import from M_08_02_03_01_general_format_of_import_028_B { testcase TC }
+
+    control {
+        execute(TC({ x := 1 }));
+    }
+}
+
+module M_08_02_03_01_general_format_of_import_028_B {
+    import from M_08_02_03_01_general_format_of_import_028_A all;
+
+    testcase TC(MyPar p_par) runs on MyMtc system MySystem {
+        if (p_par.x == 1 and v_value == 2) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+}
+
+module M_08_02_03_01_general_format_of_import_028_A {
+    type record MyPar {
+        integer x
+    }
+    type component MyMtc {
+        var integer v_value := 2;
+    }
+    type component MySystem {}
+}

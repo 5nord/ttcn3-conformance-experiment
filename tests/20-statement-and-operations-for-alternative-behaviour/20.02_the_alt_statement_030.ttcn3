@@ -1,0 +1,37 @@
+// @requirement: 20.2 -- This means, the execution of receiving operations may empty the queues of unmapped and disconnected ports without causing a test case error.
+// @id: TTCN3-CORE-20.2-043a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_02_the_alt_statement_030 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p1, p2;
+    }
+
+    testcase TC() runs on C {
+        timer T := 0.5;
+        connect(self:p1, self:p2);
+        p1.send(integer:1);
+        p1.send(integer:2);
+        T.start;
+        T.timeout;
+        disconnect(self:p1, self:p2);
+        p2.receive(integer:1);
+        p2.receive(integer:2);
+        alt {
+            [] p2.receive {
+                setverdict(fail);
+            }
+            [else] {
+                setverdict(pass);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

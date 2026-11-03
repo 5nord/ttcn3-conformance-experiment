@@ -1,0 +1,18 @@
+// @requirement: 5.2.0 -- Declarations of a scope unit in a lower level of hierarchy are not visible to those units at a higher hierarchical level.
+// @id: TTCN3-CORE-5.2.0-027a
+// @verdict: pass reject
+module M_05_02_00_general_017 {
+
+    type component C {
+        var integer vc_x := v_tc; // error: v_tc is declared at a lower level (in TC)
+    }
+
+    testcase TC() runs on C {
+        var integer v_tc := 1;
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

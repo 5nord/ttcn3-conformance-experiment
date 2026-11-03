@@ -1,0 +1,31 @@
+// @requirement: 6.3.2.1 -- An enumerated value "b" of an enumerated type "B" is compatible with enumerated type "A" if the identifier of the value "b" is also defined in "A" and the integer(s) associated with value "b" are also associated with the same identifier in "A".
+// @id: TTCN3-CORE-6.3.2.1-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_03_02_01_compatibility_of_enumerated_types_002 {
+
+    type component C {}
+
+    type enumerated EWeekDays { Mon, Tue, Wed, Thu, Fri, Sat, Sun }
+    type enumerated EWorkDays { Mon, Tue, Wed, Thu, Fri }
+
+    type enumerated EComplexValues { e_num(1), e_expr(2 + 2), e_bin_conv(bit2int('0111'B)) }
+    type enumerated ESimpleValues { e_num(1), e_expr(4), e_bin_conv(7) }
+
+    testcase TC() runs on C {
+        var EWeekDays v_weekDay := Tue;
+        var EWorkDays v_workDay := Mon;
+        var EComplexValues v_complex := e_bin_conv;
+        var ESimpleValues v_simple := e_num;
+        v_workDay := v_weekDay;
+        v_simple := v_complex;
+        if (v_workDay == Tue and v_simple == e_bin_conv and enum2int(v_simple) == 7) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

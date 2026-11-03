@@ -1,0 +1,19 @@
+// @requirement: 21.3.6 -- e) If the index redirection is used for multi-dimensional component arrays, the size of the integer array or record of integer type shall exactly be the same as the dimension of the respective array, and its type shall allow storing the highest index (from all dimensions) of the array.
+// @id: TTCN3-CORE-21.3.6-022b
+// @verdict: pass reject
+module M_21_03_06_the_running_operation_021 {
+
+    type component C {}
+
+    type integer I0To1 (0..1);
+
+    testcase TC() runs on C {
+        var C v_arr[3][2] := { { C.create, C.create }, { C.create, C.create }, { C.create, C.create } };
+        var I0To1 v_idx[2];
+        var boolean v_b := any from v_arr.running -> @index value v_idx; // error: element type cannot store index 2
+    }
+
+    control {
+        execute(TC());
+    }
+}

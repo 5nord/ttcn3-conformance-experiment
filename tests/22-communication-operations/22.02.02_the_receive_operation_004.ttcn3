@@ -1,0 +1,40 @@
+// @requirement: 22.2.2 -- The receive operation removes the top message from the associated incoming port queue if, and only if, that top message satisfies all the matching criteria associated with the receive operation.
+// @id: TTCN3-CORE-22.2.2-006a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_02_02_the_receive_operation_004 {
+
+    type port P message { inout integer }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    function f_send() runs on C {
+        p.send(1);
+        p.send(2);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        var integer v_x;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_send());
+        T.start;
+        alt {
+            [] p.receive(integer:2) { setverdict(fail); stop; }
+            [] p.receive(integer:1) { }
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        alt {
+            [] p.receive(integer:?) -> value v_x {
+                if (v_x == 2) { setverdict(pass); } else { setverdict(fail); }
+            }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

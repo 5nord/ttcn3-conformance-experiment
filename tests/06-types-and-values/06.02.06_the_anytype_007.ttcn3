@@ -1,0 +1,27 @@
+// @requirement: 6.2.6 -- However, a user defined type of the type anytype can be imported by another module.
+// @id: TTCN3-CORE-6.2.6-009a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_06_the_anytype_007 {
+
+    import from M_06_02_06_the_anytype_007_A { type MyAnyType };
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyAnyType v_any;
+        v_any.integer := 1;
+        if (ischosen(v_any.integer) and v_any.integer == 1) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_06_02_06_the_anytype_007_A {
+    type anytype MyAnyType;
+}

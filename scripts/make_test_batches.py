@@ -9,21 +9,15 @@ import os
 import re
 import sys
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from common import pad_section, test_basename, test_module
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 REQ_DIR = os.path.join(ROOT, "requirements")
 TEST_DIR = os.path.join(ROOT, "tests")
 BATCH_DIR = os.path.join(TEST_DIR, "_batches")
 BATCH_SIZE = 40
 MAX_BATCH_SIZE = 60
-
-
-def pad_section(section):
-    """15.4.1 -> 15.04.01, A.1.2a -> A.01.02a, 10 -> 10."""
-    out = []
-    for part in section.split("."):
-        m = re.fullmatch(r"(\d+)([a-z]*)", part)
-        out.append(f"{int(m.group(1)):02d}{m.group(2)}" if m else part)
-    return ".".join(out)
 
 
 def one_line(text):
@@ -73,9 +67,9 @@ def main():
     for e in entries:
         n = counters.get(e["section"], 0) + 1
         counters[e["section"]] = n
-        padded = pad_section(e["section"])
-        e["file"] = f"tests/{e['chapter_dir']}/{padded}_test_{n:03d}.ttcn3"
-        e["module"] = "M_" + re.sub(r"\W", "_", padded) + f"_test_{n:03d}"
+        base = test_basename(e["section"], n)
+        e["file"] = f"tests/{e['chapter_dir']}/{base}.ttcn3"
+        e["module"] = test_module(e["section"], n)
         e["header"] = f"// @requirement: {e['section']} -- {e['original']}"
         del e["chapter_dir"]
 

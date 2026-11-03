@@ -1,0 +1,31 @@
+// @requirement: 19.3.1 -- select "(" [(VarInstance|Assignment) ";"] SingleExpression ")" "{" { case "(" { TemplateInstance[","] } ")" StatementBlock }+ [ case else StatementBlock ] "}"
+// @id: TTCN3-CORE-19.3.1-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_03_01_the_select_case_statement_001 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_count := 0;
+        select (var charstring v_x := "b"; v_x) {
+            case (charstring:"a") {
+                setverdict(fail);
+            }
+            case ("b", "c") {
+                v_count := v_count + 1;
+            }
+            case else {
+                setverdict(fail);
+            }
+        }
+        select (v_count := v_count + 1; v_count) {
+            case (2) {
+                setverdict(pass);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,18 @@
+// @requirement: 5.4.1.0 -- Keyword: module; Allowed kind of Parameterization: Value parameterization; Allowed form of Parameterization: Static at start of runtime; Allowed types in formal parameter lists: all basic types, all user-defined types and address type.
+// @id: TTCN3-CORE-5.4.1.0-025b
+// @verdict: pass reject
+module M_05_04_01_00_general_023 {
+
+    modulepar integer PX_INT := 1;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        PX_INT := 2; // error: module parameter changed at runtime
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

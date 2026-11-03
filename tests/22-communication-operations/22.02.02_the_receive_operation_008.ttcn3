@@ -1,0 +1,54 @@
+// @requirement: 22.2.2 -- The type and value of the message to be received are determined by the argument of the receive operation, i.e. may either be derived from the defined template or be specified in-line.
+// @id: TTCN3-CORE-22.2.2-010a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_02_02_the_receive_operation_008 {
+
+    type record R {
+        integer a,
+        charstring b
+    }
+
+    type port P message { inout R, integer }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    template R mw_r := {
+        a := 1,
+        b := ?
+    }
+
+    function f_send() runs on C {
+        p.send(R:{2, "x"});
+        p.send(R:{1, "y"});
+        p.send(integer:3);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_send());
+        T.start;
+        alt {
+            [] p.receive(mw_r) { setverdict(fail); stop; }
+            [] p.receive(R:{2, ?}) { }
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        alt {
+            [] p.receive(mw_r) { }
+            [] p.receive { setverdict(fail); stop; }
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        alt {
+            [] p.receive(R:?) { setverdict(fail); }
+            [] p.receive(integer:3) { setverdict(pass); }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

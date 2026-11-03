@@ -1,0 +1,38 @@
+// @requirement: 22.3.6 -- NOTE 2: The one-to-one connection is considered to be a simple case of the one-to-many connections and allows the usage of the from-clause.
+// @id: TTCN3-CORE-22.3.6-010a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_03_06_the_catch_operation_008 {
+
+    signature S() exception (integer);
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    altstep a_guard() runs on C {
+        [] T.timeout { setverdict(fail); stop; }
+    }
+
+    function f_server() runs on C {
+        p.getcall(S:{});
+        p.raise(S, integer:1);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_server());
+        activate(a_guard());
+        T.start;
+        p.call(S:{}, nowait);
+        p.catch(S, integer:1) from v_ptc;
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

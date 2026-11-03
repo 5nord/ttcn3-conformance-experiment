@@ -1,0 +1,33 @@
+// @requirement: 19.0 -- Statement: Handle response from a previous call; Associated keyword or symbol: getreply; Can be invoked by test behaviour: Yes
+// @id: TTCN3-CORE-19.0-003c
+// @verdict: pass reject
+module M_19_00_general_006 {
+
+    signature S();
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    function f_guard() runs on C return boolean {
+        alt {
+            [] p.getreply(S:{}) {} // error: getreply in function called from an alt guard
+            [else] {}
+        }
+        return true;
+    }
+
+    testcase TC() runs on C {
+        timer T := 0.1;
+        T.start;
+        alt {
+            [f_guard()] T.timeout { setverdict(pass); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

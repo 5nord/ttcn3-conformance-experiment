@@ -1,0 +1,27 @@
+// @requirement: B.1.5.0 -- Metacharacter: -; Indexing: No effect, the surrounding set is indexed; Description: Has a metacharacter meaning in a set expression. It allows to specify a range of characters; see clause B.1.5.1 for more details
+// @id: TTCN3-CORE-B.1.5.0-018a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_05_00_general_014 {
+
+    type component C {}
+
+    template charstring mw_range := pattern "[c-f]";
+    template charstring mw_outside := pattern "c-f";
+
+    testcase TC() runs on C {
+        if (match("c", mw_range) and
+            match("e", mw_range) and
+            not match("b", mw_range) and
+            not match("-", mw_range) and
+            match("c-f", mw_outside) and
+            not match("d", mw_outside)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

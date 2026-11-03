@@ -1,0 +1,39 @@
+// @requirement: 22.2.2 -- If the match is not successful, the top message shall not be removed from the port queue i.e. if the receive operation is used as an alternative of an alt statement and it is not successful, the execution of alt statement shall continue with its next alternative.
+// @id: TTCN3-CORE-22.2.2-007a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_02_02_the_receive_operation_005 {
+
+    type port P message { inout integer }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    function f_send() runs on C {
+        p.send(1);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_send());
+        T.start;
+        alt {
+            [] p.check(receive(integer:?)) { }
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        alt {
+            [] p.receive(integer:2) { setverdict(fail); stop; }
+            [else] { }
+        }
+        alt {
+            [] p.receive(integer:1) { setverdict(pass); }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

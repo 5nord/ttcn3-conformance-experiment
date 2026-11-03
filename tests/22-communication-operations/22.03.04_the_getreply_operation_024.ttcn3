@@ -1,0 +1,46 @@
+// @requirement: 22.3.4 -- A getreply operation with no argument list for the signature matching criteria shall remove the reply message on the top of the incoming port queue (if any) if all other matching criteria are fulfilled.
+// @id: TTCN3-CORE-22.3.4-026a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_03_04_the_getreply_operation_024 {
+
+    signature S1(out integer p_y);
+    signature S2(out charstring p_s);
+
+    type port P procedure { inout S1, S2 }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    altstep a_guard() runs on C {
+        [] T.timeout { setverdict(fail); stop; }
+    }
+
+    function f_server() runs on C {
+        p.getcall(S1:{-});
+        p.getcall(S2:{-});
+        p.reply(S1:{1});
+        p.reply(S2:{"a"});
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_server());
+        activate(a_guard());
+        T.start;
+        p.call(S1:{-}, nowait);
+        p.call(S2:{-}, nowait);
+        p.getreply;
+        p.check(getreply);
+        alt {
+            [] p.getreply(S2:{"a"}) { setverdict(pass); } // the S1 reply on top was removed
+            [else] { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

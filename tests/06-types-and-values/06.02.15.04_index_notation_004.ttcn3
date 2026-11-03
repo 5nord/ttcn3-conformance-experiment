@@ -1,0 +1,23 @@
+// @requirement: 6.2.15.4 -- The index notation, when used on the right-hand side, refers to the value element that the map value or template associates with the key given as the index or with the presence of the AnyElementsOrNone matching symbol if asterisk is used instead of the index.
+// @id: TTCN3-CORE-6.2.15.4-003b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_15_04_index_notation_004 {
+
+    type map from charstring to integer MyMap;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template MyMap v_with := { *, ["a"] := 1 };
+        var template MyMap v_without := { ["a"] := 1 };
+        if (v_with[*] and not v_without[*]) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,20 @@
+// @requirement: 5.4.2 -- o) If the mixed notation is used, no value list notation shall be used following the first assignment notation and the parameters given in assignment notation shall not assign parameters that already have an actual parameter given in list notation.
+// @id: TTCN3-CORE-5.4.2-060b
+// @verdict: pass reject
+module M_05_04_02_actual_parameters_063 {
+
+    type component C {}
+
+    function f_test(integer p_a, integer p_b) return integer {
+        return p_a + p_b;
+    }
+
+    testcase TC() runs on C {
+        var integer v_res := f_test(1, p_b := 2, p_a := 3); // error: p_a already given in list notation
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

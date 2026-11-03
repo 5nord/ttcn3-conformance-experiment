@@ -1,0 +1,25 @@
+// @requirement: 6.3.2.4 -- When considering the compatibility of two union types, initially the first rule (which is not dependent on the existence of a default alternative) shall be applied.
+// @id: TTCN3-CORE-6.3.2.4-006a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_03_02_04_compatibility_of_union_types_004 {
+
+    type component C {}
+
+    type union UC { integer i }
+    type union UA { UC d, integer i }
+    type union US { @default UC d, boolean b }
+
+    testcase TC() runs on C {
+        var US v_s := { d := { i := 1 } };
+        var UA v_a := v_s;
+        if (ischosen(v_a.d) and v_a.d.i == 1) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

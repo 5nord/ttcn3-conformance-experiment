@@ -1,0 +1,23 @@
+// @requirement: 15.9 -- If the expression-parameter evaluates to a literal value without explicit or implicit identification of its type, the type of the template instance-parameter shall be used as the type governor for the expression-parameter.
+// @id: TTCN3-CORE-15.9-013a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_09_match_operation_013 {
+
+    type enumerated MyFirstEnumType { Monday, Tuesday, Wednesday, Thursday, Friday };
+    type enumerated MySecondEnumType { Saturday, Sunday, Monday };
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyFirstEnumType v_today := Tuesday;
+        if (not match(Monday, v_today) and match(Tuesday, v_today)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

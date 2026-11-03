@@ -1,0 +1,30 @@
+// @requirement: 22.2.2 -- k) If a variable referenced in the value, sender or @index clause is a lazy or fuzzy variable, the expression assigned to this variable is equal to the result produced by the receive operation i.e. later evaluation of the lazy or fuzzy variable does not lead to repeated invocation of the receive operation.
+// @id: TTCN3-CORE-22.2.2-068a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_02_02_the_receive_operation_063 {
+
+    type port P message { inout integer }
+
+    type component C {
+        port P p;
+        port P q;
+        timer T := 1.0;
+    }
+
+    testcase TC() runs on C {
+        var @lazy integer v_x;
+        connect(mtc:p, mtc:q);
+        q.send(7);
+        T.start;
+        alt {
+            [] p.receive(integer:?) -> value v_x {
+                if (v_x == 7) { setverdict(pass); } else { setverdict(fail); }
+            }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

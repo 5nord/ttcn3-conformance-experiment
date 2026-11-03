@@ -1,0 +1,31 @@
+// @requirement: 8.2.3.1 -- The new name will be visible only in the importing module.
+// @id: TTCN3-CORE-8.2.3.1-081a
+// @verdict: pass reject
+module M_08_02_03_01_general_format_of_import_046 {
+
+    import from M_08_02_03_01_general_format_of_import_046_A all;
+    import from M_08_02_03_01_general_format_of_import_046_B all;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (M_Short.c_value == 42) { // error: M_Short is only visible in M_08_02_03_01_general_format_of_import_046_B
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_03_01_general_format_of_import_046_A {
+    const integer c_value := 42;
+}
+
+module M_08_02_03_01_general_format_of_import_046_B {
+    import from M_08_02_03_01_general_format_of_import_046_A -> M_Short all;
+    const integer c_copy := M_Short.c_value;
+}

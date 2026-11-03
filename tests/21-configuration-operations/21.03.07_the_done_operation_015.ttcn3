@@ -1,0 +1,27 @@
+// @requirement: 21.3.7 -- This is denoted by the symbol '->' the keyword value followed by the name of the variable into which the verdict is stored.
+// @id: TTCN3-CORE-21.3.7-013a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_03_07_the_done_operation_015 {
+
+    type component C {}
+
+    function f_ptc() runs on C {
+        setverdict(pass);
+    }
+
+    testcase TC() runs on C {
+        var verdicttype v_verdict := none;
+        var C v_ptc := C.create;
+        v_ptc.start(f_ptc());
+        v_ptc.done -> value v_verdict;
+        if (v_verdict == pass) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

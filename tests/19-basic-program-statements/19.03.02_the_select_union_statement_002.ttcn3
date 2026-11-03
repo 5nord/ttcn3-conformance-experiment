@@ -1,0 +1,33 @@
+// @requirement: 19.3.2 -- The statement contains a header part and one or more branches.
+// @id: TTCN3-CORE-19.3.2-003a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_03_02_the_select_union_statement_002 {
+
+    type component C {}
+
+    type union U {
+        integer a,
+        boolean b
+    }
+
+    testcase TC() runs on C {
+        var U v_u := { a := 1 };
+        setverdict(fail);
+        select union (v_u) {
+            case (a) {
+                setverdict(pass);
+            }
+        }
+        select union (v_u) {
+            case (a) {
+            }
+            case (b) {
+                setverdict(fail);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

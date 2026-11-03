@@ -1,0 +1,39 @@
+// @requirement: 15.2 -- Any template specification for out parameters is simply ignored, therefore it is allowed to specify matching mechanisms for these fields, or to omit them (see annex B).
+// @id: TTCN3-CORE-15.2-008b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_02_declaring_signature_templates_009 {
+
+    signature RemoteProc(in integer Par1, out integer Par2, inout integer Par3) return integer;
+
+    type port P procedure {
+        inout RemoteProc;
+    }
+
+    type component C {
+        port P p1;
+        port P p2;
+    }
+
+    template RemoteProc s_template2 := { Par1 := 1, Par2 := ?, Par3 := 3 }
+    template RemoteProc s_omitted := { Par1 := 2, Par2 := -, Par3 := 4 }
+
+    testcase TC() runs on C {
+        timer T := 1.0;
+        connect(self:p1, self:p2);
+        p1.call(s_template2, nowait);
+        p1.call(s_omitted, nowait);
+        T.start;
+        alt {
+            [] p2.getcall(RemoteProc:{ Par1 := 1, Par2 := -, Par3 := 3 }) { }
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        alt {
+            [] p2.getcall(RemoteProc:{ Par1 := 2, Par2 := -, Par3 := 4 }) { setverdict(pass); }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

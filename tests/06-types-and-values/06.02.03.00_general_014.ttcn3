@@ -1,0 +1,23 @@
+// @requirement: 6.2.3.0 -- Elements to be left out of the assignment shall be explicitly skipped in the list by use of the not-used-symbol "-".
+// @id: TTCN3-CORE-6.2.3.0-016a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_03_00_general_014 {
+
+    type set of integer MySetOf;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MySetOf v_so := { 1, 2, 3 };
+        v_so := { -, 5, - };
+        if (v_so[0] == 1 and v_so[1] == 5 and v_so[2] == 3) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

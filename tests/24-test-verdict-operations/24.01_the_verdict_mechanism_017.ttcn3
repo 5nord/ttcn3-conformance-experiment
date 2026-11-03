@@ -1,0 +1,22 @@
+// @requirement: 24.1 -- The test case verdict is implicitly updated on the termination of a test component.
+// @id: TTCN3-CORE-24.1-029a
+// @verdict: pass accept, ttcn3verdict:inconc
+module M_24_01_the_verdict_mechanism_017 {
+
+    type component C {}
+
+    function f_ptc() runs on C {
+        setverdict(inconc);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        v_ptc.start(f_ptc());
+        v_ptc.done;
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

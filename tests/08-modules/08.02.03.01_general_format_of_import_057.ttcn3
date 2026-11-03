@@ -1,0 +1,35 @@
+// @requirement: 8.2.3.1 -- Note that this implicit importing does not impose the restriction given in clause 6.2.4 on global names defined in module C.
+// @id: TTCN3-CORE-8.2.3.1-093a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_02_03_01_general_format_of_import_057 {
+
+    import from M_08_02_03_01_general_format_of_import_057_B all;
+
+    const integer enumX := 7;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_int := enumX;
+        if (v_int == 7 and f_isX(enumX)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_03_01_general_format_of_import_057_B {
+    import from M_08_02_03_01_general_format_of_import_057_A all;
+    function f_isX(MyEnumType p_enum) return boolean {
+        return p_enum == enumX;
+    }
+}
+
+module M_08_02_03_01_general_format_of_import_057_A {
+    type enumerated MyEnumType { enumX, enumY }
+}

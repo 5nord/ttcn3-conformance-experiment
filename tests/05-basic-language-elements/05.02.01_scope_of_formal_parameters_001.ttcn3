@@ -1,0 +1,25 @@
+// @requirement: 5.2.1 -- The scope of formal parameters in a parameterized object (e.g. in a function definition) shall be restricted to the definition in which the parameters appear and to the lower levels of scope in the same scope hierarchy.
+// @id: TTCN3-CORE-5.2.1-001a
+// @verdict: pass reject
+module M_05_02_01_scope_of_formal_parameters_001 {
+
+    type component C {}
+
+    function f_a(integer p_x) return integer {
+        return p_x;
+    }
+
+    function f_b() return integer {
+        return p_x; // error: p_x is a formal parameter of f_a only
+    }
+
+    testcase TC() runs on C {
+        if (f_a(1) == f_b()) {
+            setverdict(pass);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

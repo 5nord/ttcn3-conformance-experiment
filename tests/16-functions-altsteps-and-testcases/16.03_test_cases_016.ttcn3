@@ -1,0 +1,19 @@
+// @requirement: 16.3 -- b) Test cases may only be invoked with an execute statement in a function or altstep running on a control component as defined in clause 26.
+// @id: TTCN3-CORE-16.3-024a
+// @verdict: pass reject
+module M_16_03_test_cases_016 {
+
+    type component C {}
+
+    testcase TC_inner() runs on C {
+        setverdict(pass);
+    }
+
+    testcase TC() runs on C {
+        execute(TC_inner()); // error: execute is not allowed in test behaviour
+    }
+
+    control {
+        execute(TC());
+    }
+}

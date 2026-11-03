@@ -1,0 +1,25 @@
+// @requirement: 6.2.10.2 -- It is possible to define component types as the extension of other component types, using the extends keyword.
+// @id: TTCN3-CORE-6.2.10.2-001a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_10_02_reuse_of_component_types_001 {
+
+    type component CBase {
+        var integer vc_base := 1;
+    }
+
+    type component CExt extends CBase {
+        var integer vc_ext := 2;
+    }
+
+    testcase TC() runs on CExt {
+        if (vc_base + vc_ext == 3) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

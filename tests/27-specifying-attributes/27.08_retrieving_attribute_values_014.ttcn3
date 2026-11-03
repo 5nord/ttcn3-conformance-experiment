@@ -1,0 +1,25 @@
+// @requirement: 27.8 -- b) The Expression in optional parameter of the operation shall be of the universal charstring type.
+// @id: TTCN3-CORE-27.8-015a
+// @verdict: pass reject
+module M_27_08_retrieving_attribute_values_014 {
+
+    type component C {}
+
+    type record of universal charstring RUC;
+
+    type integer MyInt with {
+        encode "Codec1";
+        encode "Codec2";
+        variant "Codec1"."Rule1"
+    }
+
+    testcase TC() runs on C {
+        var integer v_codec := 1;
+        var RUC v_variant := MyInt.variant(v_codec); // error: parameter is not a universal charstring
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

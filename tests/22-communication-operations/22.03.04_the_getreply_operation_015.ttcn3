@@ -1,0 +1,22 @@
+// @requirement: 22.3.4 -- When assigning individual parameters or referenced fields of the return value of a reply, encoded parameters can be decoded prior to assignment using the @decoded modifier.
+// @id: TTCN3-CORE-22.3.4-017a
+// @verdict: pass accept, noexecution
+module M_22_03_04_the_getreply_operation_015 {
+
+    type record R {
+        octetstring f
+    }
+
+    signature S(out octetstring p_enc) return R;
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    function f_getreply() runs on C {
+        var integer v_i, v_j;
+        p.getreply(S:{?} value ?) -> value (v_j := @decoded f) param(v_i := @decoded p_enc);
+    }
+}

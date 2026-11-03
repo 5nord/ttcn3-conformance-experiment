@@ -1,0 +1,28 @@
+// @requirement: B.1.2.2 -- Besides specifying individual values, it is possible to add all elements of an existing record of or set of template into a complement template list using an all from clause.
+// @id: TTCN3-CORE-B.1.2.2-006a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_02_02_complemented_template_list_005 {
+
+    type component C {}
+
+    type record of integer RoI;
+    type set of integer SoI;
+
+    template RoI mw_roI := { 1, 2, (6 .. 9) };
+    template SoI mw_soI := { 50 };
+    template integer mw_c := complement(all from mw_roI, all from mw_soI, 100);
+
+    testcase TC() runs on C {
+        if (match(3, mw_c) and match(10, mw_c)
+            and not match(1, mw_c) and not match(2, mw_c) and not match(7, mw_c)
+            and not match(50, mw_c) and not match(100, mw_c)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

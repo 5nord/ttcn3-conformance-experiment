@@ -1,0 +1,25 @@
+// @requirement: 21.3.2 -- b) The function or altstep invoked in a start test component operation shall have a runs `on definition` referencing a component type that is compatible with the newly created component (see clause 6.3.2.7).
+// @id: TTCN3-CORE-21.3.2-023a
+// @verdict: pass reject
+module M_21_03_02_the_start_test_component_operation_021 {
+
+    type component C {}
+
+    type component D {
+        var integer v_x := 0;
+    }
+
+    function f_ptc() runs on D {
+        setverdict(pass);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        v_ptc.start(f_ptc()); // error: runs on D is not compatible with C
+        v_ptc.done;
+    }
+
+    control {
+        execute(TC());
+    }
+}

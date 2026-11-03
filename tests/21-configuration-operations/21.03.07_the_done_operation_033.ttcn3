@@ -1,0 +1,21 @@
+// @requirement: 21.3.7 -- f) The index redirection shall only be used when the operation is used on an any from component array construct.
+// @id: TTCN3-CORE-21.3.7-030a
+// @verdict: pass reject
+module M_21_03_07_the_done_operation_033 {
+
+    type component C {}
+
+    function f_ptc() runs on C {}
+
+    testcase TC() runs on C {
+        var integer v_idx;
+        var C v_ptc := C.create;
+        v_ptc.start(f_ptc());
+        v_ptc.done -> @index value v_idx; // error: index redirection without any from
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

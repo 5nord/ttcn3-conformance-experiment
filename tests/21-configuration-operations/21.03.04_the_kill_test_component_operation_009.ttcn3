@@ -1,0 +1,38 @@
+// @requirement: 21.3.4 -- The kill operation can also be applied to another test component.
+// @id: TTCN3-CORE-21.3.4-007a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_03_04_the_kill_test_component_operation_009 {
+
+    type component C {}
+
+    function f_wait() runs on C {
+        timer T_w := 5.0;
+        T_w.start;
+        T_w.timeout;
+    }
+
+    function f_killOther(C p_other) runs on C {
+        p_other.kill;
+        setverdict(pass);
+    }
+
+    testcase TC() runs on C {
+        timer T := 2.0;
+        var C v_victim1 := C.create alive;
+        var C v_victim2 := C.create alive;
+        var C v_killer := C.create;
+        v_victim1.start(f_wait());
+        v_victim2.start(f_wait());
+        v_victim1.kill;
+        v_killer.start(f_killOther(v_victim2));
+        T.start;
+        alt {
+            [] all component.killed { setverdict(pass); }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

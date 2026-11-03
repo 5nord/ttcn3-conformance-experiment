@@ -1,0 +1,20 @@
+// @requirement: 21.3.8 -- The killed operation shall be used in the same manner as receiving operations.
+// @id: TTCN3-CORE-21.3.8-004a
+// @verdict: pass reject
+module M_21_03_08_the_killed_operation_004 {
+
+    type component C {}
+
+    function f_ptc() runs on C {}
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        v_ptc.start(f_ptc());
+        var boolean v_b := v_ptc.killed; // error: killed used as a value
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

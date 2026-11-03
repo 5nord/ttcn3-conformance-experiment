@@ -1,0 +1,37 @@
+// @requirement: 11.0 -- Variables can be declared and used in test cases, functions and altsteps.
+// @id: TTCN3-CORE-11.0-006a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_11_00_general_005 {
+
+    type component C {}
+
+    function f_get() return integer {
+        var integer v_f := 2;
+        return v_f;
+    }
+
+    altstep a_timeout(timer p_timer) {
+        var integer v_a := 3;
+        [] p_timer.timeout {
+            if (v_a == 3) {
+                setverdict(pass);
+            } else {
+                setverdict(fail);
+            }
+        }
+    }
+
+    testcase TC() runs on C {
+        var integer v_tc := 1;
+        timer T := 0.1;
+        if (v_tc + f_get() != 3) {
+            setverdict(fail);
+        }
+        T.start;
+        a_timeout(T);
+    }
+
+    control {
+        execute(TC());
+    }
+}

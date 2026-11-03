@@ -1,0 +1,19 @@
+// @requirement: A.1.6.8.3 -- If more than one NotExpression exists, then the NotExpressions shall evaluate to specific values of compatible types
+// @id: TTCN3-CORE-A.1.6.8.3-007a
+// @verdict: pass reject
+module M_A_01_06_08_03_basic_statements_008 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var boolean v_b := true;
+        var float v_f := 1.0;
+        if (v_b and v_f) { // error: operands of and have incompatible types
+            setverdict(pass);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

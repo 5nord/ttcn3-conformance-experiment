@@ -1,0 +1,70 @@
+// @requirement: 6.2.9 -- Whenever a signature is defined in the in direction for a procedure-based port, the types of all its inout and out parameters, its return type and its exception types are automatically part of the out direction of this port.
+// @id: TTCN3-CORE-6.2.9-016a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_09_communication_port_types_017 {
+
+    type record R {
+        integer f
+    }
+
+    signature S(in integer p_in, inout charstring p_io, out boolean p_out) return float exception(R);
+
+    type port P_server procedure {
+        in S;
+    }
+
+    type port P_client procedure {
+        out S;
+    }
+
+    type component C_server {
+        port P_server p;
+    }
+
+    type component C_client {
+        port P_client p;
+    }
+
+    function f_client() runs on C_client {
+        p.call(S:{1, "a", -}, 1.0) {
+            [] p.getreply(S:{-, "b", true} value 1.5) {
+                p.call(S:{0, "a", -}, 1.0) {
+                    [] p.catch(S, R:{f := 7}) {
+                        setverdict(pass);
+                    }
+                    [] p.catch(timeout) {
+                        setverdict(fail);
+                    }
+                }
+            }
+            [] p.catch(timeout) {
+                setverdict(fail);
+            }
+        }
+    }
+
+    testcase TC() runs on C_server {
+        timer T_guard := 1.0;
+        var C_client v_ptc := C_client.create;
+        connect(self:p, v_ptc:p);
+        v_ptc.start(f_client());
+        T_guard.start;
+        alt {
+            [] p.getcall(S:{1, "a", -}) {
+                p.reply(S:{-, "b", true} value 1.5);
+                repeat;
+            }
+            [] p.getcall(S:{0, "a", -}) {
+                p.raise(S, R:{f := 7});
+            }
+            [] T_guard.timeout {
+                setverdict(fail);
+            }
+        }
+        v_ptc.done;
+    }
+
+    control {
+        execute(TC());
+    }
+}

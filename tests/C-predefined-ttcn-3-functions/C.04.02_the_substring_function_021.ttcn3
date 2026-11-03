@@ -1,0 +1,21 @@
+// @requirement: C.4.2 -- If inpar contains a reference to a template with the present restriction a matching symbol that fulfils the requirements of the present restriction or a reference to an unrestricted template field that represents a mandatory field of a record or set or any field of a union, anytype, record `of, set` `of or array, the` returned value shall have the present restriction.
+// @id: TTCN3-CORE-C.4.2-023a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_04_02_the_substring_function_021 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template (present) charstring v_in := pattern "abc[a-z]";
+        var template (present) charstring v_res := substr(v_in, 1, 2);
+        if (match("bc", v_res) and not match("ab", v_res)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

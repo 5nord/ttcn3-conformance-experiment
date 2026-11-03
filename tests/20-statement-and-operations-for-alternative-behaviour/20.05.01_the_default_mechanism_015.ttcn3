@@ -1,0 +1,36 @@
+// @requirement: 20.5.1 -- The latter has to be specified by means of a repeat statement (see clause 20.3).
+// @id: TTCN3-CORE-20.5.1-017a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_05_01_the_default_mechanism_015 {
+
+    type component C {
+        timer T;
+        timer T_alt;
+        timer T_guard;
+        var integer v_count := 0;
+    }
+
+    altstep a_rep() runs on C {
+        [] T.timeout {
+            v_count := v_count + 1;
+            if (v_count < 3) { T.start(0.05); }
+            repeat;
+        }
+    }
+
+    testcase TC() runs on C {
+        activate(a_rep());
+        T.start(0.05);
+        T_alt.start(0.5);
+        T_guard.start(1.0);
+        alt {
+            [] T_alt.timeout {}
+            [] T_guard.timeout { setverdict(fail); }
+        }
+        if (v_count == 3) { setverdict(pass); } else { setverdict(fail); }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,73 @@
+// @requirement: 6.2.9 -- The directions are specified by the keywords `in` (for the in direction), `out` (for the out direction) and inout (for both directions).
+// @id: TTCN3-CORE-6.2.9-006a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_09_communication_port_types_005 {
+
+    type port P_mtc message {
+        out integer;
+        in charstring;
+        inout boolean;
+    }
+
+    type port P_ptc message {
+        in integer;
+        out charstring;
+        inout boolean;
+    }
+
+    type component C_mtc {
+        port P_mtc p;
+    }
+
+    type component C_ptc {
+        port P_ptc p;
+    }
+
+    function f_ptc() runs on C_ptc {
+        timer T_guard := 1.0;
+        T_guard.start;
+        alt {
+            [] p.receive(integer:1) {
+                p.send("a");
+                p.send(true);
+            }
+            [] T_guard.timeout {}
+        }
+        T_guard.start;
+        alt {
+            [] p.receive(boolean:false) {}
+            [] T_guard.timeout {}
+        }
+    }
+
+    testcase TC() runs on C_mtc {
+        timer T_guard := 1.0;
+        var C_ptc v_ptc := C_ptc.create;
+        connect(self:p, v_ptc:p);
+        v_ptc.start(f_ptc());
+        p.send(1);
+        p.send(false);
+        T_guard.start;
+        alt {
+            [] p.receive(charstring:"a") {
+                T_guard.start;
+                alt {
+                    [] p.receive(boolean:true) {
+                        setverdict(pass);
+                    }
+                    [] T_guard.timeout {
+                        setverdict(fail);
+                    }
+                }
+            }
+            [] T_guard.timeout {
+                setverdict(fail);
+            }
+        }
+        v_ptc.done;
+    }
+
+    control {
+        execute(TC());
+    }
+}

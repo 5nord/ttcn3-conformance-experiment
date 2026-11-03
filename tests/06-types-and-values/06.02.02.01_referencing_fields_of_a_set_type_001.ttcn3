@@ -1,0 +1,31 @@
+// @requirement: 6.2.2.1 -- Elements of a set shall be referenced by the dot notation (see clause 6.2.1.1).
+// @id: TTCN3-CORE-6.2.2.1-001a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_02_01_referencing_fields_of_a_set_type_001 {
+
+    type set MySet {
+        integer field1,
+        charstring field2
+    }
+
+    type record MyRecord {
+        MySet field1
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MySet v_set := { field1 := 1, field2 := "a" };
+        var MyRecord v_rec := { field1 := { field1 := 2, field2 := "b" } };
+        v_set.field1 := 5;
+        if (v_set.field1 == 5 and v_set.field2 == "a" and v_rec.field1.field1 == 2) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

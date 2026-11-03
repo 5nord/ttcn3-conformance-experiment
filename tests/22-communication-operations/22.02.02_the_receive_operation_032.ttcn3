@@ -1,0 +1,34 @@
+// @requirement: 22.2.2 -- In case the referenced field is not a universal **charstring, the optional** parameter shall not be present.
+// @id: TTCN3-CORE-22.2.2-034a
+// @verdict: pass reject
+module M_22_02_02_the_receive_operation_032 {
+
+    type record Inner {
+        integer x
+    } with {
+        encode "JSON"
+    }
+
+    type record Msg {
+        integer id,
+        octetstring payload
+    }
+
+    type port P message { inout Msg }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        var Inner v_inner;
+        connect(mtc:p, v_ptc:p);
+        p.receive(Msg:?) -> value (v_inner := @decoded("UTF-8") payload); // error: format parameter for octetstring field
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,49 @@
+// @requirement: 21.3.10 -- ObjectReference "." call "(" ( FunctionInstance | AltstepInstance ) ["," SimpleExpression ] ")" [ "->" [value Ref] [verdict Ref] ] [ catch "(" timeout ")" StatementBlock ] [ catch "(" stop ")" StatementBlock ]
+// @id: TTCN3-CORE-21.3.10-002a
+// @verdict: pass accept, noexecution
+module M_21_03_10_the_call_test_component_behaviour_operation_001 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p;
+    }
+
+    function f_simple() runs on C {}
+
+    function f_ret(out integer p_out, inout integer p_inout) runs on C return integer {
+        p_out := 1;
+        p_inout := p_inout + 1;
+        return 2;
+    }
+
+    altstep a_recv() runs on C {
+        [] p.receive {}
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create alive;
+        var integer v_out, v_inout := 0, v_res;
+        var verdicttype v_verdict;
+        v_ptc.call(f_simple());
+        v_ptc.call(f_simple(), 1.0);
+        v_ptc.call(a_recv(), 1.0) catch (timeout) {}
+        v_ptc.call(f_ret(v_out, v_inout)) -> value v_res;
+        v_ptc.call(f_ret(v_out, v_inout)) -> verdict v_verdict;
+        v_ptc.call(f_ret(v_out, v_inout), 1.0) -> value v_res verdict v_verdict
+            catch (timeout) {
+                setverdict(fail);
+            }
+            catch (stop) {
+                setverdict(fail);
+            }
+        v_ptc.call(f_simple()) catch (stop) {}
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

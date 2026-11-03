@@ -1,0 +1,35 @@
+// @requirement: 21.3.8 -- The first component to be found killed causes the killed operation to succeed.
+// @id: TTCN3-CORE-21.3.8-020a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_03_08_the_killed_operation_022 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var C v_ptcs[3];
+        var integer v_idx := -1;
+        timer T := 1.0;
+        for (var integer i := 0; i < 3; i := i + 1) {
+            v_ptcs[i] := C.create alive;
+        }
+        v_ptcs[2].kill;
+        v_ptcs[1].kill;
+        T.start;
+        alt {
+            [] any from v_ptcs.killed -> @index value v_idx {
+                if (v_idx == 1) {
+                    setverdict(pass);
+                } else {
+                    setverdict(fail);
+                }
+            }
+            [] T.timeout {
+                setverdict(fail);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

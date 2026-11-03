@@ -1,0 +1,20 @@
+// @requirement: 7.1.7 -- a) `bitstring then the rotate unit applied is 1 bit;` b) `hexstring then the rotate unit applied is 1 hexadecimal digit;` c) `octetstring then the rotate unit applied is 1 octet;` d) `charstring or universal` `charstring then the rotate unit applied is one character;` e) `record of, set of, or array then the rotate unit applied is one element.` If the type of the left-hand operand is:
+// @id: TTCN3-CORE-7.1.7-008a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_07_01_07_rotate_operators_005 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var bitstring v_b := '101001'B;
+        if (v_b <@ 1 == '010011'B and v_b @> 1 == '110100'B and v_b <@ 2 == '100110'B) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

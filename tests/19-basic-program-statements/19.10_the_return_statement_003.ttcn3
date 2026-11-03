@@ -1,0 +1,39 @@
+// @requirement: 19.10 -- The return statement terminates execution of a function or altstep and returns control to the point from which the function or altstep was called.
+// @id: TTCN3-CORE-19.10-003a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_10_the_return_statement_003 {
+    type component C {
+        var charstring v_seq := "";
+        timer T;
+    }
+
+    function f_ret() runs on C {
+        v_seq := v_seq & "f";
+        return;
+    }
+
+    altstep a_ret() runs on C {
+        [] T.timeout {
+            v_seq := v_seq & "a";
+            return;
+        }
+    }
+
+    testcase TC() runs on C {
+        v_seq := v_seq & "1";
+        f_ret();
+        v_seq := v_seq & "2";
+        T.start(0.01);
+        a_ret();
+        v_seq := v_seq & "3";
+        if (v_seq == "1f2a3") {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

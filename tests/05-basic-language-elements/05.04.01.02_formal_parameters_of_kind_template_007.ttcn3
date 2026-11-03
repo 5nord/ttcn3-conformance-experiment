@@ -1,0 +1,22 @@
+// @requirement: 5.4.1.2 -- In parameters may have a default template, which is given by a template instance assigned to the parameter.
+// @id: TTCN3-CORE-5.4.1.2-008a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_04_01_02_formal_parameters_of_kind_template_007 {
+    type component C {}
+
+    function f_match(template integer p_t := (1 .. 10)) return boolean {
+        return match(5, p_t);
+    }
+
+    testcase TC() runs on C {
+        if (f_match() and not f_match(20)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

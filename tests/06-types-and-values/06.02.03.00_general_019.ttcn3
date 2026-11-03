@@ -1,0 +1,23 @@
+// @requirement: 6.2.3.0 -- When it is used at the left-hand side, only the value of the identified single element is changed, values assigned to other elements already remain unchanged.
+// @id: TTCN3-CORE-6.2.3.0-021a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_03_00_general_019 {
+
+    type record of integer MyRecordOf;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyRecordOf v_ro := { 0, 1, 2, 3, 4 };
+        v_ro[1] := 9;
+        if (v_ro == { 0, 9, 2, 3, 4 }) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

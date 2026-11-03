@@ -1,0 +1,31 @@
+// @requirement: 5.4.1.1 -- In the case of component references, the corresponding component type is the type of the formal parameter.
+// @id: TTCN3-CORE-5.4.1.1-017a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_04_01_01_formal_parameters_of_kind_value_019 {
+    type component C {}
+    type component C2 {
+        var integer vc_x := 1;
+    }
+
+    function f_ptc() runs on C2 {
+        if (vc_x == 1) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    function f_run(C2 p_comp) {
+        p_comp.start(f_ptc());
+        p_comp.done;
+    }
+
+    testcase TC() runs on C {
+        var C2 v_ptc := C2.create;
+        f_run(v_ptc);
+    }
+
+    control {
+        execute(TC());
+    }
+}

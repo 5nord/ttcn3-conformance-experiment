@@ -1,0 +1,46 @@
+// @requirement: 15.2 -- c) Optional fields of record and set parameters or parameter fields can be initialized explicitly or implicitly.
+// @id: TTCN3-CORE-15.2-019a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_02_declaring_signature_templates_020 {
+
+    type record MyRecord {
+        integer field1 optional,
+        charstring field2
+    }
+
+    signature RecProc(in MyRecord Par1);
+
+    type port P procedure {
+        inout RecProc;
+    }
+
+    type component C {
+        port P p1;
+        port P p2;
+    }
+
+    template RecProc s_explicit := { Par1 := { field1 := omit, field2 := "a" } }
+    template RecProc s_implicit := { Par1 := { field2 := "b" } } with { optional "implicit omit" }
+
+    testcase TC() runs on C {
+        timer T := 1.0;
+        connect(self:p1, self:p2);
+        p1.call(s_explicit, nowait);
+        p1.call(s_implicit, nowait);
+        T.start;
+        alt {
+            [] p2.getcall(RecProc:{ Par1 := { field1 := omit, field2 := "a" } }) { }
+            [] p2.getcall { setverdict(fail); stop; }
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        alt {
+            [] p2.getcall(RecProc:{ Par1 := { field1 := omit, field2 := "b" } }) { setverdict(pass); }
+            [] p2.getcall { setverdict(fail); }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,21 @@
+// @requirement: 6.2.4 -- For enumerated values with no value assigned or with a specific integer value assigned, the user shall not directly use associated integer values, but can access them and convert integer values into enumerated values by using the predefined functions enum2int and int2enum (see clauses 16.1.2, C.1.30 and C.1.4).
+// @id: TTCN3-CORE-6.2.4-025a
+// @verdict: pass reject
+module M_06_02_04_enumerated_type_and_values_028 {
+
+    type component C {}
+
+    type enumerated E {
+        e_a (0),
+        e_b (1)
+    };
+
+    testcase TC() runs on C {
+        var E v_e := e_a(0); // error: associated integer value used directly
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

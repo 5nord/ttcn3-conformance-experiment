@@ -1,0 +1,23 @@
+// @requirement: 15.7.0 -- NOTE 2: Have matching mechanism meaning within character patterns only.
+// @id: TTCN3-CORE-15.7.0-020a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_07_00_general_012 {
+
+    type component C {}
+
+    template charstring m_value := "a?c*";
+    template charstring m_pattern := pattern "a?c*";
+
+    testcase TC() runs on C {
+        if (match("a?c*", m_value) and not match("abcd", m_value)
+            and match("abcd", m_pattern)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

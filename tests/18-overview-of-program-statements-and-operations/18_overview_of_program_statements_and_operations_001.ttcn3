@@ -1,0 +1,29 @@
+// @requirement: 18 -- Statements can be either single statements (which do not include other program statements) or compound statements (which may include other statements and statement blocks).
+// @id: TTCN3-CORE-18-002c
+// @verdict: pass accept, ttcn3verdict:pass
+module M_18_overview_of_program_statements_and_operations_001 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_x := 0;
+        if (true) {
+            v_x := v_x + 1;
+            {
+                v_x := v_x + 1;
+            }
+            for (var integer i := 0; i < 2; i := i + 1) {
+                v_x := v_x + 1;
+            }
+        }
+        if (v_x == 4) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

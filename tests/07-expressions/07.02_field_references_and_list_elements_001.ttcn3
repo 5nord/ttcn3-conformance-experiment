@@ -1,0 +1,29 @@
+// @requirement: 7.2 -- Within expressions, fields of record and set types are referenced with the dot notation ".field".
+// @id: TTCN3-CORE-7.2-001a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_07_02_field_references_and_list_elements_001 {
+
+    type component C {}
+
+    type record R {
+        integer f1
+    }
+
+    type set S {
+        integer g1
+    }
+
+    testcase TC() runs on C {
+        var R v_rec := { f1 := 3 };
+        var S v_set := { g1 := 4 };
+        if (v_rec.f1 + v_set.g1 == 7) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

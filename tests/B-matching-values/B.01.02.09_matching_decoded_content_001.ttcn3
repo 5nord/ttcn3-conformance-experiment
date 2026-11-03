@@ -1,0 +1,25 @@
+// @requirement: B.1.2.9 -- The matching` symbol is composed of the decmatch keyword, an optional encoding format parameter and a mandatory template instance called decoding target.
+// @id: TTCN3-CORE-B.1.2.9-002a
+// @verdict: pass accept, noexecution
+module M_B_01_02_09_matching_decoded_content_001 {
+
+    type component C {}
+
+    type record Payload {
+        integer field1,
+        integer field2
+    } with { encode "JSON" }
+
+    type record BinMsg {
+        integer id,
+        octetstring payload
+    }
+
+    type record TextMsg {
+        integer id,
+        universal charstring payload
+    }
+
+    template BinMsg mw_bin := { id := ?, payload := decmatch Payload:{ field1 := 1, field2 := ? } };
+    template TextMsg mw_text := { id := ?, payload := decmatch ("UTF-8") Payload:{ field1 := (2, 3), field2 := ? } };
+}

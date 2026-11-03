@@ -1,0 +1,26 @@
+// @requirement: 15.0 -- b) they can be parameterized;
+// @id: TTCN3-CORE-15.0-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_00_general_002 {
+
+    type record R { integer i, charstring c }
+
+    type component C {}
+
+    template R m_r(integer p_i, template charstring p_c) := { i := p_i, c := p_c }
+
+    const R c_match := { i := 1, c := "abc" }
+    const R c_noMatch := { i := 2, c := "abc" }
+
+    testcase TC() runs on C {
+        if (match(c_match, m_r(1, ?)) and not match(c_noMatch, m_r(1, ?))) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

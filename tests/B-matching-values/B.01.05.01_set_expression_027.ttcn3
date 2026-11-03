@@ -1,0 +1,25 @@
+// @requirement: B.1.5.1 -- To include a literal hyphen "-", place it first or last in the list, or precede it with a backslash.
+// @id: TTCN3-CORE-B.1.5.1-032a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_05_01_set_expression_027 {
+
+    type component C {}
+
+    template charstring mw_first := pattern "[-ac]";
+    template charstring mw_last := pattern "[ac-]";
+    template charstring mw_escaped := pattern "[a\-c]";
+
+    testcase TC() runs on C {
+        if (match("-", mw_first) and not match("b", mw_first)
+            and match("-", mw_last) and not match("b", mw_last)
+            and match("-", mw_escaped) and not match("b", mw_escaped)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

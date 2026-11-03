@@ -1,0 +1,32 @@
+// @requirement: 20.4 -- a) Control transfer statements activate, deactivate, repeat, all calls of altsteps and (direct and indirect) calls of user-defined functions, which include reception statements, shall not be present in interleave statements.
+// @id: TTCN3-CORE-20.4-020a
+// @verdict: pass reject
+module M_20_04_the_interleave_statement_011 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p1, p2;
+    }
+
+    altstep a_step() runs on C {
+        [] p2.receive {}
+    }
+
+    testcase TC() runs on C {
+        connect(self:p1, self:p2);
+        p1.send(integer:1);
+        interleave {
+            [] p2.receive(integer:1) {
+                a_step(); // error: altstep call inside interleave
+            }
+        }
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

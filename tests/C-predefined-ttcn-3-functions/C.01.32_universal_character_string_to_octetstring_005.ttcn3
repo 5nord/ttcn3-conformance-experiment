@@ -1,0 +1,16 @@
+// @requirement: C.1.32 -- The following values (see ISO/IEC 10646 [2]) are allowed as string_encoding actual parameters (for the description of the UCS encoding scheme see clause 27.5): a) "UTF-8" b) "UTF-16" c) "UTF-16LE" d) "UTF-16BE" e) "UTF-32" f) "UTF-32LE" g) "UTF-32BE"
+// @id: TTCN3-CORE-C.1.32-005a
+// @verdict: pass reject
+module M_C_01_32_universal_character_string_to_octetstring_005 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var octetstring v_res := unichar2oct("AB", "ISO-8859-1"); // error: string_encoding value not allowed
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

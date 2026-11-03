@@ -1,0 +1,19 @@
+// @requirement: 19.7 -- b) Labels used following the label keyword shall be unique among all labels defined in the same test case, function or altstep.
+// @id: TTCN3-CORE-19.7-007a
+// @verdict: pass reject
+module M_19_07_the_label_statement_007 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_i := 0;
+        label L_1;
+        v_i := v_i + 1;
+        label L_1; // error: label L_1 defined twice in the same test case
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

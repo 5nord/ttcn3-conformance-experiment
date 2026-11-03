@@ -1,0 +1,21 @@
+// @requirement: 26.1 -- A host id can be used to give a specific deployment location to the test system where the MTC shall be started and execute its behaviour.
+// @id: TTCN3-CORE-26.1-048a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_26_01_the_execute_statement_043 {
+
+    type component C {}
+
+    const charstring c_host := "127.0.0.1";
+
+    testcase TC(charstring p_host) runs on C {
+        if (hostid("Ipv4") == p_host) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC(c_host), -, c_host);
+    }
+}

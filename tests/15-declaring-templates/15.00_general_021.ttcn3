@@ -1,0 +1,33 @@
+// @requirement: 15.0 -- For example, if a fuzzy template is passed to a formal template parameter declared without a modifier, it loses its fuzzy feature inside the called function. f) Fuzzy features are valid only in the scope, where the templates' names are visible.
+// @id: TTCN3-CORE-15.0-025a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_00_general_021 {
+
+    type component C {
+        var integer v_count := 0;
+    }
+
+    function f_next() runs on C return integer {
+        v_count := v_count + 1;
+        return v_count;
+    }
+
+    function f_check(template integer p_t) runs on C return boolean {
+        var boolean v_first := match(1, p_t);
+        var boolean v_second := match(1, p_t);
+        return v_first and v_second;
+    }
+
+    testcase TC() runs on C {
+        template @fuzzy integer m_fuzzy := f_next();
+        if (f_check(m_fuzzy) and v_count == 1) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

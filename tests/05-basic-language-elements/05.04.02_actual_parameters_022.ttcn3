@@ -1,0 +1,56 @@
+// @requirement: 5.4.2 -- It is allowed to pass elements of structured values or templates (record, set, record of, set of, union and anytype values or templates) by reference.
+// @id: TTCN3-CORE-5.4.2-018a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_04_02_actual_parameters_022 {
+
+    type record R {
+        integer a
+    }
+
+    type set S {
+        integer a
+    }
+
+    type record of integer RoI;
+
+    type set of integer SoI;
+
+    type union U {
+        integer a
+    }
+
+    type component C {}
+
+    function f_inc(inout integer p_i) {
+        p_i := p_i + 1;
+    }
+
+    function f_set(out template integer p_t) {
+        p_t := (1..5);
+    }
+
+    testcase TC() runs on C {
+        var R v_r := { a := 1 };
+        var S v_s := { a := 1 };
+        var RoI v_roi := { 1 };
+        var SoI v_soi := { 1 };
+        var U v_u := { a := 1 };
+        var template R v_tr := { a := 1 };
+        f_inc(v_r.a);
+        f_inc(v_s.a);
+        f_inc(v_roi[0]);
+        f_inc(v_soi[0]);
+        f_inc(v_u.a);
+        f_set(v_tr.a);
+        if (v_r.a == 2 and v_s.a == 2 and v_roi[0] == 2 and v_soi[0] == 2 and v_u.a == 2
+            and match(3, v_tr.a) and not match(6, v_tr.a)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

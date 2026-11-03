@@ -1,0 +1,20 @@
+// @requirement: 22.3.6 -- No further matching criteria (including a from part) and no assignment part is allowed for a catch operation that handles a timeout exception.
+// @id: TTCN3-CORE-22.3.6-049b
+// @verdict: pass reject
+module M_22_03_06_the_catch_operation_044 {
+
+    signature S() exception (integer);
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    function f_call() runs on C {
+        var C v_sender;
+        p.call(S:{}, 1.0) {
+            [] p.catch(timeout) -> sender v_sender {} // error: redirection in timeout catch
+        }
+    }
+}

@@ -1,0 +1,27 @@
+// @requirement: 18 -- The specification of an empty statement block, i.e. {}, may be found in compound statements, e.g. a branch in an alt statement, and implies that no actions are taken.
+// @id: TTCN3-CORE-18-011b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_18_overview_of_program_statements_and_operations_005 {
+
+    type component C {
+        timer T;
+        var integer v_x := 0;
+    }
+
+    testcase TC() runs on C {
+        T.start(0.1);
+        alt {
+            [] T.timeout {}
+        }
+        for (var integer i := 0; i < 3; i := i + 1) {}
+        if (v_x == 0 and getverdict == none) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,22 @@
+// @requirement: 15.6.1 -- h) If the right hand side of the assignment described in point e), f) and g) contains a pattern with more than one item, this pattern shall be implicitly converted into a single group metacharacter (by enclosing it to parentheses) before the assignment.
+// @id: TTCN3-CORE-15.6.1-034a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_06_01_referencing_individual_string_elements_033 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template charstring v_pat := pattern "a?c";
+        v_pat[1] := pattern "x|y";
+        if (match("axc", v_pat) and match("ayc", v_pat) and not match("ax", v_pat)
+            and not match("yc", v_pat)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,26 @@
+// @requirement: 16.2.0 -- The rules for formal parameter lists shall be followed as defined in clause 5.4.
+// @id: TTCN3-CORE-16.2.0-030a
+// @verdict: pass reject
+module M_16_02_00_general_028 {
+
+    type component C {
+        timer T_guard := 0.1;
+    }
+
+    altstep a_step(out integer p_x := 1) runs on C { // error: default value for an out parameter
+        [] T_guard.timeout {
+            p_x := 2;
+        }
+    }
+
+    testcase TC() runs on C {
+        var integer v_x;
+        T_guard.start;
+        a_step(v_x);
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

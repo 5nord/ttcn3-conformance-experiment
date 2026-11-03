@@ -1,0 +1,27 @@
+// @requirement: 11.0 -- If the assignment was made on a lower scope than the evaluation, saving the lexical environment extends lifetime of the referenced variables defined on that lower scope.
+// @id: TTCN3-CORE-11.0-016a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_11_00_general_016 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var @lazy integer v_lazy := 1;
+        var integer v_var;
+        for (var integer i := 0; i < 1; i := i + 1) {
+            var integer v_local := 5;
+            v_lazy := v_local * 2;
+            v_local := 7;
+        }
+        v_var := v_lazy;
+        if (v_var == 14) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

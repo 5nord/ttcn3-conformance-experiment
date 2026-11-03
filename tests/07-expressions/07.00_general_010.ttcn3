@@ -1,0 +1,17 @@
+// @requirement: 7.0 -- a) At the point, when an expression is evaluated, the evaluated values of the operands used in expressions shall be completely initialized except where explicitly stated otherwise in the specific clause of the operator.
+// @id: TTCN3-CORE-7.0-010a
+// @verdict: pass accept, ttcn3verdict:error
+module M_07_00_general_010 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_a;
+        var integer v_b := v_a + 1; // operand uninitialized: error
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

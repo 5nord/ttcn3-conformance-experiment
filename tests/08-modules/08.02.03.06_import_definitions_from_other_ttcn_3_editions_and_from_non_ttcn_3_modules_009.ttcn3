@@ -1,0 +1,20 @@
+// @requirement: 8.2.3.6 -- To make declarations of versioned or foreign element visible in TTCN-3 modules, their names shall be imported just like definitions in other TTCN-3 modules of the given edition.
+// @id: TTCN3-CORE-8.2.3.6-018a
+// @verdict: pass reject
+module M_08_02_03_06_import_definitions_from_other_ttcn_3_editions_and_from_non_ttcn_3_modules_009 language "TTCN-3:2023" {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyInt v_i := 1; // error: MyInt of the versioned module is not imported
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_03_06_import_definitions_from_other_ttcn_3_editions_and_from_non_ttcn_3_modules_009_A language "TTCN-3:2010" {
+    type integer MyInt;
+}

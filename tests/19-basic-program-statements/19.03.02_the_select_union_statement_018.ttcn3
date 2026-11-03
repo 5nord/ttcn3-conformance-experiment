@@ -1,0 +1,28 @@
+// @requirement: 19.3.2 -- c) No two cases in a select union statement shall have the same case Identifier or TypeIdentifier.
+// @id: TTCN3-CORE-19.3.2-018a
+// @verdict: pass reject
+module M_19_03_02_the_select_union_statement_018 {
+
+    type component C {}
+
+    type union U {
+        integer a,
+        boolean b
+    }
+
+    testcase TC() runs on C {
+        var U v_u := { a := 1 };
+        select union (v_u) {
+            case (a) {
+                setverdict(pass);
+            }
+            case (b, a) { // error: alternative a is already used in a previous case
+                setverdict(fail);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

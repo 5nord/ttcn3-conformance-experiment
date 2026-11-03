@@ -1,0 +1,23 @@
+// @requirement: 6.2.10.1 -- If not stated otherwise, ports have the same semantics as constants of a port type.
+// @id: TTCN3-CORE-6.2.10.1-004a
+// @verdict: pass reject
+module M_06_02_10_01_component_type_definition_003 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p1;
+        port P p2;
+    }
+
+    testcase TC() runs on C {
+        p1 := p2; // error: a port behaves like a constant and cannot be assigned
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

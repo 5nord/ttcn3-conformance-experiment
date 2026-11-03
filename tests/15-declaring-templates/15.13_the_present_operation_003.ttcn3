@@ -1,0 +1,25 @@
+// @requirement: 15.13 -- Any other situation shall cause an error.
+// @id: TTCN3-CORE-15.13-005a
+// @verdict: pass accept, ttcn3verdict:error
+module M_15_13_the_present_operation_003 {
+
+    type record R {
+        integer a,
+        boolean b optional
+    }
+
+    type component C {}
+
+    function f_present(template R p_t) return template(present) R {
+        return present(p_t); // error: operand is omit
+    }
+
+    testcase TC() runs on C {
+        var template(present) R v_res := f_present(omit);
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

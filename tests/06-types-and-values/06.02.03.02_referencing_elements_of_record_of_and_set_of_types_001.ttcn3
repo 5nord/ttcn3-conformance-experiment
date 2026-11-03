@@ -1,0 +1,29 @@
+// @requirement: 6.2.3.2 -- It is also allowed to reference the inner type of record of and set of types by using the index notation but with a dash.
+// @id: TTCN3-CORE-6.2.3.2-001a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_03_02_referencing_elements_of_record_of_and_set_of_types_001 {
+
+    type component C {}
+
+    type record of integer MyRecordOfInt;
+    type set of boolean MySetOfBool;
+
+    type MyRecordOfInt[-] MyInteger;
+    const MyRecordOfInt[-] c_int := 5;
+    const MySetOfBool[-] c_bool := true;
+
+    testcase TC() runs on C {
+        var MyInteger v_i := c_int;
+        var MyRecordOfInt v_ro := { v_i };
+        var MySetOfBool v_so := { c_bool };
+        if (v_ro[0] == 5 and v_so[0]) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,30 @@
+// @requirement: 21.3.7 -- The done operation allows behaviour executing on a test component to ascertain whether the behaviour running on a different test component has completed.
+// @id: TTCN3-CORE-21.3.7-001a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_03_07_the_done_operation_001 {
+
+    type component C {}
+
+    function f_ptc() runs on C {
+        setverdict(pass);
+    }
+
+    testcase TC() runs on C {
+        timer T := 1.0;
+        var C v_ptc := C.create;
+        v_ptc.start(f_ptc());
+        T.start;
+        alt {
+            [] v_ptc.done {
+                setverdict(pass);
+            }
+            [] T.timeout {
+                setverdict(fail);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

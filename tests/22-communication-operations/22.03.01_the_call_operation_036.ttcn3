@@ -1,0 +1,24 @@
+// @requirement: 22.3.1 -- The type definition of the port shall include the name of the procedure to which the call operation belongs in its out or inout list i.e. it shall be allowed to call this procedure at this port.
+// @id: TTCN3-CORE-22.3.1-049a
+// @verdict: pass reject
+module M_22_03_01_the_call_operation_036 {
+
+    signature S(in integer p_x) noblock;
+
+    type port P procedure { in S }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        p.call(S:{1}); // error: S is only in the in list of the port type
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

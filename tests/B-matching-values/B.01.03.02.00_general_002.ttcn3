@@ -1,0 +1,25 @@
+// @requirement: B.1.3.2.0 -- The "*" symbol matches the longest sequence of elements possible, according to the pattern as specified by the symbols surrounding the "*".
+// @id: TTCN3-CORE-B.1.3.2.0-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_03_02_00_general_002 {
+
+    type record of integer RoI;
+
+    type component C {}
+
+    template RoI mw_roi := {*, 3};
+    template bitstring mw_bits := '1*1'B;
+
+    testcase TC() runs on C {
+        if (match({3, 3, 3}, mw_roi) and match({1, 3, 2, 3}, mw_roi) and
+            match('10101'B, mw_bits) and match('111'B, mw_bits)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

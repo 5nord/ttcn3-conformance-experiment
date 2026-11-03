@@ -1,0 +1,23 @@
+// @requirement: 15.11 -- When producing the pattern, the templates are first transformed to a character string according to table 14.
+// @id: TTCN3-CORE-15.11-013a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_11_concatenating_templates_of_string_and_list_types_018 {
+
+    template charstring mw_t1 := "A" & ? length(2 .. 3) & "B";
+    template charstring mw_t2 := "A" & * length(1 .. infinity) & "B";
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (match("AxxB", mw_t1) and match("AxxxB", mw_t1) and not match("AxB", mw_t1) and
+            not match("AxxxxB", mw_t1) and match("AxB", mw_t2) and not match("AB", mw_t2)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

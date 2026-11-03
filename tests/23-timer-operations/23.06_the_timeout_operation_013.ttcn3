@@ -1,0 +1,19 @@
+// @requirement: 23.6 -- a) The timeout operation does not return any value and therefore shall not be used in an expression.
+// @id: TTCN3-CORE-23.6-015b
+// @verdict: pass reject
+module M_23_06_the_timeout_operation_013 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        timer T := 0.01;
+        var boolean v_b;
+        T.start;
+        v_b := T.timeout; // error: timeout used in an expression
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

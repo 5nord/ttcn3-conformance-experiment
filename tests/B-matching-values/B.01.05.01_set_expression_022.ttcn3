@@ -1,0 +1,24 @@
+// @requirement: B.1.5.1 -- "\N{reference}".
+// @id: TTCN3-CORE-B.1.5.1-027a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_05_01_set_expression_022 {
+
+    type component C {}
+
+    type charstring Digits ("0".."9");
+
+    template charstring mw_set := pattern "[x\N{Digits}]";
+
+    testcase TC() runs on C {
+        if (match("5", mw_set) and match("x", mw_set)
+            and not match("N", mw_set) and not match("a", mw_set)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

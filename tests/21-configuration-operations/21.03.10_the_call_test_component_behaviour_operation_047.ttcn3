@@ -1,0 +1,20 @@
+// @requirement: 21.3.10 -- e) The optional SimpleExpression representing the timer value shall be of a float type.
+// @id: TTCN3-CORE-21.3.10-032a
+// @verdict: pass reject
+module M_21_03_10_the_call_test_component_behaviour_operation_047 {
+
+    type component C {}
+
+    function f_behaviour() runs on C {
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        v_ptc.call(f_behaviour(), 1); // error: timeout duration of type integer instead of float
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

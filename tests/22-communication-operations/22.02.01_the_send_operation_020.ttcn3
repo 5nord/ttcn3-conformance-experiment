@@ -1,0 +1,27 @@
+// @requirement: 22.2.1 -- h) _TemplateInstance shall be of a data type._
+// @id: TTCN3-CORE-22.2.1-029a
+// @verdict: pass reject
+module M_22_02_01_the_send_operation_020 {
+
+    type class MyClass {
+        var integer v_a := 1;
+    }
+
+    type port P message { inout integer }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        var MyClass v_obj := MyClass.create();
+        connect(mtc:p, v_ptc:p);
+        p.send(v_obj); // error: object reference is not of a data type
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

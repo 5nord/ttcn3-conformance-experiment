@@ -1,0 +1,24 @@
+// @requirement: 22.3.1 -- Using the keyword nowait instead of a timeout exception value in a call operation allows calling a procedure to continue without waiting either for a response or an exception raised by the called procedure or a timeout exception.
+// @id: TTCN3-CORE-22.3.1-028a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_03_01_the_call_operation_017 {
+
+    signature S(in integer p_x) return integer;
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        p.call(S:{1}, nowait); // the PTC never answers
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

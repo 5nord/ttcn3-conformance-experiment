@@ -1,0 +1,28 @@
+// @requirement: 15.6.1 -- f) A pattern containing a single ? metacharacter with the ifpresent matching attribute attached to it if the referenced template is of a character string type and contains the AnyValueOrNone matching mechanism.
+// @id: TTCN3-CORE-15.6.1-016a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_06_01_referencing_individual_string_elements_016 {
+
+    type component C {}
+
+    type record R {
+        charstring f optional
+    }
+
+    const R c_omit := { f := omit };
+
+    testcase TC() runs on C {
+        var template charstring v_char := *, v_e;
+        v_e := v_char[0];
+        var template R v_r := { f := v_e };
+        if (match("a", v_e) and not match("ab", v_e) and match(c_omit, v_r)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

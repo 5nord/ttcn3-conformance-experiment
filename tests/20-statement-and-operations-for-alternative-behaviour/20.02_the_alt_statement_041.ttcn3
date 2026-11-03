@@ -1,0 +1,37 @@
+// @requirement: 20.2 -- NOTE 5: It is allowed to use a repeat statement within an else branch.
+// @id: TTCN3-CORE-20.2-059a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_02_the_alt_statement_041 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        var integer v_count := 0;
+        alt {
+            [] p.receive {
+                setverdict(fail);
+            }
+            [else] {
+                v_count := v_count + 1;
+                if (v_count < 3) {
+                    repeat;
+                }
+            }
+        }
+        if (v_count == 3) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

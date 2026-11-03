@@ -1,0 +1,32 @@
+// @requirement: 21.3.7 -- NOTE 2: The difference between the done operation applied to a single ptc and the usage of the all keyword leads to the situation that ptc.done does not match if the ptc has never been started but all component.done matches at the same time as it considers only those components that ever have been started.
+// @id: TTCN3-CORE-21.3.7-016a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_03_07_the_done_operation_018 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        alt {
+            [] v_ptc.done {
+                setverdict(fail);
+            }
+            [else] {
+                setverdict(pass);
+            }
+        }
+        alt {
+            [] all component.done {
+                setverdict(pass);
+            }
+            [else] {
+                setverdict(fail);
+            }
+        }
+        v_ptc.kill;
+    }
+
+    control {
+        execute(TC());
+    }
+}

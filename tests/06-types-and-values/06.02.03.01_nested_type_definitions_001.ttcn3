@@ -1,0 +1,24 @@
+// @requirement: 6.2.3.1 -- TTCN-3 supports the definition of the aggregated type nested with the record `of or set` `of definition.
+// @id: TTCN3-CORE-6.2.3.1-001a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_03_01_nested_type_definitions_001 {
+
+    type component C {}
+
+    type record of enumerated { red, green, blue } ColorList;
+    type set of record { charstring id, charstring val } GenericParameters;
+
+    testcase TC() runs on C {
+        var ColorList v_colors := { red, blue };
+        var GenericParameters v_params := { { id := "a", val := "b" } };
+        if (v_colors[1] == blue and v_params[0].val == "b") {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

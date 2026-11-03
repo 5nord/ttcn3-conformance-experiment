@@ -1,0 +1,18 @@
+// @requirement: 11.2 -- NOTE 1: String and list type templates can be concatenated, see clause 15.11.
+// @id: TTCN3-CORE-11.2-014a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_11_02_template_variables_014 {
+    type component C {}
+
+    testcase TC() runs on C {
+        var template charstring v_t := "ab" & ?;
+        if (match("abxyz", v_t) and not match("xab", v_t)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }}

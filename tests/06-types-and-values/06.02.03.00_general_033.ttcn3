@@ -1,0 +1,29 @@
+// @requirement: 6.2.3.0 -- Sending a record `of` or set of value with uninitialized elements shall cause an error.
+// @id: TTCN3-CORE-6.2.3.0-032a
+// @verdict: pass accept, ttcn3verdict:error
+module M_06_02_03_00_general_033 {
+
+    type record of integer MyRecordOf;
+
+    type port P message {
+        inout MyRecordOf
+    }
+
+    type component C {
+        port P p1;
+        port P p2;
+    }
+
+    testcase TC() runs on C {
+        var MyRecordOf v_ro;
+        connect(mtc:p1, mtc:p2);
+        v_ro[2] := 3;
+        setverdict(pass);
+        p1.send(v_ro); // error: elements 0 and 1 are uninitialized
+        setverdict(fail);
+    }
+
+    control {
+        execute(TC());
+    }
+}

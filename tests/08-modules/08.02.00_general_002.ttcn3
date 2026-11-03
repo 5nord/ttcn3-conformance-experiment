@@ -1,0 +1,38 @@
+// @requirement: 8.2.0 -- Every definition can be associated with attributes using the with statement defined in clause 27.
+// @id: TTCN3-CORE-8.2.0-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_02_00_general_002 {
+
+    type record R {
+        integer a,
+        integer b optional
+    } with { display "d" }
+
+    const integer c_value := 1 with { display "d" }
+
+    template R m_r := { a := 1 } with { optional "implicit omit" }
+
+    modulepar integer mp_value := 1 with { display "d" }
+
+    function f_get() return integer {
+        return c_value;
+    } with { display "d" }
+
+    type component C {} with { display "d" }
+
+    testcase TC() runs on C {
+        if (f_get() == mp_value and not ispresent(m_r.b)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    } with { display "d" }
+
+    group g_group {
+        const integer c_other := 2;
+    } with { display "d" }
+
+    control {
+        execute(TC());
+    }
+}

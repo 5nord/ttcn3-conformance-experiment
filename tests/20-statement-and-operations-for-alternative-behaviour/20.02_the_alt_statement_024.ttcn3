@@ -1,0 +1,35 @@
+// @requirement: 20.2 -- The selection causes execution of the specified timeout operation, i.e. removal of the timeout event from the timeout-list, and the execution of the statement block following the timeout operation.
+// @id: TTCN3-CORE-20.2-032a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_02_the_alt_statement_024 {
+    type component C {}
+
+    testcase TC() runs on C {
+        var boolean v_blockExecuted := false;
+        timer T_1 := 0.1;
+        timer T_guard := 0.3;
+        T_1.start;
+        alt {
+            [] T_1.timeout {
+                v_blockExecuted := true;
+            }
+        }
+        T_guard.start;
+        alt {
+            [] T_1.timeout {
+                setverdict(fail);
+            }
+            [] T_guard.timeout {
+                if (v_blockExecuted) {
+                    setverdict(pass);
+                } else {
+                    setverdict(fail);
+                }
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

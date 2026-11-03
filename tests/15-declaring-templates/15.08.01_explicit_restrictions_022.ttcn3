@@ -1,0 +1,33 @@
+// @requirement: 15.8.1 -- Used with template restriction: omit; Value: Yes; Instead of values: Yes
+// @id: TTCN3-CORE-15.8.1-038b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_08_01_explicit_restrictions_022 {
+    type record R {
+        integer a,
+        boolean b optional
+    }
+
+    type record Outer {
+        R r optional
+    }
+
+    template(omit) R m_r := {a := 1, b := omit};
+    template(omit) R m_omit := omit;
+    template Outer m_outer := {r := m_omit};
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var R v_r := {a := 1, b := omit};
+        var Outer v_outer := {r := omit};
+        if (match(v_r, m_r) and match(v_outer, m_outer)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

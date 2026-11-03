@@ -1,0 +1,20 @@
+// @requirement: B.1.5.6 -- For example, at positions where the pattern matches the character đ (latin small letter d with stroke), also its counterpart Đ (latin capital letter d with stroke) shall be accepted, but the similarly looking graphical characters Ð (latin capital letter eth) and Ɖ (latin capital letter african d) shall not.
+// @id: TTCN3-CORE-B.1.5.6-002b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_05_06_case_insensitive_pattern_matching_005 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        template universal charstring m_p := pattern @nocase "\q{0, 0, 1, 17}";
+        if (not match(char(0, 0, 0, 208), m_p) and not match(char(0, 0, 1, 137), m_p)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

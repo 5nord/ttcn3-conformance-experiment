@@ -1,0 +1,24 @@
+// @requirement: 7.1.8.2 -- NOTE: Note that in case of anytype-s, no type compatibility is considered when determining the selected alternative; i.e. at the evaluation only the exact type chosen for the given value will satisfy the above criteria.
+// @id: TTCN3-CORE-7.1.8.2-010a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_07_01_08_02_the_ischosen_operator_008 {
+
+    type integer MyInt;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var anytype v_a := { MyInt := 5 };
+        if (ischosen(v_a.MyInt) and not ischosen(v_a.integer)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+} with {
+    extension "anytype integer, MyInt"
+}

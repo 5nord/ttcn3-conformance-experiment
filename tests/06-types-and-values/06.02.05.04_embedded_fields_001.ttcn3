@@ -1,0 +1,30 @@
+// @requirement: 6.2.5.4 -- Embedded Fields with the union definition are similar to the mechanism for record types described in clause 6.2.1.4.
+// @id: TTCN3-CORE-6.2.5.4-001a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_05_04_embedded_fields_001 {
+
+    type record Point {
+        integer x,
+        integer y
+    }
+
+    type union U {
+        Point,
+        charstring color
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var U v_u := { Point := { x := 4, y := 8 } };
+        if (ischosen(v_u.Point) and v_u.Point.x == 4 and v_u.Point.y == 8) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

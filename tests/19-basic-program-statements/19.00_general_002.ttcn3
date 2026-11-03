@@ -1,0 +1,33 @@
+// @requirement: 19.0 -- Statement: Accept procedure call from remote entity; Associated keyword or symbol: getcall; Can be invoked by test behaviour: Yes
+// @id: TTCN3-CORE-19.0-002b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_00_general_002 {
+
+    signature S();
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    function f_caller() runs on C {
+        p.call(S:{}, nowait);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        timer T := 1.0;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_caller());
+        T.start;
+        alt {
+            [] p.getcall(S:{}) { setverdict(pass); }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

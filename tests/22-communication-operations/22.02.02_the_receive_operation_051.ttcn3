@@ -1,0 +1,21 @@
+// @requirement: 22.2.2 -- d) A message received by receive any message shall not be stored, i.e. the value clause shall not be present.
+// @id: TTCN3-CORE-22.2.2-059a
+// @verdict: pass reject
+module M_22_02_02_the_receive_operation_051 {
+
+    type port P message { inout integer }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        var integer v_x;
+        p.receive -> value v_x; // error: value clause in receive any message
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

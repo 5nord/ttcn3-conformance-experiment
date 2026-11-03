@@ -1,0 +1,19 @@
+// @requirement: 19.4.2 -- The range _expression shall evaluate to a value with root type record of, set of, array, octetstring, hexstring, bitstring,_ **charstring or universal charstring.**
+// @id: TTCN3-CORE-19.4.2-004a
+// @verdict: pass reject
+module M_19_04_02_the_range_based_loop_004 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_range := 5;
+        for (var integer x in v_range) { // error: range expression of type integer
+            log(x);
+        }
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

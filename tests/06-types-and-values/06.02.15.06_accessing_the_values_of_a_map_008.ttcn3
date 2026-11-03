@@ -1,0 +1,22 @@
+// @requirement: 6.2.15.6 -- Since the length of the map value is equal to number of key value pairs in the map value and there is precisely one item for each key value pair in the set of values, the length of the set of values is equal to the length of map value.
+// @id: TTCN3-CORE-6.2.15.6-008a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_15_06_accessing_the_values_of_a_map_008 {
+
+    type map from charstring to integer MapType;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MapType v_map := { ["a"] := 1, ["b"] := 1, ["c"] := 2 };
+        if (lengthof(v_map.to) == lengthof(v_map) and lengthof(v_map) == 3) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

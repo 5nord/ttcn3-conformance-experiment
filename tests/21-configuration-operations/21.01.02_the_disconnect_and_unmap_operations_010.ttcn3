@@ -1,0 +1,30 @@
+// @requirement: 21.1.2 -- The all port keyword can be used to denote all ports of a component.
+// @id: TTCN3-CORE-21.1.2-008a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_01_02_the_disconnect_and_unmap_operations_010 {
+
+    type port P message { inout integer; }
+
+    type component C { port P p1, p2; }
+
+    testcase TC() runs on C system C {
+        var C v_ptc := C.create;
+        connect(self:p1, v_ptc:p1);
+        connect(self:p2, v_ptc:p2);
+        disconnect(self:all port);
+        if (p1.checkstate("Connected") or p2.checkstate("Connected")) {
+            setverdict(fail, "disconnect(self:all port) failed");
+        }
+        map(self:p1, system:p1);
+        map(self:p2, system:p2);
+        unmap(self:all port);
+        if (p1.checkstate("Mapped") or p2.checkstate("Mapped")) {
+            setverdict(fail, "unmap(self:all port) failed");
+        }
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

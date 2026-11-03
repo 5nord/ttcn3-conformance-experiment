@@ -1,0 +1,42 @@
+// @requirement: 8.2.3.7 -- For example, if module B imports the import statements of module A, everything that is imported by A using import statements visible for module B, is also imported by B. If another module C imports all import statements from B, then C imports all what A is importing - provided that the import statements are visible to modules B and C.
+// @id: TTCN3-CORE-8.2.3.7-005b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_02_03_07_importing_of_import_statements_from_ttcn_3_modules_005 {
+
+    import from M_08_02_03_07_importing_of_import_statements_from_ttcn_3_modules_005_B {
+        import all
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var T1 v_i := c_x;
+        if (v_i == 1) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_03_07_importing_of_import_statements_from_ttcn_3_modules_005_X {
+    type integer T1;
+    const T1 c_x := 1;
+}
+
+module M_08_02_03_07_importing_of_import_statements_from_ttcn_3_modules_005_A {
+    public import from M_08_02_03_07_importing_of_import_statements_from_ttcn_3_modules_005_X {
+        type T1;
+        const c_x
+    }
+}
+
+module M_08_02_03_07_importing_of_import_statements_from_ttcn_3_modules_005_B {
+    public import from M_08_02_03_07_importing_of_import_statements_from_ttcn_3_modules_005_A {
+        import all
+    }
+}

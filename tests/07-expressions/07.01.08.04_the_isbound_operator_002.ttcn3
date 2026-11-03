@@ -1,0 +1,27 @@
+// @requirement: 7.1.8.4 -- The isbound operator yields true, if the operand is at least partially initialized.
+// @id: TTCN3-CORE-7.1.8.4-003a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_07_01_08_04_the_isbound_operator_002 {
+
+    type component C {}
+
+    type record R {
+        integer f1,
+        integer f2
+    }
+
+    testcase TC() runs on C {
+        var R v_rec;
+        var template charstring v_char := pattern "AB?D";
+        v_rec.f1 := 5;
+        if (isbound(v_rec) and isbound(v_char)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

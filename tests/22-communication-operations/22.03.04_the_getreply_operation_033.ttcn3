@@ -1,0 +1,58 @@
+// @requirement: 22.3.4 -- The first port which matches all the criteria will cause the operation to be successful even if other ports in the array would also meet the criteria.
+// @id: TTCN3-CORE-22.3.4-035a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_03_04_the_getreply_operation_033 {
+
+    signature S() return integer;
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p[3];
+    }
+
+    function f_server() runs on C {
+        for (var integer i := 0; i < 3; i := i + 1) {
+            p[i].getcall(S:{});
+            if (i == 0) {
+                p[i].reply(S:{} value 0);
+            } else {
+                p[i].reply(S:{} value 1);
+            }
+        }
+    }
+
+    testcase TC() runs on C system C {
+        var C v_ptc := C.create;
+        var integer v_i;
+        timer T := 1.0;
+        for (var integer i := 0; i < 3; i := i + 1) {
+            connect(self:p[i], v_ptc:p[i]);
+        }
+        v_ptc.start(f_server());
+        for (var integer i := 0; i < 3; i := i + 1) {
+            p[i].call(S:{}, nowait);
+        }
+        T.start;
+        for (var integer i := 0; i < 3; i := i + 1) {
+            alt {
+                [] p[i].check(getreply) {}
+                [] T.timeout { setverdict(fail); stop; }
+            }
+        }
+        alt {
+            [] any from p.getreply(S:{} value 1) -> @index value v_i {
+                if (v_i != 1) { setverdict(fail); stop; }
+            }
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        alt {
+            [] p[2].check(getreply(S:{} value 1)) { setverdict(pass); }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

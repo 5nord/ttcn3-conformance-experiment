@@ -1,0 +1,39 @@
+// @requirement: 23.1 -- The running-timers list and timeout-list are updated if a timer of the component is started, is stopped, times out or the component executes a timeout operation.
+// @id: TTCN3-CORE-23.1-003a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_23_01_the_timer_mechanism_002 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        timer T;
+        timer T_wait := 0.3;
+        T.start(1.0);
+        if (not T.running) {
+            setverdict(fail, "start did not update running-timer list");
+        }
+        T.stop;
+        if (T.running) {
+            setverdict(fail, "stop did not update running-timer list");
+        }
+        T.start(0.05);
+        T_wait.start;
+        T_wait.timeout;
+        if (T.running) {
+            setverdict(fail, "expiry did not update running-timer list");
+        }
+        T.timeout;
+        alt {
+            [] T.timeout {
+                setverdict(fail, "timeout operation did not update timeout-list");
+            }
+            [else] {
+                setverdict(pass);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

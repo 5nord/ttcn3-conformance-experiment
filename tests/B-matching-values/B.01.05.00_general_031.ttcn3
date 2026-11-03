@@ -1,0 +1,26 @@
+// @requirement: B.1.5.0 -- Metacharacter: ( ); Indexing: Including the content; Description: Used to group an expression
+// @id: TTCN3-CORE-B.1.5.0-034a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_05_00_general_031 {
+
+    type component C {}
+
+    template charstring mw_repeat := pattern "x(ab)#2";
+    template charstring mw_alt := pattern "x(a|b)y";
+
+    testcase TC() runs on C {
+        if (match("xabab", mw_repeat) and
+            not match("xabb", mw_repeat) and
+            match("xay", mw_alt) and
+            match("xby", mw_alt) and
+            not match("xa", mw_alt)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

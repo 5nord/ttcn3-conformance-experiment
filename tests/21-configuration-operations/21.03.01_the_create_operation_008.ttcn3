@@ -1,0 +1,29 @@
+// @requirement: 21.3.1 -- All component variables and timers are reset to their initial value (if any) and all component constants are reset to their assigned values when the component is explicitly or implicitly created.
+// @id: TTCN3-CORE-21.3.1-007b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_03_01_the_create_operation_008 {
+
+    type component C {
+        const integer c_x := 3;
+        const charstring c_s := "abc";
+    }
+
+    function f_check() runs on C {
+        if (c_x == 3 and c_s == "abc") {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        f_check();
+        v_ptc.start(f_check());
+        v_ptc.done;
+    }
+
+    control {
+        execute(TC());
+    }
+}

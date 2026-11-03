@@ -1,0 +1,31 @@
+// @requirement: 8.2.3.1 -- In particular, importing an enumerated type does not impose the restriction given in clause 6.2.4 on global names defined in the importing module.
+// @id: TTCN3-CORE-8.2.3.1-088a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_02_03_01_general_format_of_import_053 {
+
+    import from M_08_02_03_01_general_format_of_import_053_A {
+        type MyEnum
+    }
+
+    const integer e_first := 5;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyEnum v_enum := e_first;
+        var integer v_int := e_first;
+        if (v_int == 5 and v_enum != e_second) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_03_01_general_format_of_import_053_A {
+    type enumerated MyEnum { e_first, e_second }
+}

@@ -1,0 +1,19 @@
+// @requirement: 15.8.2 -- Referenced field, alternative or element: Mandatory field of a record or set, alternative of an union or anytype, element of a record of, set of, array, map or parameters of a signature template; Restriction of the parent template, field, alternative or element: template (value); Col3: template (value); Col4: template (present); Col5: template (present)
+// @id: TTCN3-CORE-15.8.2-011a
+// @verdict: pass reject
+module M_15_08_02_implicit_restrictions_for_template_fields_alternatives_and_elements_010 {
+
+    type record of integer RoI;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template(omit) RoI v_t := { 1, 2 };
+        v_t[0] := ?; // error: element has implicit template(value) restriction
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

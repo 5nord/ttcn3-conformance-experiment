@@ -1,0 +1,20 @@
+// @requirement: A.1.6.6 -- For universal charstring a character from any character set defined in ISO/IEC 10646.
+// @id: TTCN3-CORE-A.1.6.6-003b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_A_01_06_06_value_005 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var universal charstring v_s := "aä€";
+        if (lengthof(v_s) == 3 and unichar2int(v_s[1]) == 228 and unichar2int(v_s[2]) == 8364) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

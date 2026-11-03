@@ -1,0 +1,32 @@
+// @requirement: 15.5 -- When the field to be modified is nested within a template field which is a structured field itself, no other field of the structured field is changed apart from the explicitly denoted one(s).
+// @id: TTCN3-CORE-15.5-016a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_05_modified_templates_013 {
+
+    type record Inner {
+        integer a,
+        integer b
+    }
+
+    type record Outer {
+        Inner g,
+        integer x
+    }
+
+    template Outer m_o1 := { g := { a := 1, b := 2 }, x := 3 };
+    template Outer m_o2 modifies m_o1 := { g := { a := 42 } };
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (valueof(m_o2) == { g := { a := 42, b := 2 }, x := 3 }) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,27 @@
+// @requirement: 6.2.1.0 -- Fields to be left unchanged, but followed by fields to which a value or template is assigned explicitly, shall be skipped by using the not used symbol "-".
+// @id: TTCN3-CORE-6.2.1.0-038a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_01_00_general_028 {
+
+    type component C {}
+
+    type record R {
+        integer f1,
+        integer f2 optional,
+        integer f3
+    }
+
+    testcase TC() runs on C {
+        var R v_r := { 1, 2, 3 };
+        v_r := { -, -, 5 };
+        if (v_r == { f1 := 1, f2 := 2, f3 := 5 }) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

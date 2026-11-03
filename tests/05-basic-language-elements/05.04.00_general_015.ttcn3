@@ -1,0 +1,59 @@
+// @requirement: 5.4.0 -- **function** Value and template Dynamic at runtime all basic types, all user-defined types, address parameterization type, component type, port type, default, template and timer.
+// @id: TTCN3-CORE-5.4.0-009c
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_04_00_general_015 {
+
+    type integer address;
+
+    type record R {
+        integer f_a
+    }
+
+    type port P message {
+        inout integer
+    }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    altstep a_dummy() {
+        [] any timer.timeout {}
+    }
+
+    function f_all(
+        boolean p_bool,
+        R p_rec,
+        address p_addr,
+        C p_comp,
+        P p_port,
+        default p_def,
+        template integer p_tmpl,
+        timer p_timer
+    ) return boolean {
+        p_timer.start;
+        p_port.send(p_rec.f_a);
+        alt {
+            [] p_port.receive(p_tmpl) {}
+            [] p_timer.timeout {
+                return false;
+            }
+        }
+        return p_bool and p_addr == 3 and p_comp == self and p_def != null;
+    }
+
+    testcase TC() runs on C {
+        var default v_def := activate(a_dummy());
+        connect(self:p, self:p);
+        if (f_all(true, { f_a := 1 }, 3, self, p, v_def, 1, T)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

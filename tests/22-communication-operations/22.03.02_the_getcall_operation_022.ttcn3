@@ -1,0 +1,38 @@
+// @requirement: 22.3.2 -- A getcall operation with no argument list for the signature matching criteria will remove the call on the top of the incoming port queue (if any) if all other matching criteria are fulfilled.
+// @id: TTCN3-CORE-22.3.2-025a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_03_02_the_getcall_operation_022 {
+
+    signature S(in integer p_x) noblock;
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    altstep a_guard() runs on C {
+        [] T.timeout { setverdict(fail); stop; }
+    }
+
+    function f_client() runs on C {
+        p.call(S:{1});
+        p.call(S:{2});
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_client());
+        activate(a_guard());
+        T.start;
+        p.getcall;
+        p.getcall(S:{2}); // matches only if the first call was removed
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

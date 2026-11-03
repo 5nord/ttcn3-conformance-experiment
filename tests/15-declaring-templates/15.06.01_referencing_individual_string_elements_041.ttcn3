@@ -1,0 +1,17 @@
+// @requirement: 15.6.1 -- If the referenced template (on the left hand side or right hand side) contains any other matching symbol than those listed above, such as Omit, template list or a complemented template list.
+// @id: TTCN3-CORE-15.6.1-042a
+// @verdict: pass accept, ttcn3verdict:error
+module M_15_06_01_referencing_individual_string_elements_041 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template charstring v_char := ("ab", "cd"), v_e;
+        v_e := v_char[0]; // error: template list cannot be indexed
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

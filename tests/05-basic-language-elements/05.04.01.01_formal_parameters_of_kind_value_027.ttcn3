@@ -1,0 +1,20 @@
+// @requirement: 5.4.1.1 -- The expression may be any expression that is well-defined at the beginning of the scope of the parameterized entity, but shall not refer to other parameters of the same parameter list.
+// @id: TTCN3-CORE-5.4.1.1-024b
+// @verdict: pass reject
+module M_05_04_01_01_formal_parameters_of_kind_value_027 {
+    type component C {}
+
+    function f_sum(integer p_a, integer p_b := p_a) return integer { // error: default refers to p_a
+        return p_a + p_b;
+    }
+
+    testcase TC() runs on C {
+        if (f_sum(1, 2) == 3) {
+            setverdict(pass);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,22 @@
+// @requirement: 5.4.1.1 -- g) Default values of port, timer or default type formal parameters shall be the special value null.
+// @id: TTCN3-CORE-5.4.1.1-026a
+// @verdict: pass reject
+module M_05_04_01_01_formal_parameters_of_kind_value_029 {
+    type component C {
+        timer T;
+    }
+
+    function f_check(timer p_timer := T) runs on C return boolean { // error: default is not null
+        return p_timer.running;
+    }
+
+    testcase TC() runs on C {
+        if (not f_check()) {
+            setverdict(pass);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

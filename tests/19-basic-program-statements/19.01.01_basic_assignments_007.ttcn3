@@ -1,0 +1,27 @@
+// @requirement: 19.1.1 -- If the variable being assigned is of a type whose values are object references, only the reference is copied, but the referenced object (e.g. component, timer or port) is not.
+// @id: TTCN3-CORE-19.1.1-007a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_01_01_basic_assignments_007 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        timer T;
+        var timer v_timer;
+        v_timer := T;
+        v_timer.start(5.0);
+        if (T.running) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+        T.stop;
+        if (v_timer.running) {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

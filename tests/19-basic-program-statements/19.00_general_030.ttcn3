@@ -1,0 +1,26 @@
+// @requirement: 19.0 -- Statement: Start timer; Associated keyword or symbol: start; Can be invoked by control behaviour: Yes; Can be invoked by test behaviour: Yes
+// @id: TTCN3-CORE-19.0-012c
+// @verdict: pass reject
+module M_19_00_general_030 {
+
+    type component C {
+        timer T_c;
+    }
+
+    function f_guard() runs on C return boolean {
+        T_c.start(1.0); // error: timer start in function called from an alt guard
+        return true;
+    }
+
+    testcase TC() runs on C {
+        timer T := 0.1;
+        T.start;
+        alt {
+            [f_guard()] T.timeout { setverdict(pass); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

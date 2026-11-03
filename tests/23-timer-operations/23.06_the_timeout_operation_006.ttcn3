@@ -1,0 +1,31 @@
+// @requirement: 23.6 -- In the latter case a timeout operation is considered to be shorthand for an alt statement with the timeout operation as the only alternative.
+// @id: TTCN3-CORE-23.6-007a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_23_06_the_timeout_operation_006 {
+
+    type component C {
+        timer T_short := 0.1;
+        var boolean v_defaultUsed := false;
+    }
+
+    altstep a_default() runs on C {
+        [] T_short.timeout { v_defaultUsed := true; }
+    }
+
+    testcase TC() runs on C {
+        timer T_long := 5.0;
+        T_long.start;
+        T_short.start;
+        activate(a_default());
+        T_long.timeout;
+        if (v_defaultUsed and T_long.running) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

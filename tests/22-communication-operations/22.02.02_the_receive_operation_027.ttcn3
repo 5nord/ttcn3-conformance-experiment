@@ -1,0 +1,44 @@
+// @requirement: 22.2.2 -- Failure of this decoding shall cause a test case error.
+// @id: TTCN3-CORE-22.2.2-030a
+// @verdict: pass accept, ttcn3verdict:error
+module M_22_02_02_the_receive_operation_027 {
+
+    type record Inner {
+        integer x
+    } with {
+        encode "JSON"
+    }
+
+    type record Msg {
+        integer id,
+        octetstring payload
+    }
+
+    type port P message { inout Msg }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    function f_send() runs on C {
+        p.send(Msg:{ id := 1, payload := '00FF'O });
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        var Inner v_inner;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_send());
+        setverdict(pass);
+        T.start;
+        alt {
+            [] p.receive(Msg:?) -> value (v_inner := @decoded payload) { } // error: payload cannot be decoded
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

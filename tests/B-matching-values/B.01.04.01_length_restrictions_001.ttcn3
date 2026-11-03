@@ -1,0 +1,36 @@
+// @requirement: B.1.4.1 -- The length restriction attribute is used to restrict the length of string values matching the template or the number of elements in a set `of, record` `of or array structure.`
+// @id: TTCN3-CORE-B.1.4.1-001a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_04_01_length_restrictions_001 {
+
+    type record of integer RoI;
+    type set of integer SoI;
+    type integer A3[3];
+
+    type component C {}
+
+    template charstring mw_str := ? length(2);
+    template RoI mw_roi := ? length(2);
+    template SoI mw_soi := ? length(2);
+    template A3 mw_arr := ? length(3);
+
+    testcase TC() runs on C {
+        var RoI v_roi2 := {1, 2};
+        var RoI v_roi3 := {1, 2, 3};
+        var SoI v_soi2 := {1, 2};
+        var SoI v_soi1 := {1};
+        var A3 v_arr := {1, 2, 3};
+        if (match("ab", mw_str) and not match("abc", mw_str) and
+            match(v_roi2, mw_roi) and not match(v_roi3, mw_roi) and
+            match(v_soi2, mw_soi) and not match(v_soi1, mw_soi) and
+            match(v_arr, mw_arr)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,26 @@
+// @requirement: 15.0 -- c) they allow matching mechanisms;
+// @id: TTCN3-CORE-15.0-006a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_00_general_003 {
+
+    type record R { integer i, charstring c, boolean b optional }
+
+    type component C {}
+
+    template R mw_r := { i := (1 .. 10), c := pattern "ab*", b := * }
+
+    const R c_match := { i := 5, c := "abxyz", b := omit }
+    const R c_noMatch := { i := 11, c := "ab", b := true }
+
+    testcase TC() runs on C {
+        if (match(c_match, mw_r) and not match(c_noMatch, mw_r)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

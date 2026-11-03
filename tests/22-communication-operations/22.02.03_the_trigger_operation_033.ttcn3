@@ -1,0 +1,21 @@
+// @requirement: 22.2.3 -- NOTE 3: An error due to a type mismatch may happen if the types in the receive part are not compatible to the types in the assignment part or, if the from clause is missing, but the type of the sender can be determined and it is not type compatible with the type in the sender clause.
+// @id: TTCN3-CORE-22.2.3-037a
+// @verdict: pass reject
+module M_22_02_03_the_trigger_operation_033 {
+
+    type port P message { inout integer }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        var boolean v_b;
+        p.trigger(integer:?) -> value v_b; // error: integer value stored in boolean variable
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

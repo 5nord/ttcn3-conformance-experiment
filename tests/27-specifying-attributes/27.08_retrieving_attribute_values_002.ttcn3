@@ -1,0 +1,34 @@
+// @requirement: 27.8 -- ( Type | TemplateInstance ) "." ( display | encode | variant | extension | optional ) [ "(" Expression ")" ]
+// @id: TTCN3-CORE-27.8-002a
+// @verdict: pass accept, noexecution
+module M_27_08_retrieving_attribute_values_002 {
+
+    type record of universal charstring RUC;
+
+    type record R {
+        integer a,
+        boolean b optional
+    } with {
+        display "R";
+        encode "Codec1";
+        variant "Codec1"."Rule1";
+        extension "Ext1"
+    }
+
+    template R m_r := { a := 1 } with { optional "implicit omit" }
+
+    function f_retrieve() {
+        var R v_r;
+        var universal charstring v_str;
+        var RUC v_list;
+        v_str := R.display;
+        v_list := R.encode;
+        v_list := R.variant;
+        v_list := R.variant("Codec1");
+        v_list := R.extension;
+        v_str := m_r.optional;
+        v_str := v_r.display;
+        v_list := v_r.variant("Codec1");
+    }
+
+}

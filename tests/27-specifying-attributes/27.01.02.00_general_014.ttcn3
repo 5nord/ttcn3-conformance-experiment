@@ -1,0 +1,25 @@
+// @requirement: 27.1.2.0 -- but do not affect the definitions inside them.
+// @id: TTCN3-CORE-27.1.2.0-019b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_27_01_02_00_general_014 {
+
+    type component C {}
+
+    type integer MyIntModule;
+
+    group myGroup {
+        type integer MyIntGroup;
+    } with { display @local "group" }
+
+    testcase TC() runs on C {
+        if (MyIntModule.display == "" and MyIntGroup.display == "") {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+} with { display @local "module" }

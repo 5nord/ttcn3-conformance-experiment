@@ -1,0 +1,22 @@
+// @requirement: 22.2.3 -- l) TemplateInstance shall be of a data type.
+// @id: TTCN3-CORE-22.2.3-047a
+// @verdict: pass reject
+module M_22_02_03_the_trigger_operation_047 {
+
+    signature S(in integer p_x);
+
+    type port P message { inout integer }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        p.trigger(S:{?}); // error: signature template is not of a data type
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

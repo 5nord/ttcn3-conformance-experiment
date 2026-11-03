@@ -1,0 +1,54 @@
+// @requirement: 8.2.3.1 -- TTCN-3 supports the import of the following definitions: module parameters, user defined types, signatures, constants, data templates, signature templates, functions, external functions, altsteps and test cases.
+// @id: TTCN3-CORE-8.2.3.1-003a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_02_03_01_general_format_of_import_003 {
+
+    import from M_08_02_03_01_general_format_of_import_003_A {
+        modulepar mp_value;
+        type MyInt, C;
+        signature S;
+        const c_value;
+        template m_value, s_call;
+        function f_value, fx_value;
+        altstep a_timeout;
+        testcase TC
+    }
+
+    control {
+        execute(TC(mp_value + c_value));
+    }
+}
+
+module M_08_02_03_01_general_format_of_import_003_A {
+
+    modulepar integer mp_value := 1;
+    type integer MyInt;
+    type component C {
+        timer T_guard := 0.1;
+    }
+    signature S(in integer p_x);
+    const MyInt c_value := 2;
+    template MyInt m_value := 3;
+    template S s_call := { p_x := 4 };
+
+    function f_value() return MyInt {
+        return 4;
+    }
+
+    external function fx_value() return MyInt;
+
+    altstep a_timeout() runs on C {
+        [] T_guard.timeout {
+            setverdict(pass);
+        }
+    }
+
+    testcase TC(MyInt p_sum) runs on C {
+        if (p_sum == 3 and match(3, m_value) and f_value() == 4) {
+            T_guard.start;
+            a_timeout();
+        } else {
+            setverdict(fail);
+        }
+    }
+}

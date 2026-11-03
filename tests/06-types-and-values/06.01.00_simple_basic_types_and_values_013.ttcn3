@@ -1,0 +1,25 @@
+// @requirement: 6.1.0 -- Class of type: Basic string types; Keyword: bitstring; Subtype: list, length
+// @id: TTCN3-CORE-6.1.0-013b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_01_00_simple_basic_types_and_values_013 {
+
+    type bitstring BitList ('0'B, '1'B);
+
+    type bitstring BitLength length(4);
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var BitList v_list := '1'B;
+        var BitLength v_len := '1010'B;
+        if (v_list == '1'B and lengthof(v_len) == 4) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

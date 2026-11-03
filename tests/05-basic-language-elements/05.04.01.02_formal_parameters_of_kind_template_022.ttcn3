@@ -1,0 +1,20 @@
+// @requirement: 5.4.1.2 -- g) The dash (don't change) symbol shall be used with formal parameters of modified templates only (see also clause 15.5).
+// @id: TTCN3-CORE-5.4.1.2-022a
+// @verdict: pass reject
+module M_05_04_01_02_formal_parameters_of_kind_template_022 {
+    type component C {}
+
+    function f_match(template integer p_t := -) return boolean { // error: dash outside a modified template
+        return match(1, p_t);
+    }
+
+    testcase TC() runs on C {
+        if (f_match(1)) {
+            setverdict(pass);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,26 @@
+// @requirement: 16.1.0 -- Functions may have a system clause.
+// @id: TTCN3-CORE-16.1.0-013a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_16_01_00_general_014 {
+
+    type component C {}
+
+    type component S {}
+
+    function f_system() runs on C system S return S {
+        var S v_system := system;
+        return v_system;
+    }
+
+    testcase TC() runs on C system S {
+        if (f_system() == system) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

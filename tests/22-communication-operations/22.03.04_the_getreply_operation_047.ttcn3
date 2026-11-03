@@ -1,0 +1,38 @@
+// @requirement: 22.3.4 -- If the operation contains a sender clause but no from clause, the sender shall be type compatible with the variable or parameter referenced in the sender clause.
+// @id: TTCN3-CORE-22.3.4-048a
+// @verdict: pass accept, ttcn3verdict:error
+module M_22_03_04_the_getreply_operation_047 {
+
+    signature S() return integer;
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    type component D {
+        var charstring vc_str;
+        port P px;
+    }
+
+    function f_server() runs on C {
+        p.getcall(S:{});
+        p.reply(S:{} value 1);
+    }
+
+    testcase TC() runs on C system C {
+        var C v_ptc := C.create;
+        var D v_sender;
+        connect(self:p, v_ptc:p);
+        v_ptc.start(f_server());
+        p.call(S:{}, 1.0) {
+            [] p.getreply(S:{} value 1) -> sender v_sender { setverdict(fail); } // error: sender of type C stored in a D variable
+            [] p.catch(timeout) { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,22 @@
+// @requirement: 6.3.8 -- A value "b" of a map type "B" is compatible with a map type "A" if the from type of "A" is compatible with the from type of "B" and the to type of "B" is compatible with the to type of "A".
+// @id: TTCN3-CORE-6.3.8-001b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_03_08_type_compatibility_of_map_types_002 {
+    type map from charstring to universal charstring Map1;
+    type map from universal charstring to charstring Map2;
+    type component C {}
+
+    testcase TC() runs on C {
+        var Map2 v_m2 := { ["key"] := "value" };
+        var Map1 v_m1 := v_m2;
+        if (v_m1["key"] == "value") {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

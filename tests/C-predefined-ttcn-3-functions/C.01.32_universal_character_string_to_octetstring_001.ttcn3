@@ -1,0 +1,23 @@
+// @requirement: C.1.32 -- unichar2oct(in universal charstring invalue, in charstring string_encoding := "UTF-8") return octetstring
+// @id: TTCN3-CORE-C.1.32-001a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_01_32_universal_character_string_to_octetstring_001 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var universal charstring v_in := "AB";
+        var charstring v_enc := "UTF-8";
+        var octetstring v_res1 := unichar2oct(v_in);
+        var octetstring v_res2 := unichar2oct(v_in, v_enc);
+        if (v_res1 == '4142'O and v_res2 == '4142'O) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

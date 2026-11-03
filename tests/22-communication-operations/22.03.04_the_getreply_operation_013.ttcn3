@@ -1,0 +1,43 @@
+// @requirement: 22.3.4 -- The keyword value is used to retrieve return values and the keyword param is used to retrieve the parameter values of a reply.
+// @id: TTCN3-CORE-22.3.4-015b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_03_04_the_getreply_operation_013 {
+
+    signature S(in integer p_x, out integer p_y, inout integer p_z);
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    altstep a_guard() runs on C {
+        [] T.timeout { setverdict(fail); stop; }
+    }
+
+    function f_server() runs on C {
+        p.getcall(S:{?, -, ?});
+        p.reply(S:{-, 2, 3});
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        var integer v_y, v_z;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_server());
+        activate(a_guard());
+        T.start;
+        p.call(S:{1, -, 0}, nowait);
+        p.getreply(S:{-, ?, ?}) -> param(v_z := p_z, v_y := p_y);
+        if (v_y == 2 and v_z == 3) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

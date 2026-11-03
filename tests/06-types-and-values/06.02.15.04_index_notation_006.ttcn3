@@ -1,0 +1,23 @@
+// @requirement: 6.2.15.4 -- Using the index notation on the left hand side of an assignment with a key that already has a value associated with it causes the key to be mapped to the newly assigned value.
+// @id: TTCN3-CORE-6.2.15.4-006a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_15_04_index_notation_006 {
+
+    type map from charstring to charstring MyMap;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyMap v_map := { ["key"] := "old" };
+        v_map["key"] := "new";
+        if (lengthof(v_map) == 1 and v_map["key"] == "new") {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,25 @@
+// @requirement: 8.2.0 -- A definition shall be evaluated latest before the first reference to it.
+// @id: TTCN3-CORE-8.2.0-010a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_02_00_general_006 {
+
+    const integer c_c := c_b + 1;
+    const integer c_b := c_a * 2;
+    const integer c_a := 10;
+
+    template integer m_value := c_c;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (c_c == 21 and match(21, m_value)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

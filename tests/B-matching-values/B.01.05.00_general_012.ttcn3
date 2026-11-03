@@ -1,0 +1,22 @@
+// @requirement: B.1.5.0 -- Metacharacter: \; Indexing: Including the following character; Description: Cause the following metacharacter to be interpreted as a literal (see note 3). When preceding a character without defined metacharacter meaning "\" and the character together match the character following the "\" (see note 4)
+// @id: TTCN3-CORE-B.1.5.0-016b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_05_00_general_012 {
+
+    type component C {}
+
+    template charstring mw_pattern := pattern "a\yb";
+
+    testcase TC() runs on C {
+        if (match("ayb", mw_pattern) and
+            not match("a" & int2char(92) & "yb", mw_pattern)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

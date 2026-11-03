@@ -1,0 +1,28 @@
+// @requirement: 10 -- b) Constant expressions initializing constants, which are used in type and array definitions, shall only contain literals, predefined functions except of rnd (see clause 16.1.2), operators specified in clause 7.1, and other constants obeying the limitations of this clause.
+// @id: TTCN3-CORE-10-018a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_10_declaring_constants_014 {
+
+    type component C {}
+
+    const integer c_base := 2;
+    const integer c_len := lengthof("abc") + c_base * 2 - 3;
+
+    type integer T (0 .. c_len);
+    type integer A[c_base];
+
+    testcase TC() runs on C {
+        var T v_t := c_len;
+        var A v_a := { 1, 2 };
+        var integer v_arr[c_len] := { 1, 2, 3, 4 };
+        if (v_t == 4 and lengthof(v_a) == 2 and lengthof(v_arr) == 4) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

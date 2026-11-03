@@ -1,0 +1,37 @@
+// @requirement: 22.1.1 -- Table 22: Overview of TTCN-3 communication operations: Trigger on message; Col2: trigger; Col3: Yes
+// @id: TTCN3-CORE-22.1.1-011a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_01_01_principles_of_message_based_communication_009 {
+
+    type port P message {
+        inout integer
+    }
+
+    type component C {
+        port P p;
+    }
+
+    function f_send() runs on C {
+        p.send(1);
+    }
+
+    testcase TC() runs on C {
+        timer T := 1.0;
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_send());
+        T.start;
+        alt {
+            [] p.trigger(1) {
+                setverdict(pass);
+            }
+            [] T.timeout {
+                setverdict(fail);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

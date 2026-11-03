@@ -1,0 +1,34 @@
+// @requirement: 15.2 -- At the time of the call operation, all in and inout parameters in the template shall resolve to actual values, no matching mechanisms shall be used in these fields, either directly or indirectly.
+// @id: TTCN3-CORE-15.2-007b
+// @verdict: pass reject
+module M_15_02_declaring_signature_templates_007 {
+
+    signature RemoteProc(in integer Par1, out integer Par2, inout integer Par3) return integer;
+
+    type port P procedure {
+        inout RemoteProc;
+    }
+
+    type component C {
+        port P p1;
+        port P p2;
+    }
+
+    template integer mw_range := (1 .. 5);
+
+    template RemoteProc s_template := {
+        Par1 := mw_range,
+        Par2 := -,
+        Par3 := 3
+    }
+
+    testcase TC() runs on C {
+        connect(self:p1, self:p2);
+        p1.call(s_template, nowait); // error: in parameter Par1 indirectly contains a matching mechanism
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

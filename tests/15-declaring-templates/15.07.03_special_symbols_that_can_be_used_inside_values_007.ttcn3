@@ -1,0 +1,23 @@
+// @requirement: 15.7.3 -- b) All templates or values used in the permutation matching mechanism shall be completely initialized.
+// @id: TTCN3-CORE-15.7.3-011a
+// @verdict: pass accept, ttcn3verdict:error
+module M_15_07_03_special_symbols_that_can_be_used_inside_values_007 {
+
+    type component C {}
+
+    type record of integer RoI;
+
+    testcase TC() runs on C {
+        var RoI v_roi := { 1, 2 };
+        var integer v_unbound;
+        var template RoI v_perm := { permutation(1, v_unbound) }; // error: v_unbound is not initialized
+        if (match(v_roi, v_perm)) {
+            setverdict(fail);
+        }
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

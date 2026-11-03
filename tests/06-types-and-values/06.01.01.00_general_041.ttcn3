@@ -1,0 +1,22 @@
+// @requirement: 6.1.1.0 -- NOTE 5: Control characters can be denoted by using the predefined conversion function, the quadruple form or the USI-like notation.
+// @id: TTCN3-CORE-6.1.1.0-052a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_01_01_00_general_041 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var universal charstring v_u1 := int2unichar(10);
+        var universal charstring v_u2 := char(0, 0, 0, 10);
+        var universal charstring v_u3 := char(U0A);
+        if (v_u1 == v_u2 and v_u1 == v_u3 and unichar2int(v_u1) == 10) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

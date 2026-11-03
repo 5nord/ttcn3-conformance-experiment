@@ -1,0 +1,21 @@
+// @requirement: 15.11 -- The concatenation of templates of binary string types results in the sequential concatenation of the single templates from left to right, with two exceptions: matching symbol AnyValue without a length modifier shall be replaced by a single AnyElementsOrNone matching symbol before concatenation and matching symbols AnyValue and _AnyValueOrNone that are each constrained to a fixed length N shall be replaced by N AnyElement matching symbols_ before concatenation.
+// @id: TTCN3-CORE-15.11-004b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_11_concatenating_templates_of_string_and_list_types_005 {
+
+    template bitstring mw_t := '01'B & ? & '1'B;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (match('011'B, mw_t) and match('010011'B, mw_t) and not match('010'B, mw_t)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

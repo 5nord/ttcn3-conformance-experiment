@@ -1,0 +1,18 @@
+// @requirement: 19.4.1 -- If the index variable is declared and initialized in the for statement header, the scope of the index variable is limited to the loop body, i.e. it is only visible inside the loop body.
+// @id: TTCN3-CORE-19.4.1-012a
+// @verdict: pass reject
+module M_19_04_01_the_counter_loop_013 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        for (var integer v_i := 0; v_i < 3; v_i := v_i + 1) {
+            setverdict(pass);
+        }
+        v_i := 5; // error: v_i is not visible outside the for statement
+    }
+
+    control {
+        execute(TC());
+    }
+}

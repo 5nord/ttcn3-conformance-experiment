@@ -1,0 +1,30 @@
+// @requirement: 6.3.2.2 -- `record of` types and arrays are compatible if their element types are compatible and value "b" does not violate any length subtyping of the `record of` type "A" or dimensions of the array type.
+// @id: TTCN3-CORE-6.3.2.2-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_03_02_02_compatibility_of_record_and_record_of_types_003 {
+
+    type component C {}
+
+    type record of integer IType;
+    type integer SmallInt(0..10);
+    type record length(2) of SmallInt JType;
+
+    testcase TC() runs on C {
+        var IType v_myVarI := { 3, 4 };
+        var JType v_myVarJ;
+        var integer v_myArrayVar[2];
+        v_myArrayVar := v_myVarI;
+        v_myVarJ := v_myArrayVar;
+        v_myVarI := v_myVarJ;
+        if (v_myArrayVar[0] == 3 and v_myArrayVar[1] == 4 and v_myVarJ == { 3, 4 }
+            and v_myVarI == { 3, 4 }) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

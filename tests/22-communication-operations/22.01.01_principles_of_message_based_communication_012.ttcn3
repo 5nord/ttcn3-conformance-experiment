@@ -1,0 +1,26 @@
+// @requirement: 22.1.1 -- Table 22: Overview of TTCN-3 communication operations: Invoke procedure call; Col2: call; Col4: Yes
+// @id: TTCN3-CORE-22.1.1-013b
+// @verdict: pass reject
+module M_22_01_01_principles_of_message_based_communication_012 {
+
+    signature S(in integer p_x) return integer exception (charstring);
+
+    type port P message {
+        inout integer
+    }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        p.call(S:{p_x := 1}, nowait); // error: call used at a message-based port
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,67 @@
+// @requirement: 22.4 -- The receiving operations receive, getcall, getreply and catch together with their matching and value, sender or parameter storing parts, are used by the check operation to define the conditions that have to be checked and the information to be optionally extracted.
+// @id: TTCN3-CORE-22.4-006a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_04_the_check_operation_008 {
+
+    type port MP message { inout integer; }
+
+    signature S(inout integer p_x) return integer exception (charstring);
+
+    type port PP procedure { inout S; }
+
+    type component C {
+        port MP p1, p2;
+        port PP q1, q2;
+        timer T := 1.0;
+    }
+
+    testcase TC() runs on C {
+        var integer v_msg, v_par, v_ret;
+        var charstring v_exc;
+        var C v_sender;
+        connect(mtc:p1, mtc:p2);
+        connect(mtc:q1, mtc:q2);
+        p1.send(5);
+        q1.call(S:{1}, nowait);
+        q1.call(S:{2}, nowait);
+        T.start;
+        alt {
+            [] p2.check(receive(integer:(5..9)) from mtc -> value v_msg sender v_sender) { }
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        T.start;
+        alt {
+            [] q2.check(getcall(S:{1}) from mtc -> param(v_par)) { }
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        q2.getcall(S:{1});
+        q2.reply(S:{3} value 10);
+        T.start;
+        alt {
+            [] q2.check(getcall(S:{2})) { }
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        q2.getcall(S:{2});
+        q2.raise(S, charstring:"e");
+        T.start;
+        alt {
+            [] q1.check(getreply(S:{3} value 10) -> value v_ret) { }
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        q1.getreply;
+        T.start;
+        alt {
+            [] q1.check(catch(S, charstring:"e") -> value v_exc) { }
+            [] T.timeout { setverdict(fail); stop; }
+        }
+        if (v_msg == 5 and v_sender == mtc and v_par == 1 and v_ret == 10 and v_exc == "e") {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

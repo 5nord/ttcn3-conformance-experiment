@@ -1,0 +1,32 @@
+// @requirement: C.6.1 -- NOTE: For the purpose of keeping parallel testing deterministic, each test component, as well as the control part has its own random seed.
+// @id: TTCN3-CORE-C.6.1-007a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_06_01_the_random_number_generator_function_007 {
+
+    type component C {}
+
+    function f_ptc() runs on C {
+        var float v_r := rnd(0.9);
+        for (var integer i := 0; i < 10; i := i + 1) {
+            v_r := rnd();
+        }
+    }
+
+    testcase TC() runs on C {
+        var float v_r := rnd(0.25);
+        var float v_ref := rnd();
+        var C v_ptc := C.create;
+        v_r := rnd(0.25);
+        v_ptc.start(f_ptc());
+        v_ptc.done;
+        if (rnd() == v_ref) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

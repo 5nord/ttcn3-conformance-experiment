@@ -1,0 +1,22 @@
+// @requirement: 21.3.10 -- Operation: stop; Col3: Yes but from MTC only; Example: all component.stop;; Comment: Stop the behaviour on all PTCs.
+// @id: TTCN3-CORE-21.3.10-019b
+// @verdict: pass reject
+module M_21_03_10_the_call_test_component_behaviour_operation_030 {
+
+    type component C {}
+
+    function f() runs on C {
+        all component.stop; // error: all component.stop used in a PTC
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        v_ptc.start(f());
+        v_ptc.done;
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

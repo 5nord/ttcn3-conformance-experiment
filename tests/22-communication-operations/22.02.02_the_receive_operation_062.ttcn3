@@ -1,0 +1,23 @@
+// @requirement: 22.2.2 -- j) If the index redirection is used for multi-dimensional port arrays, the size of the integer array or record of integer type shall exactly be the same as the dimension of the respective array, and its type shall allow storing the highest index (from all dimensions) of the array.
+// @id: TTCN3-CORE-22.2.2-067b
+// @verdict: pass reject
+module M_22_02_02_the_receive_operation_062 {
+
+    type port P message { inout integer }
+
+    type integer SmallIndex (0..1);
+
+    type component C {
+        port P p[2][3];
+    }
+
+    testcase TC() runs on C {
+        var SmallIndex v_idx[2];
+        any from p.receive(integer:?) -> @index value v_idx; // error: index 2 cannot be stored in v_idx elements
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

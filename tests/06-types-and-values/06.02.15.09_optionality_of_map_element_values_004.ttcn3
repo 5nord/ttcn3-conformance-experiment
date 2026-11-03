@@ -1,0 +1,29 @@
+// @requirement: 6.2.15.9 -- Value fields associated with keys of map templates might contain matching symbols including symbols for optional fields such as omit, * or ifpresent (see Annex B for more details).
+// @id: TTCN3-CORE-6.2.15.9-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_15_09_optionality_of_map_element_values_004 {
+
+    type map from charstring to integer MapType;
+
+    template MapType m_map := {
+        ["a"] := ?,
+        ["b"] := *,
+        ["c"] := (1 .. 5) ifpresent,
+        ["d"] := omit
+    };
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MapType v_map := { ["a"] := 10, ["c"] := 3 };
+        if (match(v_map, m_map)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

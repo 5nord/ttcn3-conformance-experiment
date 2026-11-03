@@ -1,0 +1,39 @@
+// @requirement: 26.1 -- This means that all components and ports conducted by create, connect, etc. operations in a previous test case were destroyed when that test case was stopped (hence are not "visible" to the new test case).
+// @id: TTCN3-CORE-26.1-018a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_26_01_the_execute_statement_019 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p;
+    }
+
+    function f_wait() runs on C {
+        timer T := 3.0;
+        T.start;
+        T.timeout;
+    }
+
+    testcase TC_setup() runs on C {
+        var C v_ptc := C.create;
+        connect(self:p, v_ptc:p);
+        v_ptc.start(f_wait());
+        setverdict(pass);
+    }
+
+    testcase TC() runs on C {
+        if (not any component.running and not p.checkstate("Linked")) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC_setup());
+        execute(TC());
+    }
+}

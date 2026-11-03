@@ -1,0 +1,48 @@
+// @requirement: 16.2.0 -- Altsteps may invoke functions and altsteps or activate altsteps as defaults.
+// @id: TTCN3-CORE-16.2.0-011a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_16_02_00_general_008 {
+
+    type port P message {
+        inout integer
+    }
+
+    type component C {
+        port P p1, p2;
+        var integer v_res := 0;
+        var boolean v_innerDone := false;
+    }
+
+    function f_double(integer p_x) return integer {
+        return 2 * p_x;
+    }
+
+    altstep a_inner() runs on C {
+        [] p2.receive(integer:2) {
+            v_innerDone := true;
+        }
+    }
+
+    altstep a_outer() runs on C {
+        [] p2.receive(integer:1) {
+            v_res := f_double(2);
+            a_inner();
+        }
+    }
+
+    testcase TC() runs on C {
+        connect(self:p1, self:p2);
+        p1.send(1);
+        p1.send(2);
+        a_outer();
+        if (v_res == 4 and v_innerDone) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

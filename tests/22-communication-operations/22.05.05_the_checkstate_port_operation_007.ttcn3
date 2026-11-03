@@ -1,0 +1,38 @@
+// @requirement: 22.5.5 -- The states Connected, Mapped and Linked are related to the application of the connection operations connect, disconnect, map and unmap as defined in clause 21.1.
+// @id: TTCN3-CORE-22.5.5-010a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_05_05_the_checkstate_port_operation_007 {
+
+    type port P message {
+        inout integer
+    }
+
+    type component C {
+        port P p1, p2, p3;
+    }
+
+    type component S {
+        port P sp;
+    }
+
+    testcase TC() runs on C system S {
+        var boolean v_ok := not p1.checkstate("Linked") and not p3.checkstate("Linked");
+        connect(self:p1, self:p2);
+        v_ok := v_ok and p1.checkstate("Connected") and p1.checkstate("Linked");
+        disconnect(self:p1, self:p2);
+        v_ok := v_ok and not p1.checkstate("Connected") and not p1.checkstate("Linked");
+        map(mtc:p3, system:sp);
+        v_ok := v_ok and p3.checkstate("Mapped") and p3.checkstate("Linked");
+        unmap(mtc:p3, system:sp);
+        v_ok := v_ok and not p3.checkstate("Mapped") and not p3.checkstate("Linked");
+        if (v_ok) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

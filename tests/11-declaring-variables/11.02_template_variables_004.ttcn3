@@ -1,0 +1,20 @@
+// @requirement: 11.2 -- Template variables may be used on the right hand side as well as on the left hand side of assignments, following the `return` keyword in bodies of functions defining a template-type return value in their headers and may be passed as actual parameters to template-type formal parameters.
+// @id: TTCN3-CORE-11.2-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_11_02_template_variables_004 {
+    type component C {}
+
+    testcase TC() runs on C {
+        var template integer v_a := (1 .. 5);
+        var template integer v_b := 10;
+        v_b := v_a;
+        if (match(3, v_b) and not match(10, v_b)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }}

@@ -1,0 +1,22 @@
+// @requirement: 19.0 -- Statement: Timeout event; Associated keyword or symbol: timeout; Can be invoked by control behaviour: Yes; Can be invoked by test behaviour: Yes
+// @id: TTCN3-CORE-19.0-016a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_00_general_040 {
+
+    type component C {}
+
+    testcase TC(boolean p_ok) runs on C {
+        if (p_ok) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        timer T;
+        T.start(0.1);
+        T.timeout;
+        execute(TC(not T.running));
+    }
+}

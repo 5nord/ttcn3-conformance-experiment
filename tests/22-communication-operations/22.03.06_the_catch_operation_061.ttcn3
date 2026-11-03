@@ -1,0 +1,22 @@
+// @requirement: 22.3.6 -- o) The referenced value associated with Ref or the return type associated with FunctionInstance followed by the catch keyword, shall be of a port type.
+// @id: TTCN3-CORE-22.3.6-063a
+// @verdict: pass reject
+module M_22_03_06_the_catch_operation_061 {
+
+    signature S() exception (integer);
+
+    type port P procedure { inout S; }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        var integer v_i := 0;
+        v_i.catch(S, integer:?); // error: referenced value is not of a port type
+    }
+
+    control {
+        execute(TC());
+    }
+}

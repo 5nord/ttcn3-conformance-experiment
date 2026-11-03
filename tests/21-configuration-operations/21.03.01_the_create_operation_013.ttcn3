@@ -1,0 +1,44 @@
+// @requirement: 21.3.1 -- Since all test components and ports are implicitly destroyed at the termination of each test case, each test case shall completely create its required configuration of components and connections when it is invoked.
+// @id: TTCN3-CORE-21.3.1-012b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_03_01_the_create_operation_013 {
+
+    type port P message {
+        inout integer
+    }
+
+    type component C {
+        port P p;
+    }
+
+    function f_ptc() runs on C {
+        p.send(integer:1);
+        p.send(integer:2);
+        setverdict(pass);
+    }
+
+    testcase TC() runs on C {
+        timer T := 0.5;
+        var C v_ptc;
+        if (any component.alive) {
+            setverdict(fail);
+        }
+        T.start;
+        alt {
+            [] p.receive {
+                setverdict(fail); // leftover message of a previous test case
+            }
+            [] T.timeout {}
+        }
+        v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_ptc());
+        p.receive(integer:1);
+        v_ptc.done;
+    }
+
+    control {
+        execute(TC());
+        execute(TC());
+    }
+}

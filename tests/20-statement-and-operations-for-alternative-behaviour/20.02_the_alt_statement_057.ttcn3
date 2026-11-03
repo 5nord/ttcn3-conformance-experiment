@@ -1,0 +1,37 @@
+// @requirement: 20.2 -- d) The evaluation of an altstep invoked from an alt branch, if none of the alternatives in the altstep is chosen, shall not have side effects.
+// @id: TTCN3-CORE-20.2-077a
+// @verdict: pass reject
+module M_20_02_the_alt_statement_057 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p;
+        var integer v_count := 0;
+    }
+
+    function f_inc() runs on C return integer {
+        v_count := v_count + 1;
+        return v_count;
+    }
+
+    altstep a_step() runs on C {
+        var integer v_x := f_inc(); // error: altstep evaluation has side effect on component variable
+        [] p.receive {}
+    }
+
+    testcase TC() runs on C {
+        alt {
+            [] a_step();
+            [else] {
+                setverdict(pass);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

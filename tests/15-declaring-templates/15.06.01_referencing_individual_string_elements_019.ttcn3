@@ -1,0 +1,28 @@
+// @requirement: 15.6.1 -- h) If the referenced template contains the ifpresent matching attribute, the result of the reference shall contain this attribute as well.
+// @id: TTCN3-CORE-15.6.1-019a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_06_01_referencing_individual_string_elements_019 {
+
+    type component C {}
+
+    type record R {
+        octetstring f optional
+    }
+
+    const R c_omit := { f := omit };
+
+    testcase TC() runs on C {
+        var template octetstring v_oct := 'ABCD'O ifpresent, v_e;
+        v_e := v_oct[0];
+        var template R v_r := { f := v_e };
+        if (match('AB'O, v_e) and not match('CD'O, v_e) and match(c_omit, v_r)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

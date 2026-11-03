@@ -1,0 +1,35 @@
+// @requirement: 23.0 -- Table 26: Any and: start, stop, clear, halt; Col3: yes; Col4: all port.start
+// @id: TTCN3-CORE-23.0-010a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_23_00_general_007 {
+
+    type port P message { inout integer }
+
+    type component C {
+        port P p1;
+        port P p2;
+    }
+
+    testcase TC() runs on C {
+        all port.stop;
+        if (any port.checkstate("Started")) {
+            setverdict(fail);
+        }
+        all port.start;
+        all port.clear;
+        all port.halt;
+        if (any port.checkstate("Started")) {
+            setverdict(fail);
+        }
+        all port.start;
+        if (all port.checkstate("Started")) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

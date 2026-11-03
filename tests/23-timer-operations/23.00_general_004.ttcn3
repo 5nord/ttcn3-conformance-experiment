@@ -1,0 +1,21 @@
+// @requirement: 23.0 -- Table 26: Any and: connect / map
+// @id: TTCN3-CORE-23.0-008a
+// @verdict: pass reject
+module M_23_00_general_004 {
+
+    type port P message { inout integer }
+
+    type component C {
+        port P p1;
+        port P p2;
+    }
+
+    testcase TC() runs on C {
+        connect(self:all port, self:p2); // error: all port not allowed with connect
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

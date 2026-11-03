@@ -1,0 +1,29 @@
+// @requirement: D.0 -- In the TTCN-3 code, it can be used like a charstring or an integer value respectively.
+// @id: TTCN3-CORE-D.0-004a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_D_00_general_005 {
+
+    type component C {}
+
+    type charstring ModuleName ("x", __MODULE__);
+
+    function f_len(charstring p_str) return integer {
+        return lengthof(p_str);
+    }
+
+    testcase TC() runs on C {
+        var ModuleName v_name := __MODULE__;
+        var charstring v_str := "<" & __MODULE__ & ">";
+        var integer v_int := __LINE__ * 2 + 1;
+        if (f_len(__MODULE__) == 15 and v_str == "<M_D_00_general_005>" and v_int == 35
+            and v_name == "M_D_00_general_005") {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

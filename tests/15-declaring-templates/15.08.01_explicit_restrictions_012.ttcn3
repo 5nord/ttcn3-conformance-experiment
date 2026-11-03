@@ -1,0 +1,27 @@
+// @requirement: 15.8.1 -- It can be used to define a mandatory field of a record or set template and the latter one could still be used in a send statement.
+// @id: TTCN3-CORE-15.8.1-009a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_08_01_explicit_restrictions_012 {
+    type record R {
+        integer a,
+        boolean b optional
+    }
+
+    template(value) integer m_a := 1;
+    template R m_r := {a := m_a, b := omit};
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var R v_r := {a := 1, b := omit};
+        if (match(v_r, m_r)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

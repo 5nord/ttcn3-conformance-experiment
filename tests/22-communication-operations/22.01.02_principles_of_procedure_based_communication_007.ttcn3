@@ -1,0 +1,42 @@
+// @requirement: 22.1.2 -- The CALLEE accepts the call by means of a getcall operation and reacts by either using a reply operation to answer the call or by raising (raise operation) an exception.
+// @id: TTCN3-CORE-22.1.2-007a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_01_02_principles_of_procedure_based_communication_007 {
+
+    signature S(in integer p_x) return integer;
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    function f_server() runs on C {
+        var integer v_x := 0;
+        var C v_caller;
+        T.start;
+        alt {
+            [] p.getcall(S:{?}) -> param(v_x) sender v_caller {
+                if (v_x == 7 and v_caller == mtc) { setverdict(pass); } else { setverdict(fail); }
+                p.reply(S:{-} value 0);
+            }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_server());
+        p.call(S:{7}, 1.0) {
+            [] p.getreply(S:{-}) { setverdict(pass); }
+            [] p.catch(timeout) { setverdict(fail); }
+        }
+        v_ptc.done;
+    }
+
+    control {
+        execute(TC());
+    }
+}

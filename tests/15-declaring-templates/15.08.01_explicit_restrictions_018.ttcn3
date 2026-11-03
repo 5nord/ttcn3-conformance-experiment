@@ -1,0 +1,25 @@
+// @requirement: 15.8.1 -- b) Restricted and unrestricted templates maybe used as actual parameters of formal template parameters or assigned to templates or template variables according to table 13.
+// @id: TTCN3-CORE-15.8.1-023a
+// @verdict: pass reject
+module M_15_08_01_explicit_restrictions_018 {
+    type record R {
+        integer a,
+        boolean b optional
+    }
+
+    template(present) R mw_r := {a := ?, b := true};
+
+    function f_check(template(omit) R p_r) {
+        setverdict(pass);
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        f_check(mw_r); // error: present restricted actual for omit restricted formal parameter
+    }
+
+    control {
+        execute(TC());
+    }
+}

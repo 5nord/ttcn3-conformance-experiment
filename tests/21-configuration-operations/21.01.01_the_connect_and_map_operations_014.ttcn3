@@ -1,0 +1,50 @@
+// @requirement: 21.1.1 -- Applying a map or connect operation to ports which are already mapped or connected has no effect on the test behaviour or test configuration, i.e. test execution continues as if the operation has not been invoked.
+// @id: TTCN3-CORE-21.1.1-009a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_01_01_the_connect_and_map_operations_014 {
+
+    type port P message { inout integer; }
+
+    type component C {
+        port P p;
+        port P q;
+    }
+
+    type component S {
+        port P q;
+    }
+
+    function f_send() runs on C {
+        p.send(1);
+    }
+
+    testcase TC() runs on C system S {
+        timer T := 1.0;
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        connect(mtc:p, v_ptc:p);
+        map(mtc:q, system:q);
+        map(mtc:q, system:q);
+        v_ptc.start(f_send());
+        T.start;
+        alt {
+            [] p.receive(1) { setverdict(pass); }
+            [] T.timeout { setverdict(fail); }
+        }
+        v_ptc.done;
+        T.start(0.5);
+        alt {
+            [] p.receive { setverdict(fail); }
+            [] T.timeout {}
+        }
+        disconnect(mtc:p, v_ptc:p);
+        unmap(mtc:q, system:q);
+        if (p.checkstate("Connected") or q.checkstate("Mapped")) {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

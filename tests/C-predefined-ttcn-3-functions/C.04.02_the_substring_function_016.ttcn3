@@ -1,0 +1,25 @@
+// @requirement: C.4.2 -- In case of the AnyValueOrNone matching symbol, the ifpresent matching attribute shall be added to the returned value.
+// @id: TTCN3-CORE-C.4.2-018a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_04_02_the_substring_function_016 {
+
+    type record R {
+        octetstring f optional
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template R v_src := { f := * };
+        var template R v_chk := { f := substr(v_src.f, 0, 2) };
+        if (match({ f := omit }, v_chk) and match({ f := '0102'O }, v_chk) and not match({ f := '01'O }, v_chk)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

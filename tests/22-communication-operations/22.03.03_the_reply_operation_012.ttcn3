@@ -1,0 +1,46 @@
+// @requirement: 22.3.3 -- A return value or template shall be explicitly stated with the value keyword and is first evaluated before returning.
+// @id: TTCN3-CORE-22.3.3-013b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_03_03_the_reply_operation_012 {
+
+    signature S(out integer p_y) return integer;
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+        var integer v_count := 0;
+        timer T := 1.0;
+    }
+
+    altstep a_guard() runs on C {
+        [] T.timeout { setverdict(fail); stop; }
+    }
+
+    function f_value() runs on C return integer {
+        v_count := v_count + 1;
+        return 7;
+    }
+
+    function f_server() runs on C {
+        p.getcall(S:{-});
+        p.reply(S:{1} value f_value());
+        if (v_count == 1) { setverdict(pass); } else { setverdict(fail); }
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_server());
+        activate(a_guard());
+        T.start;
+        p.call(S:{-}, nowait);
+        p.getreply(S:{1} value 7);
+        v_ptc.done;
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

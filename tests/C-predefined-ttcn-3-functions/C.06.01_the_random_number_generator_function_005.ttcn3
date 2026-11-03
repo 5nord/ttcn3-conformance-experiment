@@ -1,0 +1,22 @@
+// @requirement: C.6.1 -- If no new seed is provided, the last generated number will be used as seed for the next random number.
+// @id: TTCN3-CORE-C.6.1-004a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_06_01_the_random_number_generator_function_005 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var float v_r1 := rnd(0.5);
+        var float v_r2 := rnd();
+        var float v_r3 := rnd(v_r1);
+        if (v_r2 == v_r3) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

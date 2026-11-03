@@ -1,0 +1,23 @@
+// @requirement: B.1.2.2 -- d) Each value or template in the list shall be of the type declared for the template field in which the complement is used.
+// @id: TTCN3-CORE-B.1.2.2-011a
+// @verdict: pass reject
+module M_B_01_02_02_complemented_template_list_010 {
+
+    type component C {}
+
+    type record R {
+        integer f1
+    }
+
+    template R mw_r := {
+        f1 := complement(1, 2.0) // error: float value in integer complemented list
+    }
+
+    testcase TC() runs on C {
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

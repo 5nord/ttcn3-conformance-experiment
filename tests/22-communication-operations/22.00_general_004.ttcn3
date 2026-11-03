@@ -1,0 +1,33 @@
+// @requirement: 22.0 -- Furthermore,_ TTCN-3 allows to examine the top element of incoming port queues and to control the access to ports by means of _controlling operations.
+// @id: TTCN3-CORE-22.0-002b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_00_general_004 {
+
+    type port P message {
+        inout integer
+    }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        var boolean v_ok := p.checkstate("Started");
+        p.stop;
+        v_ok := v_ok and p.checkstate("Stopped");
+        p.start;
+        v_ok := v_ok and p.checkstate("Started");
+        p.halt;
+        v_ok := v_ok and not p.checkstate("Started");
+        p.clear;
+        if (v_ok) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

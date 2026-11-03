@@ -1,0 +1,54 @@
+// @requirement: 22.2.2 -- [ @nodefault ] ( ObjectReference | any port | any from PortArrayRef ) "." receive [ "(" TemplateInstance ")" ] [ from Address ] [ "->" [ value ( ValueRef| ( "(" { ValueRef[ ":=" [ @decoded [ "(" Expression ")" ] ] FieldOrTypeReference ][","] } ")" ) ) ] [ sender ValueRef] [ @index value ValueRef] ]
+// @id: TTCN3-CORE-22.2.2-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_02_02_the_receive_operation_001 {
+
+    type record R {
+        integer a,
+        charstring b
+    }
+
+    type port P message { inout R }
+
+    type component C {
+        port P p[2];
+        timer T := 1.0;
+    }
+
+    type component CP {
+        port P p;
+    }
+
+    const R c_r2 := { 2, "b" };
+
+    function f_send() runs on CP {
+        p.send(R:{1, "a"});
+        p.send(R:{2, "b"});
+        p.send(R:{3, "c"});
+        p.send(R:{4, "d"});
+    }
+
+    testcase TC() runs on C {
+        var CP v_ptc := CP.create;
+        var CP v_sender;
+        var R v_r;
+        var integer v_a;
+        var integer v_idx;
+        connect(mtc:p[1], v_ptc:p);
+        v_ptc.start(f_send());
+        T.start;
+        p[1].receive(R:{1, ?}) from v_ptc -> value v_r sender v_sender;
+        p[1].receive(R:?) -> value (v_r, v_a := a);
+        any port.receive;
+        any from p.receive(R:{4, "d"}) -> @index value v_idx;
+        if (v_r == c_r2 and v_a == 2 and v_sender == v_ptc and v_idx == 1) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

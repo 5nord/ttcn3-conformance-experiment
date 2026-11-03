@@ -1,0 +1,31 @@
+// @requirement: 20.2 -- If necessary, it is possible to enable/disable an alternative by means of a Boolean expression placed between the ("[…]") brackets of the alternative.
+// @id: TTCN3-CORE-20.2-051a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_02_the_alt_statement_035 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p1, p2;
+    }
+
+    testcase TC() runs on C {
+        var integer v_x := 1;
+        connect(self:p1, self:p2);
+        p1.send(integer:1);
+        alt {
+            [v_x > 1] p2.receive {
+                setverdict(fail);
+            }
+            [v_x <= 1] p2.receive {
+                setverdict(pass);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

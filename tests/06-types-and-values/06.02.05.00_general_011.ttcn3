@@ -1,0 +1,26 @@
+// @requirement: 6.2.5.0 -- For unions with a default alternative, special type compatibility rules apply (see clause 6.3.2.4) which allow using the union value as compatible with the type of the default alternative.
+// @id: TTCN3-CORE-6.2.5.0-012a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_05_00_general_011 {
+
+    type component C {}
+
+    type union U {
+        @default integer number,
+        charstring string
+    };
+
+    testcase TC() runs on C {
+        var U v_u := { number := 34 };
+        var integer v_i := v_u;
+        if (v_i == 34) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

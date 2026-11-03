@@ -1,0 +1,27 @@
+// @requirement: 22.4 -- To check on any port from a specific port array, indices use the any from PortArrayRef syntax where PortArrayRef shall be a reference to a port array identifier. **Check on any port from a port array**
+// @id: TTCN3-CORE-22.4-025a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_04_the_check_operation_026 {
+
+    type port MP message { inout integer; }
+
+    type component C {
+        port MP src;
+        port MP pa[3];
+        timer T := 1.0;
+    }
+
+    testcase TC() runs on C {
+        connect(mtc:src, mtc:pa[1]);
+        src.send(5);
+        T.start;
+        alt {
+            [] any from pa.check(receive(5)) { setverdict(pass); }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

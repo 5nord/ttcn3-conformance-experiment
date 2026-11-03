@@ -1,0 +1,30 @@
+// @requirement: 15.7.4 -- NOTE 2: Assigning ifpresent to a template that already matches the special value omit (i.e. it is either omit, an **ifpresent template or AnyValueOrNone) has no effect; the resulting template will match the same set of** values and the special value omit as the template the ifpresent is assigned to.
+// @id: TTCN3-CORE-15.7.4-007a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_07_04_special_symbols_which_describe_attributes_of_values_006 {
+    type record R {
+        integer a,
+        integer b optional
+    }
+
+    template R mw_any := {a := 1, b := *};
+    template R mw_anyIfp := {a := 1, b := * ifpresent};
+    template R mw_omit := {a := 1, b := omit};
+    template R mw_omitIfp := {a := 1, b := omit ifpresent};
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var R v_omit := {a := 1, b := omit};
+        var R v_five := {a := 1, b := 5};
+        if (match(v_omit, mw_any) == match(v_omit, mw_anyIfp) and match(v_five, mw_any) == match(v_five, mw_anyIfp) and match(v_omit, mw_omit) == match(v_omit, mw_omitIfp) and match(v_five, mw_omit) == match(v_five, mw_omitIfp) and match(v_omit, mw_anyIfp) and match(v_five, mw_anyIfp) and match(v_omit, mw_omitIfp) and not match(v_five, mw_omitIfp)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

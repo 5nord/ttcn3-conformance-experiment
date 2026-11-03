@@ -1,0 +1,16 @@
+// @requirement: 19.14 -- A statement block defines a local scope unit.
+// @id: TTCN3-CORE-19.14-004a
+// @verdict: pass reject
+module M_19_14_statement_block_004 {
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_aVar := 0;
+        {
+            var integer v_myVar := 2;
+            v_aVar := 5 + v_myVar;
+        }
+        v_aVar := v_myVar; // error: v_myVar is not visible outside its statement block
+        setverdict(pass);
+    }
+}

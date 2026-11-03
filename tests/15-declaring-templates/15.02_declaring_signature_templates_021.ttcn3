@@ -1,0 +1,24 @@
+// @requirement: 15.2 -- For implicit initialization of a parameter or a parameter field, an optional attribute with the value "implicit omit" (see clause 27.7) shall be associated with it either directly or via the attribute distribution (scoping) mechanism (see clause 27.1.1).
+// @id: TTCN3-CORE-15.2-020a
+// @verdict: pass reject
+module M_15_02_declaring_signature_templates_021 {
+
+    type record MyRecord {
+        integer field1 optional,
+        charstring field2
+    }
+
+    signature RecProc(in MyRecord Par1);
+
+    type component C {}
+
+    template RecProc s_template := { Par1 := { field2 := "a" } } // error: field1 is not initialized and no "implicit omit" attribute applies
+
+    testcase TC() runs on C {
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

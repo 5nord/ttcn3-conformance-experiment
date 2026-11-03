@@ -1,0 +1,25 @@
+// @requirement: 19.1.2 -- In addition to the basic assignments it is possible to use shorthand assignments for integer variables that shall be incremented by 1 or decremented by 1.
+// @id: TTCN3-CORE-19.1.2-001a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_01_02_shorthand_assignments_001 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_j;
+        var integer v_count := 0;
+        for (v_j := 1; v_j <= 10; v_j++) {
+            v_count++;
+        }
+        v_j--;
+        if (v_count == 10 and v_j == 10) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

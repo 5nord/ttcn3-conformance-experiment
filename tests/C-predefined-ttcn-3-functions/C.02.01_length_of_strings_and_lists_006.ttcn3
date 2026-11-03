@@ -1,0 +1,24 @@
+// @requirement: C.2.1 -- The length value returned in case of length restricted string or list type shall be at least the minimum length according to the type definition.
+// @id: TTCN3-CORE-C.2.1-007a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_02_01_length_of_strings_and_lists_006 {
+
+    type component C {}
+    type charstring CS3 length(3..5);
+    type record length(3..5) of integer RoI3;
+
+    testcase TC() runs on C {
+        var CS3 v_s := "abc";
+        var RoI3 v_r;
+        v_r[0] := 1;
+        if (lengthof(v_s) >= 3 and lengthof(v_r) >= 3) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

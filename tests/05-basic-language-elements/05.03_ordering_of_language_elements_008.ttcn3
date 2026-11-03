@@ -1,0 +1,27 @@
+// @requirement: 5.3 -- Forward references to a label may be used in goto statements before the label occurs (see clause 19.8).
+// @id: TTCN3-CORE-5.3-009a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_03_ordering_of_language_elements_008 {
+
+    type component C {}
+
+    function f_skip() return integer {
+        var integer v_x := 1;
+        goto L_skip;
+        v_x := 2;
+        label L_skip;
+        return v_x;
+    }
+
+    testcase TC() runs on C {
+        if (f_skip() == 1) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

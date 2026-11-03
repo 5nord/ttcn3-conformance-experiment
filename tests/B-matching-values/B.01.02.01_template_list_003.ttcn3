@@ -1,0 +1,28 @@
+// @requirement: B.1.2.1 -- An all from clause comprises all elements of an existing record of or set of template into the template list.
+// @id: TTCN3-CORE-B.1.2.1-004a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_02_01_template_list_003 {
+
+    type component C {}
+
+    type record of integer RoI;
+    type set of integer SoI;
+
+    template RoI mw_roI := { 1, 2, (6 .. 9) };
+    template SoI mw_soI := { 50, 60 };
+    template integer mw_i := (all from mw_roI, all from mw_soI, 100);
+
+    testcase TC() runs on C {
+        if (match(1, mw_i) and match(2, mw_i) and match(6, mw_i) and match(9, mw_i)
+            and match(50, mw_i) and match(60, mw_i) and match(100, mw_i)
+            and not match(3, mw_i) and not match(10, mw_i)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

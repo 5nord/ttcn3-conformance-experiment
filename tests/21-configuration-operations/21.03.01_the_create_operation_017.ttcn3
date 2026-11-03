@@ -1,0 +1,23 @@
+// @requirement: 21.3.1 -- Optionally, a name can be associated with the newly created component instance.
+// @id: TTCN3-CORE-21.3.1-015a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_03_01_the_create_operation_017 {
+
+    type component C {}
+
+    function f_ptc() runs on C {
+        setverdict(pass);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc1 := C.create("MyPTC");
+        var C v_ptc2 := C.create("MyAlivePTC") alive;
+        v_ptc1.start(f_ptc());
+        v_ptc2.start(f_ptc());
+        all component.done;
+    }
+
+    control {
+        execute(TC());
+    }
+}

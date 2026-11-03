@@ -1,0 +1,27 @@
+// @requirement: 22.2.3 -- A trigger operation with no argument list shall trigger on the receipt of any message.
+// @id: TTCN3-CORE-22.2.3-015a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_02_03_the_trigger_operation_013 {
+
+    type port P message { inout integer, charstring }
+
+    type component C {
+        port P p;
+        port P q;
+        timer T := 1.0;
+    }
+
+    testcase TC() runs on C {
+        connect(mtc:p, mtc:q);
+        q.send("abc");
+        T.start;
+        alt {
+            [] p.trigger { setverdict(pass); }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,17 @@
+// @requirement: B.1.2.5 -- c) When used in templates or template fields of charstring or universal charstring types, the boundaries shall evaluate to valid character positions according to the coded character set table(s) of the type (e.g. the given position shall not be empty).
+// @id: TTCN3-CORE-B.1.2.5-008a
+// @verdict: pass reject
+module M_B_01_02_05_value_range_005 {
+
+    type component C {}
+
+    template universal charstring mw_range := (char(0, 0, 3, 162) .. char(0, 0, 3, 169)); // error: U+03A2 is an empty position
+
+    testcase TC() runs on C {
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

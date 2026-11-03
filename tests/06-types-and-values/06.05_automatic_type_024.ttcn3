@@ -1,0 +1,21 @@
+// @requirement: 6.5 -- k) Index assignment notation where all indexes are of the integer type and all item values have a common type shall provide an automatic type record of _{common type}.
+// @id: TTCN3-CORE-6.5-019a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_05_automatic_type_024 {
+    type component C {}
+
+    testcase TC() runs on C {
+        var v_auto := { [0] := 10, [1] := 8 };
+        v_auto[2] := 5;
+        var record of integer v_roi := v_auto;
+        if (lengthof(v_auto) == 3 and v_roi == { 10, 8, 5 }) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

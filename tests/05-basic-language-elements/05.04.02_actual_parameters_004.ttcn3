@@ -1,0 +1,23 @@
+// @requirement: 5.4.2 -- Actual parameters can be provided both as a list in the same order as the formal parameters as well as in an assignment notation explicitly using the associated formal parameter names or in a mixed notation where the first parameters are given in list notation and additional parameters in assignment notation.
+// @id: TTCN3-CORE-5.4.2-002c
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_04_02_actual_parameters_004 {
+
+    type component C {}
+
+    function f(integer p_formalPar1, boolean p_formalPar2, bitstring p_formalPar3) return boolean {
+        return p_formalPar1 == 123 and p_formalPar2 == true and p_formalPar3 == '1100'B;
+    }
+
+    testcase TC() runs on C {
+        if (f(123, p_formalPar3 := '1100'B, p_formalPar2 := true)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

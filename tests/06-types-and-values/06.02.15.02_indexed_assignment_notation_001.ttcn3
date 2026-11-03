@@ -1,0 +1,23 @@
+// @requirement: 6.2.15.2 -- "{" ["*" ","] { "[" Index "]" ":=" Value "," } "}"
+// @id: TTCN3-CORE-6.2.15.2-001a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_15_02_indexed_assignment_notation_001 {
+
+    type map from charstring to integer MyMap;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyMap v_map := { ["a"] := 1, ["b"] := 2 };
+        var template MyMap v_tmpl := { *, ["a"] := 1 };
+        if (v_map["a"] == 1 and v_map["b"] == 2 and match(v_map, v_tmpl)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

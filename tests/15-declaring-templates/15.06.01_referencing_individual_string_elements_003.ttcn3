@@ -1,0 +1,26 @@
+// @requirement: 15.6.1 -- In case of patterns, metacharacters described in clause B.1.5.0 are treated as a single item the for indexing purposes according to the rules specified in table B.1.
+// @id: TTCN3-CORE-15.6.1-003a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_06_01_referencing_individual_string_elements_003 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template charstring v_pat := pattern "a[b-d]\d(xy)";
+        var template charstring v_e1, v_e2, v_e3;
+        v_e1 := v_pat[1];
+        v_e2 := v_pat[2];
+        v_e3 := v_pat[3];
+        if (match("c", v_e1) and not match("a", v_e1)
+            and match("7", v_e2) and not match("x", v_e2)
+            and match("xy", v_e3) and not match("x", v_e3)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

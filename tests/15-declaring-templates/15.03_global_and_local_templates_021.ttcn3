@@ -1,0 +1,34 @@
+// @requirement: 15.3 -- Templates declared this way are safe to be used in call and getcall operations, but they shall not be used in reply and getreply operations. All in and inout procedure parameters are completely initialized and all out procedure parameters are either unitialized or marked as not relevant using the NotUsedSymbol.
+// @id: TTCN3-CORE-15.3-026a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_03_global_and_local_templates_021 {
+
+    signature RemoteProc(in integer Par1, out integer Par2, inout integer Par3) return integer;
+
+    type port P procedure {
+        inout RemoteProc;
+    }
+
+    type component C {
+        port P p1;
+        port P p2;
+    }
+
+    template RemoteProc s_call := { Par1 := 1, Par2 := -, Par3 := 3 }
+
+    testcase TC() runs on C {
+        timer T := 1.0;
+        connect(self:p1, self:p2);
+        p1.call(s_call, nowait);
+        T.start;
+        alt {
+            [] p2.getcall(s_call) { setverdict(pass); }
+            [] p2.getcall { setverdict(fail); }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

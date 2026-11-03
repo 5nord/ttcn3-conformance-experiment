@@ -1,0 +1,45 @@
+// @requirement: 6.2.5.1 -- Alternatives of a union type shall be referenced by the dot notation TypeIdOrExpression.AlternativeId, where TypeIdOrExpression resolves to the name of a union type or an expression of a union type such as variable, formal parameter, module parameter, constant, template, or function invocation.
+// @id: TTCN3-CORE-6.2.5.1-001a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_05_01_referencing_fields_of_a_union_type_001 {
+
+    type union U {
+        integer choice1,
+        charstring choice2
+    }
+
+    type record R {
+        U element1
+    }
+
+    type component C {}
+
+    const U c_u := { choice1 := 1 };
+
+    function f_u() return U {
+        return { choice2 := "a" };
+    }
+
+    function f_par(U p_u) return integer {
+        return p_u.choice1;
+    }
+
+    testcase TC() runs on C {
+        var U v_u := { choice1 := 2 };
+        var R v_r := { element1 := { choice2 := "b" } };
+        var integer v_i1 := v_u.choice1;
+        var integer v_i2 := c_u.choice1;
+        var charstring v_c1 := v_r.element1.choice2;
+        var charstring v_c2 := f_u().choice2;
+        var integer v_i3 := f_par(v_u);
+        if (v_i1 == 2 and v_i2 == 1 and v_c1 == "b" and v_c2 == "a" and v_i3 == 2) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

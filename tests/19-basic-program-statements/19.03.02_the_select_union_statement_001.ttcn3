@@ -1,0 +1,45 @@
+// @requirement: 19.3.2 -- select union "(" [(VarInstance|Assignment) ";"] SingleExpression ")" "{" { case "(" ({ Identifier [","] } | { TypeIdentifier [","] }) ")" StatementBlock }+ [ case else StatementBlock ] "}"
+// @id: TTCN3-CORE-19.3.2-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_03_02_the_select_union_statement_001 {
+
+    type component C {}
+
+    type union U {
+        integer a,
+        boolean b,
+        charstring c
+    }
+
+    testcase TC() runs on C {
+        var integer v_count := 0;
+        var anytype v_any;
+        select union (var U v_u := { b := true }; v_u) {
+            case (a) {
+                setverdict(fail);
+            }
+            case (b, c) {
+                v_count := v_count + 1;
+            }
+            case else {
+                setverdict(fail);
+            }
+        }
+        select union (v_any := { integer := 1 }; v_any) {
+            case (integer, float) {
+                v_count := v_count + 1;
+            }
+        }
+        if (v_count == 2) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+} with {
+    extension "anytype integer, float"
+}

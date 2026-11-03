@@ -1,0 +1,28 @@
+// @requirement: 22.2.2 -- No AddressRef in the from clause shall contain the special value null at the time of the operation.
+// @id: TTCN3-CORE-22.2.2-063a
+// @verdict: pass accept, ttcn3verdict:error
+module M_22_02_02_the_receive_operation_057 {
+
+    type port P message { inout integer }
+
+    type component C {
+        port P p;
+        port P q;
+        timer T := 1.0;
+    }
+
+    testcase TC() runs on C {
+        var C v_peer := null;
+        connect(mtc:p, mtc:q);
+        q.send(1);
+        T.start;
+        alt {
+            [] p.receive(integer:1) from v_peer { setverdict(pass); } // error: from clause contains null
+            [] T.timeout { setverdict(pass); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

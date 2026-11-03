@@ -1,0 +1,24 @@
+// @requirement: 6.2.15.1 -- The Type following the to keyword is the type of the values of the map type.
+// @id: TTCN3-CORE-6.2.15.1-004a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_15_01_map_type_definition_003 {
+
+    type map from charstring to integer MyMap;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyMap v_map := { ["key"] := 5 };
+        var integer v_value := v_map["key"];
+        var MyMap.to v_values := v_map.to;
+        if (v_value + 1 == 6 and v_values[0] == 5) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

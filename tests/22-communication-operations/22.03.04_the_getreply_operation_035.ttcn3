@@ -1,0 +1,27 @@
+// @requirement: 22.3.4 -- The type definition of the port shall include the name of the procedure to which the getreply operation belongs.
+// @id: TTCN3-CORE-22.3.4-038a
+// @verdict: pass reject
+module M_22_03_04_the_getreply_operation_035 {
+
+    signature S1() return integer;
+    signature S2() return integer;
+
+    type port P procedure { inout S1 }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C system C {
+        timer T := 1.0;
+        T.start;
+        alt {
+            [] p.getreply(S2:{} value 1) { setverdict(pass); } // error: S2 is not in the port type
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

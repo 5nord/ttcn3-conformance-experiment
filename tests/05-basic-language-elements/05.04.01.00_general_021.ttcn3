@@ -1,0 +1,33 @@
+// @requirement: 5.4.1.0 -- Assigning default values for lazy and fuzzy formal parameters does not change the parameters' semantics: when the default values are used as actual values for the parameters, they shall be evaluated the same way (i.e. delayed) as if an actual parameter was provided.
+// @id: TTCN3-CORE-5.4.1.0-024b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_04_01_00_general_021 {
+
+    type component C {
+        var integer vc_count := 0;
+    }
+
+    function f_next() runs on C return integer {
+        vc_count := vc_count + 1;
+        return vc_count;
+    }
+
+    function f_lazy(in @lazy integer p_v := f_next()) runs on C {
+        var integer v_before := vc_count;
+        var integer v_first := p_v;
+        var integer v_second := p_v;
+        if (v_before == 0 and v_first == 1 and v_second == 1 and vc_count == 1) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    testcase TC() runs on C {
+        f_lazy();
+    }
+
+    control {
+        execute(TC());
+    }
+}

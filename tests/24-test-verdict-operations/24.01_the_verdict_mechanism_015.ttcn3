@@ -1,0 +1,31 @@
+// @requirement: 24.1 -- When a test component is instantiated, its local verdict object is created and set to the value none.
+// @id: TTCN3-CORE-24.1-027b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_24_01_the_verdict_mechanism_015 {
+
+    type component C {}
+
+    function f_ptc() runs on C {
+        var verdicttype v_myResult := getverdict;
+        if (v_myResult == none) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    testcase TC() runs on C {
+        var verdicttype v_myResult := getverdict;
+        if (v_myResult != none) {
+            setverdict(fail);
+        }
+        var C v_ptc := C.create;
+        v_ptc.start(f_ptc());
+        v_ptc.done;
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

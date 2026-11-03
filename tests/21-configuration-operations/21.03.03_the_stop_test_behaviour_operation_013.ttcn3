@@ -1,0 +1,32 @@
+// @requirement: 21.3.3 -- Stopping a non-alive-type test component (implicitly or explicitly) shall destroy it and all resources associated with the test component shall be released.
+// @id: TTCN3-CORE-21.3.3-012a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_03_03_the_stop_test_behaviour_operation_013 {
+
+    type component C {}
+
+    function f_wait() runs on C {
+        timer T_w := 5.0;
+        T_w.start;
+        T_w.timeout;
+    }
+
+    testcase TC() runs on C {
+        timer T := 2.0;
+        var C v_ptc := C.create;
+        v_ptc.start(f_wait());
+        v_ptc.stop;
+        T.start;
+        alt {
+            [] v_ptc.killed { setverdict(pass); }
+            [] T.timeout { setverdict(fail); }
+        }
+        if (v_ptc.alive) {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

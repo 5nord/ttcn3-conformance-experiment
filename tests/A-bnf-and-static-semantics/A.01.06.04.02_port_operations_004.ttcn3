@@ -1,0 +1,27 @@
+// @requirement: A.1.6.4.2 -- ExtendedFieldReference shall not be TypeDefIdentifier
+// @id: TTCN3-CORE-A.1.6.4.2-002b
+// @verdict: pass reject
+module M_A_01_06_04_02_port_operations_004 {
+
+    type integer MyInt;
+
+    type record R {
+        anytype f_any
+    }
+
+    type port P message {
+        inout R
+    }
+
+    type component C {
+        port P p;
+    }
+
+    function f_receiver() runs on C {
+        var MyInt v_x;
+        p.receive(R:?) -> value (v_x := f_any.MyInt); // error: type definition identifier in ExtendedFieldReference
+    }
+}
+with {
+    extension "anytype MyInt"
+}

@@ -1,0 +1,44 @@
+// @requirement: 8.2.3.7 -- The import of import statements can be used in combination with imports of single definitions (see clause 8.2.3.2), with imports of groups (see clause 8.2.3.3), and with imports of definitions of the same kind (see clause 8.2.3.4).
+// @id: TTCN3-CORE-8.2.3.7-007a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_02_03_07_importing_of_import_statements_from_ttcn_3_modules_007 {
+
+    import from M_08_02_03_07_importing_of_import_statements_from_ttcn_3_modules_007_B {
+        import all;
+        type MyInt;
+        group G;
+        function all
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyInt v_i := f_b(c_g + c_x);
+        if (v_i == 4) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_03_07_importing_of_import_statements_from_ttcn_3_modules_007_A {
+    const integer c_x := 1;
+}
+
+module M_08_02_03_07_importing_of_import_statements_from_ttcn_3_modules_007_B {
+    public import from M_08_02_03_07_importing_of_import_statements_from_ttcn_3_modules_007_A {
+        const c_x
+    }
+    type integer MyInt;
+    group G {
+        const integer c_g := 2;
+    }
+    function f_b(integer p_i) return integer {
+        return p_i + 1;
+    }
+}

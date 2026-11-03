@@ -1,0 +1,58 @@
+// @requirement: 20.4 -- Interleaved behaviour can always be replaced by an equivalent set of nested alt statements.
+// @id: TTCN3-CORE-20.4-004a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_04_the_interleave_statement_003 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p1, p2;
+    }
+
+    testcase TC() runs on C {
+        var charstring v_interleave := "";
+        var charstring v_alt := "";
+        connect(self:p1, self:p2);
+        p1.send(integer:1);
+        p1.send(integer:2);
+        interleave {
+            [] p2.receive(integer:2) {
+                v_interleave := v_interleave & "b";
+            }
+            [] p2.receive(integer:1) {
+                v_interleave := v_interleave & "a";
+            }
+        }
+        p1.send(integer:1);
+        p1.send(integer:2);
+        alt {
+            [] p2.receive(integer:2) {
+                v_alt := v_alt & "b";
+                alt {
+                    [] p2.receive(integer:1) {
+                        v_alt := v_alt & "a";
+                    }
+                }
+            }
+            [] p2.receive(integer:1) {
+                v_alt := v_alt & "a";
+                alt {
+                    [] p2.receive(integer:2) {
+                        v_alt := v_alt & "b";
+                    }
+                }
+            }
+        }
+        if (v_interleave == "ab" and v_alt == v_interleave) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

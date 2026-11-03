@@ -1,0 +1,37 @@
+// @requirement: 22.1.4.1 -- The response and exception handling part of the call operation is optional and is required for cases where the called procedure returns a value or has out or inout parameters whose values are needed within the calling component and for cases where the called procedure may raise exceptions which need to be handled by the calling component.
+// @id: TTCN3-CORE-22.1.4.1-016a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_01_04_01_general_format_of_the_sending_operations_010 {
+
+    signature S(in integer p_x) return integer;
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    function f_server() runs on C {
+        var integer v_x;
+        p.getcall(S:{?}) -> param(v_x);
+        p.reply(S:{-} value v_x + 1);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_server());
+        p.call(S:{1}, nowait);
+        T.start;
+        alt {
+            [] p.getreply(S:{-} value 2) { setverdict(pass); }
+            [] p.getreply { setverdict(fail); }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

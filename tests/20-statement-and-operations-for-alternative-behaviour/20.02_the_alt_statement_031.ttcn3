@@ -1,0 +1,26 @@
+// @requirement: 20.2 -- If none of the alternative branches in the alt statement and top alternatives in the invoked altsteps and active defaults can be selected and executed, the alt statement shall be executed again, i.e. a new snapshot is taken and the evaluation of the alternative branches is repeated with the new snapshot.
+// @id: TTCN3-CORE-20.2-044a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_02_the_alt_statement_031 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        timer T1 := 0.5;
+        timer T2 := 2.0;
+        T1.start;
+        T2.start;
+        alt {
+            [] T1.timeout {
+                setverdict(pass);
+            }
+            [] T2.timeout {
+                setverdict(fail);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,25 @@
+// @requirement: 11.2 -- var template @fuzzy float v_fuzzTemp1 := rnd(); // evaluated on every usage
+// @id: TTCN3-CORE-11.2-032a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_11_02_template_variables_033 {
+    type component C {
+        var integer vc_count := 0;
+    }
+
+    function f_next() runs on C return integer {
+        vc_count := vc_count + 1;
+        return vc_count;
+    }
+
+    testcase TC() runs on C {
+        var template @fuzzy integer v_t := f_next();
+        if (match(1, v_t) and match(2, v_t) and vc_count == 2) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }}

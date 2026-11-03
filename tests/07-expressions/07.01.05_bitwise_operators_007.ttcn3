@@ -1,0 +1,27 @@
+// @requirement: 7.1.5 -- For each corresponding bit position, the resulting value is a 1 if both bits are set to 1, otherwise the value for the resulting bit is 0. That is:
+// @id: TTCN3-CORE-7.1.5-013a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_07_01_05_bitwise_operators_007 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var bitstring v_1 := '1'B;
+        var bitstring v_0 := '0'B;
+        var bitstring v_b := '1001'B;
+        var hexstring v_h := 'B'H;
+        var octetstring v_o := 'FB'O;
+        if ((v_1 and4b v_1) == '1'B and (v_1 and4b v_0) == '0'B and
+            (v_0 and4b v_1) == '0'B and (v_0 and4b v_0) == '0'B and
+            (v_b and4b '0101'B) == '0001'B and (v_h and4b '5'H) == '1'H and
+            (v_o and4b '15'O) == '11'O) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

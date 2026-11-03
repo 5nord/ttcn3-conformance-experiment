@@ -1,0 +1,21 @@
+// @requirement: C.4.3 -- In all other cases when the AnyValue matching symbol occurs in the repl parameter, it is automatically converted prior to resolving the function evaluation if any of the following conditions is met: To a compatible binary string containing a single AnyElementOrNone if inpar is of a binary string type
+// @id: TTCN3-CORE-C.4.3-017a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_04_03_the_replace_function_019 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template bitstring v_repl := ?;
+        var template bitstring v_res := replace('0101'B, 1, 2, v_repl);
+        if (match('01'B, v_res) and match('0111'B, v_res) and not match('1101'B, v_res)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,23 @@
+// @requirement: B.1.5.2 -- The character string is inserted into the pattern being constructed so that it all characters contained in it can keep their literal value (i.e. all metacharacter symbols are automatically escaped).
+// @id: TTCN3-CORE-B.1.5.2-007a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_05_02_reference_expression_008 {
+
+    type component C {}
+
+    const charstring c_str := "a?[0-9]*";
+
+    template charstring mw_ref := pattern "{\c_str}";
+
+    testcase TC() runs on C {
+        if (match("a?[0-9]*", mw_ref) and not match("ab5", mw_ref) and not match("ax7yz", mw_ref)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

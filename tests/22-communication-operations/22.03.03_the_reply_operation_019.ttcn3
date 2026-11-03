@@ -1,0 +1,38 @@
+// @requirement: 22.3.3 -- No AddressRef in the to clause shall contain the special value null at the time of the operation.
+// @id: TTCN3-CORE-22.3.3-021a
+// @verdict: pass accept, ttcn3verdict:error
+module M_22_03_03_the_reply_operation_019 {
+
+    signature S(out integer p_y);
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    altstep a_guard() runs on C {
+        [] T.timeout { setverdict(fail); stop; }
+    }
+
+    function f_client() runs on C {
+        p.call(S:{-}, nowait);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        var C v_null := null;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_client());
+        activate(a_guard());
+        T.start;
+        p.getcall(S:{-});
+        p.reply(S:{1}) to v_null; // error: null address in the to clause
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

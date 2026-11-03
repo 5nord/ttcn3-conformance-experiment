@@ -1,0 +1,18 @@
+// @requirement: 6.2.13.2 -- When constraining `record of`, `set of`, `union`, `map` and `anytype` types, and arrays, all templates of the expanded list (i.e. after resolving the subtype references) shall be valid (i.e. complete) values and templates of the core type.
+// @id: TTCN3-CORE-6.2.13.2-007a
+// @verdict: pass reject
+module M_06_02_13_02_list_subtyping_of_structured_types_and_anytype_008 {
+
+    type record of integer RoI;
+    type RoI RoI_Sub ({ 1, 2 }, { 3, - }); // error: partial template in list subtyping of a record of type
+
+    type component C {}
+
+    testcase TC() runs on C {
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

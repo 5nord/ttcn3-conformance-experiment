@@ -1,0 +1,35 @@
+// @requirement: 22.3.3 -- In case of one-to-one connections, the to clause may be omitted, because the receiving entity is uniquely identified by the system structure.
+// @id: TTCN3-CORE-22.3.3-012a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_03_03_the_reply_operation_010 {
+
+    signature S(out integer p_y);
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+        timer T := 1.0;
+    }
+
+    function f_server() runs on C {
+        p.getcall(S:{-});
+        p.reply(S:{1}); // no to clause
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_server());
+        p.call(S:{-}, nowait);
+        T.start;
+        alt {
+            [] p.getreply(S:{1}) from v_ptc { setverdict(pass); }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

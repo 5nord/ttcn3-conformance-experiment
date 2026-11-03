@@ -1,0 +1,32 @@
+// @requirement: 13 -- Received messages can also be declared as a combination of value and matching mechanisms (see clause 15.5).
+// @id: TTCN3-CORE-13-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_13_declaring_messages_004 {
+
+    type record R { integer i, float f }
+
+    type port P message { inout R }
+
+    type component C {
+        port P p1;
+        port P p2;
+        timer T := 1.0;
+    }
+
+    template R mw_r := { i := 1, f := (0.0 .. 2.0) }
+
+    testcase TC() runs on C {
+        connect(self:p1, self:p2);
+        p1.send(R:{ i := 1, f := 1.5 });
+        T.start;
+        alt {
+            [] p2.receive(mw_r) { setverdict(pass); }
+            [] p2.receive { setverdict(fail); }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

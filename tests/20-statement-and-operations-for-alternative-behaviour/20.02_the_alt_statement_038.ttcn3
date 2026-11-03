@@ -1,0 +1,55 @@
+// @requirement: 20.2 -- It should be noted that the default mechanism (see clause 20.5) is always invoked at the end of all alternatives unless the @nodefault modifier is present.
+// @id: TTCN3-CORE-20.2-056a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_02_the_alt_statement_038 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p1, p2;
+        var boolean v_def := false;
+    }
+
+    altstep a_def() runs on C {
+        [] p2.receive {
+            v_def := true;
+        }
+    }
+
+    testcase TC() runs on C {
+        var boolean v_alt := false;
+        timer T := 1.0;
+        connect(self:p1, self:p2);
+        activate(a_def());
+        p1.send(integer:1);
+        alt {
+            [] p2.receive(integer:1) {
+                v_alt := true;
+            }
+        }
+        if (not v_alt or v_def) {
+            setverdict(fail);
+        }
+        p1.send(integer:2);
+        T.start;
+        alt {
+            [] p2.receive(integer:1) {
+                setverdict(fail);
+            }
+            [] T.timeout {
+                setverdict(fail);
+            }
+        }
+        if (v_def) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

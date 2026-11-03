@@ -1,0 +1,29 @@
+// @requirement: 9.2 -- Instead, a well defined (but abstract) test system interface shall be associated with each test case.
+// @id: TTCN3-CORE-9.2-008a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_09_02_test_system_interface_001 {
+
+    type port P message { inout integer; }
+
+    type component C {
+        port P p;
+    }
+
+    type component S {
+        port P p_sys;
+    }
+
+    testcase TC() runs on C system S {
+        map(mtc:p, system:p_sys);
+        if (system != null and p.checkstate("Mapped")) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+        unmap(mtc:p, system:p_sys);
+    }
+
+    control {
+        execute(TC());
+    }
+}

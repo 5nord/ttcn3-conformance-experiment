@@ -1,0 +1,24 @@
+// @requirement: 16.1.0 -- Functions may have an mtc clause.
+// @id: TTCN3-CORE-16.1.0-010a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_16_01_00_general_011 {
+
+    type component C {}
+
+    function f_mtc() runs on C mtc C return C {
+        var C v_mtc := mtc;
+        return v_mtc;
+    }
+
+    testcase TC() runs on C {
+        if (f_mtc() == mtc) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

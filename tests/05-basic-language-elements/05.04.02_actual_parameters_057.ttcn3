@@ -1,0 +1,34 @@
+// @requirement: 5.4.2 -- The called functions may use other functions with inout or out parameters internally.
+// @id: TTCN3-CORE-5.4.2-055a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_04_02_actual_parameters_057 {
+
+    type component C {}
+
+    function f_out(out integer p_o) return integer {
+        p_o := 1;
+        return 2;
+    }
+
+    function f_wrapper() return integer {
+        var integer v_o;
+        var integer v_r := f_out(v_o);
+        return v_r + v_o;
+    }
+
+    function f_lazy(@lazy integer p_i) return integer {
+        return p_i;
+    }
+
+    testcase TC() runs on C {
+        if (f_lazy(f_wrapper()) == 3) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

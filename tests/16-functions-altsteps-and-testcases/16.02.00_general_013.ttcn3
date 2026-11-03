@@ -1,0 +1,31 @@
+// @requirement: 16.2.0 -- If the mtc clause is not present, the type of the mtc component reference is unknown in the scope of this altstep.
+// @id: TTCN3-CORE-16.2.0-015a
+// @verdict: pass reject
+module M_16_02_00_general_013 {
+
+    type port P message {
+        inout integer
+    }
+
+    type component C {
+        port P p1, p2;
+    }
+
+    altstep a_step() runs on C {
+        [] p2.receive {
+            connect(self:p1, mtc:p2); // error: type of mtc unknown, port p2 of mtc cannot be referenced
+        }
+    }
+
+    testcase TC() runs on C {
+        connect(self:p1, self:p2);
+        p1.send(1);
+        disconnect(self:p1, self:p2);
+        a_step();
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

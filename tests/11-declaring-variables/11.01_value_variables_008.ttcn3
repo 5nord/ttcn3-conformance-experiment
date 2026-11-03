@@ -1,0 +1,23 @@
+// @requirement: 11.1 -- A value variable may change its value during test execution several times.
+// @id: TTCN3-CORE-11.1-007a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_11_01_value_variables_008 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_sum := 0;
+        for (var integer i := 1; i <= 4; i := i + 1) {
+            v_sum := v_sum + i;
+        }
+        if (v_sum == 10) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,37 @@
+// @requirement: 6.2.8 -- Variables of type default can be used to handle activated defaults in test components.
+// @id: TTCN3-CORE-6.2.8-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_08_the_default_type_005 {
+
+    type component C {
+        timer T;
+        var boolean v_hit := false;
+        var default v_d := null;
+    }
+
+    altstep a_def() runs on C {
+        [] T.timeout {
+            v_hit := true;
+        }
+    }
+
+    testcase TC() runs on C {
+        timer T_guard;
+        v_d := activate(a_def());
+        deactivate(v_d);
+        T.start(0.1);
+        T_guard.start(1.0);
+        alt {
+            [] T_guard.timeout {}
+        }
+        if (not v_hit) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

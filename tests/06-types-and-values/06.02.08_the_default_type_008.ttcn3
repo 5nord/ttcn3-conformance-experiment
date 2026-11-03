@@ -1,0 +1,45 @@
+// @requirement: 6.2.8 -- Default references are used in deactivate operations (see clause 20.5.3) in order to identify the default to be deactivated.
+// @id: TTCN3-CORE-6.2.8-007a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_08_the_default_type_008 {
+
+    type component C {
+        timer T;
+        var boolean v_hit1 := false;
+        var boolean v_hit2 := false;
+    }
+
+    altstep a_def1() runs on C {
+        [] T.timeout {
+            v_hit1 := true;
+        }
+    }
+
+    altstep a_def2() runs on C {
+        [] T.timeout {
+            v_hit2 := true;
+        }
+    }
+
+    testcase TC() runs on C {
+        timer T_guard;
+        var default v_d1 := activate(a_def1());
+        var default v_d2 := activate(a_def2());
+        deactivate(v_d2);
+        T.start(0.1);
+        T_guard.start(1.0);
+        alt {
+            [] T_guard.timeout {}
+        }
+        if (v_hit1 and not v_hit2) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+        deactivate(v_d1);
+    }
+
+    control {
+        execute(TC());
+    }
+}

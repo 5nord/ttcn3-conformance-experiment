@@ -1,0 +1,44 @@
+// @requirement: 11.0 -- Variables can be of simple basic types, basic string types, structured types, special data types (including subtypes derived from these types) as well as address, component or default, port or timer types.
+// @id: TTCN3-CORE-11.0-003a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_11_00_general_001 {
+
+    type integer address;
+    type integer Small (0..9);
+    type record R {
+        integer f1,
+        boolean f2
+    }
+    type port P message {
+        inout integer
+    }
+
+    type component C {
+        port P p1;
+    }
+
+    testcase TC() runs on C {
+        var integer v_int := 1;
+        var Small v_small := 2;
+        var charstring v_str := "a";
+        var octetstring v_oct := '0A'O;
+        var R v_rec := { f1 := 1, f2 := true };
+        var verdicttype v_verdict := pass;
+        var address v_addr := 3;
+        var C v_comp := self;
+        var default v_def := null;
+        var P v_port;
+        var timer v_timer;
+        if (v_int == 1 and v_small == 2 and v_str == "a" and v_oct == '0A'O and v_rec.f2
+            and v_verdict == pass and v_addr == 3 and v_comp == self
+            and v_def == null) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

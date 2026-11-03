@@ -1,0 +1,17 @@
+// @requirement: A.1.6.4.1 -- If PortRedirectSymbol is present, at least one of ValueStoreSpec and IndexSpec shall be present
+// @id: TTCN3-CORE-A.1.6.4.1-002a
+// @verdict: pass reject
+module M_A_01_06_04_01_component_operations_002 {
+
+    type component C {}
+
+    function f_ptc() runs on C {
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        v_ptc.start(f_ptc());
+        v_ptc.killed -> ; // error: redirect without value or index spec
+        setverdict(pass);
+    }
+}

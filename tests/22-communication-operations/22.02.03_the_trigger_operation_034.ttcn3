@@ -1,0 +1,38 @@
+// @requirement: 22.2.3 -- NOTE 3: An error due to a type mismatch may happen if the types in the receive part are not compatible to the types in the assignment part or, if the from clause is missing, but the type of the sender can be determined and it is not type compatible with the type in the sender clause.
+// @id: TTCN3-CORE-22.2.3-037b
+// @verdict: pass accept, ttcn3verdict:error
+module M_22_02_03_the_trigger_operation_034 {
+
+    type port P message { inout integer }
+
+    type component C {
+        port P p;
+    }
+
+    type component S {
+        port P p;
+        var integer v_extra;
+    }
+
+    type component D {
+        port P p;
+        timer T;
+    }
+
+    function f_send() runs on S {
+        p.send(1);
+    }
+
+    testcase TC() runs on C {
+        var S v_ptc := S.create;
+        var D v_d;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_send());
+        p.trigger(integer:?) -> sender v_d; // error: sender of type S is not compatible with D
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

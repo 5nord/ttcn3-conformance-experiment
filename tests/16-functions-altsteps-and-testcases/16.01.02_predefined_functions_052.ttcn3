@@ -1,0 +1,35 @@
+// @requirement: 16.1.2 -- int2char "(" SingleExpression ")" | int2unichar "(" SingleExpression ")" | int2bit "(" SingleExpression "," SingleExpression ")" | int2enum "(" SingleExpression "," SingleExpression ")" | int2hex "(" SingleExpression "," SingleExpression ")" | int2oct "(" SingleExpression "," SingleExpression ")" | int2str "(" SingleExpression ")" | int2float "(" SingleExpression ")" | float2int "(" SingleExpression ")" | char2int "(" SingleExpression ")" | char2oct "(" SingleExpression ")" | unichar2int "(" SingleExpression ")" | unichar2oct "(" SingleExpression ["," SingleExpression] ")" | bit2int "(" SingleExpression ")" | bit2hex "(" SingleExpression ")" | bit2oct "(" SingleExpression ")" | bit2str "(" SingleExpression ")" | hex2int "(" SingleExpression ")" | hex2bit "(" SingleExpression ")" | hex2oct "(" SingleExpression ")" | hex2str "(" SingleExpression ")" | oct2int "(" SingleExpression ")" | oct2bit "(" SingleExpression ")" | oct2hex "(" SingleExpression ")" | oct2str "(" SingleExpression ")" | oct2char "(" SingleExpression ")" | oct2unichar "(" SingleExpression ["," SingleExpression] ")" | str2int "(" SingleExpression ")" | str2hex "(" SingleExpression ")" | str2oct "(" SingleExpression ")" | str2float "(" SingleExpression ")" | enum2int "(" SingleExpression ")" | any2unistr "(" SingleExpression ["," SingleExpression] ")" | lengthof "(" TemplateInstance ")" | sizeof "(" TemplateInstance ")" | istemplatekind "(" TemplateInstance "," TemplateInstance ")" | regexp [@nocase] "(" TemplateInstance"," TemplateInstance"," SingleExpression ")" | substr "(" TemplateInstance "," SingleExpression "," SingleExpression ")" | replace "(" SingleExpression "," SingleExpression "," SingleExpression "," SingleExpression ")" | encvalue "(" TemplateInstance ["," SingleExpression] ["," SingleExpression] ")" | decvalue "(" SingleExpression "," SingleExpression ["," SingleExpression] ["," SingleExpression] ["," SingleExpression] ")" | encvalue_unichar "(" TemplateInstance ["," SingleExpression] ["," SingleExpression] ["," SingleExpression] ")" | decvalue_unichar "(" SingleExpression "," SingleExpression ["," SingleExpression] ["," SingleExpression] ["," SingleExpression] ")" | encvalue_o "(" TemplateInstance ["," SingleExpression] ["," SingleExpression] ")" | decvalue_o "(" SingleExpression "," SingleExpression ["," SingleExpression] ["," SingleExpression] ")" | get_stringencoding "(" SingleExpression ")" | remove_bom(" SingleExpression ") | rnd "(" [ SingleExpression ] ")" | testcasename "()" | hostid "(" [ SingleExpression ] ")"
+// @id: TTCN3-CORE-16.1.2-062a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_16_01_02_predefined_functions_052 {
+
+    type component C {}
+
+    type record of integer RoI;
+
+    testcase TC() runs on C {
+        var RoI v_list := { 1, 2, 3 };
+        var float v_rnd := rnd(0.5);
+        var charstring v_host := hostid("Ipv4orIPv6");
+        if (int2bit(5, 4) == '0101'B
+            and int2char(65) == "A"
+            and bit2hex('111010111'B) == '1D7'H
+            and unichar2oct("A", "UTF-8") == '41'O
+            and lengthof(v_list) == 3
+            and substr('01AB23CD'O, 1, 2) == 'AB23'O
+            and replace("abc", 1, 1, "x") == "axc"
+            and remove_bom('FEFF0041'O) == '0041'O
+            and v_rnd >= 0.0 and v_rnd < 1.0
+            and rnd() < 1.0
+            and testcasename() == "TC"
+            and lengthof(v_host) >= 0) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

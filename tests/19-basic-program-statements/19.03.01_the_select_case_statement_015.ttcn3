@@ -1,0 +1,32 @@
+// @requirement: 19.3.1 -- Branches are evaluated in their textual order.
+// @id: TTCN3-CORE-19.3.1-014a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_03_01_the_select_case_statement_015 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_x := 7;
+        var template integer v_t1 := (5 .. 10);
+        var template integer v_t2 := ?;
+        var template integer v_t3 := 7;
+        select (v_x) {
+            case (0) {
+                setverdict(fail);
+            }
+            case (v_t1) {
+                setverdict(pass);
+            }
+            case (v_t2) {
+                setverdict(fail);
+            }
+            case (v_t3) {
+                setverdict(fail);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

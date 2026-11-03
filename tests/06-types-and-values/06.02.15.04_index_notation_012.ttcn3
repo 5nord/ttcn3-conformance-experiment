@@ -1,0 +1,22 @@
+// @requirement: 6.2.15.4 -- a) The index expression used for index notation and index assignment notation shall be completely initialized and compatible with the from type of the map type.
+// @id: TTCN3-CORE-6.2.15.4-013a
+// @verdict: pass accept, ttcn3verdict:error
+module M_06_02_15_04_index_notation_012 {
+
+    type record Key { integer a, integer b }
+    type map from Key to integer MyMap;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyMap v_map := { [{ 1, 2 }] := 12 };
+        var Key v_key;
+        v_key.a := 1;
+        v_map[v_key] := 1; // error: index expression is only partially initialized
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

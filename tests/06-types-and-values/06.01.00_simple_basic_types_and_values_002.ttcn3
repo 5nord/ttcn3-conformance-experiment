@@ -1,0 +1,21 @@
+// @requirement: 6.1.0 -- Values of integer type shall be denoted by one or more digits; the first digit shall not be zero unless the value is 0; the value zero shall be represented by a single zero.
+// @id: TTCN3-CORE-6.1.0-003a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_01_00_simple_basic_types_and_values_002 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_one := 7;
+        var integer v_many := 1234567890;
+        if (v_one + 3 == 10 and v_many == 1234567889 + 1) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

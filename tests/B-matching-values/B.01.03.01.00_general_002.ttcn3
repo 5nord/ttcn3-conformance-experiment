@@ -1,0 +1,26 @@
+// @requirement: B.1.3.1.0 -- The matching symbol "?" (AnyElement) is used to indicate that it replaces single elements of a string (except character strings, see table 4 for the lengths of the units being matched by "?" in a string), a record of, a set of or an array.
+// @id: TTCN3-CORE-B.1.3.1.0-001b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_03_01_00_general_002 {
+
+    type component C {}
+
+    template bitstring mw_bits := '1?'B;
+    template hexstring mw_hex := 'A?'H;
+    template octetstring mw_oct := 'AB?'O;
+
+    testcase TC() runs on C {
+        if (match('10'B, mw_bits) and not match('100'B, mw_bits) and
+            match('AF'H, mw_hex) and not match('AFF'H, mw_hex) and
+            match('ABCD'O, mw_oct) and not match('AB'O, mw_oct) and
+            not match('ABCDEF'O, mw_oct)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

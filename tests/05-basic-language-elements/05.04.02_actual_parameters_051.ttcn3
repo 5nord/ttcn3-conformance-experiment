@@ -1,0 +1,21 @@
+// @requirement: 5.4.2 -- f) All parameterized entities specified as an actual parameter shall have their own parameters resolved in the top-level actual parameter list.
+// @id: TTCN3-CORE-5.4.2-047a
+// @verdict: pass reject
+module M_05_04_02_actual_parameters_051 {
+
+    type component C {}
+
+    template integer m_t(integer p_v) := p_v;
+
+    function f(in template integer p_t) {
+    }
+
+    testcase TC() runs on C {
+        f(m_t); // error: actual parameter of m_t not provided
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

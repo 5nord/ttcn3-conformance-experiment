@@ -1,0 +1,39 @@
+// @requirement: 21.1.1 -- With both the connect operation and the map operation, the ports to be connected are identified by the component references of the components to be connected and the names of the ports to be connected.
+// @id: TTCN3-CORE-21.1.1-004a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_01_01_the_connect_and_map_operations_005 {
+
+    type port P message { inout integer; }
+
+    type component C {
+        port P p1;
+        port P p2;
+    }
+
+    function f_check() runs on C {
+        timer T := 1.0;
+        T.start;
+        alt {
+            [] p1.receive { setverdict(fail); }
+            [] p2.receive(1) { setverdict(pass); }
+            [] T.timeout { setverdict(fail); }
+        }
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc1 := C.create;
+        var C v_ptc2 := C.create;
+        connect(mtc:p1, v_ptc2:p2);
+        connect(mtc:p2, v_ptc1:p1);
+        v_ptc2.start(f_check());
+        p1.send(1);
+        v_ptc2.done;
+        if (not p1.checkstate("Connected") or not p2.checkstate("Connected")) {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

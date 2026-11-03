@@ -1,0 +1,28 @@
+// @requirement: C.1.31 -- The octets are interpreted as mandated by the standardized mapping associated with the given string_encoding and the resulting characters are appended to the returned value.
+// @id: TTCN3-CORE-C.1.31-003a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_01_31_octetstring_to_universal_character_string_003 {
+
+    const universal charstring c_euro := char(0, 0, 32, 172);
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var octetstring v_utf8 := 'E282AC'O;
+        var octetstring v_utf16le := 'AC20'O;
+        var octetstring v_utf32be := '000020AC'O;
+        var octetstring v_utf32le := 'AC200000'O;
+        if (oct2unichar(v_utf8, "UTF-8") == c_euro and
+            oct2unichar(v_utf16le, "UTF-16LE") == c_euro and
+            oct2unichar(v_utf32be, "UTF-32BE") == c_euro and
+            oct2unichar(v_utf32le, "UTF-32LE") == c_euro) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

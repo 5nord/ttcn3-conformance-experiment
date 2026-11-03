@@ -1,0 +1,34 @@
+// @requirement: 22.1.2 -- TTCN-3 supports blocking and non-blocking procedure-based communication.
+// @id: TTCN3-CORE-22.1.2-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_01_02_principles_of_procedure_based_communication_001 {
+
+    signature S(in integer p_x) return integer;
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    function f_server() runs on C {
+        var integer v_x;
+        p.getcall(S:{?}) -> param(v_x);
+        p.reply(S:{-} value v_x + 1);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_server());
+        p.call(S:{1}, 1.0) {
+            [] p.getreply(S:{-} value 2) { setverdict(pass); }
+            [] p.getreply { setverdict(fail); }
+            [] p.catch(timeout) { setverdict(fail); }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,33 @@
+// @requirement: 6.2.12 -- The actual data representation of the global address type is resolved either by an explicit global address type definition within the test suite, address type definitions within port definitions, or externally by the test system (i.e. the address type is left as an open type within the TTCN-3 specification).
+// @id: TTCN3-CORE-6.2.12-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_12_addressing_entities_inside_the_sut_004 {
+
+    type integer address;
+
+    type port P1 message {
+        inout integer;
+    }
+
+    type port P2 message {
+        address charstring;
+        inout integer;
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var address v_global := 5;
+        var P1.address v_addr1 := v_global + 1;
+        var P2.address v_addr2 := "entity";
+        if (v_addr1 == 6 and lengthof(v_addr2) == 6) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

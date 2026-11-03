@@ -1,0 +1,56 @@
+// @requirement: 8.2.3.1 -- Importable Definition: • component type; Possible Local Definitions: Constant names, variable names, timer names and port names; Possible Referenced Definitions: Constant types, variable types, port types
+// @id: TTCN3-CORE-8.2.3.1-049b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_02_03_01_general_format_of_import_014 {
+
+    import from M_08_02_03_01_general_format_of_import_014_B { type C }
+
+    function f_send() runs on C {
+        p.send(v_rec);
+    }
+
+    testcase TC() runs on C {
+        timer T_guard := 1.0;
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_send());
+        T_guard.start;
+        alt {
+            [] p.receive({ a := 5 }) {
+                if (c_rec.a == 1) {
+                    setverdict(pass);
+                } else {
+                    setverdict(fail);
+                }
+            }
+            [] p.receive {
+                setverdict(fail);
+            }
+            [] T_guard.timeout {
+                setverdict(fail);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_03_01_general_format_of_import_014_B {
+    import from M_08_02_03_01_general_format_of_import_014_A all;
+    type component C {
+        const MyRec c_rec := { a := 1 };
+        var MyRec v_rec := { a := 5 };
+        port P p;
+    }
+}
+
+module M_08_02_03_01_general_format_of_import_014_A {
+    type record MyRec {
+        integer a
+    }
+    type port P message {
+        inout MyRec;
+    }
+}

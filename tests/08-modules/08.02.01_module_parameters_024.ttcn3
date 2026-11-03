@@ -1,0 +1,18 @@
+// @requirement: 8.2.1 -- e) More than one occurrence of module parameters declaration is allowed but each parameter shall be declared only once (i.e. redefinition of the module parameter is not allowed).
+// @id: TTCN3-CORE-8.2.1-024b
+// @verdict: pass reject
+module M_08_02_01_module_parameters_024 {
+
+    modulepar integer mp_value := 1;
+    modulepar integer mp_value := 2; // error: redefinition of a module parameter
+
+    type component C {}
+
+    testcase TC() runs on C {
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

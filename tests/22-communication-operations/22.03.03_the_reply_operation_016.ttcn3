@@ -1,0 +1,17 @@
+// @requirement: 22.3.3 -- c) All out and inout parameters of the signature shall have a specific value i.e. the use of matching mechanisms such as AnyValue is not allowed.
+// @id: TTCN3-CORE-22.3.3-018a
+// @verdict: pass reject
+module M_22_03_03_the_reply_operation_016 {
+
+    signature S(in integer p_x, out integer p_y);
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    function f_reply() runs on C {
+        p.reply(S:{-, ?}); // error: AnyValue for an out parameter
+    }
+}

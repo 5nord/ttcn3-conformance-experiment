@@ -1,0 +1,20 @@
+// @requirement: 5.4.1.2 -- To enable a parameterized object to accept templates or matching symbols as actual parameters, the extra keyword `template` shall be added before the type field of the corresponding formal parameter.
+// @id: TTCN3-CORE-5.4.1.2-003a
+// @verdict: pass reject
+module M_05_04_01_02_formal_parameters_of_kind_template_002 {
+    type component C {}
+
+    function f_check(integer p_x) return boolean {
+        return p_x == 1;
+    }
+
+    testcase TC() runs on C {
+        if (f_check(?)) { // error: matching mechanism passed to a value parameter
+            setverdict(pass);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,48 @@
+// @requirement: 22.0 -- TTCN-3 supports message-based and procedure-based _unicast, multicast and broadcast communication.
+// @id: TTCN3-CORE-22.0-001b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_00_general_002 {
+
+    signature S(in integer p_x) noblock;
+
+    type port PP procedure {
+        inout S
+    }
+
+    type component C {
+        port PP p;
+    }
+
+    function f_getcall(integer p_first) runs on C {
+        timer T := 1.0;
+        T.start;
+        for (var integer i := p_first; i <= 3; i := i + 1) {
+            alt {
+                [] p.getcall(S:{p_x := i}) {}
+                [] T.timeout {
+                    setverdict(fail);
+                    stop;
+                }
+            }
+        }
+        setverdict(pass);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc1 := C.create;
+        var C v_ptc2 := C.create;
+        connect(mtc:p, v_ptc1:p);
+        connect(mtc:p, v_ptc2:p);
+        v_ptc1.start(f_getcall(1));
+        v_ptc2.start(f_getcall(2));
+        p.call(S:{p_x := 1}) to v_ptc1;
+        p.call(S:{p_x := 2}) to (v_ptc1, v_ptc2);
+        p.call(S:{p_x := 3}) to all component;
+        all component.done;
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

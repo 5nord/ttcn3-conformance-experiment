@@ -1,0 +1,21 @@
+// @requirement: 15.6.1 -- e) A pattern containing a single ? metacharacter if the referenced template is of a character string type and contains the AnyValue matching mechanism.
+// @id: TTCN3-CORE-15.6.1-015a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_06_01_referencing_individual_string_elements_015 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template charstring v_char := ?, v_e;
+        v_e := v_char[0];
+        if (match("a", v_e) and not match("ab", v_e) and not match("", v_e)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

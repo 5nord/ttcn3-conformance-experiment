@@ -1,0 +1,32 @@
+// @requirement: B.1.2.9 -- b) The decoding target can be a template of any data type.
+// @id: TTCN3-CORE-B.1.2.9-006a
+// @verdict: pass accept, noexecution
+module M_B_01_02_09_matching_decoded_content_007 {
+
+    type component C {}
+
+    type integer PInt with { encode "JSON" }
+    type boolean PBool with { encode "JSON" }
+    type charstring PStr with { encode "JSON" }
+    type enumerated PEnum { e_a, e_b } with { encode "JSON" }
+    type record PRec {
+        integer f1,
+        boolean f2 optional
+    } with { encode "JSON" }
+    type record of integer PRoI with { encode "JSON" }
+    type union PUnion {
+        integer i,
+        charstring s
+    } with { encode "JSON" }
+
+    template PEnum m_enum := e_b;
+    template PRec m_rec := { f1 := ?, f2 := * };
+
+    template octetstring mw_int := decmatch PInt:(1 .. 10);
+    template octetstring mw_bool := decmatch PBool:true;
+    template octetstring mw_str := decmatch PStr:pattern "a*";
+    template octetstring mw_enum := decmatch m_enum;
+    template octetstring mw_rec := decmatch m_rec;
+    template octetstring mw_roI := decmatch PRoI:{ 1, * };
+    template octetstring mw_union := decmatch PUnion:{ i := ? };
+}

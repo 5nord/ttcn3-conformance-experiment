@@ -1,0 +1,30 @@
+// @requirement: C.5.5 -- The encvalue_o function encodes a value or template into an octetstring.
+// @id: TTCN3-CORE-C.5.5-002a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_05_05_the_encoding_to_octetstring_function_002 {
+
+    type component C {}
+
+    type record R {
+        integer f1,
+        integer f2
+    } with { encode "JSON" }
+
+    template (value) R m_r := { f1 := 1, f2 := 2 };
+
+    testcase TC() runs on C {
+        var integer v_len1, v_len2;
+        var R v_r;
+        var octetstring v_o1 := encvalue_o(m_r, "", "", v_len1);
+        var octetstring v_o2 := encvalue_o(R:{ f1 := 1, f2 := 2 }, "", "", v_len2);
+        if (v_o1 == v_o2 and lengthof(v_o1) > 0 and decvalue_o(v_o1, v_r) == 0 and v_r == valueof(m_r)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

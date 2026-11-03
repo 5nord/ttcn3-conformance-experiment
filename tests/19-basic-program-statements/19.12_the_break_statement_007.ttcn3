@@ -1,0 +1,40 @@
+// @requirement: 19.12 -- If the execution of a top alternative of an altstep (see clause 16.2.1) ends with a break statement, the altstep and the surrounding alt statement are left.
+// @id: TTCN3-CORE-19.12-018a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_12_the_break_statement_007 {
+    type component C {
+        timer T_step := 0.1;
+        var integer vc_afterBreak := 0;
+    }
+
+    altstep a_step() runs on C {
+        [] T_step.timeout {
+            break;
+            vc_afterBreak := 1;
+        }
+    }
+
+    testcase TC() runs on C {
+        var boolean v_blockExecuted := false;
+        timer T_guard := 1.0;
+        T_step.start;
+        T_guard.start;
+        alt {
+            [] a_step() {
+                v_blockExecuted := true;
+            }
+            [] T_guard.timeout {
+                setverdict(fail);
+            }
+        }
+        if (not v_blockExecuted and vc_afterBreak == 0 and T_guard.running) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

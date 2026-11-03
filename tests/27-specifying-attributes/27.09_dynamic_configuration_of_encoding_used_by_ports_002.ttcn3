@@ -1,0 +1,26 @@
+// @requirement: 27.9 -- (SingleExpression | ( all port ) | self ) "." setencode"(" Type "," SingleExpression ")"
+// @id: TTCN3-CORE-27.9-002a
+// @verdict: pass accept, noexecution
+module M_27_09_dynamic_configuration_of_encoding_used_by_ports_002 {
+
+    type record PDU {
+        charstring source,
+        integer data
+    } with { encode "PduCodec1"; encode "PduCodec2" }
+
+    type port P message {
+        inout PDU;
+    }
+
+    type component C {
+        port P p;
+    }
+
+    function f_configure() runs on C {
+        var universal charstring v_codec := "PduCodec2";
+        p.setencode(PDU, "PduCodec1");
+        all port.setencode(PDU, v_codec);
+        self.setencode(PDU, "PduCodec1");
+    }
+
+}

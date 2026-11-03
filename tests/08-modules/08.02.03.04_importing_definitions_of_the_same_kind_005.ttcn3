@@ -1,0 +1,42 @@
+// @requirement: 8.2.3.4 -- The import of visible definitions of the same kind can be used in combination with imports of single visible definitions (see clause 8.2.3.2), with imports of groups (see clause 8.2.3.3), and with imports of import statements (see clause 8.2.3.7).
+// @id: TTCN3-CORE-8.2.3.4-005a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_02_03_04_importing_definitions_of_the_same_kind_005 {
+
+    import from M_08_02_03_04_importing_definitions_of_the_same_kind_005_A {
+        type all;
+        const c_a;
+        group G;
+        import all
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyInt v_i := c_a + c_g + c_x;
+        if (v_i == 7) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_02_03_04_importing_definitions_of_the_same_kind_005_A {
+    public import from M_08_02_03_04_importing_definitions_of_the_same_kind_005_B {
+        const c_x
+    }
+    type integer MyInt;
+    const integer c_a := 1;
+    group G {
+        const integer c_g := 2;
+    }
+}
+
+module M_08_02_03_04_importing_definitions_of_the_same_kind_005_B {
+    const integer c_x := 4;
+}

@@ -1,0 +1,24 @@
+// @requirement: 19.0 -- Statement: Execute test case; Associated keyword or symbol: execute; Can be invoked by control behaviour: Yes
+// @id: TTCN3-CORE-19.0-023c
+// @verdict: pass reject
+module M_19_00_general_054 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        setverdict(pass);
+    }
+
+    function f_guard() return boolean {
+        var verdicttype v_verdict := execute(TC()); // error: execute in function called from an alt guard
+        return v_verdict == pass;
+    }
+
+    control {
+        timer T := 0.1;
+        T.start;
+        alt {
+            [f_guard()] T.timeout {}
+        }
+    }
+}

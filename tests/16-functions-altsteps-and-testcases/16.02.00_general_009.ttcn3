@@ -1,0 +1,52 @@
+// @requirement: 16.2.0 -- Altsteps may invoke functions and altsteps or activate altsteps as defaults.
+// @id: TTCN3-CORE-16.2.0-011b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_16_02_00_general_009 {
+
+    type port P message {
+        inout integer
+    }
+
+    type component C {
+        port P p1, p2;
+        var boolean v_defHit := false;
+        timer T_guard := 1.0;
+    }
+
+    altstep a_def() runs on C {
+        [] p2.receive(integer:2) {
+            v_defHit := true;
+        }
+    }
+
+    altstep a_outer() runs on C {
+        [] p2.receive(integer:1) {
+            var default v_d := activate(a_def());
+        }
+    }
+
+    testcase TC() runs on C {
+        connect(self:p1, self:p2);
+        T_guard.start;
+        p1.send(1);
+        p1.send(2);
+        a_outer();
+        alt {
+            [] p2.receive(integer:100) {
+                setverdict(fail);
+            }
+            [] T_guard.timeout {
+                setverdict(fail);
+            }
+        }
+        if (v_defHit) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

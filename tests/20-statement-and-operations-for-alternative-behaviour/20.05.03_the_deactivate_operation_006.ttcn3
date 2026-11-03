@@ -1,0 +1,51 @@
+// @requirement: 20.5.3 -- This means, a test component cannot deactivate or suspend a default in another test component.
+// @id: TTCN3-CORE-20.5.3-006a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_05_03_the_deactivate_operation_006 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p;
+        timer T;
+        timer T_guard;
+        var charstring v_log := "";
+    }
+
+    altstep a_1() runs on C {
+        [] T.timeout { v_log := v_log & "1"; }
+    }
+
+    function f_wait() runs on C {
+        T.start(0.1);
+        T_guard.start(0.5);
+        alt {
+            [] T_guard.timeout { v_log := v_log & "g"; }
+        }
+        T_guard.stop;
+    }
+
+    function f_ptc() runs on C {
+        activate(a_1());
+        p.send(1);
+        p.receive(2);
+        f_wait();
+        if (v_log == "1") { setverdict(pass); } else { setverdict(fail); }
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_ptc());
+        p.receive(1);
+        deactivate;
+        p.send(2);
+        v_ptc.done;
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,41 @@
+// @requirement: 5.2.0 -- Identifiers imported from other modules are also globally visible throughout the importing module.
+// @id: TTCN3-CORE-5.2.0-019a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_02_00_general_007 {
+
+    import from M_05_02_00_general_007_A all;
+
+    type component C {
+        timer T := 0.1;
+        var integer vc_x := c_imported;
+    }
+
+    function f_get() return integer {
+        return c_imported;
+    }
+
+    altstep a_check() runs on C {
+        [c_imported == 5] T.timeout {
+            setverdict(pass);
+        }
+    }
+
+    testcase TC() runs on C {
+        if (f_get() != 5 or vc_x != 5) {
+            setverdict(fail);
+            stop;
+        }
+        T.start;
+        a_check();
+    }
+
+    control {
+        if (c_imported == 5) {
+            execute(TC());
+        }
+    }
+}
+
+module M_05_02_00_general_007_A {
+    const integer c_imported := 5;
+}

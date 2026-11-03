@@ -1,0 +1,21 @@
+// @requirement: 6.2.7 -- Individual elements of multi-dimensional arrays can be accessed by repeated use of the index notation.
+// @id: TTCN3-CORE-6.2.7-009a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_07_arrays_009 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_a[2][3] := { { 1, 2, 3 }, { 4, 5, 6 } };
+        v_a[1][2] := 12;
+        if (v_a[0][1] == 2 and v_a[1][2] == 12) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

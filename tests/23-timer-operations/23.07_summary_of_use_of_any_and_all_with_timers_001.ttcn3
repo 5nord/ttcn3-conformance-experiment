@@ -1,0 +1,30 @@
+// @requirement: 23.7 -- The keywords any and all may be used with timer operations as indicated in table 28.
+// @id: TTCN3-CORE-23.7-001a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_23_07_summary_of_use_of_any_and_all_with_timers_001 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        timer T1 := 5.0;
+        timer T2 := 0.1;
+        T1.start;
+        if (not any timer.running) {
+            setverdict(fail);
+        }
+        all timer.stop;
+        if (T1.running) {
+            setverdict(fail);
+        }
+        T2.start;
+        alt {
+            [] any timer.timeout {
+                setverdict(pass);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

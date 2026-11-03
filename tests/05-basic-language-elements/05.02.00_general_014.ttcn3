@@ -1,0 +1,28 @@
+// @requirement: 5.2.0 -- Statement blocks and embedded statement blocks have a hierarchical relation both to the scope unit including the given statement block and to any embedded statement block.
+// @id: TTCN3-CORE-5.2.0-023a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_02_00_general_014 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_outer := 1;
+        var integer v_result := 0;
+        {
+            var integer v_block := v_outer + 1;
+            {
+                var integer v_inner := v_block + v_outer;
+                v_result := v_inner;
+            }
+        }
+        if (v_result == 3) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,30 @@
+// @requirement: 21.1.2 -- Both, the disconnect and unmap operations can be called from any component if the relevant component references together with the names of the relevant ports are known.
+// @id: TTCN3-CORE-21.1.2-004b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_01_02_the_disconnect_and_unmap_operations_006 {
+
+    type port P message { inout integer; }
+
+    type component C { port P p; }
+
+    function f_unmap() runs on C mtc C system C {
+        unmap(mtc:p, system:p);
+        setverdict(pass);
+    }
+
+    testcase TC() runs on C system C {
+        var C v_ptc := C.create;
+        map(self:p, system:p);
+        v_ptc.start(f_unmap());
+        v_ptc.done;
+        if (not p.checkstate("Mapped")) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

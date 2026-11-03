@@ -1,0 +1,19 @@
+// @requirement: 21.1.2 -- d) The disconnect operation parameters shall not contain a system port reference.
+// @id: TTCN3-CORE-21.1.2-020a
+// @verdict: pass reject
+module M_21_01_02_the_disconnect_and_unmap_operations_026 {
+
+    type port P message { inout integer; }
+
+    type component C { port P p; }
+
+    testcase TC() runs on C system C {
+        map(self:p, system:p);
+        disconnect(self:p, system:p); // error: system port reference in disconnect
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

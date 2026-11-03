@@ -1,0 +1,23 @@
+// @requirement: 22.2.2 -- The receive operation can be used as a stand-alone statement in a behaviour description.
+// @id: TTCN3-CORE-22.2.2-053a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_22_02_02_the_receive_operation_045 {
+
+    type port P message { inout integer }
+
+    type component C {
+        port P p;
+        port P q;
+    }
+
+    testcase TC() runs on C {
+        connect(mtc:p, mtc:q);
+        q.send(1);
+        p.receive(integer:1);
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

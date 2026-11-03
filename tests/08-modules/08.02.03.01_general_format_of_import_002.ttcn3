@@ -1,0 +1,18 @@
+// @requirement: 8.2.3.1 -- [ Visibility ] import from ModuleId [-> LocalModuleName] ( ( all [ except "{" ExceptSpec "}" ] ) | ( "{" ImportSpec "}" ) ) [ ";" ]
+// @id: TTCN3-CORE-8.2.3.1-002a
+// @verdict: pass accept, noexecution
+module M_08_02_03_01_general_format_of_import_002 {
+
+    import from M_08_02_03_01_general_format_of_import_002_A all;
+    private import from M_08_02_03_01_general_format_of_import_002_A all except { const c_b }
+    public import from M_08_02_03_01_general_format_of_import_002_A { const c_a; type MyInt };
+    friend import from M_08_02_03_01_general_format_of_import_002_A -> ShortA { const c_b }
+
+    const MyInt c_sum := c_a + ShortA.c_b;
+}
+
+module M_08_02_03_01_general_format_of_import_002_A {
+    type integer MyInt;
+    const MyInt c_a := 1;
+    const MyInt c_b := 2;
+}

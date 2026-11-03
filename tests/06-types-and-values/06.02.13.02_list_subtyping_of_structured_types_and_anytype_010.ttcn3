@@ -1,0 +1,29 @@
+// @requirement: 6.2.13.2 -- When constraining `record` and `set` types, templates of the expanded list defined using the value list notation shall be valid (i.e. complete) templates of the core type, while templates of the expanded list defined using the field assignment notation may be partial (i.e. incomplete) templates of the core type.
+// @id: TTCN3-CORE-6.2.13.2-008b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_06_02_13_02_list_subtyping_of_structured_types_and_anytype_010 {
+
+    type set S {
+        integer f1,
+        charstring f2,
+        charstring f3
+    }
+
+    type S S_Sub ({ f2 := "user", f3 := "password" }, { f1 := 1, f2 := "User" });
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var S_Sub v_1 := { f1 := 7, f2 := "user", f3 := "password" };
+        var S_Sub v_2 := { f1 := 1, f2 := "User", f3 := "x" };
+        if (v_1.f1 == 7 and v_2.f3 == "x") {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

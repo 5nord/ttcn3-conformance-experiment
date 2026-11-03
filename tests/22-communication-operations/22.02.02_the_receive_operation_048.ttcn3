@@ -1,0 +1,22 @@
+// @requirement: 22.2.2 -- b) The receive operation shall only be used on message-based ports and the type of the value to be received shall be included in the list of incoming types of the port type definition.
+// @id: TTCN3-CORE-22.2.2-057a
+// @verdict: pass reject
+module M_22_02_02_the_receive_operation_048 {
+
+    signature S();
+
+    type port P procedure { inout S }
+
+    type component C {
+        port P p;
+    }
+
+    testcase TC() runs on C {
+        p.receive(integer:?); // error: receive on a procedure-based port
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

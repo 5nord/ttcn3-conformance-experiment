@@ -1,0 +1,23 @@
+// @requirement: C.4.2 -- If inpar is a literal (i.e. type is not explicitly given) the corresponding type shall be retrieved from the value contents.
+// @id: TTCN3-CORE-C.4.2-003a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_04_02_the_substring_function_003 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var bitstring v_b := substr('00100110'B, 3, 4);
+        var hexstring v_h := substr('ABCDEF'H, 2, 3);
+        var octetstring v_o := substr('01AB23CD'O, 1, 2);
+        var charstring v_c := substr("My name is JJ", 11, 2);
+        if (v_b == '0011'B and v_h == 'CDE'H and v_o == 'AB23'O and v_c == "JJ") {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

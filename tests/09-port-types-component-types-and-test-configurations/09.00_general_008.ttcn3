@@ -1,0 +1,25 @@
+// @requirement: 9.0 -- When the MTC terminates, the test system has to stop all PTCs not terminated by the moment when the test case execution is ended.
+// @id: TTCN3-CORE-9.0-017a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_09_00_general_008 {
+
+    type component C {
+        timer T;
+    }
+
+    function f_long() runs on C {
+        T.start(10.0);
+        T.timeout;
+        setverdict(fail);
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        v_ptc.start(f_long());
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC(), 5.0);
+    }
+}

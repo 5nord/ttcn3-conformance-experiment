@@ -1,0 +1,22 @@
+// @requirement: 6.2.1.0 -- Even when specifying partial values each field shall not appear more than once.
+// @id: TTCN3-CORE-6.2.1.0-024a
+// @verdict: pass reject
+module M_06_02_01_00_general_016 {
+
+    type record MyRecordType {
+        bitstring field1,
+        boolean field2 optional,
+        charstring field3
+    }
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var MyRecordType v_r := { field1 := '1'B, field1 := '0'B }; // error: field1 appears twice in a partial value
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

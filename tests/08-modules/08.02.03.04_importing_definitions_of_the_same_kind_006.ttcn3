@@ -1,0 +1,47 @@
+// @requirement: 8.2.3.4 -- [ Visibility ] import from ModuleId "{" { ( ( type all [ except { TypeDefIdentifier [ "," ] } ] ) | ( template all [ except { TemplateIdentifier [ "," ] } ] ) | ( const all [ except { ConstIdentifier [ "," ] } ] ) | ( testcase all [ except { TestcaseIdentifier [ "," ] } ] ) | ( altstep all [ except { AltstepIdentifier [ "," ] } ] ) | ( function all [ except { FunctionIdentifier [ "," ] } ] ) | ( signature all [ except { SignatureIdentifier [ "," ] } ] ) | ( modulepar all [ except { ModuleParIdentifier [ "," ] } ] ) ) [ ";" ] } "}" [ ";" ]
+// @id: TTCN3-CORE-8.2.3.4-006a
+// @verdict: pass accept, noexecution
+module M_08_02_03_04_importing_definitions_of_the_same_kind_006 {
+
+    private import from M_08_02_03_04_importing_definitions_of_the_same_kind_006_A {
+        type all except MyType2, MyType3;
+        template all except m_b;
+        const all except c_b;
+        testcase all except TC_b;
+        altstep all except a_b;
+        function all except f_b;
+        signature all except S_b;
+        modulepar all except PX_B
+    };
+
+    import from M_08_02_03_04_importing_definitions_of_the_same_kind_006_A {
+        type all
+        template all
+        const all
+        testcase all
+        altstep all
+        function all
+        signature all
+        modulepar all;
+    }
+}
+
+module M_08_02_03_04_importing_definitions_of_the_same_kind_006_A {
+    type component C_A {}
+    type integer MyType2;
+    type integer MyType3;
+    template integer m_a := ?;
+    template integer m_b := 1;
+    const integer c_a := 1;
+    const integer c_b := 2;
+    testcase TC_a() runs on C_A {}
+    testcase TC_b() runs on C_A {}
+    altstep a_a() { [] any timer.timeout {} }
+    altstep a_b() { [] any timer.timeout {} }
+    function f_a() {}
+    function f_b() {}
+    signature S_a();
+    signature S_b();
+    modulepar integer PX_A := 1;
+    modulepar integer PX_B := 2;
+}

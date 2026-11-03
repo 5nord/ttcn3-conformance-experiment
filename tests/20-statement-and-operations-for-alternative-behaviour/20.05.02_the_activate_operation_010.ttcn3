@@ -1,0 +1,42 @@
+// @requirement: 20.5.2 -- The effect of an activate operation is local to the test component in which it is called.
+// @id: TTCN3-CORE-20.5.2-009a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_05_02_the_activate_operation_010 {
+
+    type component C {
+        timer T;
+        timer T_guard;
+        var charstring v_log := "";
+    }
+
+    altstep a_1() runs on C {
+        [] T.timeout { v_log := v_log & "1"; }
+    }
+
+    function f_wait() runs on C {
+        T.start(0.1);
+        T_guard.start(0.5);
+        alt {
+            [] T_guard.timeout { v_log := v_log & "g"; }
+        }
+        T_guard.stop;
+    }
+
+    function f_ptc() runs on C {
+        f_wait();
+        if (v_log == "g") { setverdict(pass); } else { setverdict(fail); }
+    }
+
+    testcase TC() runs on C {
+        activate(a_1());
+        var C v_ptc := C.create;
+        v_ptc.start(f_ptc());
+        v_ptc.done;
+        f_wait();
+        if (v_log == "1") { setverdict(pass); } else { setverdict(fail); }
+    }
+
+    control {
+        execute(TC());
+    }
+}

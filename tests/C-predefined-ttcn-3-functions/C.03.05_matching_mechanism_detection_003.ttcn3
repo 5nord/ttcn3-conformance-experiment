@@ -1,0 +1,25 @@
+// @requirement: C.3.5 -- If the matching mechanism kind enquired is a matching mechanism inside values (clause B.1.3), the function shall return true if the template in the invalue parameter contains this kind of matching mechanism on the first level of nesting.
+// @id: TTCN3-CORE-C.3.5-004a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_C_03_05_matching_mechanism_detection_003 {
+
+    type component C {}
+    type record of integer RoI;
+    type record of RoI RoRoI;
+
+    testcase TC() runs on C {
+        var template RoI v_t1 := { permutation(1, 2, 3), ? };
+        var template RoRoI v_t2 := { { 1, ? } };
+        if (istemplatekind(v_t1, "permutation") and
+            istemplatekind(v_t1, "AnyElement") and
+            not istemplatekind(v_t2, "AnyElement")) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

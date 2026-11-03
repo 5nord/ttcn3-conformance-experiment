@@ -1,0 +1,24 @@
+// @requirement: B.1.5.0 -- Metacharacter: Used to denote two alternative expressions
+// @id: TTCN3-CORE-B.1.5.0-033a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_B_01_05_00_general_030 {
+
+    type component C {}
+
+    template charstring mw_alt := pattern "abc|xyz";
+
+    testcase TC() runs on C {
+        if (match("abc", mw_alt) and
+            match("xyz", mw_alt) and
+            not match("abc|xyz", mw_alt) and
+            not match("abz", mw_alt)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

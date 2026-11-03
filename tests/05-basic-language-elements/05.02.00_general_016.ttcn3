@@ -1,0 +1,31 @@
+// @requirement: 5.2.0 -- Declarations of a scope unit at a higher hierarchical level are visible in all units at lower levels within the same branch of the hierarchy.
+// @id: TTCN3-CORE-5.2.0-026a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_02_00_general_016 {
+
+    const integer c_module := 1;
+
+    type component C {
+        var integer vc_comp := c_module + 1;
+    }
+
+    testcase TC() runs on C {
+        var integer v_tc := vc_comp + 1;
+        var integer v_result := 0;
+        if (true) {
+            var integer v_if := v_tc + 1;
+            while (v_result == 0) {
+                v_result := c_module + vc_comp + v_tc + v_if;
+            }
+        }
+        if (v_result == 10) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

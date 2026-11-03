@@ -1,0 +1,48 @@
+// @requirement: 15.8.1 -- It can be used to define a mandatory field of a record or set template and the latter one could still be used in a send statement.
+// @id: TTCN3-CORE-15.8.1-009b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_08_01_explicit_restrictions_013 {
+    type record R {
+        integer a,
+        boolean b optional
+    }
+
+    template(value) integer m_a := 1;
+    template R m_r := {a := m_a, b := true};
+
+    type port P message {
+        inout R
+    }
+
+    type component C {
+        port P p
+    }
+
+    function f_receiver() runs on C {
+        timer T := 1.0;
+        T.start;
+        alt {
+            [] p.receive(R:{a := 1, b := true}) {
+                setverdict(pass);
+            }
+            [] p.receive {
+                setverdict(fail);
+            }
+            [] T.timeout {
+                setverdict(fail);
+            }
+        }
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(mtc:p, v_ptc:p);
+        v_ptc.start(f_receiver());
+        p.send(m_r);
+        v_ptc.done;
+    }
+
+    control {
+        execute(TC());
+    }
+}

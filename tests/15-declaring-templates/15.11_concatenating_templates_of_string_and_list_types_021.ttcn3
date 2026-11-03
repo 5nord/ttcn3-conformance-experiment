@@ -1,0 +1,21 @@
+// @requirement: 15.11 -- If one of the single templates is a pattern with the @nocase modifier, then all other single templates shall also be patterns with the @nocase modifier and the resulting pattern will also have the @nocase modifier.
+// @id: TTCN3-CORE-15.11-015b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_11_concatenating_templates_of_string_and_list_types_021 {
+
+    template charstring mw_t := (pattern @nocase "ab") & (pattern @nocase "c?");
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (match("ABCx", mw_t) and match("abcX", mw_t)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

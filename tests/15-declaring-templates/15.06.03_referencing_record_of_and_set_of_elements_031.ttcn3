@@ -1,0 +1,26 @@
+// @requirement: 15.6.3 -- If the original AnyElementsOrNone had a length restriction, the symbol is appended only if the restriction included items beyond the referenced item. If the position of the referenced item is greater or equal to the position of an AnyElementsOrNone symbol in the transformed form and this AnyElementsOrNone is the last symbol in the template, the value or matching symbol at the right hand side of the assignment shall be assigned to the referenced element.
+// @id: TTCN3-CORE-15.6.3-054a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_15_06_03_referencing_record_of_and_set_of_elements_031 {
+
+    type record of integer RoI;
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var template RoI v_roI1 := {1, * length (1 .. 2)};
+        var template RoI v_roI2 := {1, * length (1 .. 5)};
+        v_roI1[2] := 3;
+        v_roI2[2] := 3;
+        if (match({1, 0, 3}, v_roI1) and not match({1, 0, 3, 4}, v_roI1) and
+            match({1, 0, 3}, v_roI2) and match({1, 0, 3, 4}, v_roI2)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

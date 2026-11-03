@@ -1,0 +1,45 @@
+// @requirement: 18 -- Statement: Invoke procedure call; Associated keyword or symbol: call; Can be invoked by test behaviour: Yes
+// @id: TTCN3-CORE-18-053b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_18_overview_of_program_statements_and_operations_115 {
+
+    signature S(in integer p_x) return integer;
+
+    type port P procedure {
+        inout S;
+    }
+
+    type component C {
+        port P p;
+    }
+
+    function f_ptc() runs on C {
+        timer T := 1.0;
+        T.start;
+        alt {
+            [] p.getcall(S:{p_x := 1}) {
+                p.reply(S:{p_x := -} value 2);
+            }
+            [] T.timeout {
+            }
+        }
+    }
+
+    testcase TC() runs on C {
+        var C v_ptc := C.create;
+        connect(self:p, v_ptc:p);
+        v_ptc.start(f_ptc());
+        p.call(S:{p_x := 1}, 1.0) {
+            [] p.getreply(S:{p_x := -} value 2) {
+                setverdict(pass);
+            }
+            [] p.catch(timeout) {
+                setverdict(fail);
+            }
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

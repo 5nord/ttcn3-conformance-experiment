@@ -1,0 +1,20 @@
+// @requirement: 6.2.13.2 -- List subtyping is possible when defining a new type based on an existing parent type, but not directly at the declaration of the core type (see table 3).
+// @id: TTCN3-CORE-6.2.13.2-001b
+// @verdict: pass reject
+module M_06_02_13_02_list_subtyping_of_structured_types_and_anytype_002 {
+
+    type record R {
+        integer f1,
+        charstring f2
+    } ({ f1 := 1, f2 := "a" }, { f1 := 2, f2 := "b" }); // error: list subtyping at the core type declaration
+
+    type component C {}
+
+    testcase TC() runs on C {
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

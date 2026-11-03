@@ -1,0 +1,40 @@
+// @requirement: 20.4 -- d) The evaluation of the interleave statement is terminated if a break statement is executed.
+// @id: TTCN3-CORE-20.4-017a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_20_04_the_interleave_statement_010 {
+
+    type port P message {
+        inout integer;
+    }
+
+    type component C {
+        port P p1, p2;
+    }
+
+    testcase TC() runs on C {
+        var integer v_x := 0;
+        timer T := 2.0;
+        connect(self:p1, self:p2);
+        p1.send(integer:1);
+        T.start;
+        interleave {
+            [] p2.receive(integer:1) {
+                v_x := 1;
+                break;
+            }
+            [] T.timeout {
+                v_x := 2;
+            }
+        }
+        if (v_x == 1 and T.running) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+        T.stop;
+    }
+
+    control {
+        execute(TC());
+    }
+}

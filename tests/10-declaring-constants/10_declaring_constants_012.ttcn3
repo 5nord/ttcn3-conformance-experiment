@@ -1,0 +1,41 @@
+// @requirement: 10 -- Optional fields of record and set constants or constant fields can be initialized explicitly or implicitly.
+// @id: TTCN3-CORE-10-014a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_10_declaring_constants_012 {
+
+    type component C {}
+
+    type record R {
+        integer a,
+        integer b optional
+    }
+
+    type set S {
+        integer a,
+        integer b optional
+    }
+
+    type record N {
+        R r
+    }
+
+    const R c_rExplicit := { a := 1, b := omit };
+    const R c_rImplicit := { a := 1 } with { optional "implicit omit" }
+    const S c_sExplicit := { a := 1, b := omit };
+    const S c_sImplicit := { a := 1 } with { optional "implicit omit" }
+    const N c_nImplicit := { r := { a := 1 } } with { optional "implicit omit" }
+
+    testcase TC() runs on C {
+        if (not ispresent(c_rExplicit.b) and not ispresent(c_rImplicit.b)
+            and not ispresent(c_sExplicit.b) and not ispresent(c_sImplicit.b)
+            and not ispresent(c_nImplicit.r.b)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

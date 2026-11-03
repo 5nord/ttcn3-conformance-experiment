@@ -1,0 +1,24 @@
+// @requirement: 13 -- Any type can be declared as type of a message in a message port type definition, i.e. values of any basic or structured type (see clauses 6.1 and 6.2) can be sent or received.
+// @id: TTCN3-CORE-13-004a
+// @verdict: pass accept, noexecution
+module M_13_declaring_messages_002 {
+
+    type record R { integer i, float f }
+    type set S { boolean b, charstring c }
+    type record of integer RoI;
+    type set of charstring SoC;
+    type enumerated E { e_a, e_b }
+    type union U { integer i, charstring c }
+    type integer A[2];
+    type charstring Sub length (1 .. 10);
+
+    type port P message {
+        inout integer, float, boolean, verdicttype;
+        inout bitstring, hexstring, octetstring, universal charstring;
+        inout R, S, RoI, SoC, E, U, A, Sub, anytype;
+    }
+
+    type component C {
+        port P p;
+    }
+}

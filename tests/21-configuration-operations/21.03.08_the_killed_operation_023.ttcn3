@@ -1,0 +1,37 @@
+// @requirement: 21.3.8 -- The index of the matched component can optionally be assigned to an integer variable for single-dimensional component arrays or to an integer array or record of integer variable for multi-dimensional component arrays.
+// @id: TTCN3-CORE-21.3.8-021a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_21_03_08_the_killed_operation_023 {
+
+    type component C {}
+
+    type record of integer RoI;
+
+    testcase TC() runs on C {
+        var C v_single[3];
+        var C v_multi[2][2];
+        var integer v_idx := -1;
+        var RoI v_mIdx := {};
+        for (var integer i := 0; i < 3; i := i + 1) {
+            v_single[i] := C.create alive;
+        }
+        for (var integer i := 0; i < 2; i := i + 1) {
+            for (var integer j := 0; j < 2; j := j + 1) {
+                v_multi[i][j] := C.create alive;
+            }
+        }
+        v_single[2].kill;
+        v_multi[1][0].kill;
+        any from v_single.killed -> @index value v_idx;
+        any from v_multi.killed -> @index value v_mIdx;
+        if (v_idx == 2 and v_mIdx == {1, 0}) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

@@ -1,0 +1,31 @@
+// @requirement: 8.3 -- Visibility of import: friend; Import imported by a non-friend module: no; Import imported by a friend module: yes
+// @id: TTCN3-CORE-8.3-010b
+// @verdict: pass accept, ttcn3verdict:pass
+module M_08_03_module_control_part_018 {
+
+    import from M_08_03_module_control_part_018_B { import all };
+
+    type component C {}
+
+    testcase TC() runs on C {
+        if (c_value == 1) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}
+
+module M_08_03_module_control_part_018_B {
+    friend module M_08_03_module_control_part_018;
+
+    friend import from M_08_03_module_control_part_018_A { const c_value };
+}
+
+module M_08_03_module_control_part_018_A {
+    const integer c_value := 1;
+}

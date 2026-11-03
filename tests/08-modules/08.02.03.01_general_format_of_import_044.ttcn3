@@ -1,0 +1,20 @@
+// @requirement: 8.2.3.1 -- For the latter case, prefixing shall only be used for definitions with global visibility for the module.
+// @id: TTCN3-CORE-8.2.3.1-079a
+// @verdict: pass reject
+module M_08_02_03_01_general_format_of_import_044 {
+
+    type component C {}
+
+    testcase TC() runs on C {
+        var integer v_value := 42;
+        if (M_08_02_03_01_general_format_of_import_044.v_value == 42) { // error: prefix used for a local definition
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

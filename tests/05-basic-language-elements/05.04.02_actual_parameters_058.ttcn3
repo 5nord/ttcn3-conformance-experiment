@@ -1,0 +1,21 @@
+// @requirement: 5.4.2 -- l) Actual parameters passed to out and inout parameters shall not be references to lazy or fuzzy variables.
+// @id: TTCN3-CORE-5.4.2-056a
+// @verdict: pass reject
+module M_05_04_02_actual_parameters_058 {
+
+    type component C {}
+
+    function f(inout integer p_io) {
+        p_io := p_io + 1;
+    }
+
+    testcase TC() runs on C {
+        var @lazy integer v_l := 1;
+        f(v_l); // error: lazy variable passed to inout parameter
+        setverdict(pass);
+    }
+
+    control {
+        execute(TC());
+    }
+}

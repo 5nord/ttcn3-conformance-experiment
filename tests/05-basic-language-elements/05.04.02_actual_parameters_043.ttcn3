@@ -1,0 +1,23 @@
+// @requirement: 5.4.2 -- In order to use the default value of a formal parameter, no assignment for this specific parameter shall be provided.
+// @id: TTCN3-CORE-5.4.2-039a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_05_04_02_actual_parameters_043 {
+
+    type component C {}
+
+    function f(integer p_a, integer p_b := 2) return integer {
+        return p_b;
+    }
+
+    testcase TC() runs on C {
+        if (f(p_a := 1) == 2 and f(p_a := 1, p_b := -) == 2 and f(p_a := 1, p_b := 5) == 5) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

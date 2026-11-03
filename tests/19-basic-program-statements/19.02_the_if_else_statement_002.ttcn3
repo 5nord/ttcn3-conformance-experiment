@@ -1,0 +1,41 @@
+// @requirement: 19.2 -- NOTE 1: `else if "(" BooleanExpression ")" StatementBlock [ else` _StatementBlock] is a shorthand notation for_ `else "{" if "(" BooleanExpression ")" StatementBlock [ else` _StatementBlock] "}"._
+// @id: TTCN3-CORE-19.2-003a
+// @verdict: pass accept, ttcn3verdict:pass
+module M_19_02_the_if_else_statement_002 {
+
+    type component C {}
+
+    function f_short(integer p_value) return integer {
+        if (p_value < 0) {
+            return 1;
+        } else if (p_value == 0) {
+            return 2;
+        } else {
+            return 3;
+        }
+    }
+
+    function f_long(integer p_value) return integer {
+        if (p_value < 0) {
+            return 1;
+        } else {
+            if (p_value == 0) {
+                return 2;
+            } else {
+                return 3;
+            }
+        }
+    }
+
+    testcase TC() runs on C {
+        if (f_short(-5) == f_long(-5) and f_short(0) == f_long(0) and f_short(5) == f_long(5)) {
+            setverdict(pass);
+        } else {
+            setverdict(fail);
+        }
+    }
+
+    control {
+        execute(TC());
+    }
+}

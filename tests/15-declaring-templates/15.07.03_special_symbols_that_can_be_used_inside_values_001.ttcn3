@@ -1,0 +1,15 @@
+// @requirement: 15.7.3 -- … "?"… | … "*"… | … permutation "(" { ( TemplateBody | "?" | "*" | all from TemplateInstance )[","] } ")" …
+// @id: TTCN3-CORE-15.7.3-003a
+// @verdict: pass accept, noexecution
+module M_15_07_03_special_symbols_that_can_be_used_inside_values_001 {
+
+    type record of integer RoI;
+
+    template RoI m_ints := { 4, 5 };
+
+    template bitstring m_bsAny := '10?1'B;
+    template bitstring m_bsAnys := '10*1'B;
+    template RoI m_any := { 1, ?, 3 };
+    template RoI m_anys := { 1, *, 3 };
+    template RoI m_perm := { permutation(1, (2 .. 3), ?, *, all from m_ints) };
+}
